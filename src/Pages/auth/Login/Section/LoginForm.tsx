@@ -1,52 +1,30 @@
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
-import { useNavigate } from "react-router-dom"
 
 const LoginForm = () => {
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<"email" | "mobile">("email")
   const [showPassword, setShowPassword] = useState(false)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const isFormValid = activeTab === "email" 
-    ? (username.trim() !== "" && password.trim() !== "")
-    : (username.trim() !== "")
+  const isFormValid = username.trim() !== "" && password.trim() !== ""
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!isFormValid) return
-    
-    if (activeTab === "mobile") {
-      navigate("/verify-otp")
-    } else {
-      console.log("Login success")
-    }
-  }
 
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Tab Switcher */}
       <div className="flex p-1 bg-gray-100 rounded-xl mb-12">
         <button
-          onClick={() => {
-            setActiveTab("email")
-            setUsername("")
-          }}
-          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${
-            activeTab === "email" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
-          }`}
+          onClick={() => setActiveTab("email")}
+          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "email" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+            }`}
         >
           Email id
         </button>
         <button
-          onClick={() => {
-            setActiveTab("mobile")
-            setUsername("")
-          }}
-          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${
-            activeTab === "mobile" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
-          }`}
+          onClick={() => setActiveTab("mobile")}
+          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "mobile" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+            }`}
         >
           Mobile Number
         </button>
@@ -55,12 +33,14 @@ const LoginForm = () => {
       <div className="text-center mb-10">
         <h2 className="text-[34px] font-semibold font-urbanist text-gray-900 mb-[3px] leading-none">Login</h2>
         <p className="text-[12px] font-medium font-urbanist text-gray-500 leading-none">Let's Get You Started</p>
+
       </div>
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
+
+      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
         <div>
           <label className="block text-[14px] font-normal font-urbanist text-gray-700 mb-2 leading-none">
-            {activeTab === "email" ? "Username / Email" : "Username / Mobile Number"}
+            {activeTab === "email" ? "Username / Email" : "Mobile Number"}
           </label>
           <input
             type={activeTab === "email" ? "text" : "tel"}
@@ -74,49 +54,50 @@ const LoginForm = () => {
                 setUsername(val)
               }
             }}
-            placeholder={activeTab === "email" ? "Enter your email" : "Enter Mobile Number"}
+            placeholder={activeTab === "email" ? "Enter your email" : "Enter mobile number"}
             className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
           />
+
+
         </div>
 
-        {activeTab === "email" && (
-          <div className="relative">
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-[14px] font-normal font-urbanist text-gray-700 leading-none">Password</label>
-              <a href="#" className="text-sm font-semibold text-[#003E6B] hover:underline font-urbanist">
-                Forgot Password?
-              </a>
-            </div>
-
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
+        <div className="relative">
+          <div className="flex justify-between items-center mb-2">
+            <label className="block text-[14px] font-normal font-urbanist text-gray-700 leading-none">Password</label>
+            <a href="#" className="text-sm font-semibold text-[#003E6B] hover:underline font-urbanist">
+              Forgot Password?
+            </a>
           </div>
-        )}
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+        </div>
 
         <button
           type="submit"
-          className={`w-full py-4 rounded-xl font-medium text-lg transition-all duration-300 ${
-            isFormValid 
-              ? "bg-[#003E6B] text-white shadow-lg shadow-[#003E6B]/20 border-transparent cursor-pointer" 
-              : "border border-gray-200 text-gray-400 pointer-events-none"
-          }`}
+          className={`w-full py-4 rounded-xl font-medium text-lg transition-all duration-300 ${isFormValid
+            ? "bg-[#003E6B] text-white shadow-lg shadow-[#003E6B]/20 border-transparent"
+            : "border border-gray-200 text-gray-400 hover:border-gray-300"
+            }`}
         >
-          {activeTab === "email" ? "Login" : "Generate OTP"}
+          Login
         </button>
+
       </form>
 
       <div className="flex items-center justify-center gap-4 my-12">
@@ -124,6 +105,7 @@ const LoginForm = () => {
         <span className="text-xs text-gray-400 font-medium uppercase font-urbanist">OR</span>
         <div className="w-[162px] h-[0.5px] bg-[#999999]"></div>
       </div>
+
 
       <div className="flex justify-center mb-10">
         <button className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
@@ -155,11 +137,6 @@ const LoginForm = () => {
         </a>
       </p>
     </div>
-  )
-}
-
-export default LoginForm
-
 
   )
 }
