@@ -5,7 +5,7 @@ import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 
 const Sidebar: React.FC = () => {
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-        { icon: Users, label: 'Customer Insights', path: '/insights' },
+        { icon: Users, label: 'Customer Insights', path: '/customer-insights' },
         { icon: FileText, label: 'Reports', path: '/reports' },
     ];
 
@@ -19,7 +19,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <>
-            <nav className="fixed bottom-0 left-0 right-0 z-50  flex h-[56px] items-center justify-around border-t border-[#E2E8F0] bg-white px-2 lg:hidden ">
+            <nav className="fixed bottom-0 left-0 right-0 z-50  flex py-2.5 items-center justify-between border-t border-[#E2E8F0] bg-white px-4 lg:hidden ">
                 {navItems.map((item, index) => (
                     <NavLink
                         key={index}
@@ -33,7 +33,10 @@ const Sidebar: React.FC = () => {
                             }`
                         }
                     >
-                        <item.icon size={22} />
+                        <div className='flex  flex-col items-center gap-2.5'>
+                            <item.icon size={22} />
+                            <p className='text-sm md:text-base'>{item.label}</p>
+                        </div>
                     </NavLink>
                 ))}
             </nav>
