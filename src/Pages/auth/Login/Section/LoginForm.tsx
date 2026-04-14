@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<"email" | "mobile">("email")
   const [showPassword, setShowPassword] = useState(false)
   const [username, setUsername] = useState("")
@@ -9,6 +11,12 @@ const LoginForm = () => {
 
   const isFormValid = username.trim() !== "" && password.trim() !== ""
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (isFormValid) {
+      navigate("/login/verify-otp")
+    }
+  }
 
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -37,7 +45,7 @@ const LoginForm = () => {
       </div>
 
 
-      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div>
           <label className="block text-[14px] font-normal font-urbanist text-gray-700 mb-2 leading-none">
             {activeTab === "email" ? "Username / Email" : "Mobile Number"}

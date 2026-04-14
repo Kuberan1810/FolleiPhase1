@@ -11,11 +11,15 @@ import Reports from "../Pages/Reports/Reports";
 import Settings from "../Pages/Settings/Settings";
 import FlowBuilder from "../Pages/FlowBuilder/FlowBuilder";
 import Login from "../Pages/auth/Login/Login";
+import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
+import SignUp from "../Pages/auth/SignUp/SignUp";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/login/verify-otp" element={<VerifyOTP />} />
+      <Route path="/signup" element={<SignUp />} />
       <Route path="/onboarding" element={<Onboarding />} />
       <Route path="/onboarding/details" element={<ContactDetails />} />
       <Route path="/onboarding/verify" element={<SecurityVerification />} />
@@ -34,8 +38,5 @@ export default function AppRoutes() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
-
   );
 }
-
-
