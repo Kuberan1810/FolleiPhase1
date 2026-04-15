@@ -29,7 +29,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 duration-200">
-            <div className="bg-white rounded-[12px] w-full max-w-[576px] h-[600px] overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-[12px] w-full max-w-[576px] h-[620px] overflow-hidden animate-in zoom-in-95 duration-200">
                 <div className="pt-4 px-8 pb-2 flex items-start justify-between">
                     <div className="space-y-1.5">
                         <h2 className="text-[24px] font-bold text-[#191C1D] leading-tight">Change Password</h2>

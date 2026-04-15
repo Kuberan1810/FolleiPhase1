@@ -1,5 +1,5 @@
-import React from 'react';
-import { Moon, Sun } from 'lucide-react';
+import React, { useState } from 'react';
+import { Moon, Sun, ChevronDown } from 'lucide-react';
 
 interface PreferencesProps {
     preferences: {
@@ -11,8 +11,14 @@ interface PreferencesProps {
 }
 
 const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const timezones = [
+        'Indian Standard Time (IST) - India',
+    ];
+
     return (
-        <div className="bg-white rounded-[20px] border border-gray-100 overflow-hidden h-full">
+        <div className="bg-white rounded-[20px] h-full">
             <div className="p-6 bg-white">
                 <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Preferences
@@ -42,17 +48,42 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                 </div>
 
                 <div className="space-y-2">
-                    <div className="flex items-center gap-2">
+                    <label className="text-[12px] font-semibold text-[#414755]">Default Timezone</label>
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="w-full flex items-center justify-between px-4 py-3 bg-[#F7F9FB] rounded-[8px] text-[14px] text-[#191C1D]"
+                        >
+                            <span className="flex items-center gap-2">
 
-                        <label className="text-xs font-semibold text-[#414755]">Default Timezone</label>
+                                {preferences.timezone}
+                            </span>
+                            <ChevronDown size={18} className={`text-[#414755] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {isOpen && (
+                            <>
+                                <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+                                <div className="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-gray-100 rounded-[12px] z-50 overflow-hidden">
+                                    <div className="max-h-[240px] overflow-y-auto py-1 scrollbar-thin scrollbar-thumb-gray-200">
+                                        {timezones.map((tz) => (
+                                            <div
+                                                key={tz}
+                                                onClick={() => {
+                                                    setPreferences(prev => ({ ...prev, timezone: tz }));
+                                                    setIsOpen(false);
+                                                }}
+                                                className="px-4 py-2.5 hover:bg-gray-50 flex items-center justify-between cursor-pointer text-sm text-[#414755] transition-colors"
+                                            >
+                                                <span>{tz}</span>
+
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <select
-                        value={preferences.timezone}
-                        onChange={(e) => setPreferences(prev => ({ ...prev, timezone: e.target.value }))}
-                        className="w-full px-4 py-2.5 rounded-[8px] bg-[#F7F9FB] text-sm text-[#191C1D] outline-none hover:border-gray-200 transition-colors cursor-pointer"
-                    >
-                        <option>Indian Standard Time (IST) - India</option>
-                    </select>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -69,7 +100,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                             checked={preferences.notifications}
                             onChange={() => setPreferences(prev => ({ ...prev, notifications: !prev.notifications }))}
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0C4A6E]"></div>
+                        <div className="w-[36px] h-[20px] bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0058BC]"></div>
                     </label>
                 </div>
             </div>

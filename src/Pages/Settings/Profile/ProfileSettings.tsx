@@ -12,7 +12,7 @@ const ProfileSettings: React.FC = () => {
         lastName: 'Williamson',
         userId: '2108220022',
         email: 'kanewilliamson@gmail.com',
-        phone: '+91 9479988180',
+        phone: '+91 9876543210',
     });
 
     const [preferences, setPreferences] = useState({
@@ -29,22 +29,22 @@ const ProfileSettings: React.FC = () => {
 
     return (
         <div className="min-h-screen pb-12 -mx-4 lg:-mx-8 -mt-4 bg-[#FAFAF9]">
-            <div className="bg-[#014370] pt-12 pb-24 px-8 rounded-b-[40px] relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
-                <div className="max-w-5xl mx-auto relative z-10">
+            <div className="bg-[#014370] pt-12 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-white/5 rounded-full -mr-[311px] -mt-[211px] blur-3xl"></div>
+                <div className="w-full relative z-10">
                     <div className="flex flex-col items-start gap-2">
                         <span className="text-[12px] font-bold text-white uppercase tracking-[0.2em]">
                             Intelligence Hub
                         </span>
                         <div className="flex items-center gap-3">
-                            <User size={28} className="text-white" />
+                            <User size={40} className="text-white" />
                             <h1 className="text-[30px] font-bold text-white tracking-tight">Profile Settings</h1>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-5xl mx-auto -mt-16 px-4 relative z-20">
+            <div className="w-full -mt-16 px-4 relative z-20">
                 <div className="flex justify-start mb-10 ml-6">
                     <div className="relative group">
                         <div className="h-[200px] w-[200px] rounded-full border-4 border-white overflow-hidden bg-slate-100 ring-4 ring-white/10">
@@ -54,7 +54,7 @@ const ProfileSettings: React.FC = () => {
                                 className="h-full w-full object-cover"
                             />
                         </div>
-                        <button className="absolute bottom-4 right-4 h-12 w-12 flex items-center justify-center bg-[#014370] text-white rounded-full border-4 border-white transform transition-transform hover:scale-110 active:scale-95">
+                        <button className="absolute bottom-4 right-4 h-[40px] w-[40px] flex items-center justify-center bg-[#014370] text-white rounded-full border-4 border-white transform transition-transform hover:scale-110 active:scale-95">
                             <Camera size={20} />
                         </button>
                     </div>

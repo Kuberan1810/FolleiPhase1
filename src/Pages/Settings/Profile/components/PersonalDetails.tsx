@@ -33,13 +33,13 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
     return (
         <div className="bg-white rounded-[20px] overflow-hidden">
             <div className="p-6 flex items-center justify-between bg-white">
-                <h2 className="text-[13px] font-bold text-[#414755] uppercase tracking-wider">
+                <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Personal Details
                 </h2>
                 {!isEditing ? (
                     <button
                         onClick={onEdit}
-                        className="px-6 py-2 bg-[#004370] text-white text-[11px] font-bold rounded-md hover:bg-[#00365a] transition-colors"
+                        className="px-6 py-2 bg-[#004370] text-white text-[11px] font-bold rounded-[2px] "
                     >
                         Edit Profile
                     </button>
@@ -47,13 +47,13 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                     <div className="flex gap-2">
                         <button
                             onClick={onCancel}
-                            className="px-4 py-1.5 bg-gray-100 text-gray-600 text-[11px] font-bold rounded-md hover:bg-gray-200 transition-colors"
+                            className="px-4 py-1.5 bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[2px]"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleFormSave}
-                            className="px-4 py-1.5 bg-[#004370] text-white text-[11px] font-bold rounded-md hover:bg-[#00365a] transition-colors"
+                            className="px-4 py-1.5 bg-[#004370] text-white text-[12px] font-bold rounded-[2px]"
                         >
                             Save Changes
                         </button>
@@ -62,8 +62,8 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
             </div>
 
             <div className="px-6 pb-8 space-y-6">
-                <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#414755] capitalize">Full Name</label>
+                <div className="space-y-0.5">
+                    <label className="text-[12px] font-medium text-[#414755] capitalize">Full Name</label>
                     <input
                         type="text"
                         name="firstName"
@@ -73,42 +73,42 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                             setFormData(prev => ({ ...prev, firstName: first || '', lastName: last.join(' ') }));
                         }}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2.5 rounded-lg border-none bg-[#000000]/15 text-sm text-[#191C1D] outline-none transition-all"
+                        className="w-full px-[16px] py-[12px]  border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none"
                     />
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#414755] capitalize">User Id</label>
+                <div className="space-y-0.5">
+                    <label className="text-[12px] font-medium text-[#414755] capitalize">User Id</label>
                     <input
                         type="text"
                         name="userId"
                         value={formData.userId}
                         disabled={true}
-                        className="w-full px-4 py-2.5 rounded-lg border-none bg-[#000000]/15 text-sm text-[#191C1D] outline-none"
+                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none"
                     />
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#414755] capitalize">Email Address</label>
+                <div className="space-y-0.5">
+                    <label className="text-[12px] font-medium text-[#414755] capitalize">Email Address</label>
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2.5 rounded-lg border-none bg-[#000000]/15 text-sm text-[#191C1D] outline-none transition-all"
+                        className="w-full px-[16px] py-[12px]  border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none "
                     />
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#414755] capitalize">Phone Number</label>
+                <div className="space-y-0.5">
+                    <label className="text-[12px] font-medium text-[#414755] capitalize">Phone Number</label>
                     <input
                         type="text"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full px-4 py-2.5 rounded-lg border-none bg-[#000000]/15 text-sm text-[#191C1D] outline-none transition-all"
+                        className="w-full px-[16px] py-[12px]  border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none "
                     />
                 </div>
             </div>
