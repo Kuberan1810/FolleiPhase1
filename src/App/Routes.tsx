@@ -16,6 +16,8 @@ import Reports from "../Pages/Reports/Reports";
 import Settings from "../Pages/Settings/Settings";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 
+import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -34,6 +36,7 @@ export default function AppRoutes() {
         <Route path="/customer-insights" element={<CustomerInsights />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/onboarding" element={<OnBoarding />} />
       </Route>
       {/* </Route> */}

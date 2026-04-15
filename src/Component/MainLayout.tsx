@@ -3,22 +3,21 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const MainLayout = () => {
-  return (
 
+  return (
     <div className="flex h-screen overflow-hidden bg-[#FAFAFA]">
-        <div className="h-screen shrink-0">
-          <Sidebar />
+      <div className="h-screen shrink-0">
+        <Sidebar />
+      </div>
+      <div className="flex flex-col flex-1 min-w-0 transition-all duration-300">
+        <div className="shrink-0">
+          <Header />
         </div>
-        <div className="flex flex-col flex-1 min-w-0">
-          <div className="shrink-0">
-            <Header />
-          </div>
 
         <main className="flex-1 overflow-y-auto px-4 lg:px-8 pb-5 ">
-            <Outlet />
-          </main>
-        </div>
-
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
