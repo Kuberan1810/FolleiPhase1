@@ -34,13 +34,13 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <div className="flex items-center p-1 bg-[#F3F4F5] rounded-[8px]">
                         <button
                             onClick={() => setPreferences(prev => ({ ...prev, theme: 'light' }))}
-                            className={`p-1.5 rounded-md transition-all ${preferences.theme === 'light' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
+                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'light' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
                         >
                             <Sun size={16} />
                         </button>
                         <button
                             onClick={() => setPreferences(prev => ({ ...prev, theme: 'dark' }))}
-                            className={`p-1.5 rounded-md transition-all ${preferences.theme === 'dark' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
+                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'dark' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
                         >
                             <Moon size={16} />
                         </button>
@@ -52,7 +52,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <div className="relative">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="w-full flex items-center justify-between px-4 py-3 bg-[#F7F9FB] rounded-[8px] text-[14px] text-[#191C1D]"
+                            className="w-full flex items-center justify-between px-4 py-3 bg-[#F7F9FB] rounded-[8px] text-[14px] text-[#191C1D] cursor-pointer"
                         >
                             <span className="flex items-center gap-2">
 
@@ -100,7 +100,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                             checked={preferences.notifications}
                             onChange={() => setPreferences(prev => ({ ...prev, notifications: !prev.notifications }))}
                         />
-                        <div className="w-[36px] h-[20px] bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0058BC]"></div>
+                        <div className="w-[36px] h-[20px] bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[16px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[16px] after:w-[16px] after:transition-all peer-checked:bg-[#0058BC]"></div>
                     </label>
                 </div>
             </div>

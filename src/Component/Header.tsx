@@ -37,20 +37,20 @@ const Header: React.FC = () => {
             {/* Right Section: Actions & Profile */}
             <div className="flex items-center gap-2 md:gap-4 lg:gap-6 flex-none lg:w-auto justify-end">
                 <div className="flex items-center gap-3 md:gap-5 lg:gap-8 border-r border-[#E2E8F0] pr-3 md:pr-4 lg:pr-6">
-                    <button className="relative p-1 text-[#64748B] sm:hidden hover:bg-gray-50 rounded-lg transition-colors">
+                    <button className="relative p-1 text-[#64748B] sm:hidden hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
                         <Search size={18} />
                     </button>
 
-                    <button className="relative p-1 text-[#64748B] hover:bg-gray-50 rounded-lg transition-colors">
+                    <button className="relative p-1 text-[#64748B] hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
                         <Bell size={18} />
                         <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-red-500 border border-white"></span>
                     </button>
 
-                    <button className="p-1 text-[#64748B] hover:bg-gray-50 rounded-lg transition-colors">
+                    <button className="p-1 text-[#64748B] hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
                         <HelpCircle size={18} />
                     </button>
 
-                    <button className={`p-1 transition-all rounded-lg ${isSettingsPage ? 'text-[#0C4A6E] ' : 'text-[#64748B] '}`}>
+                    <button className={`p-1 transition-all rounded-lg cursor-pointer ${isSettingsPage ? 'text-[#0C4A6E] ' : 'text-[#64748B] '}`}>
                         <Settings size={18} />
                     </button>
                 </div>

@@ -17,7 +17,7 @@ const Security: React.FC<SecurityProps> = ({ onOpenPasswordModal }) => {
             <div className="px-6 pb-4 space-y-1">
                 <button
                     onClick={onOpenPasswordModal}
-                    className="w-full flex items-center justify-between py-2 transition-opacity hover:opacity-70"
+                    className="w-full flex items-center justify-between py-2 transition-opacity hover:opacity-70 cursor-pointer"
                 >
                     <div className="flex items-center gap-3">
                         <Lock size={16} className="text-[#414755]" />
@@ -31,9 +31,9 @@ const Security: React.FC<SecurityProps> = ({ onOpenPasswordModal }) => {
                         <ShieldCheck size={16} className="text-[#414755]" />
                         <h3 className="text-[14px] font-medium text-[#191C1D]">Two-factor Authentication (2FA)</h3>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer scale-90 origin-right">
+                    <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-[36px] h-[20px] bg-[#F3F4F5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0058BC]"></div>
+                        <div className="w-[36px] h-[20px] bg-[#F3F4F5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[16px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[16px] after:w-[16px] after:transition-all peer-checked:bg-[#0058BC]"></div>
                     </label>
                 </div>
             </div>

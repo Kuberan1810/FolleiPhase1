@@ -86,7 +86,7 @@ const Sidebar: React.FC = () => {
                             <p className="mt-2 text-[11px] leading-relaxed text-[#64748B]">
                                 Get advanced analytics and automation tools.
                             </p>
-                            <button className="mt-4 w-full h-[32px] rounded-[2px] bg-[#004370] py-[8px] text-center text-[12px] font-bold text-white">
+                            <button className="mt-4 w-full h-[32px] rounded-[2px] bg-[#004370] py-[8px] text-center text-[12px] font-bold text-white cursor-pointer">
                                 Upgrade Now
                             </button>
                         </div>
