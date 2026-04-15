@@ -4,7 +4,7 @@ import profileImg from '../assets/image.png';
 
 const Header: React.FC = () => {
     return (
-        <header className="flex h-16 items-center justify-between border-b border-[#E2E8F0] bg-white px-4 lg:px-8 font-['Inter'] ">
+        <header className="flex h-16 items-center justify-between border-b border-[#E2E8F0] bg-white px-4 lg:px-8 font-['Manrope'] ">
             <div className="flex items-center gap-4 flex-1">
 
                 <div className="flex items-center gap-2.5 lg:hidden">
@@ -42,9 +42,9 @@ const Header: React.FC = () => {
                         <HelpCircle size={20} />
                     </button>
 
-                    <button className="p-1.5 text-[#64748B] ">
+                    {/* <button className="p-1.5 text-[#64748B] ">
                         <Settings size={20} />
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="flex items-center gap-2 cursor-pointer shrink-0">

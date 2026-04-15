@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 'lucide-react';
+import { Element4, Profile2User, DocumentText1 } from "iconsax-react"
 
 const Sidebar: React.FC = () => {
     const navItems = [
-        { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-        { icon: Users, label: 'Customer Insights', path: '/customer-insights' },
-        { icon: FileText, label: 'Reports', path: '/reports' },
+        { icon: Element4, label: 'Dashboard', path: '/dashboard' },
+        { icon: Profile2User, label: 'Customer Insights', path: '/customer-insights' },
+        { icon: DocumentText1, label: 'Reports', path: '/reports' },
     ];
 
     const bottomNavItems = [
@@ -19,7 +20,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <>
-            <nav className="fixed bottom-0 left-0 right-0 z-50  flex py-2.5 items-center justify-between border-t border-[#E2E8F0] bg-white px-4 lg:hidden ">
+            <nav className="fixed bottom-0 left-0 right-0 z-50  flex py-2.5 items-center justify-between border-t border-[#E2E8F0] bg-white px-4 lg:hidden font-[Manrope]">
                 {navItems.map((item, index) => (
                     <NavLink
                         key={index}
@@ -27,21 +28,21 @@ const Sidebar: React.FC = () => {
                         className={({ isActive }) =>
                             `flex flex-col items-center justify-center gap-1.5 min-w-[64px] transition-colors 
                         ${isActive
-                                ? 'text-[#075985]'
+                                ? 'text-[#075985] font-semibold'
 
                                 : 'text-[#64748B]'
                             }`
                         }
                     >
-                        <div className='flex  flex-col items-center gap-2.5'>
-                            <item.icon size={22} />
+                        <div className='flex  flex-col items-center gap-2'>
+                            <item.icon color='currentColor' size={30} />
                             <p className='text-sm md:text-base'>{item.label}</p>
                         </div>
                     </NavLink>
                 ))}
             </nav>
 
-            <aside className=" w-64 flex-col border-r border-[#F8FAFC] bg-white  font-['Inter'] lg:flex items-between hidden h-screen py-5" >
+            <aside className=" w-64 flex-col border-r border-[#F8FAFC] bg-white   lg:flex items-between hidden h-screen py-5" >
                 <div className="mb-10 flex items-center gap-3 px-6">
                     <div className="flex h-[32px] w-[32px] items-center justify-center rounded-[4px] bg-[#004370] text-white">
                         <NetworkIcon size={14} />
@@ -72,15 +73,15 @@ const Sidebar: React.FC = () => {
                                 {({ isActive }) => (
                                     <>
                                         {isActive && <div className="absolute left-0 top-1/2 h-10.5 w-[3px] -translate-y-1/2 bg-[#0284C7]"></div>}
-                                        <item.icon size={18} className="transition-colors" />
+                                        <item.icon color='currentColor'  size={24} className="transition-colors" />
                                         <span>{item.label}</span>
                                     </>
                                 )}
                             </NavLink>
                         ))}
                     </nav>
-
-                    <div className="mt-auto flex flex-col gap-6 px-4">
+ 
+                    <div className="mt-auto flex flex-col gap-6 px-4 font-[inter]">
                         <div className="rounded-[20px] border border-[#E2E8F0] bg-[#005B96]/10 p-5">
                             <div className="text-[11px] font-bold text-[#004370] uppercase tracking-wider">Upgrade Plan</div>
                             <p className="mt-2 text-[11px] leading-relaxed text-[#64748B]">
