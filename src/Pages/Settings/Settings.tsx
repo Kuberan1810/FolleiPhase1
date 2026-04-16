@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { User, CreditCard, Bell, MessageSquare, ShieldCheck, FileText, CircleHelp, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
@@ -65,6 +66,7 @@ const Settings = () => {
       </div>
     </div>
   );
+
 };
 
 export default Settings;

@@ -1,3 +1,4 @@
+
 import CampaignAndAnalysis from "./section/CampaignAndAnalysis";
 import Metrics from "./section/Metrics";
 import RecentActivity from "./section/RecentActivity";
@@ -11,6 +12,7 @@ const Reports = () => {
       <RecentActivity />
     </div>
   )
+
 };
 
 export default Reports;
