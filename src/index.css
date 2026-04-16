@@ -23,6 +23,7 @@ body {
   --font-inter: "Inter", sans-serif;
   --font-poppins: "Poppins", sans-serif;
   --font-urbanist: "Urbanist", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
 }
 
 .font-urbanist {
@@ -35,6 +36,10 @@ body {
 
 .font-inter {
   font-family: 'Inter', sans-serif !important;
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif !important;
 }
 
 

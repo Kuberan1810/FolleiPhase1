@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,17 +25,17 @@ const SecurityVerification = () => {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 bg-[#F9FAFB]">
-        <div 
+        <div
           className="bg-white rounded-[12px] p-8 sm:p-14 flex flex-col relative w-full max-w-[620px]"
-          style={{ 
+          style={{
             height: 'auto',
             minHeight: '520px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' 
+            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
           <div className="mb-[24px]">
-            <h2 className="text-[#333333] text-[36px] font-bold leading-tight mb-2 text-center sm:text-left">Security Verification</h2>
-            <p className="text-[#666666] text-[18px] font-medium font-['Inter'] text-center sm:text-left">We've sent a verification code—please enter it below</p>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope">Security Verification</h2>
+            <p className="text-[#5A5A5A] text-[16px] font-medium leading-[15px] font-inter">We've sent a verification code please enter it below</p>
           </div>
 
           <div className="flex justify-between gap-3 sm:gap-4 mb-[32px]">
@@ -58,7 +57,7 @@ const SecurityVerification = () => {
 
           <button
             onClick={() => navigate('/onboarding/additional-details')}
-            className="w-full bg-[#00416A] text-white h-[60px] rounded-[10px] text-[20px] font-bold hover:bg-[#003354] transition-all mb-[32px]"
+            className="w-full max-w-[445px] mx-auto bg-[#004370] text-white h-[40px] rounded-[10px] border border-[#B7AFAF] text-[15px] font-bold hover:opacity-90 transition-all mb-[32px] flex items-center justify-center cursor-pointer"
           >
             Verify
           </button>
@@ -89,9 +88,8 @@ const SecurityVerification = () => {
           {[...Array(7)].map((_, i) => (
             <div
               key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === 2 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 2 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
+                }`}
             />
           ))}
         </div>

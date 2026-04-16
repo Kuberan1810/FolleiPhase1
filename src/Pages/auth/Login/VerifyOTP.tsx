@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { Network, ChevronLeft } from "lucide-react"
+import { useNavigate, Link } from "react-router-dom"
+import { Network } from "lucide-react"
 
 const VerifyOTP = () => {
     const navigate = useNavigate()
@@ -11,7 +11,7 @@ const VerifyOTP = () => {
     const [timer, setTimer] = useState(30)
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: ReturnType<typeof setInterval>;
         if (step === 2 && timer > 0) {
             interval = setInterval(() => {
                 setTimer((prev) => prev - 1)
@@ -51,6 +51,17 @@ const VerifyOTP = () => {
         }
     }
 
+    const handleResendOTP = () => {
+        setTimer(30)
+        // Add API call to resend OTP here if needed in the future
+    }
+
+    const handleConfirm = () => {
+        if (isOtpComplete) {
+            navigate("/")
+        }
+    }
+
     return (
         <div className="flex flex-col md:flex-row min-h-screen font-sans bg-white md:bg-transparent">
             {/* Sidebar (Same as Login) */}
@@ -67,15 +78,15 @@ const VerifyOTP = () => {
                     </div>
 
                     <div className="max-w-[519px]">
-                        <h2 className="text-3xl lg:text-[49px] font-semibold mb-[15px] leading-tight tracking-tight">Welcome to AI Agent</h2>
-                        <p className="text-lg lg:text-[20px] font-medium opacity-90 leading-relaxed tracking-normal">
+                        <h2 className="text-[32px] font-semibold font-poppins mb-[15px] leading-[18px] tracking-tight">Welcome to AI Agent</h2>
+                        <p className="text-[16px] font-normal font-poppins opacity-90 leading-[22px] tracking-normal">
                             Manage your customer calls, messages & emails automatically with your AI agent
                         </p>
                     </div>
                 </div>
 
-                <div className="absolute -bottom-4 -right-12 hidden lg:block z-10">
-                    <img src="/image 8.svg" alt="AI Agent Illustration" className="w-[450px] xl:w-[556px] h-auto object-contain" />
+                <div className="absolute -bottom-4 -right-12 hidden lg:block z-10 pointer-events-none">
+                    <img src="/image 8.svg" alt="AI Agent Illustration" className="w-full max-w-[450px] xl:max-w-[5566px] h-auto object-contain" />
                 </div>
                 <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[100px]" />
             </div>
@@ -84,16 +95,16 @@ const VerifyOTP = () => {
             <div className="flex-1 bg-white flex flex-col justify-center items-center p-6 md:p-12 relative overflow-y-auto">
                 <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
                     {/* Tab Switcher */}
-                    <div className="flex p-1 bg-gray-100 rounded-xl mb-12">
+                    <div className="flex p-1 bg-[#F3F5F7] rounded-[10px] mb-12 w-full max-w-md mx-auto">
                         <button
                             onClick={() => setActiveTab("email")}
-                            className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "email" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                            className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-[10px] transition-all ${activeTab === "email" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"}`}
                         >
                             Email id
                         </button>
                         <button
                             onClick={() => setActiveTab("mobile")}
-                            className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "mobile" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
+                            className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-[10px] transition-all ${activeTab === "mobile" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"}`}
                         >
                             Mobile Number
                         </button>
@@ -102,13 +113,13 @@ const VerifyOTP = () => {
                     {step === 1 ? (
                         <>
                             <div className="text-center mb-10">
-                                <h2 className="text-[34px] font-semibold font-urbanist text-gray-900 mb-[3px] leading-none">Login</h2>
-                                <p className="text-[12px] font-medium font-urbanist text-gray-500 leading-none">Let's Get You Started</p>
+                                <h2 className="text-[28px] font-semibold font-inter text-gray-900 mb-[8px] leading-none">Login</h2>
+                                <p className="text-[12px] font-medium font-urbanist text-[#999999] leading-none">Let's Get You Started</p>
                             </div>
 
                             <form className="space-y-6" onSubmit={handleGenerateOTP}>
-                                <div>
-                                    <label className="block text-[14px] font-normal font-urbanist text-gray-700 mb-2 leading-none">
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[14px] font-normal font-urbanist text-black leading-none">
                                         Username / Mobile Number
                                     </label>
                                     <input
@@ -116,14 +127,14 @@ const VerifyOTP = () => {
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value.replace(/[^0-9]/g, ""))}
                                         placeholder="Enter Mobile Number"
-                                        className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
+                                        className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
                                     disabled={!isPhoneValid}
-                                    className={`w-full py-4 rounded-xl font-medium text-[24px] transition-all duration-300 ${isPhoneValid ? "bg-[#003E6B] text-white shadow-lg shadow-[#003E6B]/20" : "bg-white border border-gray-200 text-gray-400 pointer-events-none"}`}
+                                    className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 ${isPhoneValid ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-gray-200 text-gray-400 pointer-events-none"}`}
                                 >
                                     Generate OTP
                                 </button>
@@ -132,11 +143,11 @@ const VerifyOTP = () => {
                     ) : (
                         <div className="animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="text-center mb-10">
-                                <h2 className="text-[34px] font-bold font-inter text-gray-900 mb-2 leading-tight">Verify your mobile number</h2>
-                                <div className="inline-flex items-center justify-center px-6 py-1 bg-white border border-gray-200 rounded-full text-gray-700 font-bold mb-6 min-w-[140px]">
-                                    {username || "99874561230"}
+                                <h2 className="text-[18px] font-bold font-inter text-black mb-[15px] leading-none">Verify your mobile number</h2>
+                                <div className="inline-flex items-center justify-center min-w-[102px] px-3 h-[25px] bg-white border-[0.5px] border-black/40 rounded-[10px] shadow-[0_0_2px_rgba(0,0,0,0.1)] mb-[15px]">
+                                    <span className="text-[12px] font-medium font-inter text-black/60 leading-none">{username || "99874561230"}</span>
                                 </div>
-                                <p className="text-[16px] text-gray-500 font-normal font-inter">Enter the code we sent to your mobile number.</p>
+                                <p className="text-[13px] text-[#333333] font-inter">Enter the code we sent to your mobile number.</p>
                             </div>
 
                             <div className="flex justify-between gap-3 mb-4">
@@ -157,13 +168,21 @@ const VerifyOTP = () => {
                             </div>
 
                             <div className="flex justify-between items-center mb-12">
-                                <button className="text-[#003E6B] font-bold text-sm hov:underline">Resend OTP</button>
+                                <button
+                                    onClick={handleResendOTP}
+                                    disabled={timer > 0}
+                                    className={`font-bold text-sm ${timer > 0 ? "text-gray-400 cursor-not-allowed" : "text-[#003E6B] hover:underline"}`}
+                                >
+                                    Resend OTP
+                                </button>
                                 <span className="text-gray-400 text-sm font-medium">{timer}s</span>
                             </div>
 
                             <button
                                 type="button"
-                                className={`w-full py-4 rounded-xl font-medium text-[24px] transition-all duration-300 ${isOtpComplete ? "bg-[#003E6B] text-white shadow-lg shadow-[#003E6B]/20" : "bg-white border border-gray-200 text-gray-400"}`}
+                                onClick={handleConfirm}
+                                disabled={!isOtpComplete}
+                                className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 ${isOtpComplete ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-[#B7AFAF] text-gray-400 pointer-events-none"}`}
                             >
                                 Confirm
                             </button>
@@ -171,13 +190,13 @@ const VerifyOTP = () => {
                     )}
 
                     <div className="flex items-center justify-center gap-4 my-10">
-                        <div className="w-[162px] h-[0.5px] bg-[#999999]"></div>
+                        <div className="flex-1 h-[0.5px] bg-[#999999]"></div>
                         <span className="text-xs text-gray-400 font-medium uppercase font-urbanist shrink-0">OR</span>
-                        <div className="w-[162px] h-[0.5px] bg-[#999999]"></div>
+                        <div className="flex-1 h-[0.5px] bg-[#999999]"></div>
                     </div>
 
                     <div className="flex justify-center mb-8">
-                        <button className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
+                        <button className="w-12 h-12 border border-black/20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
                             <svg className="w-6 h-6" viewBox="0 0 24 24">
                                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -187,9 +206,9 @@ const VerifyOTP = () => {
                         </button>
                     </div>
 
-                    <p className="text-center text-gray-600 font-urbanist text-[15px]">
+                    <p className="text-center text-gray-600 font-inter text-[15px]">
                         Don't Have An Account?{" "}
-                        <a href="#" className="text-[#003E6B] font-bold hover:underline">Signup</a>
+                        <Link to="/signup" className="text-[#003E6B] font-bold hover:underline">Signup</Link>
                     </p>
                 </div>
             </div>

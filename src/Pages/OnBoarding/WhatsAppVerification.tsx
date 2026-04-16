@@ -35,8 +35,8 @@ const WhatsAppVerification = () => {
           }}
         >
           <div className="mb-[24px]">
-            <h2 className="text-[#333333] text-[36px] font-bold leading-tight mb-2 text-center">Security Verification</h2>
-            <p className="text-[#666666] text-[18px] font-medium font-['Inter'] text-center">We've sent a whatsapp verification code please enter it below</p>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope text-center">Security Verification</h2>
+            <p className="text-[#5A5A5A] text-[16px] font-medium leading-[15px] font-inter text-center">We've sent a whatsapp verification code please enter it below</p>
           </div>
 
           <div className="mb-[32px]">
@@ -47,14 +47,14 @@ const WhatsAppVerification = () => {
           </div>
 
           <div className="text-center mb-[40px]">
-            <a href="#" className="text-[#0C4A6E] font-bold text-[15px] hover:underline">
+            <a href="#" className="text-[#005B96] font-medium text-[16px] hover:underline font-inter">
               Resend code in 45s
             </a>
           </div>
 
           <button
-            onClick={() => navigate('/')}
-            className="w-full bg-[#00416A] text-white h-[60px] rounded-[10px] text-[20px] font-bold hover:bg-[#003354] transition-all mb-[32px]"
+            onClick={() => navigate('/onboarding/work-description')}
+            className="w-full max-w-[445px] mx-auto bg-[#004370] text-white h-[40px] rounded-[10px] border border-[#B7AFAF] text-[15px] font-bold hover:opacity-90 transition-all mb-[32px] flex items-center justify-center cursor-pointer"
           >
             Verify
           </button>

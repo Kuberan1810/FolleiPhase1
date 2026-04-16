@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Mail, MessageSquare, Smartphone, Phone, Shield, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, Shield, PhoneIncoming } from 'lucide-react';
+import { Whatsapp, SmsNotification } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 
 const Onboarding = () => {
@@ -7,10 +8,10 @@ const Onboarding = () => {
   const navigate = useNavigate();
 
   const methods = [
-    { id: 'mail', label: 'MAIL', icon: <Mail size={24} /> },
-    { id: 'chat', label: 'CHAT', icon: <MessageSquare size={24} /> },
-    { id: 'sms', label: 'SMS', icon: <Smartphone size={24} /> },
-    { id: 'voice', label: 'VOICE', icon: <Phone size={24} /> }
+    { id: 'mail', label: 'MAIL', icon: <Mail size={24} color="#005B96" /> },
+    { id: 'chat', label: 'CHAT', icon: <Whatsapp size={24} color="#005B96" /> },
+    { id: 'sms', label: 'SMS', icon: <SmsNotification size={24} color="#005B96" /> },
+    { id: 'voice', label: 'VOICE', icon: <PhoneIncoming size={24} color="#005B96" /> }
   ];
 
   const handleNext = () => {
@@ -31,8 +32,8 @@ const Onboarding = () => {
             </svg>
           </div>
           <div>
-            <h1 className="text-white font-bold text-[36px] leading-tight tracking-tight">LiveTracker</h1>
-            <p className="text-white/70 text-[20px] uppercase font-bold tracking-[0.05em]">Precision Orchestrator</p>
+            <h1 className="text-white font-bold text-[28px] leading-tight tracking-tight">LiveTracker</h1>
+            <p className="text-white/70 text-[16px] uppercase font-bold tracking-[0.05em]">Precision Orchestrator</p>
           </div>
         </div>
       </header>
@@ -46,9 +47,9 @@ const Onboarding = () => {
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
-          <div className="mb-[48px]">
-            <h2 className="text-[#000000] text-[36px] font-bold leading-tight mb-2 font-['Inter']">How Should We Reach Your Customer?</h2>
-            <p className="text-[#666666] text-[20px] font-medium font-['Inter']">Pick your contact method securely</p>
+          <div className="mb-[30px]">
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-1 font-manrope">How Should We Reach Your Customer?</h2>
+            <p className="text-[#5A5A5A] text-[16px] font-medium leading-none font-inter">Pick your contact method securely</p>
           </div>
 
           <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-[39px] mb-[80px] justify-center">
@@ -64,7 +65,7 @@ const Onboarding = () => {
                 <div
                   className={`transition-colors text-[#0C4A6E] mb-2`}
                 >
-                  {React.cloneElement(method.icon as React.ReactElement, { size: 24 })}
+                  {method.icon}
                 </div>
                 <span className="text-[12px] font-bold tracking-widest text-[#191C1E]">
                   {method.label}
@@ -75,12 +76,12 @@ const Onboarding = () => {
 
           <div className="mt-auto flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 text-[#0C4A6E]">
-                <Shield size={24} />
+              <div className="mt-0.5 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                <Shield size={22} />
               </div>
               <div>
-                <h4 className="text-[16px] font-bold text-[#191C1E] font-['Inter']">Your data is secure with us</h4>
-                <p className="text-[13px] text-[#9CA3AF] font-medium font-['Inter']">We only use your contact method for essential updates — no spam.</p>
+                <h4 className="text-[12px] font-semibold text-[#000000] font-['Inter']">Your data is secure with us</h4>
+                <p className="text-[10px] text-[#9CA3AF] font-medium font-['Inter']">We only use your contact method for essential updates no spam.</p>
               </div>
             </div>
 
