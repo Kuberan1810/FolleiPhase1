@@ -34,14 +34,14 @@ const ContactDetails = () => {
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
-          <div className="flex flex-col gap-[12px] mb-[32px]">
-            <h2 className="text-[#333333] text-[32px] font-bold leading-tight mb-2">Enter Your Contact Details</h2>
-            <p className="text-[#666666] text-[18px] font-medium font-['Inter']">We use your details only for security and essential updates</p>
+          <div className="flex flex-col gap-[10px] mb-[32px]">
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-tight font-manrope">Enter Your Contact Details</h2>
+            <p className="text-[#5A5A5A] text-[16px] font-medium font-inter">We use your details only for security and essential updates</p>
           </div>
 
-          <div className="flex flex-col gap-6 mb-8">
+          <div className="flex flex-col gap-6 mb-6">
             <div className="flex flex-col gap-2">
-              <label className="text-[16px] font-semibold text-[#191C1E]">Enter your Name</label>
+              <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Name</label>
               <input
                 type="text"
                 placeholder="siva"
@@ -49,7 +49,7 @@ const ContactDetails = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-[16px] font-semibold text-[#191C1E]">Enter your email id</label>
+              <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your email id</label>
               <input
                 type="email"
                 placeholder="siva@gmail.com"
@@ -58,8 +58,8 @@ const ContactDetails = () => {
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
-                <label className="text-[16px] font-semibold text-[#191C1E]">Password</label>
-                <a href="#" className="font-bold text-[14px] text-[#0C4A6E] hover:underline">Forgot Password?</a>
+                <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Password</label>
+                <a href="#" className="text-[14px] font-medium text-[#004370] hover:underline font-urbanist">Forgot Password?</a>
               </div>
               <input
                 type="password"
@@ -68,7 +68,7 @@ const ContactDetails = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-[16px] font-semibold text-[#191C1E]">Enter your mobile number</label>
+              <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your mobile number</label>
               <input
                 type="tel"
                 placeholder="91+"
@@ -79,21 +79,21 @@ const ContactDetails = () => {
 
           <div className="flex flex-wrap items-start justify-between gap-6 mb-8">
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 text-[#0C4A6E] w-[28px] h-[28px] border-2 border-[#0C4A6E] rounded-md flex items-center justify-center shrink-0">
-                <Lock size={16} strokeWidth={3} />
+              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-md flex items-center justify-center shrink-0 shadow-sm">
+                <Lock size={20} strokeWidth={3} />
               </div>
               <div>
-                <h4 className="text-[14px] font-bold text-[#191C1E]">Secure Encryption</h4>
-                <p className="text-[12px] text-[#9CA3AF] font-medium leading-tight mt-0.5">End-to-end encrypted for your security</p>
+                <h4 className="text-[12px] font-semibold text-[#000000] font-inter">Secure Encryption</h4>
+                <p className="text-[10px] text-[#999999] font-medium leading-tight mt-0.5 font-inter">End-to-end encrypted for your security</p>
               </div>
             </div>
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 text-[#0C4A6E] w-[28px] h-[28px] border-2 border-[#0C4A6E] rounded-full flex items-center justify-center shrink-0">
-                <Shield size={18} strokeWidth={2.5} />
+              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                <Shield size={22} strokeWidth={2.5} />
               </div>
               <div>
-                <h4 className="text-[14px] font-bold text-[#191C1E]">Your data is secure with us</h4>
-                <p className="text-[12px] text-[#9CA3AF] font-medium leading-tight mt-0.5">We only use your contact method for essential updates — no spam.</p>
+                <h4 className="text-[12px] font-semibold text-[#000000] font-inter">Your data is secure with us</h4>
+                <p className="text-[10px] text-[#999999] font-medium leading-tight mt-0.5 font-inter">We only use your contact method for essential updates no spam.</p>
               </div>
             </div>
           </div>

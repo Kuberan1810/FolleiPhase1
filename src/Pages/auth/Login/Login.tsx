@@ -19,18 +19,18 @@ const Login = () => {
                     </div>
 
                     <div className="max-w-[519px]">
-                        <h2 className="text-3xl lg:text-[49px] font-semibold mb-[15px] leading-tight tracking-tight">Welcome to AI Agent</h2>
-                        <p className="text-lg lg:text-[20px] font-medium opacity-90 leading-relaxed tracking-normal">
+                        <h2 className="text-[32px] font-semibold font-poppins mb-[15px] leading-[18px] tracking-tight">Welcome to AI Agent</h2>
+                        <p className="text-[16px] font-normal font-poppins opacity-90 leading-relaxed tracking-normal">
                             Manage your customer calls, messages & emails automatically with your AI agent
                         </p>
                     </div>
                 </div>
 
-                <div className="absolute -bottom-4 -right-12 hidden lg:block">
+                <div className="absolute -bottom-4 -right-12 hidden lg:block pointer-events-none">
                     <img 
                         src="/image 8.svg" 
                         alt="AI Agent Illustration" 
-                        className="w-[450px] xl:w-[556px] h-auto object-contain"
+                        className="w-full max-w-[450px] xl:max-w-[556px] h-auto object-contain"
                     />
                 </div>
                 

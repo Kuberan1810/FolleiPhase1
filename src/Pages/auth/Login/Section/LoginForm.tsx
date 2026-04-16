@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 
 const LoginForm = () => {
@@ -21,17 +21,17 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Tab Switcher */}
-      <div className="flex p-1 bg-gray-100 rounded-xl mb-12">
+      <div className="flex p-1 bg-[#F3F5F7] rounded-[10px] mb-12 w-full max-w-md mx-auto">
         <button
           onClick={() => setActiveTab("email")}
-          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "email" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+          className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-[10px] transition-all ${activeTab === "email" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"
             }`}
         >
           Email id
         </button>
         <button
           onClick={() => setActiveTab("mobile")}
-          className={`flex-1 py-3 text-[24px] font-normal font-inter rounded-lg transition-all ${activeTab === "mobile" ? "bg-[#003E6B] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+          className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-[10px] transition-all ${activeTab === "mobile" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"
             }`}
         >
           Mobile Number
@@ -39,15 +39,14 @@ const LoginForm = () => {
       </div>
 
       <div className="text-center mb-10">
-        <h2 className="text-[34px] font-semibold font-urbanist text-gray-900 mb-[3px] leading-none">Login</h2>
-        <p className="text-[12px] font-medium font-urbanist text-gray-500 leading-none">Let's Get You Started</p>
-
+        <h2 className="text-[28px] font-semibold font-inter text-gray-900 mb-[8px] leading-none">Login</h2>
+        <p className="text-[12px] font-medium font-urbanist text-[#999999] leading-none">Let's Get You Started</p>
       </div>
 
 
       <form className="space-y-6" onSubmit={handleSubmit}>
-        <div>
-          <label className="block text-[14px] font-normal font-urbanist text-gray-700 mb-2 leading-none">
+        <div className="flex flex-col gap-2">
+          <label className="text-[14px] font-normal font-urbanist text-black leading-none">
             {activeTab === "email" ? "Username / Email" : "Mobile Number"}
           </label>
           <input
@@ -63,15 +62,13 @@ const LoginForm = () => {
               }
             }}
             placeholder={activeTab === "email" ? "Enter your email" : "Enter mobile number"}
-            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
+            className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
           />
-
-
         </div>
 
         <div className="relative">
           <div className="flex justify-between items-center mb-2">
-            <label className="block text-[14px] font-normal font-urbanist text-gray-700 leading-none">Password</label>
+            <label className="text-[14px] font-normal font-urbanist text-black leading-none">Password</label>
             <a href="#" className="text-sm font-semibold text-[#003E6B] hover:underline font-urbanist">
               Forgot Password?
             </a>
@@ -83,7 +80,7 @@ const LoginForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003E6B]/20 focus:border-[#003E6B] transition-all font-urbanist"
+              className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
             />
 
             <button
@@ -98,25 +95,25 @@ const LoginForm = () => {
 
         <button
           type="submit"
-          className={`w-full py-4 rounded-xl font-medium text-lg transition-all duration-300 ${isFormValid
-            ? "bg-[#003E6B] text-white shadow-lg shadow-[#003E6B]/20 border-transparent"
-            : "border border-gray-200 text-gray-400 hover:border-gray-300"
+          className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 ${isFormValid
+            ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20 border-transparent"
+            : "border border-[#B7AFAF] text-gray-400 hover:border-gray-300"
             }`}
         >
-          Login
+          {activeTab === "mobile" ? "Generate OTP" : "Login"}
         </button>
 
       </form>
 
       <div className="flex items-center justify-center gap-4 my-12">
-        <div className="w-[162px] h-[0.5px] bg-[#999999]"></div>
-        <span className="text-xs text-gray-400 font-medium uppercase font-urbanist">OR</span>
-        <div className="w-[162px] h-[0.5px] bg-[#999999]"></div>
+        <div className="flex-1 h-[0.5px] bg-[#999999]"></div>
+        <span className="text-xs text-gray-400 font-medium uppercase font-urbanist shrink-0">OR</span>
+        <div className="flex-1 h-[0.5px] bg-[#999999]"></div>
       </div>
 
 
       <div className="flex justify-center mb-10">
-        <button className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
+        <button className="w-12 h-12 border border-black/20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
           <svg className="w-6 h-6" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
@@ -138,11 +135,11 @@ const LoginForm = () => {
         </button>
       </div>
 
-      <p className="text-center text-gray-600 font-urbanist text-[15px]">
+      <p className="text-center text-gray-600 font-inter text-[15px]">
         Don't Have An Account?{" "}
-        <a href="#" className="text-[#003E6B] font-bold hover:underline">
+        <Link to="/signup" className="text-[#003E6B] font-bold hover:underline">
           Signup
-        </a>
+        </Link>
       </p>
     </div>
 

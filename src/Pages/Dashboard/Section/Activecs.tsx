@@ -53,11 +53,11 @@ const Activecs = () => {
   ];
 
   return (
-    <div className="w-full xl:w-[880px] min-w-0">
+    <div className="w-full min-w-0">
       {/* Header */}
       <div className="flex items-start justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="text-[#0B3A64] text-[18px] sm:text-[20px] lg:text-[22px] font-bold font-['Manrope'] mb-0.5 sm:mb-1">Active Customers</h2>
+          <h2 className="text-[#191C1E] text-[20px] font-bold font-manrope mb-0.5 sm:mb-1">Active Customers</h2>
           <p className="text-[#6B7A90] text-[13px] sm:text-[14px]">Managing 48 active leads this hour</p>
         </div>
         <button className="w-full sm:w-auto bg-[#004370] text-white h-[40px] px-5 rounded flex items-center justify-center gap-2 text-[13px] sm:text-[14px] font-semibold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm">

@@ -35,13 +35,13 @@ const ContactDetailsFinal = () => {
           }}
         >
           <div className="mb-[32px]">
-            <h2 className="text-[#333333] text-[32px] font-bold leading-tight mb-2">Enter Your Contact Details</h2>
-            <p className="text-[#666666] text-[18px] font-medium font-['Inter']">We use your details only for security and essential updates</p>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope">Enter Your Contact Details</h2>
+            <p className="text-[#5A5A5A] text-[16px] font-medium leading-none font-inter">We use your details only for security and essential updates</p>
           </div>
 
           <div className="flex flex-col gap-[24px] mb-[40px]">
             <div className="flex flex-col gap-2">
-              <label className="text-[16px] font-semibold text-[#191C1E]">Enter your Name</label>
+              <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Name</label>
               <input
                 type="text"
                 placeholder="siva"
@@ -49,7 +49,7 @@ const ContactDetailsFinal = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-[16px] font-semibold text-[#191C1E]">Enter your Whatsapp number</label>
+              <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Whatsapp number</label>
               <input
                 type="tel"
                 placeholder="9451334956211"
@@ -60,8 +60,8 @@ const ContactDetailsFinal = () => {
 
           <div className="flex flex-wrap items-start justify-between gap-6 mb-[40px]">
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 text-[#0C4A6E] w-[28px] h-[28px] border-2 border-[#0C4A6E] rounded-md flex items-center justify-center shrink-0">
-                <Lock size={16} strokeWidth={3} />
+              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-md flex items-center justify-center shrink-0 shadow-sm">
+                <Lock size={20} strokeWidth={3} />
               </div>
               <div>
                 <h4 className="text-[14px] font-bold text-[#191C1E]">Secure Encryption</h4>
@@ -69,12 +69,12 @@ const ContactDetailsFinal = () => {
               </div>
             </div>
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 text-[#0C4A6E] w-[28px] h-[28px] border-2 border-[#0C4A6E] rounded-full flex items-center justify-center shrink-0">
-                <ShieldCheck size={18} strokeWidth={2.5} />
+              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+                <ShieldCheck size={22} strokeWidth={2.5} />
               </div>
               <div>
                 <h4 className="text-[14px] font-bold text-[#191C1E]">Your data is secure with us</h4>
-                <p className="text-[12px] text-[#9CA3AF] font-medium leading-tight mt-0.5">We only use your contact method for essential updates — no spam.</p>
+                <p className="text-[12px] text-[#9CA3AF] font-medium leading-tight mt-0.5">We only use your contact method for essential updates no spam.</p>
               </div>
             </div>
           </div>
@@ -105,9 +105,8 @@ const ContactDetailsFinal = () => {
           {[...Array(7)].map((_, i) => (
             <div
               key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === 3 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 3 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
+                }`}
             />
           ))}
         </div>

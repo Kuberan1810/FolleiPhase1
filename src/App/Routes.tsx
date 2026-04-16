@@ -5,6 +5,9 @@ import Onboarding from "../Pages/OnBoarding/Onboarding";
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
 import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
 import WhatsAppVerification from "../Pages/OnBoarding/WhatsAppVerification";
+import WorkDescription from "../Pages/OnBoarding/WorkDescription";
+import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
+import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 import CustomerInsights from "../Pages/CustomerInsights/CustomerInsights";
 import Reports from "../Pages/Reports/Reports";
@@ -25,6 +28,9 @@ export default function AppRoutes() {
       <Route path="/onboarding/verify" element={<SecurityVerification />} />
       <Route path="/onboarding/additional-details" element={<ContactDetailsFinal />} />
       <Route path="/onboarding/whatsapp-verify" element={<WhatsAppVerification />} />
+      <Route path="/onboarding/work-description" element={<WorkDescription />} />
+      <Route path="/onboarding/review" element={<ReviewConfirmation />} />
+      <Route path="/onboarding/success" element={<OnboardingSuccess />} />
 
       {/* App Layout Routes */}
       <Route element={<Layout />}>

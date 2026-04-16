@@ -2,9 +2,9 @@ import { Mail, MessageSquare, PhoneMissed, UserPlus } from "lucide-react";
 
 const LiveActivity = () => {
   return (
-    <div className="w-full xl:flex-1 flex flex-col xl:mr-[100px]">
+    <div className="w-full xl:flex-1 flex flex-col">
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-[#0B3A64] text-[18px] sm:text-[20px] lg:text-[22px] font-bold font-['Manrope'] mb-0.5 sm:mb-1">Live Activity</h2>
+        <h2 className="text-[#191C1E] text-[20px] font-bold font-manrope mb-0.5 sm:mb-1">Live Activity</h2>
         <p className="text-[#6B7A90] text-[13px] sm:text-[14px] font-medium">Real-time engagement pulse</p>
       </div>
 
