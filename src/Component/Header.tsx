@@ -1,11 +1,12 @@
 import React from 'react';
 import { Search, Bell, HelpCircle, Settings, NetworkIcon } from 'lucide-react';
-import {NotificationBing, InfoCircle, Setting} from "iconsax-react"
+import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
+import SaasSearch from './Search';
 
 const Header: React.FC = () => {
     return (
-        <header className="flex  items-center justify-between border-b border-[#E2E8F080] bg-white px-4 lg:px-8 font-['Manrope'] py-5 ">
+        <header className="flex  items-center justify-between border-b border-[#E2E8F080] bg-white px-4 lg:px-6 font-['Manrope'] py-5 ">
             <div className="flex items-center gap-4 flex-1">
 
                 <div className="flex items-center gap-2.5 lg:hidden">
@@ -20,12 +21,14 @@ const Header: React.FC = () => {
 
                 {/* Search */}
                 <div className="relative w-[400px] hidden md:block">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280]" size={18} strokeWidth={2} />
+                    {/* <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280]" size={18} strokeWidth={2} />
                     <input
                         type="text"
+                        autoComplete="off"
                         placeholder="Search customer documentation..."
                         className="w-full pl-12 pr-4 py-2.5 bg-[#F2F4F6] rounded-xl text-[14px] focus:outline-none focus:ring-2 focus:ring-[#004370] transition-all placeholder:text-[#6B7280] placeholder:font-medium font-semibold text-[#004370] "
-                    />
+                    /> */}
+                    <SaasSearch/>
                 </div>
             </div>
 
@@ -41,12 +44,12 @@ const Header: React.FC = () => {
                     </button>
 
                     <button className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300  hidden sm:block">
-                        <InfoCircle color='currentColor' size={24}/>
+                        <InfoCircle color='currentColor' size={24} />
                     </button>
 
                     <button className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 hidden sm:block">
                         <Setting color='currentColor' size={24} />
-                    </button> 
+                    </button>
                 </div>
 
                 <div className="flex items-center gap-2 cursor-pointer shrink-0">

@@ -6,3 +6,11 @@ body {
     font-family: "Inter", "Manrope", sans-serif;
     background-color: #FAFAFA;
 }
+
+.BoxStyle{
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid #E2E8F090;
+    background-color: white;
+    /* box-shadow: 0px 4px 20px 0px #0000000D; */
+}
