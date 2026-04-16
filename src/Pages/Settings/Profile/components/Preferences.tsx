@@ -34,13 +34,13 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <div className="flex items-center p-1 bg-[#F3F4F5] rounded-[8px]">
                         <button
                             onClick={() => setPreferences(prev => ({ ...prev, theme: 'light' }))}
-                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'light' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
+                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'light' ? 'bg-white text-[#0058BC]' : 'text-[#414755] hover:bg-white/50'}`}
                         >
                             <Sun size={16} />
                         </button>
                         <button
                             onClick={() => setPreferences(prev => ({ ...prev, theme: 'dark' }))}
-                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'dark' ? 'bg-white text-[#0058BC]' : 'text-[#414755]'}`}
+                            className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'dark' ? 'bg-white text-[#0058BC]' : 'text-[#414755] hover:bg-white/50'}`}
                         >
                             <Moon size={16} />
                         </button>
@@ -52,7 +52,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <div className="relative">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="w-full flex items-center justify-between px-4 py-3 bg-[#F7F9FB] rounded-[8px] text-[14px] text-[#191C1D] cursor-pointer"
+                            className="w-full flex items-center justify-between px-4 py-3 bg-[#F7F9FB] hover:bg-[#F1F3F5] rounded-[8px] text-[14px] text-[#191C1D] cursor-pointer transition-colors"
                         >
                             <span className="flex items-center gap-2">
 
@@ -73,7 +73,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                                                     setPreferences(prev => ({ ...prev, timezone: tz }));
                                                     setIsOpen(false);
                                                 }}
-                                                className="px-4 py-2.5 hover:bg-gray-50 flex items-center justify-between cursor-pointer text-sm text-[#414755] transition-colors"
+                                                className="px-5 py-3 hover:bg-gray-50 flex items-center justify-between cursor-pointer text-sm text-[#414755] transition-colors"
                                             >
                                                 <span>{tz}</span>
 

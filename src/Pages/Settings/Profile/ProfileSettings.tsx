@@ -54,7 +54,7 @@ const ProfileSettings: React.FC = () => {
                                 className="h-full w-full object-cover"
                             />
                         </div>
-                        <button className="absolute bottom-4 right-4 h-[40px] w-[40px] flex items-center justify-center bg-[#014370] text-white rounded-full border-4 border-white transform transition-transform hover:scale-110 active:scale-95">
+                        <button className="absolute bottom-4 right-4 h-[40px] w-[40px] flex items-center justify-center bg-[#014370] hover:bg-[#00365a] text-white rounded-full border-4 border-white transform transition-all hover:scale-110 active:scale-95 cursor-pointer">
                             <Camera size={20} />
                         </button>
                     </div>

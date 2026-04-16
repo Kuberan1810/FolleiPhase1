@@ -17,7 +17,7 @@ const Security: React.FC<SecurityProps> = ({ onOpenPasswordModal }) => {
             <div className="px-6 pb-4 space-y-1">
                 <button
                     onClick={onOpenPasswordModal}
-                    className="w-full flex items-center justify-between py-2 transition-opacity hover:opacity-70 cursor-pointer"
+                    className="w-full flex items-center justify-between p-2 -mx-2 rounded-lg transition-colors hover:bg-gray-50 cursor-pointer"
                 >
                     <div className="flex items-center gap-3">
                         <Lock size={16} className="text-[#414755]" />
