@@ -39,7 +39,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                 {!isEditing ? (
                     <button
                         onClick={onEdit}
-                        className="p-[10px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
+                        className="py-[10px] px-[16px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
                     >
                         Edit Profile
                     </button>
@@ -47,13 +47,13 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                     <div className="flex gap-3">
                         <button
                             onClick={onCancel}
-                            className="p-[10px] bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
+                            className="py-[10px] px-[16px] bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleFormSave}
-                            className="p-[10px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
+                            className="py-[10px] px-[16px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
                         >
                             Save Changes
                         </button>
