@@ -18,8 +18,8 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
     ];
 
     return (
-        <div className="bg-white rounded-[20px] h-full">
-            <div className="p-6 bg-white">
+        <div className="bg-white rounded-[20px] h-full overflow-hidden">
+            <div className="p-6">
                 <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Preferences
                 </h2>
