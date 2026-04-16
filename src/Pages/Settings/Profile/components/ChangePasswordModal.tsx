@@ -103,9 +103,9 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
 
                     <div className="bg-[#F7F9FB] rounded-[8px] p-4 sm:p-5">
                         <p className="text-[12px] font-semibold text-[#191C1D] uppercase tracking-[0.1em] mb-4">Requirements</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                        <div className="grid grid-cols-2 gap-x-2 sm:gap-x-6 gap-y-3">
                             {passwordRequirements.map((req, i) => (
-                                <div key={i} className="flex items-center gap-4">
+                                <div key={i} className="flex items-center gap-2 sm:gap-4">
                                     {req.met ? (
                                         <div className="w-[15px] h-[15px] rounded-full bg-[#014370] flex items-center justify-center shrink-0">
                                             <Check size={10} className="text-white" strokeWidth={4} />
@@ -113,22 +113,22 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
                                     ) : (
                                         <div className="w-[15px] h-[15px] rounded-full border-2 border-[#B1B5C0] shrink-0" />
                                     )}
-                                    <span className={`text-[15px] ${req.met ? 'text-[#191C1D] font-medium' : 'text-[#717786]'}`}>{req.label}</span>
+                                    <span className={`text-[13px] sm:text-[15px] ${req.met ? 'text-[#191C1D] font-medium' : 'text-[#717786]'}`}>{req.label}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
 
-                <div className="p-6 sm:px-8 sm:pb-16 flex flex-col-reverse sm:flex-row items-center justify-end gap-3 shrink-0">
+                <div className="p-6 sm:px-8 sm:pb-16 flex flex-row items-center justify-end gap-3 shrink-0">
                     <button
                         onClick={onClose}
-                        className="w-full sm:w-auto p-[10px] sm:py-2.5 bg-[#F1F3F4] text-[#191C1E] text-[14px] font-semibold border-b-[0.5px] border-[#000000]/15 rounded-[8px] cursor-pointer"
+                        className="flex-1 sm:flex-none sm:w-auto p-[10px] sm:py-2.5 bg-[#F1F3F4] text-[#191C1E] text-[14px] font-semibold border-b-[0.5px] border-[#000000]/15 rounded-[8px] cursor-pointer"
                     >
                         Cancel
                     </button>
                     <button
-                        className="w-full sm:w-auto p-[10px] sm:py-2.5 bg-[#014370] text-white text-[14px] font-semibold rounded-[8px] cursor-pointer shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] transition-all"
+                        className="flex-1 sm:flex-none sm:w-auto p-[10px] sm:py-2.5 bg-[#014370] text-white text-[14px] font-semibold rounded-[8px] cursor-pointer shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1),0px_4px_6px_-1px_rgba(0,0,0,0.1)] transition-all"
                     >
                         Update Password
                     </button>

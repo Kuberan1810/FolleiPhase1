@@ -50,7 +50,7 @@ const Settings = () => {
       </div>
 
       <div className="max-w-3xl mx-auto -mt-10 md:-mt-14 px-4 relative z-20">
-        <div className="bg-white rounded-2xl md:rounded-[16px] overflow-hidden border border-white/20 backdrop-blur-xl">
+        <div className="bg-white rounded-2xl md:rounded-[16px] overflow-hidden shadow-[0px_1px_6px_0px_rgba(0,0,0,0.25)] border border-white/20 backdrop-blur-xl">
           <div className="flex flex-col">
             {settingsOptions.map((option, index) => (
               <SettingsItem

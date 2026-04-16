@@ -39,7 +39,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                 {!isEditing ? (
                     <button
                         onClick={onEdit}
-                        className="px-6 py-2 bg-[#004370] text-white text-[12px] font-bold rounded-[4px] cursor-pointer hover:bg-[#00365a] transition-all"
+                        className="p-[10px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
                     >
                         Edit Profile
                     </button>
@@ -47,13 +47,13 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                     <div className="flex gap-3">
                         <button
                             onClick={onCancel}
-                            className="px-6 py-2 bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[4px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
+                            className="p-[10px] bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleFormSave}
-                            className="px-6 py-2 bg-[#004370] text-white text-[12px] font-bold rounded-[4px] cursor-pointer hover:bg-[#00365a] transition-all"
+                            className="p-[10px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
                         >
                             Save Changes
                         </button>
@@ -71,7 +71,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                             value={formData.firstName}
                             onChange={handleChange}
                             disabled={!isEditing}
-                            className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors disabled:opacity-70"
+                            className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors "
                         />
                     </div>
                     <div className="space-y-0.5">
@@ -82,7 +82,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                             value={formData.lastName}
                             onChange={handleChange}
                             disabled={!isEditing}
-                            className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors disabled:opacity-70"
+                            className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors"
                         />
                     </div>
                 </div>
@@ -94,7 +94,8 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                         name="userId"
                         value={formData.userId}
                         disabled={true}
-                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#E5E7EB] text-[14px] text-[#191C1D]/60 outline-none cursor-not-allowed"
+                        className={`w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] text-[14px] text-[#191C1D] outline-none cursor-not-allowed transition-colors ${isEditing ? 'bg-[#E5E7EB]' : 'bg-[#F7F9FB]'
+                            }`}
                     />
                 </div>
 
@@ -106,7 +107,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                         value={formData.email}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors disabled:opacity-70"
+                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors"
                     />
                 </div>
 
@@ -118,7 +119,7 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                         value={formData.phone}
                         onChange={handleChange}
                         disabled={!isEditing}
-                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors disabled:opacity-70"
+                        className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors"
                     />
                 </div>
             </div>

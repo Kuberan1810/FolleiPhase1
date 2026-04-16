@@ -33,7 +33,7 @@ const Security: React.FC<SecurityProps> = ({ onOpenPasswordModal }) => {
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-[36px] h-[20px] bg-[#F3F4F5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[16px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[16px] after:w-[16px] after:transition-all peer-checked:bg-[#0058BC]"></div>
+                        <div className="w-[36px] h-[20px] bg-[#F3F4F5] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[16px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[16px] after:w-[16px] after:transition-all peer-checked:bg-[#004370]"></div>
                     </label>
                 </div>
             </div>
