@@ -18,6 +18,7 @@ import Settings from "../Pages/Settings/Settings";
 
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
+import Feedback from "../Pages/Settings/Feedback/Feedback";
 
 import Layout from "../Component/Layout";
 
@@ -31,7 +32,7 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
 
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
-import OnBoarding from "../Pages/OnBoarding/Onboarding";
+import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 
 
 
@@ -63,6 +64,7 @@ export default function AppRoutes() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
+        <Route path="/settings/feedback" element={<Feedback />} />
         <Route path="/onboarding" element={<OnBoarding />} />
 
 
