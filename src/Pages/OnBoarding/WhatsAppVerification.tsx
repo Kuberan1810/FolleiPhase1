@@ -26,12 +26,12 @@ const WhatsAppVerification = () => {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 bg-[#F9FAFB]">
-        <div 
+        <div
           className="bg-white rounded-[12px] p-8 sm:p-14 flex flex-col relative w-full max-w-[624px]"
-          style={{ 
+          style={{
             height: 'auto',
             minHeight: '520px',
-            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)' 
+            boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
           <div className="mb-[24px]">
@@ -59,24 +59,20 @@ const WhatsAppVerification = () => {
             Verify
           </button>
 
-          <div className="mt-auto flex justify-end gap-5">
+          <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding/additional-details')}
-              className="bg-[#E5E7EB] text-[#4B5563] h-[48px] px-6 rounded-[8px] text-[16px] font-bold flex items-center justify-center gap-2 hover:bg-gray-300 transition-all cursor-pointer shadow-sm"
+              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
             >
-              <div className="bg-gray-400/30 rounded-full p-1 flex items-center justify-center">
-                <ChevronLeft size={18} strokeWidth={3} />
-              </div>
+              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
-              onClick={() => navigate('/')}
-              className="bg-[#0C4A6E] text-white h-[48px] px-6 rounded-[8px] text-[16px] font-bold flex items-center justify-center gap-2 hover:bg-[#092e4f] transition-all cursor-pointer shadow-sm"
+              onClick={() => navigate('/onboarding/work-description')}
+              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
             >
               Next
-              <div className="bg-white/20 rounded-full p-1 flex items-center justify-center">
-                <ChevronRight size={18} strokeWidth={3} />
-              </div>
+              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>
@@ -85,9 +81,8 @@ const WhatsAppVerification = () => {
           {[...Array(7)].map((_, i) => (
             <div
               key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === 4 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 4 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
+                }`}
             />
           ))}
         </div>
