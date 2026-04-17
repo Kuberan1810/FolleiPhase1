@@ -8,7 +8,8 @@ const Header: React.FC = () => {
     const isSettingsPage = location.pathname.startsWith('/settings');
 
     return (
-        <header className="flex h-16 items-center justify-between border-b border-[#E2E8F0] bg-white px-4 md:px-6 lg:px-8 font-['Inter'] relative">
+        <header className="flex h-16 items-center justify-between 
+        px-4 md:px-6 lg:px-8 font-['Inter'] relative">
             {/* Left Section: Mobile Logo */}
             <div className="flex items-center gap-3 md:gap-4 flex-none lg:w-48">
                 <div className="flex items-center gap-2.5 lg:hidden">

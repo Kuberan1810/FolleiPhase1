@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
+    const location = useLocation();
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
         { icon: Users, label: 'Customer Insights', path: '/customer-insights' },
@@ -41,7 +42,7 @@ const Sidebar: React.FC = () => {
                 ))}
             </nav>
 
-            <aside className=" w-64 flex-col border-r border-[#F8FAFC] bg-white  font-['Inter'] lg:flex items-between hidden h-screen py-5" >
+            <aside className=" w-64 flex-col border-r border-[#F8FAFC] font-['Inter'] lg:flex items-between hidden h-screen py-5" >
                 <div className="mb-10 flex items-center gap-3 px-6">
                     <div className="flex h-[32px] w-[32px] items-center justify-center rounded-[4px] bg-[#004370] text-white">
                         <NetworkIcon size={14} />
@@ -96,13 +97,15 @@ const Sidebar: React.FC = () => {
                                 <NavLink
                                     key={index}
                                     to={item.path}
-                                    className={({ isActive }) =>
-                                        `flex cursor-pointer items-center gap-3 px-2 py-2.5 text-[14px] font-medium 
-                                ${isActive
-                                            ? 'bg-[#F1F5F9] text-[#0F172A]'
-                                            : 'text-[#64748B]'
-                                        }`
-                                    }
+                                    className={({ isActive }) => {
+                                        const isSettingsActive = item.path === '/settings' && location.pathname.startsWith('/settings');
+                                        const overallActive = isActive || isSettingsActive;
+                                        return `flex cursor-pointer items-center gap-3 px-2 py-2.5 text-[14px] font-medium 
+                                ${overallActive
+                                                ? 'bg-[#F1F5F9] text-[#0F172A]'
+                                                : 'text-[#64748B]'
+                                            }`;
+                                    }}
                                 >
                                     <item.icon size={18} />
                                     <span>{item.label}</span>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { User, Camera } from 'lucide-react';
 import profileImg from '../../../assets/avatar.png';
 import { PersonalDetails, Preferences as ProfilePreferences, Security, ChangePasswordModal } from './components';
@@ -28,14 +29,14 @@ const ProfileSettings: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen pb-12 -mx-4 lg:-mx-8 -mt-4 bg-[#FAFAF9]">
-            <div className="bg-[#014370] pt-12 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
+        <div className="min-h-screen pb-12 -mx-4 lg:-mx-8 -mt-4 bg-[#FAFAF9] p-8">
+            <div className="bg-[#014370] pt-5 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-white/5 rounded-full -mr-[311px] -mt-[211px] blur-3xl"></div>
                 <div className="w-full relative z-10">
                     <div className="flex flex-col items-start gap-4">
                         <div className="flex flex-col items-start gap-1">
                             <div className="flex items-center gap-2 text-[12px] font-medium">
-                                <span className="text-white/60 font-medium">Settings</span>
+                                <Link to="/settings" className="text-white/60 hover:text-white transition-colors">Settings</Link>
                                 <span className="text-white/40">{'>'}</span>
                                 <span className="text-white font-medium">Profile</span>
                             </div>

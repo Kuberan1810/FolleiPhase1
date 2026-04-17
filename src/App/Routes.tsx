@@ -17,6 +17,7 @@ import Settings from "../Pages/Settings/Settings";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
+import Feedback from "../Pages/Settings/Feedback/Feedback";
 
 export default function AppRoutes() {
   return (
@@ -37,6 +38,7 @@ export default function AppRoutes() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
+        <Route path="/settings/feedback" element={<Feedback />} />
         <Route path="/onboarding" element={<OnBoarding />} />
       </Route>
       {/* </Route> */}
