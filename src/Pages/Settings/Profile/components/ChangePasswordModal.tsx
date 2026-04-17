@@ -67,7 +67,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
                         </div>
                         <div className="flex items-center justify-between pt-0.5">
                             <label className="text-[12px] font-semibold text-[#414755]">Password Strength</label>
-                            <span className="text-[12px] font-bold text-[#004370]">
+                            <span className="text-[12px] font-semibold text-[#004370]">
                                 {strength <= 25 ? 'Weak' : strength <= 50 ? 'Fair' : strength <= 75 ? 'Medium' : 'Strong'}
                             </span>
                         </div>
@@ -101,8 +101,8 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
                     </div>
 
                     <div className="bg-[#F7F9FB] rounded-[8px] p-4 sm:p-5">
-                        <p className="text-[12px] font-semibold text-[#191C1D] uppercase tracking-wider mb-2 sm:mb-3">Requirements</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 sm:gap-y-3">
+                        <p className="text-[12px] font-semibold text-[#191C1D] uppercase tracking-wider mb-2 sm:mb-5">Requirements</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 sm:gap-y-5">
                             {passwordRequirements.map((req, i) => (
                                 <div key={i} className="flex items-center gap-3">
                                     {req.met ? (
@@ -119,7 +119,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ onClose }) =>
                     </div>
                 </div>
 
-                <div className="px-6 sm:px-10 py-6 sm:py-8 flex items-center justify-end gap-3 sm:gap-4 shrink-0">
+                <div className="px-6 sm:px-10 py-6 sm:py-6 flex items-center justify-end gap-3 sm:gap-4 shrink-0">
                     <button
                         onClick={onClose}
                         className="flex-1 sm:flex-none sm:w-[124px] py-2 sm:py-2.5 bg-[#F1F3F4] hover:bg-[#E8EAED] text-[#191C1E] text-[14px] font-semibold border-b-[0.5px] border-[#000000]/15 rounded-[8px] cursor-pointer transition-colors"
