@@ -1,6 +1,6 @@
-import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingProgress from './OnboardingProgress';
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const WhatsAppVerification = () => {
           <div className="mb-[32px]">
             <input
               type="text"
-              className="w-full h-[64px] rounded-[8px] border border-[#CBD5E1] bg-white text-center text-[24px] font-bold text-[#333333] focus:outline-none focus:ring-2 focus:ring-[#0C4A6E] transition-all"
+              className="w-full h-[64px] rounded-[8px] border border-[#CBD5E1] bg-white text-center text-[24px] font-bold text-black focus:outline-none focus:ring-2 focus:ring-[#0C4A6E] transition-all"
             />
           </div>
 
@@ -62,30 +62,20 @@ const WhatsAppVerification = () => {
           <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding/additional-details')}
-              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
+              className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
             >
-              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
               onClick={() => navigate('/onboarding/work-description')}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
             >
               Next
-              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 mt-12">
-          {[...Array(7)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 4 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-                }`}
-            />
-          ))}
-        </div>
+        <OnboardingProgress currentStep={4} />
       </main>
     </div>
   );

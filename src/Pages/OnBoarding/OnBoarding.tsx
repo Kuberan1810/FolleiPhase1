@@ -3,8 +3,10 @@ import { Mail, Shield, PhoneIncoming } from 'lucide-react';
 import { Whatsapp, SmsNotification } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 
+import OnboardingProgress from './OnboardingProgress';
+
 const Onboarding = () => {
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
+  const [selectedMethods, setSelectedMethods] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const methods = [
@@ -13,6 +15,14 @@ const Onboarding = () => {
     { id: 'sms', label: 'SMS', icon: <SmsNotification size={24} color="#005B96" /> },
     { id: 'voice', label: 'VOICE', icon: <PhoneIncoming size={24} color="#005B96" /> }
   ];
+
+  const toggleMethod = (methodId: string) => {
+    setSelectedMethods(prev => 
+      prev.includes(methodId) 
+        ? prev.filter(id => id !== methodId)
+        : [...prev, methodId]
+    );
+  };
 
   const handleNext = () => {
     navigate('/onboarding/details');
@@ -56,10 +66,10 @@ const Onboarding = () => {
             {methods.map((method) => (
               <button
                 key={method.id}
-                onClick={() => setSelectedMethod(method.id)}
-                className={`flex flex-col items-center justify-center rounded-[10px] border transition-all duration-200 w-full sm:w-[150px] sm:h-[81px] group ${selectedMethod === method.id
-                    ? 'border-[#0C4A6E] bg-[#F0F7FF] ring-1 ring-[#0C4A6E]'
-                    : 'border-[#D2D2D2] bg-white hover:border-[#0C4A6E]'
+                onClick={() => toggleMethod(method.id)}
+                className={`flex flex-col items-center justify-center rounded-[10px] border transition-all duration-200 w-full sm:w-[150px] sm:h-[81px] group ${selectedMethods.includes(method.id)
+                  ? 'border-[#0C4A6E] bg-[#F0F7FF] ring-1 ring-[#0C4A6E]'
+                  : 'border-[#D2D2D2] bg-white hover:border-[#0C4A6E]'
                   }`}
               >
                 <div
@@ -87,26 +97,14 @@ const Onboarding = () => {
 
             <button
               onClick={handleNext}
-              className="bg-[#0C4A6E] text-white h-[40px] w-[100px] rounded-[6px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-[#092e4f] transition-all cursor-pointer shadow-sm"
+              className="bg-[#0C4A6E] text-white h-[40px] w-[100px] rounded-[6px] text-[15px] font-bold flex items-center justify-center hover:bg-[#092e4f] transition-all cursor-pointer shadow-sm"
             >
               Next
-              <div className="bg-white/20 rounded-full p-0.5 flex items-center justify-center">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-              </div>
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 mt-8">
-          {[...Array(7)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === 0 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-              }`}
-            />
-          ))}
-        </div>
+        <OnboardingProgress currentStep={0} />
       </main>
     </div>
   );

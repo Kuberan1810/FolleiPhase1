@@ -55,18 +55,18 @@ const Activecs = () => {
   return (
     <div className="w-full min-w-0">
       {/* Header */}
-      <div className="flex items-start justify-between mb-4 sm:mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
           <h2 className="text-[#191C1E] text-[20px] font-bold font-manrope mb-0.5 sm:mb-1">Active Customers</h2>
           <p className="text-[#6B7A90] text-[13px] sm:text-[14px]">Managing 48 active leads this hour</p>
         </div>
-        <button className="w-full sm:w-auto bg-[#004370] text-white h-[40px] px-5 rounded flex items-center justify-center gap-2 text-[13px] sm:text-[14px] font-semibold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm">
+        <button className="w-full sm:w-auto bg-[#004370] text-white h-[40px] px-5 rounded flex items-center justify-center gap-2 text-[13px] sm:text-[14px] font-semibold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm shrink-0">
           <Plus size={14} strokeWidth={2.5} />
           Add New Customer
         </button>
       </div>
 
-      <div className="bg-[#F8F9FA] rounded-xl border border-[#EEF2F5] overflow-hidden min-h-[593px] flex flex-col">
+      <div className="bg-[#F8F9FA] rounded-xl border border-[#EEF2F5] overflow-hidden md:min-h-[593px] flex flex-col">
         {/* Desktop Table */}
         <div className="hidden md:block">
           <div className="grid grid-cols-10 gap-2 py-2 px-5 lg:px-6 border-b border-[#EEF2F5] text-[#9CA3AF] text-[10px] lg:text-[11px] font-bold tracking-wider uppercase items-center">

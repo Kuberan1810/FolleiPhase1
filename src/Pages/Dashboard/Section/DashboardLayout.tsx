@@ -6,7 +6,7 @@ import LiveActivity from "./LiveActivity"
 const DashboardLayout = () => {
     return (
 
-        <div>
+        <div className="flex flex-col gap-8">
             <DashboardHeader />
             <DashboardCard />
             <ActiveCustomers />

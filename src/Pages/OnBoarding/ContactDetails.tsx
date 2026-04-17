@@ -1,5 +1,6 @@
 import { Shield, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingProgress from './OnboardingProgress';
 
 const ContactDetails = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const ContactDetails = () => {
               <input
                 type="text"
                 placeholder="siva"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -52,18 +53,18 @@ const ContactDetails = () => {
               <input
                 type="email"
                 placeholder="siva@gmail.com"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Password</label>
-                <a href="#" className="text-[14px] font-medium text-[#004370] hover:underline font-urbanist">Forgot Password?</a>
+                <a href="#" className="text-[14px] font-medium text-[#004370] hover:underline font-manrope">Forgot Password?</a>
               </div>
               <input
                 type="password"
                 placeholder="123456"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -71,7 +72,7 @@ const ContactDetails = () => {
               <input
                 type="tel"
                 placeholder="91+"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
               />
             </div>
           </div>
@@ -100,30 +101,20 @@ const ContactDetails = () => {
           <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding')}
-              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
+              className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
             >
-              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
               onClick={() => navigate('/onboarding/verify')}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
             >
               Next
-              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 mt-8">
-          {[...Array(7)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 1 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-                }`}
-            />
-          ))}
-        </div>
+        <OnboardingProgress currentStep={1} />
       </main>
     </div>
   );

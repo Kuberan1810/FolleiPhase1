@@ -1,3 +1,4 @@
+
 import Activecs from "./Section/Activecs";
 import LiveActivity from "./LiveActivity";
 
@@ -16,7 +17,7 @@ const Dashboard = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
         <div>
           <p
             className="text-[#004370] uppercase mb-1.5 sm:mb-2"
@@ -46,7 +47,7 @@ const Dashboard = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mb-8">
         <button className="h-[38px] sm:h-[44px] px-5 bg-[#014370] text-white rounded-full text-[13px] sm:text-[14px] font-semibold hover:bg-[#013254] transition-colors cursor-pointer flex items-center justify-center">
           In Bound
         </button>

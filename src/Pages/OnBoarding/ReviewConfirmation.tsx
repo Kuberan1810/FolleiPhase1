@@ -8,6 +8,7 @@ import {
   User
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingProgress from './OnboardingProgress';
 
 const ReviewConfirmation = () => {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ const ReviewConfirmation = () => {
                   type="text"
                   value={localData.fullName}
                   onChange={(e) => handleInputChange(e, 'fullName')}
-                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-[#999999] font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
+                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-black font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -115,7 +116,7 @@ const ReviewConfirmation = () => {
                   type="email"
                   value={localData.email}
                   onChange={(e) => handleInputChange(e, 'email')}
-                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-[#999999] font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
+                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-black font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -124,7 +125,7 @@ const ReviewConfirmation = () => {
                   type="tel"
                   value={localData.mobileNumber}
                   onChange={(e) => handleInputChange(e, 'mobileNumber')}
-                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-[#999999] font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
+                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-black font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -133,7 +134,7 @@ const ReviewConfirmation = () => {
                   type="text"
                   value={localData.role}
                   onChange={(e) => handleInputChange(e, 'role')}
-                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-[#999999] font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
+                  className="pb-2 border-b border-[#E2E8F0] text-[14px] text-black font-normal font-inter leading-none bg-transparent focus:border-[#005B96] outline-none transition-colors"
                 />
               </div>
             </div>
@@ -156,9 +157,8 @@ const ReviewConfirmation = () => {
             <div className="mt-auto flex justify-end items-center gap-3">
               <button
                 onClick={() => navigate(-1)}
-                className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
+                className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
               >
-                <ChevronLeft size={14} strokeWidth={3} />
                 Go Back
               </button>
               <button
@@ -170,21 +170,12 @@ const ReviewConfirmation = () => {
                   }`}
               >
                 Submit Profile
-                <ChevronRight size={14} strokeWidth={3} />
               </button>
             </div>
           </div>
         </div>
 
-        <div className="flex gap-2 mt-8">
-          {[...Array(7)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 0 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-                }`}
-            />
-          ))}
-        </div>
+        <OnboardingProgress currentStep={6} />
       </main>
     </div>
   );
