@@ -29,7 +29,7 @@ const Header: React.FC = () => {
                     <Search size={18} className="text-[#94A3B8] shrink-0" />
                     <input
                         type="text"
-                        placeholder="Search customer, activity or tasks..."
+                        placeholder="Search customer documentation..."
                         className="w-full bg-transparent text-[13px] md:text-[14px] text-[#6B7280] outline-none placeholder:text-[#6B7280]"
                     />
                 </div>
