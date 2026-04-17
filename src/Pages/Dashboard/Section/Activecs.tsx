@@ -89,10 +89,10 @@ const Activecs = () => {
                   </div>
                 </div>
                 <div className="col-span-2 pr-2">
-                  <p className="text-gray-700 text-[12px] lg:text-[13px] font-medium leading-tight">{customer.source}</p>
+                  <p className="text-[#414750] text-[12px] font-medium font-inter leading-tight">{customer.source}</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                  <span className={`px-2 py-1 rounded-full text-[9px] lg:text-[10px] font-extrabold uppercase tracking-wider ${customer.statusColor}`}>
+                  <span className={`px-2 py-1 rounded-full text-[10px] font-bold font-inter uppercase tracking-wider ${customer.statusColor}`}>
                     {customer.status}
                   </span>
                 </div>
@@ -125,7 +125,7 @@ const Activecs = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className={`px-2 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${customer.statusColor}`}>
+                  <span className={`px-2 py-1 rounded-full text-[10px] font-bold font-inter uppercase tracking-wider ${customer.statusColor}`}>
                     {customer.status}
                   </span>
                   <button className="p-1.5 text-[#C0C8D1] hover:text-[#0B3A64] transition-colors cursor-pointer">
@@ -134,7 +134,7 @@ const Activecs = () => {
                 </div>
               </div>
               <div className="flex items-center justify-between pl-12 text-[12px]">
-                <span className="text-gray-500 font-medium">{customer.source}</span>
+                <span className="text-[#414750] font-medium font-inter">{customer.source}</span>
                 <div className="text-right">
                   <p className="text-gray-700 font-medium">{customer.followUpTime}</p>
                   <p className="text-[#9CA3AF] text-[11px] italic">{customer.followUpNote}</p>

@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { 
-  TrendingUp, 
-  Factory, 
-  Stethoscope, 
-  CircleDollarSign, 
-  Headphones, 
-  ShoppingCart, 
-  Briefcase, 
-  Hotel, 
-  GraduationCap, 
-  Plane, 
-  BarChart3, 
+import {
+  TrendingUp,
+  Factory,
+  Stethoscope,
+  CircleDollarSign,
+  Headphones,
+  ShoppingCart,
+  Briefcase,
+  Hotel,
+  GraduationCap,
+  Plane,
+  BarChart3,
   Home,
   ChevronLeft,
+  ChevronRight,
   Search
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -84,18 +85,16 @@ const WorkDescription = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex flex-col items-start pt-[10px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${
-                  selectedCategory === category.id
+                className={`flex flex-col items-start pt-[10px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${selectedCategory === category.id
                     ? 'border-[#004370] bg-[#F8FAFC] ring-1 ring-[#004370] shadow-[0_1px_2px_0_#CEE9FB]'
                     : 'border-[#DCD7D7] bg-white hover:border-[#004370]/30 shadow-[0_1px_2px_0_#CEE9FB]'
-                }`}
+                  }`}
               >
                 <div
-                  className={`w-[40px] h-[40px] shrink-0 rounded-[8px] flex items-center justify-center transition-colors ${
-                    selectedCategory === category.id 
-                      ? 'bg-[#004370] text-white shadow-md' 
+                  className={`w-[40px] h-[40px] shrink-0 rounded-[8px] flex items-center justify-center transition-colors ${selectedCategory === category.id
+                      ? 'bg-[#004370] text-white shadow-md'
                       : 'bg-[#005B96] text-white group-hover:bg-[#004370]'
-                  }`}
+                    }`}
                 >
                   {category.icon}
                 </div>
@@ -106,20 +105,20 @@ const WorkDescription = () => {
             ))}
           </div>
 
-          <div className="mt-auto flex justify-end items-center gap-4">
+          <div className="mt-auto flex justify-end items-center gap-3">
             <button
               onClick={() => navigate(-1)}
-              className="bg-[#E5E7EB]/50 text-[#4B5563] h-[36px] px-5 rounded-[6px] text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-gray-200 transition-all cursor-pointer"
+              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
             >
-              <ChevronLeft size={16} strokeWidth={3} />
+              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
               onClick={handleNext}
-              className="bg-[#004370] text-white h-[36px] px-8 rounded-[6px] text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-[#003152] transition-all cursor-pointer shadow-sm"
+              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
             >
               Next
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>
@@ -128,9 +127,8 @@ const WorkDescription = () => {
           {[...Array(7)].map((_, i) => (
             <div
               key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === 5 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 5 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
+                }`}
             />
           ))}
         </div>
