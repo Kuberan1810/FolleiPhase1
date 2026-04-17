@@ -32,7 +32,8 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
 
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
-import OnBoarding from "../Pages/OnBoarding/OnBoarding";
+import OnBoarding from "../Pages/OnBoarding/Onboarding";
+import Payment from "../Pages/Settings/Payment/Payment";
 
 
 
@@ -65,6 +66,8 @@ export default function AppRoutes() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/settings/feedback" element={<Feedback />} />
+        <Route path="/settings/payment" element={<Payment />} />
+
         <Route path="/onboarding" element={<OnBoarding />} />
 
 
