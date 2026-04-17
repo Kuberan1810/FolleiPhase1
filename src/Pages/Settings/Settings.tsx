@@ -13,7 +13,7 @@ interface SettingsItemProps {
 const SettingsItem = ({ icon: Icon, label, description, to, className = "" }: SettingsItemProps) => (
   <Link
     to={to}
-    className={`bg-[#FFFFFF] w-full h-[88px] rounded-[24px] p-[20px] flex items-center justify-between ${className}`}
+    className={`bg-[#FFFFFF] w-full h-[88px] rounded-[24px] p-[20px] flex items-center justify-between group hover:bg-[#014370]/5 transition-all duration-200 ${className}`}
   >
     <div className="flex items-center gap-5">
       <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#014370]/15 rounded-[12px] text-[#014370] shrink-0">
@@ -28,7 +28,7 @@ const SettingsItem = ({ icon: Icon, label, description, to, className = "" }: Se
         </span>
       </div>
     </div>
-    <div className="text-[#434655]">
+    <div className="text-[#434655] transition-transform duration-300 ease-out group-hover:translate-x-1.5">
       <ChevronRight size={20} strokeWidth={2.5} />
     </div>
   </Link>
@@ -63,7 +63,7 @@ const Settings = () => {
           </h1>
         </div>
 
-        <div className="space-y-4 pl-3 pb-2">
+        <div className="space-y-4 pb-2">
           <h2 className="text-[12px] font-bold text-[#434655] uppercase tracking-wider pl-3">
             ACCOUNT MANAGEMENT
           </h2>
@@ -80,7 +80,7 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="space-y-4 pl-3">
+        <div className="space-y-4">
           <h2 className="text-[12px] font-bold text-[#434655] uppercase tracking-wider pl-3">
             SUPPORT & LEGAL
           </h2>
