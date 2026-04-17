@@ -3,7 +3,7 @@ import { Mail, Shield, PhoneIncoming } from 'lucide-react';
 import { Whatsapp, SmsNotification } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 
-const Onboarding = () => {
+const OnBoarding = () => {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -112,4 +112,4 @@ const Onboarding = () => {
   );
 };
 
-export default Onboarding;
+export default OnBoarding;

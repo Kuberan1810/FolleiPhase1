@@ -15,7 +15,7 @@ import FlowBuilder from "../Pages/FlowBuilder/FlowBuilder";
 import CustomerInsights from "../Pages/CustomerInsights/CustomerInsights";
 import Reports from "../Pages/Reports/Reports";
 import Settings from "../Pages/Settings/Settings";
-import OnBoarding from "../Pages/OnBoarding/OnBoarding";
+
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 
@@ -31,7 +31,7 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
 
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
-import Onboarding from "../Pages/OnBoarding/OnBoarding";
+import OnBoarding from "../Pages/OnBoarding/Onboarding";
 
 
 
@@ -43,7 +43,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login/verify-otp" element={<VerifyOTP />} />
-      <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="/onboarding" element={<OnBoarding />} />
       <Route path="/onboarding/details" element={<ContactDetails />} />
       <Route path="/onboarding/verify" element={<SecurityVerification />} />
       <Route path="/onboarding/additional-details" element={<ContactDetailsFinal />} />
