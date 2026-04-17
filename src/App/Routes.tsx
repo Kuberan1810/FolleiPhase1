@@ -19,7 +19,7 @@ import Settings from "../Pages/Settings/Settings";
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 
-import Layout from "../Component/Layout";
+
 
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
 import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
@@ -67,17 +67,6 @@ export default function AppRoutes() {
 
 
 
-        {/* App Layout Routes */}
-        <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/customer-insights" element={<CustomerInsights />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/flow-builder" element={<FlowBuilder />} />
-
-          {/* Fallback for protected routes */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
 
       </Route >
       {/* </Route> */}

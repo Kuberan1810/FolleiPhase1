@@ -26,6 +26,8 @@ const SecurityVerification = () => {
     }
   };
 
+  const isOtpComplete = otp.every(digit => digit !== '');
+
   return (
     <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter']">
       <header className="bg-[#005B96] h-[100px] flex items-center px-8 shrink-0">
@@ -51,12 +53,12 @@ const SecurityVerification = () => {
           className="bg-white rounded-[12px] p-8 sm:p-14 flex flex-col relative w-full max-w-[620px]"
           style={{
             height: 'auto',
-            minHeight: '520px',
+            minHeight: '350px',
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
           <div className="mb-[24px]">
-            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope">Security Verification</h2>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-[10px] font-manrope">Security Verification</h2>
             <p className="text-[#5A5A5A] text-[16px] font-medium leading-[15px] font-inter">We've sent a verification code please enter it below</p>
           </div>
 
@@ -76,19 +78,23 @@ const SecurityVerification = () => {
           </div>
 
           <div className="text-center mb-[40px]">
-            <a href="#" className="text-[#0C4A6E] font-bold text-[15px] hover:underline">
+            <a href="#" className="text-[#0C4A6E] font-bold text-[15px] hover:underline cursor-pointer">
               Resend code in 45s
             </a>
           </div>
 
           <button
             onClick={() => navigate('/onboarding/additional-details')}
-            className="w-full max-w-[445px] mx-auto bg-[#004370] text-white h-[40px] rounded-[5px] text-[14px] font-semibold hover:bg-[#003152] transition-all mb-[32px] flex items-center justify-center cursor-pointer shadow-sm"
+            disabled={!isOtpComplete}
+            className={`w-full max-w-[445px] mx-auto h-[40px] rounded-[5px] text-[14px] font-semibold transition-all mb-[32px] flex items-center justify-center shadow-sm ${isOtpComplete
+              ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer'
+              : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+              }`}
           >
             Verify
           </button>
 
-          <div className="mt-auto flex justify-end gap-3">
+          <div className="mt-10 flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding/details')}
               className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
@@ -97,7 +103,11 @@ const SecurityVerification = () => {
             </button>
             <button
               onClick={() => navigate('/onboarding/additional-details')}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={!isOtpComplete}
+              className={`w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center transition-all shadow-sm ${isOtpComplete
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer active:scale-95'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
             </button>

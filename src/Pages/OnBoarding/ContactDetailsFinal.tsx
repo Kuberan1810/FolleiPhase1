@@ -1,9 +1,30 @@
+import { useState } from 'react';
 import { ShieldCheck, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingProgress from './OnboardingProgress';
 
 const ContactDetailsFinal = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    whatsapp: ''
+  });
+
+  const isFormComplete = formData.name && formData.whatsapp;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    
+    if (name === 'whatsapp') {
+      const numericValue = value.replace(/\D/g, '');
+      if (numericValue.length <= 10) {
+        setFormData(prev => ({ ...prev, [name]: numericValue }));
+      }
+      return;
+    }
+
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter']">
@@ -30,12 +51,12 @@ const ContactDetailsFinal = () => {
           className="bg-white rounded-[12px] p-8 sm:p-12 flex flex-col relative w-full max-w-[660px]"
           style={{
             height: 'auto',
-            minHeight: '620px',
+            minHeight: '380px',
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
           <div className="mb-[32px]">
-            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope">Enter Your Contact Details</h2>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-[10px] font-manrope">Enter Your Contact Details</h2>
             <p className="text-[#5A5A5A] text-[16px] font-medium leading-none font-inter">We use your details only for security and essential updates</p>
           </div>
 
@@ -44,23 +65,31 @@ const ContactDetailsFinal = () => {
               <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Name</label>
               <input
                 type="text"
-                placeholder="siva"
-                className="w-full h-[56px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full h-[56px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Whatsapp number</label>
-              <input
-                type="tel"
-                placeholder="9451334956211"
-                className="w-full h-[56px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
-              />
+              <div className="relative w-full flex items-center">
+                <span className="absolute left-6 text-black text-[16px]">+91</span>
+                <input
+                  type="tel"
+                  name="whatsapp"
+                  value={formData.whatsapp}
+                  onChange={handleChange}
+                  maxLength={10}
+                  className="w-full h-[56px] pl-[60px] pr-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
+                />
+              </div>
             </div>
           </div>
 
           <div className="flex flex-wrap items-start justify-between gap-6 mb-[40px]">
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-md flex items-center justify-center shrink-0 shadow-sm">
+              <div className="mt-1 text-[#005B96] shrink-0">
                 <Lock size={20} strokeWidth={3} />
               </div>
               <div>
@@ -69,7 +98,7 @@ const ContactDetailsFinal = () => {
               </div>
             </div>
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+              <div className="mt-1 text-[#005B96] shrink-0">
                 <ShieldCheck size={22} strokeWidth={2.5} />
               </div>
               <div>
@@ -79,7 +108,7 @@ const ContactDetailsFinal = () => {
             </div>
           </div>
 
-          <div className="mt-auto flex justify-end gap-3">
+          <div className="mt-10 flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding/verify')}
               className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
@@ -88,7 +117,11 @@ const ContactDetailsFinal = () => {
             </button>
             <button
               onClick={() => navigate('/onboarding/whatsapp-verify')}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={!isFormComplete}
+              className={`w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center transition-all shadow-sm ${isFormComplete
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer active:scale-95'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
             </button>

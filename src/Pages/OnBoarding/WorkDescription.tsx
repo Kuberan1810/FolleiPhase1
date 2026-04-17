@@ -40,8 +40,8 @@ const WorkDescription = () => {
   ];
 
   const toggleCategory = (categoryId: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(categoryId) 
+    setSelectedCategories(prev =>
+      prev.includes(categoryId)
         ? prev.filter(id => id !== categoryId)
         : [...prev, categoryId]
     );
@@ -95,7 +95,7 @@ const WorkDescription = () => {
               <button
                 key={category.id}
                 onClick={() => toggleCategory(category.id)}
-                className={`flex flex-col items-start pt-[10px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${selectedCategories.includes(category.id)
+                className={`flex flex-col items-start pt-[20px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${selectedCategories.includes(category.id)
                   ? 'border-[#004370] bg-[#F8FAFC] ring-1 ring-[#004370] shadow-[0_1px_2px_0_#CEE9FB]'
                   : 'border-[#DCD7D7] bg-white hover:border-[#004370]/30 shadow-[0_1px_2px_0_#CEE9FB]'
                   }`}
@@ -115,7 +115,7 @@ const WorkDescription = () => {
             ))}
           </div>
 
-          <div className="mt-auto flex justify-end items-center gap-3">
+          <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate(-1)}
               className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
@@ -124,7 +124,11 @@ const WorkDescription = () => {
             </button>
             <button
               onClick={handleNext}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={selectedCategories.length === 0}
+              className={`w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center transition-all shadow-sm ${selectedCategories.length > 0
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer active:scale-95'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
             </button>

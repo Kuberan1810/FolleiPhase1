@@ -42,8 +42,8 @@ const Onboarding = () => {
             </svg>
           </div>
           <div>
-            <h1 className="text-white font-bold text-[28px] leading-tight tracking-tight">LiveTracker</h1>
-            <p className="text-white/70 text-[16px] uppercase font-bold tracking-[0.05em]">Precision Orchestrator</p>
+            <h1 className="text-white font-bold text-[36px] leading-tight tracking-tight">LiveTracker</h1>
+            <p className="text-white/70 text-[20px] uppercase font-bold tracking-[0.05em]">Precision Orchestrator</p>
           </div>
         </div>
       </header>
@@ -57,12 +57,12 @@ const Onboarding = () => {
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
-          <div className="mb-[30px]">
-            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-1 font-manrope">How Should We Reach Your Customer?</h2>
+          <div className="mb-[60px]">
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-[10px] font-manrope">How Should We Reach Your Customer?</h2>
             <p className="text-[#5A5A5A] text-[16px] font-medium leading-none font-inter">Pick your contact method securely</p>
           </div>
 
-          <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-[39px] mb-[80px] justify-center">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-[39px] mb-[32px] justify-center">
             {methods.map((method) => (
               <button
                 key={method.id}
@@ -86,18 +86,22 @@ const Onboarding = () => {
 
           <div className="mt-auto flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                <Shield size={22} />
+              <div className="mt-1 text-[#005B96] shrink-0">
+                <Shield size={22} strokeWidth={2.5} />
               </div>
               <div>
-                <h4 className="text-[12px] font-semibold text-[#000000] font-['Inter']">Your data is secure with us</h4>
-                <p className="text-[10px] text-[#9CA3AF] font-medium font-['Inter']">We only use your contact method for essential updates no spam.</p>
+                <h4 className="text-[14px] font-bold text-[#191C1E]">Your data is secure with us</h4>
+                <p className="text-[12px] text-[#9CA3AF] font-medium leading-tight mt-0.5">We only use your contact method for essential updates no spam.</p>
               </div>
             </div>
 
             <button
               onClick={handleNext}
-              className="bg-[#0C4A6E] text-white h-[40px] w-[100px] rounded-[6px] text-[15px] font-bold flex items-center justify-center hover:bg-[#092e4f] transition-all cursor-pointer shadow-sm"
+              disabled={selectedMethods.length === 0}
+              className={`h-[40px] w-[100px] rounded-[6px] text-[15px] font-bold flex items-center justify-center transition-all shadow-sm ${selectedMethods.length > 0
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
             </button>

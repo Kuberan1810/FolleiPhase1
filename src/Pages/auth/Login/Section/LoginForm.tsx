@@ -15,7 +15,7 @@ const LoginForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (isFormValid) {
-      navigate("/login/verify-otp")
+      navigate("/onboarding")
     }
   }
 
@@ -70,7 +70,7 @@ const LoginForm = () => {
         <div className="relative">
           <div className="flex justify-between items-center mb-2">
             <label className="text-[14px] font-normal font-manrope text-black leading-none">Password</label>
-            <a href="#" className="text-sm font-semibold text-[#003E6B] hover:underline font-manrope">
+            <a href="#" className="text-sm font-medium text-[#003E6B] hover:underline font-manrope">
               Forgot Password?
             </a>
           </div>

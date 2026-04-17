@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingProgress from './OnboardingProgress';
 
 const WhatsAppVerification = () => {
   const navigate = useNavigate();
+  const [code, setCode] = useState('');
 
   return (
     <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter']">
@@ -35,26 +37,32 @@ const WhatsAppVerification = () => {
           }}
         >
           <div className="mb-[24px]">
-            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-2 font-manrope text-center">Security Verification</h2>
+            <h2 className="text-[#000000] text-[24px] font-semibold leading-[24px] mb-[10px] font-manrope text-center">Security Verification</h2>
             <p className="text-[#5A5A5A] text-[16px] font-medium leading-[15px] font-inter text-center">We've sent a whatsapp verification code please enter it below</p>
           </div>
 
           <div className="mb-[32px]">
             <input
               type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
               className="w-full h-[64px] rounded-[8px] border border-[#CBD5E1] bg-white text-center text-[24px] font-bold text-black focus:outline-none focus:ring-2 focus:ring-[#0C4A6E] transition-all"
             />
           </div>
 
           <div className="text-center mb-[40px]">
-            <a href="#" className="text-[#005B96] font-medium text-[16px] hover:underline font-inter">
+            <a href="#" className="text-[#005B96] font-medium text-[16px] hover:underline font-inter cursor-pointer">
               Resend code in 45s
             </a>
           </div>
 
           <button
             onClick={() => navigate('/onboarding/work-description')}
-            className="w-full max-w-[445px] mx-auto bg-[#004370] text-white h-[40px] rounded-[10px] border border-[#B7AFAF] text-[15px] font-bold hover:opacity-90 transition-all mb-[32px] flex items-center justify-center cursor-pointer"
+            disabled={!code}
+            className={`w-full max-w-[445px] mx-auto h-[40px] rounded-[10px] border border-[#B7AFAF] text-[15px] font-bold transition-all mb-[32px] flex items-center justify-center ${code 
+              ? 'bg-[#004370] text-white hover:opacity-90 cursor-pointer' 
+              : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed border-none'
+              }`}
           >
             Verify
           </button>

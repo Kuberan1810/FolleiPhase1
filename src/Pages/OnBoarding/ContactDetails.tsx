@@ -1,9 +1,32 @@
+import { useState } from 'react';
 import { Shield, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingProgress from './OnboardingProgress';
 
 const ContactDetails = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    mobile: ''
+  });
+
+  const isFormComplete = formData.name && formData.email && formData.password && formData.mobile;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    
+    if (name === 'mobile') {
+      const numericValue = value.replace(/\D/g, '');
+      if (numericValue.length <= 10) {
+        setFormData(prev => ({ ...prev, [name]: numericValue }));
+      }
+      return;
+    }
+
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter']">
@@ -30,7 +53,7 @@ const ContactDetails = () => {
           className="bg-white rounded-[12px] p-8 sm:p-12 flex flex-col relative w-full max-w-[660px]"
           style={{
             height: 'auto',
-            minHeight: '687px',
+            minHeight: '400px',
             boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
           }}
         >
@@ -44,42 +67,54 @@ const ContactDetails = () => {
               <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your Name</label>
               <input
                 type="text"
-                placeholder="siva"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your email id</label>
               <input
                 type="email"
-                placeholder="siva@gmail.com"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Password</label>
-                <a href="#" className="text-[14px] font-medium text-[#004370] hover:underline font-manrope">Forgot Password?</a>
+                <a href="#" className="text-[14px] font-medium text-[#004370] hover:underline font-manrope cursor-pointer">Forgot Password?</a>
               </div>
               <input
                 type="password"
-                placeholder="123456"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-[14px] font-normal text-[#000000] leading-none font-inter">Enter your mobile number</label>
-              <input
-                type="tel"
-                placeholder="91+"
-                className="w-full h-[52px] px-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E] placeholder:text-[#D2D2D2]"
-              />
+              <div className="relative w-full flex items-center">
+                <span className="absolute left-6 text-black text-[16px]">+91</span>
+                <input
+                  type="tel"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  maxLength={10}
+                  className="w-full h-[52px] pl-[60px] pr-6 rounded-[10px] border border-[#D2D2D2] bg-white text-[16px] text-black focus:outline-none focus:ring-1 focus:ring-[#0C4A6E]"
+                />
+              </div>
             </div>
           </div>
 
           <div className="flex flex-wrap items-start justify-between gap-6 mb-8">
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-md flex items-center justify-center shrink-0 shadow-sm">
+              <div className="mt-1 text-[#005B96] shrink-0">
                 <Lock size={20} strokeWidth={3} />
               </div>
               <div>
@@ -88,7 +123,7 @@ const ContactDetails = () => {
               </div>
             </div>
             <div className="flex items-start gap-3 max-w-[260px]">
-              <div className="mt-1 bg-[#005B96] text-white w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 shadow-sm">
+              <div className="mt-1 text-[#005B96] shrink-0">
                 <Shield size={22} strokeWidth={2.5} />
               </div>
               <div>
@@ -98,7 +133,7 @@ const ContactDetails = () => {
             </div>
           </div>
 
-          <div className="mt-auto flex justify-end gap-3">
+          <div className="mt-10 flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding')}
               className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
@@ -107,7 +142,11 @@ const ContactDetails = () => {
             </button>
             <button
               onClick={() => navigate('/onboarding/verify')}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={!isFormComplete}
+              className={`w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center transition-all shadow-sm ${isFormComplete
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer active:scale-95'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
             </button>

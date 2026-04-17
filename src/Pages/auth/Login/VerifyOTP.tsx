@@ -58,7 +58,7 @@ const VerifyOTP = () => {
 
     const handleConfirm = () => {
         if (isOtpComplete) {
-            navigate("/dashboard")
+            navigate("/onboarding")
         }
     }
 
