@@ -1,7 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 'lucide-react';
-import { Element4, Profile2User, DocumentText1,Setting } from "iconsax-react"
+import { Element4, Profile2User, DocumentText1, Setting } from "iconsax-react"
+import FolleiCircle from "../assets/logo/FolleiCircle.svg"
+import FolleiLogo from "../assets/logo/FolleiLogo.svg"
+import Follei2 from "../assets/logo/follei2.svg"
+
 
 const Sidebar: React.FC = () => {
     const navItems = [
@@ -43,15 +47,19 @@ const Sidebar: React.FC = () => {
 
             <aside className=" w-64 flex-col border-r border-[#E2E8F080] bg-white   lg:flex items-between hidden h-screen " >
                 <div className=" flex items-center gap-3 px-6 py-8">
-                    <div className="flex h-[32px] w-[32px] items-center justify-center rounded-[4px] bg-[#004370] text-white">
-                        <NetworkIcon size={14} />
+                    <div className='w-28'>
+                        <img src={FolleiLogo} alt="FolleiLogo" />
+                    </div>
+                     {/* <div className='w-26'>
+                        <img src={Follei2} alt="FolleiLogo" />
+                    </div> */}
+                     {/* <div className='w-10'>
+                        <img src={FolleiCircle} alt="FolleiLogo" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-[18px] font-bold leading-none text-[#0C4A6E]">LiveTracker</span>
-                        <span className=" text-[10px] font-normal tracking-[0.05em] text-[#94A3B8] uppercase">
-                            Precision Orchestrator
-                        </span>
-                    </div>
+                        <span className="text-[18px] font-bold leading-none text-[#0C4A6E]">Follei</span>
+                        
+                    </div> */}
                 </div>
 
                 <div className='flex flex-col justify-between h-screen'>

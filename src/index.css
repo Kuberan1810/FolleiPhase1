@@ -42,11 +42,23 @@ body {
     font-family: 'Manrope', sans-serif !important;
 }
 
-
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #FAFAFA;
+.font-[urbanist] {
+    font-family: 'Urbanist', sans-serif !important;
 }
+
+.font-[poppins] {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.font-[inter] {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.font-[manrope] {
+    font-family: 'Manrope', sans-serif !important;
+}
+
+
 
 
 h1,
