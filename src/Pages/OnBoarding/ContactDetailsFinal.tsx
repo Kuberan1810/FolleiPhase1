@@ -1,4 +1,3 @@
-import React from 'react';
 import { ShieldCheck, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -79,24 +78,20 @@ const ContactDetailsFinal = () => {
             </div>
           </div>
 
-          <div className="mt-auto flex justify-end gap-4">
+          <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate('/onboarding/verify')}
-              className="bg-[#E5E7EB] text-[#4B5563] h-[48px] px-6 rounded-[8px] text-[16px] font-bold flex items-center justify-center gap-2 hover:bg-gray-300 transition-all cursor-pointer shadow-sm"
+              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
             >
-              <div className="bg-gray-400/30 rounded-full p-1 flex items-center justify-center">
-                <ChevronLeft size={18} strokeWidth={3} />
-              </div>
+              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
               onClick={() => navigate('/onboarding/whatsapp-verify')}
-              className="bg-[#0C4A6E] text-white h-[48px] px-6 rounded-[8px] text-[16px] font-bold flex items-center justify-center gap-2 hover:bg-[#092e4f] transition-all cursor-pointer shadow-sm"
+              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
             >
               Next
-              <div className="bg-white/20 rounded-full p-1 flex items-center justify-center">
-                <ChevronRight size={18} strokeWidth={3} />
-              </div>
+              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>

@@ -4,6 +4,7 @@ import {
   Mail,
   MapPin,
   ChevronLeft,
+  ChevronRight,
   User
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -152,24 +153,24 @@ const ReviewConfirmation = () => {
               </span>
             </label>
 
-            <div className="mt-auto flex justify-end items-center gap-4">
+            <div className="mt-auto flex justify-end items-center gap-3">
               <button
                 onClick={() => navigate(-1)}
-                className="bg-[#E5E7EB]/50 text-[#4B5563] h-[40px] px-8 rounded-[8px] text-[15px] font-bold flex items-center justify-center gap-2 hover:bg-gray-200 transition-all cursor-pointer"
+                className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
               >
-                <ChevronLeft size={18} strokeWidth={3} />
+                <ChevronLeft size={14} strokeWidth={3} />
                 Go Back
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={!confirmed}
-                className={`h-[40px] px-10 rounded-[8px] text-[15px] font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${confirmed
+                className={`w-[140px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 transition-all shadow-sm ${confirmed
                   ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer'
                   : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
                   }`}
               >
                 Submit Profile
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="bg-white/20 rounded-full p-0.5"><path d="M9 18l6-6-6-6" /></svg>
+                <ChevronRight size={14} strokeWidth={3} />
               </button>
             </div>
           </div>
