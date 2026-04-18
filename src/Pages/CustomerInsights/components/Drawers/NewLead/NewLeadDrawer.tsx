@@ -25,7 +25,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={onClose}
         />
       )}
@@ -39,7 +39,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
             </div>
             <button
               onClick={onClose}
-              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white"
+              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white cursor-pointer"
             >
               <X size={14} strokeWidth={3} />
             </button>
@@ -69,7 +69,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
                   <div className="w-2 h-2 rounded-full bg-[#10B981]" />
                   <h3 className="text-[11px] font-[900] text-[#191C1E] tracking-wider uppercase">LIVE ACTIVITY</h3>
                 </div>
-                <button className="text-[11px] font-[700] text-[#1D7EBE] hover:underline">View All</button>
+                <button className="text-[11px] font-[700] text-[#1D7EBE] hover:underline cursor-pointer">View All</button>
               </div>
 
               <div className="flex gap-3 overflow-x-auto no-scrollbar">
@@ -121,7 +121,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
               </div>
               <button
                 onClick={() => setShowAllLeads(!showAllLeads)}
-                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors"
+                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
               >
                 {showAllLeads ? 'See less' : 'See more'}
               </button>

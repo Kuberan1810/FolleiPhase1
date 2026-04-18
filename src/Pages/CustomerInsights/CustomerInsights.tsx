@@ -84,7 +84,7 @@ const CustomerInsights: React.FC = () => {
         </div>
         <button
           onClick={() => setActiveDrawer('edit-action')}
-          className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all"
+          className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
           style={{
             background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
             boxShadow: '0 4px 6px -4px rgba(17, 98, 157, 0.2), 0 10px 15px -3px rgba(17, 98, 157, 0.2)'

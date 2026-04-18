@@ -157,7 +157,7 @@ export default function SaasSearch() {
               <button
                 key={f}
                 onClick={() => { setQuery(f); setActiveIndex(-1); }}
-                className="text-[11px] font-medium text-gray-400 bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-md transition-colors"
+                className="text-[11px] font-medium text-gray-400 bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-md transition-colors cursor-pointer"
               >
                 {f}
               </button>

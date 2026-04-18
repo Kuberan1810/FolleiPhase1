@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
                         key={index}
                         to={item.path}
                         className={({ isActive }) =>
-                            `flex flex-col items-center justify-center gap-1.5 min-w-[64px] transition-colors 
+                            `flex flex-col items-center justify-center gap-1.5 min-w-[64px] transition-colors cursor-pointer 
                         ${isActive
                                 ? 'text-[#075985] font-semibold'
 
@@ -127,7 +127,7 @@ const Sidebar: React.FC = () => {
                                         key={index}
                                         to={item.path}
                                         className={({ isActive }) =>
-                                            `flex items-center gap-3 px-4 py-3 rounded-lg
+                                            `flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer
   ${isActive
                                                 ? "bg-[#E0F2FE60] text-[#075985]"
                                                 : "text-[#64748B] hover:bg-[#E0F2FE]/30"
