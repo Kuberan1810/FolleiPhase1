@@ -20,7 +20,7 @@ import Settings from "../Pages/Settings/Settings";
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
 
-import Layout from "../Component/Layout";
+
 
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
 import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
@@ -32,7 +32,7 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
 
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
-import OnBoarding from "../Pages/OnBoarding/Onboarding";
+import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import Payment from "../Pages/Settings/Payment/Payment";
 
 
@@ -41,10 +41,13 @@ export default function AppRoutes() {
   return (
     <Routes>
 
-
+      {/* Public Routes */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login/verify-otp" element={<VerifyOTP />} />
+
+      {/* Onboarding */}
       <Route path="/onboarding" element={<OnBoarding />} />
       <Route path="/onboarding/details" element={<ContactDetails />} />
       <Route path="/onboarding/verify" element={<SecurityVerification />} />
@@ -54,46 +57,25 @@ export default function AppRoutes() {
       <Route path="/onboarding/review" element={<ReviewConfirmation />} />
       <Route path="/onboarding/success" element={<OnboardingSuccess />} />
 
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
-      {/* Protected Routes – wrapped in MainLayout */}
+      {/* Protected Routes */}
       {/* <Route element={<ProtectedRoute />}> */}
-      <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/flow-builder" element={<FlowBuilder />} />
-        <Route path="/customer-insights" element={<CustomerInsights />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/settings/profile" element={<ProfileSettings />} />
-        <Route path="/settings/feedback" element={<Feedback />} />
-        <Route path="/settings/payment" element={<Payment />} />
-
-        <Route path="/onboarding" element={<OnBoarding />} />
-
-
-
-
-        {/* App Layout Routes */}
-        <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard />} />
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/flow-builder" element={<FlowBuilder />} />
           <Route path="/customer-insights" element={<CustomerInsights />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/flow-builder" element={<FlowBuilder />} />
-
-          {/* Fallback for protected routes */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/settings/profile" element={<ProfileSettings />} />
+          <Route path="/settings/feedback" element={<Feedback />} />
+          <Route path="/settings/payment" element={<Payment />} />
         </Route>
-
-      </Route >
       {/* </Route> */}
 
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
 
-
-      < Route path="*" element={< Navigate to="/login" replace />} />
-    </Routes >
+    </Routes>
   );
 }
-
 
 
