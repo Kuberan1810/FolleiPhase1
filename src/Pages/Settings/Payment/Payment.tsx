@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import BillingTable from './Section/BillingTable';
 import PaymentOverview from './Section/PaymentOverview';
 import Plans from './Section/Plans';
@@ -10,17 +11,24 @@ const Payment = () => {
   const [activeTab, setActiveTab] = useState<TabType>('Overview');
 
   return (
-    <div className="w-full  font-['Inter']">
+    <div className="w-full font-['Inter']">
 
-      {/* Header */}
-      <header className="mb-6">
-        <p className="text-[12px] font-semibold text-[#004370] tracking-[1.2px] uppercase mb-1">
-          Intelligence Hub
-        </p>
-        <h1 className="text-[32px] font-extrabold text-[#191C1E] font-[Manrope] tracking-tight">
-          Payment and Subscription
-        </h1>
-      </header>
+      {/* Breadcrumb + Header */}
+      <div className="flex flex-col items-start gap-4 mb-6">
+        <div className="flex flex-col items-start gap-3.5">
+          <div className="flex items-center gap-2 text-[14px] font-medium">
+            <Link to="/settings" className="text-[#626262] hover:text-[#004370] transition-colors cursor-pointer">Settings</Link>
+            <span className="text-[#626262]">{'>'}</span>
+            <span className="text-[#004370] font-medium">Payment and Subscription</span>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
+              Intelligence Hub
+            </span>
+            <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Payment and Subscription</h1>
+          </div>
+        </div>
+      </div>
 
       {/* Tabs */}
       <nav className="flex gap-20 mb-8 border-b border-slate-200 font-regular">

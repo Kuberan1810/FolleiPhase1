@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 'lucide-react';
-import { Element4, Profile2User, DocumentText1, Setting } from "iconsax-react"
+import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import Follei2 from "../assets/logo/follei2.svg"
@@ -22,6 +22,8 @@ const Sidebar: React.FC = () => {
         { icon: Element4, label: 'Dashboard', path: '/dashboard' },
         { icon: Profile2User, label: 'Customer Insights', path: '/customer-insights' },
         { icon: DocumentText1, label: 'Reports', path: '/reports' },
+        { icon: HierarchySquare, label: 'Orchestrator', path: '/orchestrator' },
+
     ];
 
     const bottomNavItems = [

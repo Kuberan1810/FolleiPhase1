@@ -34,6 +34,7 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import Payment from "../Pages/Settings/Payment/Payment";
+import Orchestrator from "../Pages/Orchestrator/Orchestrator";
 
 
 
@@ -64,6 +65,7 @@ export default function AppRoutes() {
           <Route path="/flow-builder" element={<FlowBuilder />} />
           <Route path="/customer-insights" element={<CustomerInsights />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/orchestrator" element={<Orchestrator />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/profile" element={<ProfileSettings />} />
           <Route path="/settings/feedback" element={<Feedback />} />
