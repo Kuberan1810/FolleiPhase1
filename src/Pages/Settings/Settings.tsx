@@ -13,7 +13,9 @@ interface SettingsItemProps {
 const SettingsItem = ({ icon: Icon, label, description, to, className = "" }: SettingsItemProps) => (
   <Link
     to={to}
+
     className={`bg-[#FFFFFF] w-full  BoxStyle flex items-center justify-between group hover:bg-[#014370]/5! transition-all duration-200 ${className}`}
+
   >
     <div className="flex items-center gap-5">
       <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#014370]/15 rounded-[12px] text-[#014370] shrink-0">
@@ -64,7 +66,9 @@ const Settings = () => {
         </div>
 
         <div className="space-y-4 pb-2">
+
           <h2 className="text-[12px] font-bold text-[#434655] uppercase tracking-wider ">
+
             ACCOUNT MANAGEMENT
           </h2>
           <div className="grid gap-3">
@@ -81,7 +85,9 @@ const Settings = () => {
         </div>
 
         <div className="space-y-4">
+
           <h2 className="text-[12px] font-bold text-[#434655] uppercase tracking-wider ">
+
             SUPPORT & LEGAL
           </h2>
 

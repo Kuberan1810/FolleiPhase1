@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import FloatingButton from "./FloatingButton";
+
 
 const MainLayout = () => {
   return (
@@ -19,7 +19,7 @@ const MainLayout = () => {
           <Outlet />
           
         </main>
-        <FloatingButton />
+      
       </div>
     </div>
   );

@@ -1,16 +1,18 @@
 
 import { Network } from "lucide-react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const SignUp = () => {
     const [fullName, setFullName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const navigate = useNavigate()
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        // handle sign up logic here
+        navigate("/login")
     }
 
     return (
@@ -61,7 +63,7 @@ const SignUp = () => {
                     </div>
                     <div>
                         <h2 className="text-[28px] font-medium font-inter text-black mb-1 leading-none">Create Your Account</h2>
-                        <p className="text-[12px] font-medium font-urbanist text-[#999999] leading-none">Join us and get started in seconds</p>
+                        <p className="text-[12px] font-medium font-manrope text-[#999999] leading-none">Join us and get started in seconds</p>
                     </div>
                 </div>
 
@@ -69,13 +71,13 @@ const SignUp = () => {
                     {/* Desktop heading */}
                     <div className="hidden md:block mb-8">
                         <h2 className="text-[28px] font-medium font-inter text-black mb-1 leading-none">Create Your Account</h2>
-                        <p className="text-[12px] font-medium font-urbanist text-[#999999] leading-none">Join us and get started in seconds</p>
+                        <p className="text-[12px] font-medium font-manrope text-[#999999] leading-none">Join us and get started in seconds</p>
                     </div>
 
                     <div className="flex flex-col gap-5">
                         {/* Full Name */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-[14px] font-normal font-urbanist text-black leading-none">Full Name</label>
+                            <label className="text-[14px] font-normal font-manrope text-black leading-none">Full Name</label>
                             <input
                                 type="text"
                                 placeholder="Enter your Name"
@@ -87,7 +89,7 @@ const SignUp = () => {
 
                         {/* Email */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-[14px] font-normal font-urbanist text-black leading-none">Email</label>
+                            <label className="text-[14px] font-normal font-manrope text-black leading-none">Email</label>
                             <input
                                 type="email"
                                 placeholder="Enter your Email"
@@ -99,7 +101,7 @@ const SignUp = () => {
 
                         {/* Password */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-[14px] font-normal font-urbanist text-black leading-none">Password</label>
+                            <label className="text-[14px] font-normal font-manrope text-black leading-none">Password</label>
                             <input
                                 type="password"
                                 placeholder="Password"
@@ -112,7 +114,7 @@ const SignUp = () => {
                         {/* Sign Up Button */}
                         <button
                             onClick={handleSubmit}
-                            className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 ${fullName && email && password ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-[#B7AFAF] text-gray-400 pointer-events-none"}`}
+                            className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 cursor-pointer ${fullName && email && password ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-[#B7AFAF] text-gray-400 pointer-events-none"}`}
                         >
                             Sign up
                         </button>
@@ -125,7 +127,7 @@ const SignUp = () => {
                         </div>
 
                         <div className="flex justify-center mb-8">
-                            <button className="w-12 h-12 border border-black/20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <button className="w-12 h-12 border border-black/20 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors cursor-pointer">
                                 <svg className="size-5" viewBox="0 0 24 24">
                                     <path
                                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -148,7 +150,7 @@ const SignUp = () => {
                         </div>
 
                         {/* Login Link */}
-                        <p className="text-center text-sm text-gray-500 font-inter">
+                        <p className="text-center text-xs text-gray-500 font-inter font-medium">
                             Do you Have An Account?{" "}
                             <Link to="/login" className="text-[#003E6B] font-semibold hover:underline">
                                 Login

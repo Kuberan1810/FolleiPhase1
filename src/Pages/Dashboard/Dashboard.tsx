@@ -1,6 +1,7 @@
 
 import Activecs from "./Section/Activecs";
 import LiveActivity from "./LiveActivity";
+import FloatingButton from "../../Component/FloatingButton";
 
 const Dashboard = () => {
   const chartData = [
@@ -17,7 +18,7 @@ const Dashboard = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
         <div>
           <p
             className="text-[#004370] uppercase mb-1.5 sm:mb-2"
@@ -45,6 +46,7 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
 
 
       {/* Top Metrics Row */}
@@ -140,6 +142,7 @@ const Dashboard = () => {
         <div className="xl:col-span-4">
           <LiveActivity />
         </div>
+          <FloatingButton />
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TrendingUp,
   Factory,
@@ -16,10 +17,11 @@ import {
   ChevronRight,
   Search
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+
+import OnboardingProgress from './OnboardingProgress';
 
 const WorkDescription = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const categories = [
@@ -36,6 +38,14 @@ const WorkDescription = () => {
     { id: 'business', label: 'Business & Strategy', icon: <BarChart3 size={20} /> },
     { id: 'real_estate', label: 'Real Estate', icon: <Home size={20} /> },
   ];
+
+  const toggleCategory = (categoryId: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(categoryId)
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
 
   const handleNext = () => {
     navigate('/onboarding/review');
@@ -84,16 +94,16 @@ const WorkDescription = () => {
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`flex flex-col items-start pt-[10px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${selectedCategory === category.id
-                    ? 'border-[#004370] bg-[#F8FAFC] ring-1 ring-[#004370] shadow-[0_1px_2px_0_#CEE9FB]'
-                    : 'border-[#DCD7D7] bg-white hover:border-[#004370]/30 shadow-[0_1px_2px_0_#CEE9FB]'
+                onClick={() => toggleCategory(category.id)}
+                className={`flex flex-col items-start pt-[20px] pb-[10px] px-[20px] gap-[20px] rounded-[10px] border-[0.5px] transition-all duration-200 group text-left w-[290px] h-[135px] ${selectedCategories.includes(category.id)
+                  ? 'border-[#004370] bg-[#F8FAFC] ring-1 ring-[#004370] shadow-[0_1px_2px_0_#CEE9FB]'
+                  : 'border-[#DCD7D7] bg-white hover:border-[#004370]/30 shadow-[0_1px_2px_0_#CEE9FB]'
                   }`}
               >
                 <div
-                  className={`w-[40px] h-[40px] shrink-0 rounded-[8px] flex items-center justify-center transition-colors ${selectedCategory === category.id
-                      ? 'bg-[#004370] text-white shadow-md'
-                      : 'bg-[#005B96] text-white group-hover:bg-[#004370]'
+                  className={`w-[40px] h-[40px] shrink-0 rounded-[8px] flex items-center justify-center transition-colors ${selectedCategories.includes(category.id)
+                    ? 'bg-[#004370] text-white shadow-md'
+                    : 'bg-[#005B96] text-white group-hover:bg-[#004370]'
                     }`}
                 >
                   {category.icon}
@@ -105,33 +115,27 @@ const WorkDescription = () => {
             ))}
           </div>
 
-          <div className="mt-auto flex justify-end items-center gap-3">
+          <div className="mt-auto flex justify-end gap-3">
             <button
               onClick={() => navigate(-1)}
-              className="bg-[#F1F5F9] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-gray-200 transition-all cursor-pointer"
+              className="bg-white border border-[#D2D2D2] text-[#64748B] w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center hover:bg-gray-50 transition-all cursor-pointer"
             >
-              <ChevronLeft size={14} strokeWidth={3} />
               Go Back
             </button>
             <button
               onClick={handleNext}
-              className="bg-[#004370] text-white w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center gap-1 hover:bg-[#003152] transition-all cursor-pointer shadow-sm active:scale-95"
+              disabled={selectedCategories.length === 0}
+              className={`w-[100px] h-[40px] rounded-[5px] text-[14px] font-semibold flex items-center justify-center transition-all shadow-sm ${selectedCategories.length > 0
+                ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer active:scale-95'
+                : 'bg-[#E2E8F0] text-[#94A3B8] cursor-not-allowed shadow-none'
+                }`}
             >
               Next
-              <ChevronRight size={14} strokeWidth={3} />
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 mt-8">
-          {[...Array(7)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 5 ? 'bg-[#00416A]' : 'bg-[#CBD5E1]'
-                }`}
-            />
-          ))}
-        </div>
+        <OnboardingProgress currentStep={5} />
       </main>
     </div>
   );
