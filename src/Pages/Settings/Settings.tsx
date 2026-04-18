@@ -54,7 +54,7 @@ const Settings = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#F8FAFC] p-4">
       <div className="w-full space-y-3">
         <div className="space-y-1 ">
           <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">

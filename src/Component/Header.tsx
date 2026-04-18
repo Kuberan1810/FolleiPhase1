@@ -24,11 +24,13 @@ const Header: React.FC = () => {
                     {/* <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7280]" size={18} strokeWidth={2} />
                     <input
                         type="text"
+
                         autoComplete="off"
                         placeholder="Search customer documentation..."
                         className="w-full pl-12 pr-4 py-2.5 bg-[#F2F4F6] rounded-xl text-[14px] focus:outline-none focus:ring-2 focus:ring-[#004370] transition-all placeholder:text-[#6B7280] placeholder:font-medium font-semibold text-[#004370] "
                     /> */}
                     <SaasSearch />
+
                 </div>
             </div>
 
