@@ -10,12 +10,18 @@ const LoginForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const isFormValid = username.trim() !== "" && password.trim() !== ""
+  const isFormValid = activeTab === "email"
+    ? username.trim() !== "" && password.trim() !== ""
+    : username.trim() !== "";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (isFormValid) {
-      navigate("/onboarding")
+      if (activeTab === "mobile") {
+        navigate("/login/verify-otp", { state: { username } })
+      } else {
+        navigate("/onboarding")
+      }
     }
   }
 
@@ -67,32 +73,34 @@ const LoginForm = () => {
             />
         </div>
 
-        <div className="relative">
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-[14px] font-normal font-manrope text-black leading-none">Password</label>
-            <a href="#" className="text-sm font-medium text-[#003E6B] hover:underline font-manrope">
-              Forgot Password?
-            </a>
-          </div>
-
+        {activeTab === "email" && (
           <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] text-black placeholder:text-gray-400"
-            />
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-[14px] font-normal font-manrope text-black leading-none">Password</label>
+              <a href="#" className="text-sm font-medium text-[#003E6B] hover:underline font-manrope">
+                Forgot Password?
+              </a>
+            </div>
 
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] text-black placeholder:text-gray-400"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           type="submit"

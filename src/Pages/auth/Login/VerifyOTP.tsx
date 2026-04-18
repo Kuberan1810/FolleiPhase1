@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import { Network } from "lucide-react"
 
 const VerifyOTP = () => {
     const navigate = useNavigate()
-    const [step, setStep] = useState(1)
+    const location = useLocation()
+    const [step, setStep] = useState(location.state?.username ? 2 : 1)
     const [activeTab, setActiveTab] = useState<"email" | "mobile">("mobile")
-    const [username, setUsername] = useState("")
+    const [username, setUsername] = useState(location.state?.username || "")
     const [otp, setOtp] = useState(["", "", "", "", "", ""])
     const [timer, setTimer] = useState(30)
 

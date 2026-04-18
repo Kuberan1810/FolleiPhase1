@@ -79,21 +79,21 @@ const OnboardingSuccess = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
             className="relative w-[200px] h-[200px] rounded-full overflow-hidden bg-white shadow-[inset_0_4px_10px_rgba(0,0,0,0.05)]"
           >
             {/* Wave Container that rises to fill like a ball */}
             <motion.div
-              initial={{ y: "95%" }}
-              animate={{ y: "15%" }}
-              transition={{ delay: 0.8, duration: 3.5, ease: [0.4, 0, 0.2, 1] }}
-              className="absolute inset-0 w-full h-full"
+              initial={{ y: "100%" }}
+              animate={{ y: "-30%" }}
+              transition={{ delay: 0.1, duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute inset-0 w-full h-[150%]"
             >
               {/* Wave 1 - Deepest */}
               <motion.svg
                 viewBox="0 0 1200 120"
                 preserveAspectRatio="none"
-                className="absolute bottom-0 w-[400%] h-[120%] -left-[100%]"
+                className="absolute bottom-0 w-[400%] h-[150%] -left-[100%]"
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
               >
@@ -109,7 +109,7 @@ const OnboardingSuccess = () => {
               <motion.svg
                 viewBox="0 0 1200 120"
                 preserveAspectRatio="none"
-                className="absolute bottom-0 w-[400%] h-[110%] -left-[150%]"
+                className="absolute bottom-0 w-[400%] h-[135%] -left-[150%]"
                 animate={{ x: ["-50%", "0%"] }}
                 transition={{ duration: 9, repeat: Infinity, ease: "linear" }}
                 style={{ opacity: 0.8 }}
@@ -126,7 +126,7 @@ const OnboardingSuccess = () => {
               <motion.svg
                 viewBox="0 0 1200 120"
                 preserveAspectRatio="none"
-                className="absolute bottom-0 w-[400%] h-[100%] -left-[50%]"
+                className="absolute bottom-0 w-[400%] h-[120%] -left-[50%]"
                 animate={{ x: ["0%", "-50%"] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
                 style={{ opacity: 0.9 }}

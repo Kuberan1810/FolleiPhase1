@@ -114,7 +114,7 @@ const SecurityVerification = () => {
           </div>
         </div>
 
-        <OnboardingProgress currentStep={2} />
+        <OnboardingProgress currentStep={3} />
       </main>
     </div>
   );
