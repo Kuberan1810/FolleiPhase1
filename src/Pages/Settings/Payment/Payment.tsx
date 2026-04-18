@@ -10,7 +10,7 @@ const Payment = () => {
   const [activeTab, setActiveTab] = useState<TabType>('Overview');
 
   return (
-    <div className="w-full p-6 font-['Inter']">
+    <div className="w-full  font-['Inter']">
 
       {/* Header */}
       <header className="mb-6">

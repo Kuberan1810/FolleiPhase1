@@ -46,18 +46,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-3">
-        <button className="h-[38px] sm:h-[44px] px-5 bg-[#014370] text-white rounded-full text-[13px] sm:text-[14px] font-semibold hover:bg-[#013254] transition-colors cursor-pointer flex items-center justify-center">
-          In Bound
-        </button>
-        <button
-          className="h-[38px] sm:h-[44px] px-5 bg-[#E5ECF1] text-gray-800 rounded-full text-[13px] sm:text-[14px] font-semibold border border-gray-200/50 hover:bg-gray-200 transition-colors cursor-pointer flex items-center justify-center"
-          style={{ boxShadow: 'inset 0 3px 4px 0 rgba(0, 0, 0, 0.25)' }}
-        >
-          Out Bound
-        </button>
-      </div>
 
       {/* Top Metrics Row */}
       <div className="w-full grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8 mb-8">
