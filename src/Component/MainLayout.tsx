@@ -6,11 +6,11 @@ const MainLayout = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#F8FAFC] ">
-      <div className="h-screen shrink-0">
+      <div className="h-screen shrink-0 relative z-[60]">
         <Sidebar />
       </div>
-      <div className="flex flex-col flex-1 min-w-0 transition-all duration-300 bg-[#F8FAFC]/80S">
-        <div className="shrink-0">
+      <div className="flex flex-col flex-1 min-w-0 transition-all duration-300 bg-[#F8FAFC]">
+        <div className="shrink-0 relative z-[60]">
           <Header />
         </div>
 
