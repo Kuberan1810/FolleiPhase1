@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import FloatingButton from "./FloatingButton";
 
 const MainLayout = () => {
   return (
 
-       <div className="flex h-screen overflow-hidden bg-[#FAFAFA]">
+    <div className="flex h-screen overflow-hidden bg-[#FAFAFA]">
       <div className="h-screen shrink-0">
         <Sidebar />
       </div>
@@ -14,9 +15,11 @@ const MainLayout = () => {
           <Header />
         </div>
 
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-5 ">
-          <Outlet /> 
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-30 md:pb-5">
+          <Outlet />
+          
         </main>
+        <FloatingButton />
       </div>
     </div>
   );

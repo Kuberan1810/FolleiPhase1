@@ -1,13 +1,23 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, NetworkIcon } from 'lucide-react';
 import { Element4, Profile2User, DocumentText1, Setting } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import Follei2 from "../assets/logo/follei2.svg"
+import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
 
 const Sidebar: React.FC = () => {
+
+    const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogoutConfirm = () => {
+        setShowConfirmLogout(false);
+        navigate('/login');
+    };
+
     const navItems = [
         { icon: Element4, label: 'Dashboard', path: '/dashboard' },
         { icon: Profile2User, label: 'Customer Insights', path: '/customer-insights' },
@@ -50,10 +60,10 @@ const Sidebar: React.FC = () => {
                     <div className='w-28'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
                     </div>
-                     {/* <div className='w-26'>
+                    {/* <div className='w-26'>
                         <img src={Follei2} alt="FolleiLogo" />
                     </div> */}
-                     {/* <div className='w-10'>
+                    {/* <div className='w-10'>
                         <img src={FolleiCircle} alt="FolleiLogo" />
                     </div>
                     <div className="flex flex-col">
@@ -101,27 +111,43 @@ const Sidebar: React.FC = () => {
 
                         <div className="flex flex-col gap-4">
                             {bottomNavItems.map((item, index) => (
-                                <NavLink
-                                    key={index}
-                                    to={item.path}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-3 px-4 py-3 rounded-lg
-  ${item.isDanger
-                                            ? "text-red-500 hover:bg-red-50"
-                                            : isActive
+                                item.isDanger ? (
+                                    <button
+                                        key={index}
+                                        onClick={() => setShowConfirmLogout(true)}
+                                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-500 hover:bg-red-50 w-full cursor-pointer transition-colors duration-200"
+                                    >
+                                        <item.icon color='currentColor' size={22} />
+                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
+                                    </button>
+                                ) : (
+                                    <NavLink
+                                        key={index}
+                                        to={item.path}
+                                        className={({ isActive }) =>
+                                            `flex items-center gap-3 px-4 py-3 rounded-lg
+  ${isActive
                                                 ? "bg-[#E0F2FE60] text-[#075985]"
                                                 : "text-[#64748B] hover:bg-[#E0F2FE]/30"
-                                        }`
-                                    }
-                                >
-                                    <item.icon color='currentColor' size={22} />
-                                    <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
-                                </NavLink>
+                                            }`
+                                        }
+                                    >
+                                        <item.icon color='currentColor' size={22} />
+                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
+                                    </NavLink>
+                                )
                             ))}
                         </div>
                     </div>
                 </div>
             </aside>
+
+            {showConfirmLogout && (
+                <ConfirmLogoutModal
+                    onConfirm={handleLogoutConfirm}
+                    onCancel={() => setShowConfirmLogout(false)}
+                />
+            )}
         </>
     );
 };
