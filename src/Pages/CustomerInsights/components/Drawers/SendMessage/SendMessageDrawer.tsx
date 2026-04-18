@@ -46,7 +46,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
     <>
       {isOpen && (
         <div
-          className="fixed top-16 left-0 lg:left-64 right-0 bottom-0 bg-black/40 z-[30] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
           onClick={() => {
             onClose();
             setIsTimeframeOpen(false);
@@ -54,7 +54,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
         />
       )}
 
-      <div className={`fixed top-16 right-0 h-[calc(100vh-64px)] w-[379px] bg-white z-[40] transform transition-transform duration-300 ease-in-out rounded-l-[10px] ${isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full shadow-none'}`}>
+      <div className={`fixed top-0 right-0 h-screen w-[379px] bg-white z-[80] transform transition-transform duration-300 ease-in-out rounded-l-[10px] ${isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full shadow-none'}`}>
         <div className="h-full flex flex-col overflow-hidden">
           <div className="pt-[30px] px-[20px] flex justify-between items-start bg-white border-b border-[#5A5A5A]/20 rounded-b-[10px] pb-4">
             <div className="flex flex-col gap-[5px]">

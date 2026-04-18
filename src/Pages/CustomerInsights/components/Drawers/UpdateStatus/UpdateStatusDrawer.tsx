@@ -32,12 +32,12 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
     <>
       {isOpen && (
         <div
-          className="fixed top-16 left-0 lg:left-64 right-0 bottom-0 bg-black/40 z-[30] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
           onClick={onClose}
         />
       )}
 
-      <div className={`fixed top-16 right-0 h-[calc(100vh-64px)] w-[379px] bg-white z-[40] transition-transform duration-300 ease-in-out overflow-hidden flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 h-screen w-[379px] bg-white z-[80] transition-transform duration-300 ease-in-out overflow-hidden flex flex-col ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="pt-[30px] px-[25px] flex justify-between items-start bg-white border-b border-[#E2E8F0] rounded-b-[10px] pb-4">
           <div className="flex flex-col gap-[5px]">
             <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">Update Status</h2>
