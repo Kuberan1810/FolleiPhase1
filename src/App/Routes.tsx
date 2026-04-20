@@ -19,6 +19,7 @@ import Settings from "../Pages/Settings/Settings";
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
+import PrivacyPolicy from "../Pages/Settings/PrivacyPolicy/PrivacyPolicy";
 
 
 
@@ -60,17 +61,18 @@ export default function AppRoutes() {
 
       {/* Protected Routes */}
       {/* <Route element={<ProtectedRoute />}> */}
-        <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/flow-builder" element={<FlowBuilder />} />
-          <Route path="/customer-insights" element={<CustomerInsights />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/orchestrator" element={<Orchestrator />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/settings/profile" element={<ProfileSettings />} />
-          <Route path="/settings/feedback" element={<Feedback />} />
-          <Route path="/settings/payment" element={<Payment />} />
-        </Route>
+      <Route element={<MainLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/flow-builder" element={<FlowBuilder />} />
+        <Route path="/customer-insights" element={<CustomerInsights />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/orchestrator" element={<Orchestrator />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/profile" element={<ProfileSettings />} />
+        <Route path="/settings/feedback" element={<Feedback />} />
+        <Route path="/settings/payment" element={<Payment />} />
+        <Route path="/settings/privacy" element={<PrivacyPolicy />} />
+      </Route>
       {/* </Route> */}
 
       {/* Fallback */}
