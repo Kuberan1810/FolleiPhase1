@@ -19,6 +19,8 @@ import Settings from "../Pages/Settings/Settings";
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
+import NotificationSettings from "../Pages/Settings/Notification/NotificationSettings";
+import HelpCenter from "../Pages/Settings/HelpCenter/HelpCenter";
 import PrivacyPolicy from "../Pages/Settings/PrivacyPolicy/PrivacyPolicy";
 
 
@@ -35,6 +37,7 @@ import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import Payment from "../Pages/Settings/Payment/Payment";
+import OutBoardDashboard from "../Pages/Dashboard/OutboundDashboard";
 import Orchestrator from "../Pages/Orchestrator/Orchestrator";
 
 
@@ -67,9 +70,12 @@ export default function AppRoutes() {
         <Route path="/customer-insights" element={<CustomerInsights />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/orchestrator" element={<Orchestrator />} />
+        <Route path="/dashboard/outbound" element={<OutBoardDashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/settings/feedback" element={<Feedback />} />
+        <Route path="/settings/notification" element={<NotificationSettings />} />
+        <Route path="/settings/help" element={<HelpCenter />} />
         <Route path="/settings/payment" element={<Payment />} />
         <Route path="/settings/privacy" element={<PrivacyPolicy />} />
       </Route>
