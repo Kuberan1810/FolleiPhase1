@@ -13,6 +13,17 @@ const Feedback: React.FC = () => {
         { id: 'Experience', label: 'Experience', icon: Smile },
     ];
 
+    const getPlaceholder = () => {
+        switch (category) {
+            case 'Bug':
+                return 'What issue did you face?';
+            case 'Experience':
+                return 'How was your overall experience?';
+            case 'Suggestion':
+                return 'What improvement do you suggest?';          
+        }
+    };
+
     return (
         <section className="">
             <div className="w-full space-y-6">
@@ -94,7 +105,7 @@ const Feedback: React.FC = () => {
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Tell us what's on your mind..."
+                            placeholder={getPlaceholder()}
                             className="w-full h-[180px] p-4 rounded-[12px] bg-[#F2F4F6] focus:outline-none focus:border-[#004370] focus:ring-2 focus:ring-[#004370]/10 transition-all resize-none text-[15px] placeholder:text-[#94A3B8]"
                         />
                     </div>
