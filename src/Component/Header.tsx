@@ -1,10 +1,13 @@
-import React from 'react';
 import { Search, Bell, HelpCircle, Settings, NetworkIcon } from 'lucide-react';
 import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
+import { useLocation, Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
+    const location = useLocation();
+    const isOutbound = location.pathname === '/dashboard/outbound';
+
     return (
         <header className="flex  items-center justify-between border-b border-[#E2E8F080] bg-white px-4 lg:px-6 font-['Manrope'] py-5 ">
             <div className="flex items-center gap-4 flex-1">
@@ -38,15 +41,26 @@ const Header: React.FC = () => {
             <div className='flex gap-20'>
                 {/* Filter Tabs */}
                 <div className="flex items-center gap-3">
-                    <button className="h-[38px] sm:h-[44px] px-5 bg-[#014370] text-white rounded-full text-[13px] sm:text-[14px] font-semibold hover:bg-[#013254] transition-colors cursor-pointer flex items-center justify-center">
+                    <Link
+                        to="/dashboard"
+                        className={`h-[38px] sm:h-[44px] px-5 rounded-full text-[13px] sm:text-[14px] font-semibold transition-colors cursor-pointer flex items-center justify-center ${
+                            !isOutbound 
+                            ? 'bg-[#014370] text-white hover:bg-[#013254]' 
+                            : 'bg-[#E5ECF1] text-gray-800 border border-gray-200/50 hover:bg-gray-200 shadow-[inset_0_3px_4px_0_rgba(0,0,0,0.25)]'
+                        }`}
+                    >
                         In Bound
-                    </button>
-                    <button
-                        className="h-[38px] sm:h-[44px] px-5 bg-[#E5ECF1] text-gray-800 rounded-full text-[13px] sm:text-[14px] font-semibold border border-gray-200/50 hover:bg-gray-200 transition-colors cursor-pointer flex items-center justify-center"
-                        style={{ boxShadow: 'inset 0 3px 4px 0 rgba(0, 0, 0, 0.25)' }}
+                    </Link>
+                    <Link
+                        to="/dashboard/outbound"
+                        className={`h-[38px] sm:h-[44px] px-5 rounded-full text-[13px] sm:text-[14px] font-semibold transition-colors cursor-pointer flex items-center justify-center ${
+                            isOutbound 
+                            ? 'bg-[#014370] text-white hover:bg-[#013254]' 
+                            : 'bg-[#E5ECF1] text-gray-800 border border-gray-200/50 hover:bg-gray-200 shadow-[inset_0_3px_4px_0_rgba(0,0,0,0.25)]'
+                        }`}
                     >
                         Out Bound
-                    </button>
+                    </Link>
                 </div>
                 <div className="flex items-center gap-3 lg:gap-6">
                     <div className="flex items-center gap-4 lg:gap-5 border-r border-[#E2E8F0] pr-3 lg:pr-6">
