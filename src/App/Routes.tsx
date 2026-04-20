@@ -20,6 +20,7 @@ import Settings from "../Pages/Settings/Settings";
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
 import PrivacyPolicy from "../Pages/Settings/PrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "../Pages/Settings/TermsAndConditions/TermsAndCondition";
 
 
 
@@ -72,6 +73,7 @@ export default function AppRoutes() {
         <Route path="/settings/feedback" element={<Feedback />} />
         <Route path="/settings/payment" element={<Payment />} />
         <Route path="/settings/privacy" element={<PrivacyPolicy />} />
+        <Route path="/settings/terms" element={<TermsAndConditions />} />
       </Route>
       {/* </Route> */}
 
