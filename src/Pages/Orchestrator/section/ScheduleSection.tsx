@@ -108,7 +108,7 @@ const ScheduleSection = () => {
                 <div
                   className={` w-full aspect-square flex items-center justify-center rounded-[10px] text-[15px] text-[#0F172A] font-medium cursor-pointer transition-all 
                     ${c.curr && c.day === TODAY
-                      ? 'bg-[#1B3A5C] text-white  border-6 border-[#E6EFF5]'
+                      ? 'bg-[#005B96] text-white  border-8 rounded-[10px] border-[#E6EFF5]'
                       : c.curr
                         ? 'bg-[#F1F5F9] text-[#0F172A] hover:bg-[#E0EAF4] hover:text-[#004370]'
                         : 'bg-transparent text-[#CBD5E1]'
