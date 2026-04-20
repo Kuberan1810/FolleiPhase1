@@ -20,19 +20,21 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
     { name: 'Anita malik', phone: '+91 98765 43210', initials: 'AM', lastMessage: 'Last message 12 hours ago', avatarBg: '#FCE7F3', avatarText: '#9D174D', status: 'No Response' },
     { name: 'priya Mehta', phone: '+91 98765 43210', initials: 'PM', lastMessage: 'Last message 6 hours ago', avatarBg: '#DCFCE7', avatarText: '#166534', status: 'No Response' },
     { name: 'John Doe', phone: '+91 98765 43210', initials: 'oD', lastMessage: 'Last message 1 days ago', avatarBg: '#FEF3C7', avatarText: '#92400E', status: 'No Response' },
+    { name: 'Vikram Singh', phone: '+91 91234 56789', initials: 'VS', lastMessage: 'Last message 3 hours ago', avatarBg: '#DBEAFE', avatarText: '#004370', status: 'No Response' },
+    { name: 'Sneha Kapur', phone: '+91 98765 54321', initials: 'SK', lastMessage: 'Last message 1 hour ago', avatarBg: '#FCE7F3', avatarText: '#9D174D', status: 'No Response' },
   ];
 
   const filteredLeads = allLeads.filter(lead =>
     filterSource === 'All' || lead.status === filterSource
   );
 
-  const visibleLeads = showAll ? filteredLeads : filteredLeads.slice(0, 5);
+  const visibleLeads = showAll ? filteredLeads : filteredLeads.slice(0, 4);
 
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={onClose}
         />
       )}
@@ -45,7 +47,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
           </div>
           <button
             onClick={onClose}
-            className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity"
+            className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
           >
             <X size={14} strokeWidth={3} />
           </button>
@@ -128,10 +130,10 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
               )}
             </div>
 
-            {filteredLeads.length > 5 && (
+            {filteredLeads.length > 4 && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-8 h-[40px] bg-[#E6E7E9] text-[#878788] text-[14px] font-bold rounded-[5px] hover:bg-[#E2E8F0] transition-colors"
+                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
               >
                 {showAll ? 'See less' : 'See more'}
               </button>
@@ -146,7 +148,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
               </div>
               <button
                 onClick={() => setReminderEnabled(!reminderEnabled)}
-                className={`w-[36px] h-[20px] rounded-full relative transition-colors duration-200 flex items-center px-1 ${reminderEnabled ? 'bg-[#0058BC]' : 'bg-[#E2E8F0]'}`}
+                className={`w-[36px] h-[20px] rounded-full relative transition-colors duration-200 flex items-center px-1 cursor-pointer ${reminderEnabled ? 'bg-[#0058BC]' : 'bg-[#E2E8F0]'}`}
               >
                 <div className={`w-[12px] h-[12px] bg-white rounded-full transition-transform duration-200 ${reminderEnabled ? 'translate-x-[16px]' : 'translate-x-0'}`} />
               </button>
@@ -154,11 +156,11 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
           </div>
 
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <button className="flex items-center justify-center gap-2 h-[41px] bg-[#004370]/5 rounded-[5px] hover:bg-[#F2F4F6] group transition-all">
+            <button className="flex items-center justify-center gap-2 h-[41px] bg-[#004370]/5 rounded-[5px] hover:bg-[#F2F4F6] group transition-all cursor-pointer">
               <Send size={14} className="text-[#004370]" />
               <span className="text-[12px] font-semibold text-[#004370]">Send Now</span>
             </button>
-            <button className="flex items-center justify-center gap-2 h-[41px] bg-[#004370]/5 rounded-[5px] hover:bg-[#F2F4F6] group transition-all">
+            <button className="flex items-center justify-center gap-2 h-[41px] bg-[#004370]/5 rounded-[5px] hover:bg-[#F2F4F6] group transition-all cursor-pointer">
               <Check size={16} className="text-[#004370]" />
               <span className="text-[12px] font-semibold text-[#004370]">Followed up</span>
             </button>
@@ -166,7 +168,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
 
           <div className="mt-8">
             <button
-              className="w-full h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm active:scale-[0.98] transition-all"
+              className="w-full h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm active:scale-[0.98] transition-all cursor-pointer"
               style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
               onClick={onClose}
             >

@@ -30,7 +30,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={onClose}
         />
       )}
@@ -44,7 +44,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
             </div>
             <button
               onClick={onClose}
-              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity"
+              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
               <X size={16} strokeWidth={3} />
             </button>
@@ -81,7 +81,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
                     className={`whitespace-nowrap px-4 py-1.5 rounded-[5px] text-[14px] font-bold transition-all 
                       ${activeTab === tab
                         ? 'bg-[#004370] text-white'
-                        : 'text-[#64748B] hover:bg-slate-50'}`}
+                        : 'text-[#64748B] hover:bg-slate-50'} cursor-pointer`}
                   >
                     {tab}
                   </button>
@@ -94,7 +94,18 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
                     <div key={i} className="p-2">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
-                          <div className="w-[40px] h-[40px] rounded-[12px] bg-[#DBEAFE] flex items-center justify-center text-[12px] font-bold text-[#004370]">
+                          <div className={`w-[40px] h-[40px] rounded-[12px] flex items-center justify-center text-[12px] font-bold ${[
+                            'bg-blue-100 text-blue-700',
+                            'bg-purple-100 text-purple-700',
+                            'bg-green-100 text-green-700',
+                            'bg-amber-100 text-amber-700',
+                            'bg-pink-100 text-pink-700',
+                            'bg-indigo-100 text-indigo-700',
+                            'bg-emerald-100 text-emerald-700',
+                            'bg-rose-100 text-rose-700',
+                            'bg-sky-100 text-sky-700',
+                            'bg-orange-100 text-orange-700'
+                          ][i % 10]}`}>
                             {item.initials}
                           </div>
                           <div className="flex flex-col">
@@ -122,12 +133,11 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
               {filteredLeads.length > 4 && (
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="w-full mt-8 h-[40px] bg-[#F2F4F6] text-[#878788] text-[13px] font-bold rounded-[5px] hover:bg-[#E2E8F0] transition-colors"
+                  className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
                 >
                   {showAll ? 'See less' : 'See more'}
                 </button>
               )}
-
             </div>
           </div>
         </div>
@@ -137,5 +147,3 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
 };
 
 export default NoResponseDrawer;
-
-

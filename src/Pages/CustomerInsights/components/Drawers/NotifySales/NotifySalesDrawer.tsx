@@ -16,7 +16,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
     { name: 'Anita Malik', phone: 'anita@globalops.in', initials: 'AM', time: 'Today, 9:00 AM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#FEE2E2', avatarText: '#991B1B' },
   ];
 
-  const visibleReplies = showAllReplies ? allReplies : allReplies.slice(0, 2);
+  const visibleReplies = showAllReplies ? allReplies : allReplies.slice(0, 4);
 
   const channels = [
     { name: 'SMS', icon: MessageSquare },
@@ -29,7 +29,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={onClose}
         />
       )}
@@ -43,7 +43,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
             </div>
             <button
               onClick={onClose}
-              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white"
+              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white cursor-pointer"
             >
               <X size={14} strokeWidth={3} />
             </button>
@@ -58,8 +58,18 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-10 h-10 rounded-[12px] flex items-center justify-center text-[12px] font-bold"
-                          style={{ backgroundColor: item.avatarBg, color: item.avatarText }}
+                          className={`w-10 h-10 rounded-[12px] flex items-center justify-center text-[12px] font-bold ${[
+                            'bg-blue-100 text-blue-700',
+                            'bg-purple-100 text-purple-700',
+                            'bg-green-100 text-green-700',
+                            'bg-amber-100 text-amber-700',
+                            'bg-pink-100 text-pink-700',
+                            'bg-indigo-100 text-indigo-700',
+                            'bg-emerald-100 text-emerald-700',
+                            'bg-rose-100 text-rose-700',
+                            'bg-sky-100 text-sky-700',
+                            'bg-orange-100 text-orange-700'
+                          ][i % 10]}`}
                         >
                           {item.initials}
                         </div>
@@ -79,6 +89,14 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                 ))}
               </div>
 
+              {allReplies.length > 4 && (
+                <button
+                  onClick={() => setShowAllReplies(!showAllReplies)}
+                  className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
+                >
+                  {showAllReplies ? 'See less' : 'See more'}
+                </button>
+              )}
             </div>
 
             <div className="mb-8">
@@ -99,7 +117,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                   <span className="text-[11px] font-bold text-[#434655]">Auto assign leads</span>
                   <button
                     onClick={() => setAutoAssign(!autoAssign)}
-                    className={`w-[36px] h-[20px] rounded-full relative transition-colors duration-200 ${autoAssign ? 'bg-[#0058BC]' : 'bg-[#E2E8F0]'}`}
+                    className={`w-[36px] h-[20px] rounded-full relative transition-colors duration-200 cursor-pointer ${autoAssign ? 'bg-[#0058BC]' : 'bg-[#E2E8F0]'}`}
                   >
                     <div className={`absolute top-1/2 -translate-y-1/2 w-[14px] h-[14px] bg-white rounded-full transition-transform duration-200 ${autoAssign ? 'translate-x-[19px]' : 'translate-x-[3px]'}`} />
                   </button>
@@ -141,7 +159,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                 {channels.map((channel, i) => (
                   <button
                     key={i}
-                    className="flex flex-col items-center gap-2 p-1 bg-[#FFFFFF] w-[69px] h-[48px] border border-[#C1C7D1]/30 rounded-[5px] hover:bg-[#F8FAFC] transition-all group shadow-sm active:scale-95"
+                    className="flex flex-col items-center gap-2 p-1 bg-[#FFFFFF] w-[69px] h-[48px] border border-[#C1C7D1]/30 rounded-[5px] hover:bg-[#F8FAFC] transition-all group shadow-sm active:scale-95 cursor-pointer"
                   >
                     <div className="w-[24px] h-[24px] p-1 rounded-[5px] bg-[#DBEAFE] flex items-center justify-center text-[#004370] group-hover:bg-[#004370]/10 group-hover:text-[#004370] transition-colors">
                       <channel.icon size={14} />
@@ -154,7 +172,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
 
             <div className="mt-8">
               <button
-                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98]"
+                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
                 style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
                 onClick={onClose}
               >

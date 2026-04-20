@@ -39,13 +39,13 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
     return matchesTab && matchesSearch && matchesTimeframe;
   });
 
-  const visibleReplies = showAll ? filteredReplies : filteredReplies.slice(0, 3);
+  const visibleReplies = showAll ? filteredReplies : filteredReplies.slice(0, 4);
 
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={() => {
             onClose();
             setIsTimeframeOpen(false);
@@ -62,7 +62,7 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
             </div>
             <button
               onClick={onClose}
-              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity"
+              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
               <X size={14} strokeWidth={3} />
             </button>
@@ -77,7 +77,7 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
                   className={`whitespace-nowrap px-4 py-1.5 rounded-[5px] text-[12px] font-bold transition-all 
                     ${activeTab === tab
                       ? 'bg-[#004370] text-white'
-                      : 'text-[#64748B] hover:bg-slate-50'}`}
+                      : 'text-[#64748B] hover:bg-slate-50'} cursor-pointer`}
                 >
                   {tab}
                 </button>
@@ -92,34 +92,40 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
                   placeholder="Search leads..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-[40px] pl-10 pr-4 bg-[#F2F4F6] rounded-[5px] text-[14px] outline-none border border-transparent transition-all"
+                  className="w-full h-[40px] pl-10 pr-4 bg-[#F2F4F6] rounded-[5px] text-[14px] outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] transition-all"
                 />
               </div>
               <div className="relative">
                 <button
                   onClick={() => setIsTimeframeOpen(!isTimeframeOpen)}
-                  className={`h-[40px] px-4 bg-[#F2F4F6] rounded-[5px] flex items-center gap-3 text-[#64748B] text-[14px] font-bold transition-colors ${isTimeframeOpen ? 'bg-[#E2E8F0]' : ''}`}
+                  className={`h-[40px] px-4 rounded-[5px] bg-[#F2F4F6] flex items-center justify-between gap-3 transition-all group hover:border-[#CBD5E1] ${isTimeframeOpen ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-[#E2E8F0]'}`}
                 >
-                  <span>{selectedTimeframe}</span>
-                  <ChevronDown size={16} strokeWidth={3} className={`transition-transform duration-200 ${isTimeframeOpen ? 'rotate-180' : ''}`} />
+                  <span className="text-[13px] text-[#64748B] font-bold">{selectedTimeframe}</span>
+                  <ChevronDown size={16} strokeWidth={3} className={`text-[#64748B] transition-transform duration-200 ${isTimeframeOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {isTimeframeOpen && (
-                  <div className="absolute right-0 top-[45px] w-[140px] z-50 py-1 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {timeframes.map((tf) => (
-                      <button
-                        key={tf}
-                        onClick={() => {
-                          setSelectedTimeframe(tf);
-                          setIsTimeframeOpen(false);
-                        }}
-                        className="w-full px-4 py-2 text-left text-[13px] font-semibold text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#004370] flex items-center justify-between group"
-                      >
-                        {tf}
-                        {selectedTimeframe === tf && <Check size={14} className="text-[#004370]" />}
-                      </button>
-                    ))}
-                  </div>
+                  <>
+                    <div className="fixed inset-0 z-[85]" onClick={() => setIsTimeframeOpen(false)} />
+                    <div className="absolute right-0 top-[calc(100%+8px)] w-[140px] bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1 animate-in fade-in zoom-in-95 duration-100 overflow-hidden">
+                      {timeframes.map((tf) => (
+                        <button
+                          key={tf}
+                          onClick={() => {
+                            setSelectedTimeframe(tf);
+                            setIsTimeframeOpen(false);
+                          }}
+                          className={`w-full px-4 py-2.5 text-left text-[13px] font-semibold transition-colors flex items-center justify-between group cursor-pointer
+                            ${selectedTimeframe === tf 
+                              ? 'bg-[#F1F5F9] text-[#004370]' 
+                              : 'text-[#64748B] hover:bg-[#F8FAFC]'}`}
+                        >
+                          {tf}
+                          {selectedTimeframe === tf && <Check size={14} className="text-[#004370]" />}
+                        </button>
+                      ))}
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -156,10 +162,10 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
               )}
             </div>
 
-            {filteredReplies.length > 3 && (
+            {filteredReplies.length > 4 && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-8 h-[40px] bg-[#F2F4F6] text-[#878788] text-[13px] font-bold rounded-[5px] hover:bg-[#E2E8F0] transition-colors"
+                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
               >
                 {showAll ? 'See less' : 'See more'}
               </button>
@@ -167,7 +173,7 @@ const ReplyReceivedDrawer: React.FC<ReplyReceivedDrawerProps> = ({ isOpen, onClo
 
             <div className="mt-8">
               <button
-                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98]"
+                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
                 style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
                 onClick={onClose}
               >

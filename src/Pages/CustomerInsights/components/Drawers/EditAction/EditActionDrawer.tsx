@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, MessageSquare, Mail, Phone, MessageCircle, Pen, ChevronUp, ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, MessageSquare, Mail, Phone, MessageCircle, Pen, ChevronUp, ChevronDown, Check } from 'lucide-react';
 
 interface EditActionDrawerProps {
   isOpen: boolean;
@@ -22,12 +22,49 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
   isBusinessHoursOnly,
   setIsBusinessHoursOnly,
 }) => {
+  const [templates, setTemplates] = useState(['Welcome Email - New Leads']);
+  const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(0);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newTemplateName, setNewTemplateName] = useState('');
+  const [isDelayDropdownOpen, setIsDelayDropdownOpen] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState('SMS');
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editName, setEditName] = useState('');
+
+  const delayUnits = ['Minutes', 'Hours', 'Days'];
+
+  const handleCreateTemplate = () => {
+    if (newTemplateName.trim()) {
+      setTemplates([...templates, newTemplateName.trim()]);
+      setSelectedTemplateIndex(templates.length);
+      setNewTemplateName('');
+      setIsCreating(false);
+    }
+  };
+
+  const handleUpdateTemplateName = (idx: number) => {
+    if (editName.trim()) {
+      const updated = [...templates];
+      updated[idx] = editName.trim();
+      setTemplates(updated);
+      setEditingIndex(null);
+    }
+  };
+
+  const startEditing = (idx: number, name: string) => {
+    setEditingIndex(idx);
+    setEditName(name);
+  };
+
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
-          onClick={onClose}
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
+          onClick={() => {
+            onClose();
+            setIsDelayDropdownOpen(false);
+          }}
         />
       )}
 
@@ -40,7 +77,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
             </div>
             <button
               onClick={onClose}
-              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center transition-colors text-white mt-[-4px]"
+              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center transition-colors text-white mt-[-4px] cursor-pointer"
             >
               <X size={16} strokeWidth={3} />
             </button>
@@ -57,28 +94,96 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                     { icon: Phone, label: 'Phone' },
                     { icon: MessageCircle, label: 'WhatsApp' }
                   ].map((item, i) => (
-                    <button key={i} className="flex flex-col items-center justify-center gap-2.5 p-3 rounded-[10px] border-[1px] border-[#E2E8F0] transition-all hover:bg-[#F8FAFC]">
-                      <div className="text-[#004370] ">
-                        <item.icon size={24} className='w-[20px] h-[20px] rounded-[4px] bg-[#C1C7D1]/30 p-1' />
+                    <button
+                      key={i}
+                      onClick={() => setSelectedChannel(item.label)}
+                      className={`flex flex-col items-center justify-center gap-2.5 p-3 rounded-[10px] border-[2px] transition-all cursor-pointer
+                        ${selectedChannel === item.label
+                          ? 'border-[#004370] bg-[#F8FAFC] text-[#004370]'
+                          : 'bg-white border-[#E2E8F0] text-[#595C5E] hover:bg-[#F8FAFC]'}`}
+                    >
+                      <div className="text-[#004370]">
+                        <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${selectedChannel === item.label ? 'bg-[#004370]/10' : 'bg-[#C1C7D1]/30'}`} />
                       </div>
-                      <span className="text-[12px] font-bold text-[#595C5E]">{item.label}</span>
+                      <span className={`text-[12px] font-bold ${selectedChannel === item.label ? 'text-[#004370]' : 'text-[#595C5E]'}`}>{item.label}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div>
+              <div className="pb-6">
                 <div className="flex justify-between items-center mb-4">
                   <label className="text-[14px] font-[700] text-[#191C1E]">Message Template</label>
-                  <button className="text-[13px] font-[700] text-[#1D7EBE] hover:underline">Create New</button>
+                  <button
+                    onClick={() => setIsCreating(!isCreating)}
+                    className="text-[13px] font-[700] text-[#1D7EBE] hover:underline cursor-pointer"
+                  >
+                    {isCreating ? 'Cancel' : 'Create New'}
+                  </button>
                 </div>
-                <div className="flex items-center justify-between p-3.5 border border-[#E2E8F0] rounded-[8px] bg-[#F8FAFC] group cursor-pointer hover:border-[#CBD5E1] transition-all">
-                  <span className="text-[14px] text-[#191C1E] font-medium">Welcome Email - New Leads</span>
-                  <div className="flex items-center gap-2">
-                    <button className="text-[#64748B] p-1.5 hover:bg-white rounded-md border border-transparent hover:border-[#E2E8F0] transition-all">
-                      <Pen size={16} />
+
+                {isCreating && (
+                  <div className="flex gap-2 mb-4 bg-[#F8FAFC] p-2 rounded-[8px] border border-[#E2E8F0]">
+                    <input
+                      autoFocus
+                      type="text"
+                      placeholder="Template name..."
+                      value={newTemplateName}
+                      onChange={(e) => setNewTemplateName(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleCreateTemplate()}
+                      className="flex-1 bg-white border border-[#E2E8F0] rounded-[6px] px-3 py-1.5 text-[14px] outline-none"
+                    />
+                    <button
+                      onClick={handleCreateTemplate}
+                      className="px-3 bg-[#1D7EBE] text-white text-[12px] font-bold rounded-[6px] cursor-pointer"
+                    >
+                      Add
                     </button>
                   </div>
+                )}
+
+                <div className="space-y-2">
+                  {templates.map((template, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => setSelectedTemplateIndex(idx)}
+                      className={`flex items-center justify-between p-3.5 border rounded-[8px] transition-all cursor-pointer group
+                        ${selectedTemplateIndex === idx ? 'bg-[#F8FAFC] border-[#CBD5E1]' : 'bg-white border-[#E2E8F0] hover:border-[#CBD5E1]'}`}
+                    >
+                      {editingIndex === idx ? (
+                        <div className="flex-1 flex gap-2 items-center" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            autoFocus
+                            type="text"
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleUpdateTemplateName(idx)}
+                            onBlur={() => handleUpdateTemplateName(idx)}
+                            className="flex-1 bg-white border border-[#CBD5E1] rounded-[4px] px-2 py-1 text-[14px] font-medium outline-none"
+                          />
+                          <Check
+                            size={16}
+                            className="text-[#1D7EBE] cursor-pointer"
+                            onClick={() => handleUpdateTemplateName(idx)}
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <span className="text-[14px] text-[#191C1E] font-medium">{template}</span>
+                          <div className="flex items-center gap-3">
+                            <Pen
+                              size={16}
+                              className={`text-[#64748B] transition-opacity ${selectedTemplateIndex === idx ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                startEditing(idx, template);
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -95,29 +200,50 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                     <div className="flex flex-col w-[32px] shrink-0 ">
                       <button
                         onClick={() => setDelayValue(prev => (typeof prev === 'number' ? prev + 1 : prev))}
-                        className="flex-1 flex items-center justify-center hover:bg-slate-50 transition-color text-[#64748B] hover:text-[#004370]"
+                        className="flex-1 flex items-center justify-center hover:bg-slate-50 transition-color text-[#64748B] hover:text-[#004370] cursor-pointer"
                       >
                         <ChevronUp size={12} strokeWidth={3} />
                       </button>
                       <button
                         onClick={() => setDelayValue(prev => (typeof prev === 'number' ? Math.max(0, prev - 1) : prev))}
-                        className="flex-1 flex items-center justify-center hover:bg-slate-50 transition-colors text-[#64748B] hover:text-[#004370]"
+                        className="flex-1 flex items-center justify-center hover:bg-slate-50 transition-colors text-[#64748B] hover:text-[#004370] cursor-pointer"
                       >
                         <ChevronDown size={12} strokeWidth={3} />
                       </button>
                     </div>
                   </div>
-                  <div className="flex-1 relative group">
-                    <select
-                      value={delayUnit}
-                      onChange={(e) => setDelayUnit(e.target.value)}
-                      className="w-full h-[48px] px-4 pr-10 border border-[#E2E8F0] rounded-[8px] bg-white text-[14px] text-[#191C1E] outline-none focus:border-[#004370] transition-all appearance-none cursor-pointer font-medium"
+
+                  <div className="flex-1 relative">
+                    <button
+                      onClick={() => setIsDelayDropdownOpen(!isDelayDropdownOpen)}
+                      className={`w-full h-[48px] px-4 rounded-[8px] bg-white border-[1.5px] flex items-center justify-between transition-all group hover:border-[#CBD5E1] ${isDelayDropdownOpen ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-[#E2E8F0]'}`}
                     >
-                      <option>Minutes</option>
-                      <option>Hours</option>
-                      <option>Days</option>
-                    </select>
-                    <ChevronDown size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity" />
+                      <span className="text-[14px] text-[#191C1E] font-medium">{delayUnit}</span>
+                      <ChevronDown size={20} className={`text-[#6B7280] transition-transform duration-200 ${isDelayDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {isDelayDropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-[85]" onClick={() => setIsDelayDropdownOpen(false)} />
+                        <div className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1 animate-in fade-in zoom-in-95 duration-100 overflow-hidden">
+                          {delayUnits.map((unit) => (
+                            <button
+                              key={unit}
+                              onClick={() => {
+                                setDelayUnit(unit);
+                                setIsDelayDropdownOpen(false);
+                              }}
+                              className={`w-full px-4 py-3 text-left transition-colors flex items-center justify-between group/item
+                                ${delayUnit === unit
+                                  ? 'bg-[#F1F5F9] text-[#191C1E] font-bold'
+                                  : 'text-[#595C5E] hover:bg-[#F8FAFC]'}`}
+                            >
+                              <span className="text-[14px]">{unit}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -135,25 +261,24 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                   </div>
                 </div>
               </div>
+              <div className="pt-8 flex gap-4">
+                <button
+                  onClick={onClose}
+                  className="flex-1 h-[48px] rounded-[10px] bg-[#F1F5F9] text-[#64748B] font-bold text-[15px] hover:bg-[#E2E8F0] transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="flex-1 h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all cursor-pointer"
+                  style={{
+                    background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
+                  }}
+                  onClick={onClose}
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div className="pt-18 p-6 mt-auto border-t border-[#E2E8F0] flex gap-4">
-            <button
-              onClick={onClose}
-              className="flex-1 h-[48px] rounded-[10px] bg-[#F1F5F9] text-[#64748B] font-bold text-[15px] hover:bg-[#E2E8F0] transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              className="flex-1 h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all"
-              style={{
-                background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
-              }}
-              onClick={onClose}
-            >
-              Save Changes
-            </button>
           </div>
         </div>
       </div>

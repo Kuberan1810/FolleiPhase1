@@ -76,15 +76,15 @@ const CustomerInsights: React.FC = () => {
   const closeDrawer = () => setActiveDrawer(null);
 
   return (
-    <div className="px-9 py-2 w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 max-w-[1400px] mx-auto">
+    <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
           <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Customer Insights</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
         <button
           onClick={() => setActiveDrawer('edit-action')}
-          className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all"
+          className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
           style={{
             background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
             boxShadow: '0 4px 6px -4px rgba(17, 98, 157, 0.2), 0 10px 15px -3px rgba(17, 98, 157, 0.2)'

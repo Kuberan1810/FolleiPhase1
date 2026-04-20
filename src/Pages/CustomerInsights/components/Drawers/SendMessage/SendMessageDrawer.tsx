@@ -40,13 +40,13 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
     return matchesTab && matchesSearch && matchesTimeframe;
   });
 
-  const visibleActivity = showAll ? filteredActivity : filteredActivity.slice(0, 3);
+  const visibleActivity = showAll ? filteredActivity : filteredActivity.slice(0, 4);
 
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300"
+          className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
           onClick={() => {
             onClose();
             setIsTimeframeOpen(false);
@@ -63,7 +63,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
             </div>
             <button
               onClick={onClose}
-              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity"
+              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
               <X size={16} strokeWidth={3} />
             </button>
@@ -78,7 +78,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
                   className={`px-4 py-1.5 rounded-[5px] text-[14px] font-bold transition-all whitespace-nowrap 
                     ${activeTab === tab
                       ? 'bg-[#004370] text-white'
-                      : 'text-[#64748B] hover:bg-slate-50'}`}
+                      : 'text-[#64748B] hover:bg-slate-50'} cursor-pointer`}
                 >
                   {tab}
                 </button>
@@ -99,7 +99,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
               <div className="relative">
                 <button
                   onClick={() => setIsTimeframeOpen(!isTimeframeOpen)}
-                  className={`h-[40px] px-4 bg-[#F2F4F6] rounded-[5px] flex items-center gap-3 text-[#64748B] text-[14px] font-bold transition-colors ${isTimeframeOpen ? 'bg-[#E2E8F0]' : ''}`}
+                  className={`h-[40px] px-4 bg-[#F2F4F6] rounded-[5px] flex items-center gap-3 text-[#64748B] text-[14px] font-bold transition-colors cursor-pointer ${isTimeframeOpen ? 'bg-[#E2E8F0]' : ''}`}
                 >
                   <span>{selectedTimeframe}</span>
                   <ChevronDown size={16} strokeWidth={3} className={`transition-transform duration-200 ${isTimeframeOpen ? 'rotate-180' : ''}`} />
@@ -114,7 +114,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
                           setSelectedTimeframe(tf);
                           setIsTimeframeOpen(false);
                         }}
-                        className="w-full px-4 py-2 text-left text-[13px] font-semibold text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#004370] flex items-center justify-between group"
+                        className="w-full px-4 py-2 text-left text-[13px] font-semibold text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#004370] flex items-center justify-between group cursor-pointer"
                       >
                         {tf}
                         {selectedTimeframe === tf && <Check size={14} className="text-[#004370]" />}
@@ -132,7 +132,18 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
                   <div key={i} className="p-2">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-[12px] bg-[#DBEAFE] flex items-center justify-center text-[12px] font-bold text-[#004370]">
+                        <div className={`w-8 h-8 rounded-[12px] flex items-center justify-center text-[12px] font-bold ${[
+                          'bg-blue-100 text-blue-700',
+                          'bg-purple-100 text-purple-700',
+                          'bg-green-100 text-green-700',
+                          'bg-amber-100 text-amber-700',
+                          'bg-pink-100 text-pink-700',
+                          'bg-indigo-100 text-indigo-700',
+                          'bg-emerald-100 text-emerald-700',
+                          'bg-rose-100 text-rose-700',
+                          'bg-sky-100 text-sky-700',
+                          'bg-orange-100 text-orange-700'
+                        ][i % 10]}`}>
                           {item.name.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div className="flex flex-col">
@@ -154,10 +165,10 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
               )}
             </div>
 
-            {filteredActivity.length > 3 && (
+            {filteredActivity.length > 4 && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-6 py-3 text-[14px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#E2E8F0] transition-colors"
+                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
               >
                 {showAll ? 'See less' : 'See more'}
               </button>
@@ -165,7 +176,7 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
 
             <div className="mt-8">
               <button
-                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98]"
+                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
                 style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
                 onClick={onClose}
               >
