@@ -79,7 +79,7 @@ export default function AppRoutes() {
         <Route path="/settings/help" element={<HelpCenter />} />
         <Route path="/settings/payment" element={<Payment />} />
         <Route path="/settings/privacy" element={<PrivacyPolicy />} />
-        <Route path="/settings/terms" element={<TermsAndConditions />} />
+        <Route path="/settings/terms-and-conditions" element={<TermsAndConditions />} />
       </Route>
       {/* </Route> */}
 

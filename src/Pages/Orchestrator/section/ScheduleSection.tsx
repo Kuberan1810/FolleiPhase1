@@ -117,15 +117,18 @@ const ScheduleSection = () => {
               <div key={i} className="flex flex-col items-center">
                 {c.curr && c.day === TODAY ? (
                   // TODAY: outer light-blue ring → inner navy cell
-                  <div className="w-full aspect-square bg-[#E6EFF5] rounded-2xl p-1 md:p-[6px] cursor-pointer " >
-                    <div className="w-full h-full bg-[#005B96] rounded-xl flex flex-col items-center justify-center text-white text-[15px] font-bold gap-2 ">
+                  <div className="w-full aspect-square bg-[#E6EFF5] rounded-2xl p-1 md:p-[6px] cursor-pointer relative">
+                    {/* Mobile only: white dot top-right */}
+                    <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-white z-10 md:hidden" />
+                    <div className="w-full h-full bg-[#005B96] rounded-xl flex flex-col items-center justify-center text-white text-[15px] font-bold gap-1.5">
                       <span>{c.day}</span>
-                      <div className="w-1.5 h-1.5 rounded-full bg-white " />
+                      {/* Desktop only: white dot inside bottom-center */}
+                      <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-white" />
                     </div>
                   </div>
                 ) : (
                   <div
-                    className={`w-full aspect-square flex flex-col items-center justify-center rounded-[10px] text-[15px] font-medium cursor-pointer transition-all
+                    className={`w-full aspect-square relative flex flex-col items-center justify-center rounded-[10px] text-[15px] font-medium cursor-pointer transition-all
                       ${c.curr
                         ? 'bg-[#F1F5F9] text-[#0F172A] hover:bg-[#E0EAF4] hover:text-[#004370]'
                         : 'bg-transparent text-[#CBD5E1]'
@@ -133,12 +136,19 @@ const ScheduleSection = () => {
                   >
                     <span>{c.day}</span>
                     {c.curr && eventDots[c.day] && (
-                      <div className={`w-1.5 h-1.5 rounded-full mt-2.5 ${eventDots[c.day]}`} />
+                      <>
+                        {/* Mobile: top-right absolute */}
+                        <div className={`absolute top-1 right-1 w-2 h-2 rounded-full md:hidden ${eventDots[c.day]}`} />
+                        {/* Desktop md+: bottom-center inside cell */}
+                        <div className={`hidden md:block w-1.5 h-1.5 rounded-full mt-1.5 ${eventDots[c.day]}`} />
+                      </>
                     )}
                   </div>
                 )}
               </div>
             ))}
+
+
 
 
           </div>
@@ -154,7 +164,7 @@ const ScheduleSection = () => {
         </div>
 
         {/* ── RIGHT: Upcoming ── */}
-        <div className="flex flex-col gap-4 md:gap-8 lg:border-l lg:border-[#F1F5F9] lg:pl-8 BoxStyle p-8! rounded-[12px]! rounded-l-none! flex-2">
+        <div className="flex flex-col gap-4 md:gap-8  lg:border-l lg:border-[#F1F5F9] lg:pl-8 BoxStyle p-8! rounded-[12px]! md:rounded-l-none! flex-2">
           {/* Header */}
           <div className="flex items-center justify-between">
             <h3 className="text-[18px] md:text-xl font-bold text-[#0F172A] font-manrope">Upcoming</h3>
