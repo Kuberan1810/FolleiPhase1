@@ -17,11 +17,11 @@ const MainLayout = () => {
           <Header />
         </div>
 
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-30 md:pb-5">
           <Outlet />
-
+          
         </main>
-
+      
       </div>
     </div>
   );
