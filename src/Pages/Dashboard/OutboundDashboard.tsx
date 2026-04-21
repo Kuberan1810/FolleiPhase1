@@ -10,9 +10,9 @@ const OutboundDashboard = () => {
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
         <div>
           <p
-            className="text-[#004370] mb-1.5 sm:mb-2 uppercase font-bold text-[12px] leading-[16px] tracking-[1.2px] font-manrope"
+            className="text-[#004370] mb-1.5 sm:mb-2 uppercase font-bold text-[12px] leading-[16px] tracking-[1.2px] font-inter"
           >
-            INTELLIGENCE HUB
+            Intelligence Hub
           </p>
           <h1 
             className="text-[#191C1E] font-[800] text-[30px] leading-[36px] tracking-[0px] font-manrope"

@@ -60,14 +60,14 @@ const OutboundMetrics = () => {
       </div>
       
       <div className="mt-auto">
-        <h3 className="text-[#64748B] uppercase font-manrope font-[700] text-[11px] leading-[16.5px] tracking-[1.1px] mb-2">
+        <h3 className="text-[#64748B] uppercase font-inter font-semibold text-[12px] leading-[16px] tracking-[1.2px] mb-2">
           {metric.title}
         </h3>
         <div className="flex items-end gap-2 mb-4">
           <span className="text-[32px] font-extrabold text-[#191C1E] leading-none font-manrope">{metric.value}</span>
           {metric.subtitle && (
             <span 
-              className="mb-1 font-manrope font-[700] text-[12px] leading-[16px]"
+              className="mb-1 font-inter font-bold text-[12px] leading-[16px]"
               style={{ color: metric.subtitleColor }}
             >
               {metric.subtitle}

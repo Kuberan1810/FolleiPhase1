@@ -40,6 +40,7 @@ import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import Payment from "../Pages/Settings/Payment/Payment";
 import OutBoardDashboard from "../Pages/Dashboard/OutboundDashboard";
 import Orchestrator from "../Pages/Orchestrator/Orchestrator";
+import CampaignCreation from "../Pages/Dashboard/Section/CampaignCreation";
 
 
 
@@ -72,6 +73,7 @@ export default function AppRoutes() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/orchestrator" element={<Orchestrator />} />
         <Route path="/dashboard/outbound" element={<OutBoardDashboard />} />
+        <Route path="/dashboard/outbound/create" element={<CampaignCreation />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/settings/feedback" element={<Feedback />} />
