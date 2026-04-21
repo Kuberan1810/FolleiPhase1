@@ -142,7 +142,6 @@ const Dashboard = () => {
         <div className="xl:col-span-4">
           <LiveActivity />
         </div>
-          <FloatingButton />
       </div>
     </>
   );
