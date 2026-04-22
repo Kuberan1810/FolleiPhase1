@@ -11,7 +11,7 @@ import NotifySalesDrawer from './components/Drawers/NotifySales/NotifySalesDrawe
 import WorkflowHeader from './components/Common/WorkflowHeader';
 import ConnectorLine from './components/Common/ConnectorLine';
 
-const CustomerInsights: React.FC = () => {
+const FlowBuilder: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
 
   const [delayValue, setDelayValue] = useState(15);
@@ -164,4 +164,4 @@ const CustomerInsights: React.FC = () => {
   );
 };
 
-export default CustomerInsights;
+export default FlowBuilder;

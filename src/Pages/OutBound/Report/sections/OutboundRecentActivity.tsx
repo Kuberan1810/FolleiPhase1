@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Filter, Download, ChevronDown, Check } from 'lucide-react';
 
 const OutboundRecentActivity = () => {
