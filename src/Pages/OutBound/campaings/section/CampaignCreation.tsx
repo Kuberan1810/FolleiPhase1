@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import Step1 from './CampaignCreationSteps/Step1';
-import Step2 from './CampaignCreationSteps/Step2';
-import Step3 from './CampaignCreationSteps/Step3';
+import Step1 from '../CampaignCreationSteps/Step1';
+import Step2 from '../CampaignCreationSteps/Step2';
+import Step3 from '../CampaignCreationSteps/Step3';
 
 const CampaignCreation = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -10,15 +10,15 @@ const CampaignCreation = () => {
 
   // Step 2 States
   const [subject, setSubject] = useState("Expanding {{company}}'s market reach");
-  const [emailBody, setEmailBody] = useState(`Hi {{first_name}},\n\nYour skin `);
+  const [emailBody, setEmailBody] = useState(`Hi {{first_name}},\n\nYour skin deserves the best care, and we're here to make it simple 💫\n\nAt Company's name , we create skincare products that are gentle, effective, and designed for real results. From deep hydration to clear, radiant skin, our formulas are made to support your everyday routine.\n\nDiscover what works best for you and start your glow journey today.`);
   const [ctaEnabled, setCtaEnabled] = useState(true);
   const [attachments, setAttachments] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Step 3 States
   const [scheduleType, setScheduleType] = useState('send-now');
-  const [launchDate, setLaunchDate] = useState<Date>(new Date('2026-10-24T09:30:00'));
-  const [launchTime, setLaunchTime] = useState<Date>(new Date('2026-10-24T09:30:00'));
+  const [launchDate, setLaunchDate] = useState('Oct 24, 2024');
+  const [launchTime, setLaunchTime] = useState('09:30 AM');
   const [autoResponseEnabled, setAutoResponseEnabled] = useState(true);
   const [intentTrackingEnabled, setIntentTrackingEnabled] = useState(true);
   const [followUpTiming, setFollowUpTiming] = useState('3 days after initial contact');
@@ -39,7 +39,7 @@ const CampaignCreation = () => {
     switch (currentStep) {
       case 1:
         return (
-          <Step1
+          <Step1 
             selectedChannels={selectedChannels}
             setSelectedChannels={setSelectedChannels}
             selectedAudience={selectedAudience}
@@ -49,7 +49,7 @@ const CampaignCreation = () => {
         );
       case 2:
         return (
-          <Step2
+          <Step2 
             subject={subject}
             setSubject={setSubject}
             emailBody={emailBody}
@@ -67,7 +67,7 @@ const CampaignCreation = () => {
         );
       case 3:
         return (
-          <Step3
+          <Step3 
             scheduleType={scheduleType}
             setScheduleType={setScheduleType}
             launchDate={launchDate}
@@ -90,23 +90,23 @@ const CampaignCreation = () => {
   };
 
   return (
-    <div className="w-full py-6 px-4 md:px-8 font-manrope animate-in fade-in duration-500">
+    <div className="w-full  font-manrope animate-in fade-in duration-500">
       {/* Header & Stepper */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 md:mb-12 gap-6">
         <div className="max-w-2xl">
-          <h1 className="text-[28px] md:text-[36px] font-extrabold text-[#001E40] leading-tight tracking-[-0.9px] font-manrope mb-2">Campaign Creation</h1>
+          <h1 className="text-[28px] md:text-[36px] font-[800] text-[#001E40] leading-tight tracking-[-0.9px] font-manrope mb-2">Campaign Creation</h1>
           <p className="text-[#43474F] text-[14px] md:text-[16px] font-normal leading-relaxed tracking-[0px] font-manrope">Define your campaign's core identity and communication channels.</p>
         </div>
         <div className="flex items-center gap-4">
           {[1, 2, 3].map((step) => (
             <React.Fragment key={step}>
-              <div
+              <div 
                 className={`w-[32px] h-[32px] rounded-[12px] flex items-center justify-center text-[14px] font-bold transition-all duration-300 ${currentStep === step
                   ? 'bg-[#004370] text-white shadow-[0_0_0_4px_rgba(0,51,102,0.2)]'
                   : currentStep > step
                     ? 'bg-[#004370] text-white'
                     : 'bg-[#E5ECF1] text-[#94A3B8]'
-                  }`}
+                }`}
               >
                 {step}
               </div>

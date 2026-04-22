@@ -1,24 +1,27 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+
 // Auth Pages
 import Login from "../Pages/auth/Login/Login";
 import SignUp from "../Pages/auth/SignUp/SignUp";
-import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 
 // Layout & Guard
 import MainLayout from "../Component/MainLayout";
+// import ProtectedRoute from "./ProtectedRoute";
 
 // App Pages (Inbound)
 import Dashboard from "../Pages/InBound/Dashboard/Dashboard";
 import FlowBuilder from "../Pages/InBound/FlowBuilder/FlowBuilder";
 import Reports from "../Pages/InBound/Reports/Reports";
 import Orchestrator from "../Pages/InBound/Orchestrator/Orchestrator";
-import CustomerInsights from "../Pages/InBound/CustomerInsights/CustomerInsights";
 
 // App Pages (Outbound)
-import OutBoardDashboard from "../Pages/InBound/Dashboard/OutboundDashboard";
-import CampaignCreation from "../Pages/Dashboard/Section/CampaignCreation";
-import OutboundReports from "../Pages/OutBound/Report/OutboundReports";
+import OutBoardDashboard from "../Pages/OutBound/campaings/Campaings";
+import CampaignCreation from "../Pages/OutBound/campaings/section/CampaignCreation";
+// Reuse pages for outbound if specific outbound pages don't exist yet
+// import OutboundFlowBuilder from "../Pages/OutBound/FlowBuilder/FlowBuilder";
+// import OutboundReports from "../Pages/OutBound/Reports/Reports";
+// import OutboundOrchestrator from "../Pages/OutBound/Orchestrator/Orchestrator";
 
 // Settings Pages
 import Settings from "../Pages/Settings/Settings";
@@ -31,7 +34,6 @@ import TermsAndConditions from "../Pages/Settings/TermsAndConditions/TermsAndCon
 import Payment from "../Pages/Settings/Payment/Payment";
 
 // Onboarding Pages
-import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
 import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
 import WhatsAppVerification from "../Pages/OnBoarding/WhatsAppVerification";
@@ -39,6 +41,8 @@ import WorkDescription from "../Pages/OnBoarding/WorkDescription";
 import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
+import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
+import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 
 export default function AppRoutes() {
   return (
@@ -63,21 +67,19 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         {/* Redirect base to inbound dashboard */}
         <Route path="/dashboard" element={<Navigate to="/inbound/dashboard" replace />} />
-        
+
         {/* Inbound Routes */}
         <Route path="/inbound/dashboard" element={<Dashboard />} />
         <Route path="/inbound/flow-builder" element={<FlowBuilder />} />
         <Route path="/inbound/reports" element={<Reports />} />
         <Route path="/inbound/orchestrator" element={<Orchestrator />} />
-        <Route path="/inbound/customer-insights" element={<CustomerInsights />} />
-        
+
         {/* Outbound Routes */}
         <Route path="/outbound/dashboard" element={<OutBoardDashboard />} />
         <Route path="/outbound/dashboard/create" element={<CampaignCreation />} />
         <Route path="/outbound/flow-builder" element={<FlowBuilder />} />
-        <Route path="/outbound/reports" element={<OutboundReports />} />
+        <Route path="/outbound/reports" element={<Reports />} />
         <Route path="/outbound/orchestrator" element={<Orchestrator />} />
-        <Route path="/outbound/customer-insights" element={<CustomerInsights />} />
 
         {/* Settings Routes */}
         <Route path="/settings" element={<Settings />} />
@@ -92,6 +94,7 @@ export default function AppRoutes() {
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />
+
     </Routes>
   );
 }

@@ -1,8 +1,8 @@
 import FloatingButton from "../../../Component/FloatingButton";
-import OutboundMetrics from "./Section/OutboundMetrics";
-import OutboundCampaignList from "./Section/OutboundCampaignList";
+import OutboundMetrics from "./section/OutboundMetrics";
+import OutboundCampaignList from "./section/OutboundCampaignList";
 
-const OutboundDashboard = () => {
+const Campaings = () => {
   return (
     <>
       {/* Header Section */}
@@ -13,25 +13,25 @@ const OutboundDashboard = () => {
           >
             Intelligence Hub
           </p>
-          <h1 
+          <h1
             className="text-[#191C1E] font-[800] text-[30px] leading-[36px] tracking-[0px] font-manrope"
           >
             Campaign Intelligence
           </h1>
         </div>
-        <div className="flex gap-3 sm:gap-4">
-          <button 
+        {/* <div className="flex gap-3 sm:gap-4">
+          <button
             className="flex-1 sm:flex-none sm:w-[155px] h-[52px] sm:h-[62px] bg-[#014370] text-white rounded-[10px] text-[14px] font-semibold hover:bg-[#013254] transition-colors cursor-pointer flex items-center justify-center px-4"
           >
             Pre Sales
           </button>
-          <button 
+          <button
             className="flex-1 sm:flex-none sm:w-[155px] h-[52px] sm:h-[62px] bg-[#E5ECF1] text-black rounded-[10px] text-[14px] font-semibold border border-gray-200/50 hover:bg-gray-200 transition-colors cursor-pointer flex items-center justify-center px-4"
             style={{ boxShadow: 'inset 0 3px 4px 0 rgba(0, 0, 0, 0.15)' }}
           >
             Post Sales
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Metrics Section */}
@@ -48,4 +48,4 @@ const OutboundDashboard = () => {
   );
 };
 
-export default OutboundDashboard;
+export default Campaings;

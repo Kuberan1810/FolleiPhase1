@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
 
     const navItems = [
         { icon: Element4,       label: 'Dashboard',         path: `${prefix}/dashboard`    },
-        { icon: Profile2User,   label: 'Customer Insights', path: `${prefix}/customer-insights` },
+        { icon: Profile2User,   label: 'Flow Builder', path: `${prefix}/flow-builder` },
         { icon: DocumentText1,  label: 'Reports',           path: `${prefix}/reports`      },
         { icon: HierarchySquare,label: 'Orchestrator',      path: `${prefix}/orchestrator` },
     ];
@@ -81,9 +81,7 @@ const Sidebar: React.FC = () => {
                                         <item.icon color='currentColor' size={22} />
                                         <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
 
-                                        {isActive && (
-                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#075985] rounded-r-lg" />
-                                        )}
+                                      
                                     </>
                                 )}
                             </NavLink>
