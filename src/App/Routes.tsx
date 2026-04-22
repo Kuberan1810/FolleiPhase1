@@ -16,8 +16,9 @@ import Reports from "../Pages/InBound/Reports/Reports";
 import Orchestrator from "../Pages/InBound/Orchestrator/Orchestrator";
 
 // App Pages (Outbound)
-import OutBoardDashboard from "../Pages/OutBound/campaings/Campaings";
+import OutBoardDashboard from "../Pages/OutBound/OutboundDashboard";
 import CampaignCreation from "../Pages/OutBound/campaings/section/CampaignCreation";
+import Campaign2 from "../Pages/OutBound/campaings/Campaign2";
 // Reuse pages for outbound if specific outbound pages don't exist yet
 // import OutboundFlowBuilder from "../Pages/OutBound/FlowBuilder/FlowBuilder";
 // import OutboundReports from "../Pages/OutBound/Reports/Reports";
@@ -76,6 +77,7 @@ export default function AppRoutes() {
 
         {/* Outbound Routes */}
         <Route path="/outbound/dashboard" element={<OutBoardDashboard />} />
+        <Route path="/outbound/campaign2" element={<Campaign2 />} />
         <Route path="/outbound/dashboard/create" element={<CampaignCreation />} />
         <Route path="/outbound/flow-builder" element={<FlowBuilder />} />
         <Route path="/outbound/reports" element={<Reports />} />
