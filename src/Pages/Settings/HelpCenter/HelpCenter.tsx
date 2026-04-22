@@ -42,6 +42,12 @@ const faqData = [
 ];
 
 const HelpCenter: React.FC = () => {
+    const [expandedId, setExpandedId] = useState<string | null>(null);
+
+    const toggleQuestion = (id: string) => {
+        setExpandedId(expandedId === id ? null : id);
+    };
+
     return (
         <div className="w-full">
             <div className="flex flex-col items-start gap-3.5 mb-8">
@@ -50,8 +56,8 @@ const HelpCenter: React.FC = () => {
                     <span className="text-[#626262]">{'>'}</span>
                     <span className="text-[#004370] font-medium">Help Center</span>
                 </div>
-                <div className="space-y-1">
-                    <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">
+                <div className="space-y-1 font-manrope">
+                    <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] font-inter">
                         Intelligence Hub
                     </span>
                     <h1 className="text-[30px] font-bold text-[#000000] tracking-tight">
@@ -79,14 +85,23 @@ const HelpCenter: React.FC = () => {
                                     const questionId = `${section.id}-${qIndex}`;
 
                                     return (
-                                        <div key={questionId} className="flex flex-col">
+                                        <div key={questionId} className="flex flex-col border-b border-gray-50 last:border-0 font-manrope">
                                             <div
-                                                className="w-full py-4 flex items-center justify-between rounded-lg"
+                                                className="w-full py-4 flex items-center justify-between cursor-pointer group transition-all duration-200"
+                                                onClick={() => toggleQuestion(questionId)}
                                             >
-                                                <span className="text-[18px] font-[600] leading-[28px] tracking-[0px] text-[#191C1E] text-left">
+                                                <span className={`text-[18px] font-[600] leading-[28px] tracking-[0px] transition-colors duration-200 ${expandedId === questionId ? 'text-[#014370]' : 'text-[#191C1E]'} group-hover:text-[#014370] text-left pr-4`}>
                                                     {item.q}
                                                 </span>
-                                                <ChevronDown className="text-[#191C1E] ml-4 shrink-0" size={20} strokeWidth={2.5} />
+                                                <div className={`transition-transform duration-300 ${expandedId === questionId ? 'rotate-180' : ''}`}>
+                                                    <ChevronDown className={`transition-colors ${expandedId === questionId ? 'text-[#014370]' : 'text-[#191C1E]'}`} size={20} strokeWidth={2.5} />
+                                                </div>
+                                            </div>
+
+                                            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedId === questionId ? 'max-h-[300px] mb-4 opacity-100' : 'max-h-0 opacity-0'}`}>
+                                                <p className="text-[#475569] text-[16px] leading-[24px] font-medium pr-12 pb-2">
+                                                    {item.a}
+                                                </p>
                                             </div>
                                         </div>
                                     );

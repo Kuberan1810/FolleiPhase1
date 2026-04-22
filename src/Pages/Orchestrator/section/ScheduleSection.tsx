@@ -1,40 +1,50 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, CalendarCheck2, ClipboardList, XCircle, Info } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CalendarCheck, ClipboardClock, XCircle, Info, Plus } from 'lucide-react';
 
 const DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-
-// Events shown per day: date → dot color
-const eventDots: Record<number, string> = {
-  17: 'bg-yellow-400',
-  18: 'bg-red-500',
-};
 
 const upcomingEvents = [
   {
     name: 'Ravi Sharma',
     time: 'APR 15 • 10:30 AM',
-    timeColor: 'text-[#004370]',
-    Icon: CalendarCheck2,
-    iconColor: 'text-[#0EA5E9]',
+    timeColor: 'text-[#005B96]',
+    dotColor: 'bg-[#005B96]',
+    Icon: CalendarCheck,
+    iconColor: 'text-[#005B96]',
     iconBg: 'bg-[#E0F2FE]',
   },
   {
     name: 'Priya Mehta',
     time: 'APR 17 • 11:15 AM',
     timeColor: 'text-[#D97706]',
-    Icon: ClipboardList,
-    iconColor: 'text-[#F59E0B]',
+    dotColor: 'bg-[#D97706]',
+    Icon: ClipboardClock,
+    iconColor: 'text-[#D97706]',
     iconBg: 'bg-[#FEF3C7]',
   },
   {
     name: 'Indhu',
     time: 'APR 18 • 02:00 PM',
     timeColor: 'text-[#DC2626]',
+    dotColor: 'bg-[#DC2626]',
     Icon: XCircle,
-    iconColor: 'text-[#EF4444]',
+    iconColor: 'text-[#DC2626]',
     iconBg: 'bg-[#FEE2E2]',
   },
 ];
+
+// Dynamically build eventDots from upcomingEvents — day number → dot bg color
+const eventDots: Record<number, string> = Object.fromEntries(
+  upcomingEvents
+    .map(ev => {
+      const match = ev.time.match(/\w+ (\d+)/); // e.g. "APR 15"
+      const day = match ? parseInt(match[1]) : null;
+      return day ? [day, ev.dotColor] : null;
+    })
+    .filter(Boolean) as [number, string][]
+);
+
+
 
 function buildCells(year: number, month: number) {
   // days from prev month to fill gap
@@ -63,18 +73,18 @@ const ScheduleSection = () => {
   const TODAY = 15;
 
   return (
-    <div className="BoxStyle p-8!">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="">
+      <div className="flex w-full flex-col lg:flex-row gap-6 lg:gap-0 "> 
 
         {/* ── LEFT: Calendar ── */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-8 BoxStyle border-r-0! md:p-8!    lg:rounded-r-none! flex-3"> 
           {/* Header */}
-          <div className="flex items-start justify-between  mb-8">
+          <div className="flex items-start justify-between  ">
             <div>
               <h2 className="text-[22px] md:text-2xl font-bold text-[#191C1E] font-manrope">
                 {label} {cal.year}
               </h2>
-              <p className="text-[11px] font-bold text-[#64748B] uppercase  mt-1">
+              <p className="text-[11px] font-bold text-[#64748B] uppercase  mt-1">  
                 Fleet Schedule View
               </p>
             </div>
@@ -97,73 +107,89 @@ const ScheduleSection = () => {
           {/* Day headers */}
           <div className="grid grid-cols-7 gap-2">
             {DAYS.map(d => (
-              <div key={d} className="text-center text-[11px] font-bold text-[#64748B] uppercase  py-2 px-5">
+              <div key={d} className="text-center text-[11px] font-bold text-[#64748B] uppercase  py-2 px-5 ">
                 {d}
               </div>
             ))}
 
             {/* Day cells */}
             {cells.map((c, i) => (
-              <div key={i} className="flex flex-col items-center gap-0.5">
-                <div
-                  className={` w-full aspect-square flex items-center justify-center rounded-[10px] text-[15px] text-[#0F172A] font-medium cursor-pointer transition-all 
-                    ${c.curr && c.day === TODAY
-                      ? 'bg-[#005B96] text-white  border-8 rounded-[10px] border-[#E6EFF5]'
-                      : c.curr
+              <div key={i} className="flex flex-col items-center">
+                {c.curr && c.day === TODAY ? (
+                  // TODAY: outer light-blue ring → inner navy cell
+                  <div className="w-full aspect-square bg-[#E6EFF5] rounded-2xl p-1 md:p-[6px] cursor-pointer relative">
+                    {/* Mobile only: white dot top-right */}
+                    <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-white z-10 md:hidden" />
+                    <div className="w-full h-full bg-[#005B96] rounded-xl flex flex-col items-center justify-center text-white text-[15px] font-bold gap-1.5">
+                      <span>{c.day}</span>
+                      {/* Desktop only: white dot inside bottom-center */}
+                      <div className="hidden md:block w-1.5 h-1.5 rounded-full bg-white" />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className={`w-full aspect-square relative flex flex-col items-center justify-center rounded-[10px] text-[15px] font-medium cursor-pointer transition-all
+                      ${c.curr
                         ? 'bg-[#F1F5F9] text-[#0F172A] hover:bg-[#E0EAF4] hover:text-[#004370]'
                         : 'bg-transparent text-[#CBD5E1]'
-                    }`}
-                >
-                  {c.day}
-                </div>
-                {/* Event dot */}
-                {c.curr && eventDots[c.day] && (
-                  <div className={`w-1.5 h-1.5 rounded-full ${eventDots[c.day]}`} />
-                )}
-                {c.curr && c.day === TODAY && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-white opacity-80" />
+                      }`}
+                  >
+                    <span>{c.day}</span>
+                    {c.curr && eventDots[c.day] && (
+                      <>
+                        {/* Mobile: top-right absolute */}
+                        <div className={`absolute top-1 right-1 w-2 h-2 rounded-full md:hidden ${eventDots[c.day]}`} />
+                        {/* Desktop md+: bottom-center inside cell */}
+                        <div className={`hidden md:block w-1.5 h-1.5 rounded-full mt-1.5 ${eventDots[c.day]}`} />
+                      </>
+                    )}
+                  </div>
                 )}
               </div>
             ))}
+
+
+
+
           </div>
 
           {/* Warning */}
-          <div className="flex items-start gap-2.5 border border-[#E5E7EB] rounded-xl p-3.5 bg-white">
-            <Info size={15} className="text-[#F59E0B] shrink-0 mt-0.5" />
-            <p className="text-[12px] text-[#374151] leading-relaxed">
+          <div className="flex items-center gap-2.5  rounded-x! bg-[#F8FAFC]! BoxStyle ">
+            <Info size={20} className="text-[#F59E0B] shrink-0 " />
+            <p className="text-[12px] text-[#64748B] leading-relaxed">
               Outbound system connectivity is nominal.{' '}
-              <span className="text-[#9CA3AF]">(If toggle were OFF, warnings would appear here)</span>
+              <span className="text-[#94A3B8]">(If toggle were OFF, warnings would appear here)</span>
             </p>
           </div>
         </div>
 
         {/* ── RIGHT: Upcoming ── */}
-        <div className="flex flex-col gap-4 lg:border-l lg:border-[#F1F5F9] lg:pl-8">
+        <div className="flex flex-col gap-4 md:gap-8  lg:border-l lg:border-[#F1F5F9] lg:pl-8 BoxStyle p-8! rounded-[12px]! md:rounded-l-none! flex-2">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <h3 className="text-[18px] font-bold text-[#191C1E]">Upcoming</h3>
-            <button className="text-[11px] font-bold text-[#374151] bg-[#F1F5F9] hover:bg-[#E5E7EB] px-4 py-2 rounded-full cursor-pointer transition-colors tracking-wide">
-              + SCHEDULE
+            <h3 className="text-[18px] md:text-xl font-bold text-[#0F172A] font-manrope">Upcoming</h3>
+            <button className="text-[12px] font-bold text-[#005B96] bg-[#005B96]/10 hover:bg-[#E0EAF4] px-4 py-2 rounded-full  transition-colors tracking-wide flex items-center gap-2 cursor-pointer hover:shadow-xs">
+            <Plus size={14} strokeWidth={   2.5} /> SCHEDULE
             </button>
           </div>
 
           {/* Events */}
           <div className="flex flex-col gap-3">
             {upcomingEvents.map((ev, i) => (
-              <div key={i} className="flex items-center justify-between gap-3 p-4 rounded-xl border border-[#E5E7EB] bg-white hover:shadow-sm transition-shadow">
+              <div key={i} className="flex items-center justify-between gap-3 BoxStyle cursor-pointer transition-all hover:shadow-xs hover:shadow-[#E2E8F0] border-[#005B9620]! ">
                 <div>
-                  <p className="text-[14px] font-bold text-[#191C1E]">{ev.name}</p>
-                  <p className={`text-[12px] font-semibold mt-0.5 ${ev.timeColor}`}>{ev.time}</p>
+                  <p className="text-[14px] font-bold text-[#0F172A]">{ev.name}</p>
+                  <p className={`text-[12px] font-semibold mt-0.5 mb-3 ${ev.timeColor}`}>{ev.time}</p>
                 </div>
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${ev.iconBg} shrink-0`}>
-                  <ev.Icon size={18} className={ev.iconColor} />
-                </div>
+                {/* <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${ev.iconBg} shrink-0`}> */}
+                  <ev.Icon size={20} className={ev.iconColor} />
+                {/* </div> */}
               </div>
             ))}
           </div>
 
           {/* Sync status */}
-          <p className="text-[10px] font-bold text-[#9CA3AF] uppercase tracking-widest text-center mt-auto pt-2">
+          <p className="text-[12px] font-bold text-[#64748B] uppercase tracking-widest text-center mt-auto pt-2">
             Calendar Sync: 100% Verified
           </p>
         </div>

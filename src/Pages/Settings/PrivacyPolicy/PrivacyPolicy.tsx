@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, User, Monitor, CheckCircle2, MessageSquare, Database, HelpCircle, Settings, Hammer } from 'lucide-react';
+import { ShieldCheck, User, Monitor, CheckCircle2, Mail, Database, HelpCircle, Settings, Scale } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PrivacyPolicy: React.FC = () => {
@@ -10,7 +10,7 @@ const PrivacyPolicy: React.FC = () => {
   ];
 
   return (
-    <section className="min-h-screen bg-[#FFFFFF] p-4 pb-12">
+    <section className="min-h-screen pb-12">
       <div className="w-full space-y-8">
 
         <div className="flex flex-col items-start gap-4">
@@ -29,8 +29,8 @@ const PrivacyPolicy: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-12">
-          <div className="space-y-4">
+        <div className="space-y-16 BoxStyle p-6!">
+          <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-[12px] bg-[#014370]/15 flex items-center justify-center text-[#044672]">
                 <HelpCircle size={16} />
@@ -55,20 +55,20 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-[24px] font-bold text-[#191C1E]">2. Data Collection</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-[#FFFFFF] rounded-[12px] p-6 space-y-4">
-                <div className="w-[16px] h-[16px] flex items-center justify-center text-[#044672]">
-                  <User size={20} />
+              <div className="bg-[#FFFFFF] rounded-[12px] p-6! space-y-6 BoxStyle">
+                <div className="flex items-center justify-start text-[#044672]">
+                  <User size={24} />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <h3 className="text-[16px] font-bold text-[#191C1E]">Personal Identity</h3>
                   <p className="text-[14px] text-[#434655] leading-relaxed">
                     Names, email addresses, and professional profiles provided during account registration.
                   </p>
                 </div>
               </div>
-              <div className="bg-[#C3C6D7]/10 rounded-[12px] p-6 space-y-4">
-                <div className="w-[16px] h-[16px] flex items-center justify-center text-[#4F46E5]">
-                  <Monitor size={20} />
+              <div className="bg-[#F2F4F6]! rounded-[12px] p-6! space-y-6 BoxStyle">
+                <div className=" flex items-center justify-start text-[#044672]">
+                  <Monitor size={24} />
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-[16px] font-bold text-[#191C1E]">Technical Data</h3>
@@ -104,13 +104,13 @@ const PrivacyPolicy: React.FC = () => {
             </div>
           </div>
 
-          <div >
-            <div className="bg-[#004370] rounded-[24px] p-4 space-y-6 text-white relative overflow-hidden">
-              <div className="flex items-center gap-3 relative z-10">
+          <div>
+            <div className="bg-[#004370] rounded-[24px] p-8 text-white relative overflow-hidden">
+              <div className="flex items-center gap-3 relative z-10 mb-6">
                 <div className="w-8 h-8 rounded-[12px] bg-white/20 flex items-center justify-center text-white">
                   <ShieldCheck size={16} />
                 </div>
-                <h2 className="text-[24px] font-bold">4. Security Protocols</h2>
+                <h2 className="text-[24px] font-bold ">4. Security Protocols</h2>
               </div>
               <div className="space-y-6 relative z-10">
                 <p className="text-[16px] text-white/80 leading-relaxed w-full">
@@ -128,19 +128,19 @@ const PrivacyPolicy: React.FC = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-[12px] bg-[#E6E8EA] flex items-center justify-center text-[#004370]">
-                <Hammer size={16} />
+                <Scale size={16} />
               </div>
               <h2 className="text-[24px] font-bold text-[#191C1E]">5. Your Rights</h2>
             </div>
             <div>
-              <div className="bg-[#F2F4F6] rounded-[16px] p-4 space-y-8">
+              <div className="bg-[#F2F4F6] rounded-[16px] p-8 space-y-6 border border-[#00437010]">
                 {[
                   { id: '01', title: 'Right to Access', desc: 'You have the right to request copies of your personal data held within EditorialCRM.' },
                   { id: '02', title: 'Right to Erasure', desc: 'Under certain conditions, you may request the deletion of your account and all associated metadata.' },
                   { id: '03', title: 'Right to Object', desc: 'You can opt-out of data processing for marketing or analytics purposes at any time via your account settings.' }
                 ].map((right, index) => (
                   <div key={index} className="flex gap-6 items-start">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-[#E2E8F0]/50">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-xs border border-[#E2E8F0]/50">
                       <span className="text-[16px] font-bold text-[#044672]">{right.id}</span>
                     </div>
                     <div className="space-y-1">
@@ -155,17 +155,17 @@ const PrivacyPolicy: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 space-y-6">
+          <div className=" space-y-6">
             <div className="space-y-2">
               <h2 className="text-[24px] font-bold text-[#191C1E]">Still have questions?</h2>
               <p className="text-[16px] text-[#64748B]">Our legal and privacy compliance team is ready to assist you with any concerns regarding your data.</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="h-[48px] px-5 bg-[#044672] text-white rounded-[14px] text-[16px] font-bold flex items-center gap-2 hover:bg-[#00365a] transition-all cursor-pointer">
-                <MessageSquare size={16} />
+              <button className="h-[48px] px-6 bg-[#044672] text-white rounded-[14px] text-[16px] font-bold flex items-center gap-2 hover:bg-[#00365a] transition-all cursor-pointer">
+                <Mail size={16} />
                 Contact Privacy Team
               </button>
-              <button className="h-[48px] px-5 bg-[#E2E8F0] text-[#191C1E] rounded-[12px] text-[16px] font-bold hover:bg-[#CBD5E1] transition-all cursor-pointer">
+              <button className="h-[48px] px-6 bg-[#E2E8F0] text-[#191C1E] rounded-[12px] text-[16px] font-bold hover:bg-[#CBD5E1] transition-all cursor-pointer">
                 Visit Help Center
               </button>
             </div>

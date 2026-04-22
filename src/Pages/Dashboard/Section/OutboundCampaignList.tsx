@@ -75,7 +75,7 @@ const OutboundCampaignList = () => {
       <div className="py-6 border-b border-gray-100 flex justify-between items-center">
         <h2 className="text-[20px] font-bold text-[#191C1E] font-manrope">Campaign List</h2>
         <div className="flex gap-4">
-          <button 
+          <button
             className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-[700] text-[11px] leading-[16.5px] tracking-[0.55px] uppercase"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,7 +83,7 @@ const OutboundCampaignList = () => {
             </svg>
             FILTER
           </button>
-          <button 
+          <button
             className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-[700] text-[11px] leading-[16.5px] tracking-[0.55px] uppercase"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -123,9 +123,9 @@ const OutboundCampaignList = () => {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
-                     {camp.channels.includes('mail') && <Mail size={16} className="text-blue-500" />}
-                     {camp.channels.includes('phone') && <Phone size={16} className="text-blue-500" />}
-                     {camp.channels.includes('whatsapp') && <MessageCircle size={16} className="text-emerald-500" />}
+                    {camp.channels.includes('mail') && <Mail size={16} className="text-blue-500" />}
+                    {camp.channels.includes('phone') && <Phone size={16} className="text-blue-500" />}
+                    {camp.channels.includes('whatsapp') && <MessageCircle size={16} className="text-emerald-500" />}
                   </div>
                 </td>
                 <td className="px-6 py-4">
@@ -142,7 +142,7 @@ const OutboundCampaignList = () => {
           </tbody>
         </table>
       </div>
-      
+
       <div className="py-6 flex justify-between items-center text-[12px] font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100">
         <div>SHOWING {campaigns.length} OF {campaigns.length} CAMPAIGNS</div>
         <div className="flex gap-2">

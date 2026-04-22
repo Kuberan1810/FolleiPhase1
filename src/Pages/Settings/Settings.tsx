@@ -50,7 +50,7 @@ const Settings = () => {
 
   const legalOptions = [
     { icon: ShieldCheck, label: "Privacy Policy", description: "Your privacy matters to us. We keep your data safe and secure.", to: "/settings/privacy" },
-    { icon: FileText, label: "Terms and Conditions", description: "Follow our rules while using this platform.", to: "/settings/terms" },
+    { icon: FileText, label: "Terms and Conditions", description: "Follow our rules while using this platform.", to: "/settings/terms-and-conditions" },
   ];
 
   return (

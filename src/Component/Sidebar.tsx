@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
     const navItems = [
         { icon: Element4, label: 'Dashboard', path: '/dashboard' },
         { icon: Profile2User, label: 'Customer Insights', path: '/customer-insights' },
-        { icon: DocumentText1, label: 'Reports', path: '/reports' },
+        { icon: DocumentText1, label: 'Reports', path: '/outbound/reports' },
         { icon: HierarchySquare, label: 'Orchestrator', path: '/orchestrator' },
 
     ];
@@ -89,13 +89,16 @@ const Sidebar: React.FC = () => {
                                     }`
                                 }
                             >
+                                {({ isActive }) => (
+                                    <>
+                                        <item.icon color='currentColor' size={22} />
+                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
 
-
-
-                                <item.icon color='currentColor' size={22} />
-                                <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
-
-
+                                        {isActive && (
+                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#075985] rounded-r-lg" />
+                                        )}
+                                    </>
+                                )}
                             </NavLink>
                         ))}
                     </nav>
