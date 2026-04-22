@@ -9,23 +9,31 @@ import SignUp from "../Pages/auth/SignUp/SignUp";
 import MainLayout from "../Component/MainLayout";
 // import ProtectedRoute from "./ProtectedRoute";
 
-// App Pages
-import Dashboard from "../Pages/Dashboard/Dashboard";
-import FlowBuilder from "../Pages/FlowBuilder/FlowBuilder";
-import CustomerInsights from "../Pages/CustomerInsights/CustomerInsights";
-import Reports from "../Pages/Reports/Reports";
+// App Pages (Inbound)
+import Dashboard from "../Pages/InBound/Dashboard/Dashboard";
+import FlowBuilder from "../Pages/InBound/FlowBuilder/FlowBuilder";
+import Reports from "../Pages/InBound/Reports/Reports";
+import Orchestrator from "../Pages/InBound/Orchestrator/Orchestrator";
+
+// App Pages (Outbound)
+import OutBoardDashboard from "../Pages/InBound/Dashboard/OutboundDashboard";
+import CampaignCreation from "../Pages/Dashboard/Section/CampaignCreation";
+// Reuse pages for outbound if specific outbound pages don't exist yet
+// import OutboundFlowBuilder from "../Pages/OutBound/FlowBuilder/FlowBuilder";
+// import OutboundReports from "../Pages/OutBound/Reports/Reports";
+// import OutboundOrchestrator from "../Pages/OutBound/Orchestrator/Orchestrator";
+
+// Settings Pages
 import Settings from "../Pages/Settings/Settings";
-
-
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
 import NotificationSettings from "../Pages/Settings/Notification/NotificationSettings";
 import HelpCenter from "../Pages/Settings/HelpCenter/HelpCenter";
 import PrivacyPolicy from "../Pages/Settings/PrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "../Pages/Settings/TermsAndConditions/TermsAndCondition";
+import Payment from "../Pages/Settings/Payment/Payment";
 
-
-
+// Onboarding Pages
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
 import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
 import WhatsAppVerification from "../Pages/OnBoarding/WhatsAppVerification";
@@ -33,21 +41,12 @@ import WorkDescription from "../Pages/OnBoarding/WorkDescription";
 import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
-
-
 import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
-import Payment from "../Pages/Settings/Payment/Payment";
-import OutBoardDashboard from "../Pages/Dashboard/OutboundDashboard";
-import Orchestrator from "../Pages/Orchestrator/Orchestrator";
-import CampaignCreation from "../Pages/Dashboard/Section/CampaignCreation";
-
-
 
 export default function AppRoutes() {
   return (
     <Routes>
-
       {/* Public Routes */}
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
@@ -65,15 +64,24 @@ export default function AppRoutes() {
       <Route path="/onboarding/success" element={<OnboardingSuccess />} />
 
       {/* Protected Routes */}
-      {/* <Route element={<ProtectedRoute />}> */}
       <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/flow-builder" element={<FlowBuilder />} />
-        <Route path="/customer-insights" element={<CustomerInsights />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/orchestrator" element={<Orchestrator />} />
-        <Route path="/dashboard/outbound" element={<OutBoardDashboard />} />
-        <Route path="/dashboard/outbound/create" element={<CampaignCreation />} />
+        {/* Redirect base to inbound dashboard */}
+        <Route path="/dashboard" element={<Navigate to="/inbound/dashboard" replace />} />
+        
+        {/* Inbound Routes */}
+        <Route path="/inbound/dashboard" element={<Dashboard />} />
+        <Route path="/inbound/flow-builder" element={<FlowBuilder />} />
+        <Route path="/inbound/reports" element={<Reports />} />
+        <Route path="/inbound/orchestrator" element={<Orchestrator />} />
+        
+        {/* Outbound Routes */}
+        <Route path="/outbound/dashboard" element={<OutBoardDashboard />} />
+        <Route path="/outbound/dashboard/create" element={<CampaignCreation />} />
+        <Route path="/outbound/flow-builder" element={<FlowBuilder />} />
+        <Route path="/outbound/reports" element={<Reports />} />
+        <Route path="/outbound/orchestrator" element={<Orchestrator />} />
+
+        {/* Settings Routes */}
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/settings/feedback" element={<Feedback />} />
@@ -83,7 +91,6 @@ export default function AppRoutes() {
         <Route path="/settings/privacy" element={<PrivacyPolicy />} />
         <Route path="/settings/terms-and-conditions" element={<TermsAndConditions />} />
       </Route>
-      {/* </Route> */}
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />
@@ -91,5 +98,3 @@ export default function AppRoutes() {
     </Routes>
   );
 }
-
-

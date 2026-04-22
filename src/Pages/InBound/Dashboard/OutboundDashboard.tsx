@@ -1,5 +1,4 @@
-import React from "react";
-import FloatingButton from "../../Component/FloatingButton";
+import FloatingButton from "../../../Component/FloatingButton";
 import OutboundMetrics from "./Section/OutboundMetrics";
 import OutboundCampaignList from "./Section/OutboundCampaignList";
 
