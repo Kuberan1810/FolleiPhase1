@@ -15,6 +15,7 @@ import CustomerInsights from "../Pages/CustomerInsights/CustomerInsights";
 import Reports from "../Pages/Reports/Reports";
 import Settings from "../Pages/Settings/Settings";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
+import OutboundReports from "../Pages/OutBound/Report/OutboundReports";
 
 import ProfileSettings from "../Pages/Settings/Profile/ProfileSettings";
 import Feedback from "../Pages/Settings/Feedback/Feedback";
@@ -35,7 +36,7 @@ export default function AppRoutes() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/flow-builder" element={<FlowBuilder />} />
         <Route path="/customer-insights" element={<CustomerInsights />} />
-        <Route path="/reports" element={<Reports />} />
+        <Route path="/outbound/reports" element={<OutboundReports />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/profile" element={<ProfileSettings />} />
         <Route path="/settings/feedback" element={<Feedback />} />

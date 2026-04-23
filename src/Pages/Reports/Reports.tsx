@@ -1,5 +1,7 @@
+import { Outlet } from "react-router-dom";
+
 const Reports = () => {
-  return <div>Reports</div>;
+  return <Outlet />;
 };
 
 export default Reports;
