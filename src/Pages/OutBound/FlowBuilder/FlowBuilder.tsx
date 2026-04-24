@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserPlus, MessageSquare, Inbox, RefreshCw, Bell } from 'lucide-react';
+import { UserAdd, MessageText1, MessageTime, Refresh, } from 'iconsax-react';
 import InsightCard from './components/InsightCard/InsightCard';
 // import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
@@ -10,6 +10,7 @@ import ReplyReceivedDrawer from './components/Drawers/ReplyReceived/ReplyReceive
 import NotifySalesDrawer from './components/Drawers/NotifySales/NotifySalesDrawer';
 import WorkflowHeader from './components/Common/WorkflowHeader';
 import ConnectorLine from './components/Common/ConnectorLine';
+import { ArrowDownIcon, PentagonIcon } from 'lucide-react';
 
 const FlowBuilder: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
@@ -22,14 +23,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'new-lead',
-        icon: UserPlus,
+        icon: UserAdd,
         title: "Leads Added",
         description: "Triggers when a prospect fills out the website contact form.",
         status: "1.2k Active"
       },
       action: {
         id: 'send-message',
-        icon: MessageSquare,
+        icon: MessageText1,
         title: "Send Message",
         description: "Automated personalized intro via email and calls.",
         status: "High Priority"
@@ -38,14 +39,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'no-response',
-        icon: MessageSquare,
+        icon: MessageTime,
         title: "No Response",
         description: "Triggers after 48h of inactivity following initial outreach.",
         status: "236 Waiting"
       },
       action: {
         id: 'update-status',
-        icon: RefreshCw,
+        icon: Refresh,
         title: "Update Status",
         description: "Move contact to \"Active Prospect\" in CRM database.",
         status: "Syncing"
@@ -54,14 +55,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'reply-received',
-        icon: Inbox,
+        icon: ArrowDownIcon,
         title: "Reply Received",
         description: "Triggers when an email or SMS response is detected.",
         status: "105 Matches"
       },
       action: {
         id: 'notify-sales',
-        icon: Bell,
+        icon: PentagonIcon,
         title: "Notify Sales Rep",
         description: "Push notification to Slack channel #sales-alerts.",
         status: "Instant"
@@ -79,7 +80,7 @@ const FlowBuilder: React.FC = () => {
     <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
-          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Automation</h1>
+          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Flow Builder</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
         {/* <button
@@ -94,10 +95,10 @@ const FlowBuilder: React.FC = () => {
         </button> */}
       </div>
 
-      <div className="w-full pl-8">
+      <div className="w-full">
         <WorkflowHeader />
 
-        <div className="space-y-8 md:space-y-12 pl-10 pr-8">
+        <div className="space-y-8 md:space-y-12">
           {workflows.map((workflow, index) => (
             <div key={index} className="flex flex-col md:grid md:grid-cols-[390px_1fr_390px] items-center gap-4 md:gap-0 w-full group">
               <div className="w-full flex justify-center md:justify-start">

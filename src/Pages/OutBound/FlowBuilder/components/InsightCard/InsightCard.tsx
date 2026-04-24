@@ -23,7 +23,7 @@ const InsightCard: React.FC<InsightCardProps> = ({
       <div className="flex flex-col gap-[15px]">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-[#DBEAFE] rounded-[5px] text-[#004370]">
-            <Icon size={18} />
+            <Icon size={18} variant="Linear" color="#004370" />
           </div>
           <h3 className="text-[16px] font-[600] text-[#191C1E]">{title}</h3>
         </div>
