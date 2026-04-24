@@ -2,6 +2,10 @@
 import { Network } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import FolleiWhite from "../../../assets/logo/Follei-white.svg"
+import FolleiLogo from "../../../assets/logo/FolleiLogo.svg"
+import Dashboard from "../../../assets/login/dashboard.svg"
+
 
 const SignUp = () => {
     const [fullName, setFullName] = useState("")
@@ -19,31 +23,27 @@ const SignUp = () => {
         <div className="flex flex-col md:flex-row min-h-screen font-sans bg-white md:bg-transparent">
             {/* Sidebar */}
             <div className="hidden md:flex md:w-[45%] bg-[#003E6B] text-white p-6 lg:p-12 flex-col justify-between overflow-hidden relative">
-                <div className="z-10 font-poppins">
+                <div className="z-10 font-inter">
 
-                    <div className="flex items-center gap-3 mb-10 lg:mb-16">
-                        <div className="bg-white p-2 rounded-lg">
-                            <Network className="text-[#003E6B] size-6 lg:size-8" />
-                        </div>
-                        <div>
-                            <h1 className="text-2xl lg:text-[35px] font-semibold tracking-tight leading-none">LiveTracker</h1>
-                            <p className="text-[10px] lg:text-[15px] uppercase font-semibold tracking-widest opacity-80">Precision Orchestrator</p>
+                    <div className="flex items-center gap-3 mb-10">
+                        <div className='w-28'>
+                            <img src={FolleiWhite} alt="FolleiLogo" />
                         </div>
                     </div>
 
                     <div className="max-w-[519px]">
-                        <h2 className="text-[32px] font-semibold font-poppins mb-[15px] leading-[18px] tracking-tight">Welcome to AI Agent</h2>
-                        <p className="text-[16px] font-normal font-poppins opacity-90 leading-[22px] tracking-normal">
+                        <h2 className="lg:text-[32px] text-2xl font-semibold font-manrope mb-[18px] leading-[18px]  tracking-tight">Welcome to AI Agent</h2>
+                        <p className="lg:text-[16px] text-sm font-normal font-manrope opacity-90 leading-[22px] tracking-normal">
                             Manage your customer calls, messages & emails automatically with your AI agent
                         </p>
                     </div>
                 </div>
 
-                <div className="absolute -bottom-4 -right-12 hidden lg:block pointer-events-none">
+                <div className="absolute -bottom-4 -right-12 hidden md:block pointer-events-none">
                     <img
-                        src="/image 8.svg"
+                        src={Dashboard}
                         alt="AI Agent Illustration"
-                        className="w-full max-w-[450px] xl:max-w-[556px] h-auto object-contain"
+                        className="w-full max-w-[350px] lg:max-w-[450px] h-auto object-contain"
                     />
                 </div>
 
@@ -56,10 +56,9 @@ const SignUp = () => {
                 {/* Mobile Heading & Logo */}
                 <div className="md:hidden w-full max-w-md flex flex-col mb-10">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="bg-[#003E6B] p-2 rounded-lg">
-                            <Network className="text-white size-6" />
+                        <div className='w-28'>
+                            <img src={FolleiLogo} alt="FolleiLogo" />
                         </div>
-                        <h1 className="text-2xl font-bold text-[#003E6B] font-['Poppins']">LiveTracker</h1>
                     </div>
                     <div>
                         <h2 className="text-[28px] font-medium font-inter text-black mb-1 leading-none">Create Your Account</h2>

@@ -28,18 +28,21 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Tab Switcher */}
-      <div className="flex p-1 bg-[#F3F5F7] rounded-full mb-12 w-full max-w-md mx-auto">
+      <div className="relative flex p-1 bg-[#F3F5F7] rounded-full mb-12 w-full max-w-md mx-auto">
+        {/* Sliding Pill */}
+        <div
+          className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#004370] rounded-full shadow-sm transition-transform duration-300 ease-in-out`}
+          style={{ transform: activeTab === "email" ? "translateX(0%)" : "translateX(calc(100% + 8px))" }}
+        />
         <button
-          onClick={() => setActiveTab("email")}
-          className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-full transition-all cursor-pointer ${activeTab === "email" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"
-            }`}
+          onClick={() => { setActiveTab("email"); setUsername(""); }}
+          className={`relative z-10 flex-1 h-[44px] text-[20px] font-normal font-inter rounded-full transition-colors duration-300 cursor-pointer ${activeTab === "email" ? "text-white" : "text-black hover:text-gray-700"}`}
         >
           Email id
         </button>
         <button
-          onClick={() => setActiveTab("mobile")}
-          className={`flex-1 h-[44px] text-[20px] font-normal font-inter rounded-full transition-all cursor-pointer ${activeTab === "mobile" ? "bg-[#004370] text-white shadow-sm" : "text-black hover:text-gray-700"
-            }`}
+          onClick={() => { setActiveTab("mobile"); setUsername(""); }}
+          className={`relative z-10 flex-1 h-[44px] text-[20px] font-normal font-inter rounded-full transition-colors duration-300 cursor-pointer ${activeTab === "mobile" ? "text-white" : "text-black hover:text-gray-700"}`}
         >
           Mobile Number
         </button>

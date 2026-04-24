@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { LogOut, Megaphone } from 'lucide-react';
 import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
             { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
             { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
             { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
-            { icon: HierarchySquare, label: 'Campaigns', path: `${prefix}/Campaigns` },
+            { icon: Megaphone, label: 'Campaigns', path: `${prefix}/Campaigns` },
         ]
         : [
             { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
@@ -58,7 +58,7 @@ const Sidebar: React.FC = () => {
                         }
                     >
                         <div className='flex flex-col items-center gap-2'>
-                            <item.icon color='currentColor' size={30} />
+                            <item.icon  color='currentColor' size={30} />
                             {/* <p className='text-sm md:text-base'>{item.label}</p> */}
                         </div>
                     </NavLink>
@@ -86,7 +86,7 @@ const Sidebar: React.FC = () => {
                             >
                                 {({ isActive }: { isActive: boolean }) => (
                                     <>
-                                        <item.icon color='currentColor' size={22} />
+                                        <item.icon strokeWidth={1.5} color='currentColor' size={22} />
                                         <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
 
 
