@@ -76,7 +76,7 @@ export default function SaasSearch() {
   }
 
   return (
-    <div ref={wrapperRef} className="relative w-[480px] hidden md:block">
+    <div ref={wrapperRef} className="relative max-w-[480px] w-full">
       {/* Input */}
       <div className="relative">
         <Search

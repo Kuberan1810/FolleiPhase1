@@ -2,7 +2,7 @@ import FloatingButton from "../../../Component/FloatingButton";
 import OutboundMetrics from "./section/OutboundMetrics";
 import OutboundCampaignList from "./section/OutboundCampaignList";
 
-const Campaings = () => {
+const Campaigns = () => {
   return (
     <>
       {/* Header Section */}
@@ -48,4 +48,4 @@ const Campaings = () => {
   );
 };
 
-export default Campaings;
+export default Campaigns;

@@ -125,10 +125,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
-
-
-    font-family: "Inter", "Manrope", sans-serif;
-    background-color: #FAFAFA;
 }
 
 /* Hide scrollbar  */

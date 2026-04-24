@@ -21,25 +21,33 @@ const Sidebar: React.FC = () => {
         navigate('/login');
     };
 
-    const navItems = [
-        { icon: Element4,       label: 'Dashboard',         path: `${prefix}/dashboard`    },
-        { icon: Profile2User,   label: 'Flow Builder', path: `${prefix}/flow-builder` },
-        { icon: DocumentText1,  label: 'Reports',           path: `${prefix}/reports`      },
-        { icon: HierarchySquare,label: 'Orchestrator',      path: `${prefix}/orchestrator` },
-    ];
+    const navItems = isOutbound
+        ? [
+            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+            { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+            { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+            { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
+            { icon: HierarchySquare, label: 'Campaigns', path: `${prefix}/Campaigns` },
+        ]
+        : [
+            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+            { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+            { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+            { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
+        ];
 
     const bottomNavItems = [
         { icon: Setting, label: 'Settings', path: '/settings' },
-        { icon: LogOut,  label: 'Logout',   path: '/logout',  isDanger: true },
+        { icon: LogOut, label: 'Logout', path: '/logout', isDanger: true },
     ];
 
-    const active   = "bg-[#E0F2FE]/60 text-[#075985] font-semibold";
+    const active = "bg-[#E0F2FE]/60 text-[#075985] font-semibold";
     const inactive = "text-[#64748B] hover:bg-[#E0F2FE]/30 hover:text-[#075985]";
 
     return (
         <>
             {/* Mobile Bottom Nav */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 flex py-2.5 items-center justify-between border-t border-[#E2E8F080] bg-white px-4 lg:hidden font-[Manrope]">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 flex py-5 items-center justify-between border-t border-[#E2E8F080] bg-white px-4 lg:hidden font-[Manrope]">
                 {navItems.map((item, index) => (
                     <NavLink
                         key={index}
@@ -51,7 +59,7 @@ const Sidebar: React.FC = () => {
                     >
                         <div className='flex flex-col items-center gap-2'>
                             <item.icon color='currentColor' size={30} />
-                            <p className='text-sm md:text-base'>{item.label}</p>
+                            {/* <p className='text-sm md:text-base'>{item.label}</p> */}
                         </div>
                     </NavLink>
                 ))}
@@ -65,7 +73,7 @@ const Sidebar: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='flex flex-col justify-between h-screen'>
+                <div className='flex flex-col justify-between h-screen gap-5 scrollbar-hide overflow-scroll '>
                     <nav className="flex flex-1 flex-col gap-4 px-4">
                         {navItems.map((item, index) => (
                             <NavLink
@@ -81,7 +89,7 @@ const Sidebar: React.FC = () => {
                                         <item.icon color='currentColor' size={22} />
                                         <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
 
-                                      
+
                                     </>
                                 )}
                             </NavLink>
