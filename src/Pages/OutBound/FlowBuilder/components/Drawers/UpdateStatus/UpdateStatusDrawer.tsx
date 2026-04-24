@@ -109,7 +109,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
                         <span className="text-[10px] text-[#94A3B8] font-medium leading-none mb-1">{lead.phone}</span>
                         <div className="flex items-center gap-1">
                           <Clock size={8} className="text-[#004370]" />
-                          <span className="text-[6px] text-[#004370] font-medium">{lead.lastMessage}</span>
+                          <span className="text-[9px] text-[#004370] font-medium">{lead.lastMessage}</span>
                         </div>
                       </div>
                     </div>

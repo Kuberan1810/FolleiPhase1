@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserPlus, MessageSquare, Inbox, RefreshCw, Bell } from 'lucide-react';
 import InsightCard from './components/InsightCard/InsightCard';
-import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
+// import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
 import SendMessageDrawer from './components/Drawers/SendMessage/SendMessageDrawer';
 import NoResponseDrawer from './components/Drawers/NoResponse/NoResponseDrawer';
@@ -23,7 +23,7 @@ const FlowBuilder: React.FC = () => {
       trigger: {
         id: 'new-lead',
         icon: UserPlus,
-        title: "New lead",
+        title: "Leads Added",
         description: "Triggers when a prospect fills out the website contact form.",
         status: "1.2k Active"
       },
@@ -79,10 +79,10 @@ const FlowBuilder: React.FC = () => {
     <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
-          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Customer Insights</h1>
+          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Flow Builder</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
-        <button
+        {/* <button
           onClick={() => setActiveDrawer('edit-action')}
           className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
           style={{
@@ -91,7 +91,7 @@ const FlowBuilder: React.FC = () => {
           }}
         >
           Edit Action
-        </button>
+        </button> */}
       </div>
 
       <div className="w-full">
@@ -120,7 +120,7 @@ const FlowBuilder: React.FC = () => {
         </div>
       </div>
 
-      <EditActionDrawer
+      {/* <EditActionDrawer
         isOpen={activeDrawer === 'edit-action'}
         onClose={closeDrawer}
         delayValue={delayValue}
@@ -129,7 +129,7 @@ const FlowBuilder: React.FC = () => {
         setDelayUnit={setDelayUnit}
         isBusinessHoursOnly={isBusinessHoursOnly}
         setIsBusinessHoursOnly={setIsBusinessHoursOnly}
-      />
+      /> */}
 
       <NewLeadDrawer
         isOpen={activeDrawer === 'new-lead'}

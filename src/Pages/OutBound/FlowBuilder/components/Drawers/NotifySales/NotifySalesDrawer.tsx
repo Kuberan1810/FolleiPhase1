@@ -9,6 +9,7 @@ interface NotifySalesDrawerProps {
 const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }) => {
   const [showAllReplies, setShowAllReplies] = useState(false);
   const [autoAssign, setAutoAssign] = useState(true);
+  const [selectedChannel, setSelectedChannel] = useState('Email');
 
   const allReplies = [
     { name: 'Ravi Sharma', phone: '+91 98765 43210', initials: 'RS', time: 'Today, 2:30 PM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#DBEAFE', avatarText: '#004370' },
@@ -159,12 +160,29 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                 {channels.map((channel, i) => (
                   <button
                     key={i}
-                    className="flex flex-col items-center gap-2 p-1 bg-[#FFFFFF] w-[69px] h-[48px] border border-[#C1C7D1]/30 rounded-[5px] hover:bg-[#F8FAFC] transition-all group shadow-sm active:scale-95 cursor-pointer"
+                    onClick={() => setSelectedChannel(channel.name)}
+                    className={`flex flex-col items-center gap-2 p-1 w-[69px] h-[48px] border rounded-[5px] transition-all group shadow-sm active:scale-95 cursor-pointer
+                      ${selectedChannel === channel.name
+                        ? 'bg-[#F8FAFC] border-[#004370]'
+                        : 'bg-[#FFFFFF] border-[#C1C7D1]/30 hover:bg-[#F8FAFC]'}`}
                   >
-                    <div className="w-[24px] h-[24px] p-1 rounded-[5px] bg-[#DBEAFE] flex items-center justify-center text-[#004370] group-hover:bg-[#004370]/10 group-hover:text-[#004370] transition-colors">
-                      <channel.icon size={14} />
+                    <div className={`w-[24px] h-[24px] p-1 rounded-[5px] flex items-center justify-center transition-colors
+                      ${selectedChannel === channel.name
+                        ? 'bg-[#004370]/10 text-[#004370]'
+                        : 'bg-[#DBEAFE] text-[#004370] group-hover:bg-[#004370]/10'}`}
+                    >
+                      {(() => {
+                        const Icon = channel.icon;
+                        return <Icon size={14} />;
+                      })()}
                     </div>
-                    <span className="text-[8px] font-semibold text-[#595C5E] group-hover:text-[#004370] uppercase tracking-wider">{channel.name}</span>
+                    <span className={`text-[8px] font-semibold uppercase tracking-wider transition-colors
+                      ${selectedChannel === channel.name
+                        ? 'text-[#004370]'
+                        : 'text-[#595C5E] group-hover:text-[#004370]'}`}
+                    >
+                      {channel.name}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -176,7 +194,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                 style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
                 onClick={onClose}
               >
-                Save  Changes
+                Save Changes
               </button>
             </div>
           </div>
