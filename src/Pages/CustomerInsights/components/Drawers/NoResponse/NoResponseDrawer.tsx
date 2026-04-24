@@ -26,61 +26,6 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
 
   const visibleLeads = showAll ? filteredLeads : filteredLeads.slice(0, 4);
 
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const el = scrollRef.current;
-    if (el) {
-      const onWheel = (e: WheelEvent) => {
-        if (e.deltaY === 0) return;
-        e.preventDefault();
-        el.scrollLeft += e.deltaY;
-      };
-      el.addEventListener('wheel', onWheel);
-      return () => el.removeEventListener('wheel', onWheel);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const el = scrollRef.current;
-    if (el) {
-      let isDown = false;
-      let startX: number;
-      let scrollLeft: number;
-
-      const onMouseDown = (e: MouseEvent) => {
-        isDown = true;
-        startX = e.pageX - el.offsetLeft;
-        scrollLeft = el.scrollLeft;
-      };
-      const onMouseLeave = () => {
-        isDown = false;
-      };
-      const onMouseUp = () => {
-        isDown = false;
-      };
-      const onMouseMove = (e: MouseEvent) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - el.offsetLeft;
-        const walk = (x - startX) * 2;
-        el.scrollLeft = scrollLeft - walk;
-      };
-
-      el.addEventListener('mousedown', onMouseDown);
-      el.addEventListener('mouseleave', onMouseLeave);
-      el.addEventListener('mouseup', onMouseUp);
-      el.addEventListener('mousemove', onMouseMove);
-
-      return () => {
-        el.removeEventListener('mousedown', onMouseDown);
-        el.removeEventListener('mouseleave', onMouseLeave);
-        el.removeEventListener('mouseup', onMouseUp);
-        el.removeEventListener('mousemove', onMouseMove);
-      };
-    }
-  }, []);
-
   return (
     <>
       {isOpen && (
@@ -128,10 +73,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
                 <h3 className="text-[12px] font-bold text-[#000000]">Lead Status List</h3>
               </div>
 
-              <div
-                ref={scrollRef}
-                className="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar cursor-grab active:cursor-grabbing"
-              >
+              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar">
                 {['All', 'Interested', 'Not Interested', 'No Response'].map((tab) => (
                   <button
                     key={tab}

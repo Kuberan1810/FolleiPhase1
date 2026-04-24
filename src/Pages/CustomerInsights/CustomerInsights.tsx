@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserPlus, MessageSquare, Inbox, RefreshCw, Bell } from 'lucide-react';
 import InsightCard from './components/InsightCard/InsightCard';
-// import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
+import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
 import SendMessageDrawer from './components/Drawers/SendMessage/SendMessageDrawer';
 import NoResponseDrawer from './components/Drawers/NoResponse/NoResponseDrawer';
@@ -11,7 +11,7 @@ import NotifySalesDrawer from './components/Drawers/NotifySales/NotifySalesDrawe
 import WorkflowHeader from './components/Common/WorkflowHeader';
 import ConnectorLine from './components/Common/ConnectorLine';
 
-const FlowBuilder: React.FC = () => {
+const CustomerInsights: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
 
   const [delayValue, setDelayValue] = useState(15);
@@ -23,7 +23,7 @@ const FlowBuilder: React.FC = () => {
       trigger: {
         id: 'new-lead',
         icon: UserPlus,
-        title: "Leads Added",
+        title: "New lead",
         description: "Triggers when a prospect fills out the website contact form.",
         status: "1.2k Active"
       },
@@ -79,10 +79,10 @@ const FlowBuilder: React.FC = () => {
     <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
-          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Automation</h1>
+          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Customer Insights</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
-        {/* <button
+        <button
           onClick={() => setActiveDrawer('edit-action')}
           className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
           style={{
@@ -91,13 +91,13 @@ const FlowBuilder: React.FC = () => {
           }}
         >
           Edit Action
-        </button> */}
+        </button>
       </div>
 
-      <div className="w-full pl-8">
+      <div className="w-full">
         <WorkflowHeader />
 
-        <div className="space-y-8 md:space-y-12 pl-10 pr-8">
+        <div className="space-y-8 md:space-y-12">
           {workflows.map((workflow, index) => (
             <div key={index} className="flex flex-col md:grid md:grid-cols-[390px_1fr_390px] items-center gap-4 md:gap-0 w-full group">
               <div className="w-full flex justify-center md:justify-start">
@@ -120,7 +120,7 @@ const FlowBuilder: React.FC = () => {
         </div>
       </div>
 
-      {/* <EditActionDrawer
+      <EditActionDrawer
         isOpen={activeDrawer === 'edit-action'}
         onClose={closeDrawer}
         delayValue={delayValue}
@@ -129,7 +129,7 @@ const FlowBuilder: React.FC = () => {
         setDelayUnit={setDelayUnit}
         isBusinessHoursOnly={isBusinessHoursOnly}
         setIsBusinessHoursOnly={setIsBusinessHoursOnly}
-      /> */}
+      />
 
       <NewLeadDrawer
         isOpen={activeDrawer === 'new-lead'}
@@ -164,4 +164,4 @@ const FlowBuilder: React.FC = () => {
   );
 };
 
-export default FlowBuilder;
+export default CustomerInsights;

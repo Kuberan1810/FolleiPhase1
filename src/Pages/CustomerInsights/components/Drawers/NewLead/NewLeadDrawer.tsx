@@ -34,7 +34,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
         <div className="h-full flex flex-col overflow-hidden">
           <div className="pt-[30px] px-[25px] flex justify-between items-start bg-white border-b border-[#E2E8F0] rounded-b-[10px] pb-4">
             <div className="flex flex-col gap-[5px]">
-              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">Leads Added</h2>
+              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">New Lead</h2>
               <p className="text-[#434655] text-[12px]">Track newly joined leads in real-time</p>
             </div>
             <button
