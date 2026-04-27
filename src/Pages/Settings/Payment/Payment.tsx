@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import BillingTable from './Section/BillingTable';
 import PaymentOverview from './Section/PaymentOverview';
 import Plans from './Section/Plans';
+import PaymentMethod from './Section/PaymentMethod'
+
 
 
 type TabType = 'Overview' | 'Plans' | 'Payment Method';
@@ -64,8 +66,8 @@ const Payment = () => {
         )}
 
         {activeTab === 'Payment Method' && (
-          <div className="py-20 text-center text-slate-400 border-2 border-dashed border-slate-100 rounded-3xl">
-            Payment Method configuration will appear here.
+          <div className="py-1 text-center text-slate-400 border-2 border-dashed border-slate-100 rounded-3xl">
+            <PaymentMethod/>
           </div>
         )}
       </div>
