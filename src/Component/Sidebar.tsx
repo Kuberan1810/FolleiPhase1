@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
 
-const Sidebar: React.FC = () => {
+import { useSalesContext } from '../Context/SalesContext';
 
+const Sidebar: React.FC = () => {
+    const { salesMode } = useSalesContext();
     const [showConfirmLogout, setShowConfirmLogout] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Detect current mode from URL prefix
-    const isOutbound = location.pathname.startsWith('/outbound');
-    const prefix = isOutbound ? '/outbound' : '/inbound';
+    // Detect current type from URL
+    const isOutbound = location.pathname.includes('/outbound');
+    const prefix = `/${salesMode}/${isOutbound ? 'outbound' : 'inbound'}`;
 
     const handleLogoutConfirm = () => {
         setShowConfirmLogout(false);
@@ -68,9 +70,9 @@ const Sidebar: React.FC = () => {
             {/* Desktop Sidebar */}
             <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">
                 <div className="flex items-center gap-3 px-6 py-8">
-                    <div className='w-28'>
+                    <Link to={`${prefix}/dashboard`} className='w-28 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
-                    </div>
+                    </Link>
                 </div>
 
                 <div className='flex flex-col justify-between h-screen gap-5 scrollbar-hide overflow-scroll '>

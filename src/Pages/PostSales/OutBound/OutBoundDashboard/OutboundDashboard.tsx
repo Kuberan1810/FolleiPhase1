@@ -1,6 +1,8 @@
 
 import { Send, MessageSquare, Smile, Plus, Mail, ChevronDown, Phone, CalendarCheck } from 'lucide-react';
 
+import SalesToggleSwitch from '../../../../Component/SalesToggleSwitch';
+
 const Dashboard2 = () => {
   const stats = [
     {
@@ -57,10 +59,12 @@ const Dashboard2 = () => {
   return (
     <div className="flex flex-col gap-6 sm:gap-8 pb-10">
       {/* Header Section */}
-      <div className="flex flex-col">
-
-        <h1 className="text-[#191C1E] font-extrabold text-[24px] sm:text-[34px] leading-tight font-manrope">Outbound Dashboard</h1>
-        <p className="text-[#767676] text-[12px] font-normal leading-none font-inter mt-1.5">Track Your Outreach Performance And Pipeline Generation</p>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+        <div>
+          <h1 className="text-[#191C1E] font-extrabold text-[24px] sm:text-[34px] leading-tight font-manrope">Outbound Dashboard</h1>
+          <p className="text-[#767676] text-[12px] font-normal leading-none font-inter mt-1.5">Track Your Outreach Performance And Pipeline Generation</p>
+        </div>
+        <SalesToggleSwitch />
       </div>
 
       {/* Stats Row */}

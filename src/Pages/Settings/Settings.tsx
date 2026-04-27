@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { User, CreditCard, Bell, MessageSquare, ShieldCheck, FileText, CircleHelp, ChevronRight } from 'lucide-react';
 
+
 interface SettingsItemProps {
   icon: React.ElementType;
   label: string;

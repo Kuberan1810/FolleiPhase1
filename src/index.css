@@ -26,6 +26,29 @@ body {
     --font-inter: "Inter", sans-serif;
     --font-poppins: "Poppins", sans-serif;
     --font-manrope: "Manrope", sans-serif;
+    
+    --animate-spin-slow: spin 4s linear infinite;
+    --animate-spin-reverse: spin-reverse 6s linear infinite;
+    --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+    --animate-breathe: breathe 2.4s ease-in-out infinite;
+    --animate-float: float 3s ease-in-out infinite;
+}
+
+@keyframes spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+@keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 0; }
+}
+@keyframes breathe {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
 }
 
 .font-manrope {

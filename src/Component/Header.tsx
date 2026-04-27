@@ -2,29 +2,32 @@ import { Search, NetworkIcon, X } from 'lucide-react';
 import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import { useState } from 'react';
 
 
+import { useSalesContext } from '../Context/SalesContext';
+
 const Header: React.FC = () => {
+    const { salesMode } = useSalesContext();
     const location = useLocation();
     const navigate = useNavigate();
     const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-    const isOutbound = location.pathname.startsWith('/outbound');
+    const isOutbound = location.pathname.includes('/outbound');
 
     // Get the current page segment (dashboard, flow-builder, reports, orchestrator)
-    // so toggling preserves the current page
     const segments = location.pathname.split('/').filter(Boolean);
-    const currentPage = segments[1] ?? 'dashboard'; // e.g. "flow-builder"
+    // Path structure: /:salesMode/:type/:page
+    const currentPage = segments[2] ?? 'dashboard'; 
 
-    const handleToggle = (mode: 'inbound' | 'outbound') => {
+    const handleToggle = (type: 'inbound' | 'outbound') => {
         let targetPage = currentPage;
-        if (mode === 'inbound' && targetPage.toLowerCase() === 'campaigns') {
+        if (type === 'inbound' && targetPage.toLowerCase() === 'campaigns') {
             targetPage = 'dashboard';
         }
-        navigate(`/${mode}/${targetPage}`);
+        navigate(`/${salesMode}/${type}/${targetPage}`);
     };
 
     return (
@@ -44,9 +47,9 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-4 flex-1">
 
                 <div className="flex items-center gap-2.5 lg:hidden">
-                    <div className='lg:w-28  md:w-24 w-20'>
+                    <Link to={isOutbound ? `/${salesMode}/outbound/dashboard` : `/${salesMode}/inbound/dashboard`} className='lg:w-28 md:w-24 w-20 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
-                    </div>
+                    </Link>
                 </div>
 
                 {/* Search */}

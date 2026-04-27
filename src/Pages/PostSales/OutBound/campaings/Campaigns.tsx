@@ -1,4 +1,4 @@
-import FloatingButton from "../../../Component/FloatingButton";
+import FloatingButton from "../../../../Component/FloatingButton";
 import OutboundMetrics from "./section/OutboundMetrics";
 import OutboundCampaignList from "./section/OutboundCampaignList";
 
