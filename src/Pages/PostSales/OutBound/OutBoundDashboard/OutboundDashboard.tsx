@@ -1,12 +1,18 @@
-
+import React, { useState } from 'react';
 import { Send, MessageSquare, Smile, Plus, Mail, ChevronDown, Phone, CalendarCheck } from 'lucide-react';
-
+import SupportCard from './Sections/SupportCard';
+import RevenueCard from './Sections/RevenueCard';
+import FloatingButton from '../../../../Component/FloatingButton';
 import SalesToggleSwitch from '../../../../Component/SalesToggleSwitch';
 
-const Dashboard2 = () => {
+const OutboundDashboard = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All Customer");
+  const categories = ["All Customer", "Enterprise Only", "SMB Only", "High Risk Accounts", "Churned This Month"];
+
   const stats = [
     {
-      label: "TOTAL OUTREACH",
+      label: "TOTAL ACTIVE CUSTOMERS",
       value: "24,402",
       change: "+12.5%",
       isPositive: true,
@@ -14,24 +20,24 @@ const Dashboard2 = () => {
       iconBg: "bg-[#F0F4FF] text-[#5E5CE6]"
     },
     {
-      label: "REPLY RATE",
-      value: "4.82%",
+      label: "CUSTOMER RETENTION RATE",
+      value: "94.6%",
       change: "+2.1%",
       isPositive: true,
       icon: <MessageSquare size={17} />,
       iconBg: "bg-[#FFF9F0] text-[#FF9500]"
     },
     {
-      label: "MEETINGS BOOKED",
-      value: "112",
+      label: "NET REVENUE RETENTION",
+      value: "118%",
       change: "+8.4%",
       isPositive: true,
       icon: <CalendarCheck size={17} />,
       iconBg: "bg-[#EBF7F5] text-[#006A6A]"
     },
     {
-      label: "POSITIVE INTENT",
-      value: "21.4%",
+      label: "CSAT SCORE",
+      value: "4.7 / 5",
       change: "-0.4%",
       isPositive: false,
       icon: <Smile size={17} />,
@@ -40,26 +46,27 @@ const Dashboard2 = () => {
   ];
 
   const chartData = [
-    { name: "Q1 Launch", sent: 490, replied: 405, opened: 195, booked: 75 },
-    { name: "Product Demo", sent: 435, replied: 315, opened: 135, booked: 45 },
-    { name: "Referral Intro", sent: 525, replied: 465, opened: 285, booked: 165 },
-    { name: "Cold Outreach", sent: 315, replied: 225, opened: 75, booked: 30 },
-    { name: "Webinar Follow", sent: 405, replied: 285, opened: 105, booked: 35 }
+    { name: "Q1 Launch", usage: 490, adoption: 405, tickets: 195, renewals: 75 },
+    { name: "Product Demo", usage: 435, adoption: 315, tickets: 135, renewals: 45 },
+    { name: "Referral Intro", usage: 525, adoption: 465, tickets: 285, renewals: 165 },
+    { name: "Cold Outreach", usage: 315, adoption: 225, tickets: 75, renewals: 30 },
+    { name: "Webinar Follow", usage: 405, adoption: 285, tickets: 105, renewals: 35 }
   ];
 
   const maxVal = 600;
 
   const prospects = [
-    { name: "Alex Bennett", persona: "TechFlow", source: "CRM", status: "Cold", action: "Follow-up email", initials: "AB", color: "bg-[#E6E6FE] text-[#5E5CE6]" },
-    { name: "Sarah Liang", persona: "Growth", source: "Imported", status: "Replied", action: "Follow-up email", initials: "SL", color: "bg-[#D1FAE5] text-[#059669]" },
-    { name: "Sarah Liang", persona: "Growth", source: "Imported", status: "Replied", action: "Follow-up email", initials: "SL", color: "bg-[#D1FAE5] text-[#059669]" },
-    { name: "Julian Rossi", persona: "Sales", source: "Scraped", status: "Converted", action: "Follow-up email", initials: "JR", color: "bg-[#F3F4F6] text-[#374151]" }
+    { name: "Alex Bennett", segment: "Enterprise", health: "Good", activity: "CRM", renewal: "Follow-up email", initials: "AB", color: "bg-[#E6E6FE] text-[#5E5CE6]", segmentStyle: "bg-[#D0D0D0]/25 text-[#191C1E]" },
+    { name: "Sarah Liang", segment: "SMB", health: "Critical", activity: "Imported", renewal: "Follow-up email", initials: "SL", color: "bg-[#D1FAE5] text-[#059669]", segmentStyle: "bg-[#ECFDF5] text-[#059669]" },
+    { name: "Sarah Liang", segment: "Enterprise", health: "Good", activity: "Imported", renewal: "Follow-up email", initials: "SL", color: "bg-[#D1FAE5] text-[#059669]", segmentStyle: "bg-[#ECFDF5] text-[#059669]" },
+    { name: "Julian Rossi", segment: "SMB", health: "Good", activity: "Scraped", renewal: "Follow-up email", initials: "JR", color: "bg-[#F3F4F6] text-[#374151]", segmentStyle: "bg-[#F1F5F9] text-[#059669]" },
+    { name: "Julian Rossi", segment: "Enterprise", health: "Good", activity: "Scraped", renewal: "Follow-up email", initials: "JR", color: "bg-[#F3F4F6] text-[#374151]", segmentStyle: "bg-[#ECFDF5] text-[#059669]" }
   ];
 
   return (
     <div className="flex flex-col gap-6 sm:gap-8 pb-10">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div>
           <h1 className="text-[#191C1E] font-extrabold text-[24px] sm:text-[34px] leading-tight font-manrope">Outbound Dashboard</h1>
           <p className="text-[#767676] text-[12px] font-normal leading-none font-inter mt-1.5">Track Your Outreach Performance And Pipeline Generation</p>
@@ -80,7 +87,7 @@ const Dashboard2 = () => {
               </div>
             </div>
             <div className="mt-4">
-              <h3 className="text-[#64748B] uppercase font-manrope font-semibold text-[12px] leading-[16px] tracking-[0.6px] mb-1">
+              <h3 className="text-[#464554] uppercase font-manrope font-semibold text-[12px] leading-[16px] tracking-[0.6px] mb-1">
                 {stat.label}
               </h3>
               <div className="text-[#171C1F] text-[24px] font-extrabold leading-[32px] font-manrope">{stat.value}</div>
@@ -89,16 +96,39 @@ const Dashboard2 = () => {
         ))}
       </div>
 
-      {/* Campaign Performance Bar Chart */}
+      {/* Customer Health & Engagement Bar Chart */}
       <div className="bg-white rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 border border-[#F1F5F9]">
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8 sm:mb-10">
           <div>
-            <h2 className="text-[#171C1F] text-[18px] sm:text-[20px] font-extrabold leading-[28px] font-manrope">Campaign Performance</h2>
-            <p className="text-[#64748B] text-[13px] sm:text-[14px] font-inter">Metric comparison across active funnels</p>
+            <h2 className="text-[#171C1F] text-[18px] sm:text-[20px] font-extrabold leading-[28px] font-manrope">Customer Health & Engagement</h2>
+            <p className="text-[#64748B] text-[13px] sm:text-[14px] font-inter">Trends across key engagement signals</p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#F1F5F9] rounded-lg text-[13px] sm:text-[14px] font-manrope font-medium leading-[20px] text-[#191C1E] border border-transparent hover:border-[#E2E8F0] transition-all">
-            All Campaign <ChevronDown size={14} />
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#F1F5F9] rounded-lg text-[13px] sm:text-[14px] font-manrope font-medium leading-[20px] text-[#191C1E] border border-transparent hover:border-[#E2E8F0] transition-all min-w-[160px] justify-between cursor-pointer"
+            >
+              {selectedCategory}
+              <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-full min-w-[180px] bg-white rounded-xl shadow-xl border border-[#F1F5F9] z-[100] py-2 animate-in fade-in zoom-in duration-200">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2.5 text-[13px] sm:text-[14px] font-manrope font-medium transition-colors hover:bg-[#F8FAFC] ${selectedCategory === cat ? 'text-[#004370] bg-[#F0F7FF]' : 'text-[#464554]'}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="overflow-x-auto pb-4 scrollbar-hide">
@@ -129,23 +159,23 @@ const Dashboard2 = () => {
                   <div className="flex items-end gap-1 group/bars h-[260px]">
                     <div
                       className="w-[24px] bg-[#004370] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
-                      style={{ height: `${(data.sent / maxVal) * 100}%` }}
-                      title={`Sent: ${data.sent}`}
+                      style={{ height: `${(data.usage / maxVal) * 100}%` }}
+                      title={`Product Usage: ${data.usage}`}
                     ></div>
                     <div
-                      className="w-[24px] bg-[#13A26D] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
-                      style={{ height: `${(data.replied / maxVal) * 100}%` }}
-                      title={`Replied: ${data.replied}`}
+                      className="w-[24px] bg-[#0E9F6E] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
+                      style={{ height: `${(data.adoption / maxVal) * 100}%` }}
+                      title={`Feature Adoption: ${data.adoption}`}
                     ></div>
                     <div
-                      className="w-[24px] bg-[#B68E00] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
-                      style={{ height: `${(data.opened / maxVal) * 100}%` }}
-                      title={`Opened: ${data.opened}`}
+                      className="w-[24px] bg-[#BC8800] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
+                      style={{ height: `${(data.tickets / maxVal) * 100}%` }}
+                      title={`Support Tickets: ${data.tickets}`}
                     ></div>
                     <div
                       className="w-[24px] bg-[#FFB385] rounded-t-[6px] transition-all duration-300 hover:opacity-80 cursor-pointer"
-                      style={{ height: `${(data.booked / maxVal) * 100}%` }}
-                      title={`Booked: ${data.booked}`}
+                      style={{ height: `${(data.renewals / maxVal) * 100}%` }}
+                      title={`Renewals: ${data.renewals}`}
                     ></div>
                   </div>
                   {/* Label Area (Below Axis) */}
@@ -156,47 +186,45 @@ const Dashboard2 = () => {
           </div>
         </div>
 
-        {/* Legend */}
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-[#004370]"></div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-[#004370]">Sent</span>
+            <span className="text-[12px] font-manrope font-semibold leading-none text-[#004370]">Product Usage</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#13A26D]"></div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-[#13A26D]">Replied</span>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#0E9F6E]"></div>
+            <span className="text-[12px] font-manrope font-semibold leading-none text-[#0E9F6E]">Feature Adoption</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#B68E00]"></div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-[#B68E00]">Opened</span>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#BC8800]"></div>
+            <span className="text-[12px] font-manrope font-semibold leading-none text-[#B68E00]">Support Tickets</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#FFB385]"></div>
-            <span className="text-[10px] sm:text-[11px] font-bold text-[#FFB385]">Booked</span>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#FFB781]"></div>
+            <span className="text-[12px] font-manrope font-semibold leading-none text-[#FFB385]">Renewals</span>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 sm:gap-8 items-start">
-        {/* Target Prospects Table */}
+        {/* Account Health Table */}
         <div className="xl:col-span-8 bg-white rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 border border-[#F1F5F9]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <h2 className="text-[#191C1E] text-[18px] sm:text-[20px] font-bold font-manrope">Target Prospects</h2>
-            <button className="w-full sm:w-auto bg-[#004370] text-white px-[20px] py-[10px] rounded-[4px] flex items-center justify-center gap-[8px] text-[13px] sm:text-[14px] font-bold font-manrope leading-[20px] hover:opacity-90 transition-all cursor-pointer">
-              <Plus size={16} strokeWidth={3} />
-              Add Prospect
-            </button>
+            <div>
+              <h2 className="text-[#171C1F] text-[20px] font-extrabold font-manrope leading-[28px]">Account Health</h2>
+              <p className="text-[#464554] text-[14px] font-manrope font-normal leading-[20px]">Monitor accounts that need attention</p>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider border-b border-[#F1F5F9]">
-                  <th className="pb-4 px-8 font-bold">Name</th>
-                  <th className="pb-4 px-8 font-bold">Persona</th>
-                  <th className="pb-4 px-8 font-bold">Source</th>
-                  <th className="pb-4 px-8 font-bold">Status</th>
-                  <th className="pb-4 px-8 font-bold">Next Action</th>
+                <tr className="text-[10px] font-manrope font-semibold text-[#464554] uppercase tracking-[1px] leading-none border-b border-[#F1F5F9]">
+                  <th className="pb-4 px-8">CUSTOMER</th>
+                  <th className="pb-4 px-8">SEGMENT</th>
+                  <th className="pb-4 px-8">HEALTH</th>
+                  <th className="pb-4 px-8">LAST ACTIVITY</th>
+                  <th className="pb-4 px-8">RENEWAL</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F1F5F9]">
@@ -210,17 +238,21 @@ const Dashboard2 = () => {
                         <span className="text-[#191C1E] font-manrope font-semibold text-[14px]">{prospect.name}</span>
                       </div>
                     </td>
-                    <td className="py-5 px-8 text-[#464554] font-manrope font-normal text-[14px] leading-[20px]">{prospect.persona}</td>
-                    <td className="py-5 px-8 text-[#464554] font-manrope font-normal text-[14px] leading-[20px]">{prospect.source}</td>
                     <td className="py-5 px-8">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${prospect.status === 'Converted' ? 'bg-[#EBF7F5] text-[#188573]' :
-                        prospect.status === 'Replied' ? 'bg-[#F0FFF4] text-[#34C759]' :
-                          'bg-[#F1F5F9] text-[#64748B]'
-                        }`}>
-                        {prospect.status}
+                      <span className={`h-[20px] px-[8px] rounded-[9px] text-[10px] font-bold flex items-center justify-center w-fit ${prospect.segmentStyle}`}>
+                        {prospect.segment}
                       </span>
                     </td>
-                    <td className="py-5 px-8 text-[#464554] font-manrope font-normal text-[14px] leading-[20px]">{prospect.action}</td>
+                    <td className="py-5 px-8">
+                      <span className={`h-[20px] px-[8px] rounded-[9px] text-[10px] font-bold flex items-center justify-center w-fit ${prospect.health === 'Good' ? 'bg-[#EBF7F5] text-[#188573]' :
+                        prospect.health === 'Critical' ? 'bg-[#FFF0F0] text-[#D93025]' :
+                          'bg-[#F1F5F9] text-[#64748B]'
+                        }`}>
+                        {prospect.health}
+                      </span>
+                    </td>
+                    <td className="py-5 px-8 text-[#171C1F] font-manrope font-normal text-[12px] leading-[16px]">{prospect.activity}</td>
+                    <td className="py-5 px-8 text-[#171C1F] font-manrope font-normal text-[12px] leading-[16px]">{prospect.renewal}</td>
                   </tr>
                 ))}
               </tbody>
@@ -230,20 +262,26 @@ const Dashboard2 = () => {
 
         {/* Live Activity Side */}
         <div className="xl:col-span-4">
-          <LiveActivity2 />
+          <LiveActivityV2 />
         </div>
       </div>
 
-      {/* Channel Breakdown Section */}
-      <div className="mt-4">
-        <h3 className="text-[#64748B] uppercase font-inter font-bold text-[12px] leading-[16px] tracking-[1.2px] mb-6">
-          CHANNEL BREAKDOWN
+      {/* Support & Engagement and Revenue Expansion */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mt-4">
+        <SupportCard />
+        <RevenueCard />
+      </div>
+
+      {/* Channel Management Section */}
+      <div className="mt-8">
+        <h3 className="text-[#464554] uppercase font-manrope font-medium text-[14px] leading-[20px] tracking-[1.4px] mb-6">
+          CHANNEL MANAGEMENT
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
           {/* Email Marketing Card */}
           <div className="bg-white rounded-[24px] p-6 sm:p-8 border border-[#F1F5F9] flex items-center gap-4 sm:gap-6">
-            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#EFF6FF] flex items-center justify-center text-[#022165] shrink-0">
+            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#F0F4FF] flex items-center justify-center text-[#004370] shrink-0">
               <Mail width={22} height={18} strokeWidth={2.5} />
             </div>
             <div className="flex-1 min-w-0">
@@ -267,8 +305,8 @@ const Dashboard2 = () => {
 
           {/* WhatsApp Direct Card */}
           <div className="bg-white rounded-[24px] p-6 sm:p-8 border border-[#F1F5F9] flex items-center gap-4 sm:gap-6">
-            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#ECFDF5] flex items-center justify-center text-[#006A6A] shrink-0">
-              <MessageSquare width={18} height={18} strokeWidth={2.5} />
+            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#EBF7F5] flex items-center justify-center text-[#006A6A] shrink-0">
+              <MessageSquare width={20} height={20} strokeWidth={2.5} />
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="text-[#171C1F] font-manrope font-medium text-[14px] leading-[24px] mb-3">WhatsApp Direct</h4>
@@ -291,8 +329,8 @@ const Dashboard2 = () => {
 
           {/* Calls Card */}
           <div className="bg-white rounded-[24px] p-6 sm:p-8 border border-[#F1F5F9] flex items-center gap-4 sm:gap-6">
-            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#FFF7ED] flex items-center justify-center text-[#703800] shrink-0">
-              <Phone width={18} height={18} strokeWidth={2.5} />
+            <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] bg-[#F6810C]/10 flex items-center justify-center text-[#703800] shrink-0">
+              <Phone width={20} height={20} strokeWidth={2.5} />
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="text-[#171C1F] font-manrope font-medium text-[14px] leading-[24px] mb-3">Calls</h4>
@@ -313,42 +351,55 @@ const Dashboard2 = () => {
             </div>
           </div>
         </div>
+        <FloatingButton />
       </div>
     </div>
   );
 };
 
-const LiveActivity2 = () => {
+const LiveActivityV2 = () => {
   const activities = [
     {
-      type: "Email Opened",
-      user: "David Chen",
-      content: "opened \"Re: Integration Strategy\"",
+      type: "Feature usage spike",
+      user: "Acme Corp — Workflows +42%",
+      content: "",
       time: "2m ago",
-      color: "bg-[#5E5CE6]",
-      tag: "Open count: 3"
+      color: "bg-[#5E5CE6]"
     },
     {
-      type: "New Reply",
-      user: "Sarah Liang",
-      content: "replied to your follow-up",
-      time: "14m ago",
-      color: "bg-[#34C759]",
-      quote: "\"This looks interesting, would love to see a demo...\""
-    },
-    {
-      type: "Link Clicked",
-      user: "Mike Ross",
-      content: "clicked on \"Whitepaper: Enterprise Sales\"",
-      time: "45m ago",
+      type: "New support ticket",
+      user: "Northwind Labs — P2 priority",
+      content: "",
+      time: "2m ago",
       color: "bg-[#FF9500]"
     },
     {
-      type: "New Reply",
-      user: "Julian Rossi",
-      content: "replied to your follow-up",
-      time: "55m ago",
+      type: "CSAT feedback received",
+      user: "Globex Inc. rated 9/10",
+      content: "",
+      time: "2h ago",
       color: "bg-[#34C759]"
+    },
+    {
+      type: "Renewal reminder",
+      user: "Initech — 14 days remaining",
+      content: "",
+      time: "5h ago",
+      color: "bg-[#004370]"
+    },
+    {
+      type: "Onboarding completed",
+      user: "Umbrella Group — full setup",
+      content: "",
+      time: "6h ago",
+      color: "bg-[#34C759]"
+    },
+    {
+      type: "Escalation flagged",
+      user: "Hooli — billing dispute",
+      content: "",
+      time: "2m ago",
+      color: "bg-[#FF9500]"
     }
   ];
 
@@ -364,24 +415,14 @@ const LiveActivity2 = () => {
 
         {activities.map((act, i) => (
           <div key={i} className="relative pl-6">
-            <div className={`absolute left-0 top-1.5 w-[7px] h-[7px] rounded-full ${act.color} z-10 border-white border-2`}></div>
+            <div className={`absolute left-[-4.5px] top-1.5 w-4 h-4 rounded-full ${act.color} z-10 border-white border-[4px]`}></div>
             <div className="flex justify-between items-start mb-1">
-              <span className={`text-[12px] font-manrope font-semibold leading-[16px] ${act.type === 'New Reply' ? 'text-[#34C759]' : 'text-[#464554]'}`}>{act.type}</span>
+              <span className={`text-[12px] font-manrope font-semibold leading-[16px] text-[#464554]`}>{act.type}</span>
               <span className="text-[10px] text-[#94A3B8] font-medium">{act.time}</span>
             </div>
             <p className="text-[14px] text-[#171C1F] leading-[20px] font-inter font-normal">
-              <span className="font-manrope font-semibold">{act.user}</span> {act.content}
+              <span className="text-[#64748B] text-[13px]">{act.user}</span>
             </p>
-            {act.tag && (
-              <span className="inline-block mt-2 px-2 py-0.5 bg-[#F1F5F9] text-[#64748B] text-[10px] font-bold rounded-sm">
-                {act.tag}
-              </span>
-            )}
-            {act.quote && (
-              <div className="mt-3 bg-[#F0FFF4] border border-[#D1FAE5] rounded-lg p-3 text-[12px] text-[#064E3B] font-inter font-normal leading-[16px] italic">
-                {act.quote}
-              </div>
-            )}
           </div>
         ))}
       </div>
@@ -389,4 +430,4 @@ const LiveActivity2 = () => {
   );
 };
 
-export default Dashboard2;
+export default OutboundDashboard;
