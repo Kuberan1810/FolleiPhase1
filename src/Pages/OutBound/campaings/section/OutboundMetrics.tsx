@@ -1,4 +1,3 @@
-import React from 'react';
 import { Layers, TrendingUp, MessageSquare, Activity } from 'lucide-react';
 
 const OutboundMetrics = () => {
@@ -49,7 +48,7 @@ const OutboundMetrics = () => {
   ];
 
   const renderCard = (metric: any, idx: number) => (
-    <div key={idx} className="bg-white rounded-[24px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#F1F5F9] flex flex-col justify-between h-[210px] w-full">
+    <div key={idx} className="bg-white rounded-[24px] p-6 border border-[#F1F5F9] flex flex-col justify-between h-[210px] w-full">
       <div className="flex justify-between items-start mb-4">
         <div className={`w-[40px] h-[40px] rounded-[10px] flex items-center justify-center ${metric.iconBg}`}>
           {metric.icon}
@@ -84,7 +83,7 @@ const OutboundMetrics = () => {
   );
 
   return (
-    <div className="w-full grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8 mb-8">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
       {/* Left Half */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
         {metricsLeft.map((m, i) => renderCard(m, i))}

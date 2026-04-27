@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mail, MessageCircle, Phone } from "lucide-react";
 
 const OutboundCampaignList = () => {
@@ -71,12 +70,12 @@ const OutboundCampaignList = () => {
   ];
 
   return (
-    <div className="bg-white rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#F1F5F9] overflow-hidden mb-20 px-6">
-      <div className="py-6 border-b border-gray-100 flex justify-between items-center">
-        <h2 className="text-[20px] font-bold text-[#191C1E] font-manrope">Campaign List</h2>
+    <div className="bg-white rounded-[24px] border border-[#F1F5F9] overflow-hidden mb-20 px-4 sm:px-6">
+      <div className="py-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 className="text-[18px] sm:text-[20px] font-bold text-[#191C1E] font-manrope">Campaign List</h2>
         <div className="flex gap-4">
           <button
-            className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-[700] text-[11px] leading-[16.5px] tracking-[0.55px] uppercase"
+            className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-bold text-[11px] leading-[16.5px] tracking-[0.55px] uppercase cursor-pointer"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
@@ -84,7 +83,7 @@ const OutboundCampaignList = () => {
             FILTER
           </button>
           <button
-            className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-[700] text-[11px] leading-[16.5px] tracking-[0.55px] uppercase"
+            className="flex items-center gap-2 text-[#64748B] hover:text-black transition-colors font-manrope font-bold text-[11px] leading-[16.5px] tracking-[0.55px] uppercase cursor-pointer"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -99,20 +98,20 @@ const OutboundCampaignList = () => {
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-gray-100 text-[11px] font-manrope font-[700] text-[#94A3B8] uppercase tracking-[1.1px] leading-none">
-              <th className="px-6 py-4">Campaign</th>
-              <th className="px-6 py-4">Channel</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right">Sent</th>
-              <th className="px-6 py-4 text-right">Replies</th>
-              <th className="px-6 py-4 text-right">Converted</th>
-              <th className="px-6 py-4 text-right">Conversion Rate</th>
+            <tr className="border-b border-gray-100 text-[11px] font-manrope font-bold text-[#94A3B8] uppercase tracking-[1.1px] leading-none">
+              <th className="px-8 py-4">Campaign</th>
+              <th className="px-8 py-4">Channel</th>
+              <th className="px-8 py-4">Status</th>
+              <th className="px-8 py-4 text-right">Sent</th>
+              <th className="px-8 py-4 text-right">Replies</th>
+              <th className="px-8 py-4 text-right">Converted</th>
+              <th className="px-8 py-4 text-right">Conversion Rate</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {campaigns.map((camp) => (
-              <tr key={camp.id} className="hover:bg-gray-50/50 transition-colors">
-                <td className="px-6 py-4">
+              <tr key={camp.id} className="transition-colors">
+                <td className="px-8 py-4">
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-lg ${camp.iconBg} flex items-center justify-center opacity-60`}></div>
                     <div>
@@ -121,22 +120,22 @@ const OutboundCampaignList = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-8 py-4">
                   <div className="flex gap-2">
                     {camp.channels.includes('mail') && <Mail size={16} className="text-blue-500" />}
                     {camp.channels.includes('phone') && <Phone size={16} className="text-blue-500" />}
                     {camp.channels.includes('whatsapp') && <MessageCircle size={16} className="text-emerald-500" />}
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-8 py-4">
                   <span className={`px-2.5 py-1 ${camp.statusColor} text-[11px] font-bold uppercase rounded-md tracking-wider`}>
                     {camp.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-right text-[15px] text-gray-600">{camp.sent}</td>
-                <td className="px-6 py-4 text-right text-[15px] text-gray-600">{camp.replies}</td>
-                <td className="px-6 py-4 text-right text-[15px] text-gray-600">{camp.converted}</td>
-                <td className="px-6 py-4 text-right text-[15px] font-extrabold text-[#191C1E]">{camp.rate}</td>
+                <td className="px-8 py-4 text-right text-[15px] text-gray-600">{camp.sent}</td>
+                <td className="px-8 py-4 text-right text-[15px] text-gray-600">{camp.replies}</td>
+                <td className="px-8 py-4 text-right text-[15px] text-gray-600">{camp.converted}</td>
+                <td className="px-8 py-4 text-right text-[15px] font-extrabold text-[#191C1E]">{camp.rate}</td>
               </tr>
             ))}
           </tbody>

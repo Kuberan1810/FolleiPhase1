@@ -11,7 +11,7 @@ const Login = () => {
 
                     <div className="flex items-center gap-3 mb-10 lg:mb-16">
                         <div className="bg-white p-2 rounded-lg">
-                            <Network className="text-[#003E6B] size-6 lg:size-8" />
+                            <Network className="text-[#022165] size-6 lg:size-8" />
                         </div>
                         <div>
                             <h1 className="text-2xl lg:text-[35px] font-semibold tracking-tight leading-none">LiveTracker</h1>
@@ -28,13 +28,13 @@ const Login = () => {
                 </div>
 
                 <div className="absolute -bottom-4 -right-12 hidden lg:block pointer-events-none">
-                    <img 
-                        src="/image 8.svg" 
-                        alt="AI Agent Illustration" 
+                    <img
+                        src="/image 8.svg"
+                        alt="AI Agent Illustration"
                         className="w-full max-w-[450px] xl:max-w-[556px] h-auto object-contain"
                     />
                 </div>
-                
+
                 {/* Decorative background elements */}
                 <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[100px]" />
             </div>

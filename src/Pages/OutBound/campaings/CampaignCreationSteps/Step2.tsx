@@ -39,7 +39,7 @@ const Step2 = ({
 
   return (
     <div className="space-y-8 font-manrope animate-in slide-in-from-right-4 duration-500">
-      <h2 className="text-[20px] font-[700] text-[#001E40] leading-[100%] tracking-[0px]">Design Message Content</h2>
+      <h2 className="text-[20px] font-bold text-[#001E40] leading-[100%] tracking-[0px]">Design Message Content</h2>
       
       {/* Personalization Section */}
       <section>
@@ -52,9 +52,9 @@ const Step2 = ({
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className="flex items-center gap-2 px-4 py-2 bg-[#F2F4F6] text-[#475569] rounded-[4px] text-[14px] font-semibold border border-transparent select-none cursor-default"
+              className="flex items-center gap-2 px-3 py-1.5 bg-[#F2F4F6] text-[#001E40] rounded-[4px] text-[12px] font-[600] leading-[16px] border border-transparent select-none"
             >
-              <span className="text-[#64748B]">{item.icon}</span>
+              <span className="text-[#001E40]">{item.icon}</span>
               {item.label}
             </div>
           ))}
@@ -68,46 +68,43 @@ const Step2 = ({
           <input 
             type="text" 
             value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            readOnly
             className="w-full h-[48px] bg-[#F2F4F6] rounded-[4px] px-4 text-[#191C1E] font-[500] text-[16px] leading-[24px] tracking-[0px] focus:outline-none transition-all placeholder:text-[#94A3B8]"
           />
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center gap-1.5 text-[#004370] text-[10px] font-[600] leading-[15px] tracking-[0px] uppercase hover:text-[#003152] transition-colors">
-            <Sparkles size={12} /> Optimize
-          </button>
         </div>
       </section>
 
       {/* Email Body Section */}
       <section>
         <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-4">Email Body</h3>
-        <div className="border border-[#E2E8F0] rounded-[24px] overflow-hidden bg-white shadow-sm">
+        <div className="border border-[#E2E8F0] rounded-[24px] overflow-hidden bg-white">
           {/* Toolbar */}
           <div className="flex items-center justify-between h-[44px] px-4 bg-[#F2F4F6] border-b border-[#C3C6D1]/10 overflow-x-auto no-scrollbar">
-            <div className="flex items-center gap-4 sm:gap-6 min-w-max">
+            <div className="flex items-center gap-1 min-w-max">
               <button 
                 onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false); }}
-                className="text-[#64748B] hover:text-[#004370] transition-colors"
+                className="text-[#43474F] hover:text-[#004370] transition-colors cursor-pointer"
                 title="Bold"
               >
-                <Bold size={16} />
+                <Bold size={15} />
               </button>
               <button 
                 onMouseDown={(e) => { e.preventDefault(); document.execCommand('italic', false); }}
-                className="text-[#64748B] hover:text-[#004370] transition-colors"
+                className="text-[#43474F] hover:text-[#004370] transition-colors cursor-pointer"
                 title="Italic"
               >
-                <Italic size={16} />
+                <Italic size={15} />
               </button>
               <button 
                 onMouseDown={(e) => { e.preventDefault(); document.execCommand('insertUnorderedList', false); }}
-                className="text-[#64748B] hover:text-[#004370] transition-colors"
+                className="text-[#43474F] hover:text-[#004370] transition-colors cursor-pointer"
                 title="Bullet List"
               >
-                <List size={16} />
+                <List size={15} />
               </button>
               <div className="w-[1px] h-5 bg-[#D1D5DB] mx-1" />
-              <button className="text-[#64748B] hover:text-[#004370] transition-colors"><Link size={16} /></button>
-              <button className="text-[#64748B] hover:text-[#004370] transition-colors"><LucideImage size={16} /></button>
+              <button className="text-[#43474F] hover:text-[#004370] transition-colors cursor-pointer"><Link size={15} /></button>
+              <button className="text-[#43474F] hover:text-[#004370] transition-colors cursor-pointer"><LucideImage size={15} /></button>
             </div>
             <span className="text-[10px] text-[#43474F] font-semibold">Draft saved</span>
           </div>
@@ -117,7 +114,7 @@ const Step2 = ({
               ref={editorRef}
               contentEditable
               onInput={(e) => setEmailBody(e.currentTarget.innerHTML)}
-              className="w-full min-h-[300px] text-[#334155] text-[16px] leading-[1.6] focus:outline-none font-manrope outline-none"
+              className="w-full min-h-[300px] text-[#191C1E] font-[500] text-[16px] leading-[24px] focus:outline-none font-manrope outline-none"
             />
           </div>
           {/* Visual Attachments Area */}
@@ -128,7 +125,7 @@ const Step2 = ({
             </div>
             <div className="flex flex-wrap gap-3">
               {attachments.map((url, idx) => (
-                <div key={idx} className="w-[100px] h-[100px] bg-white rounded-lg overflow-hidden border border-[#C3C6D1]/20 group cursor-pointer relative shadow-sm">
+                <div key={idx} className="w-[100px] h-[100px] bg-white rounded-lg overflow-hidden border border-[#C3C6D1]/20 group cursor-pointer relative">
                   <img 
                     src={url} 
                     alt={`Attachment ${idx + 1}`} 
@@ -136,7 +133,7 @@ const Step2 = ({
                   />
                   <button 
                     onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))}
-                    className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[12px]"
+                    className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[12px] cursor-pointer"
                   >
                     ×
                   </button>
@@ -151,7 +148,7 @@ const Step2 = ({
               />
               <button 
                 onClick={triggerUpload}
-                className="w-[100px] h-[100px] bg-white border-2 border-dashed border-[#C3C6D1]/30 rounded-lg flex flex-col items-center justify-center gap-1.5 hover:bg-gray-50 transition-colors"
+                className="w-[100px] h-[100px] bg-white border-2 border-dashed border-[#C3C6D1]/30 rounded-lg flex flex-col items-center justify-center gap-1.5 hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <Plus size={18} className="text-[#94A3B8]" />
                 <span className="text-[11px] font-bold text-[#94A3B8]">Add</span>
@@ -164,10 +161,10 @@ const Step2 = ({
       {/* CTA Section */}
       <section className="pt-4">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[18px] font-[800] text-[#001E40]">Call to Action Button</h2>
+          <h2 className="text-[18px] font-extrabold text-[#001E40]">Call to Action Button</h2>
           <button 
             onClick={() => setCtaEnabled(!ctaEnabled)}
-            className={`w-[52px] h-[28px] rounded-full transition-all duration-300 relative ${ctaEnabled ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
+            className={`w-[52px] h-[28px] rounded-full transition-all duration-300 relative cursor-pointer ${ctaEnabled ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
           >
             <div className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all duration-300 ${ctaEnabled ? 'left-[26px]' : 'left-1'}`} />
           </button>
@@ -200,7 +197,7 @@ const Step2 = ({
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
           <button 
             onClick={onBack}
-            className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2"
+            className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
           >
             <ArrowLeft size={18} /> Back
           </button>
@@ -219,7 +216,7 @@ const Step2 = ({
           </button>
           <button 
             onClick={onNext}
-            className="flex items-center justify-center gap-2 w-full sm:w-[210px] h-[48px] bg-[#004370] text-white rounded-[6px] font-bold text-[14px] hover:bg-[#003152] transition-all group"
+            className="flex items-center justify-center gap-2 w-full sm:w-[210px] h-[48px] bg-[#004370] text-white rounded-[6px] font-bold text-[14px] hover:bg-[#003152] transition-all group cursor-pointer"
           >
             Continue <ChevronRight size={18} />
           </button>
