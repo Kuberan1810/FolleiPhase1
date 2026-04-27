@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UserPlus, MessageSquare, Inbox, RefreshCw, Bell } from 'lucide-react';
+import { UserAdd, MessageText1, MessageTime, Refresh, } from 'iconsax-react';
 import InsightCard from './components/InsightCard/InsightCard';
 // import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
@@ -10,6 +10,7 @@ import ReplyReceivedDrawer from './components/Drawers/ReplyReceived/ReplyReceive
 import NotifySalesDrawer from './components/Drawers/NotifySales/NotifySalesDrawer';
 import WorkflowHeader from './components/Common/WorkflowHeader';
 import ConnectorLine from './components/Common/ConnectorLine';
+import { ArrowDownIcon, PentagonIcon } from 'lucide-react';
 
 const FlowBuilder: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
@@ -22,14 +23,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'new-lead',
-        icon: UserPlus,
+        icon: UserAdd,
         title: "Leads Added",
         description: "Triggers when a prospect fills out the website contact form.",
         status: "1.2k Active"
       },
       action: {
         id: 'send-message',
-        icon: MessageSquare,
+        icon: MessageText1,
         title: "Send Message",
         description: "Automated personalized intro via email and calls.",
         status: "High Priority"
@@ -38,14 +39,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'no-response',
-        icon: MessageSquare,
+        icon: MessageTime,
         title: "No Response",
         description: "Triggers after 48h of inactivity following initial outreach.",
         status: "236 Waiting"
       },
       action: {
         id: 'update-status',
-        icon: RefreshCw,
+        icon: Refresh,
         title: "Update Status",
         description: "Move contact to \"Active Prospect\" in CRM database.",
         status: "Syncing"
@@ -54,14 +55,14 @@ const FlowBuilder: React.FC = () => {
     {
       trigger: {
         id: 'reply-received',
-        icon: Inbox,
+        icon: ArrowDownIcon,
         title: "Reply Received",
         description: "Triggers when an email or SMS response is detected.",
         status: "105 Matches"
       },
       action: {
         id: 'notify-sales',
-        icon: Bell,
+        icon: PentagonIcon,
         title: "Notify Sales Rep",
         description: "Push notification to Slack channel #sales-alerts.",
         status: "Instant"
