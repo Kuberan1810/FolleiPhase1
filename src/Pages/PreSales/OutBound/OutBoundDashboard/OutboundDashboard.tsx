@@ -4,7 +4,7 @@ import FloatingButton from '../../../../Component/FloatingButton';
 
 import SalesToggleSwitch from '../../../../Component/SalesToggleSwitch';
 
-const Dashboard2 = () => {
+const OutboundDashboard = () => {
   const stats = [
     {
       label: "TOTAL OUTREACH",
@@ -391,4 +391,4 @@ const LiveActivity2 = () => {
   );
 };
 
-export default Dashboard2;
+export default OutboundDashboard;
