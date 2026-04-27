@@ -59,21 +59,21 @@ const LoginForm = () => {
           <label className="text-[14px] font-normal font-manrope text-black leading-none">
             {activeTab === "email" ? "Username / Email" : "Mobile Number"}
           </label>
-            <input
-              type={activeTab === "email" ? "text" : "tel"}
-              value={username}
-              onChange={(e) => {
-                const val = e.target.value
-                if (activeTab === "mobile") {
-                  const numericValue = val.replace(/[^0-9]/g, "")
-                  setUsername(numericValue)
-                } else {
-                  setUsername(val)
-                }
-              }}
-              placeholder={activeTab === "email" ? "Enter your email" : "Enter mobile number"}
-              className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] text-black placeholder:text-gray-400"
-            />
+          <input
+            type={activeTab === "email" ? "text" : "tel"}
+            value={username}
+            onChange={(e) => {
+              const val = e.target.value
+              if (activeTab === "mobile") {
+                const numericValue = val.replace(/[^0-9]/g, "")
+                setUsername(numericValue)
+              } else {
+                setUsername(val)
+              }
+            }}
+            placeholder={activeTab === "email" ? "Enter your email" : "Enter mobile number"}
+            className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] text-black placeholder:text-gray-400"
+          />
         </div>
 
         {activeTab === "email" && (

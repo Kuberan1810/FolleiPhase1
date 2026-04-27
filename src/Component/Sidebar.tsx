@@ -102,7 +102,9 @@ const Sidebar: React.FC = () => {
                             <p className="mt-2 text-[12px] leading-relaxed text-[#414750]">
                                 Get advanced analytics and automation tools.
                             </p>
-                            <button className="mt-4 w-full rounded-[4px] bg-[#004370] py-[8px] text-center text-[12px] font-semibold text-white cursor-pointer hover:bg-[#004370]/80 transition-all duration-200">
+                            <button
+                                onClick={() => { navigate('/settings/payment')}}
+                                className="mt-4 w-full rounded-[4px] bg-[#004370] py-[8px] text-center text-[12px] font-semibold text-white cursor-pointer hover:bg-[#004370]/80 transition-all duration-200">
                                 Upgrade Now
                             </button>
                         </div>

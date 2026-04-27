@@ -1,5 +1,5 @@
-import React from 'react';
-import { Mail, MessageSquare, Smartphone, Phone, Check, ChevronRight, UploadCloud, Users, Flame, Thermometer, Snowflake } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Mail, MessageSquare, Smartphone, Phone, Check, ChevronRight, Camera, Users, Flame, Thermometer, Snowflake, Upload, ListFilter } from 'lucide-react';
 
 interface Step1Props {
   selectedChannels: string[];
@@ -9,13 +9,27 @@ interface Step1Props {
   onNext: () => void;
 }
 
-const Step1 = ({ 
-  selectedChannels, 
-  setSelectedChannels, 
-  selectedAudience, 
-  setSelectedAudience, 
-  onNext 
+const Step1 = ({
+  selectedChannels,
+  setSelectedChannels,
+  selectedAudience,
+  setSelectedAudience,
+  onNext
 }: Step1Props) => {
+  const [logo, setLogo] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
+  const isStepValid = logo && name.trim() !== '' && description.trim() !== '' && selectedChannels.length > 0 && selectedAudience !== '';
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setLogo(url);
+    }
+  };
   const channels = [
     { id: 'email', name: 'Email', sub: 'High-volume transactional', icon: <Mail className="text-blue-600" size={24} /> },
     { id: 'whatsapp', name: 'WhatsApp', sub: 'Direct personal engagement', icon: <MessageSquare className="text-emerald-600" size={24} /> },
@@ -77,12 +91,28 @@ const Step1 = ({
       {/* Campaign Details */}
       <section>
         <h3 className="text-[16px] font-semibold text-[#001E40] uppercase tracking-[0.55px] leading-[16.5px] mb-4">Campaign Logo / Brand Image</h3>
-        <div className="w-full h-[180px] bg-white border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group">
-          <div className="w-12 h-12 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-            <UploadCloud className="text-[#64748B]" size={24} />
-          </div>
-          <p className="text-[#001E40] font-semibold text-[14px] leading-[20px] tracking-[0px] mb-1">Upload Campaign Image</p>
-          <p className="text-[#94A3B8] text-[13px]">PNG, JPG or SVG (max. 5MB)</p>
+        <input 
+          type="file"
+          ref={logoInputRef}
+          onChange={handleLogoChange}
+          accept="image/*"
+          className="hidden"
+        />
+        <div 
+          onClick={() => logoInputRef.current?.click()}
+          className="w-full h-[180px] bg-white border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group overflow-hidden"
+        >
+          {logo ? (
+            <img src={logo} alt="Campaign Logo" className="w-full h-full object-contain" />
+          ) : (
+            <>
+              <div className="w-12 h-12 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Camera className="text-[#64748B]" size={24} />
+              </div>
+              <p className="text-[#001E40] font-semibold text-[14px] leading-[20px] tracking-[0px] mb-1">Upload Campaign Image</p>
+              <p className="text-[#94A3B8] text-[13px]">PNG, JPG or SVG (max. 5MB)</p>
+            </>
+          )}
         </div>
       </section>
 
@@ -91,6 +121,8 @@ const Step1 = ({
           <h3 className="text-[16px] font-semibold text-[#001E40] uppercase tracking-[0.55px] leading-[16.5px] mb-4">Campaign Name</h3>
           <input
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Q4 Executive Outreach 2024"
             className="w-full h-[62px] bg-[#F2F4F7] rounded-[14px] px-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280]"
           />
@@ -99,6 +131,8 @@ const Step1 = ({
         <section>
           <h3 className="text-[16px] font-semibold text-[#001E40] uppercase tracking-[0.55px] leading-[16.5px] mb-4">Description</h3>
           <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="Briefly describe the purpose of this campaign for internal tracking..."
             className="w-full h-[140px] bg-[#F2F4F7] rounded-[14px] p-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280] resize-none"
           />
@@ -107,26 +141,26 @@ const Step1 = ({
 
       {/* Channel Selection */}
       <section>
-        <h2 className="text-[22px] font-[800] text-[#191C1E] mb-6">Channel Selection</h2>
+        <h2 className="text-[20px] font-extrabold text-[#001E40] leading-[100%] tracking-[0px]">Channel Selection</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {channels.map((channel) => (
             <div
               key={channel.id}
               onClick={() => toggleChannel(channel.id)}
               className={`h-[100px] px-8 rounded-[16px] border transition-all cursor-pointer flex items-center gap-6 ${selectedChannels.includes(channel.id)
-                  ? 'bg-white border-[#F1F5F9] shadow-lg shadow-blue-900/5'
-                  : 'bg-white border-[#F1F5F9] hover:border-[#E2E8F0]'
+                ? 'bg-white border-[#C3C6D1]/47'
+                : 'bg-white border-transparent hover:border-[#E2E8F0]'
                 }`}
             >
               <div className={`w-[24px] h-[24px] rounded-lg border flex items-center justify-center transition-all ${selectedChannels.includes(channel.id)
-                  ? 'bg-[#001E40] border-[#001E40]'
-                  : 'bg-white border-[#E2E8F0]'
+                ? 'bg-[#001E40] border-[#001E40]'
+                : 'bg-white border-[#E2E8F0]'
                 }`}>
                 {selectedChannels.includes(channel.id) && <Check size={16} className="text-white" strokeWidth={4} />}
               </div>
               <div>
-                <p className="text-[#191C1E] font-bold text-[18px] mb-0.5">{channel.name}</p>
-                <p className="text-[#94A3B8] text-[14px] font-medium">{channel.sub}</p>
+                <p className="text-[#001E40] font-[600] text-[16px] leading-[24px] mb-0.5">{channel.name}</p>
+                <p className="text-[#43474F] text-[12px] font-normal leading-[16px]">{channel.sub}</p>
               </div>
             </div>
           ))}
@@ -136,13 +170,13 @@ const Step1 = ({
       {/* Audience Selection */}
       <section>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-[22px] font-[800] text-[#191C1E]">Select Audience</h2>
+          <h2 className="text-[22px] font-extrabold text-[#191C1E]">Select Audience</h2>
           <div className="flex flex-wrap gap-2 sm:gap-4">
-            <button className="flex items-center gap-[8px] h-[32px] px-[16px] bg-[#E0E3E5] text-[#475569] rounded-[4px] text-[13px] font-bold hover:bg-[#D1D5D8] transition-colors whitespace-nowrap">
-              <UploadCloud size={14} /> Upload Contacts
+            <button className="flex items-center gap-[8px] h-[32px] px-[16px] bg-[#E0E3E5] text-[#001E40] rounded-[4px] text-[12px] font-[600] hover:bg-[#D1D5D8] transition-colors whitespace-nowrap cursor-pointer">
+              <Upload size={14} /> Upload Contacts
             </button>
-            <button className="flex items-center gap-[8px] h-[32px] px-[16px] bg-[#E0E3E5] text-[#475569] rounded-[4px] text-[13px] font-bold hover:bg-[#D1D5D8] transition-colors whitespace-nowrap">
-              <Users size={14} /> Choose Segment
+            <button className="flex items-center gap-[8px] h-[32px] px-[16px] bg-[#E0E3E5] text-[#001E40] rounded-[4px] text-[12px] font-[600] hover:bg-[#D1D5D8] transition-colors whitespace-nowrap cursor-pointer">
+              <ListFilter size={14} /> Choose Segment
             </button>
           </div>
         </div>
@@ -152,12 +186,12 @@ const Step1 = ({
               key={audience.id}
               onClick={() => setSelectedAudience(audience.id)}
               className={`flex flex-col gap-[6px] p-5 min-h-[118px] bg-white rounded-[20px] border transition-all cursor-pointer relative group ${selectedAudience === audience.id
-                  ? 'border-[#C3C6D1]/47 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
-                  : 'border-[#C3C6D1]/47 hover:border-[#C3C6D1]/80 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
+                ? 'border-[#C3C6D1]/47'
+                : 'border-transparent hover:border-[#C3C6D1]/80'
                 }`}
             >
               {selectedAudience === audience.id && (
-                <div className="absolute top-5 right-5 w-6 h-6 bg-[#001E40] rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                <div className="absolute top-5 right-5 w-6 h-6 bg-[#001E40] rounded-full flex items-center justify-center border-2 border-white">
                   <Check size={14} className="text-white" strokeWidth={4} />
                 </div>
               )}
@@ -168,7 +202,7 @@ const Step1 = ({
                 </div>
                 <div className="flex-1 pr-6">
                   <p className="text-[#191C1E] font-[800] text-[16px] mb-0.5">{audience.name}</p>
-                  <p className="text-[#43474F] text-[12px] leading-tight font-normal">
+                  <p className="text-[#43474F] text-[12px] font-normal leading-[16px]">
                     {audience.sub}
                   </p>
                 </div>
@@ -187,14 +221,19 @@ const Step1 = ({
 
       {/* Navigation Buttons */}
       <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-8 shrink-0">
-        <button className="flex items-center justify-center w-full sm:w-[189px] h-[40px] sm:h-[32px] bg-[#E5ECF1] text-[#191C1E] rounded-[4px] font-bold text-[14px] hover:bg-[#DDE5ED] transition-colors">
+        <button className="flex items-center justify-center w-full sm:w-[189px] h-[40px] sm:h-[32px] bg-[#E5ECF1] text-[#191C1E] rounded-[4px] font-bold text-[14px] hover:bg-[#DDE5ED] transition-colors cursor-pointer">
           Cancel
         </button>
-        <button 
+        <button
           onClick={onNext}
-          className="flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] bg-[#004370] text-white rounded-[4px] font-bold text-[14px] hover:bg-[#003152] transition-all group"
+          disabled={!isStepValid}
+          className={`flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] rounded-[4px] font-bold text-[14px] transition-all group ${
+            isStepValid 
+              ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer' 
+              : 'bg-[#E5ECF1] text-[#94A3B8] cursor-not-allowed'
+          }`}
         >
-          Continue <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          Continue <ChevronRight size={18} className={isStepValid ? "group-hover:translate-x-1 transition-transform" : ""} />
         </button>
       </div>
     </div>

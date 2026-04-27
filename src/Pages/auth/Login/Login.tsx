@@ -10,9 +10,11 @@ const Login = () => {
             <div className="hidden md:flex md:w-[45%] bg-[#003E6B] text-white p-6 lg:p-12 flex-col justify-between overflow-hidden relative">
                 <div className="z-10 font-inter">
 
+
                     <div className="flex items-center gap-3 mb-10">
                         <div className='w-28'>
                             <img src={FolleiWhite} alt="FolleiLogo" />
+
                         </div>
                     </div>
 
@@ -24,11 +26,13 @@ const Login = () => {
                     </div>
                 </div>
 
+
                 <div className="absolute -bottom-4 -right-12 hidden md:block pointer-events-none">
                     <img
                         src={Dashboard}
                         alt="AI Agent Illustration"
                         className="w-full max-w-[350px] lg:max-w-[450px] h-auto object-contain"
+
                     />
                 </div>
 

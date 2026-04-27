@@ -57,9 +57,7 @@ const HelpCenter: React.FC = () => {
                     <span className="text-[#004370] font-medium">Help Center</span>
                 </div>
                 <div className="space-y-1 font-manrope">
-                    <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] font-inter">
-                        Intelligence Hub
-                    </span>
+
                     <h1 className="text-[30px] font-bold text-[#000000] tracking-tight">
                         Help Center
                     </h1>
@@ -67,10 +65,10 @@ const HelpCenter: React.FC = () => {
             </div>
 
             <div className="flex flex-col w-full relative">
-                {faqData.map((section, sectionIndex) => (
-                    <div key={section.id} className="flex flex-col w-full">
+                {faqData.map((section) => (
+                    <div key={section.id} className="flex flex-col w-full bg-white rounded-[24px] p-6 sm:p-8 border border-[#F1F5F9] mb-8">
 
-                        <div className={`flex flex-col py-6 ${sectionIndex === 0 ? 'pt-2' : ''}`}>
+                        <div className="flex flex-col">
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="w-[48px] h-[48px] bg-[#014370]/15 rounded-[12px] flex items-center justify-center text-[#014370]">
                                     <section.icon size={24} strokeWidth={2.5} />
