@@ -9,6 +9,8 @@ import { useState } from 'react';
 
 import { useSalesContext } from '../Context/SalesContext';
 
+import BoundToggleSwitch from './BoundToggleSwitch';
+
 const Header: React.FC = () => {
     const { salesMode } = useSalesContext();
     const location = useLocation();
@@ -60,26 +62,9 @@ const Header: React.FC = () => {
 
             <div className='flex lg:gap-20 md:gap-16 sm:gap-10 gap-5'>
                 {/* Inbound / Outbound Toggle */}
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => handleToggle('inbound')}
-                        className={`h-[38px] sm:h-[44px] px-5 rounded-full text-[13px] sm:text-[14px] font-semibold transition-colors cursor-pointer flex items-center justify-center ${!isOutbound
-                                ? 'bg-[#014370] text-white hover:bg-[#013254]'
-                                : 'bg-[#E5ECF1] text-gray-800 border border-gray-200/50 hover:bg-gray-200 shadow-[inset_0_3px_4px_0_rgba(0,0,0,0.25)]'
-                            }`}
-                    >
-                        In Bound
-                    </button>
-                    <button
-                        onClick={() => handleToggle('outbound')}
-                        className={`h-[38px] sm:h-[44px] px-5 rounded-full text-[13px] sm:text-[14px] font-semibold transition-colors cursor-pointer flex items-center justify-center ${isOutbound
-                                ? 'bg-[#014370] text-white hover:bg-[#013254]'
-                                : 'bg-[#E5ECF1] text-gray-800 border border-gray-200/50 hover:bg-gray-200 shadow-[inset_0_3px_4px_0_rgba(0,0,0,0.25)]'
-                            }`}
-                    >
-                        Out Bound
-                    </button>
-                </div>
+                <div className='hidden sm:flex'>
+                    <BoundToggleSwitch isOutbound={isOutbound} onToggle={handleToggle} />
+               </div>
 
                 <div className="flex items-center gap-3 lg:gap-6">
                     <div className="flex items-center gap-4 lg:gap-5 border-r border-[#E2E8F0] pr-3 lg:pr-6">
