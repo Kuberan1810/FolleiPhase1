@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle } from 'lucide-react';
+import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
+import SchIcon from '../../../../../../../assets/icons/schedule.svg';
+
+const ScheduleIcon = (props: any) => {
+  const size = props.size || 18;
+  return <img src={SchIcon} alt="Schedule Call" style={{ width: size, height: size }} />;
+};
 
 interface NotifySalesDrawerProps {
   isOpen: boolean;
@@ -132,9 +138,9 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
 
                 {[
                   { label: 'Leads Replied', icon: CheckCircle2, status: 'completed' },
-                  { label: 'Notify Sales', icon: Bell, status: 'active' },
-                  { label: 'Schedule Call', icon: Calendar, status: 'pending' },
-                  { label: 'Close Deal', icon: CheckCircle, status: 'pending' }
+                  { label: 'Notify Sales', icon: BellRing, status: 'active' },
+                  { label: 'Schedule Call', icon: ScheduleIcon, status: 'pending' },
+                  { label: 'Close Deal', icon: BellRing, status: 'pending' }
                 ].map((step, i) => (
                   <div key={i} className="flex items-center gap-4 relative pb-8 last:pb-0">
                     <div

@@ -27,7 +27,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
   const [isCreating, setIsCreating] = useState(false);
   const [newTemplateName, setNewTemplateName] = useState('');
   const [isDelayDropdownOpen, setIsDelayDropdownOpen] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState('SMS');
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['SMS']);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editName, setEditName] = useState('');
 
@@ -93,21 +93,30 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                     { icon: Mail, label: 'Email' },
                     { icon: Phone, label: 'Phone' },
                     { icon: MessageCircle, label: 'WhatsApp' }
-                  ].map((item, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedChannel(item.label)}
-                      className={`flex flex-col items-center justify-center gap-2.5 p-3 rounded-[10px] border-[2px] transition-all cursor-pointer
-                        ${selectedChannel === item.label
-                          ? 'border-[#004370] bg-[#F8FAFC] text-[#004370]'
-                          : 'bg-white border-[#E2E8F0] text-[#595C5E] hover:bg-[#F8FAFC]'}`}
-                    >
-                      <div className="text-[#004370]">
-                        <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${selectedChannel === item.label ? 'bg-[#004370]/10' : 'bg-[#C1C7D1]/30'}`} />
-                      </div>
-                      <span className={`text-[12px] font-bold ${selectedChannel === item.label ? 'text-[#004370]' : 'text-[#595C5E]'}`}>{item.label}</span>
-                    </button>
-                  ))}
+                  ].map((item, i) => {
+                    const isSelected = selectedChannels.includes(item.label);
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          setSelectedChannels(prev =>
+                            prev.includes(item.label)
+                              ? prev.filter(c => c !== item.label)
+                              : [...prev, item.label]
+                          );
+                        }}
+                        className={`flex flex-col items-center justify-center gap-2.5 p-3 rounded-[10px] border-[2px] transition-all cursor-pointer
+                          ${isSelected
+                            ? 'border-[#004370] bg-[#F8FAFC] text-[#004370]'
+                            : 'bg-white border-[#E2E8F0] text-[#595C5E] hover:bg-[#F8FAFC]'}`}
+                      >
+                        <div className="text-[#004370]">
+                          <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${isSelected ? 'bg-[#004370]/10' : 'bg-[#C1C7D1]/30'}`} />
+                        </div>
+                        <span className={`text-[12px] font-bold ${isSelected ? 'text-[#004370]' : 'text-[#595C5E]'}`}>{item.label}</span>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
