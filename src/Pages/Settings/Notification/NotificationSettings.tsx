@@ -10,11 +10,11 @@ interface ToggleProps {
 const Toggle = ({ isOn, onToggle }: ToggleProps) => (
   <button
     onClick={onToggle}
-    className={`w-[60px] h-[30px] rounded-full p-1 transition-colors duration-200 ease-in-out relative flex items-center cursor-pointer ${isOn ? 'bg-[#004370]' : 'bg-[#004370]/20'
+    className={`w-[60px] h-[30px] shrink-0 rounded-full p-1 transition-colors duration-200 ease-in-out relative flex items-center cursor-pointer ${isOn ? 'bg-[#004370]' : 'bg-[#004370]/20'
       }`}
   >
     <div
-      className={`w-[22px] h-[22px] rounded-full shadow-sm transform transition-transform duration-200 ease-in-out cursor-pointer ${isOn ? 'translate-x-[30px] bg-white' : 'translate-x-0 bg-[#004370]'
+      className={`w-[22px] h-[22px] shrink-0 rounded-full shadow-sm transform transition-transform duration-200 ease-in-out cursor-pointer ${isOn ? 'translate-x-[30px] bg-white' : 'translate-x-0 bg-[#004370]'
         }`}
     />
   </button>
@@ -62,9 +62,9 @@ const NotificationSettings = () => {
           <div className='BoxStyle p-6! space-y-6'>
 
             {/* Presales */}
-            <div className="flex items-center justify-between ">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center w-[36px] h-[36px] bg-[#004370]/10 rounded-lg text-[#004370]">
+                <div className="flex items-center justify-center w-[36px] h-[36px] shrink-0 bg-[#004370]/10 rounded-lg text-[#004370]">
                   <Rocket size={20} strokeWidth={2.5} />
                 </div>
                 <span className="text-[20px] font-extrabold text-[#191C1E] font-inter leading-[28px] tracking-[-0.5px]">
@@ -75,9 +75,9 @@ const NotificationSettings = () => {
             </div>
 
             {/* Postsales */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center w-[36px] h-[36px] bg-[#004370]/10 rounded-lg text-[#004370]">
+                <div className="flex items-center justify-center w-[36px] h-[36px] shrink-0 bg-[#004370]/10 rounded-lg text-[#004370]">
                   <Headset size={20} strokeWidth={2.5} />
                 </div>
                 <span className="text-[20px] font-extrabold text-[#191C1E] font-inter leading-[28px] tracking-[-0.5px]">
@@ -104,8 +104,8 @@ const NotificationSettings = () => {
 
             {/* Inbound Items */}
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">calls</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Real-time alerts for incoming VoIP calls and missed voicemails.
@@ -114,8 +114,8 @@ const NotificationSettings = () => {
                 <Toggle isOn={toggles.inboundCalls} onToggle={() => handleToggle('inboundCalls')} />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">messages</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Direct message alerts from connected social and chat platforms.
@@ -124,8 +124,8 @@ const NotificationSettings = () => {
                 <Toggle isOn={toggles.inboundMessages} onToggle={() => handleToggle('inboundMessages')} />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">emails</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Summarized digest of prioritized incoming email threads.
@@ -152,8 +152,8 @@ const NotificationSettings = () => {
 
             {/* Outbound Items */}
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">calls</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Real-time alerts for incoming VoIP calls and missed voicemails.
@@ -162,8 +162,8 @@ const NotificationSettings = () => {
                 <Toggle isOn={toggles.outboundCalls} onToggle={() => handleToggle('outboundCalls')} />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">messages</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Direct message alerts from connected social and chat platforms.
@@ -172,8 +172,8 @@ const NotificationSettings = () => {
                 <Toggle isOn={toggles.outboundMessages} onToggle={() => handleToggle('outboundMessages')} />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 flex-1">
                   <span className="text-[16px] font-semibold text-[#191C1E] font-inter leading-[24px] tracking-[0px]">emails</span>
                   <span className="text-[14px] font-normal text-[#434655] font-inter leading-[20px] tracking-[0px]">
                     Summarized digest of prioritized incoming email threads.

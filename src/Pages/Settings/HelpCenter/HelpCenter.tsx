@@ -33,7 +33,7 @@ const faqData = [
     },
     {
         id: 'outbound',
-        title: 'Outboud',
+        title: 'Outbound',
         icon: FileUp,
         questions: [
             { q: 'Can I integrate my existing email provider?', a: 'Yes, outbound emails can be sent through your connected provider.' }
@@ -73,7 +73,7 @@ const HelpCenter: React.FC = () => {
                                 <div className="w-[48px] h-[48px] bg-[#014370]/15 rounded-[12px] flex items-center justify-center text-[#014370]">
                                     <section.icon size={24} strokeWidth={2.5} />
                                 </div>
-                                <h2 className="text-[30px] font-[800] leading-[36px] tracking-[-0.75px] text-[#191C1E]">
+                                <h2 className="text-[20px] font-[800] leading-[28px] tracking-[-0.5px] text-[#191C1E]">
                                     {section.title}
                                 </h2>
                             </div>

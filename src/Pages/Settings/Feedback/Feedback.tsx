@@ -121,7 +121,7 @@ const Feedback: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 pl-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
                     <div className="bg-[#F2F4F6] rounded-[32px] p-8 flex flex-col justify-between h-[194px]">
                         <div className="space-y-4">
                             <div className="text-[#004370]">
