@@ -110,10 +110,10 @@ const PrivacyPolicy: React.FC = () => {
                 <div className="w-8 h-8 rounded-[12px] bg-white/20 flex items-center justify-center text-white">
                   <ShieldCheck size={16} />
                 </div>
-                <h2 className="text-[24px] font-bold ">4. Security Protocols</h2>
+                <h2 className="text-[20px] sm:text-[24px] font-bold ">4. Security Protocols</h2>
               </div>
               <div className="space-y-6 relative z-10">
-                <p className="text-[16px] text-white/80 leading-relaxed w-full">
+                <p className="text-[14px] sm:text-[16px] text-white/80 leading-relaxed w-full">
                   We treat security with mathematical precision. All data is encrypted using AES-256 standards both at rest and in transit. Our infrastructure is monitored 24/7 by dedicated security response teams to ensure your editorial workspace remains error-free.
                 </p>
                 <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-[12px] border border-white/20">
@@ -160,13 +160,13 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-[24px] font-bold text-[#191C1E]">Still have questions?</h2>
               <p className="text-[16px] text-[#64748B]">Our legal and privacy compliance team is ready to assist you with any concerns regarding your data.</p>
             </div>
-            <div className="flex items-center gap-3">
-              <button className="h-[48px] px-6 bg-[#044672] text-white rounded-[14px] text-[16px] font-bold flex items-center gap-2 hover:bg-[#00365a] transition-all cursor-pointer">
-                <Mail size={16} />
-                Contact Privacy Team
+            <div className="flex flex-row gap-3 w-full">
+              <button className="flex-1 h-[48px] px-3 sm:px-6 bg-[#044672] text-white rounded-[14px] text-[13px] sm:text-[16px] font-bold flex items-center justify-center gap-2 hover:bg-[#00365a] transition-all cursor-pointer">
+                <Mail size={16} className="shrink-0" />
+                <span className="truncate">Contact Privacy Team</span>
               </button>
-              <button className="h-[48px] px-6 bg-[#E2E8F0] text-[#191C1E] rounded-[12px] text-[16px] font-bold hover:bg-[#CBD5E1] transition-all cursor-pointer">
-                Visit Help Center
+              <button className="flex-1 h-[48px] px-3 sm:px-6 bg-[#E2E8F0] text-[#191C1E] rounded-[12px] text-[13px] sm:text-[16px] font-bold flex items-center justify-center hover:bg-[#CBD5E1] transition-all cursor-pointer">
+                <span className="truncate">Visit Help Center</span>
               </button>
             </div>
           </div>
