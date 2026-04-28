@@ -16,14 +16,16 @@ const BulkDataImport = () => {
         <div className="BoxStyle md:p-8! flex flex-col gap-8">
 
             {/* Header */}
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex  flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
                     <div className="p-1 rounded-lg bg-[#005B9620] flex items-center justify-center shrink-0">
-                        <LayoutGrid size={20} color='#005B96' />
+                        <LayoutGrid size={20} color='#005B96' className='hidden md:flex' />
+                        <LayoutGrid size={16} color='#005B96' className='md:hidden flex' />
+
                     </div>
-                    <span className="text-[18px] font-bold text-[#191C1E]">Bulk Data Import</span>
+                    <span className="md:text-[18px] text-base font-bold text-[#191C1E]">Bulk Data Import</span>
                 </div>
-                <span className="text-[12px] font-bold text-[#64748B] tracking-widest uppercase whitespace-nowrap">
+                <span className=" md:text-[12px] text-[10px] font-bold text-[#64748B] tracking-widest uppercase whitespace-nowrap">
                     Excel / CSV Engine
                 </span>
             </div>
@@ -72,8 +74,8 @@ const BulkDataImport = () => {
 
             {/* Upload button */}
             <button className="w-full flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors">
-                {/* <Import  color='white' size={20} /> */}
-                <Icon icon="solar:import-outline"  width="24" height="24" color='white'  style={{ strokeWidth: 6 }}/>
+                <ImportCurve  color='white' size={24} />
+                {/* <Icon icon="solar:import-outline" width="24" height="24" color='white' style={{ strokeWidth: 6 }} /> */}
                 Upload &amp; Synchronize Data
             </button>
         </div>

@@ -164,7 +164,7 @@ const ScheduleSection = () => {
         </div>
 
         {/* ── RIGHT: Upcoming ── */}
-        <div className="flex flex-col gap-4 md:gap-8  lg:border-l lg:border-[#F1F5F9] lg:pl-8 BoxStyle p-8! rounded-[12px]! md:rounded-l-none! flex-2">
+        <div className="flex flex-col gap-4 md:gap-8  lg:border-l lg:border-[#F1F5F9] lg:pl-8 BoxStyle md:p-8! rounded-[12px]! md:rounded-l-none! flex-2">
           {/* Header */}
           <div className="flex items-center justify-between">
             <h3 className="text-[18px] md:text-xl font-bold text-[#0F172A] font-manrope">Upcoming</h3>

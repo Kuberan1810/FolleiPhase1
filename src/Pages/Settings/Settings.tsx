@@ -15,7 +15,7 @@ const SettingsItem = ({ icon: Icon, label, description, to, className = "" }: Se
   <Link
     to={to}
 
-    className={`bg-[#FFFFFF] w-full  BoxStyle flex items-center justify-between group hover:bg-[#014370]/5! transition-all duration-200 ${className}`}
+    className={`w-full  BoxStyle flex items-center justify-between group hover:bg-[#014370]/5! transition-all duration-200 ${className}`}
 
   >
     <div className="flex items-center gap-5">
@@ -55,7 +55,7 @@ const Settings = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] ">
+    <div className="min-h-screen">
       <div className="w-full space-y-3">
         <div className="space-y-1 ">
           <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">

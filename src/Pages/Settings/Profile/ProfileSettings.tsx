@@ -34,7 +34,7 @@ const ProfileSettings: React.FC = () => {
 
 
 
-        <div className="min-h-screen pb-12  lg:-mx-6 lg:-mt-6   bg-[#FAFAF9]">
+        <div className="min-h-screen pb-12 -mx-4 -mt-4  lg:-mx-6 lg:-mt-6   bg-[#FAFAF9]">
             <div className="bg-[#014370] pt-6 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
 
 
@@ -60,7 +60,7 @@ const ProfileSettings: React.FC = () => {
                 </div>
             </div>
 
-            <div className="w-full -mt-16 px-4 relative z-20">
+            <div className="w-full -mt-16 sm:px-4 relative z-20">
                 <div className="flex justify-start mb-10 ml-6">
                     <div className="relative group">
                         <div className="h-[200px] w-[200px] rounded-full border-4 border-white overflow-hidden bg-slate-100 ring-4 ring-white/10">

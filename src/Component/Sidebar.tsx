@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
+import ModeBottomSheet from './ModeBottomSheet';
+import { Radio, Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 import { useSalesContext } from '../Context/SalesContext';
@@ -14,8 +17,43 @@ const Sidebar: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [showModeSheet, setShowModeSheet] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = (e: any) => {
+            const target = e.target;
+            if (!target.scrollTop && target !== document.documentElement) return;
+            
+            const currentScrollY = target.scrollTop || window.scrollY;
+            const deltaY = currentScrollY - lastScrollY;
+            
+            if (deltaY > 20 && currentScrollY > 50) {
+                setIsVisible(false); // Hide on scroll down
+            } else if (deltaY < -10) {
+                setIsVisible(true); // Show on light scroll up
+            }
+            setLastScrollY(currentScrollY);
+        };
+
+        document.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+        return () => document.removeEventListener('scroll', handleScroll, { capture: true });
+    }, [lastScrollY]);
+
     // Detect current type from URL
     const isOutbound = location.pathname.includes('/outbound');
+    const segments = location.pathname.split('/').filter(Boolean);
+    const currentPage = segments[2] ?? 'dashboard';
+
+    const handleModeToggle = (type: 'inbound' | 'outbound') => {
+        let targetPage = currentPage;
+        if (type === 'inbound' && targetPage.toLowerCase() === 'campaigns') {
+            targetPage = 'dashboard';
+        }
+        navigate(`/${salesMode}/${type}/${targetPage}`);
+    };
+
     const prefix = `/${salesMode}/${isOutbound ? 'outbound' : 'inbound'}`;
 
     const handleLogoutConfirm = () => {
@@ -48,24 +86,78 @@ const Sidebar: React.FC = () => {
 
     return (
         <>
-            {/* Mobile Bottom Nav */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 flex py-5 items-center justify-between border-t border-[#E2E8F080] bg-white px-4 lg:hidden font-[Manrope]">
-                {navItems.map((item, index) => (
-                    <NavLink
-                        key={index}
-                        to={item.path}
-                        className={({ isActive }) =>
-                            `flex flex-col items-center justify-center gap-1.5 min-w-[64px] transition-colors cursor-pointer 
-                        ${isActive ? 'text-[#075985] font-semibold' : 'text-[#64748B]'}`
-                        }
+            {/* Advanced Mobile Bottom Nav - Floating Pill Design */}
+            <AnimatePresence>
+                {isVisible && (
+                    <motion.nav 
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                        className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:hidden font-[Manrope] rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
                     >
-                        <div className='flex flex-col items-center gap-2'>
-                            <item.icon  color='currentColor' size={30} />
-                            {/* <p className='text-sm md:text-base'>{item.label}</p> */}
-                        </div>
-                    </NavLink>
-                ))}
-            </nav>
+                        {navItems.map((item, index) => {
+                            const isActive = location.pathname === item.path;
+
+                            return (
+                                <React.Fragment key={index}>
+                                    <NavLink
+                                        to={item.path}
+                                        className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300
+                                            ${isActive ? 'bg-white/95 backdrop-blur-xl text-[#014370] shadow-lg scale-105' : 'text-white/60 hover:text-white'}`}
+                                    >
+                                        <item.icon 
+                                            color='currentColor' 
+                                            size={isActive ? 26 : 24} 
+                                            variant={isActive ? "Bold" : "Outline"} 
+                                        />
+                                    </NavLink>
+                                </React.Fragment>
+                            );
+                        })}
+                    </motion.nav>
+                )}
+            </AnimatePresence>
+
+            {/* Mobile Center Mode Orb - Draggable & Always Visible Design */}
+            <AnimatePresence>
+                {!showModeSheet && (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                        drag
+                        dragElastic={0.15}
+                        dragMomentum={false}
+                        whileDrag={{ scale: 1.1, zIndex: 120 }}
+                        className="lg:hidden fixed bottom-15 left-1/2 -translate-x-1/2 z-[110]"
+                    >
+                        <button
+                            onClick={() => setShowModeSheet(true)}
+                            className="relative w-14 h-14 rounded-full flex items-center justify-center cursor-pointer active:scale-90 transition-all duration-300"
+                        >
+                            {/* Background with Clean Gradient & Crisp Border */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#014370] to-[#002D4C] border-[2.5px] border-white shadow-xl" />
+                            
+                            {/* Inner Gloss */}
+                            <div className="absolute inset-[2.5px] rounded-full bg-gradient-to-t from-transparent via-white/5 to-white/10" />
+
+                            {/* Icon */}
+                            <div className="relative z-10 text-white">
+                                {isOutbound ? <Send size={24} strokeWidth={2.5} /> : <Radio size={24} strokeWidth={2.5} />}
+                            </div>
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <ModeBottomSheet 
+                isOpen={showModeSheet} 
+                onClose={() => setShowModeSheet(false)} 
+                currentMode={isOutbound ? 'outbound' : 'inbound'} 
+                onSelect={handleModeToggle} 
+            />
 
             {/* Desktop Sidebar */}
             <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">

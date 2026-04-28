@@ -5,8 +5,6 @@ import SaasSearch from './Search';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import { useState } from 'react';
-
-
 import { useSalesContext } from '../Context/SalesContext';
 
 import BoundToggleSwitch from './BoundToggleSwitch';
@@ -49,7 +47,7 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-4 flex-1">
 
                 <div className="flex items-center gap-2.5 lg:hidden">
-                    <Link to={isOutbound ? `/${salesMode}/outbound/dashboard` : `/${salesMode}/inbound/dashboard`} className='lg:w-28 md:w-24 w-20 cursor-pointer'>
+                    <Link to={isOutbound ? `/${salesMode}/outbound/dashboard` : `/${salesMode}/inbound/dashboard`} className='lg:w-28 md:w-26 w-24 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
                     </Link>
                 </div>
@@ -84,19 +82,25 @@ const Header: React.FC = () => {
                             <InfoCircle color='currentColor' size={24} />
                         </button>
 
-                        <button className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 sm:hidden block">
+                        <button
+                        
+                            onClick={()=>{navigate("/settings")}}
+                            className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 sm:hidden block">
                             <Setting color='currentColor' size={24} />
                         </button>
                     </div>
 
                     <div className="flex items-center gap-2 cursor-pointer shrink-0">
-                        <div className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100">
+                        <button
+                        
+                            onClick={() => { navigate("/settings/profile") }}
+                            className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100">
                             <img
                                 src={profileImg}
                                 alt="User profile"
                                 className="h-full w-full object-cover"
                             />
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
