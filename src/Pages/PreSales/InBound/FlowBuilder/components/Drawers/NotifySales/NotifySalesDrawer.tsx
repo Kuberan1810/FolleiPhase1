@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle } from 'lucide-react';
+import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
+import SchIcon from '../../../../../../../assets/icons/schedule.svg';
+
+const ScheduleIcon = (props: any) => {
+  const size = props.size || 18;
+  return <img src={SchIcon} alt="Schedule Call" style={{ width: size, height: size }} />;
+};
 
 interface NotifySalesDrawerProps {
   isOpen: boolean;
@@ -9,6 +15,7 @@ interface NotifySalesDrawerProps {
 const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }) => {
   const [showAllReplies, setShowAllReplies] = useState(false);
   const [autoAssign, setAutoAssign] = useState(true);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['SMS']);
 
   const allReplies = [
     { name: 'Ravi Sharma', phone: '+91 98765 43210', initials: 'RS', time: 'Today, 2:30 PM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#DBEAFE', avatarText: '#004370' },
@@ -132,9 +139,9 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
 
                 {[
                   { label: 'Leads Replied', icon: CheckCircle2, status: 'completed' },
-                  { label: 'Notify Sales', icon: Bell, status: 'active' },
-                  { label: 'Schedule Call', icon: Calendar, status: 'pending' },
-                  { label: 'Close Deal', icon: CheckCircle, status: 'pending' }
+                  { label: 'Notify Sales', icon: BellRing, status: 'active' },
+                  { label: 'Schedule Call', icon: ScheduleIcon, status: 'pending' },
+                  { label: 'Close Deal', icon: BellRing, status: 'pending' }
                 ].map((step, i) => (
                   <div key={i} className="flex items-center gap-4 relative pb-8 last:pb-0">
                     <div
@@ -156,17 +163,40 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
             <div className="mb-6">
               <h3 className="text-[14px] font-[700] text-[#2C2F31] mb-4">Select Channel</h3>
               <div className="grid grid-cols-4 gap-3">
-                {channels.map((channel, i) => (
-                  <button
-                    key={i}
-                    className="flex flex-col items-center gap-2 p-1 bg-[#FFFFFF] w-[69px] h-[48px] border border-[#C1C7D1]/30 rounded-[5px] hover:bg-[#F8FAFC] transition-all group shadow-sm active:scale-95 cursor-pointer"
-                  >
-                    <div className="w-[24px] h-[24px] p-1 rounded-[5px] bg-[#DBEAFE] flex items-center justify-center text-[#004370] group-hover:bg-[#004370]/10 group-hover:text-[#004370] transition-colors">
-                      <channel.icon size={14} />
-                    </div>
-                    <span className="text-[8px] font-semibold text-[#595C5E] group-hover:text-[#004370] uppercase tracking-wider">{channel.name}</span>
-                  </button>
-                ))}
+                {channels.map((channel, i) => {
+                  const isSelected = selectedChannels.includes(channel.name);
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setSelectedChannels(prev =>
+                          prev.includes(channel.name)
+                            ? prev.filter(c => c !== channel.name)
+                            : [...prev, channel.name]
+                        );
+                      }}
+                      className={`relative flex flex-col items-center gap-2 p-1 w-[69px] h-[48px] border rounded-[5px] transition-all group shadow-sm active:scale-95 cursor-pointer
+                        ${isSelected
+                          ? 'bg-[#F8FAFC] border-[#004370]'
+                          : 'bg-[#FFFFFF] border-[#C1C7D1]/30 hover:bg-[#F8FAFC]'}`}
+                    >
+                      <div className={`w-[24px] h-[24px] p-1 rounded-[5px] flex items-center justify-center transition-colors
+                        ${isSelected
+                          ? 'bg-[#004370]/10 text-[#004370]'
+                          : 'bg-[#DBEAFE] text-[#004370] group-hover:bg-[#004370]/10'}`}
+                      >
+                        <channel.icon size={14} />
+                      </div>
+                      <span className={`text-[8px] font-semibold uppercase tracking-wider transition-colors
+                        ${isSelected
+                          ? 'text-[#004370]'
+                          : 'text-[#595C5E] group-hover:text-[#004370]'}`}
+                      >
+                        {channel.name}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 

@@ -53,7 +53,7 @@ const OutboundRecentActivity = () => {
             </button>
 
             {isStatusOpen && (
-              <div className="absolute top-[calc(100%+8px)] right-0 w-[180px] bg-white border border-[#E2E8F0] rounded-[12px] shadow-xl z-[100] py-2 animate-in fade-in zoom-in duration-200">
+              <div className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-[#E2E8F0] rounded-[12px] shadow-xl z-[100] py-2 animate-in fade-in zoom-in duration-200">
                 <div className="px-4 py-1.5 border-b border-[#F1F5F9] mb-1">
                   <span className="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider">Filter Status</span>
                 </div>

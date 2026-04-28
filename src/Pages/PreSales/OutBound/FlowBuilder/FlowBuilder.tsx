@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserAdd, MessageText1, MessageTime, Refresh, } from 'iconsax-react';
 import InsightCard from './components/InsightCard/InsightCard';
-// import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
+import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
 import SendMessageDrawer from './components/Drawers/SendMessage/SendMessageDrawer';
 import NoResponseDrawer from './components/Drawers/NoResponse/NoResponseDrawer';
@@ -83,7 +83,7 @@ const FlowBuilder: React.FC = () => {
           <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Flow Builder</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
-        {/* <button
+        <button
           onClick={() => setActiveDrawer('edit-action')}
           className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
           style={{
@@ -92,7 +92,7 @@ const FlowBuilder: React.FC = () => {
           }}
         >
           Edit Action
-        </button> */}
+        </button>
       </div>
 
       <div className="w-full">
@@ -121,7 +121,7 @@ const FlowBuilder: React.FC = () => {
         </div>
       </div>
 
-      {/* <EditActionDrawer
+      <EditActionDrawer
         isOpen={activeDrawer === 'edit-action'}
         onClose={closeDrawer}
         delayValue={delayValue}
@@ -130,7 +130,7 @@ const FlowBuilder: React.FC = () => {
         setDelayUnit={setDelayUnit}
         isBusinessHoursOnly={isBusinessHoursOnly}
         setIsBusinessHoursOnly={setIsBusinessHoursOnly}
-      /> */}
+      />
 
       <NewLeadDrawer
         isOpen={activeDrawer === 'new-lead'}
