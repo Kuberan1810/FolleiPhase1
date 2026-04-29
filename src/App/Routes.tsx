@@ -32,6 +32,9 @@ import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBound/OutBoundDash
 import PostSalesOutboundReports from "../Pages/PostSales/OutBound/Report/OutboundReports";
 import PostSalesCampaigns from "../Pages/PostSales/OutBound/campaings/Campaigns";
 import PostSalesOutboundFlowBuilder from "../Pages/PostSales/OutBound/FlowBuilder/FlowBuilder";
+import PostSalesCustomer from "../Pages/PostSales/OutBound/Customer/Customer";
+import PostSalesCustomerProfile from "../Pages/PostSales/OutBound/Customer/Profile/CustomerProfile";
+
 
 // Settings Pages
 import Settings from "../Pages/Settings/Settings";
@@ -110,6 +113,8 @@ export default function AppRoutes() {
         <Route path="outbound/flow-builder" element={<PostSalesOutboundFlowBuilder />} />
         <Route path="outbound/reports" element={<PostSalesOutboundReports />} />
         <Route path="outbound/orchestrator" element={<PostSalesOrchestrator />} />
+        <Route path="outbound/customer" element={<PostSalesCustomer />} />
+        <Route path="outbound/customer/profile" element={<PostSalesCustomerProfile />} />
         <Route path="" element={<Navigate to="inbound/dashboard" replace />} />
       </Route>
 
