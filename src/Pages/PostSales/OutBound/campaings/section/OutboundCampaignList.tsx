@@ -70,7 +70,7 @@ const OutboundCampaignList = () => {
   ];
 
   return (
-    <div className="bg-white rounded-[24px] border border-[#F1F5F9] overflow-hidden mb-20 px-4 sm:px-6">
+    <div className="bg-white rounded-[24px] border border-[#F1F5F9] overflow-hidden mb-20">
       <div className="py-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 className="text-[18px] sm:text-[20px] font-bold text-[#191C1E] font-manrope">Campaign List</h2>
         <div className="flex gap-4">
@@ -96,7 +96,7 @@ const OutboundCampaignList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left">
+        <table className="w-full text-left min-w-[800px]">
           <thead>
             <tr className="border-b border-gray-100 text-[11px] font-manrope font-bold text-[#94A3B8] uppercase tracking-[1.1px] leading-none">
               <th className="px-8 py-4">Campaign</th>
