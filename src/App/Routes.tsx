@@ -53,6 +53,8 @@ import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
+import PostSalesOutboundCadences from "../Pages/PostSales/OutBound/Cadences/Cadences";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -105,6 +107,7 @@ export default function AppRoutes() {
         <Route path="inbound/orchestrator" element={<PostSalesOrchestrator />} />
         {/* Outbound */}
         <Route path="outbound/dashboard" element={<PostSalesOutBoardDashboard />} />
+        <Route path="outbound/cadences" element={<PostSalesOutboundCadences />} />
         <Route path="outbound/campaigns" element={<PostSalesCampaigns />} />
         <Route path="outbound/campaigns/create" element={<CampaignCreation />} />
         <Route path="outbound/flow-builder" element={<PostSalesOutboundFlowBuilder />} />

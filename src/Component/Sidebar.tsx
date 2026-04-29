@@ -25,10 +25,10 @@ const Sidebar: React.FC = () => {
         const handleScroll = (e: any) => {
             const target = e.target;
             if (!target.scrollTop && target !== document.documentElement) return;
-            
+
             const currentScrollY = target.scrollTop || window.scrollY;
             const deltaY = currentScrollY - lastScrollY;
-            
+
             if (deltaY > 20 && currentScrollY > 50) {
                 setIsVisible(false); // Hide on scroll down
             } else if (deltaY < -10) {
@@ -89,7 +89,7 @@ const Sidebar: React.FC = () => {
             {/* Advanced Mobile Bottom Nav - Floating Pill Design */}
             <AnimatePresence>
                 {isVisible && (
-                    <motion.nav 
+                    <motion.nav
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
@@ -106,10 +106,10 @@ const Sidebar: React.FC = () => {
                                         className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300
                                             ${isActive ? 'bg-white/95 backdrop-blur-xl text-[#014370] shadow-lg scale-105' : 'text-white/60 hover:text-white'}`}
                                     >
-                                        <item.icon 
-                                            color='currentColor' 
-                                            size={isActive ? 26 : 24} 
-                                            variant={isActive ? "Bold" : "Outline"} 
+                                        <item.icon
+                                            color='currentColor'
+                                            size={isActive ? 26 : 24}
+                                            variant={isActive ? "Bold" : "Outline"}
                                         />
                                     </NavLink>
                                 </React.Fragment>
@@ -122,7 +122,7 @@ const Sidebar: React.FC = () => {
             {/* Mobile Center Mode Orb - Draggable & Always Visible Design */}
             <AnimatePresence>
                 {!showModeSheet && (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
@@ -139,7 +139,7 @@ const Sidebar: React.FC = () => {
                         >
                             {/* Background with Clean Gradient & Crisp Border */}
                             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#014370] to-[#002D4C] border-[2.5px] border-white shadow-xl" />
-                            
+
                             {/* Inner Gloss */}
                             <div className="absolute inset-[2.5px] rounded-full bg-gradient-to-t from-transparent via-white/5 to-white/10" />
 
@@ -152,11 +152,11 @@ const Sidebar: React.FC = () => {
                 )}
             </AnimatePresence>
 
-            <ModeBottomSheet 
-                isOpen={showModeSheet} 
-                onClose={() => setShowModeSheet(false)} 
-                currentMode={isOutbound ? 'outbound' : 'inbound'} 
-                onSelect={handleModeToggle} 
+            <ModeBottomSheet
+                isOpen={showModeSheet}
+                onClose={() => setShowModeSheet(false)}
+                currentMode={isOutbound ? 'outbound' : 'inbound'}
+                onSelect={handleModeToggle}
             />
 
             {/* Desktop Sidebar */}
@@ -197,7 +197,7 @@ const Sidebar: React.FC = () => {
                                 Get advanced analytics and automation tools.
                             </p>
                             <button
-                                onClick={() => { navigate('/settings/payment')}}
+                                onClick={() => { navigate('/settings/payment') }}
                                 className="mt-4 w-full rounded-[4px] bg-[#004370] py-[8px] text-center text-[12px] font-semibold text-white cursor-pointer hover:bg-[#004370]/80 transition-all duration-200">
                                 Upgrade Now
                             </button>
