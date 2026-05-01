@@ -5,7 +5,7 @@ import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from 
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import ModeBottomSheet from './ModeBottomSheet';
-import { Radio, Send } from 'lucide-react';
+import { Radio, Send, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -61,20 +61,32 @@ const Sidebar: React.FC = () => {
         navigate('/login');
     };
 
-    const navItems = isOutbound
-        ? [
+    let navItems: any[] = [];
+
+    if (salesMode === 'postsales') {
+        navItems = [
             { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-            { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+            { icon: Profile2User, label: 'Customer', path: `${prefix}/customer` },
+            { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
+            { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
             { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-            { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
-            { icon: Megaphone, label: 'Campaigns', path: `${prefix}/Campaigns` },
-        ]
-        : [
-            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-            { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-            { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-            { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
         ];
+    } else {
+        navItems = isOutbound
+            ? [
+                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+                { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+                { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
+                { icon: Megaphone, label: 'Campaigns', path: `${prefix}/campaigns` },
+            ]
+            : [
+                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+                { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+                { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
+            ];
+    }
 
     const bottomNavItems = [
         { icon: Setting, label: 'Settings', path: '/settings' },

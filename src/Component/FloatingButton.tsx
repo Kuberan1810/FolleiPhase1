@@ -20,7 +20,7 @@ const FloatingButton = () => {
       const currentScrollY = target.scrollTop || window.scrollY;
       const deltaY = currentScrollY - lastScrollY;
       
-      if (deltaY > 20 && currentScrollY > 50) {
+      if (deltaY > 10 && currentScrollY > 20) {
         setIsVisible(false); // Hide on scroll down
       } else if (deltaY < -10) {
         setIsVisible(true); // Show on light scroll up
