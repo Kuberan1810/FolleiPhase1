@@ -11,7 +11,7 @@ interface CadenceListProps {
 const CadenceList: React.FC<CadenceListProps> = ({ cadences, selectedId, setSelectedId }) => {
   return (
     <div className="w-[320px] border-r border-[#EBEBEB] flex flex-col h-full bg-white">
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto no-scrollbar">
         {cadences.map((cadence) => (
           <div
             key={cadence.id}

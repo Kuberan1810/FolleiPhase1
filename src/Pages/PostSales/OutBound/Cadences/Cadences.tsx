@@ -118,8 +118,55 @@ const Cadences: React.FC = () => {
         }));
     };
 
+    const handleAddStep = (stepData: {
+        title: string;
+        type: 'email' | 'call' | 'message';
+        description: string;
+        waitDuration: string;
+        timeUnit: string;
+    }) => {
+        setCadences(prev => prev.map(c => {
+            if (c.id === selectedId) {
+                const lastStep = c.workflow[c.workflow.length - 1];
+                let nextDayNum = 1;
+                if (lastStep) {
+                    const match = lastStep.day.match(/\d+/);
+                    if (match) {
+                        nextDayNum = parseInt(match[0]) + parseInt(stepData.waitDuration || '1');
+                    }
+                }
+
+                const updatedWorkflow = [...c.workflow];
+                if (updatedWorkflow.length > 0) {
+                    updatedWorkflow[updatedWorkflow.length - 1] = {
+                        ...updatedWorkflow[updatedWorkflow.length - 1],
+                        waitTime: stepData.waitDuration ? `Wait ${stepData.waitDuration} ${stepData.timeUnit}` : undefined
+                    };
+                }
+
+                const newStep = {
+                    id: `s${Date.now()}`,
+                    day: `DAY ${nextDayNum}`,
+                    type: stepData.type,
+                    title: stepData.title,
+                    content: stepData.description,
+                    waitTime: undefined
+                };
+
+                updatedWorkflow.push(newStep);
+
+                return {
+                    ...c,
+                    workflow: updatedWorkflow,
+                    stepsCount: updatedWorkflow.length
+                };
+            }
+            return c;
+        }));
+    };
+
     return (
-        <div className="flex h-[calc(100vh-4rem)] bg-white font-['Manrope']">
+        <div className="flex h-[calc(100vh-5.5rem)] bg-white font-['Manrope'] -mx-6 -mt-6 overflow-hidden">
 
             <CadenceList
                 cadences={cadences}
@@ -127,62 +174,63 @@ const Cadences: React.FC = () => {
                 setSelectedId={setSelectedId}
             />
 
-            {/* Right Panel: Cadence Details */}
             <div className="flex-1 flex flex-col h-full bg-[#F8FAFC]">
-                {/* Header */}
-                <div className="bg-white px-8 py-3 border-b border-[#EBEBEB] flex justify-between items-center">
-                    <div>
-                        <div className="flex items-center gap-3 mb-1">
-                            <h1 className="text-[24px] font-bold text-[#0F172A]">{selectedCadence.title}</h1>
-                            <span className="text-[12px] font-bold text-[#64748B] bg-[#F1F5F9] px-2 py-0.5 rounded-[2px]">
-                                {selectedCadence.version}
-                            </span>
+                <div className="sticky top-0 z-20 bg-white">
+                    <div className="px-8 py-3 border-b border-[#EBEBEB] flex justify-between items-center">
+                        <div>
+                            <div className="flex items-center gap-3 mb-1">
+                                <h1 className="text-[24px] font-bold text-[#0F172A]">{selectedCadence.title}</h1>
+                                <span className="text-[12px] font-bold text-[#64748B] bg-[#F1F5F9] px-2 py-0.5 rounded-[2px]">
+                                    {selectedCadence.version}
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => toggleStatus(selectedCadence.id)}
+                                className="px-4 py-2.5 border border-[#E2E8F0] rounded-[12px] bg-white text-[14px] font-bold text-[#0F172A] hover:bg-slate-50 cursor-pointer transition-all flex items-center gap-2 focus:outline-none"
+                            >
+                                {selectedCadence.status === 'ACTIVE' ? (
+                                    <>
+                                        <Pause size={16} /> Pause Cadence
+                                    </>
+                                ) : (
+                                    <>
+                                        <Play size={16} /> Resume Cadence
+                                    </>
+                                )}
+                            </button>
                         </div>
                     </div>
-                    <div>
+
+                    <div className="px-8 flex gap-8 border-b border-[#EBEBEB]">
                         <button
-                            onClick={() => toggleStatus(selectedCadence.id)}
-                            className="px-4 py-2.5 border border-[#E2E8F0] rounded-[12px] bg-white text-[14px] font-bold text-[#0F172A] hover:bg-slate-50 cursor-pointer transition-all flex items-center gap-2 focus:outline-none"
+                            onClick={() => setActiveTab('workflow')}
+                            className={`py-4 font-normal text-[14px] border-b-2 transition-all cursor-pointer focus:outline-none ${activeTab === 'workflow'
+                                ? 'border-[#004370] text-[#004370]'
+                                : 'border-transparent text-[#64748B] hover:text-[#1E293B]'
+                                }`}
                         >
-                            {selectedCadence.status === 'ACTIVE' ? (
-                                <>
-                                    <Pause size={16} /> Pause Cadence
-                                </>
-                            ) : (
-                                <>
-                                    <Play size={16} /> Resume Cadence
-                                </>
-                            )}
+                            Workflow
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('leads')}
+                            className={`py-4 font-normal text-[14px] border-b-2 transition-all cursor-pointer focus:outline-none ${activeTab === 'leads'
+                                ? 'border-[#004370] text-[#004370]'
+                                : 'border-transparent text-[#64748B] hover:text-[#1E293B]'
+                                }`}
+                        >
+                            Leads
                         </button>
                     </div>
                 </div>
 
-                {/* Tabs */}
-                <div className="bg-white px-8 flex gap-8 border-b border-[#EBEBEB]">
-                    <button
-                        onClick={() => setActiveTab('workflow')}
-                        className={`py-4 font-normal text-[14px] border-b-2 transition-all cursor-pointer focus:outline-none ${activeTab === 'workflow'
-                            ? 'border-[#004370] text-[#004370]'
-                            : 'border-transparent text-[#64748B] hover:text-[#1E293B]'
-                            }`}
-                    >
-                        Workflow
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('leads')}
-                        className={`py-4 font-normal text-[14px] border-b-2 transition-all cursor-pointer focus:outline-none ${activeTab === 'leads'
-                            ? 'border-[#004370] text-[#004370]'
-                            : 'border-transparent text-[#64748B] hover:text-[#1E293B]'
-                            }`}
-                    >
-                        Leads
-                    </button>
-                </div>
+                <div className="flex-1 no-scrollbar flex flex-col">
 
-                {/* Content Area */}
-                <div className="flex-1 overflow-y-auto flex flex-col">
-
-                    <WorkflowBuilder cadence={selectedCadence} />
+                    <WorkflowBuilder
+                        cadence={selectedCadence}
+                        onAddStep={handleAddStep}
+                    />
 
                 </div>
             </div>
