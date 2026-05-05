@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
+import { X, CheckCircle2, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
 import SchIcon from '../../../../../../../assets/icons/schedule.svg';
 
 const ScheduleIcon = (props: any) => {
@@ -17,9 +17,8 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
   const [autoAssign, setAutoAssign] = useState(true);
 
   const allReplies = [
-    { name: 'Ravi Sharma', phone: '+91 98765 43210', initials: 'RS', time: 'Today, 2:30 PM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#DBEAFE', avatarText: '#004370' },
-    { name: 'John Doe', phone: '+1 555-0199', initials: 'JD', time: 'Today, 1:50 PM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#FFEDD5', avatarText: '#9A3412' },
-    { name: 'Anita Malik', phone: 'anita@globalops.in', initials: 'AM', time: 'Today, 9:00 AM', msg: "I'm interested. Could you explain the pricing and next steps?", avatarBg: '#FEE2E2', avatarText: '#991B1B' },
+    { name: 'Ravi Sharma', phone: '+91 98765 43210', initials: 'RS', time: 'Today, 2:30 PM', msg: "The initial workspace setup is complete.......", avatarBg: '#DBEAFE', avatarText: '#004370' },
+    { name: 'John Doe', phone: '+1 555-0199', initials: 'JD', time: 'Today, 1:50 PM', msg: "The initial workspace setup is complete.......", avatarBg: '#FFEDD5', avatarText: '#9A3412' },
   ];
 
   const visibleReplies = showAllReplies ? allReplies : allReplies.slice(0, 4);
@@ -44,8 +43,8 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
         <div className="h-full flex flex-col overflow-hidden">
           <div className="pt-[30px] px-[20px] flex justify-between items-start border-b border-[#E2E8F0] pb-4">
             <div className="flex flex-col gap-[5px]">
-              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">Notify Sales Rep</h2>
-              <p className="text-[#434655] text-[12px]">View recent replies and assign leads to sales team</p>
+              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">Post sale follow up</h2>
+              <p className="text-[#434655] text-[12px]">Manage customer onboarding, support, and retention</p>
             </div>
             <button
               onClick={onClose}
@@ -87,7 +86,7 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                       <span className="text-[10px] font-bold text-[#191C1E] tracking-tight">{item.time}</span>
                     </div>
                     <div className="bg-[#F4F6F8] p-2 rounded-[5px]">
-                      <p className="text-[10px] text-[#434655] italic leading-relaxed whitespace-pre-line">
+                      <p className="text-[10px] text-[#434655] leading-relaxed whitespace-pre-line">
                         "{item.msg}"
                       </p>
                     </div>
@@ -134,13 +133,13 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
             <div className="mb-8">
               <h3 className="text-[12px] font-[700] text-[#000000] mb-6">Automation Timeline</h3>
               <div className="ml-1 space-y-0 relative">
-                <div className="absolute left-[11px] top-[10px] bottom-[10px] w-[1px] bg-[#E2E8F0]" />
+                <div className="absolute left-[10px] top-[10px] bottom-[10px] w-[1px] bg-[#E2E8F0]" />
 
                 {[
-                  { label: 'Leads Replied', icon: CheckCircle2, status: 'completed' },
-                  { label: 'Notify Sales', icon: BellRing, status: 'active' },
-                  { label: 'Schedule Call', icon: ScheduleIcon, status: 'pending' },
-                  { label: 'Close Deal', icon: BellRing, status: 'pending' }
+                  { label: 'Purchase Completed', icon: CheckCircle2, status: 'completed' },
+                  { label: 'Onboarding started', icon: BellRing, status: 'active' },
+                  { label: 'Product setup', icon: ScheduleIcon, status: 'pending' },
+                  { label: 'Renewel / upsell', icon: BellRing, status: 'pending' }
                 ].map((step, i) => (
                   <div key={i} className="flex items-center gap-4 relative pb-8 last:pb-0">
                     <div
