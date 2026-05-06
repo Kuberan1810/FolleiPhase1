@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Search, ChevronDown, Check, Info, FileText, CircleSlash, MessageCircle, Phone, Send } from 'lucide-react';
 
 interface NoResponseDrawerProps {
   isOpen: boolean;
@@ -9,135 +9,208 @@ interface NoResponseDrawerProps {
 const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) => {
   const [showAll, setShowAll] = useState(false);
   const [activeTab, setActiveTab] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('Today');
+  const [isTimeframeOpen, setIsTimeframeOpen] = useState(false);
 
-  const allLeads = [
-    { name: 'Ravi Sharma', phone: '+91 98765 43210', status: 'No Response', initials: 'RS' },
-    { name: 'John Doe', phone: '+1 555-0199', status: 'Interested', initials: 'JD' },
-    { name: 'Anita Malik', phone: 'anita@globalops.in', status: 'No Response', initials: 'AM' },
-    { name: 'Priya Mehta', phone: 'priyam@techcorp.com', status: 'Not Interested', initials: 'PM' },
-    { name: 'Suresh Raina', phone: '+91 92837 46554', status: 'No Response', initials: 'SR' },
-    { name: 'Megha Gupta', phone: 'megha@example.com', status: 'Interested', initials: 'MG' },
-    { name: 'Rahul Verma', phone: '+91 98123 45678', status: 'Not Interested', initials: 'RV' },
+  const timeframes = ['Today', 'Yesterday', 'Last Week', 'All Time'];
+
+  const allActivity = [
+    {
+      name: 'Ravi Sharma',
+      phone: '+91 98765 43210',
+      initials: 'Rs',
+      time: 'Today,4:30 PM',
+      msg: 'No feedback after delivery',
+      statusIcon: Info,
+      channelIcon: Phone,
+      channelColor: '#004370',
+      type: 'Sent',
+      avatarBg: '#E0F2FE',
+      avatarText: '#004370'
+    },
+    {
+      name: 'John Doe',
+      phone: '+1 555-0199',
+      initials: 'JD',
+      time: 'Today,1:30 PM',
+      msg: 'Reminder sent,No response',
+      statusIcon: FileText,
+      channelIcon: MessageCircle,
+      channelColor: '#004370',
+      type: 'Delivered',
+      avatarBg: '#FFEDD5',
+      avatarText: '#9A3412'
+    },
+    {
+      name: 'Anita Malik',
+      phone: 'anita@globalops.in',
+      initials: 'AM',
+      time: 'Today,9:00 AM',
+      msg: 'Feedback request ignored',
+      statusIcon: CircleSlash,
+      channelIcon: Phone,
+      channelColor: '#004370',
+      type: 'Response',
+      avatarBg: '#FCE7F3',
+      avatarText: '#9D174D'
+    },
   ];
 
-  const filteredLeads = allLeads.filter(lead =>
-    activeTab === 'All' || lead.status === activeTab
-  );
+  const filteredActivity = allActivity.filter(item => {
+    const matchesTab = activeTab === 'All' || item.type.toLowerCase() === activeTab.toLowerCase();
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.msg.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.phone.toLowerCase().includes(searchQuery.toLowerCase());
 
-  const visibleLeads = showAll ? filteredLeads : filteredLeads.slice(0, 4);
+    let matchesTimeframe = true;
+    if (selectedTimeframe !== 'All Time') {
+      matchesTimeframe = item.time.includes(selectedTimeframe);
+    }
+
+    return matchesTab && matchesSearch && matchesTimeframe;
+  });
+
+  const visibleActivity = showAll ? filteredActivity : filteredActivity.slice(0, 2);
 
   return (
     <>
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-[70] transition-all duration-300 cursor-pointer"
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            setIsTimeframeOpen(false);
+          }}
         />
       )}
 
       <div className={`fixed top-0 right-0 h-screen w-[379px] bg-white z-[80] transform transition-transform duration-300 ease-in-out rounded-l-[10px] ${isOpen ? 'translate-x-0 shadow-2xl' : 'translate-x-full shadow-none'}`}>
         <div className="h-full flex flex-col overflow-hidden">
-          <div className="pt-[30px] px-[20px] flex justify-between items-start bg-white border-b border-[#5A5A5A]/20 rounded-b-[10px] pb-4">
+          <div className="pt-[30px] px-[25px] flex justify-between items-start bg-white border-b border-[#E2E8F0] rounded-b-[10px] pb-4">
             <div className="flex flex-col gap-[5px]">
-              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">No Response</h2>
-              <p className="text-[#64748B] text-[12px]">Leads without response after outreach</p>
+              <h2 className="text-[#004370] text-[20px] font-bold tracking-tight">No Review Activity</h2>
+              <p className="text-[#434655] text-[12px]">See delivery status, opens, and replies in one place.</p>
             </div>
             <button
               onClick={onClose}
-              className="w-[20px] h-[20px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
+              className="w-[24px] h-[24px] bg-[#004370] rounded-full flex items-center justify-center text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
-              <X size={16} strokeWidth={3} />
+              <X size={14} strokeWidth={3} />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-[20px] no-scrollbar bg-white">
-            <div className="mb-6">
-              <h3 className="text-[12px] font-bold text-[#000000] mb-3">Response Overview</h3>
-              <div className="grid grid-cols-4 gap-2">
-                {[
-                  { label: 'TOTAL LEADS', value: allLeads.length.toString() },
-                  { label: 'NOT RESPOND', value: allLeads.filter(l => l.status === 'No Response').length.toString() },
-                  { label: 'INTERESTED', value: allLeads.filter(l => l.status === 'Interested').length.toString() },
-                  { label: 'NOT INTERESTED', value: allLeads.filter(l => l.status === 'Not Interested').length.toString() }
-                ].map((stat, i) => (
-                  <div key={i} className="bg-[#F2F4F6] p-[5px] rounded-[5px] flex flex-col items-center">
-                    <span className="text-[8px] font-bold text-[#64748B] mb-1 text-center whitespace-nowrap">{stat.label}</span>
-                    <span className="text-[16px] font-extrabold text-[#004370]">{stat.value}</span>
-                  </div>
-                ))}
+          <div className="flex-1 overflow-y-auto px-[20px] py-6 no-scrollbar bg-white">
+            <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar">
+              {['All', 'Sent', 'Delivered', 'Response'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`whitespace-nowrap px-4.5 py-1.5 rounded-[5px] text-[12px] font-bold transition-all 
+                    ${activeTab === tab
+                      ? 'bg-[#004370] text-white'
+                      : 'text-[#64748B] hover:bg-slate-50'} cursor-pointer`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex gap-2 mb-6 relative">
+              <div className="relative flex-1">
+                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
+                <input
+                  type="text"
+                  placeholder="Search Activity"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-[40px] pl-10 pr-4 bg-[#F2F4F6] rounded-[5px] text-[14px] outline-none focus:border-[#3B82F6] transition-all"
+                />
+              </div>
+              <div className="relative">
+                <button
+                  onClick={() => setIsTimeframeOpen(!isTimeframeOpen)}
+                  className={`h-[40px] px-4 rounded-[5px] bg-[#F2F4F6] flex items-center justify-between gap-3 transition-all group ${isTimeframeOpen ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-[#E2E8F0]'}`}
+                >
+                  <span className="text-[13px] text-[#64748B] font-bold">{selectedTimeframe}</span>
+                  <ChevronDown size={16} strokeWidth={3} className={`text-[#64748B] transition-transform duration-200 ${isTimeframeOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isTimeframeOpen && (
+                  <>
+                    <div className="fixed inset-0 z-[85]" onClick={() => setIsTimeframeOpen(false)} />
+                    <div className="absolute right-0 top-[calc(100%+8px)] w-[140px] bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1">
+                      {timeframes.map((tf) => (
+                        <button
+                          key={tf}
+                          onClick={() => {
+                            setSelectedTimeframe(tf);
+                            setIsTimeframeOpen(false);
+                          }}
+                          className={`w-full px-4 py-2.5 text-left text-[13px] font-semibold transition-colors flex items-center justify-between group
+                            ${selectedTimeframe === tf ? 'bg-[#F1F5F9] text-[#004370]' : 'text-[#64748B] hover:bg-[#F8FAFC]'}`}
+                        >
+                          {tf}
+                          {selectedTimeframe === tf && <Check size={14} className="text-[#004370]" />}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-[12px] font-bold text-[#000000]">Lead Status List</h3>
-              </div>
-
-              <div className="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar">
-                {['All', 'Interested', 'Not Interested', 'No Response'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`whitespace-nowrap px-4 py-1.5 rounded-[5px] text-[14px] font-bold transition-all 
-                      ${activeTab === tab
-                        ? 'bg-[#004370] text-white'
-                        : 'text-[#64748B] hover:bg-slate-50'} cursor-pointer`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-
-              <div className="space-y-4">
-                {visibleLeads.length > 0 ? (
-                  visibleLeads.map((item, i) => (
-                    <div key={i} className="p-2">
-                      <div className="flex justify-between items-start mb-2">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-[40px] h-[40px] rounded-[12px] flex items-center justify-center text-[12px] font-bold ${[
-                            'bg-blue-100 text-blue-700',
-                            'bg-purple-100 text-purple-700',
-                            'bg-green-100 text-green-700',
-                            'bg-amber-100 text-amber-700',
-                            'bg-pink-100 text-pink-700',
-                            'bg-indigo-100 text-indigo-700',
-                            'bg-emerald-100 text-emerald-700',
-                            'bg-rose-100 text-rose-700',
-                            'bg-sky-100 text-sky-700',
-                            'bg-orange-100 text-orange-700'
-                          ][i % 10]}`}>
-                            {item.initials}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-[12px] font-bold text-[#191C1E]">{item.name}</span>
-                            <span className="text-[11px] text-[#94A3B8]">{item.phone}</span>
-                          </div>
+            <h3 className="text-[12px] font-bold text-[#191C1E] mb-4 px-1">Recent Review activity</h3>
+            <div className="space-y-4">
+              {visibleActivity.map((item, i) => (
+                <div key={i} className="flex flex-col gap-3 group">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div
+                          className="w-[40px] h-[40px] rounded-[12px] flex items-center justify-center text-[12px] font-bold shadow-sm"
+                          style={{ backgroundColor: item.avatarBg, color: item.avatarText }}
+                        >
+                          {item.initials}
                         </div>
-                        <span className={`text-[6px] font-bold px-2 py-0.5 rounded-[5px] tracking-tighter ${item.status === 'Interested' ? 'bg-green-100 text-green-700' :
-                          item.status === 'No Response' ? 'bg-[#DFE0E0] text-[#6B7280]' :
-                            item.status === 'Not Interested' ? 'bg-[#FEE2E2] text-[#BA1A1A]' :
-                              'bg-[#236C11]/30 text-[#115700]'
-                          }`}>
-                          {item.status}
-                        </span>
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-white flex items-center justify-center shadow-sm">
+                          <item.channelIcon size={10} style={{ color: item.channelColor }} />
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[12px] font-bold text-[#191C1E] leading-none mb-1">{item.name}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] text-[#94A3B8] font-medium leading-none">{item.phone}</span>
+                        </div>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <div className="text-center py-10 bg-[#F4F6F8] rounded-[5px]">
-                    <p className="text-[#64748B] text-[13px]">No leads found in this category.</p>
+                    <span className="text-[10px] text-[#191C1E] font-bold">{item.time}</span>
                   </div>
-                )}
-              </div>
+                  <div className="bg-[#F4F6F8] p-3 rounded-[5px] text-[10px] text-[#000000] flex items-center gap-2">
+                    <item.statusIcon size={14} className="text-[#42474F] shrink-0" />
+                    <p className="font-medium">"{item.msg}"</p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-              {filteredLeads.length > 4 && (
-                <button
-                  onClick={() => setShowAll(!showAll)}
-                  className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-                >
-                  {showAll ? 'See less' : 'See more'}
-                </button>
-              )}
+            {filteredActivity.length > 2 && (
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="w-full mt-6 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
+              >
+                {showAll ? 'See less' : 'See more'}
+              </button>
+            )}
+
+            <div className="mt-10">
+              <button
+                className="w-full h-[44px] rounded-[10px] text-white font-bold text-[16px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
+                onClick={onClose}
+              >
+                <Send size={18} />
+                Send Reminder
+              </button>
             </div>
           </div>
         </div>

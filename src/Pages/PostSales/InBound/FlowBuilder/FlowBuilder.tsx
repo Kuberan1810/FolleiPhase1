@@ -23,14 +23,14 @@ const FlowBuilder: React.FC = () => {
       trigger: {
         id: 'new-lead',
         icon: UserPlus,
-        title: "New lead",
-        description: "Triggers when a prospect fills out the website contact form.",
+        title: "Order Completed",
+        description: "Activate on purchase and delivery events",
         status: "1.2k Active"
       },
       action: {
         id: 'send-message',
         icon: MessageSquare,
-        title: "Send Message",
+        title: "Engage customer",
         description: "Automated personalized intro via email and calls.",
         status: "High Priority"
       }
@@ -39,15 +39,15 @@ const FlowBuilder: React.FC = () => {
       trigger: {
         id: 'no-response',
         icon: MessageSquare,
-        title: "No Response",
-        description: "Triggers after 48h of inactivity following initial outreach.",
+        title: "No Review",
+        description: "Activates,after 3-5 if no feedback",
         status: "236 Waiting"
       },
       action: {
         id: 'update-status',
         icon: RefreshCw,
-        title: "Update Status",
-        description: "Move contact to \"Active Prospect\" in CRM database.",
+        title: "Send Reminder",
+        description: "Follow up to collect feedback",
         status: "Syncing"
       }
     },
@@ -55,15 +55,15 @@ const FlowBuilder: React.FC = () => {
       trigger: {
         id: 'reply-received',
         icon: Inbox,
-        title: "Reply Received",
-        description: "Triggers when an email or SMS response is detected.",
+        title: "Issue Raised",
+        description: "Activates when support ticket is created",
         status: "105 Matches"
       },
       action: {
         id: 'notify-sales',
         icon: Bell,
-        title: "Notify Sales Rep",
-        description: "Push notification to Slack channel #sales-alerts.",
+        title: "Notify Support Team",
+        description: "Instant alert via Email / Slack",
         status: "Instant"
       }
     }
@@ -79,7 +79,7 @@ const FlowBuilder: React.FC = () => {
     <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
-          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Flow Builder</h1>
+          <h1 className="text-[28px] font-[700] text-[#0F172A] mb-2 tracking-tight">Customer Insights</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
         <button
