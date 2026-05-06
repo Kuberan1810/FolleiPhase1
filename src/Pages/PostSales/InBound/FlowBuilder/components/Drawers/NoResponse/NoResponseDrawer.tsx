@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search, ChevronDown, Check, Info, FileText, CircleSlash, MessageCircle, Phone, Send } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface NoResponseDrawerProps {
   isOpen: boolean;
@@ -137,7 +138,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
                 </button>
                 {isTimeframeOpen && (
                   <>
-                    <div className="fixed inset-0 z-[85]" onClick={() => setIsTimeframeOpen(false)} />
+                    <div className="fixed inset-0 z-[85] cursor-pointer" onClick={() => setIsTimeframeOpen(false)} />
                     <div className="absolute right-0 top-[calc(100%+8px)] w-[140px] bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1">
                       {timeframes.map((tf) => (
                         <button
@@ -146,7 +147,7 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
                             setSelectedTimeframe(tf);
                             setIsTimeframeOpen(false);
                           }}
-                          className={`w-full px-4 py-2.5 text-left text-[13px] font-semibold transition-colors flex items-center justify-between group
+                          className={`w-full px-4 py-2.5 text-left text-[13px] font-semibold transition-colors flex items-center justify-between group cursor-pointer
                             ${selectedTimeframe === tf ? 'bg-[#F1F5F9] text-[#004370]' : 'text-[#64748B] hover:bg-[#F8FAFC]'}`}
                         >
                           {tf}
@@ -194,23 +195,20 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
             </div>
 
             {filteredActivity.length > 2 && (
-              <button
+              <BtnCom
+                title={showAll ? 'See less' : 'See more'}
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-6 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                {showAll ? 'See less' : 'See more'}
-              </button>
+                variant="secondary"
+                className="w-full mt-6 h-[40px] !bg-[#E6E7E9] !text-[#878788]"
+              />
             )}
 
             <div className="mt-10">
-              <button
-                className="w-full h-[44px] rounded-[10px] text-white font-bold text-[16px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-                onClick={onClose}
-              >
-                <Send size={18} />
-                Send Reminder
-              </button>
+              <BtnCom
+                title="Send Reminder"
+                icon={Send}
+                className="w-full h-[40px]"
+              />
             </div>
           </div>
         </div>

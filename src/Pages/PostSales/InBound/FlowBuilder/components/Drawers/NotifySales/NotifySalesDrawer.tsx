@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, CheckCircle2, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 import SchIcon from '../../../../../../../assets/icons/schedule.svg';
 
 const ScheduleIcon = (props: any) => {
@@ -15,6 +16,7 @@ interface NotifySalesDrawerProps {
 const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }) => {
   const [showAllReplies, setShowAllReplies] = useState(false);
   const [autoAssign, setAutoAssign] = useState(true);
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['SMS']);
 
   const allReplies = [
     { name: 'Ravi Sharma', phone: '+91 98765 43210', initials: 'RS', time: 'Today, 2:30 PM', msg: "The initial workspace setup is complete.......", avatarBg: '#DBEAFE', avatarText: '#004370' },
@@ -85,8 +87,8 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                       </div>
                       <span className="text-[10px] font-bold text-[#191C1E] tracking-tight">{item.time}</span>
                     </div>
-                    <div className="bg-[#F4F6F8] p-2 rounded-[5px]">
-                      <p className="text-[10px] text-[#434655] leading-relaxed whitespace-pre-line">
+                    <div className="bg-[#F4F6F8] py-2 px-4 rounded-[5px]">
+                      <p className="text-[10px] text-[#0B1C30] leading-relaxed italic">
                         "{item.msg}"
                       </p>
                     </div>
@@ -95,12 +97,12 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
               </div>
 
               {allReplies.length > 4 && (
-                <button
+                <BtnCom
+                  title={showAllReplies ? 'See less' : 'See more'}
                   onClick={() => setShowAllReplies(!showAllReplies)}
-                  className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-                >
-                  {showAllReplies ? 'See less' : 'See more'}
-                </button>
+                  variant="secondary"
+                  className="w-full mt-5 h-[48px] !bg-[#E6E7E9] !text-[#878788]"
+                />
               )}
             </div>
 
@@ -164,25 +166,38 @@ const NotifySalesDrawer: React.FC<NotifySalesDrawerProps> = ({ isOpen, onClose }
                 {channels.map((channel, i) => (
                   <button
                     key={i}
-                    className="flex flex-col items-center gap-2 p-1 bg-[#FFFFFF] w-[69px] h-[48px] border border-[#C1C7D1]/30 rounded-[5px] hover:bg-[#F8FAFC] transition-all group shadow-sm active:scale-95 cursor-pointer"
+                    onClick={() => {
+                      setSelectedChannels(prev =>
+                        prev.includes(channel.name)
+                          ? prev.filter(c => c !== channel.name)
+                          : [...prev, channel.name]
+                      );
+                    }}
+                    className={`BoxStyle !p-2 flex flex-col items-center gap-2 h-auto w-full transition-all group active:scale-95 cursor-pointer
+                      ${selectedChannels.includes(channel.name)
+                        ? '!bg-[#004370] !text-white !border-[#004370]'
+                        : '!bg-white !border-[#C1C7D1]/30 hover:!bg-[#F8FAFC]'}`}
                   >
-                    <div className="w-[24px] h-[24px] p-1 rounded-[5px] bg-[#DBEAFE] flex items-center justify-center text-[#004370] group-hover:bg-[#004370]/10 group-hover:text-[#004370] transition-colors">
+                    <div className={`w-[24px] h-[24px] p-1 rounded-[5px] flex items-center justify-center transition-colors
+                      ${selectedChannels.includes(channel.name)
+                        ? 'bg-white/20 text-white'
+                        : 'bg-[#DBEAFE] text-[#004370] group-hover:bg-[#004370]/10'}`}>
                       <channel.icon size={14} />
                     </div>
-                    <span className="text-[8px] font-semibold text-[#595C5E] group-hover:text-[#004370] uppercase tracking-wider">{channel.name}</span>
+                    <span className={`text-[8px] font-semibold uppercase tracking-wider
+                      ${selectedChannels.includes(channel.name)
+                        ? 'text-white'
+                        : 'text-[#595C5E] group-hover:text-[#004370]'}`}>{channel.name}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="mt-8">
-              <button
-                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
-                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-                onClick={onClose}
-              >
-                Save  Changes
-              </button>
+              <BtnCom
+                title="Save Changes"
+                className="w-full h-[40px]"
+              />
             </div>
           </div>
         </div>

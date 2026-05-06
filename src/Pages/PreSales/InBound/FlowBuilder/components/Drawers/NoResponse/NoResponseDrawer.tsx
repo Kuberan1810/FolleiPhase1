@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface NoResponseDrawerProps {
   isOpen: boolean;
@@ -131,12 +132,12 @@ const NoResponseDrawer: React.FC<NoResponseDrawerProps> = ({ isOpen, onClose }) 
               </div>
 
               {filteredLeads.length > 4 && (
-                <button
+                <BtnCom
+                  title={showAll ? 'See less' : 'See more'}
                   onClick={() => setShowAll(!showAll)}
-                  className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-                >
-                  {showAll ? 'See less' : 'See more'}
-                </button>
+                  variant="secondary"
+                  className="w-full mt-5 h-[40px] !bg-[#E6E7E9] !text-[#878788]"
+                />
               )}
             </div>
           </div>

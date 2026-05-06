@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ChevronDown, Bell, Send, Check, Clock } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface UpdateStatusDrawerProps {
   isOpen: boolean;
@@ -131,12 +132,12 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
             </div>
 
             {filteredLeads.length > 4 && (
-              <button
+              <BtnCom
+                title={showAll ? 'See less' : 'See more'}
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                {showAll ? 'See less' : 'See more'}
-              </button>
+                variant="secondary"
+                className="w-full mt-5 h-[48px] !bg-[#E6E7E9] !text-[#878788]"
+              />
             )}
           </div>
 
@@ -167,13 +168,10 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
           </div>
 
           <div className="mt-8">
-            <button
-              className="w-full h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm active:scale-[0.98] transition-all cursor-pointer"
-              style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-              onClick={onClose}
-            >
-              Save Changes
-            </button>
+            <BtnCom
+              title="Save Changes"
+              className="w-full h-[40px]"
+            />
           </div>
         </div>
       </div>

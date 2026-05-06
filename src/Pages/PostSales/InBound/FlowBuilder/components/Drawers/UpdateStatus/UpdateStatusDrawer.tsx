@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search, ChevronDown, Check, Send, Smartphone, Mail, Phone, MessageCircle } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface UpdateStatusDrawerProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
   const [delayValue, setDelayValue] = useState('15');
   const [delayUnit, setDelayUnit] = useState('Days');
   const [businessHoursOnly, setBusinessHoursOnly] = useState(true);
-  const [selectedChannel, setSelectedChannel] = useState('sms');
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['sms']);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTimeframe, setSelectedTimeframe] = useState('Today');
   const [isTimeframeOpen, setIsTimeframeOpen] = useState(false);
@@ -104,7 +105,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
                 <div className="relative flex-1">
                   <button
                     onClick={() => setIsUnitOpen(!isUnitOpen)}
-                    className={`w-full h-[24px] px-3 border border-[#E2E8F0] rounded-[5px] flex items-center justify-between text-[13px] font-medium text-[#191C1E] transition-all group ${isUnitOpen ? 'border-[#3B82F6]' : ''}`}
+                    className={`w-full h-[24px] px-3 border border-[#E2E8F0] rounded-[5px] flex items-center justify-between text-[13px] font-medium text-[#191C1E] transition-all group cursor-pointer ${isUnitOpen ? 'border-[#3B82F6]' : ''}`}
                   >
                     <span>{delayUnit}</span>
                     <ChevronDown size={14} strokeWidth={2} className={`text-[#64748B] transition-transform duration-200 ${isUnitOpen ? 'rotate-180' : ''}`} />
@@ -112,7 +113,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
 
                   {isUnitOpen && (
                     <>
-                      <div className="fixed inset-0 z-[85]" onClick={() => setIsUnitOpen(false)} />
+                      <div className="fixed inset-0 z-[85] cursor-pointer" onClick={() => setIsUnitOpen(false)} />
                       <div className="absolute left-0 right-0 top-[calc(100%+4px)] bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1 animate-in fade-in zoom-in-95 duration-100 overflow-hidden">
                         {['Days', 'Hours'].map((unit) => (
                           <button
@@ -138,7 +139,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setBusinessHoursOnly(!businessHoursOnly)}
-                  className={`w-[44px] h-[22px] rounded-full transition-colors relative ${businessHoursOnly ? 'bg-[#004370]' : 'bg-[#CBD5E1]'}`}
+                  className={`w-[44px] h-[22px] rounded-full transition-colors relative cursor-pointer ${businessHoursOnly ? 'bg-[#004370]' : 'bg-[#CBD5E1]'}`}
                 >
                   <div className={`absolute top-1 w-3.5 h-3.5 bg-white rounded-full transition-all ${businessHoursOnly ? 'left-[26px]' : 'left-1'}`} />
                 </button>
@@ -150,14 +151,20 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
               {channels.map((channel) => (
                 <button
                   key={channel.id}
-                  onClick={() => setSelectedChannel(channel.id)}
-                  className={`flex flex-col items-center justify-center gap-1.5  h-[40px] rounded-[8px] transition-all border
-                    ${selectedChannel === channel.id
-                      ? 'bg-[#004370] text-white border-[#004370]'
-                      : 'bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]'}`}
+                  onClick={() => {
+                    setSelectedChannels(prev =>
+                      prev.includes(channel.id)
+                        ? prev.filter(id => id !== channel.id)
+                        : [...prev, channel.id]
+                    );
+                  }}
+                  className={`BoxStyle !p-2 flex flex-col items-center justify-center gap-1.5 h-auto py-3 transition-all cursor-pointer
+                    ${selectedChannels.includes(channel.id)
+                      ? '!bg-[#004370] !text-white !border-[#004370]'
+                      : '!bg-white text-[#64748B] !border-[#E2E8F0] hover:!bg-[#F8FAFC]'}`}
                 >
-                  <channel.icon size={12} />
-                  <span className="text-[8px] font-bold">{channel.label}</span>
+                  <channel.icon size={14} className={selectedChannels.includes(channel.id) ? 'text-white' : 'text-[#004370]'} />
+                  <span className={`text-[10px] font-bold ${selectedChannels.includes(channel.id) ? 'text-white' : 'text-[#64748B]'}`}>{channel.label}</span>
                 </button>
               ))}
             </div>
@@ -184,7 +191,7 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
 
                 {isTimeframeOpen && (
                   <>
-                    <div className="fixed inset-0 z-[85]" onClick={() => setIsTimeframeOpen(false)} />
+                    <div className="fixed inset-0 z-[85] cursor-pointer" onClick={() => setIsTimeframeOpen(false)} />
                     <div className="absolute right-0 top-[calc(100%+4px)] w-[140px] bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1 animate-in fade-in zoom-in-95 duration-100">
                       {['Today', 'Yesterday', 'Last Week', 'All Time'].map((tf) => (
                         <button
@@ -237,20 +244,19 @@ const UpdateStatusDrawer: React.FC<UpdateStatusDrawerProps> = ({ isOpen, onClose
                 ))}
               </div>
 
-              <button className="w-full mt-10 h-[36px] text-[14px] font-normal text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors">
-                See more
-              </button>
+              <BtnCom
+                title="See more"
+                variant="secondary"
+                className="w-full mt-10 h-[36px] !bg-[#E6E8EA] !text-[#878788]"
+              />
             </div>
 
             <div className="mt-auto">
-              <button
-                className="w-full h-[40px] rounded-[8px] text-white font-bold text-[16px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-3"
-                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-                onClick={onClose}
-              >
-                <Send size={20} />
-                Send Reminder
-              </button>
+              <BtnCom
+                title="Send Reminder"
+                icon={Send}
+                className="w-full h-[40px]"
+              />
             </div>
           </div>
         </div>

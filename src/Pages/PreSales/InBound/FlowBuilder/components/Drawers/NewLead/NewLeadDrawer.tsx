@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface NewLeadDrawerProps {
   isOpen: boolean;
@@ -119,12 +120,14 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
                   </div>
                 ))}
               </div>
-              <button
-                onClick={() => setShowAllLeads(!showAllLeads)}
-                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                {showAllLeads ? 'See less' : 'See more'}
-              </button>
+              {recentLeads.length > 4 && (
+                <BtnCom
+                  title={showAllLeads ? 'See less' : 'See more'}
+                  onClick={() => setShowAllLeads(!showAllLeads)}
+                  variant="secondary"
+                  className="w-full mt-5 h-[40px] !bg-[#E6E7E9] !text-[#878788]"
+                />
+              )}
             </div>
           </div>
         </div>

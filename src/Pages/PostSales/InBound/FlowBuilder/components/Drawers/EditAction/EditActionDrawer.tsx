@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, MessageSquare, Mail, Phone, MessageCircle, Pen, ChevronUp, ChevronDown, Check } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface EditActionDrawerProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
   const [isCreating, setIsCreating] = useState(false);
   const [newTemplateName, setNewTemplateName] = useState('');
   const [isDelayDropdownOpen, setIsDelayDropdownOpen] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState('SMS');
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['SMS']);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editName, setEditName] = useState('');
 
@@ -96,16 +97,22 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                   ].map((item, i) => (
                     <button
                       key={i}
-                      onClick={() => setSelectedChannel(item.label)}
-                      className={`flex flex-col items-center justify-center gap-2.5 p-3 rounded-[10px] border-[2px] transition-all cursor-pointer
-                        ${selectedChannel === item.label
-                          ? 'border-[#004370] bg-[#F8FAFC] text-[#004370]'
-                          : 'bg-white border-[#E2E8F0] text-[#595C5E] hover:bg-[#F8FAFC]'}`}
+                      onClick={() => {
+                        setSelectedChannels(prev =>
+                          prev.includes(item.label)
+                            ? prev.filter(c => c !== item.label)
+                            : [...prev, item.label]
+                        );
+                      }}
+                      className={`BoxStyle !p-2.5 flex flex-col items-center justify-center gap-2.5 h-auto transition-all cursor-pointer
+                        ${selectedChannels.includes(item.label)
+                          ? '!bg-[#004370] !text-white !border-[#004370]'
+                          : '!bg-white !border-[#E2E8F0] text-[#595C5E] hover:!bg-[#F8FAFC]'}`}
                     >
-                      <div className="text-[#004370]">
-                        <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${selectedChannel === item.label ? 'bg-[#004370]/10' : 'bg-[#C1C7D1]/30'}`} />
+                      <div className={`${selectedChannels.includes(item.label) ? 'text-white' : 'text-[#004370]'}`}>
+                        <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${selectedChannels.includes(item.label) ? 'bg-white/20' : 'bg-[#C1C7D1]/30'}`} />
                       </div>
-                      <span className={`text-[12px] font-bold ${selectedChannel === item.label ? 'text-[#004370]' : 'text-[#595C5E]'}`}>{item.label}</span>
+                      <span className={`text-[12px] font-bold ${selectedChannels.includes(item.label) ? 'text-white' : 'text-[#595C5E]'}`}>{item.label}</span>
                     </button>
                   ))}
                 </div>
@@ -216,7 +223,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                   <div className="flex-1 relative">
                     <button
                       onClick={() => setIsDelayDropdownOpen(!isDelayDropdownOpen)}
-                      className={`w-full h-[48px] px-4 rounded-[8px] bg-white border-[1.5px] flex items-center justify-between transition-all group hover:border-[#CBD5E1] ${isDelayDropdownOpen ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-[#E2E8F0]'}`}
+                      className={`w-full h-[48px] px-4 rounded-[8px] bg-white border-[1.5px] flex items-center justify-between transition-all group hover:border-[#CBD5E1] cursor-pointer ${isDelayDropdownOpen ? 'border-[#3B82F6] ring-1 ring-[#3B82F6]' : 'border-[#E2E8F0]'}`}
                     >
                       <span className="text-[14px] text-[#191C1E] font-medium">{delayUnit}</span>
                       <ChevronDown size={20} className={`text-[#6B7280] transition-transform duration-200 ${isDelayDropdownOpen ? 'rotate-180' : ''}`} />
@@ -224,7 +231,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
 
                     {isDelayDropdownOpen && (
                       <>
-                        <div className="fixed inset-0 z-[85]" onClick={() => setIsDelayDropdownOpen(false)} />
+                        <div className="fixed inset-0 z-[85] cursor-pointer" onClick={() => setIsDelayDropdownOpen(false)} />
                         <div className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white border border-[#E2E8F0] rounded-[8px] shadow-lg z-[90] py-1 animate-in fade-in zoom-in-95 duration-100 overflow-hidden">
                           {delayUnits.map((unit) => (
                             <button
@@ -233,7 +240,7 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                                 setDelayUnit(unit);
                                 setIsDelayDropdownOpen(false);
                               }}
-                              className={`w-full px-4 py-3 text-left transition-colors flex items-center justify-between group/item
+                              className={`w-full px-4 py-3 text-left transition-colors flex items-center justify-between group/item cursor-pointer
                                 ${delayUnit === unit
                                   ? 'bg-[#F1F5F9] text-[#191C1E] font-bold'
                                   : 'text-[#595C5E] hover:bg-[#F8FAFC]'}`}
@@ -262,21 +269,15 @@ const EditActionDrawer: React.FC<EditActionDrawerProps> = ({
                 </div>
               </div>
               <div className="pt-8 flex gap-4">
-                <button
-                  onClick={onClose}
-                  className="flex-1 h-[48px] rounded-[10px] bg-[#F1F5F9] text-[#64748B] font-bold text-[15px] hover:bg-[#E2E8F0] transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="flex-1 h-[48px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all cursor-pointer"
-                  style={{
-                    background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
-                  }}
-                  onClick={onClose}
-                >
-                  Save Changes
-                </button>
+                <BtnCom
+                  title="Cancel"
+                  variant="secondary"
+                  className="flex-1 h-[48px] !text-[#64748B] !bg-[#F1F5F9] hover:!bg-[#E2E8F0]"
+                />
+                <BtnCom
+                  title="Save Changes"
+                  className="flex-1 h-[48px]"
+                />
               </div>
             </div>
           </div>

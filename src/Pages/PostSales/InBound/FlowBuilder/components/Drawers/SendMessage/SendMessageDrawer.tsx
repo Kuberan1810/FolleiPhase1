@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface SendMessageDrawerProps {
   isOpen: boolean;
@@ -127,12 +128,12 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
                 ))}
               </div>
 
-              <button
+              <BtnCom
+                title={showAllLeads ? 'See less' : 'See more'}
                 onClick={() => setShowAllLeads(!showAllLeads)}
-                className="w-full mt-10 h-[36px] text-[14px] font-normal text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                {showAllLeads ? 'See less' : 'See more'}
-              </button>
+                variant="secondary"
+                className="w-full mt-10 h-[40px] !bg-[#E6E7E9] !text-[#878788]"
+              />
             </div>
           </div>
         </div>
