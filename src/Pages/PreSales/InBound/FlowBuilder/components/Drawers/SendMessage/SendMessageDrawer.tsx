@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Search, ChevronDown, Check } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface SendMessageDrawerProps {
   isOpen: boolean;
@@ -166,22 +167,19 @@ const SendMessageDrawer: React.FC<SendMessageDrawerProps> = ({ isOpen, onClose }
             </div>
 
             {filteredActivity.length > 4 && (
-              <button
+              <BtnCom
+                title={showAll ? 'See less' : 'See more'}
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-5 h-[48px] text-[13px] font-bold text-[#878788] bg-[#E6E7E9] rounded-[5px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                {showAll ? 'See less' : 'See more'}
-              </button>
+                variant="secondary"
+                className="w-full mt-5 h-[40px] !bg-[#E6E7E9] !text-[#878788]"
+              />
             )}
 
             <div className="mt-8">
-              <button
-                className="w-full h-[40px] rounded-[10px] text-white font-bold text-[15px] shadow-sm hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer"
-                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-                onClick={onClose}
-              >
-                Assign to Sales Rep
-              </button>
+              <BtnCom
+                title="Assign to Sales Rep"
+                className="w-full h-[40px]"
+              />
             </div>
           </div>
         </div>

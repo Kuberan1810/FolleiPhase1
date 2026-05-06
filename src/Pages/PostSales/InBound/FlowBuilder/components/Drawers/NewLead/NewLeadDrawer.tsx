@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, MessageSquare, Mail, Phone, MessageCircle, Pen, Check } from 'lucide-react';
+import BtnCom from '../../../../../../../Component/BtnCom';
 
 interface NewLeadDrawerProps {
   isOpen: boolean;
@@ -7,7 +8,7 @@ interface NewLeadDrawerProps {
 }
 
 const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
-  const [selectedChannel, setSelectedChannel] = useState('SMS');
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['SMS']);
   const [isBusinessHoursOnly, setIsBusinessHoursOnly] = useState(true);
 
   const [templates, setTemplates] = useState([
@@ -73,21 +74,27 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-[20px] py-4 no-scrollbar bg-white">
+          <div className="flex-1 overflow-y-auto px-[20px] py-5 no-scrollbar bg-white">
             <div className="mb-8">
               <label className="text-[14px] font-[700] text-[#2C2F31] block mb-2">Select Channel</label>
               <div className="grid grid-cols-4 gap-3">
                 {channels.map((item, i) => (
                   <button
                     key={i}
-                    onClick={() => setSelectedChannel(item.label)}
-                    className={`flex flex-col items-center justify-center gap-1.5 h-[64px] rounded-[8px] transition-all border-2
-                      ${selectedChannel === item.label
-                        ? 'border-[#004370] bg-[#F8FAFC] text-[#004370]'
-                        : 'bg-white border-[#E2E8F0] text-[#64748B] hover:bg-[#F8FAFC]'} cursor-pointer`}
+                    onClick={() => {
+                      setSelectedChannels(prev =>
+                        prev.includes(item.label)
+                          ? prev.filter(c => c !== item.label)
+                          : [...prev, item.label]
+                      );
+                    }}
+                    className={`BoxStyle !p-2 flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer
+                      ${selectedChannels.includes(item.label)
+                        ? '!bg-[#004370] !text-white !border-[#004370]'
+                        : '!bg-white !border-[#E2E8F0] text-[#64748B] hover:!bg-[#F8FAFC]'}`}
                   >
-                    <item.icon size={20} />
-                    <span className="text-[8px] font-bold">{item.label}</span>
+                    <item.icon size={20} className={selectedChannels.includes(item.label) ? 'text-white' : 'text-[#004370]'} />
+                    <span className={`text-[8px] font-bold ${selectedChannels.includes(item.label) ? 'text-white' : 'text-[#64748B]'}`}>{item.label}</span>
                   </button>
                 ))}
               </div>
@@ -105,7 +112,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
               </div>
 
               {isCreating && (
-                <div className="flex gap-2 mb-4 bg-[#F8FAFC] p-2 rounded-[8px] border border-[#ABADAF]/20">
+                <div className="flex gap-2 mb-4 bg-[#F8FAFC] py-[5px] px-[10px] rounded-[8px] border border-[#ABADAF]/20">
                   <input
                     autoFocus
                     type="text"
@@ -128,7 +135,7 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
                 {templates.map((template, i) => (
                   <div
                     key={i}
-                    className={`flex items-center justify-between p-4 bg-white border-[1px] rounded-[8px] transition-all cursor-pointer group
+                    className={`flex items-center justify-between py-[12px] px-[10px] bg-white border-[1px] rounded-[8px] transition-all cursor-pointer group
                       ${editingIndex === i ? 'border-[#ABADAF]/20' : 'border-[#E2E8F0] hover:border-[#CBD5E1]'}`}
                   >
                     {editingIndex === i ? (
@@ -169,16 +176,16 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
             <div className="mb-8">
               <label className="text-[14px] font-[700] text-[#191C1E] block mb-4">Delay Settings</label>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-4 bg-white border-[1px] border-[#ABADAF]/20 rounded-[8px] hover:border-[#CBD5E1] transition-all cursor-pointer group">
+                <div className="flex items-center justify-between py-[5px] px-[10px]  bg-white border-[1px] border-[#ABADAF]/20 rounded-[8px] hover:border-[#CBD5E1] transition-all cursor-pointer group">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[14px] font-bold text-[#222222]">For Thank You:</span>
+                    <span className="text-[14px] font-medium text-[#222222]">For Thank You:</span>
                     <span className="text-[10px] text-[#595C5E] font-medium">0-5 Minutes (Instant after purchase)</span>
                   </div>
                   <Pen size={16} className="text-[#64748B] group-hover:text-[#1D7EBE]" />
                 </div>
-                <div className="flex items-center justify-between p-4 bg-white border border-[#E2E8F0] rounded-[8px] hover:border-[#CBD5E1] transition-all cursor-pointer group">
+                <div className="flex items-center justify-between py-[5px] px-[10px] bg-white border border-[#E2E8F0] rounded-[8px] hover:border-[#CBD5E1] transition-all cursor-pointer group">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[14px] font-bold text-[#222222]">For Feedback:</span>
+                    <span className="text-[14px] font-medium text-[#222222]">For Feedback:</span>
                     <span className="text-[10px] text-[#595C5E] font-medium">Delivered + 2 Hours (or customizable)</span>
                   </div>
                   <Pen size={16} className="text-[#64748B] group-hover:text-[#1D7EBE]" />
@@ -197,19 +204,15 @@ const NewLeadDrawer: React.FC<NewLeadDrawerProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="flex gap-4">
-              <button
-                onClick={onClose}
-                className="flex-1 h-[44px] rounded-[8px] bg-[#E6E8EA] text-[#414750] font-medium text-[16px] hover:bg-[#DEDFE1] transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                className="flex-1 h-[44px] rounded-[8px] text-white font-medium text-[16px] shadow-sm hover:shadow-lg transition-all cursor-pointer"
-                style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
-                onClick={onClose}
-              >
-                Save changes
-              </button>
+              <BtnCom
+                title="Cancel"
+                variant="secondary"
+                className="flex-1 h-[44px] !bg-[#E6E8EA] !text-[#414750]"
+              />
+              <BtnCom
+                title="Save changes"
+                className="flex-1 h-[44px]"
+              />
             </div>
           </div>
         </div>

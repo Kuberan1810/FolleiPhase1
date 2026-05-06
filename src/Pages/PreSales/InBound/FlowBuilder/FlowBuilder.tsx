@@ -10,6 +10,7 @@ import ReplyReceivedDrawer from './components/Drawers/ReplyReceived/ReplyReceive
 import NotifySalesDrawer from './components/Drawers/NotifySales/NotifySalesDrawer';
 import WorkflowHeader from './components/Common/WorkflowHeader';
 import ConnectorLine from './components/Common/ConnectorLine';
+import BtnCom from '../../../../Component/BtnCom';
 
 const FlowBuilder: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
@@ -82,16 +83,11 @@ const FlowBuilder: React.FC = () => {
           <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Flow Builder</h1>
           <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
         </div>
-        <button
+        <BtnCom
+          title="Edit Action"
           onClick={() => setActiveDrawer('edit-action')}
-          className="text-white rounded-[8px] text-[15px] font-[700] w-[148px] h-[40px] flex items-center justify-center transition-all cursor-pointer"
-          style={{
-            background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)',
-            boxShadow: '0 4px 6px -4px rgba(17, 98, 157, 0.2), 0 10px 15px -3px rgba(17, 98, 157, 0.2)'
-          }}
-        >
-          Edit Action
-        </button>
+          className="w-[148px] h-[40px] !text-[15px]"
+        />
       </div>
 
       <div className="w-full">
