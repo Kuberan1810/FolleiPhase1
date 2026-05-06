@@ -45,12 +45,12 @@
 
 //   return (
 //     <div className="w-full py-12 px-4 font-[Inter] relative bg-[#F8FAFC]">
-      
+
 //       {/* --- FIGMA PAYMENT MODAL INTEGRATION --- */}
 //       {isModalOpen && selectedPlanData && (
 //         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
 //           <div className="bg-white w-full max-w-[480px] rounded-[32px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200">
-            
+
 //             {/* Close Button */}
 //             <button 
 //               onClick={() => setIsModalOpen(false)} 
@@ -192,14 +192,14 @@
 // export default Plans;
 
 import React, { useState } from 'react';
-import { Check, X, Zap,BadgeCheck,Rocket, ShieldCheck, CreditCard, Lock, ArrowRight, ArrowLeft ,AlertCircle,FileExclamationPoint } from 'lucide-react';
+import { Check, X, Zap, BadgeCheck, Rocket, ShieldCheck, CreditCard, Lock, ArrowRight, ArrowLeft, AlertCircle, FileExclamationPoint } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Plans: React.FC = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlanData, setSelectedPlanData] = useState<any>(null);
-  
+
   // Payment Status States: 'idle' | 'processing' | 'success' | 'failure'
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'failure'>('idle');
 
@@ -242,28 +242,28 @@ const Plans: React.FC = () => {
 
   const handlePayment = () => {
     setPaymentStatus('processing');
-    
+
     // Simulating API Call
     setTimeout(() => {
       // Simple logic: Randomly succeed or fail for demo
       // In real scenario, validate card number here
-      const isSuccessful = Math.random() > 0.3; 
+      const isSuccessful = Math.random() > 0.3;
       setPaymentStatus(isSuccessful ? 'success' : 'failure');
     }, 2000);
   };
 
   return (
     <div className="w-full py-12 px-4 font-[Inter] relative bg-[#F8FAFC]">
-      
+
       {/* --- INTEGRATED MODAL SYSTEM --- */}
       {isModalOpen && selectedPlanData && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white w-full max-w-[480px] rounded-[32px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200">
-            
+
             {/* Close Button (Visible only in idle/failure) */}
             {paymentStatus !== 'processing' && (
-              <button 
-                onClick={() => setIsModalOpen(false)} 
+              <button
+                onClick={() => setIsModalOpen(false)}
                 className="absolute top-8 right-8 p-1.5 rounded-full hover:bg-gray-100 transition-colors z-10"
               >
                 <X size={20} className="text-gray-400" />
@@ -271,13 +271,13 @@ const Plans: React.FC = () => {
             )}
 
             <div className="p-10">
-              
+
               {/* --- VIEW 1: PAYMENT FORM (IDLE/PROCESSING) --- */}
-              { (paymentStatus === 'idle' || paymentStatus === 'processing') && (
+              {(paymentStatus === 'idle' || paymentStatus === 'processing') && (
                 <div className={paymentStatus === 'processing' ? 'opacity-50 pointer-events-none' : ''}>
                   <div className="flex flex-col items-center text-center mb-8 font-[Inter]">
                     <div className="w-15 h-15 bg-[#F1F5F9] rounded-full flex items-center justify-center mb-3">
-                      <Lock size={25}  className="text-[#B7C4FF]" strokeWidth={2.5} />
+                      <Lock size={25} className="text-[#B7C4FF]" strokeWidth={2.5} />
                     </div>
                     <h3 className="text-[24px] font-bold text-[#004370] ">Secure Payment</h3>
                     <p className="text-[#64748B] text-[14px] mt-1">Your payment is encrypted and secure</p>
@@ -299,7 +299,7 @@ const Plans: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-5 font-[Inter]">
+                  <div className="space-y-5 font-[Inter] h-[150px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#0C4A6E]/70 hover:scrollbar-thumb-[#0C4A6E] scrollbar-track-transparent">
                     <div className="space-y-2">
                       <label className="text-[12px] font-medium text-[#64748B] tracking-[1.2px] uppercase">Card Number</label>
                       <div className="relative">
@@ -312,48 +312,48 @@ const Plans: React.FC = () => {
                       <input type="text" placeholder="Enter name on card" className="w-full px-4 py-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[14px] focus:outline-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-[12px] font-medium text-[#64748B] tracking-[1.2px] uppercase">
-                        Expiry Date
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="MM / YY"
-                        className="w-full px-4 py-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[14px] focus:outline-none"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-[12px] font-medium text-[#64748B] tracking-[1.2px] uppercase">
-                        CVV
-                      </label>
-                      <div className="relative">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[12px] font-medium text-[#64748B] tracking-[1.2px] uppercase">
+                          Expiry Date
+                        </label>
                         <input
                           type="text"
-                          placeholder="***"
-                          className="w-full px-4 py-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[14px] focus:outline-none pr-10"
+                          placeholder="MM / YY"
+                          className="w-full px-4 py-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[14px] focus:outline-none"
                         />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none opacity-50">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="#94A3B8"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" />
-                          </svg>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[12px] font-medium text-[#64748B] tracking-[1.2px] uppercase">
+                          CVV
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            placeholder="***"
+                            className="w-full px-4 py-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-[14px] focus:outline-none pr-10"
+                          />
+                          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none opacity-50">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#94A3B8"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                              <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  </div>
 
-                  <button 
+                  <button
                     onClick={handlePayment}
                     className="w-full mt-10 py-4 rounded-3xl text-white font-bold text-[16px] bg-[#004370] shadow-lg flex items-center justify-center gap-2"
                   >
@@ -374,12 +374,12 @@ const Plans: React.FC = () => {
                   <p className="text-[#64748B] text-[15px] font-[Inter] mb-10">
                     Your Plan has been upgraded  to <span className="font-bold text-[#0F172A]">{selectedPlanData.name}</span>.Enjoy unlimited access to all premium features.
                   </p>
-                  <button 
+                  <button
                     onClick={() => navigate('/dashboard')}
                     className="w-full py-4 rounded-3xl text-white font-semibold text-[18px] bg-[#103960] flex items-center justify-center gap-2 hover:bg-[#0c2d4d] transition-all"
                   >
-                    <ArrowLeft size={18} /> Go to Dashboard 
-                    
+                    <ArrowLeft size={18} /> Go to Dashboard
+
                   </button>
                   <p className='mt-3 text-[12px] text-[#64748B]/60 uppercase tracking-[2.4px] '>Confirmation Sent to your email.</p>
                 </div>
@@ -398,13 +398,13 @@ const Plans: React.FC = () => {
                     We were unable to process your payment.Please check your card details and try again.
                   </p>
                   <div className="w-full flex flex-col gap-3">
-                    <button 
+                    <button
                       onClick={() => setPaymentStatus('idle')}
                       className="w-full py-4 rounded-3xl text-white font-bold text-[18px] bg-[#E20000] hover:bg-[#E20000]/50 transition-all"
                     >
                       Retry Payment
                     </button>
-                     <p className=' flex ml-7 gap-5 items-center text-[12px] text-[#64748B]/60 uppercase tracking-[2.4px] '><Lock size={12} />Secure Encrypted Connection.</p>
+                    <p className=' flex ml-7 gap-5 items-center text-[12px] text-[#64748B]/60 uppercase tracking-[2.4px] '><Lock size={12} />Secure Encrypted Connection.</p>
                   </div>
                 </div>
               )}
@@ -450,12 +450,12 @@ const Plans: React.FC = () => {
           );
         })}
       </div>
-          <div className="bg-[#E9F2F9] rounded-[24px] p-10 border border-[#D1E2EF] ">
-            <h2 className="text-[32px] font-extrabold text-[#0F172A] mb-4">Purchase Now & Get a Lot of Benefits</h2>
-              <p className="text-[#64748B] text-[16px]">Choose the plan that fits your workflow. Start with Starter for basic usage, or move to Pro for full-scale performance.</p>
+      <div className="bg-[#E9F2F9] rounded-[24px] p-10 border border-[#D1E2EF] ">
+        <h2 className="text-[32px] font-extrabold text-[#0F172A] mb-4">Purchase Now & Get a Lot of Benefits</h2>
+        <p className="text-[#64748B] text-[16px]">Choose the plan that fits your workflow. Start with Starter for basic usage, or move to Pro for full-scale performance.</p>
       </div>
     </div>
-    
+
   );
 };
 

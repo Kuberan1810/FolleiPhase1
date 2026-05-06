@@ -24,8 +24,11 @@ const Header: React.FC = () => {
 
     const handleToggle = (type: 'inbound' | 'outbound') => {
         let targetPage = currentPage;
-        if (type === 'inbound' && targetPage.toLowerCase() === 'campaigns') {
-            targetPage = 'dashboard';
+        if (type === 'inbound') {
+            const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
+            if (forbiddenInbound.includes(targetPage.toLowerCase())) {
+                targetPage = 'dashboard';
+            }
         }
         navigate(`/${salesMode}/${type}/${targetPage}`);
     };
@@ -73,12 +76,16 @@ const Header: React.FC = () => {
                             <Search size={24} />
                         </button>
 
-                        <button className="relative p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300">
+                        <button
+                        onClick={()=>{navigate("/notifications")}} 
+                        className="relative p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300">
                             <NotificationBing color='currentColor' size={24} />
                             <span className="absolute top-2 h-3 w-3 rounded-full bg-red-500 border-2 border-white duration-300"></span>
                         </button>
 
-                        <button className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 hidden sm:block">
+                        <button
+                            onClick={() => { navigate("/settings/help")}} 
+                            className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 hidden sm:block">
                             <InfoCircle color='currentColor' size={24} />
                         </button>
 
@@ -94,7 +101,7 @@ const Header: React.FC = () => {
                         <button
                         
                             onClick={() => { navigate("/settings/profile") }}
-                            className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100">
+                            className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100 cursor-pointer">
                             <img
                                 src={profileImg}
                                 alt="User profile"

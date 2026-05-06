@@ -36,7 +36,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.14.0",
     "rolldown": "^1.0.0-rc.17",
-    "rollup": "^4.60.2"
+    "rollup": "^4.60.2",
+    "tailwind-scrollbar": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

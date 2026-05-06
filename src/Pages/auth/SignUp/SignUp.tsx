@@ -1,10 +1,8 @@
 
-import { Network } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import FolleiWhite from "../../../assets/logo/Follei-white.svg"
 import FolleiLogo from "../../../assets/logo/FolleiLogo.svg"
-import Dashboard from "../../../assets/login/dashboard.svg"
+import AuthSidebar from "../../../Component/AuthSidebar"
 
 
 const SignUp = () => {
@@ -20,53 +18,21 @@ const SignUp = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen font-sans bg-white md:bg-transparent">
-            {/* Sidebar */}
-            <div className="hidden md:flex md:w-[45%] bg-[#003E6B] text-white p-6 lg:p-12 flex-col justify-between overflow-hidden relative">
-                <div className="z-10 font-inter">
-
-                    <div className="flex items-center gap-3 mb-10">
-                        <div className='w-28'>
-                            <img src={FolleiWhite} alt="FolleiLogo" />
-                        </div>
-                    </div>
-
-                    <div className="max-w-[519px]">
-                        <h2 className="lg:text-[32px] text-2xl font-semibold font-manrope mb-[18px] leading-[18px]  tracking-tight">Welcome to AI Agent</h2>
-                        <p className="lg:text-[16px] text-sm font-normal font-manrope opacity-90 leading-[22px] tracking-normal">
-                            Manage your customer calls, messages & emails automatically with your AI agent
-                        </p>
-                    </div>
-                </div>
-
-                <div className="absolute -bottom-4 -right-12 hidden md:block pointer-events-none">
-                    <img
-                        src={Dashboard}
-                        alt="AI Agent Illustration"
-                        className="w-full max-w-[350px] lg:max-w-[450px] h-auto object-contain"
-                    />
-                </div>
-
-                {/* Decorative background elements */}
-                <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[100px]" />
-            </div>
+        <div className="flex flex-col md:flex-row min-h-screen md:h-screen md:overflow-hidden font-sans bg-white">
+            <AuthSidebar title="Create Your Account" description="Join Follei and start managing your customer interactions with AI." />
 
             {/* Right Content */}
-            <div className="flex-1 bg-white flex flex-col justify-center items-center p-6 md:p-12 relative overflow-y-auto">
-                {/* Mobile Heading & Logo */}
-                <div className="md:hidden w-full max-w-md flex flex-col mb-10">
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className='w-28'>
-                            <img src={FolleiLogo} alt="FolleiLogo" />
-                        </div>
+            <div className="flex-1 bg-white flex flex-col justify-center items-center px-6 py-12 md:p-12 overflow-y-auto">
+                {/* Mobile Logo + Heading */}
+                <div className="md:hidden w-full max-w-sm flex flex-col items-start mb-8">
+                    <div className="w-24 mb-6">
+                        <img src={FolleiLogo} alt="Follei" />
                     </div>
-                    <div>
-                        <h2 className="text-[28px] font-medium font-inter text-black mb-1 leading-none">Create Your Account</h2>
-                        <p className="text-[12px] font-medium font-manrope text-[#999999] leading-none">Join us and get started in seconds</p>
-                    </div>
+                    <h2 className="text-[26px] font-bold text-gray-900 mb-1 font-manrope">Create your account</h2>
+                    <p className="text-[14px] text-gray-500 font-inter">Join us and get started in seconds</p>
                 </div>
 
-                <div className="w-full max-w-md">
+                <div className="w-full max-w-sm md:max-w-md">
                     {/* Desktop heading */}
                     <div className="hidden md:block mb-8">
                         <h2 className="text-[28px] font-medium font-inter text-black mb-1 leading-none">Create Your Account</h2>
@@ -82,7 +48,7 @@ const SignUp = () => {
                                 placeholder="Enter your Name"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
-                                className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
+                                className="w-full h-[48px] md:h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
                             />
                         </div>
 
@@ -94,7 +60,7 @@ const SignUp = () => {
                                 placeholder="Enter your Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
+                                className="w-full h-[48px] md:h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
                             />
                         </div>
 
@@ -106,14 +72,14 @@ const SignUp = () => {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
+                                className="w-full h-[48px] md:h-[50px] px-4 bg-white border border-[#B7AFAF] rounded-[10px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] transition-all font-inter text-[16px] placeholder:text-gray-400"
                             />
                         </div>
 
                         {/* Sign Up Button */}
                         <button
                             onClick={handleSubmit}
-                            className={`w-full h-[50px] rounded-[10px] font-normal font-inter text-[20px] transition-all duration-300 cursor-pointer ${fullName && email && password ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-[#B7AFAF] text-gray-400 pointer-events-none"}`}
+                            className={`w-full h-[48px] md:h-[50px] rounded-[10px] font-normal font-inter text-[18px] md:text-[20px] transition-all duration-300 cursor-pointer ${fullName && email && password ? "bg-[#004370] text-white shadow-lg shadow-[#004370]/20" : "bg-white border border-[#B7AFAF] text-gray-400 pointer-events-none"}`}
                         >
                             Sign up
                         </button>

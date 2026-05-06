@@ -13,7 +13,7 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({ currentStep }) 
           return (
             <div
               key={i}
-              className="w-4 h-[5px] rounded-full bg-[#00416A] transition-all duration-300"
+              className="w-6 h-[8px] rounded-full bg-[#00416A] transition-all duration-300"
             />
           );
         } else if (i < currentStep) {
@@ -21,7 +21,7 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({ currentStep }) 
           return (
             <div
               key={i}
-              className="w-[5px] h-[5px] rounded-full bg-[#00416A] transition-all duration-300"
+              className="w-[8px] h-[8px] rounded-full bg-[#00416A] transition-all duration-300"
             />
           );
         } else {
@@ -29,7 +29,7 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({ currentStep }) 
           return (
             <div
               key={i}
-              className="w-[5px] h-[5px] rounded-full border border-[#CBD5E1] transition-all duration-300"
+              className="w-[8px] h-[8px] rounded-full border border-[#CBD5E1] transition-all duration-300"
             />
           );
         }

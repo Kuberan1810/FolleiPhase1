@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, Link, useLocation } from "react-router-dom"
-import { Network } from "lucide-react"
+import AuthSidebar from "../../../Component/AuthSidebar"
 
 const VerifyOTP = () => {
     const navigate = useNavigate()
@@ -64,33 +64,8 @@ const VerifyOTP = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen font-sans bg-white md:bg-transparent">
-            {/* Sidebar (Same as Login) */}
-            <div className="hidden md:flex md:w-[45%] bg-[#003E6B] text-white p-6 lg:p-12 flex-col justify-between overflow-hidden relative">
-                <div className="z-10 font-poppins">
-                    <div className="flex items-center gap-3 mb-10 lg:mb-16">
-                        <div className="bg-white p-2 rounded-lg">
-                            <Network className="text-[#003E6B] size-6 lg:size-8" />
-                        </div>
-                        <div>
-                            <h1 className="text-2xl lg:text-[35px] font-semibold tracking-tight leading-none">LiveTracker</h1>
-                            <p className="text-[10px] lg:text-[15px] uppercase font-semibold tracking-widest opacity-80">Precision Orchestrator</p>
-                        </div>
-                    </div>
-
-                    <div className="max-w-[519px]">
-                        <h2 className="text-[32px] font-semibold font-poppins mb-[15px] leading-[18px] tracking-tight">Welcome to AI Agent</h2>
-                        <p className="text-[16px] font-normal font-poppins opacity-90 leading-[22px] tracking-normal">
-                            Manage your customer calls, messages & emails automatically with your AI agent
-                        </p>
-                    </div>
-                </div>
-
-                <div className="absolute -bottom-4 -right-12 hidden lg:block z-10 pointer-events-none">
-                    <img src="/image 8.svg" alt="AI Agent Illustration" className="w-full max-w-[450px] xl:max-w-[5566px] h-auto object-contain" />
-                </div>
-                <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[100px]" />
-            </div>
+        <div className="flex flex-col md:flex-row h-screen overflow-hidden font-sans bg-white md:bg-transparent">
+            <AuthSidebar />
 
             {/* Right Content */}
             <div className="flex-1 bg-white flex flex-col justify-center items-center p-6 md:p-12 relative overflow-y-auto">

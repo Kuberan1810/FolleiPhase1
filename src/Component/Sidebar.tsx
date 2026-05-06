@@ -7,6 +7,8 @@ import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import ModeBottomSheet from './ModeBottomSheet';
 import { Radio, Send, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BtnCom from './BtnCom';
+import { Sparkles } from 'lucide-react';
 
 
 import { useSalesContext } from '../Context/SalesContext';
@@ -48,9 +50,14 @@ const Sidebar: React.FC = () => {
 
     const handleModeToggle = (type: 'inbound' | 'outbound') => {
         let targetPage = currentPage;
-        if (type === 'inbound' && targetPage.toLowerCase() === 'campaigns') {
-            targetPage = 'dashboard';
+
+        if (type === 'inbound') {
+            const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
+            if (forbiddenInbound.includes(targetPage.toLowerCase())) {
+                targetPage = 'dashboard';
+            }
         }
+
         navigate(`/${salesMode}/${type}/${targetPage}`);
     };
 
@@ -64,13 +71,19 @@ const Sidebar: React.FC = () => {
     let navItems: any[] = [];
 
     if (salesMode === 'postsales') {
-        navItems = [
-            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-            { icon: Profile2User, label: 'Customer', path: `${prefix}/customer` },
-            { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
-            { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-            { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-        ];
+        navItems = isOutbound
+            ? [
+                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+                { icon: Profile2User, label: 'Customer', path: `${prefix}/customer` },
+                { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
+                { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+            ]
+            : [
+                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+                { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
+                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
+            ];
     } else {
         navItems = isOutbound
             ? [
@@ -208,11 +221,13 @@ const Sidebar: React.FC = () => {
                             <p className="mt-2 text-[12px] leading-relaxed text-[#414750]">
                                 Get advanced analytics and automation tools.
                             </p>
-                            <button
+                            <BtnCom
+                                title="Upgrade Now"
                                 onClick={() => { navigate('/settings/payment') }}
-                                className="mt-4 w-full rounded-[4px] bg-[#004370] py-[8px] text-center text-[12px] font-semibold text-white cursor-pointer hover:bg-[#004370]/80 transition-all duration-200">
-                                Upgrade Now
-                            </button>
+                                variant="primary"
+                                // icon={Sparkles}
+                                className="mt-4 w-full text-[14px]! py-2.5! "
+                            />
                         </div>
 
                         <div className="flex flex-col gap-4">
