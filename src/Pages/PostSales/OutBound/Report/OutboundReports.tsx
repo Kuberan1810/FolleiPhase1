@@ -1,15 +1,18 @@
-import OutboundReportsMetrics from './sections/OutboundReportsMetrics';
-import OutboundChannelAnalysis from './sections/OutboundChannelAnalysis';
-import OutboundRecentActivity from './sections/OutboundRecentActivity';
+import RevenueAnalytics from './sections/RevenueAnalytics';
+import RevenueCharts from './sections/RevenueCharts';
+import RevenueFollowUp from './sections/RevenueFollowUp';
+import RevenueTable from './sections/RevenueTable';
+
 
 const OutboundReports = () => {
   return (
     <div className="flex flex-col gap-8">
 
 
-      <OutboundReportsMetrics />
-      <OutboundChannelAnalysis />
-      <OutboundRecentActivity />
+      <RevenueAnalytics />
+      <RevenueCharts />
+      <RevenueFollowUp />
+      <RevenueTable/>
     </div>
   );
 };
