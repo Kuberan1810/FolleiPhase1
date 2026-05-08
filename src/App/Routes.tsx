@@ -56,7 +56,19 @@ import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
+
 import PostSalesOutboundCadences from "../Pages/PostSales/OutBound/Cadences/Cadences";
+
+// Payment Sub-components (Nested Routes)
+import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
+import Plans from "../Pages/Settings/Payment/Section/Plans";
+import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
+
+
+
+
+
+
 
 export default function AppRoutes() {
   return (
@@ -79,6 +91,7 @@ export default function AppRoutes() {
       <Route path="/onboarding/work-description" element={<WorkDescription />} />
       <Route path="/onboarding/review" element={<ReviewConfirmation />} />
       <Route path="/onboarding/success" element={<OnboardingSuccess />} />
+
 
       {/* ==========================================
                      PRE-SALES ROUTES
@@ -133,10 +146,23 @@ export default function AppRoutes() {
         <Route path="payment" element={<Payment />} />
         <Route path="privacy" element={<PrivacyPolicy />} />
         <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+
+        {/* --- NESTED PAYMENT ROUTES --- */}
+        <Route path="/settings/payment" element={<Payment />}>
+          {/* Default view: Overview + Billing Table merged */}
+          <Route index element={<PaymentOverview />} />
+
+          {/* Specific sub-pages */}
+          <Route path="plans" element={<Plans />} />
+          <Route path="paymentmethod" element={<PaymentMethod />} />
+        </Route>
       </Route>
+
+     
 
       {/* Legacy/Shortcut Redirects */}
       <Route path="/dashboard" element={<Navigate to="/presales/inbound/dashboard" replace />} />
+
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />

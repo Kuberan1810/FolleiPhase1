@@ -56,7 +56,7 @@ const BillingTable: React.FC = () => {
                     </span>
                   </td>
                   <td className="px-8 py-6 align-middle">
-                    <button className="flex items-center gap-2 text-[#004370] hover:text-[#0284C7] transition-colors text-[14px] font-semibold">
+                    <button className="flex items-center gap-2 text-[#004370] hover:text-[#0284C7] transition-colors text-[14px] font-semibold cursor-pointer">
                       <Download size={16} />
                       <span>Download PDF</span>
                     </button>

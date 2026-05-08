@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CircleDollarSign, CalendarDays, ArrowUpRight } from 'lucide-react';
+import BillingTable from './BillingTable';
 
 const PaymentOverview: React.FC = () => {
 
@@ -73,7 +74,7 @@ const PaymentOverview: React.FC = () => {
                             </div>
                         </div>
 
-                        <button className="mt-10 w-full py-4 bg-[#004370] hover:bg-[#00355a] text-white text-[20px] font-bold rounded-xl flex items-center justify-center gap-2 transition-all ">
+                        <button className="mt-10 w-full py-4 bg-[#004370] hover:bg-[#00355a] text-white text-[20px] font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
                             Upgrade Plan
                            
                         </button>
@@ -108,13 +109,17 @@ const PaymentOverview: React.FC = () => {
                                 </span>
                             </div>
 
-                            <button className="w-full py-4 bg-white text-[#00426e] text-[20px] font-extrabold rounded-xl hover:bg-slate-50 transition-all shadow-2xl">
+                            <button className="w-full py-4 bg-white text-[#00426e] text-[20px] font-extrabold rounded-xl hover:bg-slate-50 transition-all shadow-2xl cursor-pointer">
                                 Manage Payments
                             </button>
                         </div>
                     </div>
 
                 </div>
+                <div className="mt-4">
+        
+                <BillingTable />
+            </div>
             </div>
         </div>
     );

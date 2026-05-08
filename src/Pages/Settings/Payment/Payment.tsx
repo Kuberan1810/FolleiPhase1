@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import BillingTable from './Section/BillingTable';
-import PaymentOverview from './Section/PaymentOverview';
-import Plans from './Section/Plans';
-import PaymentMethod from './Section/PaymentMethod'
 
+import React from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
-
-type TabType = 'Overview' | 'Plans' | 'Payment Method';
 
 const Payment = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('Overview');
+  // Mapping tabs to their actual URL paths
+  const tabs = [
+    { id: 'Overview', name: 'Overview', path: '/settings/payment' },
+    { id: 'Plans', name: 'Plans', path: '/settings/payment/plans' },
+    { id: 'Payment Method', name: 'Payment Method', path: '/settings/payment/paymentmethod' },
+  ];
 
   return (
     <div className="w-full font-['Inter']">
@@ -32,44 +31,29 @@ const Payment = () => {
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs - Using NavLink instead of Button */}
       <nav className="flex gap-20 mb-8 border-b border-slate-200 font-regular">
-        {['Overview', 'Plans', 'Payment Method'].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab as TabType)}
-            className={`pb-4 text-[14px] font-semibold transition-all relative cursor-pointer ${
-              activeTab === tab
-                ? 'text-[#004370] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#0284C7]'
-                : 'text-slate-400 hover:text-slate-600'
-            }`}
+        {tabs.map((tab) => (
+          <NavLink
+            key={tab.id}
+            to={tab.path}
+            end={tab.path === '/settings/payment'} // Ensures exact match for Overview
+            className={({ isActive }) =>
+              `pb-4 text-[14px] font-semibold transition-all relative cursor-pointer ${
+                isActive
+                  ? 'text-[#004370] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#0284C7]'
+                  : 'text-slate-400 hover:text-slate-600'
+              }`
+            }
           >
-            {tab}
-          </button>
+            {tab.name}
+          </NavLink>
         ))}
       </nav>
 
-      {/* Content */}
-      <div className="mt-4">
-
-        {activeTab === 'Overview' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <PaymentOverview />
-            <BillingTable />
-          </div>
-        )}
-
-        {activeTab === 'Plans' && (
-          <div className="animate-in fade-in duration-500">
-            <Plans />
-          </div>
-        )}
-
-        {activeTab === 'Payment Method' && (
-          <div className="py-1 text-center text-slate-400 border-2 border-dashed border-slate-100 rounded-3xl">
-            <PaymentMethod/>
-          </div>
-        )}
+      {/* Content - Outlet renders the child routes defined in Routes.tsx */}
+      <div className="mt-4 animate-in fade-in duration-500">
+        <Outlet />
       </div>
     </div>
   );
