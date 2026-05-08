@@ -35,6 +35,14 @@ import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import Payment from "../Pages/Settings/Payment/Payment";
 
+// Payment Sub-components (Nested Routes)
+import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
+import Plans from "../Pages/Settings/Payment/Section/Plans";
+import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
+
+
+
+
 
 
 export default function AppRoutes() {
@@ -68,6 +76,17 @@ export default function AppRoutes() {
           <Route path="/settings/profile" element={<ProfileSettings />} />
           <Route path="/settings/feedback" element={<Feedback />} />
           <Route path="/settings/payment" element={<Payment />} />
+
+          {/* --- NESTED PAYMENT ROUTES --- */}
+        <Route path="/settings/payment" element={<Payment />}>
+          {/* Default view: Overview + Billing Table merged */}
+          <Route index element={<PaymentOverview />} /> 
+          
+          {/* Specific sub-pages */}
+          <Route path="plans" element={<Plans />} />
+          <Route path="paymentmethod" element={<PaymentMethod />} />
+        </Route>
+          
         </Route>
       {/* </Route> */}
 
