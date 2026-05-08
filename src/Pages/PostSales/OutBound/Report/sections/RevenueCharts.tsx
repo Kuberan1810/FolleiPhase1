@@ -16,7 +16,7 @@ const RevenueCharts = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
       {/* Left Section: Total Expansion Revenue */}
-      <div className="lg:col-span-2 bg-white p-4 sm:p-8 rounded-[24px] shadow-sm border border-gray-50 flex flex-col overflow-hidden">
+      <div className="lg:col-span-2 BoxStyle flex flex-col overflow-hidden">
         <div className="flex justify-between items-start mb-6 md:mb-10">
           <div>
             <p className="text-[#767686] text-[11px] font-bold tracking-widest uppercase mb-1">
@@ -55,7 +55,7 @@ const RevenueCharts = () => {
       </div>
 
       {/* Right Section: Renewal Rate */}
-      <div className="bg-white p-8 rounded-[24px] shadow-sm border border-gray-50 flex flex-col font-[Inter]">
+      <div className="BoxStyle flex flex-col font-[Inter]">
         <p className="text-[#767686] text-[11px] font-bold tracking-[0.55px] uppercase mb-8">
           Renewal Rate
         </p>

@@ -42,7 +42,7 @@ const RevenueTable = () => {
   ];
 
   return (
-    <div className="mt-6 bg-white rounded-[24px] shadow-sm border border-gray-50 overflow-hidden font-[Inter]">
+    <div className="mt-6 bg-white rounded-[24px] shadow-xs border border-gray-50 overflow-hidden font-[Inter]">
       {/* Header */}
       <div className="px-8 py-6 flex justify-between items-center border-b border-gray-50">
         <h2 className="text-[18px] font-bold text-[#0B1C30]">Recent Account Activities</h2>

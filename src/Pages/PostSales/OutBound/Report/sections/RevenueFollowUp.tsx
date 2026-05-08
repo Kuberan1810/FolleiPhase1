@@ -12,7 +12,7 @@ const RevenueFollowUp = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 font-[Inter]">
       {/* Left Card: Follow-up Completion */}
-      <div className="bg-white p-8 rounded-[24px] shadow-sm border border-gray-50 flex flex-col">
+      <div className="BoxStyle flex flex-col">
         <div className="flex justify-between items-start mb-4">
           <p className="text-[#767686] text-[11px]  font-bold tracking-wider uppercase">
             Follow-up Completion %
@@ -36,7 +36,7 @@ const RevenueFollowUp = () => {
       </div>
 
       {/* Right Card: Upsell Conversion */}
-      <div className="bg-white p-8 rounded-[24px] shadow-sm border border-gray-50 flex flex-col">
+      <div className="BoxStyle flex flex-col">
         <div className="flex justify-between items-start mb-4">
           <p className="text-[#767686] text-[11px] font-bold tracking-wider uppercase">
             Upsell Conversion
