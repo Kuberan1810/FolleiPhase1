@@ -5,8 +5,8 @@ import { X, ArrowRightLeft, Radio, Send } from 'lucide-react';
 interface ModeBottomSheetProps {
     isOpen: boolean;
     onClose: () => void;
-    currentMode: 'inbound' | 'outbound';
-    onSelect: (mode: 'inbound' | 'outbound') => void;
+    currentMode: 'presales' | 'postsales';
+    onSelect: (mode: 'presales' | 'postsales') => void;
 }
 
 const ModeBottomSheet: React.FC<ModeBottomSheetProps> = ({ isOpen, onClose, currentMode, onSelect }) => {
@@ -42,46 +42,46 @@ const ModeBottomSheet: React.FC<ModeBottomSheetProps> = ({ isOpen, onClose, curr
                         </div>
 
                         <div className="space-y-4">
-                            {/* Inbound Card */}
+                            {/* Pre Sales Card */}
                             <button
-                                onClick={() => { onSelect('inbound'); onClose(); }}
+                                onClick={() => { onSelect('presales'); onClose(); }}
                                 className={`w-full flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 text-left
-                                    ${currentMode === 'inbound' 
+                                    ${currentMode === 'presales' 
                                         ? 'border-[#014370] bg-[#014370]/5' 
                                         : 'border-gray-100 bg-white hover:border-gray-200'}`}
                             >
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center
-                                    ${currentMode === 'inbound' ? 'bg-[#014370] text-white' : 'bg-gray-100 text-gray-500'}`}>
+                                    ${currentMode === 'presales' ? 'bg-[#014370] text-white' : 'bg-gray-100 text-gray-500'}`}>
                                     <Radio size={24} />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-bold text-lg text-[#191C1E]">Inbound</h3>
+                                    <h3 className="font-bold text-lg text-[#191C1E]">Pre Sales</h3>
                                     <p className="text-sm text-gray-500">Manage incoming leads and interactions</p>
                                 </div>
-                                {currentMode === 'inbound' && (
+                                {currentMode === 'presales' && (
                                     <div className="w-6 h-6 rounded-full bg-[#014370] flex items-center justify-center">
                                         <div className="w-2 h-2 rounded-full bg-white" />
                                     </div>
                                 )}
                             </button>
 
-                            {/* Outbound Card */}
+                            {/* Post Sales Card */}
                             <button
-                                onClick={() => { onSelect('outbound'); onClose(); }}
+                                onClick={() => { onSelect('postsales'); onClose(); }}
                                 className={`w-full flex items-center gap-4 p-5 rounded-2xl border-2 transition-all duration-200 text-left
-                                    ${currentMode === 'outbound' 
+                                    ${currentMode === 'postsales' 
                                         ? 'border-[#014370] bg-[#014370]/5' 
                                         : 'border-gray-100 bg-white hover:border-gray-200'}`}
                             >
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center
-                                    ${currentMode === 'outbound' ? 'bg-[#014370] text-white' : 'bg-gray-100 text-gray-500'}`}>
+                                    ${currentMode === 'postsales' ? 'bg-[#014370] text-white' : 'bg-gray-100 text-gray-500'}`}>
                                     <Send size={24} />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-bold text-lg text-[#191C1E]">Outbound</h3>
+                                    <h3 className="font-bold text-lg text-[#191C1E]">Post Sales</h3>
                                     <p className="text-sm text-gray-500">Scale your outreach and campaigns</p>
                                 </div>
-                                {currentMode === 'outbound' && (
+                                {currentMode === 'postsales' && (
                                     <div className="w-6 h-6 rounded-full bg-[#014370] flex items-center justify-center">
                                         <div className="w-2 h-2 rounded-full bg-white" />
                                     </div>

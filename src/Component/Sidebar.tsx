@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
-import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare } from "iconsax-react"
+import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare, DirectInbox, Diagram } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import ModeBottomSheet from './ModeBottomSheet';
@@ -44,24 +44,24 @@ const Sidebar: React.FC = () => {
     }, [lastScrollY]);
 
     // Detect current type from URL
-    const isOutbound = location.pathname.includes('/outbound');
     const segments = location.pathname.split('/').filter(Boolean);
-    const currentPage = segments[2] ?? 'dashboard';
+    const currentPage = segments[1] ?? 'dashboard';
 
-    const handleModeToggle = (type: 'inbound' | 'outbound') => {
+    const handleModeToggle = (mode: 'presales' | 'postsales') => {
         let targetPage = currentPage;
 
-        if (type === 'inbound') {
+        if (mode === 'presales') {
             const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
             if (forbiddenInbound.includes(targetPage.toLowerCase())) {
                 targetPage = 'dashboard';
             }
+            navigate(`/presales/${targetPage}`);
+        } else {
+            navigate(`/postsales/${targetPage}`);
         }
-
-        navigate(`/${salesMode}/${type}/${targetPage}`);
     };
 
-    const prefix = `/${salesMode}/${isOutbound ? 'outbound' : 'inbound'}`;
+    const prefix = `/${salesMode}`;
 
     const handleLogoutConfirm = () => {
         setShowConfirmLogout(false);
@@ -71,34 +71,23 @@ const Sidebar: React.FC = () => {
     let navItems: any[] = [];
 
     if (salesMode === 'postsales') {
-        navItems = isOutbound
-            ? [
-                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-                { icon: Profile2User, label: 'Customer', path: `${prefix}/customer` },
-                { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
-                { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-            ]
-            : [
-                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-                { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-            ];
+        navItems = [
+            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+            { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
+            { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
+            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
+            { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
+            { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
+        ];
     } else {
-        navItems = isOutbound
-            ? [
-                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-                { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-                { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
-                { icon: Megaphone, label: 'Campaigns', path: `${prefix}/campaigns` },
-            ]
-            : [
-                { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
-                { icon: Profile2User, label: 'Flow Builder', path: `${prefix}/flow-builder` },
-                { icon: DocumentText1, label: 'Reports', path: `${prefix}/reports` },
-                { icon: HierarchySquare, label: 'Orchestrator', path: `${prefix}/orchestrator` },
-            ];
+        navItems = [
+            { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
+            { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
+            { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
+            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
+            { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
+            { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
+        ];
     }
 
     const bottomNavItems = [
@@ -106,8 +95,8 @@ const Sidebar: React.FC = () => {
         { icon: LogOut, label: 'Logout', path: '/logout', isDanger: true },
     ];
 
-    const active = "bg-[#E0F2FE]/60 text-[#075985] font-semibold";
-    const inactive = "text-[#64748B] hover:bg-[#E0F2FE]/30 hover:text-[#075985]";
+    const active = "bg-[#E0F2FE]/60 text-[#075985] font-semibold border border-[#B6DDF7] shadow-sm shadow-[#ECF6FD]";
+    const inactive = "text-[#64748B] hover:bg-[#E0F2FE]/30 hover:text-[#075985] border border-[#fff]";
 
     return (
         <>
@@ -170,7 +159,7 @@ const Sidebar: React.FC = () => {
 
                             {/* Icon */}
                             <div className="relative z-10 text-white">
-                                {isOutbound ? <Send size={24} strokeWidth={2.5} /> : <Radio size={24} strokeWidth={2.5} />}
+                                {salesMode === 'postsales' ? <Send size={24} strokeWidth={2.5} /> : <Radio size={24} strokeWidth={2.5} />}
                             </div>
                         </button>
                     </motion.div>
@@ -180,16 +169,17 @@ const Sidebar: React.FC = () => {
             <ModeBottomSheet
                 isOpen={showModeSheet}
                 onClose={() => setShowModeSheet(false)}
-                currentMode={isOutbound ? 'outbound' : 'inbound'}
+                currentMode={salesMode}
                 onSelect={handleModeToggle}
             />
 
             {/* Desktop Sidebar */}
             <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">
-                <div className="flex items-center gap-3 px-6 py-8">
+                <div className="flex flex-col items-start justify-center gap-3 px-6 py-8">
                     <Link to={`${prefix}/dashboard`} className='w-28 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
                     </Link>
+                    {/* <p className=" text-[#4286C4] text-[12px] font-semibold font-[Manrope] ">AI-POWERED SALES</p> */}
                 </div>
 
                 <div className='flex flex-col justify-between h-screen gap-5 scrollbar-hide overflow-scroll '>

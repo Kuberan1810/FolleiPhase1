@@ -33,8 +33,8 @@ const FloatingButton = () => {
     return () => document.removeEventListener('scroll', handleScroll, { capture: true });
   }, [lastScrollY]);
 
-  const isOutbound = location.pathname.startsWith('/outbound/Campaigns');
-  const targetPath = isOutbound ? "/outbound/campaigns/create" : "";
+  const isOutbound = location.pathname.startsWith('/postsales/campaigns');
+  const targetPath = isOutbound ? "/postsales/campaigns/create" : "";
 
   return (
     <>

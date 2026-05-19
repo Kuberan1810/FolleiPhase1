@@ -9,31 +9,20 @@ import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 import MainLayout from "../Component/MainLayout";
 
 // App Pages (PreSales Inbound)
-import Dashboard from "../Pages/PreSales/InBound/Dashboard/Dashboard";
-import FlowBuilder from "../Pages/PreSales/InBound/FlowBuilder/FlowBuilder";
-import Reports from "../Pages/PreSales/InBound/Reports/Reports";
-import Orchestrator from "../Pages/PreSales/InBound/Orchestrator/Orchestrator";
+import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
+import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
+import Reports from "../Pages/PreSales/Reports/Reports";
+import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 
-// App Pages (PreSales Outbound)
-import OutBoardDashboard from "../Pages/PreSales/OutBound/OutBoundDashboard/OutboundDashboard";
-import CampaignCreation from "../Pages/PreSales/OutBound/campaings/section/CampaignCreation";
-import OutboundReports from "../Pages/PreSales/OutBound/Report/OutboundReports";
-import Campaigns from "../Pages/PreSales/OutBound/campaings/Campaigns";
-import OutboundFlowBuilder from "../Pages/PreSales/OutBound/FlowBuilder/FlowBuilder";
-
-// App Pages (PostSales Inbound)
-import PostSalesDashboard from "../Pages/PostSales/InBound/Dashboard/Dashboard";
-import PostSalesFlowBuilder from "../Pages/PostSales/InBound/FlowBuilder/FlowBuilder";
-import PostSalesReports from "../Pages/PostSales/InBound/Reports/Reports";
-import PostSalesOrchestrator from "../Pages/PostSales/InBound/Orchestrator/Orchestrator";
 
 // App Pages (PostSales Outbound)
-import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBound/OutBoundDashboard/OutboundDashboard";
-import PostSalesOutboundReports from "../Pages/PostSales/OutBound/Report/OutboundReports";
-import PostSalesCampaigns from "../Pages/PostSales/OutBound/campaings/Campaigns";
-import PostSalesOutboundFlowBuilder from "../Pages/PostSales/OutBound/FlowBuilder/FlowBuilder";
-import PostSalesCustomer from "../Pages/PostSales/OutBound/Customer/Customer";
-import PostSalesCustomerProfile from "../Pages/PostSales/OutBound/Customer/Profile/CustomerProfile";
+import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
+import PostSalesOutboundReports from "../Pages/PostSales/Report/OutboundReports";
+import PostSalesCampaigns from "../Pages/PostSales/campaings/Campaigns";
+import PostSalesOutboundFlowBuilder from "../Pages/PostSales/FlowBuilder/FlowBuilder";
+import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
+import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
+import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences"
 
 
 // Settings Pages
@@ -57,12 +46,16 @@ import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
 
 
-import PostSalesOutboundCadences from "../Pages/PostSales/OutBound/Cadences/Cadences";
+
 
 // Payment Sub-components (Nested Routes)
 import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
+import CampaignCreation from "../Pages/PostSales/campaings/section/CampaignCreation";
+import { Inbox } from "lucide-react";
+import Analytics from "../Pages/PreSales/Analytics/Analytics";
+import Leads from "../Pages/PreSales/Leads/Leads";
 
 
 
@@ -97,41 +90,31 @@ export default function AppRoutes() {
                      PRE-SALES ROUTES
           ========================================== */}
       <Route path="/presales" element={<MainLayout />}>
-        {/* Inbound */}
-        <Route path="inbound/dashboard" element={<Dashboard />} />
-        <Route path="inbound/flow-builder" element={<FlowBuilder />} />
-        <Route path="inbound/reports" element={<Reports />} />
-        <Route path="inbound/orchestrator" element={<Orchestrator />} />
-        {/* Outbound */}
-        <Route path="outbound/dashboard" element={<OutBoardDashboard />} />
-        <Route path="outbound/campaigns" element={<Campaigns />} />
-        <Route path="outbound/campaigns/create" element={<CampaignCreation />} />
-        <Route path="outbound/flow-builder" element={<OutboundFlowBuilder />} />
-        <Route path="outbound/reports" element={<OutboundReports />} />
-        <Route path="outbound/orchestrator" element={<Orchestrator />} />
-        <Route path="" element={<Navigate to="inbound/dashboard" replace />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="inbox" element={<Inbox />} />
+        <Route path="leads" element={<Leads />} />
+        <Route path="campaign" element={<PostSalesCampaigns />} />
+        <Route path="cadences" element={<PostSalesOutboundCadences />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="flow-builder" element={<FlowBuilder />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="orchestrator" element={<Orchestrator />} />
       </Route>
 
       {/* ==========================================
-                   POST-SALES ROUTES
+                    POST-SALES ROUTES
           ========================================== */}
       <Route path="/postsales" element={<MainLayout />}>
-        {/* Inbound */}
-        <Route path="inbound/dashboard" element={<PostSalesDashboard />} />
-        <Route path="inbound/flow-builder" element={<PostSalesFlowBuilder />} />
-        <Route path="inbound/reports" element={<PostSalesReports />} />
-        <Route path="inbound/orchestrator" element={<PostSalesOrchestrator />} />
-        {/* Outbound */}
-        <Route path="outbound/dashboard" element={<PostSalesOutBoardDashboard />} />
-        <Route path="outbound/cadences" element={<PostSalesOutboundCadences />} />
-        <Route path="outbound/campaigns" element={<PostSalesCampaigns />} />
-        <Route path="outbound/campaigns/create" element={<CampaignCreation />} />
-        <Route path="outbound/flow-builder" element={<PostSalesOutboundFlowBuilder />} />
-        <Route path="outbound/reports" element={<PostSalesOutboundReports />} />
-        <Route path="outbound/orchestrator" element={<PostSalesOrchestrator />} />
-        <Route path="outbound/customer" element={<PostSalesCustomer />} />
-        <Route path="outbound/customer/profile" element={<PostSalesCustomerProfile />} />
-        <Route path="" element={<Navigate to="inbound/dashboard" replace />} />
+        <Route path="dashboard" element={<PostSalesOutBoardDashboard />} />
+        <Route path="cadences" element={<PostSalesOutboundCadences />} />
+        <Route path="campaigns" element={<PostSalesCampaigns />} />
+        <Route path="campaigns/create" element={<CampaignCreation />} />
+        <Route path="flow-builder" element={<PostSalesOutboundFlowBuilder />} />
+        <Route path="reports" element={<PostSalesOutboundReports />} />
+        {/* <Route path="outbound/orchestrator" element={<PostSalesOrchestrator />} /> */}
+        <Route path="customer" element={<PostSalesCustomer />} />
+        <Route path="customer/profile" element={<PostSalesCustomerProfile />} />
+  
       </Route>
 
       {/* ==========================================
@@ -161,7 +144,7 @@ export default function AppRoutes() {
      
 
       {/* Legacy/Shortcut Redirects */}
-      <Route path="/dashboard" element={<Navigate to="/presales/inbound/dashboard" replace />} />
+      <Route path="/dashboard" element={<Navigate to="/presales/dashboard" replace />} />
 
 
       {/* Fallback */}

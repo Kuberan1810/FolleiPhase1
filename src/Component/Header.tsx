@@ -15,22 +15,22 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
     const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-    const isOutbound = location.pathname.includes('/outbound');
-
     // Get the current page segment (dashboard, flow-builder, reports, orchestrator)
     const segments = location.pathname.split('/').filter(Boolean);
-    // Path structure: /:salesMode/:type/:page
-    const currentPage = segments[2] ?? 'dashboard'; 
+    // Path structure: /:salesMode/:page
+    const currentPage = segments[1] ?? 'dashboard'; 
 
-    const handleToggle = (type: 'inbound' | 'outbound') => {
+    const handleToggle = (type: 'presales' | 'postsales') => {
         let targetPage = currentPage;
-        if (type === 'inbound') {
+        if (type === 'presales') {
             const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
             if (forbiddenInbound.includes(targetPage.toLowerCase())) {
                 targetPage = 'dashboard';
             }
+            navigate(`/presales/${targetPage}`);
+        } else {
+            navigate(`/postsales/${targetPage}`);
         }
-        navigate(`/${salesMode}/${type}/${targetPage}`);
     };
 
     return (
@@ -50,7 +50,7 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-4 flex-1">
 
                 <div className="flex items-center gap-2.5 lg:hidden">
-                    <Link to={isOutbound ? `/${salesMode}/outbound/dashboard` : `/${salesMode}/inbound/dashboard`} className='lg:w-28 md:w-26 w-24 cursor-pointer'>
+                    <Link to={salesMode === 'postsales' ? `/postsales/dashboard` : `/presales/dashboard`} className='lg:w-28 md:w-26 w-24 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
                     </Link>
                 </div>
@@ -64,7 +64,7 @@ const Header: React.FC = () => {
             <div className='flex lg:gap-20 md:gap-16 sm:gap-10 gap-5'>
                 {/* Inbound / Outbound Toggle */}
                 <div className='hidden sm:flex'>
-                    <BoundToggleSwitch isOutbound={isOutbound} onToggle={handleToggle} />
+                    <BoundToggleSwitch salesMode={salesMode} onToggle={handleToggle} />
                </div>
 
                 <div className="flex items-center gap-3 lg:gap-6">
