@@ -72,7 +72,7 @@ const ChatHistory: React.FC = () => {
   }, [searchQuery]);
 
   return (
-    <div className="w-full bg-[#F6FBFF] rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300">
+    <div className="w-full BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300">
       <div className="flex items-center justify-between gap-4 mb-6">
         <h2 className="text-[#191C1E] text-[24px] font-semibold">
           Chat History
@@ -122,7 +122,7 @@ const ChatHistory: React.FC = () => {
         })}
       </div>
 
-      <div className="overflow-hidden border border-[#EEF2F5] rounded-[10px] bg-white">
+      <div className="overflow-hidden BoxStyle">
         <div className="w-full overflow-x-auto scrollbar-thin">
           <div className="min-w-[760px]">
             <div className="grid grid-cols-12 gap-2 py-4 pr-6 pl-8 text-[#000000] text-[24px] font-semibold bg-white">

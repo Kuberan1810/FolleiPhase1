@@ -25,7 +25,7 @@ const HandlesSection: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8 w-full">
-      <div className="bg-[#E0F2FE]/28 rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]">
+      <div className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]">
         <div className="w-full text-left">
           <h3 className="text-[#191C1E] text-[18px] font-extrabold font-manrope">
             Follei Handles
@@ -71,7 +71,7 @@ const HandlesSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-[#F6FBFF] rounded-[20px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]">
+      <div className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]">
         <div className="w-full">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-[#191C1E] text-[24px] font-semibold">

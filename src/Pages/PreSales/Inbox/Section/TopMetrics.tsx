@@ -4,12 +4,12 @@ import { ChevronDown } from "lucide-react";
 const TopMetrics = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-6 lg:gap-8 mb-8 w-full">
-      <div className="bg-[#F6FBFF] rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] transition-all duration-300">
-        <div className="flex items-center gap-[10px] text-black font-semibold text-[24px] font-inter self-start">
+      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px]">
+        <div className="flex items-center gap-[10px] text-black font-semibold text-[24px]">
           <span>Total Chats</span>
           <ChevronDown size={18} className="text-black stroke-[2.5]" />
         </div>
-        <div className="text-[48px] font-extrabold text-black font-manrope leading-none tracking-tight">
+        <div className="text-[48px] font-semibold text-black leading-none tracking-tight">
           568
         </div>
         <div className="h-1" />
@@ -30,15 +30,15 @@ const TopMetrics = () => {
         </div>
       </div>
 
-      <div className="bg-[#F6FBFF] rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px]">
+      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px]">
         <span className="font-semibold text-[24px] text-[#000000]">
           Admin Needs
         </span>
-        <div className="text-[48px] font-semibold text-black font-manrope leading-none tracking-tight">
+        <div className="text-[48px] font-semibold text-black leading-none tracking-tight">
           10
         </div>
         <button
-          className="bg-[#23669C] text-white px-10 py-2 rounded-[4px] text-[13px] font-semibold  cursor-pointer shadow-sm active:scale-95 uppercase tracking-wider"
+          className="bg-[#23669C] text-white px-10 py-2 rounded-[4px] text-[13px] font-semibold cursor-pointer shadow-sm active:scale-95 uppercase tracking-wider"
         >
           View
         </button>
