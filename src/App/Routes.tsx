@@ -13,6 +13,7 @@ import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import Reports from "../Pages/PreSales/Reports/Reports";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
+import InBox from "../Pages/PreSales/Inbox/InBox";
 
 
 // App Pages (PostSales Outbound)
@@ -53,7 +54,6 @@ import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
 import CampaignCreation from "../Pages/PostSales/campaings/section/CampaignCreation";
-import { Inbox } from "lucide-react";
 import Analytics from "../Pages/PreSales/Analytics/Analytics";
 import Leads from "../Pages/PreSales/Leads/Leads";
 
@@ -91,7 +91,7 @@ export default function AppRoutes() {
           ========================================== */}
       <Route path="/presales" element={<MainLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="inbox" element={<Inbox />} />
+        <Route path="inbox" element={<InBox />} />
         <Route path="leads" element={<Leads />} />
         <Route path="campaign" element={<PostSalesCampaigns />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
@@ -114,7 +114,7 @@ export default function AppRoutes() {
         {/* <Route path="outbound/orchestrator" element={<PostSalesOrchestrator />} /> */}
         <Route path="customer" element={<PostSalesCustomer />} />
         <Route path="customer/profile" element={<PostSalesCustomerProfile />} />
-  
+
       </Route>
 
       {/* ==========================================
@@ -141,7 +141,7 @@ export default function AppRoutes() {
         </Route>
       </Route>
 
-     
+
 
       {/* Legacy/Shortcut Redirects */}
       <Route path="/dashboard" element={<Navigate to="/presales/dashboard" replace />} />
