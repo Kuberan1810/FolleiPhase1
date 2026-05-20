@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare, DirectInbox, Diagram } from "iconsax-react"
-import FolleiLogo from "../assets/logo/FolleiLogo.svg"
+import FolleiLogo from "../assets/follei-tagline.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import ModeBottomSheet from './ModeBottomSheet';
 import { Radio, Send, Layers } from 'lucide-react';
@@ -95,8 +95,8 @@ const Sidebar: React.FC = () => {
         { icon: LogOut, label: 'Logout', path: '/logout', isDanger: true },
     ];
 
-    const active = "bg-[#E0F2FE]/60 text-[#075985] font-semibold border border-[#B6DDF7] shadow-sm shadow-[#ECF6FD]";
-    const inactive = "text-[#64748B] hover:bg-[#E0F2FE]/30 hover:text-[#075985] border border-[#fff]";
+    const active = "bg-[#E0F2FE] text-[#004370] font-semibold border border-[#B6DDF7] shadow-[0_2px_8px_rgba(0,67,112,0.12)]";
+    const inactive = "text-[#64748B] hover:bg-[#E0F2FE]/30 hover:text-[#075985] border border-transparent";
 
     return (
         <>
@@ -176,7 +176,7 @@ const Sidebar: React.FC = () => {
             {/* Desktop Sidebar */}
             <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">
                 <div className="flex flex-col items-start justify-center gap-3 px-6 py-8">
-                    <Link to={`${prefix}/dashboard`} className='w-28 cursor-pointer'>
+                    <Link to={`${prefix}/dashboard`} className='w-40 cursor-pointer'>
                         <img src={FolleiLogo} alt="FolleiLogo" />
                     </Link>
                     {/* <p className=" text-[#4286C4] text-[12px] font-semibold font-[Manrope] ">AI-POWERED SALES</p> */}
