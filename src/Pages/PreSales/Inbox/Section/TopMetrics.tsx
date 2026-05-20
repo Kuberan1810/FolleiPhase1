@@ -24,7 +24,7 @@ const TopMetrics = () => {
             83% of total chat
           </p>
         </div>
-        <div className="h-[42px] w-full bg-[#183954] rounded-sm overflow-hidden flex border border-white/10 p-[1px] mt-2">
+        <div className="h-[42px] w-full rounded-[4px] overflow-hidden flex p-[1px] mt-2">
           <div className="h-full bg-[#F6FBFF]" style={{ width: "83%" }}></div>
           <div className="h-full bg-[#23669C]" style={{ width: "17%" }}></div>
         </div>
