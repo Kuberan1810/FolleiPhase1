@@ -102,7 +102,7 @@ export default function SaasSearch() {
           className={`w-full pl-10 pr-9 py-2.5 rounded-xl text-[14px] font-semibold text-[#004370] placeholder:text-[#6B7280] placeholder:font-medium transition-all outline-none ${
             open && query
               ? "bg-white border-[1.5px] border-[#004370] focus:outline-none focus:ring-1"
-              : "bg-[#F2F4F6] border-[1.5px] border-transparent focus:bg-white focus:border-[#004370] focus:outline-none focus:ring-1"
+              : "bg-[#EFF4FF] border-[1.5px] border-[#E0E8FF] focus:bg-white focus:border-[#004370] focus:outline-none focus:ring-1"
           }`}
         />
         {query && (

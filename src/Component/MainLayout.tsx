@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
 
 
-    <div className="flex h-screen overflow-hidden bg-[#FAFAFA]">
+    <div className="flex h-screen overflow-hidden bg-[#F7F9FB]">
       <div className="h-screen shrink-0">
         <Sidebar />
       </div>
