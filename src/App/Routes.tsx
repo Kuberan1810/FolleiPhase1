@@ -13,7 +13,7 @@ import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import Reports from "../Pages/PreSales/Reports/Reports";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
-import InBox from "../Pages/PreSales/Inbox/InBox";
+import InBox from "../Pages/PreSales/Inbox/inbox";
 import Campaigns from "../Pages/PreSales/campaings/Campaigns";
 import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
 
@@ -100,7 +100,7 @@ export default function AppRoutes() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="flow-builder" element={<FlowBuilder />} />
         <Route path="reports" element={<Reports />} />
-        <Route path="orchestrator" element={<Orchestrator />} />
+        <Route path="data-import" element={<Orchestrator />} />
       </Route>
 
       {/* ==========================================

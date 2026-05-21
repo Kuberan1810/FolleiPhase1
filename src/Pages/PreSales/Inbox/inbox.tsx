@@ -15,7 +15,7 @@ const InBox: React.FC = () => {
   ];
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto animate-fade-in pt-2">
+    <div className="w-fullanimate-fade-in pt-2">
       <div className="flex justify-center items-center gap-[10px] mb-12">
         {channels.map((channel) => {
           const isActive = activeChannel === channel.id;

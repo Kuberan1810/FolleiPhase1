@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 
-import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare, DirectInbox, Diagram } from "iconsax-react"
+import { Element4, Profile2User, DocumentText1, Setting, DocumentUpload, DirectInbox, Diagram } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
@@ -80,7 +80,7 @@ const Sidebar: React.FC = () => {
             { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
-            { icon: FileDown, label: 'Data Import', path: `${prefix}/orchestrator` },
+            { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
         ];
     } else {
         navItems = [
@@ -90,7 +90,7 @@ const Sidebar: React.FC = () => {
             { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
-            { icon: FileDown, label: 'Data Import', path: `${prefix}/orchestrator` },
+            { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
         ];
     }
 

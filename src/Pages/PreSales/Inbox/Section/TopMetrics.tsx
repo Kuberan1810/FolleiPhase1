@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 const TopMetrics = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-6 lg:gap-8 mb-8 w-full">
-      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px]">
+      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full ">
         <div className="flex items-center gap-[10px] text-black font-semibold text-[24px]">
           <span>Total Chats</span>
           <ChevronDown size={18} className="text-black stroke-[2.5]" />
@@ -15,7 +15,7 @@ const TopMetrics = () => {
         <div className="h-1" />
       </div>
 
-      <div className="bg-black text-white rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left w-full md:w-[570px] h-[160px]">
+      <div className="bg-black text-white rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left w-full ">
         <div className="w-full">
           <h3 className="font-semibold text-[32px] tracking-tight leading-tight">
             customer conversion conversation
@@ -30,7 +30,7 @@ const TopMetrics = () => {
         </div>
       </div>
 
-      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full md:w-[263px] h-[160px]">
+      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full ">
         <span className="font-semibold text-[24px] text-[#000000]">
           Admin Needs
         </span>
