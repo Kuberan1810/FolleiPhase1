@@ -41,7 +41,19 @@ const FloatingButton = () => {
     return (
         <>
             <AIBrainPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} isOutbound={isOutbound} />
-            {isLiveChatOpen && <AiLiveChat />}
+            <AnimatePresence>
+              {isLiveChatOpen && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                  style={{ position: 'fixed', bottom: '90px', right: '24px', zIndex: 60 }}
+                >
+                  <AiLiveChat onClose={() => setIsLiveChatOpen(false)} />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="fixed bottom-24 right-4 lg:bottom-10 lg:right-10 z-50 pointer-events-none">
                 <motion.div

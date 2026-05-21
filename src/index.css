@@ -144,3 +144,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     scrollbar-width: thin;
     scrollbar-color: #0C4A6E transparent;
 }
+
+/* NewLeads table custom scrollbar */
+.leads-table-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.leads-table-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 99px;
+}
+.leads-table-scroll::-webkit-scrollbar-thumb {
+  background: #004370;
+  border-radius: 99px;
+}

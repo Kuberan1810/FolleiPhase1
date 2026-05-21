@@ -12,8 +12,8 @@ const DashboardLayout = () => {
     <>
       <DashboardHeader />
       <DashboardCard />
-      <div className="grid xl:grid-cols-12 gap-6 items-start pb-20">
-        <div className="xl:col-span-8 flex flex-col gap-6">
+      <div className="grid xl:grid-cols-12 gap-6 items-start pb-20 w-full min-w-0">
+        <div className="xl:col-span-8 flex flex-col gap-6 min-w-0 w-full overflow-hidden">
           <NewLeads />
           <div className="grid md:grid-cols-2 gap-6">
             <ChannelBreakdown />
