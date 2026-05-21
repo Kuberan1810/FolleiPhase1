@@ -3,22 +3,33 @@ import Step1 from '../CampaignCreationSteps/Step1';
 import Step2 from '../CampaignCreationSteps/Step2';
 import Step3 from '../CampaignCreationSteps/Step3';
 
-const CampaignCreation = () => {
+const CampaignCreations = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedChannels, setSelectedChannels] = useState<string[]>(['email']);
   const [selectedAudience, setSelectedAudience] = useState<string>('hot-leads');
 
   // Step 2 States
-  const [subject, setSubject] = useState("Expanding {{company}}'s market reach");
-  const [emailBody, setEmailBody] = useState(`Hi {{first_name}},\n\nYour skin `);
+  const [subject, setSubject] = useState("Expanding [company] 's market reach");
+  const [emailBody, setEmailBody] = useState(
+    `Hi [first_name],<br><br>Your skin deserves the best care, and we're here to make it simple ✨<br><br>At Company's name, we create skincare products that are gentle, effective, and designed for real results. From deep hydration to clear, radiant skin, our formulas are made to support your everyday routine.<br><br>Discover what works best for you and start your glow journey today.<br><br>Best,<br>Company's name Team`
+  );
   const [ctaEnabled, setCtaEnabled] = useState(true);
-  const [attachments, setAttachments] = useState<string[]>([]);
+  const [attachments, setAttachments] = useState<string[]>([
+    ""
+  ]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const getTomorrowAt1030 = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 30, 0, 0);
+    return tomorrow;
+  };
+
   // Step 3 States
-  const [scheduleType, setScheduleType] = useState('send-now');
-  const [launchDate, setLaunchDate] = useState<Date>(new Date('2026-10-24T09:30:00'));
-  const [launchTime, setLaunchTime] = useState<Date>(new Date('2026-10-24T09:30:00'));
+  const [scheduleType, setScheduleType] = useState('schedule-later');
+  const [launchDate, setLaunchDate] = useState<Date>(getTomorrowAt1030());
+  const [launchTime, setLaunchTime] = useState<Date>(getTomorrowAt1030());
   const [autoResponseEnabled, setAutoResponseEnabled] = useState(true);
   const [intentTrackingEnabled, setIntentTrackingEnabled] = useState(true);
   const [followUpTiming, setFollowUpTiming] = useState('3 days after initial contact');
@@ -124,4 +135,4 @@ const CampaignCreation = () => {
   );
 };
 
-export default CampaignCreation;
+export default CampaignCreations;

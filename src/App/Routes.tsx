@@ -14,7 +14,8 @@ import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import Reports from "../Pages/PreSales/Reports/Reports";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/InBox";
-
+import Campaigns from "../Pages/PreSales/campaings/Campaigns";
+import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
 
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
@@ -93,7 +94,8 @@ export default function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="inbox" element={<InBox />} />
         <Route path="leads" element={<Leads />} />
-        <Route path="campaign" element={<PostSalesCampaigns />} />
+        <Route path="campaign" element={<Campaigns />} />
+        <Route path="campaigns/create" element={<CampaignCreations />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="flow-builder" element={<FlowBuilder />} />

@@ -8,7 +8,7 @@ const OutboundMetrics = () => {
       subtitle: "+1 this month",
       icon: <Layers size={20} strokeWidth={2.5} />,
       badge: "OVERALL",
-      badgeColor: "text-gray-500 bg-gray-100",
+      badgeColor: "text-gray-500",
       iconBg: "bg-blue-50 text-blue-600",
       subtitleColor: "#006A61"
     },
@@ -31,7 +31,7 @@ const OutboundMetrics = () => {
       subtitle: "Avg 85/camp",
       icon: <MessageSquare size={20} strokeWidth={2.5} />,
       badge: "↑ 12%",
-      badgeColor: "text-emerald-700 bg-emerald-50",
+      badgeColor: "text-emerald-700",
       iconBg: "bg-blue-50 text-blue-600",
       subtitleColor: "#64748B"
     },
@@ -41,14 +41,14 @@ const OutboundMetrics = () => {
       subtitle: "",
       icon: <Activity size={20} strokeWidth={2.5} />,
       badge: "Excellent",
-      badgeColor: "text-emerald-700 bg-emerald-50",
+      badgeColor: "text-emerald-700",
       iconBg: "bg-blue-50 text-blue-600",
       hasProgress: true
     }
   ];
 
   const renderCard = (metric: any, idx: number) => (
-    <div key={idx} className="bg-white rounded-[24px] p-6 border border-[#F1F5F9] flex flex-col justify-between h-[210px] w-full">
+    <div key={idx} className="BoxStyle flex flex-col justify-between h-[210px] w-full">
       <div className="flex justify-between items-start mb-4">
         <div className={`w-[40px] h-[40px] rounded-[10px] flex items-center justify-center ${metric.iconBg}`}>
           {metric.icon}
@@ -57,7 +57,7 @@ const OutboundMetrics = () => {
           {metric.badge}
         </div>
       </div>
-      
+
       <div className="mt-auto">
         <h3 className="text-[#64748B] uppercase font-inter font-semibold text-[12px] leading-[16px] tracking-[1.2px] mb-2">
           {metric.title}
@@ -65,7 +65,7 @@ const OutboundMetrics = () => {
         <div className="flex items-end gap-2 mb-4">
           <span className="text-[32px] font-extrabold text-[#191C1E] leading-none font-manrope">{metric.value}</span>
           {metric.subtitle && (
-            <span 
+            <span
               className="mb-1 font-inter font-bold text-[12px] leading-[16px]"
               style={{ color: metric.subtitleColor }}
             >
@@ -73,11 +73,11 @@ const OutboundMetrics = () => {
             </span>
           )}
         </div>
-        {metric.hasProgress && (
+        {/* {metric.hasProgress && (
           <div className="h-[4px] w-full bg-[#F1F5F9] rounded-[12px] overflow-hidden">
             <div className="h-full bg-[#006A61] w-[80%] rounded-[12px]"></div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

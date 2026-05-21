@@ -65,8 +65,8 @@ const Step3 = ({
           <div
             onClick={() => setScheduleType('send-now')}
             className={`w-full h-auto min-h-[98px] p-4 rounded-[10px] border cursor-pointer transition-all relative flex items-center ${scheduleType === 'send-now'
-              ? 'border-[#004370] bg-[#F0F7FF]'
-              : 'border-transparent bg-[#F8FAFC] hover:border-[#CBD5E1]'
+              ? 'border-[#C3C6D1]/48 bg-white'
+              : 'border-[#C3C6D1]/48'
               }`}
           >
             <div className="flex flex-col items-start gap-3">
@@ -87,8 +87,8 @@ const Step3 = ({
           <div
             onClick={() => setScheduleType('schedule-later')}
             className={`w-full h-auto min-h-[98px] p-4 rounded-[10px] border cursor-pointer transition-all relative flex items-center ${scheduleType === 'schedule-later'
-              ? 'border-[#004370] bg-[#F0F7FF]'
-              : 'border-transparent bg-[#F8FAFC] hover:border-[#CBD5E1]'
+              ? 'border-[#C3C6D1]/48 bg-white'
+              : 'border-[#C3C6D1]/48'
               }`}
           >
             <div className="flex flex-col items-start gap-3">
@@ -108,8 +108,8 @@ const Step3 = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-3">Launch Date</h3>
-            <div className="w-full h-[48px] bg-white border border-[#E2E8F0] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
+            <h3 className="text-[11px] font-[600] text-[#737780] uppercase tracking-[1.1px] leading-[16.5px] mb-3">Launch Date</h3>
+            <div className="w-full h-[48px] bg-[#F3F3F3] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
               <CalendarDays size={16} className="text-[#64748B]" />
               <DatePicker
                 selected={launchDate}
@@ -122,7 +122,7 @@ const Step3 = ({
           </div>
           <div>
             <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-3">Time (EST)</h3>
-            <div className="w-full h-[48px] bg-white border border-[#E2E8F0] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
+            <div className="w-full h-[48px] bg-[#F3F3F3] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
               <Clock size={16} className="text-[#64748B]" />
               <DatePicker
                 selected={launchTime}
@@ -140,7 +140,7 @@ const Step3 = ({
         </div>
       </section>
 
-      {/* AI Features Section */}
+      {/* AI Features Section
       <section className="pt-4">
         <div className="flex items-center gap-2 mb-6">
           <Sparkles className="text-[#001E40]" size={20} />
@@ -205,7 +205,7 @@ const Step3 = ({
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* Footer Navigation Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 mt-12 bg-transparent">
