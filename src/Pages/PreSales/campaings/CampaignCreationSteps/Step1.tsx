@@ -34,7 +34,6 @@ const Step1 = ({
     { id: 'email', name: 'Email', sub: 'High-volume transactional', icon: <Mail className="text-blue-600" size={24} /> },
     { id: 'whatsapp', name: 'WhatsApp', sub: 'Direct personal engagement', icon: <MessageSquare className="text-emerald-600" size={24} /> },
     { id: 'sms', name: 'SMS', sub: 'Short-form urgent updates', icon: <Smartphone className="text-purple-600" size={24} /> },
-    { id: 'call', name: 'Call', sub: 'Automated voice dialer', icon: <Phone className="text-orange-600" size={24} /> },
   ];
 
   const audiences = [
@@ -100,13 +99,13 @@ const Step1 = ({
         />
         <div 
           onClick={() => logoInputRef.current?.click()}
-          className="w-full h-[180px] bg-white border-2 border-dashed border-[#E2E8F0] rounded-[24px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group overflow-hidden"
+          className="w-full h-[180px] bg-[#F2F4F6] border-2 border-dashed border-[#E2E8F0] rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-colors group overflow-hidden"
         >
           {logo ? (
             <img src={logo} alt="Campaign Logo" className="w-full h-full object-contain" />
           ) : (
             <>
-              <div className="w-12 h-12 bg-[#F8FAFC] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <Camera className="text-[#64748B]" size={24} />
               </div>
               <p className="text-[#001E40] font-semibold text-[14px] leading-[20px] tracking-[0px] mb-1">Upload Campaign Image</p>
@@ -124,7 +123,7 @@ const Step1 = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Q4 Executive Outreach 2024"
-            className="w-full h-[62px] bg-[#F2F4F7] rounded-[14px] px-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280]"
+            className="w-full h-[62px] bg-[#F2F4F6] rounded-[14px] px-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280]"
           />
         </section>
 
@@ -134,20 +133,20 @@ const Step1 = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Briefly describe the purpose of this campaign for internal tracking..."
-            className="w-full h-[140px] bg-[#F2F4F7] rounded-[14px] p-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280] resize-none"
+            className="w-full h-[140px] bg-[#F2F4F6] rounded-[14px] p-6 text-[#191C1E] font-medium text-[16px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 transition-all placeholder:text-[#6B7280] resize-none"
           />
         </section>
       </div>
 
       {/* Channel Selection */}
       <section>
-        <h2 className="text-[20px] font-extrabold text-[#001E40] leading-[100%] tracking-[0px]">Channel Selection</h2>
+        <h2 className="text-[20px] font-extrabold text-[#001E40] leading-[100%] tracking-[0px] mb-4">Channel Selection</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {channels.map((channel) => (
             <div
               key={channel.id}
               onClick={() => toggleChannel(channel.id)}
-              className={`h-[100px] px-8 rounded-[16px] border transition-all cursor-pointer flex items-center gap-6 ${selectedChannels.includes(channel.id)
+              className={`h-[100px] px-8 rounded-[20px] border transition-all cursor-pointer flex items-center gap-6 ${selectedChannels.includes(channel.id)
                 ? 'bg-white border-[#C3C6D1]/47'
                 : 'bg-white border-transparent hover:border-[#E2E8F0]'
                 }`}
@@ -169,8 +168,8 @@ const Step1 = ({
 
       {/* Audience Selection */}
       <section>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h2 className="text-[22px] font-extrabold text-[#191C1E]">Select Audience</h2>
+        {/* <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h2 className="text-[22px] font-extrabold text-[#001E40]">Select Audience</h2>
           <div className="flex flex-wrap gap-2 sm:gap-4">
             <button className="flex items-center gap-[8px] h-[32px] px-[16px] bg-[#E0E3E5] text-[#001E40] rounded-[4px] text-[12px] font-[600] hover:bg-[#D1D5D8] transition-colors whitespace-nowrap cursor-pointer">
               <Upload size={14} /> Upload Contacts
@@ -179,7 +178,7 @@ const Step1 = ({
               <ListFilter size={14} /> Choose Segment
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {audiences.map((audience) => (
             <div
@@ -230,7 +229,7 @@ const Step1 = ({
           className={`flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] rounded-[4px] font-bold text-[14px] transition-all group ${
             isStepValid 
               ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer' 
-              : 'bg-[#E5ECF1] text-[#94A3B8] cursor-not-allowed'
+              : 'bg-[#E5ECF1] text-[#004370] cursor-not-allowed'
           }`}
         >
           Continue <ChevronRight size={18} className={isStepValid ? "group-hover:translate-x-1 transition-transform" : ""} />

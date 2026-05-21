@@ -34,7 +34,8 @@ const FloatingButton = () => {
   }, [lastScrollY]);
 
   const isOutbound = location.pathname.startsWith('/postsales/campaigns');
-  const targetPath = isOutbound ? "/postsales/campaigns/create" : "";
+  const isPresalesCampaign = location.pathname.startsWith('/presales/campaign');
+  const targetPath = isOutbound ? "/postsales/campaigns/create" : isPresalesCampaign ? "/presales/campaigns/create" : "";
 
   return (
     <>
