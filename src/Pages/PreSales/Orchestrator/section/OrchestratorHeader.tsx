@@ -3,7 +3,7 @@ const OrchestratorHeader = () => {
     <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
       <div>
         <h1 className="text-[26px] sm:text-[30px] font-extrabold text-[#0F172A]  font-manrope">
-          Orchestrator
+          Data Import
         </h1>
         <p className="text-[13px] md:text-base  text-[#64748B] mt-1 font-regular font-inter">
           Management suite for automated intelligence and data synchronization

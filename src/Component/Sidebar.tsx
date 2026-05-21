@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
-import { Element4, Profile2User, DocumentText1, Setting, HierarchySquare, DirectInbox, Diagram } from "iconsax-react"
+import { Element4, Profile2User, DocumentText1, Setting, DirectInbox, Diagram } from "iconsax-react"
 import FolleiLogo from "../assets/follei-tagline.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import ModeBottomSheet from './ModeBottomSheet';
-import { Radio, Send, Layers } from 'lucide-react';
+import { Radio, Send, Layers, FileDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BtnCom from './BtnCom';
 import { Sparkles } from 'lucide-react';
@@ -78,6 +78,7 @@ const Sidebar: React.FC = () => {
             { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
+            { icon: FileDown, label: 'Data Import', path: `${prefix}/orchestrator` },
         ];
     } else {
         navItems = [
@@ -87,6 +88,7 @@ const Sidebar: React.FC = () => {
             { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
+            { icon: FileDown, label: 'Data Import', path: `${prefix}/orchestrator` },
         ];
     }
 

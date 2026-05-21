@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
 
 
-    <div className="flex h-screen overflow-hidden bg-[#F7F9FB]">
+    <div className="flex h-screen overflow-hidden overflow-x-hidden bg-[#F7F9FB]">
       <div className="h-screen shrink-0">
         <Sidebar />
       </div>
@@ -17,7 +17,7 @@ const MainLayout = () => {
           <Header />
         </div>
 
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 pb-30 md:pb-5">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-6 pb-30 md:pb-5">
           <Outlet />
 
         </main>

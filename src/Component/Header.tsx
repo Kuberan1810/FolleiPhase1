@@ -6,6 +6,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import FolleiLogo from "../assets/follei-tagline.svg"
 import { useState } from 'react';
 import { useSalesContext } from '../Context/SalesContext';
+import BoundToggleSwitch from './BoundToggleSwitch';
 
 
 
@@ -62,7 +63,12 @@ const Header: React.FC = () => {
             </div>
 
             <div className='flex lg:gap-20 md:gap-16 sm:gap-10 gap-5'>
-
+                <div className="hidden sm:flex">
+                    <BoundToggleSwitch 
+                        salesMode={salesMode} 
+                        onToggle={handleToggle} 
+                    />
+                </div>
 
                 <div className="flex items-center gap-3 lg:gap-6">
                     <div className="flex items-center gap-2 lg:gap-3">
