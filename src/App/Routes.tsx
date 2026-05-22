@@ -94,8 +94,11 @@ export default function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="inbox" element={<InBox />} />
         <Route path="leads" element={<Leads />} />
-        <Route path="campaign" element={<Campaigns />} />
-        <Route path="campaigns/create" element={<CampaignCreations />} />
+        <Route path="campaign" element={<Navigate to="/presales/campaigns" replace />} />
+        <Route path="campaigns" element={<Campaigns />} />
+        <Route path="campaigns/:campaignId" element={<Campaigns />} />
+        <Route path="campaigns/create" element={<Navigate to="/presales/campaigns/create/step/1" replace />} />
+        <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="flow-builder" element={<FlowBuilder />} />
@@ -104,11 +107,12 @@ export default function AppRoutes() {
       </Route>
 
       {/* ==========================================
-                    POST-SALES ROUTES
+                     POST-SALES ROUTES
           ========================================== */}
       <Route path="/postsales" element={<MainLayout />}>
         <Route path="dashboard" element={<PostSalesOutBoardDashboard />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
+        <Route path="campaign" element={<Navigate to="/postsales/campaigns" replace />} />
         <Route path="campaigns" element={<PostSalesCampaigns />} />
         <Route path="campaigns/create" element={<CampaignCreation />} />
         <Route path="flow-builder" element={<PostSalesOutboundFlowBuilder />} />

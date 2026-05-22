@@ -1,6 +1,7 @@
 import React from 'react';
-import { Users, Mail, Send, Sparkles, DollarSign } from 'lucide-react';
-
+import { Users, Mail, Send, } from 'lucide-react';
+import { Money } from 'iconsax-react';
+import AiContent from '../../../../../assets/icons/ai.svg';
 interface MetricItem {
   label: string;
   value: string;
@@ -15,7 +16,7 @@ const CampaignDetailMetrics: React.FC = () => {
       label: "Total Sent", 
       value: "2,450", 
       topRight: <span className="text-[12px] font-extrabold text-[#464555] uppercase tracking-[0.5px]">Reach</span>, 
-      icon: <Users size={16} className="text-[#004370]" />, 
+      icon: <Users size={18} className="text-[#004370]" />, 
       iconBg: "bg-[#E5EEFF]"
     },
     { 
@@ -26,7 +27,7 @@ const CampaignDetailMetrics: React.FC = () => {
           +12% vs avg
         </span>
       ), 
-      icon: <Mail size={16} className="text-[#004370]" />, 
+      icon: <Mail size={18} className="text-[#004370]" />, 
       iconBg: "bg-[#E5EEFF]"
     },
     { 
@@ -37,7 +38,7 @@ const CampaignDetailMetrics: React.FC = () => {
           +5% vs avg
         </span>
       ), 
-      icon: <Send size={16} className="text-[#0E9F6E]" />, 
+      icon: <Send size={18} className="text-[#0E9F6E]" />, 
       iconBg: "bg-[#E6FFF1]"
     },
     { 
@@ -48,14 +49,14 @@ const CampaignDetailMetrics: React.FC = () => {
           Excellent
         </span>
       ), 
-      icon: <Sparkles size={16} className="text-[#004370]" />, 
+      icon: <img src={AiContent} className="text-[#004370]" />, 
       iconBg: "bg-[#E5EEFF]"
     },
     { 
       label: "Revenue Generated", 
       value: "$845K", 
       topRight: <span className="text-[12px] font-bold text-[#222222] uppercase tracking-[0.5px]">Projected</span>, 
-      icon: <DollarSign size={16} className="text-[#004370]" />, 
+      icon: <Money size={18} color="#004370" />, 
       iconBg: "bg-[#E5EEFF]"
     }
   ];
@@ -65,7 +66,7 @@ const CampaignDetailMetrics: React.FC = () => {
       {metrics.map((m, idx) => (
         <div 
           key={idx} 
-          className="BoxStyle flex flex-col justify-between h-[130px]"
+          className="BoxStyle flex flex-col justify-between"
         >
           <div className="flex items-center justify-between w-full mb-1">
             <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 ${m.iconBg}`}>

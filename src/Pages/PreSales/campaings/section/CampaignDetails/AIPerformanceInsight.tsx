@@ -1,13 +1,13 @@
 import React from 'react';
-import { Sparkles, Zap, Users, Clock } from 'lucide-react';
-
+import { Zap, Users, Clock } from 'lucide-react';
+import AiContent from '../../../../../assets/icons/ai.svg'
 const AIPerformanceInsight: React.FC = () => {
   return (
     <div className="relative p-[1.5px] rounded-[24px] bg-gradient-to-tr from-[#F43F5E] via-[#8B5CF6] to-[#3B82F6] shadow-[0_4px_20px_rgba(0,0,0,0.015)] animate-in fade-in duration-300">
       <div className="bg-white rounded-[22.5px] p-6 space-y-6">
         
         <div className="flex items-center gap-2.5">
-          <Sparkles size={22} className="text-[#3B82F6]" />
+          <img src={AiContent} alt="AI Content" />
           <h3 className="text-[20px] font-semibold text-[#0B1C30] tracking-[-0.2px]">AI Performance Insight</h3>
         </div>
 

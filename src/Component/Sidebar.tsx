@@ -75,7 +75,7 @@ const Sidebar: React.FC = () => {
             { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
             { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
             { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
-            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
+            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaigns` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
         ];
@@ -84,7 +84,7 @@ const Sidebar: React.FC = () => {
             { icon: Element4, label: 'Dashboard', path: `${prefix}/dashboard` },
             { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
             { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
-            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaign` },
+            { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaigns` },
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
         ];

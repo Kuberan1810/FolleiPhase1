@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Edit2, Trash2 } from 'lucide-react';
-import avatarImg from '../../../../../assets/avatar.png';
+import avatarImg from '../../../../../assets/img/avat.jpg';
 import CampaignDetailMetrics from './CampaignDetailMetrics';
 import CampaignPerformanceChart from './CampaignPerformanceChart';
 import RecentEngagementActivity, { type LeadActivity } from './RecentEngagementActivity';
 import AIPerformanceInsight from './AIPerformanceInsight';
+import ViewRecipientExperience from './ViewRecipientExperience';
+import EmailView from './EmailView';
+import WhatsAppView from './WhatsAppView';
 
 interface CampaignDetailsProps {
   campaign: {
@@ -20,8 +23,10 @@ interface CampaignDetailsProps {
   onBack: () => void;
 }
 
+
 const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) => {
   const [selectedLead, setSelectedLead] = useState<LeadActivity | null>(null);
+  const [viewMode, setViewMode] = useState<'details' | 'email' | 'whatsapp'>('details');
 
   const activities: LeadActivity[] = [
     {
@@ -106,8 +111,14 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
 
           <div className="flex items-center gap-3">
             <button 
-              onClick={onBack}
-              className="text-[#0B1C30] cursor-pointer flex items-center justify-center p-0.5"
+              onClick={() => {
+                if (viewMode !== 'details') {
+                  setViewMode('details');
+                } else {
+                  onBack();
+                }
+              }}
+              className="text-[#0B1C30] cursor-pointer flex items-center justify-center p-0.5 hover:opacity-85 transition-opacity"
             >
               <ArrowLeft size={28} strokeWidth={2.5} />
             </button>
@@ -118,7 +129,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
         </div>
         
         <div className="flex items-center gap-4.5 self-end md:self-center">
-          <button className="text-[#464555] cursor-pointer p-1">
+          <button className="text-[#464555] cursor-pointer p-1 hover:text-[#004370] transition-colors">
             <Edit2 size={18} strokeWidth={2.2} />
           </button>
           <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer p-1">
@@ -128,43 +139,63 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
               <line x1="14" y1="15" x2="14" y2="9" />
             </svg>
           </button>
-          <button className="text-[#BA1A1A] cursor-pointer p-1">
+          <button className="text-[#BA1A1A] cursor-pointer p-1 hover:opacity-80 transition-opacity">
             <Trash2 size={18} strokeWidth={2.2} />
           </button>
         </div>
       </div>
 
-      <CampaignDetailMetrics />
+      {viewMode === 'details' && (
+        <>
+          <CampaignDetailMetrics />
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <div className="lg:col-span-8 space-y-8">
-          
-          {/* Campaign Performance Chart */}
-          <CampaignPerformanceChart />
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <div className="lg:col-span-8 space-y-8">
+              
+              {/* Campaign Performance Chart */}
+              <CampaignPerformanceChart />
 
-          {/* Recent Engagement Activity Table */}
-          <RecentEngagementActivity 
-            activities={activities}
-            selectedLead={selectedLead}
-            onSelectLead={(act) => {
-              setSelectedLead(act);
-            }}
-          />
+              {/* Recent Engagement Activity Table */}
+              <RecentEngagementActivity 
+                activities={activities}
+                selectedLead={selectedLead}
+                onSelectLead={(act) => {
+                  setSelectedLead(act);
+                }}
+              />
+            </div>
+
+            <div className="lg:col-span-4 lg:sticky lg:top-4 space-y-6">
+              
+              {/* View Recipient Experience Card */}
+              <ViewRecipientExperience onSelectView={(mode) => setViewMode(mode)} />
+
+              {/* AI Performance Insight Card */}
+              <AIPerformanceInsight />
+
+            </div>
+
+          </div>
+        </>
+      )}
+
+      {viewMode === 'email' && (
+        <div className="animate-in fade-in slide-in-from-right duration-350">
+          <EmailView onBack={() => setViewMode('details')} />
         </div>
+      )}
 
-        <div className="lg:col-span-4 lg:sticky lg:top-4">
-          
-          {/* AI Performance Insight Card */}
-          <AIPerformanceInsight />
-
+      {viewMode === 'whatsapp' && (
+        <div className="animate-in fade-in slide-in-from-right duration-350">
+          <WhatsAppView onBack={() => setViewMode('details')} />
         </div>
-
-      </div>
+      )}
 
     </div>
   );
 };
 
 export default CampaignDetails;
+

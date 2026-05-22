@@ -1,12 +1,19 @@
 import React, { useState, useRef } from 'react';
-import { Mail, MessageSquare, Smartphone, Phone, Check, ChevronRight, Camera, Users, Flame, Thermometer, Snowflake, Upload, ListFilter } from 'lucide-react';
+import { Mail, MessageSquare, Smartphone, Check, ChevronRight, Camera, Users, Flame, Thermometer, Snowflake, X } from 'lucide-react';
 
 interface Step1Props {
   selectedChannels: string[];
   setSelectedChannels: React.Dispatch<React.SetStateAction<string[]>>;
   selectedAudience: string;
   setSelectedAudience: (id: string) => void;
+  name: string;
+  setName: (val: string) => void;
+  description: string;
+  setDescription: (val: string) => void;
+  logo: string | null;
+  setLogo: React.Dispatch<React.SetStateAction<string | null>>;
   onNext: () => void;
+  onCancel?: () => void;
 }
 
 const Step1 = ({
@@ -14,14 +21,18 @@ const Step1 = ({
   setSelectedChannels,
   selectedAudience,
   setSelectedAudience,
-  onNext
+  name,
+  setName,
+  description,
+  setDescription,
+  logo,
+  setLogo,
+  onNext,
+  onCancel
 }: Step1Props) => {
-  const [logo, setLogo] = useState<string | null>(null);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
   const logoInputRef = useRef<HTMLInputElement>(null);
 
-  const isStepValid = logo && name.trim() !== '' && description.trim() !== '' && selectedChannels.length > 0 && selectedAudience !== '';
+  const isStepValid = name.trim() !== '' && description.trim() !== '' && selectedChannels.length > 0 && selectedAudience !== '';
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,10 +110,25 @@ const Step1 = ({
         />
         <div 
           onClick={() => logoInputRef.current?.click()}
-          className="w-full h-[180px] bg-[#F2F4F6] border-2 border-dashed border-[#E2E8F0] rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-colors group overflow-hidden"
+          className="w-full h-[180px] bg-[#F2F4F6] border-2 border-dashed border-[#E2E8F0] rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-colors group relative"
         >
           {logo ? (
-            <img src={logo} alt="Campaign Logo" className="w-full h-full object-contain" />
+            <div className="relative max-w-[90%] max-h-[90%] flex items-center justify-center bg-white rounded-[12px] border border-[#E2E8F0] p-1.5 shadow-sm group/img">
+              <img src={logo} alt="Campaign Logo" className="max-h-[140px] object-contain rounded-[8px]" />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLogo(null);
+                  if (logoInputRef.current) {
+                    logoInputRef.current.value = '';
+                  }
+                }}
+                className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#E11D48] text-white flex items-center justify-center hover:bg-[#B91C1C] transition-colors cursor-pointer z-10 shadow-md border border-white"
+              >
+                <X size={12} strokeWidth={3} />
+              </button>
+            </div>
           ) : (
             <>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
@@ -220,7 +246,10 @@ const Step1 = ({
 
       {/* Navigation Buttons */}
       <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-8 shrink-0">
-        <button className="flex items-center justify-center w-full sm:w-[189px] h-[40px] sm:h-[32px] bg-[#E5ECF1] text-[#191C1E] rounded-[4px] font-bold text-[14px] hover:bg-[#DDE5ED] transition-colors cursor-pointer">
+        <button 
+          onClick={onCancel}
+          className="flex items-center justify-center w-full sm:w-[189px] h-[40px] sm:h-[32px] bg-[#E5ECF1] text-[#191C1E] rounded-[4px] font-bold text-[14px] hover:bg-[#DDE5ED] transition-colors cursor-pointer"
+        >
           Cancel
         </button>
         <button

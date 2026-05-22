@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-  CalendarDays, Clock, Zap, Check, Sparkles,
-  MessageSquare, Target, ChevronDown, ArrowLeft, ChevronRight
+  CalendarDays, Clock, Zap, Check, ArrowLeft, ChevronRight
 } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,6 +20,7 @@ interface Step3Props {
   setFollowUpTiming: (val: string) => void;
   onBack: () => void;
   onLaunch: () => void;
+  onSaveDraft?: () => void;
 }
 
 const Step3 = ({
@@ -51,6 +51,8 @@ const Step3 = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const isSendNow = scheduleType === 'send-now';
+
   return (
     <div className="space-y-12 font-manrope animate-in slide-in-from-right-4 duration-500">
       {/* Scheduling Section */}
@@ -63,7 +65,11 @@ const Step3 = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Send Now Card */}
           <div
-            onClick={() => setScheduleType('send-now')}
+            onClick={() => {
+              setScheduleType('send-now');
+              setLaunchDate(new Date());
+              setLaunchTime(new Date());
+            }}
             className={`w-full h-auto min-h-[98px] p-4 rounded-[10px] border cursor-pointer transition-all relative flex items-center ${scheduleType === 'send-now'
               ? 'border-[#C3C6D1]/48 bg-white'
               : 'border-[#C3C6D1]/48'
@@ -108,22 +114,33 @@ const Step3 = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-[11px] font-[600] text-[#737780] uppercase tracking-[1.1px] leading-[16.5px] mb-3">Launch Date</h3>
-            <div className="w-full h-[48px] bg-[#F3F3F3] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
-              <CalendarDays size={16} className="text-[#64748B]" />
+            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${
+              isSendNow ? 'text-[#94A3B8]' : 'text-[#737780]'
+            }`}>Launch Date</h3>
+            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${
+              isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
+            }`}>
+              <CalendarDays size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchDate}
                 onChange={(date) => date && setLaunchDate(date)}
                 dateFormat="MMM d, yyyy"
-                className="bg-transparent border-none outline-none w-full cursor-pointer font-manrope text-[14px] text-[#191C1E]"
+                disabled={isSendNow}
+                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${
+                  isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
+                }`}
                 calendarClassName="follei-datepicker"
               />
             </div>
           </div>
           <div>
-            <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-3">Time (EST)</h3>
-            <div className="w-full h-[48px] bg-[#F3F3F3] rounded-[10px] px-4 flex items-center gap-3 text-[#191C1E] font-medium text-[14px] relative">
-              <Clock size={16} className="text-[#64748B]" />
+            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${
+              isSendNow ? 'text-[#94A3B8]' : 'text-[#43474F]'
+            }`}>Time (EST)</h3>
+            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${
+              isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
+            }`}>
+              <Clock size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchTime}
                 onChange={(date) => date && setLaunchTime(date)}
@@ -132,7 +149,10 @@ const Step3 = ({
                 timeIntervals={15}
                 timeCaption="Time"
                 dateFormat="h:mm aa"
-                className="bg-transparent border-none outline-none w-full cursor-pointer font-manrope text-[14px] text-[#191C1E]"
+                disabled={isSendNow}
+                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${
+                  isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
+                }`}
                 calendarClassName="follei-datepicker"
               />
             </div>
@@ -217,7 +237,9 @@ const Step3 = ({
         </button>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
-          <button className="text-[#001E40] font-bold text-[14px] hover:text-[#004370] transition-colors cursor-pointer w-full sm:w-auto p-2">
+          <button 
+            className="text-[#001E40] font-bold text-[14px] hover:text-[#004370] transition-colors cursor-pointer w-full sm:w-auto p-2"
+          >
             Save as Draft
           </button>
           <button

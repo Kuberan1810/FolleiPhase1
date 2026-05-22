@@ -1,12 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Step1 from '../CampaignCreationSteps/Step1';
 import Step2 from '../CampaignCreationSteps/Step2';
 import Step3 from '../CampaignCreationSteps/Step3';
+import { campaigns } from '../campaignData';
 
 const CampaignCreations = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigate();
+  const { stepId } = useParams();
+  const currentStep = Number(stepId) || 1;
+
+  useEffect(() => {
+    if (stepId !== undefined && !['1', '2', '3'].includes(stepId)) {
+      navigate('/presales/campaigns/create/step/1', { replace: true });
+    }
+  }, [stepId, navigate]);
+
+  // Step 1 States
   const [selectedChannels, setSelectedChannels] = useState<string[]>(['email']);
   const [selectedAudience, setSelectedAudience] = useState<string>('hot-leads');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [logo, setLogo] = useState<string | null>(null);
 
   // Step 2 States
   const [subject, setSubject] = useState("Expanding [company] 's market reach");
@@ -55,7 +70,14 @@ const CampaignCreations = () => {
             setSelectedChannels={setSelectedChannels}
             selectedAudience={selectedAudience}
             setSelectedAudience={setSelectedAudience}
-            onNext={() => setCurrentStep(2)}
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
+            logo={logo}
+            setLogo={setLogo}
+            onNext={() => navigate('/presales/campaigns/create/step/2')}
+            onCancel={() => navigate('/presales/campaigns')}
           />
         );
       case 2:
@@ -72,8 +94,8 @@ const CampaignCreations = () => {
             fileInputRef={fileInputRef}
             handleUpload={handleUpload}
             triggerUpload={triggerUpload}
-            onBack={() => setCurrentStep(1)}
-            onNext={() => setCurrentStep(3)}
+            onBack={() => navigate('/presales/campaigns/create/step/1')}
+            onNext={() => navigate('/presales/campaigns/create/step/3')}
           />
         );
       case 3:
@@ -91,8 +113,30 @@ const CampaignCreations = () => {
             setIntentTrackingEnabled={setIntentTrackingEnabled}
             followUpTiming={followUpTiming}
             setFollowUpTiming={setFollowUpTiming}
-            onBack={() => setCurrentStep(2)}
-            onLaunch={() => console.log('Campaign Launched!')}
+            onBack={() => navigate('/presales/campaigns/create/step/2')}
+            onLaunch={() => {
+              const newCampaign = {
+                id: campaigns.length + 1,
+                name: name.trim() || "Untitled Campaign",
+                date: scheduleType === 'send-now'
+                  ? `Started ${new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}`
+                  : `Scheduled for ${launchDate.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}`,
+                channels: selectedChannels.map(ch => {
+                  if (ch === 'email') return 'mail';
+                  if (ch === 'sms') return 'phone';
+                  return ch;
+                }),
+                status: 'ACTIVE',
+                statusColor: 'bg-[#DEFFE9] text-[#004F1A]',
+                sent: '0',
+                replies: '0',
+                converted: '0',
+                iconBg: 'bg-purple-100'
+              };
+              campaigns.unshift(newCampaign);
+              console.log('Campaign Launched!', newCampaign);
+              navigate('/presales/campaigns');
+            }}
           />
         );
       default:
