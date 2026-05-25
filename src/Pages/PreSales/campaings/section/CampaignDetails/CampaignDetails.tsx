@@ -4,6 +4,7 @@ import avatarImg from '../../../../../assets/img/avat.jpg';
 import CampaignDetailMetrics from './CampaignDetailMetrics';
 import CampaignPerformanceChart from './CampaignPerformanceChart';
 import RecentEngagementActivity, { type LeadActivity } from './RecentEngagementActivity';
+import AllEngagementActivities from './AllEngagementActivities';
 import AIPerformanceInsight from './AIPerformanceInsight';
 import ViewRecipientExperience from './ViewRecipientExperience';
 import EmailView from './EmailView';
@@ -26,7 +27,8 @@ interface CampaignDetailsProps {
 
 const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) => {
   const [selectedLead, setSelectedLead] = useState<LeadActivity | null>(null);
-  const [viewMode, setViewMode] = useState<'details' | 'email' | 'whatsapp'>('details');
+  const [viewMode, setViewMode] = useState<'details' | 'email' | 'whatsapp' | 'activities'>('details');
+  const [exportCallback, setExportCallback] = useState<(() => void) | null>(null);
 
   const activities: LeadActivity[] = [
     {
@@ -40,7 +42,9 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
       time: "2 mins ago",
       channel: "WHATSAPP",
       company: "Miller Organic Skincare",
-      subject: "Expanding Miller Organic Skincare's market reach"
+      subject: "Expanding Miller Organic Skincare's market reach",
+      budget: 12000,
+      timestamp: Date.now() - 2 * 60 * 1000
     },
     {
       id: 2,
@@ -50,49 +54,87 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
       status: "OPENED",
       statusColor: "bg-[#DBEAFE] text-[#1E40AF]",
       score: "Hot",
-      time: "2 mins ago",
+      time: "5 mins ago",
       channel: "WHATSAPP",
       company: "Foster Care Lab",
-      subject: "Expanding Foster Care Lab's market reach"
+      subject: "Expanding Foster Care Lab's market reach",
+      budget: 8000,
+      timestamp: Date.now() - 5 * 60 * 1000
     },
     {
       id: 3,
       name: "Marcus Bennett",
       email: "m.bennett@gmail.com",
       avatar: avatarImg,
-      status: "OPENED",
-      statusColor: "bg-[#DBEAFE] text-[#1E40AF]",
-      score: "Hot",
-      time: "Yesterday",
+      status: "CLICKED LINK",
+      statusColor: "bg-[#D1FAE5] text-[#065F46]",
+      score: "Warm",
+      time: "1 hour ago",
       channel: "EMAIL",
       company: "Bennett Aesthetics",
-      subject: "Expanding Bennett Aesthetics' market reach"
+      subject: "Expanding Bennett Aesthetics' market reach",
+      budget: 15000,
+      timestamp: Date.now() - 60 * 60 * 1000
     },
     {
       id: 4,
-      name: "Sophia Miller",
-      email: "sophia.m@gmail.com",
+      name: "Alice Johnson",
+      email: "alice.j@gmail.com",
       avatar: avatarImg,
-      status: "CLICKED LINK",
-      statusColor: "bg-[#D1FAE5] text-[#065F46]",
+      status: "DEMO SCHEDULED",
+      statusColor: "bg-[#EDE9FE] text-[#6D28D9]",
       score: "Hot",
-      time: "Yesterday",
+      time: "3 hours ago",
       channel: "EMAIL",
-      company: "Miller Organic Skincare",
-      subject: "Expanding Miller Organic Skincare's market reach"
+      company: "Johnson & Partners",
+      subject: "Expanding Johnson & Partners' market reach",
+      budget: 25000,
+      timestamp: Date.now() - 3 * 60 * 60 * 1000
     },
     {
       id: 5,
-      name: "David Foster",
-      email: "david.f@gmail.com",
+      name: "Robert Chen",
+      email: "robert.c@gmail.com",
       avatar: avatarImg,
-      status: "CLICKED LINK",
-      statusColor: "bg-[#D1FAE5] text-[#065F46]",
-      score: "Hot",
+      status: "PROPOSAL",
+      statusColor: "bg-[#FAE8FF] text-[#A21CAF]",
+      score: "Warm",
       time: "Yesterday",
       channel: "EMAIL",
-      company: "Foster Care Lab",
-      subject: "Expanding Foster Care Lab's market reach"
+      company: "Chen Logistics",
+      subject: "Expanding Chen Logistics' market reach",
+      budget: 18000,
+      timestamp: Date.now() - 24 * 60 * 60 * 1000
+    },
+    {
+      id: 6,
+      name: "Emma Watson",
+      email: "emma.w@gmail.com",
+      avatar: avatarImg,
+      status: "NEGOTIATION",
+      statusColor: "bg-[#FEE2E2] text-[#B91C1C]",
+      score: "Cold",
+      time: "2 days ago",
+      channel: "WHATSAPP",
+      company: "Watson Media Group",
+      subject: "Expanding Watson Media's market reach",
+      budget: 32000,
+      timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000
+    },
+    {
+      id: 7,
+      name: "Liam Neeson",
+      email: "liam.n@gmail.com",
+      avatar: avatarImg,
+      status: "CONVERTED",
+      statusColor: "bg-[#DCFCE7] text-[#15803D]",
+      score: "Hot",
+      time: "3 days ago",
+      channel: "EMAIL",
+      company: "Taken Enterprises",
+      subject: "Expanding Taken Enterprises' market reach",
+      budget: 45000,
+      timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000
     }
   ];
 
@@ -106,7 +148,9 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
               <span className="w-1.5 h-1.5 rounded-full bg-[#15803D]" />
               {campaign.status}
             </span>
-            <span className="text-[12px] text-[#464555] font-medium">Started {campaign.date}</span>
+            <span className="text-[12px] text-[#464555] font-medium">
+              {campaign.date.toLowerCase().startsWith('started') ? campaign.date : `Started ${campaign.date}`}
+            </span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -142,6 +186,20 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
           <button className="text-[#BA1A1A] cursor-pointer p-1 hover:opacity-80 transition-opacity">
             <Trash2 size={18} strokeWidth={2.2} />
           </button>
+          
+          {viewMode === 'activities' && (
+            <button 
+              onClick={() => exportCallback?.()}
+              className="flex items-center gap-2 bg-[#004370] rounded-[10px] px-[16px] py-[8px] text-white hover:bg-[#003356] transition-colors font-manrope font-bold text-[11px] leading-[16.5px] tracking-[0.55px] cursor-pointer"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Export
+            </button>
+          )}
         </div>
       </div>
 
@@ -159,11 +217,12 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
 
               {/* Recent Engagement Activity Table */}
               <RecentEngagementActivity 
-                activities={activities}
+                activities={activities.slice(0, 5)}
                 selectedLead={selectedLead}
                 onSelectLead={(act) => {
                   setSelectedLead(act);
                 }}
+                onViewAll={() => setViewMode('activities')}
               />
             </div>
 
@@ -190,6 +249,17 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) =
       {viewMode === 'whatsapp' && (
         <div className="animate-in fade-in slide-in-from-right duration-350">
           <WhatsAppView onBack={() => setViewMode('details')} />
+        </div>
+      )}
+
+      {viewMode === 'activities' && (
+        <div className="animate-in fade-in slide-in-from-right duration-350">
+          <AllEngagementActivities 
+            campaign={campaign} 
+            activities={activities} 
+            onBack={() => setViewMode('details')} 
+            setExportCallback={setExportCallback}
+          />
         </div>
       )}
 

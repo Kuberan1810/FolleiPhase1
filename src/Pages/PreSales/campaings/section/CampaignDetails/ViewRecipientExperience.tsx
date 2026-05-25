@@ -8,7 +8,7 @@ interface ViewRecipientExperienceProps {
 
 const ViewRecipientExperience: React.FC<ViewRecipientExperienceProps> = ({ onSelectView }) => {
   return (
-    <div className="bg-white rounded-[8px] border border-[#F1F5F9] p-[10px] flex items-center justify-between shadow-sm">
+    <div className="bg-white rounded-[8px] border border-[#F1F5F9] p-[10px] flex items-center justify-between">
       <span className="text-[12px] font-bold text-[#004370] uppercase tracking-[1.5px] select-none font-manrope">
         View Recipient Experience
       </span>

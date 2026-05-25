@@ -7,25 +7,29 @@ export interface LeadActivity {
   name: string;
   email: string;
   avatar: string;
-  status: 'REPLIED' | 'OPENED' | 'CLICKED LINK';
+  status: string;
   statusColor: string;
   score: 'Hot' | 'Warm' | 'Cold';
   time: string;
   channel: 'WHATSAPP' | 'EMAIL';
   subject: string;
   company: string;
+  budget?: number;
+  timestamp?: number;
 }
 
 interface RecentEngagementActivityProps {
   activities: LeadActivity[];
   selectedLead: LeadActivity | null;
   onSelectLead: (lead: LeadActivity) => void;
+  onViewAll: () => void;
 }
 
 const RecentEngagementActivity: React.FC<RecentEngagementActivityProps> = ({
   activities,
   selectedLead,
-  onSelectLead
+  onSelectLead,
+  onViewAll
 }) => {
   return (
     <div className="bg-white rounded-[24px] border border-[#F1F5F9] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
@@ -34,7 +38,10 @@ const RecentEngagementActivity: React.FC<RecentEngagementActivityProps> = ({
           <h3 className="text-[20px] font-semibold text-[#0B1C30]">Recent Engagement Activity</h3>
           <p className="text-[12px] text-[#464555] font-medium">Top leads reacting to this campaign in real-time</p>
         </div>
-        <button className="text-[#3525CD] text-[14px] font-bold flex items-center gap-1 cursor-pointer">
+        <button 
+          onClick={onViewAll}
+          className="text-[#3525CD] text-[14px] font-bold flex items-center gap-1 cursor-pointer hover:underline transition-all"
+        >
           View All <ChevronRight size={14} />
         </button>
       </div>
