@@ -1,4 +1,7 @@
-import { Layers, TrendingUp, MessageSquare, Activity } from 'lucide-react';
+import { Layers, MessageSquare} from 'lucide-react';
+import chart from '../../../../assets/icons/chart.svg';
+import rate from '../../../../assets/icons/icon.svg';
+
 
 const OutboundMetrics = () => {
   const metricsLeft = [
@@ -8,19 +11,19 @@ const OutboundMetrics = () => {
       subtitle: "+1 this month",
       icon: <Layers size={20} strokeWidth={2.5} />,
       badge: "OVERALL",
-      badgeColor: "text-gray-500",
-      iconBg: "bg-blue-50 text-blue-600",
+      badgeColor: "text-[#94A3B8]",
+      iconBg: "bg-[#E6EDF1] text-[#003366]",
       subtitleColor: "#006A61"
     },
     {
       title: "ACTIVE CAMPAIGNS",
       value: "2",
       subtitle: "40% of total",
-      icon: <TrendingUp size={20} strokeWidth={2.5} />,
+      icon: <img src={chart} alt="chart" />,
       badge: "• Live",
-      badgeColor: "text-emerald-700 bg-emerald-50",
-      iconBg: "bg-emerald-50 text-emerald-600",
-      subtitleColor: "#64748B"
+      badgeColor: "text-[#006A6A] bg-[#E6F1F1]",
+      iconBg: "bg-[#ECFDF5] text-[#006A61]",
+      subtitleColor: "#94A3B8"
     }
   ];
 
@@ -31,26 +34,25 @@ const OutboundMetrics = () => {
       subtitle: "Avg 85/camp",
       icon: <MessageSquare size={20} strokeWidth={2.5} />,
       badge: "↑ 12%",
-      badgeColor: "text-emerald-700",
-      iconBg: "bg-blue-50 text-blue-600",
-      subtitleColor: "#64748B"
+      badgeColor: "text-[#006A61]",
+      iconBg: "bg-[#E6EDF1] text-[#003366]",
+      subtitleColor: "#94A3B8"
     },
     {
       title: "CONVERSION RATE",
       value: "19.8%",
       subtitle: "",
-      icon: <Activity size={20} strokeWidth={2.5} />,
+      icon: <img src={rate} alt="rate" />,
       badge: "Excellent",
-      badgeColor: "text-emerald-700",
-      iconBg: "bg-blue-50 text-blue-600",
-      hasProgress: true
+      badgeColor: "text-[#006A61] bg-[#E6F1F1]",
+      iconBg: "bg-[#E6EDF1] text-[#004370]",
     }
   ];
 
   const renderCard = (metric: any, idx: number) => (
-    <div key={idx} className="BoxStyle flex flex-col justify-between h-[210px] w-full">
+    <div key={idx} className="BoxStyle flex flex-col justify-between w-full">
       <div className="flex justify-between items-start mb-4">
-        <div className={`w-[40px] h-[40px] rounded-[10px] flex items-center justify-center ${metric.iconBg}`}>
+        <div className={`w-[40px] h-[40px] rounded-[12px] flex items-center justify-center ${metric.iconBg}`}>
           {metric.icon}
         </div>
         <div className={`px-3 py-1 rounded-full text-[11px] font-bold ${metric.badgeColor}`}>
@@ -59,11 +61,11 @@ const OutboundMetrics = () => {
       </div>
 
       <div className="mt-auto">
-        <h3 className="text-[#64748B] uppercase font-inter font-semibold text-[12px] leading-[16px] tracking-[1.2px] mb-2">
+        <h3 className="text-[#64748B] uppercase font-bold text-[11px] leading-[16px] tracking-[1.2px] mb-2">
           {metric.title}
         </h3>
         <div className="flex items-end gap-2 mb-4">
-          <span className="text-[32px] font-extrabold text-[#191C1E] leading-none font-manrope">{metric.value}</span>
+          <span className="text-[36px] font-extrabold text-[#001E40] leading-none font-manrope">{metric.value}</span>
           {metric.subtitle && (
             <span
               className="mb-1 font-inter font-bold text-[12px] leading-[16px]"

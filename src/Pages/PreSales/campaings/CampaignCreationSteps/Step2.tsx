@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  User, Building, MapPin, Sparkles, Bold, Italic, 
+  User, Building, MapPin, Bold, Italic, 
   List, Link, Image as LucideImage, Plus, ChevronRight,
   ArrowLeft, Clock, RefreshCw, Flame
 } from 'lucide-react';
 import { Flash, Magicpen } from 'iconsax-react';
+import AiContent from '../../../../assets/icons/ai.svg'
 
 interface Step2Props {
   subject: string;
@@ -224,25 +225,14 @@ const Step2 = ({
         {/* AI COLUMN: AI Content Assistant */}
         <div className="lg:col-span-4 lg:sticky lg:top-4 mt-8 lg:mt-0">
           
-          {/* Glowing linear gradient outer border wrapper */}
           <div className="bg-gradient-to-br from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[1.5px] rounded-[22px] shadow-lg">
-            
-            {/* White interior container */}
-            <div className="bg-[#F7F9FB] rounded-[21px] p-5 space-y-6">
+          <div className="bg-[#F7F9FB] rounded-[21px] p-5 space-y-6">
               
               {/* Header */}
               <div className="flex items-center gap-2.5 relative">
-                <svg width="0" height="0" className="absolute">
-                  <defs>
-                    <linearGradient id="aiSparkleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#003659" />
-                      <stop offset="50%" stopColor="#0A4268" />
-                      <stop offset="100%" stopColor="#007ACD" />
-                    </linearGradient>
-                  </defs>
-                </svg>
+              
                 <div className="p-1">
-                  <Sparkles size={18} stroke="url(#aiSparkleGradient)"/>
+                  <img src={AiContent} alt="AI Content" />
                 </div>
                 <h3 className="text-[20px] font-bold text-[#0B1C30] tracking-[-0.2px]">AI Content Assistant</h3>
               </div>
