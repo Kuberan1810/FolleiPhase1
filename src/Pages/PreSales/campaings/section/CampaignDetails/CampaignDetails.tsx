@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Edit2, Trash2 } from 'lucide-react';
 import avatarImg from '../../../../../assets/img/avat.jpg';
 import CampaignDetailMetrics from './CampaignDetailMetrics';
@@ -22,13 +23,34 @@ interface CampaignDetailsProps {
     converted: string;
   };
   onBack: () => void;
+  initialViewMode?: 'details' | 'email' | 'whatsapp' | 'activities';
 }
 
 
-const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack }) => {
+const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, initialViewMode }) => {
   const [selectedLead, setSelectedLead] = useState<LeadActivity | null>(null);
-  const [viewMode, setViewMode] = useState<'details' | 'email' | 'whatsapp' | 'activities'>('details');
+  const [viewMode, setViewMode] = useState<'details' | 'email' | 'whatsapp' | 'activities'>(initialViewMode || 'details');
   const [exportCallback, setExportCallback] = useState<(() => void) | null>(null);
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (initialViewMode) {
+      setViewMode(initialViewMode);
+    }
+  }, [initialViewMode]);
+
+  React.useEffect(() => {
+    if (viewMode === 'activities') {
+      if (!window.location.pathname.endsWith('/activities')) {
+        navigate(`/presales/campaigns/${campaign.id}/activities`);
+      }
+    } else if (viewMode === 'details') {
+      if (window.location.pathname.endsWith('/activities')) {
+        navigate(`/presales/campaigns/${campaign.id}`);
+      }
+    }
+  }, [viewMode, campaign.id, navigate]);
 
   const activities: LeadActivity[] = [
     {

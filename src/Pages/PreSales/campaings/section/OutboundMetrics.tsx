@@ -68,7 +68,7 @@ const OutboundMetrics = () => {
           <span className="text-[36px] font-extrabold text-[#001E40] leading-none font-manrope">{metric.value}</span>
           {metric.subtitle && (
             <span
-              className="mb-1 font-inter font-bold text-[12px] leading-[16px]"
+              className="mb-1 font-regular text-[12px] leading-[16px]"
               style={{ color: metric.subtitleColor }}
             >
               {metric.subtitle}

@@ -88,16 +88,16 @@ const OutboundCampaignList: React.FC<OutboundCampaignListProps> = ({ onSelectCam
 
   return (
     <div className="bg-white mb-20 relative">
-      <div className="py-4 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 w-full">
+      <div className="py-4 flex flex-row flex-wrap justify-between items-center gap-4 w-full">
         <h2 className="text-[24px] sm:text-[32px] font-bold text-[#001E40] font-manrope px-8">Campaign List</h2>
-        <div className="flex gap-4 px-8 relative self-end sm:self-auto">
+        <div className="flex gap-4 px-8 relative self-auto">
           <button
             ref={filterButtonRef}
             onClick={() => setFilterOpen(!filterOpen)}
             className={`flex items-center gap-2 px-3 py-1.5 transition-all font-manrope font-bold text-[12px] leading-[16.5px] tracking-[0.55px] uppercase cursor-pointer relative ${
               isFilterActive
                 ? "text-[#001E40] bg-[#EFF4FF] rounded-[8px]"
-                : "text-[#434655] hover:text-black border border-transparent"
+                : "text-[#434655] hover:text-gray-200 border border-transparent"
             }`} 
           >
             <Sort color="currentcolor" size={16} />
