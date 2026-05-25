@@ -12,51 +12,51 @@ interface MetricItem {
 
 const CampaignDetailMetrics: React.FC = () => {
   const metrics: MetricItem[] = [
-    { 
-      label: "Total Sent", 
-      value: "2,450", 
-      topRight: <span className="text-[12px] font-extrabold text-[#464555] uppercase tracking-[0.5px]">Reach</span>, 
-      icon: <Users size={18} className="text-[#004370]" />, 
+    {
+      label: "Total Sent",
+      value: "2,450",
+      topRight: <span className="text-[12px] font-extrabold text-[#464555] uppercase tracking-[0.5px]">Reach</span>,
+      icon: <Users size={18} className="text-[#004370]" />,
       iconBg: "bg-[#E5EEFF]"
     },
-    { 
-      label: "Open Rate", 
-      value: "68%", 
+    {
+      label: "Open Rate",
+      value: "68%",
       topRight: (
         <span className="text-[12px] font-extrabold text-#059669 uppercase tracking-[0.5px]">
           +12% vs avg
         </span>
-      ), 
-      icon: <Mail size={18} className="text-[#004370]" />, 
+      ),
+      icon: <Mail size={18} className="text-[#004370]" />,
       iconBg: "bg-[#E5EEFF]"
     },
-    { 
-      label: "Click Rate", 
-      value: "32%", 
+    {
+      label: "Click Rate",
+      value: "32%",
       topRight: (
         <span className="text-[12px] font-bold text-[#059669] uppercase tracking-[0.5px]">
           +5% vs avg
         </span>
-      ), 
-      icon: <Send size={18} className="text-[#0E9F6E]" />, 
+      ),
+      icon: <Send size={18} className="text-[#0E9F6E]" />,
       iconBg: "bg-[#E6FFF1]"
     },
-    { 
-      label: "Conversion Rate", 
-      value: "19.8%", 
+    {
+      label: "Conversion Rate",
+      value: "19.8%",
       topRight: (
         <span className="text-[10px] font-bold text-white bg-[#004370] px-2 py-0.5 rounded-[4px] uppercase tracking-wider">
           Excellent
         </span>
-      ), 
-      icon: <img src={AiContent} className="text-[#004370]" />, 
+      ),
+      icon: <img src={AiContent} className="text-[#004370]" />,
       iconBg: "bg-[#E5EEFF]"
     },
-    { 
-      label: "Revenue Generated", 
-      value: "$845K", 
-      topRight: <span className="text-[12px] font-bold text-[#222222] uppercase tracking-[0.5px]">Projected</span>, 
-      icon: <Money size={18} color="#004370" />, 
+    {
+      label: "Revenue Generated",
+      value: "$845K",
+      topRight: <span className="text-[12px] font-bold text-[#222222] uppercase tracking-[0.5px]">Projected</span>,
+      icon: <Money size={18} color="#004370" />,
       iconBg: "bg-[#E5EEFF]"
     }
   ];
@@ -64,8 +64,8 @@ const CampaignDetailMetrics: React.FC = () => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 mb-8">
       {metrics.map((m, idx) => (
-        <div 
-          key={idx} 
+        <div
+          key={idx}
           className="BoxStyle flex flex-col justify-between"
         >
           <div className="flex items-center justify-between w-full mb-1">
