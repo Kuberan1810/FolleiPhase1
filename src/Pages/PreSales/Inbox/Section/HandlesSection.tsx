@@ -25,9 +25,12 @@ const HandlesSection: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8 w-full">
-      <div className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]">
+      <div 
+        className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]"
+        style={{ backgroundColor: '#F6FBFF' }}
+      >
         <div className="w-full text-left">
-          <h3 className="text-[#191C1E] text-[18px] font-extrabold font-manrope">
+          <h3 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
             Follei Handles
           </h3>
         </div>
@@ -44,7 +47,7 @@ const HandlesSection: React.FC = () => {
             <path
               d="M 20 100 A 80 80 0 0 1 180 100"
               fill="none"
-              stroke="#23669C"
+              stroke="#004370"
               strokeWidth={strokeWidth}
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
@@ -53,28 +56,31 @@ const HandlesSection: React.FC = () => {
             />
           </svg>
           <div className="absolute bottom-[10px] sm:bottom-[15px] flex flex-col items-center justify-center">
-            <span className="text-[56px] font-extrabold text-black tracking-tight leading-none font-manrope">
+            <span className="text-[56px] font-extrabold font-urbanist text-[#191C1E] tracking-tight leading-none">
               {percentage}%
             </span>
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-6 mt-2 w-full text-[16px] font-semibold tracking-wider">
+        <div className="flex justify-center items-center gap-6 mt-2 w-full text-[16px] font-semibold tracking-wider font-urbanist">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-[#E0F2FE] shadow-[0_1px_1.8px_rgba(0,0,0,0.25)] flex-shrink-0"></div>
             <span className="text-[#64748B]">Follei handles</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-[#23669C] shadow-[0_1px_1.8px_rgba(0,0,0,0.25)] flex-shrink-0"></div>
+            <div className="w-6 h-6 rounded-full bg-[#004370] shadow-[0_1px_1.8px_rgba(0,0,0,0.25)] flex-shrink-0"></div>
             <span className="text-[#64748B]">Admin handles</span>
           </div>
         </div>
       </div>
 
-      <div className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]">
+      <div 
+        className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]"
+        style={{ backgroundColor: '#F6FBFF' }}
+      >
         <div className="w-full">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-[#191C1E] text-[24px] font-semibold">
+            <h3 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
               Admin Handles
             </h3>
           </div>
@@ -83,18 +89,18 @@ const HandlesSection: React.FC = () => {
             {adminHandles.map((handle) => (
               <div
                 key={handle.id}
-                className="flex items-center justify-between py-4 px-2 border-b border-[#DFDFDF] hover:bg-[#F8FAFC] transition-colors"
+                className="flex items-center justify-between py-4 px-2 border-b border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
               >
-                <span className="text-[#5E5353] font-medium text-[20px]">
+                <span className="font-urbanist font-medium text-[14px] text-[#191C1E]">
                   {handle.name}
                 </span>
 
-                <span className="text-[#5E5353] text-[20px] font-medium justify-center">
+                <span className="font-urbanist text-[14px] font-medium justify-center text-[#191C1E]">
                   {handle.type}
                 </span>
 
                 <button
-                  className="text-[#23669C] hover:text-[#194E73] text-[20px] font-medium hover:underline cursor-pointer transition-colors"
+                  className="font-urbanist text-[#004370] hover:text-[#194E73] text-[14px] font-medium hover:underline cursor-pointer transition-colors"
                 >
                   History
                 </button>
@@ -106,7 +112,7 @@ const HandlesSection: React.FC = () => {
         <div className="w-full flex justify-center">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 text-[#64748B] text-[20px] font-medium cursor-pointer transition-colors"
+            className="flex items-center gap-1 text-[#64748B] font-urbanist text-[14px] font-medium cursor-pointer transition-colors"
           >
             view all
             <ChevronDown size={18} className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />

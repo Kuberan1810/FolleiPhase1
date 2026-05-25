@@ -72,9 +72,12 @@ const ChatHistory: React.FC = () => {
   }, [searchQuery]);
 
   return (
-    <div className="w-full BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300">
+    <div 
+      className="w-full BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
+      style={{ backgroundColor: '#F6FBFF' }}
+    >
       <div className="flex items-center justify-between gap-4 mb-6">
-        <h2 className="text-[#191C1E] text-[24px] font-semibold">
+        <h2 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
           Chat History
         </h2>
         <div className="flex items-center gap-2">
@@ -84,7 +87,7 @@ const ChatHistory: React.FC = () => {
               placeholder="Search chats..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-48 sm:w-64 px-4 py-1.5 border border-[#E2E8F0] rounded-full text-[13px] font-medium font-inter focus:outline-none focus:border-[#236C9F] transition-all"
+              className="w-48 sm:w-64 px-4 py-1.5 border border-[#E2E8F0] rounded-full text-[13px] font-medium font-inter font-urbanist focus:outline-none focus:border-[#236C9F] transition-all"
               autoFocus
             />
           )}
@@ -111,7 +114,7 @@ const ChatHistory: React.FC = () => {
                 setSelectedTab(tab.id as any);
                 setSearchQuery("");
               }}
-              className={`py-[14px] px-[20px] rounded-full text-[20px] font-semibold tracking-wide transition-all duration-300 cursor-pointer ${isActive
+              className={`py-[10px] px-[16px] rounded-full text-[14px] font-urbanist font-semibold tracking-wide transition-all duration-300 cursor-pointer ${isActive
                 ? "bg-black text-white shadow-sm"
                 : "bg-[#EBEBEB] text-[#64748B] hover:text-[#334155] shadow-[inset_0_4px_4px_rgba(0,0,0,0.25)]"
                 }`}
@@ -122,13 +125,13 @@ const ChatHistory: React.FC = () => {
         })}
       </div>
 
-      <div className="overflow-hidden BoxStyle">
+      <div className="bg-white rounded-[16px] border border-[#E2E8F0] overflow-hidden">
         <div className="w-full overflow-x-auto scrollbar-thin">
           <div className="min-w-[760px]">
-            <div className="grid grid-cols-12 gap-2 py-4 pr-6 pl-8 text-[#000000] text-[24px] font-semibold bg-white">
+            <div className="grid grid-cols-12 gap-2 py-4 pr-6 pl-8 font-urbanist font-semibold text-[12px] uppercase tracking-wider text-[#64748B] bg-white">
               <div className="col-span-3">Recent chats</div>
               <div className="col-span-3">Number</div>
-              <div className="col-span-2 ">tone</div>
+              <div className="col-span-2">tone</div>
               <div className="col-span-1">intent</div>
               <div className="col-span-2 whitespace-nowrap px-8">pricing discussed</div>
             </div>
@@ -140,26 +143,26 @@ const ChatHistory: React.FC = () => {
                     key={chat.id}
                     className="grid grid-cols-12 gap-2 py-4 pr-8 pl-6 hover:bg-slate-50 transition-colors"
                   >
-                    <div className="col-span-3 flex ">
+                    <div className="col-span-3 flex">
                       <div
-                        className={`w-[50px] h-[50px] rounded-full flex items-center justify-center font-bold text-[20px] shrink-0 shadow-sm ${chat.avatarColor}`}
+                        className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}
                       >
                         {chat.avatarChar}
                       </div>
                     </div>
 
-                    <div className="col-span-3 text-[#000000] pr-8 text-[24px] font-medium">
+                    <div className="col-span-3 font-urbanist text-[14px] text-[#191C1E] pr-8 font-medium">
                       {chat.number}
                     </div>
 
-                    <div className="col-span-2 text-[#000000] text-[24px] font-medium">
+                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E] font-medium">
                       {chat.tone}
                     </div>
-                    <div className="col-span-2 text-[#000000] text-[24px] font-medium">
+                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E] font-medium">
                       {chat.intent}
                     </div>
 
-                    <div className="col-span-2 text-[#000000] text-[24px]">
+                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E]">
                       {chat.pricingDiscussed}
                     </div>
                   </div>

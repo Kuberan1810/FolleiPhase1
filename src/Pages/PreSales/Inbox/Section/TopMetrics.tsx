@@ -4,44 +4,56 @@ import { ChevronDown } from "lucide-react";
 const TopMetrics = () => {
   return (
     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-6 lg:gap-8 mb-8 w-full">
-      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full ">
-        <div className="flex items-center gap-[10px] text-black font-semibold text-[24px]">
+      <div 
+        className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left w-full font-urbanist h-[180px]"
+        style={{ backgroundColor: '#F6FBFF' }}
+      >
+        <div className="flex items-center gap-[10px] font-urbanist font-bold text-[22px] text-[#191C1E]">
           <span>Total Chats</span>
-          <ChevronDown size={18} className="text-black stroke-[2.5]" />
+          <ChevronDown size={18} className="text-[#191C1E] stroke-[2.5]" />
         </div>
-        <div className="text-[48px] font-semibold text-black leading-none tracking-tight">
-          568
+        <div className="w-full text-center">
+          <span className="font-urbanist font-bold text-[48px] text-[#191C1E] leading-none tracking-tight">
+            568
+          </span>
         </div>
         <div className="h-1" />
       </div>
 
-      <div className="bg-black text-white rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left w-full ">
+      <div className="bg-black text-white rounded-[10px] pt-[20px] pr-[23px] pb-[34px] pl-[19px] shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full h-[180px]">
         <div className="w-full">
-          <h3 className="font-semibold text-[32px] tracking-tight leading-tight">
+          <h3 className="font-urbanist font-bold text-[22px] tracking-tight leading-tight">
             customer conversion conversation
           </h3>
-          <p className="text-[20px] font-semibold text-white/95 mt-1">
-            83% of total chat
-          </p>
         </div>
+        <p className="font-urbanist text-[13px] font-semibold text-[#DFF2FE] mt-auto text-left w-full">
+          83% of total chat
+        </p>
         <div className="h-[42px] w-full rounded-[4px] overflow-hidden flex p-[1px] mt-2">
           <div className="h-full bg-[#F6FBFF]" style={{ width: "83%" }}></div>
-          <div className="h-full bg-[#23669C]" style={{ width: "17%" }}></div>
+          <div className="h-full bg-[#004370]" style={{ width: "17%" }}></div>
         </div>
       </div>
 
-      <div className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center text-center w-full ">
-        <span className="font-semibold text-[24px] text-[#000000]">
+      <div 
+        className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left w-full font-urbanist h-[180px]"
+        style={{ backgroundColor: '#F6FBFF' }}
+      >
+        <span className="font-urbanist font-bold text-[22px] text-[#191C1E]">
           Admin Needs
         </span>
-        <div className="text-[48px] font-semibold text-black leading-none tracking-tight">
-          10
+        <div className="w-full text-center">
+          <span className="text-[48px] font-urbanist font-bold text-[#191C1E] leading-none tracking-tight">
+            10
+          </span>
         </div>
-        <button
-          className="bg-[#23669C] text-white px-10 py-2 rounded-[4px] text-[13px] font-semibold cursor-pointer shadow-sm active:scale-95 uppercase tracking-wider"
-        >
-          View
-        </button>
+        <div className="w-full flex justify-center">
+          <button
+            className="bg-[#004370] text-white px-10 py-2 rounded-[8px] font-inter font-bold text-[12px] cursor-pointer shadow-sm active:scale-95 uppercase tracking-wider"
+          >
+            View
+          </button>
+        </div>
       </div>
     </div >
   );
