@@ -114,32 +114,27 @@ const Step3 = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${
-              isSendNow ? 'text-[#94A3B8]' : 'text-[#737780]'
-            }`}>Launch Date</h3>
-            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${
-              isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
-            }`}>
+            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${isSendNow ? 'text-[#94A3B8]' : 'text-[#737780]'
+              }`}>Launch Date</h3>
+            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
+              }`}>
               <CalendarDays size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchDate}
                 onChange={(date) => date && setLaunchDate(date)}
                 dateFormat="MMM d, yyyy"
                 disabled={isSendNow}
-                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${
-                  isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
-                }`}
+                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
+                  }`}
                 calendarClassName="follei-datepicker"
               />
             </div>
           </div>
           <div>
-            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${
-              isSendNow ? 'text-[#94A3B8]' : 'text-[#43474F]'
-            }`}>Time (EST)</h3>
-            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${
-              isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
-            }`}>
+            <h3 className={`text-[11px] font-[600] uppercase tracking-[1.1px] leading-[16.5px] mb-3 transition-colors ${isSendNow ? 'text-[#94A3B8]' : 'text-[#43474F]'
+              }`}>Time (EST)</h3>
+            <div className={`w-full h-[48px] rounded-[10px] px-4 flex items-center gap-3 font-medium text-[14px] relative transition-all ${isSendNow ? 'bg-[#E5ECF1]/50 opacity-60 cursor-not-allowed' : 'bg-[#F3F3F3] text-[#191C1E]'
+              }`}>
               <Clock size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchTime}
@@ -150,9 +145,8 @@ const Step3 = ({
                 timeCaption="Time"
                 dateFormat="h:mm aa"
                 disabled={isSendNow}
-                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${
-                  isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
-                }`}
+                className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
+                  }`}
                 calendarClassName="follei-datepicker"
               />
             </div>
@@ -228,16 +222,16 @@ const Step3 = ({
       </section> */}
 
       {/* Footer Navigation Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 mt-12 bg-transparent">
-        <button
+      <div className="flex justify-end items-center pt-8 mt-12 bg-transparent">     
+           {/* <button
           onClick={onBack}
           className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
         >
           <ArrowLeft size={18} /> Back
-        </button>
+        </button> */}
 
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
-          <button 
+          <button
             className="text-[#001E40] font-bold text-[14px] hover:text-[#004370] transition-colors cursor-pointer w-full sm:w-auto p-2"
           >
             Save as Draft

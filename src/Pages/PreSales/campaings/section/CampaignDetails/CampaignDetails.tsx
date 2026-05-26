@@ -239,7 +239,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
 
               {/* Recent Engagement Activity Table */}
               <RecentEngagementActivity 
-                activities={activities.slice(0, 5)}
+                activities={activities}
                 selectedLead={selectedLead}
                 onSelectLead={(act) => {
                   setSelectedLead(act);

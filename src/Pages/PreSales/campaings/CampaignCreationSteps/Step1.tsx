@@ -245,13 +245,13 @@ const Step1 = ({
       </section>
 
       {/* Navigation Buttons */}
-      <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-8 shrink-0">
-        <button 
+      <div className="flex justify-end items-center pt-8 shrink-0 w-full">
+        {/* <button 
           onClick={onCancel}
           className="flex items-center justify-center w-full sm:w-[189px] h-[40px] sm:h-[32px] bg-[#E5ECF1] text-[#191C1E] rounded-[4px] font-bold text-[14px] hover:bg-[#DDE5ED] transition-colors cursor-pointer"
         >
           Cancel
-        </button>
+        </button> */}
         <button
           onClick={onNext}
           disabled={!isStepValid}
