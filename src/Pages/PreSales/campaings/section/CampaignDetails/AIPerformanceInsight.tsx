@@ -23,13 +23,13 @@ const AIPerformanceInsight: React.FC = () => {
                   d="M 15 110 A 95 95 0 0 1 205 110"
                   fill="none"
                   stroke="#E2EAF8"
-                  strokeWidth="20"
+                  strokeWidth="30"
                 />
                 <path
                   d="M 15 110 A 95 95 0 0 1 205 110"
                   fill="none"
                   stroke="#004370"
-                  strokeWidth="20"
+                  strokeWidth="30"
                   strokeDasharray="298.5"
                   strokeDashoffset={298.5 * (1 - 0.94)}
                   className="transition-all duration-1000 ease-out"

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Flame, Filter, ArrowUpDown } from 'lucide-react';
+import { Flame, ArrowUpDown } from 'lucide-react';
 import { type LeadActivity } from './RecentEngagementActivity';
 import avatarImg from '../../../../../assets/avatar.png';
 import { Sort } from 'iconsax-react';

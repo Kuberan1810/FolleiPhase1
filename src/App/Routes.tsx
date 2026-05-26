@@ -97,6 +97,7 @@ export default function AppRoutes() {
         <Route path="campaign" element={<Navigate to="/presales/campaigns" replace />} />
         <Route path="campaigns" element={<Campaigns />} />
         <Route path="campaigns/:campaignId" element={<Campaigns />} />
+        <Route path="campaigns/:campaignId/activities" element={<Campaigns />} />
         <Route path="campaigns/create" element={<Navigate to="/presales/campaigns/create/step/1" replace />} />
         <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />

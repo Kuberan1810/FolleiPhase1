@@ -33,21 +33,22 @@ const RecentEngagementActivity: React.FC<RecentEngagementActivityProps> = ({
 }) => {
   return (
     <div className="bg-white rounded-[24px] border border-[#F1F5F9] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-3">
         <div>
           <h3 className="text-[20px] font-semibold text-[#0B1C30]">Recent Engagement Activity</h3>
           <p className="text-[12px] text-[#464555] font-medium">Top leads reacting to this campaign in real-time</p>
         </div>
+      
+      </div>
         <button 
           onClick={onViewAll}
-          className="text-[#3525CD] text-[14px] font-bold flex items-center gap-1 cursor-pointer hover:underline transition-all"
+          className="text-[#3525CD] text-[14px] font-bold flex items-center gap-1 cursor-pointer hover:underline transition-all mb-2"
         >
           View All <ChevronRight size={14} />
         </button>
-      </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left min-w-[550px] border-separate border-spacing-0">
+        <table className="w-full text-left min-w-[580px] border-separate border-spacing-0">
           <thead>
             <tr>
               <th className="h-12 py-0 pl-6 rounded-l-[10px] bg-[#F6FAFF]">
@@ -88,7 +89,7 @@ const RecentEngagementActivity: React.FC<RecentEngagementActivityProps> = ({
                   </div>
                 </td>
                 <td className="py-3.5 px-4">
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${act.statusColor}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${act.statusColor}`}>
                     {act.status}
                   </span>
                 </td>
@@ -99,7 +100,7 @@ const RecentEngagementActivity: React.FC<RecentEngagementActivityProps> = ({
                   </div>
                 </td>
                 <td className="py-3.5 pr-6 text-right font-medium">
-                  <div className="text-[14px] text-[#0D1C2E] font-semibold">{act.time}</div>
+                  <div className="text-[12px] text-[#0D1C2E] font-semibold">{act.time}</div>
                   <div className={`text-[12px] font-semibold uppercase tracking-wider mt-0.5 ${
                     act.channel === 'EMAIL' ? 'text-[#004370]' : 'text-[#006A6A]'
                   }`}>
