@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 interface ChartDataItem {
   day: string;
@@ -23,8 +23,34 @@ const defaultChartData: ChartDataItem[] = [
 const CampaignPerformanceChart: React.FC<CampaignPerformanceChartProps> = ({ data = defaultChartData }) => {
   const [activeTooltipIndex, setActiveTooltipIndex] = useState<number | null>(6);
   const [hoveredTooltipIndex, setHoveredTooltipIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const visibleIndex = hoveredTooltipIndex !== null ? hoveredTooltipIndex : activeTooltipIndex;
+
+  const getTooltipPosition = (index: number) => {
+    const d = data[index];
+    if (!d) return { top: 0 };
+    const barHeight = ((d.whatsapp + d.email) / 100) * 180;
+    const barTop = 180 - barHeight - 3;
+    const top = Math.max(8, barTop);
+    return { top };
+  };
+
+  const handleTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const scrollLeft = containerRef.current.scrollLeft;
+    const scrollWidth = containerRef.current.scrollWidth;
+
+    const touchX = touch.clientX - rect.left + scrollLeft;
+    const colWidth = scrollWidth / data.length;
+    const index = Math.max(0, Math.min(data.length - 1, Math.floor(touchX / colWidth)));
+
+    setActiveTooltipIndex(index);
+  };
 
   return (
     <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
@@ -45,7 +71,12 @@ const CampaignPerformanceChart: React.FC<CampaignPerformanceChartProps> = ({ dat
       </div>
 
       <div className="overflow-x-auto pb-2 scrollbar-none">
-        <div className="h-[240px] flex items-end justify-between gap-4 pt-4 px-2 sm:px-6 min-w-[680px]">
+        <div 
+          ref={containerRef}
+          onTouchStart={handleTouch}
+          onTouchMove={handleTouch}
+          className="h-[240px] flex items-end justify-between gap-4 pt-4 px-2 sm:px-6 min-w-[680px] select-none"
+        >
           {data.map((d, index) => (
             <div 
               key={index} 
@@ -68,9 +99,13 @@ const CampaignPerformanceChart: React.FC<CampaignPerformanceChartProps> = ({ dat
                 />
 
                 {visibleIndex === index && (
-                  <div className="absolute left-[84px] top-[30px] bg-white border border-slate-200/80 shadow-[0_4px_12px_rgba(0,0,0,0.08)] rounded-[8px] p-2.5 z-30 min-w-[115px] text-left animate-in fade-in zoom-in-95 duration-150">
-                    <div className="absolute -left-[5px] top-[14px] w-2.5 h-2.5 bg-white border-l border-b border-slate-200/80 rotate-45" />
-                    
+                  <div 
+                    style={{ top: `${getTooltipPosition(index).top}px` }}
+                    className="absolute left-1/2 -translate-x-1/2 -translate-y-full -mt-2.5 bg-white border border-slate-200/80 shadow-[0_4px_12px_rgba(0,0,0,0.08)] rounded-[8px] p-2.5 z-30 text-left animate-in fade-in zoom-in-95 duration-150"
+                  >
+                    <div 
+                      className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white border-r border-b border-slate-200/80 rotate-45" 
+                    />
                     <div className="flex items-center gap-2 text-[11px] font-extrabold text-[#475569]">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#006A6A] shrink-0" />
                       <span className="whitespace-nowrap">Whatsapp {d.whatsapp < 10 ? `0${d.whatsapp}` : d.whatsapp}</span>

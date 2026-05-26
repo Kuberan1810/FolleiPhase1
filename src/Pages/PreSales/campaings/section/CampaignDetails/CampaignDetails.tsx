@@ -59,7 +59,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "sophia.m@gmail.com",
       avatar: avatarImg,
       status: "REPLIED",
-      statusColor: "bg-[#FEF3C7] text-[#D97706]",
+      statusColor: "bg-[#FFF5E4] text-[#222222]",
       score: "Hot",
       time: "2 mins ago",
       channel: "WHATSAPP",
@@ -74,7 +74,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "david.f@gmail.com",
       avatar: avatarImg,
       status: "OPENED",
-      statusColor: "bg-[#DBEAFE] text-[#1E40AF]",
+      statusColor: "bg-[#E4EDFF] text-[#222222]",
       score: "Hot",
       time: "5 mins ago",
       channel: "WHATSAPP",
@@ -89,7 +89,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "m.bennett@gmail.com",
       avatar: avatarImg,
       status: "CLICKED LINK",
-      statusColor: "bg-[#D1FAE5] text-[#065F46]",
+      statusColor: "bg-[#E4FFE7] text-[#222222]",
       score: "Warm",
       time: "1 hour ago",
       channel: "EMAIL",
@@ -104,7 +104,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "alice.j@gmail.com",
       avatar: avatarImg,
       status: "DEMO SCHEDULED",
-      statusColor: "bg-[#EDE9FE] text-[#6D28D9]",
+      statusColor: "bg-[#E4EDFF] text-[#222222]",
       score: "Hot",
       time: "3 hours ago",
       channel: "EMAIL",
@@ -119,7 +119,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "robert.c@gmail.com",
       avatar: avatarImg,
       status: "PROPOSAL",
-      statusColor: "bg-[#FAE8FF] text-[#A21CAF]",
+      statusColor: "bg-[#E4FFE7] text-[#222222]",
       score: "Warm",
       time: "Yesterday",
       channel: "EMAIL",
@@ -134,7 +134,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "emma.w@gmail.com",
       avatar: avatarImg,
       status: "NEGOTIATION",
-      statusColor: "bg-[#FEE2E2] text-[#B91C1C]",
+      statusColor: "bg-[#FFF5E4] text-[#222222]",
       score: "Cold",
       time: "2 days ago",
       channel: "WHATSAPP",
@@ -149,7 +149,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
       email: "liam.n@gmail.com",
       avatar: avatarImg,
       status: "CONVERTED",
-      statusColor: "bg-[#DCFCE7] text-[#15803D]",
+      statusColor: "bg-[#DCFCE7] text-[#222222]",
       score: "Hot",
       time: "3 days ago",
       channel: "EMAIL",
@@ -188,7 +188,7 @@ const CampaignDetails: React.FC<CampaignDetailsProps> = ({ campaign, onBack, ini
             >
               <ArrowLeft size={28} strokeWidth={2.5} />
             </button>
-            <h1 className="text-[28px] sm:text-[32px] font-extrabold text-[#0B1C30] tracking-[-0.8px] leading-none">
+            <h1 className="text-[18px] sm:text-[32px] font-extrabold text-[#0B1C30] tracking-[-0.8px] leading-none">
               {campaign.name}
             </h1>
           </div>

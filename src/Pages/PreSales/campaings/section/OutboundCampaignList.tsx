@@ -89,8 +89,8 @@ const OutboundCampaignList: React.FC<OutboundCampaignListProps> = ({ onSelectCam
   return (
     <div className="bg-white mb-20 relative">
       <div className="py-4 flex flex-row flex-wrap justify-between items-center gap-4 w-full">
-        <h2 className="text-[24px] sm:text-[32px] font-bold text-[#001E40] font-manrope px-8">Campaign List</h2>
-        <div className="flex gap-4 px-8 relative self-auto">
+        <h2 className="text-[24px] sm:text-[32px] font-bold text-[#001E40] font-manrope px-3">Campaign List</h2>
+        <div className="flex gap-4 px-2 relative self-auto">
           <button
             ref={filterButtonRef}
             onClick={() => setFilterOpen(!filterOpen)}
