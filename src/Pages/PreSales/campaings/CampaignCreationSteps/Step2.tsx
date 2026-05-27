@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  User, Building, MapPin, Bold, Italic, 
+import {
+  User, Building, MapPin, Bold, Italic,
   List, Link, Image as LucideImage, Plus, ChevronRight,
   ArrowLeft, Clock, RefreshCw, Flame
 } from 'lucide-react';
@@ -62,21 +62,21 @@ const Step2 = ({
 
   return (
     <div className="font-manrope animate-in slide-in-from-right-4 duration-500">
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-8">
           <h2 className="text-[20px] font-bold text-[#001E40] leading-[100%] tracking-[0px]">Design Message Content</h2>
-          
+
           <section>
             <h3 className="text-[12px] font-[600] text-[#001E40] uppercase tracking-[1.1px] leading-[16.5px] mb-4">Personalization</h3>
             <div className="flex flex-wrap gap-3">
-              { [
+              {[
                 { label: '{{first_name}}', icon: <User size={14} /> },
                 { label: '{{company}}', icon: <Building size={14} /> },
                 { label: '{{city}}', icon: <MapPin size={14} /> }
               ].map((item, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   className="flex items-center gap-2 px-3 py-1.5 bg-[#F2F4F6] text-[#001E40] rounded-[4px] text-[12px] font-[600] leading-[16px] border border-transparent select-none cursor-pointer hover:bg-[#E5ECF1] transition-colors"
                   onClick={() => {
                     if (editorRef.current) {
@@ -96,8 +96,8 @@ const Step2 = ({
           <section>
             <h3 className="text-[14px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-4">Subject Line</h3>
             <div className="relative">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 className="w-full h-[48px] bg-[#F2F4F6] rounded-[4px] px-4 text-[#191C1E] font-[500] text-[16px] leading-[24px] tracking-[0px] focus:outline-none transition-all placeholder:text-[#94A3B8] border border-transparent focus:border-[#004370]/20"
@@ -111,21 +111,21 @@ const Step2 = ({
               {/* Toolbar */}
               <div className="flex items-center justify-between h-[44px] px-4 bg-[#F2F4F6] border-b border-[#C3C6D1]/10 overflow-x-auto no-scrollbar">
                 <div className="flex items-center gap-1 min-w-max">
-                  <button 
+                  <button
                     onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false); }}
                     className="p-1.5 rounded text-[#43474F] hover:text-[#004370] hover:bg-white/80 transition-all cursor-pointer"
                     title="Bold"
                   >
                     <Bold size={15} />
                   </button>
-                  <button 
+                  <button
                     onMouseDown={(e) => { e.preventDefault(); document.execCommand('italic', false); }}
                     className="p-1.5 rounded text-[#43474F] hover:text-[#004370] hover:bg-white/80 transition-all cursor-pointer"
                     title="Italic"
                   >
                     <Italic size={15} />
                   </button>
-                  <button 
+                  <button
                     onMouseDown={(e) => { e.preventDefault(); document.execCommand('insertUnorderedList', false); }}
                     className="p-1.5 rounded text-[#43474F] hover:text-[#004370] hover:bg-white/80 transition-all cursor-pointer"
                     title="Bullet List"
@@ -147,7 +147,7 @@ const Step2 = ({
                   className="w-full min-h-[300px] text-[#191C1E] font-[500] text-[16px] leading-[24px] focus:outline-none font-manrope outline-none"
                 />
               </div>
-              
+
               <div className="p-4 bg-[#F2F4F6] border-t border-[#C3C6D1]/10">
                 <div className="flex items-center gap-2 mb-4">
                   <LucideImage size={14} className="text-[#64748B]" />
@@ -156,12 +156,12 @@ const Step2 = ({
                 <div className="flex flex-wrap gap-3">
                   {attachments.map((url, idx) => (
                     <div key={idx} className="w-[100px] h-[100px] bg-white rounded-[4px] overflow-hidden border border-[#C3C6D1]/20 group cursor-pointer relative">
-                      <img 
-                        src={url} 
-                        alt={`Attachment ${idx + 1}`} 
+                      <img
+                        src={url}
+                        alt={`Attachment ${idx + 1}`}
                         className="w-full h-full object-cover"
                       />
-                      <button 
+                      <button
                         onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))}
                         className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-[12px] cursor-pointer"
                       >
@@ -169,14 +169,14 @@ const Step2 = ({
                       </button>
                     </div>
                   ))}
-                  <input 
-                    type="file" 
-                    ref={fileInputRef} 
-                    onChange={handleUpload} 
-                    className="hidden" 
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleUpload}
+                    className="hidden"
                     accept="image/*"
                   />
-                  <button 
+                  <button
                     onClick={triggerUpload}
                     className="w-[100px] h-[100px] bg-white border-2 border-dashed border-[#C3C6D1]/30 rounded-lg flex flex-col items-center justify-center gap-1.5 hover:bg-gray-50 hover:border-[#004370]/30 transition-colors cursor-pointer"
                   >
@@ -191,7 +191,7 @@ const Step2 = ({
           <section className="pt-4">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-[18px] font-semibold text-[#001E40]">Call to Action Button</h2>
-              <button 
+              <button
                 onClick={() => setCtaEnabled(!ctaEnabled)}
                 className={`w-[52px] h-[28px] rounded-full transition-all duration-300 relative cursor-pointer ${ctaEnabled ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
               >
@@ -203,16 +203,16 @@ const Step2 = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
                 <div>
                   <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-4">Button Text</h3>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     defaultValue="Visit the Website"
                     className="w-full h-[52px] bg-[#F2F4F6] rounded-[4px] px-5 text-[#1E293B] font-medium focus:outline-none transition-all placeholder:text-[#94A3B8] border border-transparent focus:border-[#004370]/20"
                   />
                 </div>
                 <div>
                   <h3 className="text-[11px] font-[600] text-[#43474F] uppercase tracking-[1.1px] leading-[16.5px] mb-4">URL / Link</h3>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="https://"
                     className="w-full h-[52px] bg-[#F2F4F6] rounded-[4px] px-5 text-[#1E293B] font-medium focus:outline-none transition-all placeholder:text-[#94A3B8] border border-transparent focus:border-[#004370]/20"
                   />
@@ -224,13 +224,13 @@ const Step2 = ({
 
         {/* AI COLUMN: AI Content Assistant */}
         <div className="lg:col-span-4 lg:sticky lg:top-4 mt-8 lg:mt-0">
-          
+
           <div className="bg-gradient-to-br from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[1.5px] rounded-[22px] shadow-lg">
-          <div className="bg-[#F7F9FB] rounded-[21px] p-5 space-y-6">
-              
+            <div className="bg-[#F7F9FB] rounded-[21px] p-5 space-y-6">
+
               {/* Header */}
               <div className="flex items-center gap-2.5 relative">
-              
+
                 <div className="p-1">
                   <img src={AiContent} alt="AI Content" />
                 </div>
@@ -247,11 +247,10 @@ const Step2 = ({
                     <button
                       key={tone}
                       onClick={() => setActiveTone(tone)}
-                      className={`px-3 py-1.5 text-[12px] font-bold tracking-[0.2px] rounded-[10px] transition-all duration-200 cursor-pointer ${
-                        activeTone === tone
+                      className={`px-3 py-1.5 text-[12px] font-bold tracking-[0.2px] rounded-[10px] transition-all duration-200 cursor-pointer ${activeTone === tone
                           ? 'bg-[#004370] text-white scale-105 shadow-sm'
                           : 'bg-[#F2F4F5] text-[#0B1C30] hover:bg-gray-200/60'
-                      }`}
+                        }`}
                     >
                       {tone}
                     </button>
@@ -265,7 +264,7 @@ const Step2 = ({
                   <Magicpen size={12} color='#004370' />
                   <span>Recommended Draft</span>
                 </div>
-                
+
                 <p className="text-[14px] text-[#464555] font-[500] leading-[20px] whitespace-pre-line animate-in fade-in duration-300">
                   {currentDraft}
                 </p>
@@ -291,7 +290,7 @@ const Step2 = ({
               {/* Performance Prediction */}
               <div className="space-y-3.5">
                 <h4 className="text-[15px] font-semibold text-[#222222] uppercase tracking-[1.2px]">Performance Prediction</h4>
-                
+
                 <div className="space-y-3 bg-[#FFFFFF] p-4 rounded-[14px] shadow-[0_2px_8px_rgba(0,0,0,0.01)] border border-gray-100">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-[12px]">
@@ -336,7 +335,7 @@ const Step2 = ({
                     Tomorrow, 10:30 AM
                   </div>
                   <div className="flex items-center gap-1.5 text-[12px] font-semibold text-[#64748B] mt-1.5">
-                    <span className="text-[12px] leading-none"><Flash size={12}  color='#64748B'/></span>
+                    <span className="text-[12px] leading-none"><Flash size={12} color='#64748B' /></span>
                     <span>92% confidence</span>
                   </div>
                 </div>
@@ -344,9 +343,9 @@ const Step2 = ({
 
               {/* Strategic Routing */}
               <div className="space-y-3">
-                
+
                 <div className="bg-white p-4 rounded-[21px] space-y-3 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-                <h4 className="text-[15px] font-semibold text-[#0B1C30] font-manrope">Strategic Routing</h4>
+                  <h4 className="text-[15px] font-semibold text-[#0B1C30] font-manrope">Strategic Routing</h4>
 
                   <div className="flex items-center justify-between bg-[#F7F9FB] px-4 py-3 rounded-[12px]">
                     <span className="text-[13px] font-bold text-[#43474F] font-manrope">Target Audience</span>
@@ -363,7 +362,7 @@ const Step2 = ({
                         Email
                       </div>
                     </div>
-                    
+
                     <p className="text-[12px] font-[400] text-[#464555] leading-[17px] tracking-[0.1px] font-manrope">
                       Users in this segment show higher engagement with detailed email communication, with a 2.8x higher response rate when provided with structured content and clear value propositions.
                     </p>
@@ -382,21 +381,19 @@ const Step2 = ({
       {/* Footer Navigation Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 mt-12 border-t border-slate-100">
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
-          <button 
+          {/* <button
             onClick={onBack}
             className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
           >
             <ArrowLeft size={16} /> Back
-          </button>
-          
-         
+          </button> */}
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
           <button className="text-[#001E40] font-bold text-[14px] hover:text-[#004370] transition-colors cursor-pointer w-full sm:w-auto p-2">
             Save as Template
           </button>
-          <button 
+          <button
             onClick={onNext}
             className="flex items-center justify-center gap-2 w-full sm:w-[210px] h-[48px] bg-[#004370] text-white rounded-[6px] font-bold text-[14px] hover:bg-[#003152] transition-all group cursor-pointer shadow-sm"
           >

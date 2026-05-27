@@ -4,6 +4,7 @@ import Step1 from '../CampaignCreationSteps/Step1';
 import Step2 from '../CampaignCreationSteps/Step2';
 import Step3 from '../CampaignCreationSteps/Step3';
 import { campaigns } from '../campaignData';
+import { ArrowLeft } from 'iconsax-react';
 
 const CampaignCreations = () => {
   const navigate = useNavigate();
@@ -149,8 +150,22 @@ const CampaignCreations = () => {
       {/* Header & Stepper */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 md:mb-12 gap-6">
         <div className="max-w-2xl">
-          <h1 className="text-[28px] md:text-[36px] font-extrabold text-[#001E40] leading-tight tracking-[-0.9px] font-manrope mb-2">Campaign Creation</h1>
-          <p className="text-[#43474F] text-[14px] md:text-[16px] font-normal leading-relaxed tracking-[0px] font-manrope">Define your campaign's core identity and communication channels.</p>
+          <div className="flex items-center gap-3 mb-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="text-[#0B1C30] cursor-pointer flex items-center justify-center p-0.5 hover:opacity-85 transition-opacity"
+            >
+              <ArrowLeft size={28} strokeWidth={2.5} color='#0B1C30' />
+            </button>
+
+            <h1 className="text-[28px] md:text-[36px] font-extrabold text-[#001E40] leading-tight tracking-[-0.9px] font-manrope">
+              Campaign Creation
+            </h1>
+          </div>
+
+          <p className="text-[#43474F] text-[14px] md:text-[16px] font-normal leading-relaxed tracking-[0px] font-manrope">
+            Define your campaign's core identity and communication channels.
+          </p>
         </div>
         <div className="flex items-center gap-4">
           {[1, 2, 3].map((step) => (
