@@ -162,22 +162,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 99px;
 }
 
-/* FlowBuilder page style */
-
-.flow-builder-page {
-    width: 100%;
-    min-height: 100%;
-    background-color: white;
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    box-sizing: border-box;
+/* FlowBuilder flow-line animation */
+@keyframes flowDash {
+  from {
+    stroke-dashoffset: 22;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-@media (min-width: 1024px) {
-    .flow-builder-page {
-        padding-top: 1.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
+.flow-line {
+  animation: flowDash 1.2s linear infinite;
 }
