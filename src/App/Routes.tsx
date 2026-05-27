@@ -7,6 +7,7 @@ import VerifyOTP from "../Pages/auth/Login/VerifyOTP";
 
 // Layout & Guard
 import MainLayout from "../Component/MainLayout";
+import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
@@ -90,6 +91,10 @@ export default function AppRoutes() {
       {/* ==========================================
                      PRE-SALES ROUTES
           ========================================== */}
+      <Route path="/presales/flow-builder" element={<FlowBuilderLayout />}>
+        <Route index element={<FlowBuilder />} />
+      </Route>
+
       <Route path="/presales" element={<MainLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="inbox" element={<InBox />} />
@@ -102,7 +107,6 @@ export default function AppRoutes() {
         <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="analytics" element={<Analytics />} />
-        <Route path="flow-builder" element={<FlowBuilder />} />
         <Route path="reports" element={<Reports />} />
         <Route path="data-import" element={<Orchestrator />} />
       </Route>
