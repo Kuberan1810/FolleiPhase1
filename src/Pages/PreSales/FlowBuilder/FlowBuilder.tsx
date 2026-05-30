@@ -127,7 +127,13 @@ const DiamondDecision = ({ x, y, glowColor, text, textColor }: { x: number, y: n
 
 const SVGConnectors = () => (
   <svg className="absolute inset-0 pointer-events-none z-10" style={{ width: 1200, height: 1100 }}>
-    <g stroke="#004370" strokeOpacity="0.3" strokeWidth="2" strokeDasharray="12 8">
+    <g
+      className="flow-line"
+      stroke="#004370"
+      strokeOpacity="0.3"
+      strokeWidth="1.5"
+      strokeDasharray="6 5"
+    >
       {/* Main Trunk */}
       <line x1={550} y1={106} x2={550} y2={166} />
       <line x1={550} y1={222} x2={550} y2={282} />
