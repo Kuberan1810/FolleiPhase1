@@ -30,7 +30,7 @@ const HandlesSection: React.FC = () => {
         style={{ backgroundColor: '#F6FBFF' }}
       >
         <div className="w-full text-left">
-          <h3 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
+          <h3 className="font-urbanist font-semibold text-[18px] text-[#191C1E]">
             Follei Handles
           </h3>
         </div>
@@ -38,11 +38,11 @@ const HandlesSection: React.FC = () => {
         <div className="relative flex flex-col items-center justify-center my-6 select-none w-full">
           <svg className="w-full max-w-[406px] h-auto" viewBox="0 0 200 115">
             <path
+            
               d="M 20 100 A 80 80 0 0 1 180 100"
               fill="none"
               stroke="#DFF2FE"
               strokeWidth={strokeWidth}
-              strokeLinecap="butt"
             />
             <path
               d="M 20 100 A 80 80 0 0 1 180 100"
@@ -62,7 +62,7 @@ const HandlesSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center gap-6 mt-2 w-full text-[16px] font-semibold tracking-wider font-urbanist">
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-2 w-full text-[14px] font-semibold tracking-wider font-urbanist">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-[#E0F2FE] shadow-[0_1px_1.8px_rgba(0,0,0,0.25)] flex-shrink-0"></div>
             <span className="text-[#64748B]">Follei handles</span>
@@ -80,7 +80,7 @@ const HandlesSection: React.FC = () => {
       >
         <div className="w-full">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
+            <h3 className="font-urbanist font-semibold text-[18px] text-[#191C1E]">
               Admin Handles
             </h3>
           </div>
@@ -91,16 +91,16 @@ const HandlesSection: React.FC = () => {
                 key={handle.id}
                 className="flex items-center justify-between py-4 px-2 border-b border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
               >
-                <span className="font-urbanist font-medium text-[14px] text-[#191C1E]">
+                <span className="font-inter font-semibold text-[16px] text-[#0D1C2E]">
                   {handle.name}
                 </span>
 
-                <span className="font-urbanist text-[14px] font-medium justify-center text-[#191C1E]">
+                <span className="font-inter text-[14px] font-medium text-[#434655]">
                   {handle.type}
                 </span>
 
                 <button
-                  className="font-urbanist text-[#004370] hover:text-[#194E73] text-[14px] font-medium hover:underline cursor-pointer transition-colors"
+                  className="font-inter text-[#004370] hover:text-[#194E73] text-[14px] font-semibold hover:underline cursor-pointer transition-colors"
                 >
                   History
                 </button>
@@ -112,7 +112,7 @@ const HandlesSection: React.FC = () => {
         <div className="w-full flex justify-center">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 text-[#64748B] font-urbanist text-[14px] font-medium cursor-pointer transition-colors"
+            className="flex items-center gap-1 text-[#64748B] font-inter text-[14px] font-semibold cursor-pointer transition-colors hover:text-slate-800"
           >
             view all
             <ChevronDown size={18} className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />

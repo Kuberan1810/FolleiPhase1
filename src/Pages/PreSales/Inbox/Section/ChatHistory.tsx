@@ -76,11 +76,11 @@ const ChatHistory: React.FC = () => {
       className="w-full BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
       style={{ backgroundColor: '#F6FBFF' }}
     >
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h2 className="font-urbanist font-semibold text-[24px] text-[#191C1E]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <h2 className="font-urbanist font-semibold text-[24px] text-[#191C1E] text-center sm:text-left">
           Chat History
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center sm:justify-end gap-2 w-full sm:w-auto">
           {showSearchInput && (
             <input
               type="text"
@@ -125,55 +125,62 @@ const ChatHistory: React.FC = () => {
         })}
       </div>
 
-      <div className="bg-white rounded-[16px] border border-[#E2E8F0] overflow-hidden">
+      <div className="BoxStyle overflow-hidden p-0!">
         <div className="w-full overflow-x-auto scrollbar-thin">
-          <div className="min-w-[760px]">
-            <div className="grid grid-cols-12 gap-2 py-4 pr-6 pl-8 font-urbanist font-semibold text-[12px] uppercase tracking-wider text-[#64748B] bg-white">
-              <div className="col-span-3">Recent chats</div>
-              <div className="col-span-3">Number</div>
-              <div className="col-span-2">tone</div>
-              <div className="col-span-1">intent</div>
-              <div className="col-span-2 whitespace-nowrap px-8">pricing discussed</div>
-            </div>
-
-            <div className="divide-y divide-[#F1F5F9]">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
+                <th className="py-4 px-8">Recent chats</th>
+                <th className="py-4 px-6">Number</th>
+                <th className="py-4 px-6">Tone</th>
+                <th className="py-4 px-6">Intent</th>
+                <th className="py-4 px-8 whitespace-nowrap">Pricing discussed</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
               {filteredChats.length > 0 ? (
                 filteredChats.map((chat) => (
-                  <div
+                  <tr
                     key={chat.id}
-                    className="grid grid-cols-12 gap-2 py-4 pr-8 pl-6 hover:bg-slate-50 transition-colors"
+                    className="hover:bg-slate-50 transition-colors"
                   >
-                    <div className="col-span-3 flex">
-                      <div
-                        className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}
-                      >
-                        {chat.avatarChar}
+                    <td className="py-4 px-8">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}
+                        >
+                          {chat.avatarChar}
+                        </div>
+                        
                       </div>
-                    </div>
+                    </td>
 
-                    <div className="col-span-3 font-urbanist text-[14px] text-[#191C1E] pr-8 font-medium">
+                    <td className="py-4 px-6 font-inter text-[16px] text-[#0D1C2E] font-medium">
                       {chat.number}
-                    </div>
+                    </td>
 
-                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E] font-medium">
+                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
                       {chat.tone}
-                    </div>
-                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E] font-medium">
-                      {chat.intent}
-                    </div>
+                    </td>
 
-                    <div className="col-span-2 font-urbanist text-[14px] text-[#191C1E]">
+                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                      {chat.intent}
+                    </td>
+
+                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium">
                       {chat.pricingDiscussed}
-                    </div>
-                  </div>
+                    </td>
+                  </tr>
                 ))
               ) : (
-                <div className="text-center py-12 text-[#94A3B8] font-medium text-[14px]">
-                  No chats found
-                </div>
+                <tr>
+                  <td colSpan={5} className="text-center py-12 text-[#94A3B8] font-medium text-[14px]">
+                    No chats found
+                  </td>
+                </tr>
               )}
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
