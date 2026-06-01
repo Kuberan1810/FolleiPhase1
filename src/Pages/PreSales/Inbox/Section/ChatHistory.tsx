@@ -151,9 +151,9 @@ const ChatHistory: React.FC = () => {
                         >
                           {chat.avatarChar}
                         </div>
-                        <span className="font-urbanist font-semibold text-[16px] text-[#0D1C2E]">
+                        {/* <span className="font-urbanist font-semibold text-[16px] text-[#0D1C2E]">
                           {chat.name}
-                        </span>
+                        </span> */}
                       </div>
                     </td>
 
