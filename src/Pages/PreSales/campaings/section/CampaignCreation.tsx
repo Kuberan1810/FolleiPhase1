@@ -62,6 +62,40 @@ const CampaignCreations = () => {
     fileInputRef.current?.click();
   };
 
+  const saveDraft = () => {
+    const draft = {
+      id: crypto.randomUUID(),
+      name: name || "Untitled Campaign",
+      description,
+      selectedChannels,
+      selectedAudience,
+      logo,
+      subject,
+      emailBody,
+      ctaEnabled,
+      attachments,
+      scheduleType,
+      launchDate,
+      launchTime,
+      autoResponseEnabled,
+      intentTrackingEnabled,
+      followUpTiming,
+      savedAt: new Date().toISOString(),
+      currentStep
+    };
+
+    try {
+      const stored = localStorage.getItem("campaign_drafts");
+      const drafts = stored ? JSON.parse(stored) : [];
+      drafts.push(draft);
+      localStorage.setItem("campaign_drafts", JSON.stringify(drafts));
+    } catch (e) {
+      console.error("Failed to save draft", e);
+    }
+
+    navigate('/presales/campaigns/drafts');
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -138,6 +172,7 @@ const CampaignCreations = () => {
               console.log('Campaign Launched!', newCampaign);
               navigate('/presales/campaigns');
             }}
+            onSaveDraft={saveDraft}
           />
         );
       default:

@@ -17,6 +17,7 @@ import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/inbox";
 import Campaigns from "../Pages/PreSales/campaings/Campaigns";
 import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
+import CampaignDrafts from "../Pages/PreSales/campaings/section/CampaignDrafts";
 
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
@@ -105,6 +106,7 @@ export default function AppRoutes() {
         <Route path="campaigns/:campaignId/activities" element={<Campaigns />} />
         <Route path="campaigns/create" element={<Navigate to="/presales/campaigns/create/step/1" replace />} />
         <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
+        <Route path="campaigns/drafts" element={<CampaignDrafts />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="reports" element={<Reports />} />

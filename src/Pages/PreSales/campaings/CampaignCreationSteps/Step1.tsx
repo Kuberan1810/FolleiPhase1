@@ -252,17 +252,19 @@ const Step1 = ({
         >
           Cancel
         </button> */}
-        <button
-          onClick={onNext}
-          disabled={!isStepValid}
-          className={`flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] rounded-[4px] font-bold text-[14px] transition-all group ${
-            isStepValid 
-              ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer' 
-              : 'bg-[#E5ECF1] text-[#004370] cursor-not-allowed'
-          }`}
-        >
-          Continue <ChevronRight size={18} className={isStepValid ? "group-hover:translate-x-1 transition-transform" : ""} />
-        </button>
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <button
+            onClick={onNext}
+            disabled={!isStepValid}
+            className={`flex items-center justify-center gap-2 w-full sm:w-[210px] h-[48px] rounded-[6px] font-bold text-[14px] transition-all group cursor-pointer shadow-sm ${
+              isStepValid
+                ? 'bg-[#004370] text-white hover:bg-[#003152]'
+                : 'bg-[#E5ECF1] text-[#004370] cursor-not-allowed'
+            }`}
+          >
+            Continue <ChevronRight size={18} className={isStepValid ? "group-hover:translate-x-1 transition-transform" : ""} />
+          </button>
+        </div>
       </div>
     </div>
   );

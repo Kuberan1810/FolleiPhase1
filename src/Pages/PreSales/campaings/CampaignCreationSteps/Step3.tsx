@@ -30,7 +30,7 @@ const Step3 = ({
   autoResponseEnabled, setAutoResponseEnabled,
   intentTrackingEnabled, setIntentTrackingEnabled,
   followUpTiming, setFollowUpTiming,
-  onBack, onLaunch
+  onBack, onLaunch, onSaveDraft
 }: Step3Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -222,17 +222,23 @@ const Step3 = ({
       </section> */}
 
       {/* Footer Navigation Bar */}
-      <div className="flex justify-end items-center pt-8 mt-12 bg-transparent">     
-           {/* <button
-          onClick={onBack}
-          className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
-        >
-          <ArrowLeft size={18} /> Back
-        </button> */}
-
-        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 mt-12 bg-transparent border-t border-slate-100">
+        
+        {/* Left side — Back button only */}
+        <div className="flex items-center w-full sm:w-auto">
           <button
-            className="text-[#001E40] font-bold text-[14px] hover:text-[#004370] transition-colors cursor-pointer w-full sm:w-auto p-2"
+            onClick={onBack}
+            className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
+          >
+            <ArrowLeft size={16} /> Back
+          </button>
+        </div>
+
+        {/* Right side — Save as Draft + Launch Campaign */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <button
+            onClick={onSaveDraft}
+            className="border border-[#004370] text-[#004370] font-inter font-semibold text-[13px] px-4 py-2 rounded-[8px] hover:bg-[#EFF4FF] transition-colors cursor-pointer w-full sm:w-auto"
           >
             Save as Draft
           </button>
@@ -243,6 +249,7 @@ const Step3 = ({
             Launch Campaign <ChevronRight size={18} />
           </button>
         </div>
+
       </div>
     </div>
   );

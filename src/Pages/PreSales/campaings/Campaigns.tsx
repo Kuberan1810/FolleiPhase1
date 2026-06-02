@@ -58,6 +58,7 @@ const Campaigns = () => {
           </button>
 
           <button
+            onClick={() => navigate("/presales/campaigns/drafts")}
             className="flex items-center gap-2 bg-[#004370] rounded-[10px] px-[16px] py-[8px] text-white hover:text-gray-200 transition-colors font-manrope font-bold text-[11px] leading-[16.5px] tracking-[0.55px] cursor-pointer"
           >
           
