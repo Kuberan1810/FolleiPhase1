@@ -380,13 +380,13 @@ const Step2 = ({
 
       {/* Footer Navigation Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-8 mt-12 border-t border-slate-100">
-        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
-          {/* <button
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <button
             onClick={onBack}
             className="flex items-center justify-center gap-2 text-[#001E40] font-bold text-[14px] hover:translate-x-[-4px] transition-transform w-full sm:w-auto p-2 cursor-pointer"
           >
             <ArrowLeft size={16} /> Back
-          </button> */}
+          </button>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-12 w-full sm:w-auto">
