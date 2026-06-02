@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, MessageSquare, Mail, SquareDashed, RefreshCcwDot, LineChart, CalendarRange } from 'lucide-react';
 
 import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
@@ -197,6 +198,7 @@ const SVGConnectors = () => (
 );
 
 const FlowBuilder = () => {
+  const navigate = useNavigate();
   const [scale, setScale] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -256,6 +258,15 @@ const FlowBuilder = () => {
             <p className="text-[13px] md:text-base text-[#64748B] mt-1 font-regular font-inter whitespace-nowrap">
               Automate Every Customer Interaction
             </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => navigate('/presales/flow-builder/edit-action')}
+              className="text-white font-inter font-bold text-[15px] px-5 h-[48px] rounded-[10px] shadow-sm hover:shadow-lg transition-all whitespace-nowrap cursor-pointer"
+              style={{ background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' }}
+            >
+              Edit Action
+            </button>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
+import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
 import Reports from "../Pages/PreSales/Reports/Reports";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/inbox";
@@ -94,6 +95,7 @@ export default function AppRoutes() {
           ========================================== */}
       <Route path="/presales/flow-builder" element={<FlowBuilderLayout />}>
         <Route index element={<FlowBuilder />} />
+        <Route path="edit-action" element={<EditActionPage />} />
       </Route>
 
       <Route path="/presales" element={<MainLayout />}>
