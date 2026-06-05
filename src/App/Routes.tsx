@@ -17,6 +17,8 @@ import InBox from "../Pages/PreSales/Inbox/inbox";
 import Campaigns from "../Pages/PreSales/campaings/Campaigns";
 import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
 
+import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
+
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesOutboundReports from "../Pages/PostSales/Report/OutboundReports";
@@ -105,6 +107,7 @@ export default function AppRoutes() {
         <Route path="flow-builder" element={<FlowBuilder />} />
         <Route path="reports" element={<Reports />} />
         <Route path="data-import" element={<Orchestrator />} />
+        <Route path="company-details" element={<CompanyDetails />} />
       </Route>
 
       {/* ==========================================
