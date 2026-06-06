@@ -1,4 +1,3 @@
-import React from 'react';
 import { BanknoteArrowUp } from 'lucide-react';
 
 const RevenueCharts = () => {

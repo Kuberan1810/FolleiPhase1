@@ -1,4 +1,4 @@
-import { Search, NetworkIcon, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';

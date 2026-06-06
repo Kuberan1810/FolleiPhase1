@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Pencil } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AiBrain from "../assets/AiFloat.svg";
 import AIBrainPopup from "./AIBrainPopup";
 import AiLiveChat from "../Pages/PreSales/Dashboard/Section/AiLiveChat";
@@ -36,7 +35,6 @@ const FloatingButton = () => {
     }, [lastScrollY]);
 
     const isOutbound = location.pathname.startsWith('/postsales/campaigns');
-    const targetPath = isOutbound ? "/postsales/campaigns/create" : "";
 
     return (
         <>

@@ -192,7 +192,7 @@
 // export default Plans;
 
 import React, { useState } from 'react';
-import { Check, X, Zap, BadgeCheck, Rocket, ShieldCheck, CreditCard, Lock, ArrowRight, ArrowLeft, AlertCircle, FileExclamationPoint } from 'lucide-react';
+import { Check, X, BadgeCheck, CreditCard, Lock, ArrowLeft, FileExclamationPoint } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Plans: React.FC = () => {

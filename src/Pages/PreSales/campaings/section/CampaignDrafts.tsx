@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Download, Plus, FileText, MoreVertical, Mail, MessageSquareIcon } from 'lucide-react';
@@ -50,7 +50,6 @@ const CampaignDrafts = () => {
   const [drafts, setDrafts] = useState<any[]>([]);
   const [activeKebab, setActiveKebab] = useState<string | null>(null);
   const [kebabPos, setKebabPos] = useState<{top: number, left: number} | null>(null);
-  const kebabBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     try {

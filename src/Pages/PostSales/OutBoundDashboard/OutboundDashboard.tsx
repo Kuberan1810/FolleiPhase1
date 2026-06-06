@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Send, MessageSquare, Smile, Plus, Mail, ChevronDown, Phone, CalendarCheck } from 'lucide-react';
+import { useState } from 'react';
+import { Send, MessageSquare, Smile, Mail, ChevronDown, Phone, CalendarCheck } from 'lucide-react';
 import SupportCard from './Sections/SupportCard';
 import RevenueCard from './Sections/RevenueCard';
 import FloatingButton from '../../../Component/FloatingButton';
-import SalesToggleSwitch from '../../../Component/SalesToggleSwitch';
 
 const OutboundDashboard = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

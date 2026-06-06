@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CalendarDays, Clock, Zap, Check, ArrowLeft, ChevronRight
 } from 'lucide-react';
@@ -27,30 +26,8 @@ const Step3 = ({
   scheduleType, setScheduleType,
   launchDate, setLaunchDate,
   launchTime, setLaunchTime,
-  autoResponseEnabled, setAutoResponseEnabled,
-  intentTrackingEnabled, setIntentTrackingEnabled,
-  followUpTiming, setFollowUpTiming,
   onBack, onLaunch, onSaveDraft
 }: Step3Props) => {
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
-
-  const options = [
-    '3 days after initial contact',
-    '5 days after initial contact',
-    '1 week after initial contact'
-  ];
-
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const isSendNow = scheduleType === 'send-now';
 
   return (
@@ -121,7 +98,7 @@ const Step3 = ({
               <CalendarDays size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchDate}
-                onChange={(date) => date && setLaunchDate(date)}
+                onChange={(date: Date | null) => date && setLaunchDate(date)}
                 dateFormat="MMM d, yyyy"
                 disabled={isSendNow}
                 className={`bg-transparent border-none outline-none w-full font-manrope text-[14px] ${isSendNow ? 'cursor-not-allowed text-[#737780]' : 'cursor-pointer text-[#191C1E]'
@@ -138,7 +115,7 @@ const Step3 = ({
               <Clock size={16} className={isSendNow ? 'text-[#94A3B8]' : 'text-[#64748B]'} />
               <DatePicker
                 selected={launchTime}
-                onChange={(date) => date && setLaunchTime(date)}
+                onChange={(date: Date | null) => date && setLaunchTime(date)}
                 showTimeSelect
                 showTimeSelectOnly
                 timeIntervals={15}

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Shield, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingProgress from './OnboardingProgress';
 import FolleiWhite from '../../assets/logo/FolleiLogo.svg';

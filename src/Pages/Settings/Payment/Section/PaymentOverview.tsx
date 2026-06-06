@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { CircleDollarSign, CalendarDays, ArrowUpRight } from 'lucide-react';
+import React from 'react';
+import { CircleDollarSign, CalendarDays } from 'lucide-react';
 import BillingTable from './BillingTable';
 
 const PaymentOverview: React.FC = () => {
-
-  const [activeTab, setActiveTab] = useState<'Overview' | 'Plans' | 'Payment'>('Overview');
 
     const subscription = {
         plan: "Pro Plan - $89 / mo",

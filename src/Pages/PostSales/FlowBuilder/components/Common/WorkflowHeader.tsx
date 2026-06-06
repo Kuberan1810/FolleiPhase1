@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Zap, NetworkIcon, Activity } from 'lucide-react';
+import { Activity } from 'lucide-react';
 import { Hierarchy } from 'iconsax-react';
 
 const WorkflowHeader: React.FC = () => {

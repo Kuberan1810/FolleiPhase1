@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, ShieldCheck, ChevronDown, ChevronUp, FileDown, FileUp } from 'lucide-react';
+import { ShoppingCart, ShieldCheck, ChevronDown, FileDown, FileUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const faqData = [

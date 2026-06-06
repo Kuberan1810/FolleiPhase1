@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  User, Building, MapPin, Sparkles, Bold, Italic, 
+  User, Building, MapPin, Bold, Italic, 
   List, Link, Image as LucideImage, Plus, ChevronRight,
   ArrowLeft, CheckCircle2
 } from 'lucide-react';
@@ -22,7 +22,7 @@ interface Step2Props {
 }
 
 const Step2 = ({
-  subject, setSubject,
+  subject,
   emailBody, setEmailBody,
   attachments, setAttachments,
   ctaEnabled, setCtaEnabled,

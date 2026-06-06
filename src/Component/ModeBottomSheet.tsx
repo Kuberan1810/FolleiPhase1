@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRightLeft, Radio, Send } from 'lucide-react';
+import { X, Radio, Send } from 'lucide-react';
 
 interface ModeBottomSheetProps {
     isOpen: boolean;

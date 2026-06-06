@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Sparkles } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import AIContent from '../../../../../assets/icons/ai.svg';
 import emailBanner from '../../../../../assets/img/email.jpg';
 import mailProduct1 from '../../../../../assets/img/mail.jpg';

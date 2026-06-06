@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Moon, Sun, ChevronDown } from 'lucide-react';
 
+interface PreferenceData {
+    theme: string;
+    timezone: string;
+    notifications: boolean;
+}
+
 interface PreferencesProps {
-    preferences: {
-        theme: string;
-        timezone: string;
-        notifications: boolean;
-    };
-    setPreferences: React.Dispatch<React.SetStateAction<any>>;
+    preferences: PreferenceData;
+    setPreferences: React.Dispatch<React.SetStateAction<PreferenceData>>;
 }
 
 const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }) => {
@@ -33,13 +35,13 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     </div>
                     <div className="flex items-center p-1 bg-[#F3F4F5] rounded-[8px]">
                         <button
-                            onClick={() => setPreferences(prev => ({ ...prev, theme: 'light' }))}
+                            onClick={() => setPreferences((prev: PreferenceData) => ({ ...prev, theme: 'light' }))}
                             className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'light' ? 'bg-white text-[#0058BC]' : 'text-[#414755] hover:bg-white/50'}`}
                         >
                             <Sun size={16} />
                         </button>
                         <button
-                            onClick={() => setPreferences(prev => ({ ...prev, theme: 'dark' }))}
+                            onClick={() => setPreferences((prev: PreferenceData) => ({ ...prev, theme: 'dark' }))}
                             className={`p-1.5 rounded-md transition-all cursor-pointer ${preferences.theme === 'dark' ? 'bg-white text-[#0058BC]' : 'text-[#414755] hover:bg-white/50'}`}
                         >
                             <Moon size={16} />
@@ -70,7 +72,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                                             <div
                                                 key={tz}
                                                 onClick={() => {
-                                                    setPreferences(prev => ({ ...prev, timezone: tz }));
+                                                    setPreferences((prev: PreferenceData) => ({ ...prev, timezone: tz }));
                                                     setIsOpen(false);
                                                 }}
                                                 className="px-5 py-3 hover:bg-gray-50 flex items-center justify-between cursor-pointer text-sm text-[#414755] transition-colors"
@@ -96,9 +98,9 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input
                             type="checkbox"
-                            className="sr-only peer"
+                            className="sr-only peer"    
                             checked={preferences.notifications}
-                            onChange={() => setPreferences(prev => ({ ...prev, notifications: !prev.notifications }))}
+                            onChange={() => setPreferences((prev: PreferenceData) => ({ ...prev, notifications: !prev.notifications }))}
                         />
                         <div className="w-[36px] h-[20px] bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[16px] 
                         peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 

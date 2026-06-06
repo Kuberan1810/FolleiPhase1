@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Mail, MessageSquare, Smartphone, Check, ChevronRight, Camera, Users, Flame, Thermometer, Snowflake, X } from 'lucide-react';
 
 interface Step1Props {
@@ -27,8 +27,7 @@ const Step1 = ({
   setDescription,
   logo,
   setLogo,
-  onNext,
-  onCancel
+  onNext
 }: Step1Props) => {
   const logoInputRef = useRef<HTMLInputElement>(null);
 

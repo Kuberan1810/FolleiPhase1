@@ -6,11 +6,9 @@ import { Element4, Profile2User, Stickynote,HierarchySquare, Setting, DocumentUp
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
-import ModeBottomSheet from './ModeBottomSheet';
-import { Radio, Send, Layers, FileDown } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BtnCom from './BtnCom';
-import { Sparkles } from 'lucide-react';
 
 
 import { useSalesContext } from '../Context/SalesContext';
@@ -21,7 +19,6 @@ const Sidebar: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [showModeSheet, setShowModeSheet] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -44,24 +41,6 @@ const Sidebar: React.FC = () => {
         document.addEventListener('scroll', handleScroll, { capture: true, passive: true });
         return () => document.removeEventListener('scroll', handleScroll, { capture: true });
     }, [lastScrollY]);
-
-    // Detect current type from URL
-    const segments = location.pathname.split('/').filter(Boolean);
-    const currentPage = segments[1] ?? 'dashboard';
-
-    const handleModeToggle = (mode: 'presales' | 'postsales') => {
-        let targetPage = currentPage;
-
-        if (mode === 'presales') {
-            const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
-            if (forbiddenInbound.includes(targetPage.toLowerCase())) {
-                targetPage = 'dashboard';
-            }
-            navigate(`/presales/${targetPage}`);
-        } else {
-            navigate(`/postsales/${targetPage}`);
-        }
-    };
 
     const prefix = `/${salesMode}`;
 
@@ -165,7 +144,7 @@ const Sidebar: React.FC = () => {
                             ${isActive ? active : inactive}`
                                 }
                             >
-                                {({ isActive }: { isActive: boolean }) => (
+                                {() => (
                                     <>
                                         <item.icon strokeWidth={1.5} color='currentColor' size={22} />
                                         <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>

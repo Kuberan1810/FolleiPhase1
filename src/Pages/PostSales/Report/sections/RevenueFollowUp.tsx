@@ -1,4 +1,3 @@
-import React from 'react';
 import { TrendingUp } from 'lucide-react';
 
 const MetricBox = ({ label, value }: { label: string; value: string | number }) => (

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Download, FileUp, Import, LayoutGrid } from 'lucide-react';
+import { Download, LayoutGrid } from 'lucide-react';
 import { ImportCurve } from 'iconsax-react';
-import { Icon } from "@iconify/react";
 
 const rows = [
     { source: 'Customer_Name', target: 'Full Name', preview: 'Ravi Sharma' },

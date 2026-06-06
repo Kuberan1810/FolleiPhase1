@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bug, Lightbulb, Smile, Star, Send, MessageSquare, Users, ChevronRight, User } from 'lucide-react';
+import { Bug, Lightbulb, Smile, Star, MessageSquare, Users, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Feedback: React.FC = () => {

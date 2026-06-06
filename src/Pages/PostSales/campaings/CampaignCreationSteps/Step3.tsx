@@ -113,7 +113,7 @@ const Step3 = ({
               <CalendarDays size={16} className="text-[#64748B]" />
               <DatePicker
                 selected={launchDate}
-                onChange={(date) => date && setLaunchDate(date)}
+                onChange={(date: Date | null) => date && setLaunchDate(date)}
                 dateFormat="MMM d, yyyy"
                 className="bg-transparent border-none outline-none w-full cursor-pointer font-manrope text-[14px] text-[#191C1E]"
                 calendarClassName="follei-datepicker"
@@ -126,7 +126,7 @@ const Step3 = ({
               <Clock size={16} className="text-[#64748B]" />
               <DatePicker
                 selected={launchTime}
-                onChange={(date) => date && setLaunchTime(date)}
+                onChange={(date: Date | null) => date && setLaunchTime(date)}
                 showTimeSelect
                 showTimeSelectOnly
                 timeIntervals={15}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Bell, Calendar, CheckCircle, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
+import { X, CheckCircle2, MessageSquare, Mail, Phone, MessageCircle, BellRing } from 'lucide-react';
 import SchIcon from '../../../../../../assets/icons/schedule.svg';
 
 const ScheduleIcon = (props: any) => {

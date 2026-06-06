@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Check, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -7,15 +6,6 @@ import BtnCom from '../../Component/BtnCom';
 
 const OnboardingSuccess = () => {
   const navigate = useNavigate();
-  const [dots, setDots] = useState('');
-
-  // Animated ellipsis for the status text
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots(prev => (prev.length >= 3 ? '' : prev + '.'));
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter'] px-5 pt-5 overflow-hidden relative">

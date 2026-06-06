@@ -1,12 +1,11 @@
 
 import { useState } from 'react';
-import { Mail, Shield, PhoneIncoming } from 'lucide-react';
+import { Mail, PhoneIncoming } from 'lucide-react';
 import { Whatsapp, SmsNotification, ShieldSecurity } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
 import OnboardingProgress from './OnboardingProgress';
 import BtnCom from '../../Component/BtnCom';
-import { ArrowRight } from 'lucide-react';
 
 const OnBoarding = () => {
   const [selectedMethods, setSelectedMethods] = useState<string[]>([]);

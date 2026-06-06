@@ -1,5 +1,4 @@
-import React from 'react';
-import { TrendingUp, Heart, Timer, Users, AlertCircle } from 'lucide-react';
+import { TrendingUp, Heart, Timer, Users } from 'lucide-react';
 
 const AnalyticsCard = ({ icon: Icon, title, value, trend, status, iconBg, iconColor }: any) => {
   return (

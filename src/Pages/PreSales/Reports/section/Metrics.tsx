@@ -1,13 +1,10 @@
-import React from 'react';
 import {
   Calendar,
   ChevronDown,
   TrendingUp,
   CheckCircle2,
-  Building2,
   UsersRound,
   Handshake,
-  Hourglass,
   Minus,
   TrendingDown
 } from 'lucide-react';
@@ -45,7 +42,7 @@ const Metrics = () => {
       bgIcon: Timer,
     },
   ];
-  const getColor = (type) => {
+  const getColor = (type: string) => {
     if (type === 'up') return 'text-green-600';
     if (type === 'down') return 'text-red-500';
     if (type === 'neutral') return 'text-[#006A6A]';

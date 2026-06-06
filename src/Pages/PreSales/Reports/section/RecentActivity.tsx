@@ -1,5 +1,4 @@
-import React from 'react';
-import { Filter, Download, Upload,ChevronDown } from 'lucide-react';
+import { Filter, Upload, ChevronDown } from 'lucide-react';
 
 const RecentActivity = () => {
   const tableData = Array(7).fill({

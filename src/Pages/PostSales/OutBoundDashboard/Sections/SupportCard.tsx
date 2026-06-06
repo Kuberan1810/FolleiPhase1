@@ -1,5 +1,4 @@
 
-import React from 'react';
 
 const SupportCard = () => {
   const supportMetrics = [

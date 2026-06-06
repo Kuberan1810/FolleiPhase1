@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Pencil, History, MessageSquare, Mail, Phone, MessageCircle, Clock, Sparkles } from 'lucide-react';
 import { ChartSquare } from 'iconsax-react';
 

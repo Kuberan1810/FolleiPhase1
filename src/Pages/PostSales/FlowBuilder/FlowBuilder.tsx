@@ -15,10 +15,6 @@ import { ArrowDownIcon, PentagonIcon } from 'lucide-react';
 const FlowBuilder: React.FC = () => {
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
 
-  const [delayValue, setDelayValue] = useState(15);
-  const [delayUnit, setDelayUnit] = useState('Minutes');
-  const [isBusinessHoursOnly, setIsBusinessHoursOnly] = useState(true);
-
   const workflows = [
     {
       trigger: {

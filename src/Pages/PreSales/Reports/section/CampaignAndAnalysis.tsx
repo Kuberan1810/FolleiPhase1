@@ -1,8 +1,5 @@
 
 
-
-import React from 'react';
-
 const CampaignAndAnalysis = () => {
   // Dynamic Data
   const campaignsRaw = [

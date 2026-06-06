@@ -1,5 +1,5 @@
 import React from 'react';
-import { History, FileText, Plus, Pencil, CreditCard } from 'lucide-react';
+import { History, FileText, Plus, Pencil } from 'lucide-react';
 
 const PaymentMethod: React.FC = () => {
   return (

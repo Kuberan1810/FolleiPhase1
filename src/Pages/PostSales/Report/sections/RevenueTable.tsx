@@ -1,4 +1,3 @@
-import React from 'react';
 import { RefreshCcw, TrendingUp, ChevronRight } from 'lucide-react';
 
 const RevenueTable = () => {
