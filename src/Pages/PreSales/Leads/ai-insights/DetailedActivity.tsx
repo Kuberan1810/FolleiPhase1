@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Phone, 
-  Mail, 
-  Calendar, 
-  FileText, 
-  MessageSquare, 
-  Globe, 
+import {
+  Phone,
+  Mail,
+  Calendar,
+  FileText,
+  MessageSquare,
+  Globe,
   MousePointerClick
 } from 'lucide-react';
 import type { LogItem } from './types';
@@ -51,7 +51,7 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
             <div key={log.id} className="relative pl-14 pb-8 last:pb-0">
               {/* Timeline Connection Stick */}
               {index !== filteredLogs.length - 1 && (
-                <div 
+                <div
                   style={{
                     position: 'absolute',
                     left: '19px',
@@ -64,7 +64,7 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
               )}
 
               {/* Circle Icon */}
-              <div 
+              <div
                 style={{
                   width: '40px',
                   height: '40px',
@@ -81,14 +81,14 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
               >
                 {getIconForLog(log.type, log.title)}
               </div>
-              
+
               {/* Log Details Container */}
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center flex-wrap gap-2.5">
                     <span className="font-bold text-[16px] text-slate-800 font-inter">{log.title}</span>
                     {log.badge && (
-                      <span 
+                      <span
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -101,7 +101,7 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                         }}
                       >
                         <MousePointerClick style={{ width: '12px', height: '12px', color: '#004370' }} />
-                        <span 
+                        <span
                           style={{
                             fontFamily: 'Manrope, sans-serif',
                             fontWeight: 700,
@@ -119,9 +119,9 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                   </div>
                   <span className="text-xs text-slate-400 font-manrope">{log.time}</span>
                 </div>
-                
+
                 {log.duration && (
-                  <p 
+                  <p
                     style={{
                       fontFamily: 'Manrope, sans-serif',
                       fontWeight: 400,
@@ -134,9 +134,9 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                     Duration : {log.duration}
                   </p>
                 )}
-                
+
                 {log.details && (
-                  <p 
+                  <p
                     style={{
                       fontFamily: 'Manrope, sans-serif',
                       fontWeight: 400,
@@ -149,9 +149,9 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                     {log.details}
                   </p>
                 )}
-                
+
                 {log.attachedFile && (
-                  <p 
+                  <p
                     style={{
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: 400,
@@ -162,8 +162,8 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                     }}
                   >
                     Attached:{' '}
-                    <a 
-                      href="#" 
+                    <a
+                      href="#"
                       style={{
                         fontFamily: 'Manrope, sans-serif',
                         fontWeight: 500,

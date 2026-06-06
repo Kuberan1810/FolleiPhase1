@@ -1,8 +1,8 @@
 import React from 'react';
-import { 
-  Eye, 
-  Clock, 
-  MousePointerClick, 
+import {
+  Eye,
+  Clock,
+  MousePointerClick,
   TrendingUp
 } from 'lucide-react';
 
@@ -15,7 +15,7 @@ const InteractionAnalytics: React.FC = () => {
         {/* EMAIL OPENS */}
         <div className="bg-[#F8FAFC] rounded-[12px] p-5 border border-slate-100/50 flex flex-col justify-between min-h-[128px]">
           <div>
-            <div 
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -33,7 +33,7 @@ const InteractionAnalytics: React.FC = () => {
             </div>
             <div className="text-[28px] font-bold text-slate-800 font-inter mt-3 leading-none">12</div>
           </div>
-          <div 
+          <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -54,7 +54,7 @@ const InteractionAnalytics: React.FC = () => {
         {/* AVG DURATION */}
         <div className="bg-[#F8FAFC] rounded-[12px] p-5 border border-slate-100/50 flex flex-col justify-between min-h-[128px]">
           <div>
-            <div 
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -72,7 +72,7 @@ const InteractionAnalytics: React.FC = () => {
             </div>
             <div className="text-[28px] font-bold text-slate-800 font-inter mt-3 leading-none">8m 22s</div>
           </div>
-          <div 
+          <div
             style={{
               fontFamily: 'Manrope, sans-serif',
               fontWeight: 400,
@@ -89,7 +89,7 @@ const InteractionAnalytics: React.FC = () => {
         {/* RESPONSE TIME */}
         <div className="bg-[#F8FAFC] rounded-[12px] p-5 border border-slate-100/50 flex flex-col justify-between min-h-[128px]">
           <div>
-            <div 
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -107,7 +107,7 @@ const InteractionAnalytics: React.FC = () => {
             </div>
             <div className="text-[28px] font-bold text-slate-800 font-inter mt-3 leading-none">45m</div>
           </div>
-          <div 
+          <div
             style={{
               fontFamily: 'Manrope, sans-serif',
               fontWeight: 400,
@@ -124,7 +124,7 @@ const InteractionAnalytics: React.FC = () => {
         {/* LINK CLICKS */}
         <div className="bg-[#F8FAFC] rounded-[12px] p-5 border border-slate-100/50 flex flex-col justify-between min-h-[128px]">
           <div>
-            <div 
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -142,7 +142,7 @@ const InteractionAnalytics: React.FC = () => {
             </div>
             <div className="text-[28px] font-bold text-slate-800 font-inter mt-3 leading-none">5</div>
           </div>
-          <div 
+          <div
             style={{
               fontFamily: 'Manrope, sans-serif',
               fontWeight: 400,

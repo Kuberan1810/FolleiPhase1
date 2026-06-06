@@ -19,6 +19,8 @@ import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreat
 
 import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
 
+import ActivityLogsView from '../Pages/PreSales/Leads/ai-insights/ActivityLogsView';
+
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesOutboundReports from "../Pages/PostSales/Report/OutboundReports";
@@ -48,8 +50,9 @@ import WorkDescription from "../Pages/OnBoarding/WorkDescription";
 import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
 import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
-
-
+import GeneralInformation from "../Pages/OnBoarding/GeneralInformation";
+import ProductInformation from "../Pages/OnBoarding/ProductInformation";
+import UploadCompanyData from "../Pages/OnBoarding/uploadData";
 
 
 // Payment Sub-components (Nested Routes)
@@ -87,6 +90,9 @@ export default function AppRoutes() {
       <Route path="/onboarding/work-description" element={<WorkDescription />} />
       <Route path="/onboarding/review" element={<ReviewConfirmation />} />
       <Route path="/onboarding/success" element={<OnboardingSuccess />} />
+      <Route path="/onboarding/general-info" element={<GeneralInformation />} />
+      <Route path="/onboarding/product-info" element={<ProductInformation />} />
+      <Route path="/onboarding/upload-data" element={<UploadCompanyData />} />
 
 
       {/* ==========================================
@@ -108,6 +114,8 @@ export default function AppRoutes() {
         <Route path="reports" element={<Reports />} />
         <Route path="data-import" element={<Orchestrator />} />
         <Route path="company-details" element={<CompanyDetails />} />
+
+        <Route path="leads/logs" element={<ActivityLogsView />} />
       </Route>
 
       {/* ==========================================

@@ -1,12 +1,14 @@
 import React from 'react';
-import { Mail, Phone, Calendar, Flame, Sun, Snowflake, Globe, Megaphone, Handshake, Import } from 'lucide-react';
+import { Mail, Phone, Calendar, Flame, Sun, Snowflake, Globe, Megaphone, Handshake, Import, AlertCircle } from 'lucide-react';
 import type { Lead } from '../Leads';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileDetailsCardProps {
   lead: Lead;
 }
 
 const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
+  const navigate = useNavigate();
   // Helpers for source icons
   const getSourceIcon = (source: string) => {
     switch (source) {
@@ -60,22 +62,61 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
       {/* Column 2: Lead Info details & Action buttons */}
       <div className="flex-1 flex flex-col justify-between h-full min-w-0">
         {/* Row 1: Name and score */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
           <h2 className="text-xl font-extrabold text-[#0B1C30] truncate pr-2" style={{ lineHeight: '28px' }}>
             {lead.name}
           </h2>
-          <span
-            className="px-2 py-0.5 bg-[#E2EFFF] rounded-[4px] tracking-wide shrink-0"
-            style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontWeight: 500,
-              fontSize: '12px',
-              lineHeight: '16px',
-              color: '#004370'
-            }}
-          >
-            SCORE: {lead.score}%
-          </span>
+          <div className="relative group">
+            <span
+              className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#E2EFFF] rounded-[4px] tracking-wide shrink-0 cursor-help text-[#004370]"
+              style={{
+                fontFamily: 'Manrope, sans-serif',
+                fontWeight: 600,
+                fontSize: '12px',
+                lineHeight: '16px'
+              }}
+            >
+              <AlertCircle className="w-3.5 h-3.5 text-[#004370]" />
+              <span>SCORE: {lead.score}%</span>
+            </span>
+
+            {/* Hover card */}
+            <div className="absolute right-0 top-full mt-2 z-50 w-[280px] sm:w-[300px] bg-white rounded-[16px] border border-slate-200/80 p-5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0 pointer-events-none">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                <span className="font-semibold text-[12px] text-[#191C1D] font-inter sm:text-[16px]">
+                  Lead Score: {lead.score}%
+                </span>
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider whitespace-nowrap ${lead.score >= 90 ? 'text-[#006C49]' :
+                  lead.score >= 75 ? 'text-teal-700' :
+                    lead.score >= 50 ? ' text-amber-700' :
+                      'text-slate-600'
+                  }`}>
+                  {lead.score >= 90 ? 'EXCEPTIONAL FIT' :
+                    lead.score >= 75 ? 'STRONG MATCH' :
+                      lead.score >= 50 ? 'GOOD POTENTIAL' :
+                        'LOW ENGAGEMENT'}
+                </span>
+              </div>
+
+              {/* Rows */}
+              <div className="flex flex-col gap-2">
+                {[
+                  { label: 'Emotional Sentiment', val: "22" },
+                  { label: 'Response rate', val: "21" },
+                  { label: 'Engagement Activity', val: "23" },
+                  { label: 'Meeting interest', val: "22" }
+                ].map((row, idx) => (
+                  <div key={idx} className="flex items-center justify-between bg-[#FAFAFA] rounded-[10px] py-[10px] px-[15px] border-[1px] border-[#191C1D]/5">
+                    <span className="text-[12px] sm:text-[16px] font-normal text-[#464555] font-inter">{row.label}</span>
+                    <span className="px-2.5 py-0.5 bg-[#16F629]/10 text-[#191C1D] rounded-[27px] text-[12px] font-normal font-inter">
+                      {row.val}/25
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Row 2: Budget and Source Grid */}
@@ -139,28 +180,42 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
         </div>
 
         {/* Row 3: Action Buttons */}
-        <div className="flex gap-3">
-          <button
-            className="flex items-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
-            style={{ height: '32px', boxSizing: 'border-box' }}
-          >
-            <Mail className="w-4 h-4" />
-            <span>Email</span>
-          </button>
-          <button
-            className="flex items-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
-            style={{ height: '32px', boxSizing: 'border-box' }}
-          >
-            <Phone className="w-4 h-4" />
-            <span>Call</span>
-          </button>
-          <button
-            className="flex items-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
-            style={{ height: '32px', boxSizing: 'border-box' }}
-          >
-            <Calendar className="w-4 h-4" />
-            <span>Schedule</span>
-          </button>
+        <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 w-full shrink-0">
+          {/* Line 1: Email and Call */}
+          <div className="flex gap-2 flex-1 lg:flex-none">
+            <button
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              style={{ height: '32px', boxSizing: 'border-box' }}
+            >
+              <Mail className="w-4 h-4" />
+              <span>Email</span>
+            </button>
+            <button
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              style={{ height: '32px', boxSizing: 'border-box' }}
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call</span>
+            </button>
+          </div>
+
+          {/* Line 2: Schedule and View Logs */}
+          <div className="flex gap-2 flex-1 lg:flex-none">
+            <button
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              style={{ height: '32px', boxSizing: 'border-box' }}
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Schedule</span>
+            </button>
+            <button
+              onClick={() => navigate("/presales/leads/logs")}
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-white hover:bg-[#EFF6FF] hover:text-[#1E40AF] hover:border-[#BFDBFE] transition-all font-bold cursor-pointer border-[1px] border-[#004370]/25 rounded-[8px] py-1 px-3 text-[#0B1C30] whitespace-nowrap"
+              style={{ height: '32px', boxSizing: 'border-box' }}
+            >
+              <span>View Logs</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

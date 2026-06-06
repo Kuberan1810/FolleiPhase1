@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { Mail, MessageSquare, Smartphone, Check, ChevronRight, Camera, Users, Flame, Thermometer, Snowflake, X } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Mail, MessageSquare, Smartphone, Check, ChevronRight, Camera, Users, Flame, Snowflake, X, Phone, Sun } from 'lucide-react';
+import { PiUsersThreeBold } from "react-icons/pi";
 
 interface Step1Props {
   selectedChannels: string[];
@@ -28,7 +29,6 @@ const Step1 = ({
   logo,
   setLogo,
   onNext,
-  onCancel
 }: Step1Props) => {
   const logoInputRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +45,8 @@ const Step1 = ({
     { id: 'email', name: 'Email', sub: 'High-volume transactional', icon: <Mail className="text-blue-600" size={24} /> },
     { id: 'whatsapp', name: 'WhatsApp', sub: 'Direct personal engagement', icon: <MessageSquare className="text-emerald-600" size={24} /> },
     { id: 'sms', name: 'SMS', sub: 'Short-form urgent updates', icon: <Smartphone className="text-purple-600" size={24} /> },
+    { id: 'call', name: 'Call', sub: 'Speak with the Lead Directly', icon: <Phone className="text-purple-600" size={24} /> },
+
   ];
 
   const audiences = [
@@ -75,7 +77,7 @@ const Step1 = ({
       count: '45,109',
       badge: 'STEADY',
       badgeColor: 'bg-[#89F5E7] text-[#0D7A6E]',
-      icon: <Thermometer className="text-[#00796B]" size={16} />,
+      icon: <Sun className="text-[#C2410C]" size={16} />,
       iconBg: 'bg-[#E0F2F1]'
     },
     {
@@ -87,6 +89,16 @@ const Step1 = ({
       badgeColor: 'bg-slate-100 text-slate-700',
       icon: <Snowflake className="text-[#1565C0]" size={16} />,
       iconBg: 'bg-[#D5E3FF]'
+    },
+    {
+      id: 'new-leads',
+      name: 'New Leads',
+      sub: 'Newly generated leads requiring follow-up and assessment.',
+      count: '45,109',
+      badge: 'New',
+      badgeColor: 'bg-[#01600F]/20 text-[#01600F]',
+      icon: <PiUsersThreeBold className="text-[#01600F]" size={16} />,
+      iconBg: 'bg-[#CCDFCF]'
     },
   ];
 
@@ -101,14 +113,14 @@ const Step1 = ({
       {/* Campaign Details */}
       <section>
         <h3 className="text-[16px] font-semibold text-[#001E40] uppercase tracking-[0.55px] leading-[16.5px] mb-4">Campaign Logo / Brand Image</h3>
-        <input 
+        <input
           type="file"
           ref={logoInputRef}
           onChange={handleLogoChange}
           accept="image/*"
           className="hidden"
         />
-        <div 
+        <div
           onClick={() => logoInputRef.current?.click()}
           className="w-full h-[180px] bg-[#F2F4F6] border-2 border-dashed border-[#E2E8F0] rounded-[20px] flex flex-col items-center justify-center cursor-pointer transition-colors group relative"
         >
@@ -255,11 +267,10 @@ const Step1 = ({
         <button
           onClick={onNext}
           disabled={!isStepValid}
-          className={`flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] rounded-[4px] font-bold text-[14px] transition-all group ${
-            isStepValid 
-              ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer' 
-              : 'bg-[#E5ECF1] text-[#004370] cursor-not-allowed'
-          }`}
+          className={`flex items-center justify-center gap-[8px] w-full sm:w-[189px] h-[48px] sm:h-[32px] rounded-[4px] font-bold text-[14px] transition-all group ${isStepValid
+            ? 'bg-[#004370] text-white hover:bg-[#003152] cursor-pointer'
+            : 'bg-[#E5ECF1] text-[#004370] cursor-not-allowed'
+            }`}
         >
           Continue <ChevronRight size={18} className={isStepValid ? "group-hover:translate-x-1 transition-transform" : ""} />
         </button>

@@ -159,7 +159,7 @@ const ReviewConfirmation = () => {
           </div>
         </div>
 
-        <OnboardingProgress currentStep={6} />
+        <OnboardingProgress currentStep={9} />
       </main>
     </div>
   );
