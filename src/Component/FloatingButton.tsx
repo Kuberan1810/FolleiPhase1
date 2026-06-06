@@ -72,7 +72,7 @@ const FloatingButton = () => {
                         className="flex items-center gap-3"
                     >
                         {/* Create Button */}
-                        <Link
+                        {/* <Link
                             to={targetPath}
                             className="w-[58px] h-[58px] bg-[#004370] text-white rounded-2xl flex items-center justify-center hover:bg-[#003152] shadow-[0_10px_25px_rgba(0,67,112,0.3)] transition-all transform active:scale-95 cursor-pointer"
                         >
@@ -81,7 +81,7 @@ const FloatingButton = () => {
                             ) : (
                                 <Pencil size={24} strokeWidth={2.5} />
                             )}
-                        </Link>
+                        </Link> */}
 
                         {/* AI Button — Premium Glow */}
                         <div

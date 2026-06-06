@@ -115,7 +115,7 @@ export default function AppRoutes() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="reports" element={<Reports />} />
         <Route path="data-import" element={<Orchestrator />} />
-        <Route path="company-details" element={<CompanyDetails />} />
+        <Route path="organization-setup" element={<CompanyDetails />} />
       </Route>
 
       {/* ==========================================

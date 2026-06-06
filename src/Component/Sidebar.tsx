@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 
-import { Element4, Profile2User, DocumentText1,HierarchySquare, Setting, DocumentUpload, DirectInbox, Diagram } from "iconsax-react"
+import { Element4, Profile2User, Stickynote,HierarchySquare, Setting, DocumentUpload, DirectInbox, Diagram } from "iconsax-react"
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
@@ -81,6 +81,9 @@ const Sidebar: React.FC = () => {
             { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
             { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
+            { icon: Stickynote, label: 'Organization Setup', path: `${prefix}/organization-setup` },
+
+
         ];
     } else {
         navItems = [
@@ -91,6 +94,8 @@ const Sidebar: React.FC = () => {
             { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
             // { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
             { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
+            { icon: Stickynote, label: 'Organization Setup', path: `${prefix}/organization-setup` },
+
         ];
     }
 
@@ -137,46 +142,9 @@ const Sidebar: React.FC = () => {
                 )}
             </AnimatePresence>
 
-            {/* Mobile Center Mode Orb - Draggable & Always Visible Design */}
-            <AnimatePresence>
-                {!showModeSheet && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                        drag
-                        dragElastic={0.15}
-                        dragMomentum={false}
-                        whileDrag={{ scale: 1.1, zIndex: 120 }}
-                        className="lg:hidden fixed bottom-15 left-1/2 -translate-x-1/2 z-[110]"
-                    >
-                        <button
-                            onClick={() => setShowModeSheet(true)}
-                            className="relative w-14 h-14 rounded-full flex items-center justify-center cursor-pointer active:scale-90 transition-all duration-300"
-                        >
-                            {/* Background with Clean Gradient & Crisp Border */}
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#014370] to-[#002D4C] border-[2.5px] border-white shadow-xl" />
+       
 
-                            {/* Inner Gloss */}
-                            <div className="absolute inset-[2.5px] rounded-full bg-gradient-to-t from-transparent via-white/5 to-white/10" />
-
-                            {/* Icon */}
-                            <div className="relative z-10 text-white">
-                                {salesMode === 'postsales' ? <Send size={24} strokeWidth={2.5} /> : <Radio size={24} strokeWidth={2.5} />}
-                            </div>
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            <ModeBottomSheet
-                isOpen={showModeSheet}
-                onClose={() => setShowModeSheet(false)}
-                currentMode={salesMode}
-                onSelect={handleModeToggle}
-            />
-
+            
             {/* Desktop Sidebar */}
             <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">
                 <div className="flex flex-col items-start justify-center gap-3 px-6 py-8">
