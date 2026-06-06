@@ -1,6 +1,6 @@
 import { Layers, MessageSquare} from 'lucide-react';
 import chart from '../../../../assets/icons/chart.svg';
-import rate from '../../../../assets/icons/icon.svg';
+import rate from '../../../../assets/icons/Icon.svg';
 
 
 const OutboundMetrics = () => {
