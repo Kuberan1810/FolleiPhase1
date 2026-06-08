@@ -153,7 +153,7 @@ const UploadCompanyData = () => {
                     </div>
                 </div>
 
-                <OnboardingProgress currentStep={8} />
+                <OnboardingProgress currentStep={6} />
             </main>
         </div>
     );

@@ -238,7 +238,7 @@ const GeneralInformation = () => {
                     </div>
                 </div>
 
-                <OnboardingProgress currentStep={6} />
+                <OnboardingProgress currentStep={4} />
             </main>
         </div>
     );

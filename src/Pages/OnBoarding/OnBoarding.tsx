@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
 import OnboardingProgress from './OnboardingProgress';
 import BtnCom from '../../Component/BtnCom';
-import { ArrowRight } from 'lucide-react';
 
 const OnBoarding = () => {
   const [selectedMethods, setSelectedMethods] = useState<string[]>([]);

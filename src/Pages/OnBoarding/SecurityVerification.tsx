@@ -75,14 +75,14 @@ const SecurityVerification = () => {
             <BtnCom
               title="Verify"
               variant="primary"
-              onClick={() => navigate('/onboarding/additional-details')}
+              onClick={() => navigate('/onboarding/work-description')}
               disabled={!isOtpComplete}
               className="px-10!"
             />
           </div>
         </div>
 
-        <OnboardingProgress currentStep={3} />
+        <OnboardingProgress currentStep={2} />
       </main>
     </div>
   );

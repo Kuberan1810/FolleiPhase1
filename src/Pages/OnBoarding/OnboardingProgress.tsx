@@ -7,7 +7,7 @@ interface OnboardingProgressProps {
 const OnboardingProgress: React.FC<OnboardingProgressProps> = ({ currentStep }) => {
   return (
     <div className="flex gap-2 mt-8 items-center justify-center">
-      {[...Array(10)].map((_, i) => {
+      {[...Array(9)].map((_, i) => {
         if (i === currentStep) {
           // Current step: pill shape
           return (
