@@ -35,7 +35,7 @@ const AITraining = () => {
                 </p>
             </div>
 
-            <div className="bg-white rounded-[12px] p-6 sm:p-8 w-full flex flex-col gap-6">
+            <div className="BoxStyle flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
                     <label className="font-inter font-normal text-[14px] text-[#424656]">
                         Preferred Language
@@ -70,7 +70,7 @@ const AITraining = () => {
                             value={formData.rules}
                             onChange={handleChange}
                             placeholder="e.g. Always mention the 10% discount for first-time buyers..."
-                            className="w-full px-4 pt-4 pb-16 bg-[#F7F9FB] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[140px]"
+                            className="w-full px-4 pt-4 pb-16 bg-[#F7F9FB] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[140px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -83,7 +83,7 @@ const AITraining = () => {
                             value={formData.avoid}
                             onChange={handleChange}
                             placeholder="e.g. Never promise delivery dates without checking inventory..."
-                            className="w-full px-4 pt-4 pb-16 bg-[#F7F9FB] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[140px]"
+                            className="w-full px-4 pt-4 pb-16 bg-[#F7F9FB] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[140px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
                 </form>

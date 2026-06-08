@@ -35,7 +35,7 @@ const BusinessInformation = () => {
                 </p>
             </div>
 
-            <div className="bg-white rounded-[12px] p-6 sm:p-8 w-full">
+            <div className="BoxStyle w-full">
                 <form className="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-5" onSubmit={(e) => e.preventDefault()}>
                     <div className="flex flex-col gap-1.5 md:col-span-6">
                         <label className="font-inter font-semibold text-[14px] text-[#424656]">
@@ -46,7 +46,7 @@ const BusinessInformation = () => {
                             value={formData.companyDescription}
                             onChange={handleChange}
                             placeholder="Provide a brief summary of your core mission..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -59,7 +59,7 @@ const BusinessInformation = () => {
                             value={formData.productsServices}
                             onChange={handleChange}
                             placeholder="List your key offerings..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -72,7 +72,7 @@ const BusinessInformation = () => {
                             value={formData.targetCustomers}
                             onChange={handleChange}
                             placeholder="Describe your ideal persona..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -85,7 +85,7 @@ const BusinessInformation = () => {
                             value={formData.salesProcess}
                             onChange={handleChange}
                             placeholder="Steps to close a deal..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -98,7 +98,7 @@ const BusinessInformation = () => {
                             value={formData.supportProcess}
                             onChange={handleChange}
                             placeholder="How you handle tickets..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
 
@@ -111,7 +111,7 @@ const BusinessInformation = () => {
                             value={formData.commonQuestions}
                             onChange={handleChange}
                             placeholder="What users ask most..."
-                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px]"
+                            className="w-full px-4 pt-4 pb-[64px] bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 resize-none min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                         />
                     </div>
                 </form>

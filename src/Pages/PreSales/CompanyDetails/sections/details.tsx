@@ -69,14 +69,14 @@ const Details = () => {
         <div className="flex flex-col gap-5 w-full">
             <div className="mb-2">
                 <h2 className="font-inter font-semibold text-[24px] text-[#0B1C30] leading-[30px] mb-2">
-                    Company Details
+                    Organization Setup
                 </h2>
                 <p className="font-inter text-[16px] text-[#424656] leading-[20px]">
                     Tell us about your organization to personalize your AI environment.
                 </p>
             </div>
 
-            <div className="bg-white rounded-[12px] p-6 sm:p-8 w-full">
+            <div className="BoxStyle w-full">
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4" onSubmit={(e) => e.preventDefault()}>
                     <div className="flex flex-col gap-1">
                         <label className="font-inter font-semibold text-[14px] text-[#424656]">
@@ -89,7 +89,7 @@ const Details = () => {
                                 value={formData.companyName}
                                 onChange={handleChange}
                                 placeholder="e.g. Acme Corp"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                             />
                         </div>
                     </div>
@@ -102,7 +102,7 @@ const Details = () => {
                             <button
                                 type="button"
                                 onClick={() => setOpenDropdown(openDropdown === "industry" ? null : "industry")}
-                                className="w-full text-left pl-4 pr-10 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#0B1C30] transition-all duration-200 cursor-pointer flex items-center justify-between"
+                                className="w-full text-left pl-4 pr-10 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#0B1C30] transition-all duration-200 cursor-pointer flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                             >
                                 <span>{formData.industryType}</span>
                             </button>
@@ -143,7 +143,7 @@ const Details = () => {
                                 value={formData.websiteUrl}
                                 onChange={handleChange}
                                 placeholder="https://www.acme.com"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                             />
                         </div>
                     </div>
@@ -156,7 +156,7 @@ const Details = () => {
                             <button
                                 type="button"
                                 onClick={() => setOpenDropdown(openDropdown === "size" ? null : "size")}
-                                className="w-full text-left px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#0B1C30] focus:outline-none focus:border-[#3525CD] focus:bg-white transition-all duration-200 cursor-pointer flex items-center justify-between"
+                                className="w-full text-left px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#0B1C30] transition-all duration-200 cursor-pointer flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white"
                             >
                                 <span>{formData.companySize}</span>
                             </button>
@@ -197,7 +197,7 @@ const Details = () => {
                                 value={formData.location}
                                 onChange={handleChange}
                                 placeholder="City, Country"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:border-[#3525CD] focus:bg-white transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white transition-all duration-200"
                             />
                         </div>
                     </div>
@@ -213,7 +213,7 @@ const Details = () => {
                                 value={formData.contactPerson}
                                 onChange={handleChange}
                                 placeholder="Full Name"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:border-[#3525CD] focus:bg-white transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white transition-all duration-200"
                             />
                         </div>
                     </div>
@@ -229,7 +229,7 @@ const Details = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="contact@acme.com"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:border-[#3525CD] focus:bg-white transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white transition-all duration-200"
                             />
                         </div>
                     </div>
@@ -245,7 +245,7 @@ const Details = () => {
                                 value={formData.phone}
                                 onChange={handleChange}
                                 placeholder="+1 (555) 000-0000"
-                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:border-[#3525CD] focus:bg-white transition-all duration-200"
+                                className="w-full px-4 py-3 bg-[#F7FAFC] rounded-[12px] font-inter text-[16px] text-[#6B7280] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#004370]/20 focus:border-[#004370] focus:bg-white transition-all duration-200"
                             />
                         </div>
                     </div>

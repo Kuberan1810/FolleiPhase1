@@ -34,8 +34,8 @@ const LeadProfile: React.FC<LeadProfileProps> = ({ lead, onBack }) => {
 
   if (showLogs) {
     return (
-      <ActivityLogsView 
-        onBack={() => setShowLogs(false)} 
+      <ActivityLogsView
+        onBack={() => setShowLogs(false)}
         leadName={lead.name}
       />
     );
@@ -70,9 +70,9 @@ const LeadProfile: React.FC<LeadProfileProps> = ({ lead, onBack }) => {
       <LeadActivities lead={lead} />
 
       {/* Sliding AI Insights Drawer */}
-      <AIInsightsDrawer 
-        isOpen={isInsightsOpen} 
-        onClose={() => setIsInsightsOpen(false)} 
+      <AIInsightsDrawer
+        isOpen={isInsightsOpen}
+        onClose={() => setIsInsightsOpen(false)}
         leadName={lead.name}
         probability={88}
         onViewLogsClick={() => {

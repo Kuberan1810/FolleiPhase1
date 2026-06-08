@@ -6,16 +6,19 @@ import {
   Calendar, 
   FileText
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { mockLogs } from './mockLogs';
 import DetailedActivity from './DetailedActivity';
 import InteractionAnalytics from './InteractionAnalytics';
 
 interface ActivityLogsViewProps {
-  onBack: () => void;
+  onBack?: () => void;
   leadName?: string;
 }
 
 const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName }) => {
+  const navigate = useNavigate();
+  const handleBack = onBack || (() => navigate(-1));
   const [activeTab, setActiveTab] = useState<'all' | 'call' | 'email' | 'meeting' | 'note'>('all');
 
   const filteredLogs = mockLogs.filter(log => {
@@ -29,7 +32,7 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
         <div className="flex items-center gap-3">
           <button
-            onClick={onBack}
+            onClick={handleBack}
             className="p-1 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center"
           >
             <ArrowLeft className="w-6 h-6 text-slate-800" />

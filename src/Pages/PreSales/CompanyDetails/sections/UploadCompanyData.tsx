@@ -39,7 +39,7 @@ const UploadCompanyData = () => {
                 </p>
             </div>
 
-            <div className="bg-white rounded-[12px] p-6 sm:p-8 w-full">
+            <div className="BoxStyle w-full">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#004370]/50 rounded-[12px] p-4 text-center cursor-pointer transition-all duration-200 bg-white hover:bg-[#F8FAFC] hover:border-[#004370] group">
                         <input
