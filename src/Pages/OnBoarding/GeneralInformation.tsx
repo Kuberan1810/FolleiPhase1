@@ -77,16 +77,16 @@ const GeneralInformation = () => {
         formData.location.trim() !== "";
 
     return (
-        <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter'] px-5 pt-5">
+        <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter'] px-4 sm:px-5 pt-5">
             <div className="flex items-center gap-3 mb-10">
                 <div className="w-28 fixed top-5">
                     <img src={FolleiWhite} alt="FolleiLogo" />
                 </div>
             </div>
 
-            <main className="flex-1 flex flex-col items-center justify-center ">
-                <div className="BoxStyle flex flex-col relative w-full max-w-[750px] shadow-xs min-h-0">
-                    <div className="mb-8 text-left">
+            <main className="flex-1 flex flex-col items-center justify-center p-3 sm:p-6 mt-12 sm:mt-0">
+                <div className="BoxStyle p-5 sm:p-8 md:p-10 flex flex-col relative w-full max-w-[750px] shadow-xs min-h-0">
+                    <div className="mb-6 sm:mb-8 text-left">
                         <span className="text-[#464555] text-[12px] font-semibold tracking-wider uppercase font-inter block mb-1">
                             ORGANIZATION
                         </span>
@@ -95,7 +95,7 @@ const GeneralInformation = () => {
                         </h2>
                     </div>
 
-                    <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-10 text-left" onSubmit={(e) => e.preventDefault()}>
+                    <form className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-6 sm:mb-8 md:mb-10 text-left" onSubmit={(e) => e.preventDefault()}>
                         <div className="flex flex-col gap-1.5">
                             <label className="font-inter font-semibold text-[12px] text-[#464555]">
                                 Company Name
@@ -226,14 +226,14 @@ const GeneralInformation = () => {
                             title="Go Back"
                             variant="outline"
                             onClick={() => navigate(-1)}
-                            className="px-8 sm:px-10!"
+                            className="px-6 sm:px-10!"
                         />
                         <BtnCom
                             title="Next"
                             variant="primary"
                             onClick={handleNext}
                             disabled={!isFormComplete}
-                            className="px-8 sm:px-10!"
+                            className="px-6 sm:px-10!"
                         />
                     </div>
                 </div>
