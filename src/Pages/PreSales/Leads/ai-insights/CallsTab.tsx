@@ -60,36 +60,36 @@ export const CallsDetailedActivity: React.FC = () => {
               </div>
             </div>
 
-              <button className="font-manrope font-semibold text-[14px] text-[#004370] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
-                <VideoCircle className="w-4 h-4 " color="#004370" />
-                Listen Recording
-              </button>
-              <button className="font-manrope font-semibold text-[14px] text-[#464554] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
-                <FileText className="w-4 h-4" />
-                View Transcript
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative pl-14">
-
-          <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[10px] top-0 text-red-800'>
-            <CircleX className="w-4 h-4 stroke-[3]" />
-          </div>
-
-          <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[12px]">
-            <div className="flex-1 flex flex-col items-start justify-between">
-              <span className="font-bold text-[16px] text-[#0B1C30] font-manrope">Missed Call</span>
-              <span className="text-[12px] text-[#464554] font-manrope">Incoming • 1 day ago</span>
-            </div>
-            <p className="font-manrope font-normal text-[16px] leading-[18px] text-[#464554] mt-[6px]">
-              Second missed attempt this week. Lead typically active in mornings between 9-11 AM.
-            </p>
+            <button className="font-manrope font-semibold text-[14px] text-[#004370] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
+              <VideoCircle className="w-4 h-4 " color="#004370" />
+              Listen Recording
+            </button>
+            <button className="font-manrope font-semibold text-[14px] text-[#464554] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
+              <FileText className="w-4 h-4" />
+              View Transcript
+            </button>
           </div>
         </div>
       </div>
-    </div >
+
+      <div className="relative pl-14">
+
+        <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[10px] top-0 text-red-800'>
+          <CircleX className="w-4 h-4 stroke-[3]" />
+        </div>
+
+        <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[12px]">
+          <div className="flex-1 flex flex-col items-start justify-between">
+            <span className="font-bold text-[16px] text-[#0B1C30] font-manrope">Missed Call</span>
+            <span className="text-[12px] text-[#464554] font-manrope">Incoming • 1 day ago</span>
+          </div>
+          <p className="font-manrope font-normal text-[16px] leading-[18px] text-[#464554] mt-[6px]">
+            Second missed attempt this week. Lead typically active in mornings between 9-11 AM.
+          </p>
+        </div>
+      </div>
+    </div>
+
   );
 };
 
