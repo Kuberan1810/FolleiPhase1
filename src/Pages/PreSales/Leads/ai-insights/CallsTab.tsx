@@ -69,8 +69,8 @@ export const CallsDetailedActivity: React.FC = () => {
                 View Transcript
               </button>
             </div>
+            </div>
           </div>
-        </div>
 
         <div className="relative pl-14">
 
@@ -89,7 +89,7 @@ export const CallsDetailedActivity: React.FC = () => {
           </div>
         </div>
       </div>
-    
+    </div>
   );
 };
 

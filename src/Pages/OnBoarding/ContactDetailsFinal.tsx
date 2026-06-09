@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { Lock1, ShieldSecurity } from 'iconsax-react';
-import { useNavigate } from 'react-router-dom';
-import OnboardingProgress from './OnboardingProgress';
-import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
-import BtnCom from '../../Component/BtnCom';
-=======
 // import { useState } from 'react';
-// import { ShieldCheck } from 'lucide-react';
 // import { Lock1, ShieldSecurity } from 'iconsax-react';
 // import { useNavigate } from 'react-router-dom';
 // import OnboardingProgress from './OnboardingProgress';
 // import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
 // import BtnCom from '../../Component/BtnCom';
->>>>>>> origin/new-follei
 
 // const ContactDetailsFinal = () => {
 //   const navigate = useNavigate();
