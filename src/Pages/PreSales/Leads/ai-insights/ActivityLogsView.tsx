@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { 
-  ArrowLeft, 
-  Phone, 
-  Mail, 
-  Calendar, 
+import {
+  ArrowLeft,
+  Phone,
+  Mail,
+  Calendar,
   FileText
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { mockLogs } from './mockLogs';
 import DetailedActivity from './DetailedActivity';
 import InteractionAnalytics from './InteractionAnalytics';
+import { CallsDetailedActivity, CallsInteractionAnalytics } from './CallsTab';
+import { EmailsDetailedActivity, EmailsInteractionAnalytics } from './EmailsTab';
+import { MeetingsDetailedActivity, MeetingsInteractionAnalytics } from './MeetingsTab';
+import { NotesTabContent } from './NotesTab';
 
 interface ActivityLogsViewProps {
   onBack?: () => void;
@@ -45,11 +49,10 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* All Logs */}
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border border-transparent ${
-              activeTab === 'all'
-                ? 'bg-[#004370] text-white'
-                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-            }`}
+            className={`px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border border-transparent ${activeTab === 'all'
+              ? 'bg-[#004370] text-white'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+              }`}
           >
             All Logs
           </button>
@@ -57,11 +60,10 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* Calls */}
           <button
             onClick={() => setActiveTab('call')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${
-              activeTab === 'call'
-                ? 'bg-[#004370] text-white border-transparent'
-                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${activeTab === 'call'
+              ? 'bg-[#004370] text-white border-transparent'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+              }`}
           >
             <Phone className="w-3.5 h-3.5" />
             Calls
@@ -70,11 +72,10 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* Emails */}
           <button
             onClick={() => setActiveTab('email')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${
-              activeTab === 'email'
-                ? 'bg-[#004370] text-white border-transparent'
-                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${activeTab === 'email'
+              ? 'bg-[#004370] text-white border-transparent'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+              }`}
           >
             <Mail className="w-3.5 h-3.5" />
             Emails
@@ -83,11 +84,10 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* Meetings */}
           <button
             onClick={() => setActiveTab('meeting')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${
-              activeTab === 'meeting'
-                ? 'bg-[#004370] text-white border-transparent'
-                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${activeTab === 'meeting'
+              ? 'bg-[#004370] text-white border-transparent'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+              }`}
           >
             <Calendar className="w-3.5 h-3.5" />
             Meetings
@@ -96,11 +96,10 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* Notes */}
           <button
             onClick={() => setActiveTab('note')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${
-              activeTab === 'note'
-                ? 'bg-[#004370] text-white border-transparent'
-                : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-            }`}
+            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full font-manrope transition-colors cursor-pointer border ${activeTab === 'note'
+              ? 'bg-[#004370] text-white border-transparent'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+              }`}
           >
             <FileText className="w-3.5 h-3.5" />
             Notes
@@ -108,14 +107,30 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
         </div>
       </div>
 
-      {/* Main Grid Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Detailed Activity */}
-        <DetailedActivity filteredLogs={filteredLogs} />
-
-        {/* Right Column: Interaction Analytics */}
-        <InteractionAnalytics />
-      </div>
+      {/* Main Grid Content depending on active tab */}
+      {activeTab === 'note' ? (
+        <NotesTabContent />
+      ) : activeTab === 'call' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <CallsDetailedActivity />
+          <CallsInteractionAnalytics />
+        </div>
+      ) : activeTab === 'email' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <EmailsDetailedActivity />
+          <EmailsInteractionAnalytics />
+        </div>
+      ) : activeTab === 'meeting' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <MeetingsDetailedActivity />
+          <MeetingsInteractionAnalytics />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <DetailedActivity filteredLogs={filteredLogs} />
+          <InteractionAnalytics />
+        </div>
+      )}
     </div>
   );
 };
