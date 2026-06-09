@@ -240,7 +240,7 @@ const ProductInformation = () => {
                     </div>
                 </div>
 
-                <OnboardingProgress currentStep={7} />
+                <OnboardingProgress currentStep={5} />
             </main>
         </div>
     );

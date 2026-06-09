@@ -47,8 +47,8 @@ import Payment from "../Pages/Settings/Payment/Payment";
 // Onboarding Pages
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
-import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
-import WhatsAppVerification from "../Pages/OnBoarding/WhatsAppVerification";
+// import ContactDetailsFinal from "../Pages/OnBoarding/ContactDetailsFinal";
+// import WhatsAppVerification from "../Pages/OnBoarding/WhatsAppVerification";
 import WorkDescription from "../Pages/OnBoarding/WorkDescription";
 import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
 import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
@@ -88,8 +88,8 @@ export default function AppRoutes() {
       <Route path="/onboarding" element={<OnBoarding />} />
       <Route path="/onboarding/details" element={<ContactDetails />} />
       <Route path="/onboarding/verify" element={<SecurityVerification />} />
-      <Route path="/onboarding/additional-details" element={<ContactDetailsFinal />} />
-      <Route path="/onboarding/whatsapp-verify" element={<WhatsAppVerification />} />
+      {/* <Route path="/onboarding/additional-details" element={<ContactDetailsFinal />} /> */}
+      {/* <Route path="/onboarding/whatsapp-verify" element={<WhatsAppVerification />} /> */}
       <Route path="/onboarding/work-description" element={<WorkDescription />} />
       <Route path="/onboarding/review" element={<ReviewConfirmation />} />
       <Route path="/onboarding/success" element={<OnboardingSuccess />} />

@@ -168,7 +168,7 @@ const WorkDescription = () => {
           </div>
         </div>
 
-        <OnboardingProgress currentStep={5} />
+        <OnboardingProgress currentStep={3} />
       </main>
     </div>
   );
