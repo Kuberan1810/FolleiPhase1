@@ -11,6 +11,10 @@ import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
+import PendingTasksPage from "../Pages/Dashboard/PendingTasksPage";
+import AIInsightsPage from "../Pages/Dashboard/AIInsightsPage";
+import InactiveLeadsPage from "../Pages/Dashboard/InactiveLeadsPage";
+import NotRepliedLeadsPage from "../Pages/Dashboard/NotRepliedLeadsPage";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
 import Reports from "../Pages/PreSales/Reports/Reports";
@@ -160,6 +164,18 @@ export default function AppRoutes() {
 
       {/* Legacy/Shortcut Redirects */}
       <Route path="/dashboard" element={<Navigate to="/presales/dashboard" replace />} />
+      <Route path="/dashboard/pending-tasks" element={<MainLayout />}>
+        <Route index element={<PendingTasksPage />} />
+      </Route>
+      <Route path="/dashboard/ai-insights" element={<MainLayout />}>
+        <Route index element={<AIInsightsPage />} />
+      </Route>
+      <Route path="/dashboard/inactive-leads" element={<MainLayout />}>
+        <Route index element={<InactiveLeadsPage />} />
+      </Route>
+      <Route path="/dashboard/not-replied-leads" element={<MainLayout />}>
+        <Route index element={<NotRepliedLeadsPage />} />
+      </Route>
 
 
       {/* Fallback */}

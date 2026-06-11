@@ -394,7 +394,7 @@ const EditActionPage = () => {
       </div>
 
       {/* Page Actions */}
-      <div className="px-4 lg:px-6 flex justify-end gap-3 mt-4">
+      <div className="px-4 lg:px-6 flex justify-end gap-3 mt-auto">
         <button className="bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#64748B] font-inter font-semibold text-[14px] px-6 h-[44px] rounded-[8px] transition-colors cursor-pointer">
           Cancel
         </button>

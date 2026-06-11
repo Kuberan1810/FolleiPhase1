@@ -115,7 +115,9 @@ const Sidebar: React.FC = () => {
                         className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:hidden font-[Manrope] rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
                     >
                         {navItems.map((item, index) => {
-                            const isActive = location.pathname === item.path;
+                            const isActive = item.label === 'Dashboard' 
+                                ? (location.pathname === item.path || location.pathname.startsWith('/dashboard'))
+                                : location.pathname === item.path;
 
                             return (
                                 <React.Fragment key={index}>
@@ -188,25 +190,28 @@ const Sidebar: React.FC = () => {
 
                 <div className='flex flex-col justify-between h-screen gap-5 scrollbar-hide overflow-scroll '>
                     <nav className="flex flex-1 flex-col gap-4 px-4">
-                        {navItems.map((item, index) => (
-                            <NavLink
-                                key={index}
-                                to={item.path}
-                                className={({ isActive }) =>
-                                    `group relative flex items-center gap-3 px-4 py-3 text-sm font-semibold transition-all duration-200 cursor-pointer rounded-lg
-                            ${isActive ? active : inactive}`
-                                }
-                            >
-                                {({ isActive }: { isActive: boolean }) => (
-                                    <>
-                                        <item.icon strokeWidth={1.5} color='currentColor' size={22} />
-                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
+                        {navItems.map((item, index) => {
+                            const isCustomActive = (isActive: boolean) => 
+                                isActive || (item.label === 'Dashboard' && location.pathname.startsWith('/dashboard'));
 
-
-                                    </>
-                                )}
-                            </NavLink>
-                        ))}
+                            return (
+                                <NavLink
+                                    key={index}
+                                    to={item.path}
+                                    className={({ isActive }) =>
+                                        `group relative flex items-center gap-3 px-4 py-3 text-sm font-semibold transition-all duration-200 cursor-pointer rounded-lg
+                                ${isCustomActive(isActive) ? active : inactive}`
+                                    }
+                                >
+                                    {({ isActive }: { isActive: boolean }) => (
+                                        <>
+                                            <item.icon strokeWidth={1.5} color='currentColor' size={22} />
+                                            <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
+                                        </>
+                                    )}
+                                </NavLink>
+                            );
+                        })}
                     </nav>
 
                     <div className="mt-auto flex flex-col gap-6 px-4 font-[inter] pb-8">
