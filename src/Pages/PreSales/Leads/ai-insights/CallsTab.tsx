@@ -89,7 +89,7 @@ export const CallsDetailedActivity: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 
