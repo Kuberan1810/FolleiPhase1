@@ -24,6 +24,7 @@ import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
 
 import ActivityLogsView from '../Pages/PreSales/Leads/ai-insights/ActivityLogsView';
 
+import AdminNeeds from "../Pages/PreSales/Inbox/Section/AdminNeeds";
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesOutboundReports from "../Pages/PostSales/Report/OutboundReports";
@@ -127,6 +128,8 @@ export default function AppRoutes() {
         {/* <Route path="company-details" element={<CompanyDetails />} /> */}
 
         <Route path="leads/logs" element={<ActivityLogsView />} />
+=
+        <Route path="inbox/admin-needs" element={<AdminNeeds />} />
 
       </Route>
 

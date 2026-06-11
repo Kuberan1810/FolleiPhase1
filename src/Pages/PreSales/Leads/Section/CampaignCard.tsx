@@ -6,7 +6,7 @@ const CampaignCard: React.FC = () => {
 
   return (
     <div className="bg-white rounded-[20px] border border-slate-100 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
-      <h3 
+      <h3
         className="font-manrope uppercase tracking-wide mb-5"
         style={{
           fontWeight: 700,
@@ -22,7 +22,7 @@ const CampaignCard: React.FC = () => {
         {/* Campaign Header Row */}
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h4 
+            <h4
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 400,
@@ -34,7 +34,7 @@ const CampaignCard: React.FC = () => {
             >
               Campaign Name
             </h4>
-            <p 
+            <p
               className="mt-1"
               style={{
                 fontFamily: 'Inter, sans-serif',
@@ -51,7 +51,7 @@ const CampaignCard: React.FC = () => {
 
           <div className="flex items-center gap-4">
             {/* Active Badge */}
-            <div 
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -71,7 +71,7 @@ const CampaignCard: React.FC = () => {
               Active
             </div>
 
-            <span 
+            <span
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 400,
@@ -83,11 +83,11 @@ const CampaignCard: React.FC = () => {
               End Date : 20/05/2026
             </span>
 
-            <button 
+            <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-1 hover:bg-slate-200 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-slate-500"
             >
-              <ChevronUp 
+              <ChevronUp
                 className="w-5 h-5 transition-transform duration-300"
                 style={{ transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)' }}
               />
@@ -96,7 +96,7 @@ const CampaignCard: React.FC = () => {
         </div>
 
         {/* Accordion Expandable Content */}
-        <div 
+        <div
           className="transition-all duration-300 overflow-hidden"
           style={{
             maxHeight: isOpen ? '1000px' : '0px',
@@ -106,7 +106,7 @@ const CampaignCard: React.FC = () => {
         >
           {/* Progress Section */}
           <div className="flex justify-between items-center mb-2">
-            <span 
+            <span
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 400,
@@ -116,7 +116,7 @@ const CampaignCard: React.FC = () => {
             >
               Step 3: Follow-up Email
             </span>
-            <span 
+            <span
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 400,
@@ -130,14 +130,14 @@ const CampaignCard: React.FC = () => {
 
           {/* Progress Bar */}
           <div className="w-full h-2 bg-slate-200/60 rounded-full mb-6 relative overflow-hidden">
-            <div 
+            <div
               className="h-full bg-[#004370] rounded-full transition-all duration-500"
               style={{ width: '60%' }}
             />
           </div>
 
           {/* Full Cadence Steps Header */}
-          <h5 
+          <h5
             className="mb-4"
             style={{
               fontFamily: 'Inter, sans-serif',
@@ -154,7 +154,7 @@ const CampaignCard: React.FC = () => {
           {/* Steps Timeline */}
           <div className="relative pl-8 space-y-6">
             {/* Vertical Connector Line */}
-            <div 
+            <div
               className="absolute left-[11px] top-4 w-[2px] bg-slate-200"
               style={{ bottom: '16px' }}
             />
@@ -162,14 +162,14 @@ const CampaignCard: React.FC = () => {
             {/* Step 1 */}
             <div className="relative flex items-start justify-between">
               {/* Circle Indicator */}
-              <div 
+              <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-[#004370] text-white"
               >
                 <Check className="w-3.5 h-3.5 stroke-[3px]" />
               </div>
-              
+
               <div>
-                <h6 
+                <h6
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
@@ -181,7 +181,7 @@ const CampaignCard: React.FC = () => {
                 >
                   Day 1: Introductory Email
                 </h6>
-                <p 
+                <p
                   className="mt-1"
                   style={{
                     fontFamily: 'Inter, sans-serif',
@@ -196,7 +196,7 @@ const CampaignCard: React.FC = () => {
                 </p>
               </div>
 
-              <span 
+              <span
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
@@ -211,14 +211,14 @@ const CampaignCard: React.FC = () => {
             {/* Step 2 */}
             <div className="relative flex items-start justify-between">
               {/* Circle Indicator */}
-              <div 
+              <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-[#004370] text-white"
               >
                 <Check className="w-3.5 h-3.5 stroke-[3px]" />
               </div>
-              
+
               <div>
-                <h6 
+                <h6
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
@@ -230,7 +230,7 @@ const CampaignCard: React.FC = () => {
                 >
                   Day 3: LinkedIn Connect
                 </h6>
-                <p 
+                <p
                   className="mt-1"
                   style={{
                     fontFamily: 'Inter, sans-serif',
@@ -245,7 +245,7 @@ const CampaignCard: React.FC = () => {
                 </p>
               </div>
 
-              <span 
+              <span
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
@@ -260,14 +260,14 @@ const CampaignCard: React.FC = () => {
             {/* Step 3 */}
             <div className="relative flex items-start justify-between">
               {/* Circle Indicator */}
-              <div 
+              <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-white border-2 border-[#004370]"
               >
                 <div className="w-2.5 h-2.5 rounded-full bg-[#004370]" />
               </div>
-              
+
               <div>
-                <h6 
+                <h6
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 600,
@@ -279,7 +279,7 @@ const CampaignCard: React.FC = () => {
                 >
                   Day 7: Value Proposition Email
                 </h6>
-                <p 
+                <p
                   className="mt-2"
                   style={{
                     fontFamily: 'Inter, sans-serif',
@@ -294,7 +294,7 @@ const CampaignCard: React.FC = () => {
                 </p>
               </div>
 
-              <span 
+              <span
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
@@ -309,12 +309,12 @@ const CampaignCard: React.FC = () => {
             {/* Step 4 */}
             <div className="relative flex items-start justify-between">
               {/* Circle Indicator */}
-              <div 
+              <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-white border-2 border-slate-200"
               />
-              
+
               <div>
-                <h6 
+                <h6
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 400,
@@ -326,7 +326,7 @@ const CampaignCard: React.FC = () => {
                 >
                   Day 14: Final Follow-up
                 </h6>
-                <p 
+                <p
                   className="mt-1"
                   style={{
                     fontFamily: 'Inter, sans-serif',
@@ -341,7 +341,7 @@ const CampaignCard: React.FC = () => {
                 </p>
               </div>
 
-              <span 
+              <span
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 400,

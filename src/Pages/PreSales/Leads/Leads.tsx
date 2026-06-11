@@ -59,6 +59,10 @@ const Leads: React.FC = () => {
   const [campaignStatus, setCampaignStatus] = useState('');
   const [campaignName, setCampaignName] = useState('');
   
+  // Header Style settings state
+  const [headerStyle, setHeaderStyle] = useState('Multi Color');
+  const [categorizeBy, setCategorizeBy] = useState('Lead Source');
+  
   // Filters state
   const [showFilters, setShowFilters] = useState(false);
 
@@ -279,6 +283,10 @@ const Leads: React.FC = () => {
           setSelectedScores={setSelectedScores}
           setSelectedStatuses={setSelectedStatuses}
           setSelectedSources={setSelectedSources}
+          headerStyle={headerStyle}
+          setHeaderStyle={setHeaderStyle}
+          categorizeBy={categorizeBy}
+          setCategorizeBy={setCategorizeBy}
         />
       </div>
 
@@ -324,6 +332,7 @@ const Leads: React.FC = () => {
             <KanbanView 
               leads={filteredLeads}
               onLeadClick={setSelectedLeadForProfile}
+              headerStyle={headerStyle}
             />
           )}
         </div>

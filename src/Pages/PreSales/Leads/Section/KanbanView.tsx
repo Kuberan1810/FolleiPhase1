@@ -14,6 +14,7 @@ import {
 type KanbanViewProps = {
   leads: Lead[];
   onLeadClick: (lead: Lead) => void;
+  headerStyle?: string;
 };
 
 const COLUMNS = [
@@ -71,11 +72,14 @@ const formatActivityText = (type: string, time: string) => {
   return `${formattedType} ${time}`;
 };
 
-const KanbanView: React.FC<KanbanViewProps> = ({ leads, onLeadClick }) => {
+const KanbanView: React.FC<KanbanViewProps> = ({ leads, onLeadClick, headerStyle = 'Multi Color' }) => {
+  const isMono = headerStyle === 'Mono Color';
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
       {COLUMNS.map((col) => {
         const colLeads = leads.filter(l => l.source === col.id);
+        const activeColorSource = isMono ? COLUMNS[0] : col;
+        
         return (
           <div 
             key={col.id} 
@@ -88,8 +92,8 @@ const KanbanView: React.FC<KanbanViewProps> = ({ leads, onLeadClick }) => {
                 height: '44px',
                 boxSizing: 'border-box',
                 padding: '14px 20px',
-                borderTop: `3px solid ${col.borderColor}`,
-                backgroundColor: col.bgColor,
+                borderTop: `3px solid ${activeColorSource.borderColor}`,
+                backgroundColor: activeColorSource.bgColor,
                 color: col.textColor,
                 fontFamily: 'Inter, sans-serif'
               }}
@@ -113,7 +117,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({ leads, onLeadClick }) => {
                   width: '20px',
                   height: '20px',
                   borderRadius: '10px',
-                  backgroundColor: col.badgeBg,
+                  backgroundColor: activeColorSource.badgeBg,
                   color: '#FFFFFF',
                   fontSize: '11px',
                   fontWeight: 700,

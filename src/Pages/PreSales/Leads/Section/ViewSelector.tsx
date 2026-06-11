@@ -9,6 +9,10 @@ type ViewSelectorProps = {
   setSelectedScores: (scores: string[]) => void;
   setSelectedStatuses: (statuses: string[]) => void;
   setSelectedSources: (sources: string[]) => void;
+  headerStyle: string;
+  setHeaderStyle: (style: string) => void;
+  categorizeBy: string;
+  setCategorizeBy: (cat: string) => void;
 };
 
 const ViewSelector: React.FC<ViewSelectorProps> = ({
@@ -17,7 +21,11 @@ const ViewSelector: React.FC<ViewSelectorProps> = ({
   onClearAll,
   setSelectedScores,
   setSelectedStatuses,
-  setSelectedSources
+  setSelectedSources,
+  headerStyle,
+  setHeaderStyle,
+  categorizeBy,
+  setCategorizeBy
 }) => {
   const [showViewDropdown, setShowViewDropdown] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -125,10 +133,14 @@ const ViewSelector: React.FC<ViewSelectorProps> = ({
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
         currentViewName={currentView}
-        onSave={(newName) => {
+        initialHeaderStyle={headerStyle}
+        initialCategorizeBy={categorizeBy}
+        onSave={(newName, newCategorizeBy, newHeaderStyle) => {
           if (newName.trim()) {
             setCurrentView(newName.trim());
           }
+          setCategorizeBy(newCategorizeBy);
+          setHeaderStyle(newHeaderStyle);
           setShowSettingsModal(false);
         }}
       />

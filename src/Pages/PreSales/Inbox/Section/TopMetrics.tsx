@@ -1,9 +1,12 @@
 import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const TopMetrics = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-8 mb-8 w-full">
-      <div 
+      <div
         className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
@@ -35,7 +38,7 @@ const TopMetrics = () => {
         </div>
       </div>
 
-      <div 
+      <div
         className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
@@ -49,6 +52,7 @@ const TopMetrics = () => {
         </div>
         <div className="w-full flex justify-center">
           <button
+            onClick={() => navigate('/presales/inbox/admin-needs')}
             className="bg-[#004370] text-white px-10 py-2 rounded-[8px] font-inter font-bold text-[12px] cursor-pointer shadow-sm active:scale-95 uppercase tracking-wider"
           >
             View
