@@ -48,6 +48,13 @@ export const getSourceName = (source: string): string => {
   }
 };
 
+const getInitials = (name: string): string => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  }
+  return name.trim().charAt(0).toUpperCase();
+};
 
 const LeadsTable: React.FC<LeadsTableProps> = ({ 
   leads, 
@@ -129,17 +136,9 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   {/* Lead Avatar + Name + Email */}
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      {lead.avatar ? (
-                        <img 
-                          src={lead.avatar} 
-                          alt={lead.name} 
-                          className="w-9 h-9 rounded-full object-cover shrink-0"
-                        />
-                      ) : (
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor} ${lead.textColor}`}>
-                          {lead.initials}
-                        </div>
-                      )}
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
+                        {getInitials(lead.name)}
+                      </div>
                       <div className="min-w-0">
                         <h4 
                           className="transition-colors truncate"
@@ -203,10 +202,12 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                         backgroundColor: 
                           lead.status === 'NEW INQUIRY' ? '#E4EDFF' :
                           lead.status === 'CONTACTED' ? '#FFE3C6' :
+                          lead.status === 'QUALIFIED' ? '#E8F5E9' :
                           '#FFE7FC',
                         color:
                           lead.status === 'NEW INQUIRY' ? '#004370' :
                           lead.status === 'CONTACTED' ? '#78350F' :
+                          lead.status === 'QUALIFIED' ? '#2E7D32' :
                           '#701A75',
                       }}
                     >

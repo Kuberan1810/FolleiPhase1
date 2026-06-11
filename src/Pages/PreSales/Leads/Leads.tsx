@@ -27,7 +27,7 @@ export type Lead = {
   score: number; // 0-100
   temperature: 'Hot' | 'Warm' | 'Cold';
   source: 'website' | 'campaign' | 'shield' | 'external';
-  status: 'NEW INQUIRY' | 'CONTACTED' | 'DEMO SCHEDULED';
+  status: 'NEW INQUIRY' | 'CONTACTED' | 'QUALIFIED' | 'DEMO SCHEDULED';
   addedTime: string; // e.g. "12 Jan, 2026"
   activityTime: string; // e.g. "2 mins ago"
   activityType: 'WHATSAPP' | 'CALL LOGGED' | 'MEETING SETUP';
@@ -149,16 +149,18 @@ const Leads: React.FC = () => {
     <div className="min-h-screen bg-[#F8FAFC] pb-12 font-manrope">
       
       {/* Search Input bar (Integrated top page width style) */}
-      <div className="relative w-full max-w-sm mb-8">
-        <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
-        <input
-          type="text"
-          placeholder="Search leads, companies..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-slate-200/80 rounded-xl text-sm font-manrope focus:outline-none focus:ring-2 focus:ring-[#004370] bg-[#EFF6FF]/20 transition-all"
-        />
-      </div>
+      {viewMode === 'list' && (
+        <div className="relative w-full max-w-sm mb-8">
+          <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search leads, companies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-slate-200/80 rounded-xl text-sm font-manrope focus:outline-none focus:ring-2 focus:ring-[#004370] bg-[#EFF6FF]/20 transition-all"
+          />
+        </div>
+      )}
 
       {/* Title & Description Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -218,13 +220,15 @@ const Leads: React.FC = () => {
       <div className="flex items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           {/* FILTERS Button */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-1.5 bg-transparent border-none text-[11px] font-bold text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
-          >
-            <ListFilter className="w-3.5 h-3.5 text-slate-500" />
-            FILTERS
-          </button>
+          {viewMode === 'list' && (
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-1.5 bg-transparent border-none text-[11px] font-bold text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+            >
+              <ListFilter className="w-3.5 h-3.5 text-slate-500" />
+              FILTERS
+            </button>
+          )}
 
           {/* SORT Button */}
           <SortDropdown 
@@ -293,7 +297,7 @@ const Leads: React.FC = () => {
       {/* Side-by-Side Sidebar + Content Layout */}
       <div className="flex gap-6 items-start">
         <FilterPanel 
-          show={showFilters}
+          show={viewMode === 'list' && showFilters}
           activeLeads={selectedLeads}
           activeStatuses={selectedStatuses}
           activeSources={selectedSources}
@@ -330,9 +334,10 @@ const Leads: React.FC = () => {
           {/* Kanban Layout View */}
           {viewMode === 'kanban' && (
             <KanbanView 
-              leads={filteredLeads}
+              leads={leadsList}
               onLeadClick={setSelectedLeadForProfile}
               headerStyle={headerStyle}
+              categorizeBy={categorizeBy}
             />
           )}
         </div>

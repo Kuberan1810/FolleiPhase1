@@ -2,9 +2,26 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowUpDown, ArrowLeft, List } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Sort } from 'iconsax-react';
-import avatarImg from '../../../../assets/avatar.png';
-
 import { AiOutlineAlignLeft } from "react-icons/ai";
+
+const getInitials = (name: string): string => {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+        return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+    }
+    return name.trim().charAt(0).toUpperCase();
+};
+
+const getAvatarColors = (name: string) => {
+    const charCode = name.charCodeAt(0) || 0;
+    const colors = [
+        { bg: 'bg-[#EEF2FF]', text: 'text-[#004370]' },
+        { bg: 'bg-[#ECFDF5]', text: 'text-[#065F46]' },
+        { bg: 'bg-[#FFF1D7]', text: 'text-[#9A3412]' },
+        { bg: 'bg-[#FDF2F8]', text: 'text-[#9D174D]' }
+    ];
+    return colors[charCode % colors.length];
+};
 interface ActivityItem {
     id: number | string;
     date: string;
@@ -172,7 +189,6 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
         setIsFilterOpen(true);
         setIsSortOpen(false);
     };
-
     const handleToggleTempStatus = (status: string) => {
         const upperStatus = status.toUpperCase();
         if (tempStatuses.includes(upperStatus)) {
@@ -601,14 +617,9 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                             </td>
                                             <td className="py-4 px-4 align-middle">
                                                 <div className="flex items-center gap-3">
-                                                    <img
-                                                        src={act.avatar || avatarImg}
-                                                        alt={act.name}
-                                                        className="w-10 h-10 rounded-full object-cover border-[1px] border-[#C3C6D7] group-hover:scale-105 transition-transform shrink-0"
-                                                        onError={(e) => {
-                                                            (e.target as HTMLImageElement).src = avatarImg;
-                                                        }}
-                                                    />
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-slate-100 ${getAvatarColors(act.name).bg} ${getAvatarColors(act.name).text}`}>
+                                                        {getInitials(act.name)}
+                                                    </div>
                                                     <div>
                                                         <div className="text-[18px] font-semibold text-[#0D1C2E] leading-snug">
                                                             {act.name}

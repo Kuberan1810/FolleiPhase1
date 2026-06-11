@@ -4,7 +4,7 @@ import {
   Phone,
   Mail,
   Calendar,
-  FileText
+  Edit2
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { mockLogs } from './mockLogs';
@@ -101,7 +101,7 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
               : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
               }`}
           >
-            <FileText className="w-3.5 h-3.5" />
+            <Edit2 className="w-3.5 h-3.5" />
             Notes
           </button>
         </div>

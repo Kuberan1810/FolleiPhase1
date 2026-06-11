@@ -4,10 +4,10 @@ import {
   Sparkles,
   FileText,
   TrendingUp,
-  CircleCheck,
-  CircleX,
   PhoneCall,
-  Smile
+  Smile,
+  Check,
+  X
 } from 'lucide-react';
 import { VideoCircle } from 'iconsax-react';
 
@@ -19,14 +19,14 @@ export const CallsDetailedActivity: React.FC = () => {
       <div className="relative ml-2 py-2">
         <div className="relative pl-14 pb-8">
           {/* Timeline Connection Stick */}
-          <div className="absolute left-[19px] top-[20px] bottom-[-20px] w-[2px] bg-[#E2E8F0]" />
+          <div className="absolute left-[19px] top-[10px] bottom-[-20px] w-[2px] bg-[#E2E8F0]" />
 
-          <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[10px] top-0 text-green-800'>
-            <CircleCheck className="w-4 h-4 stroke-[3]" />
+          <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[10px] top-[8px] bg-[#15803D] text-white border-2 border-[#E2E8F0] z-10'>
+            <Check className="w-3 h-3 stroke-[4]" />
           </div>
 
           {/*Details Container */}
-          <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[12px]">
+          <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[24px]">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center flex-wrap gap-2.5">
                 <span className="font-bold text-[16px] text-slate-800 font-inter">Call Completed</span>
@@ -36,19 +36,19 @@ export const CallsDetailedActivity: React.FC = () => {
                     INTERESTED
                   </span>
                 </span>
-
-                <span className="inline-flex items-center gap-[4px] bg-[#EDF6FF] py-[2px] px-[8px] rounded-[10px] h-[22px] box-border">
-                  <Sparkles className="w-3 h-3 text-[#1E40AF]" />
-                  <span className="font-manrope font-bold text-[10px] text-[#004370] leading-none">
-                    94% Positive
-                  </span>
-                </span>
               </div>
+
+              <span className="inline-flex items-center gap-[4px] bg-[#EDF6FF] py-[2px] px-[8px] rounded-[10px] h-[22px] box-border">
+                <Sparkles className="w-3 h-3 text-[#1E40AF]" />
+                <span className="font-manrope font-bold text-[10px] text-[#004370] leading-none">
+                  94% Positive
+                </span>
+              </span>
             </div>
             <span className="text-[12px] text-[#464554] font-manrope mt-3">20 mins • 4 hours ago</span>
 
-            <div className="w-full rounded-[12px] bg-gradient-to-r from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[1.5px] mt-4 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
-              <div className="bg-white rounded-[10px] p-5">
+            <div className="w-full rounded-[16px] bg-gradient-to-r from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[1.5px] mt-4 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
+              <div className="bg-white rounded-[16px] p-5">
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-[12px] font-bold text-[#004370] tracking-wider uppercase font-manrope">
                     AI SUMMARY
@@ -60,25 +60,27 @@ export const CallsDetailedActivity: React.FC = () => {
               </div>
             </div>
 
-            <button className="font-manrope font-semibold text-[14px] text-[#004370] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
-              <VideoCircle className="w-4 h-4 " color="#004370" />
-              Listen Recording
-            </button>
-            <button className="font-manrope font-semibold text-[14px] text-[#464554] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
-              <FileText className="w-4 h-4" />
-              View Transcript
-            </button>
+            <div className="flex items-center gap-6 mt-5">
+              <button className="font-manrope font-semibold text-[14px] text-[#004370] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
+                <VideoCircle className="w-4 h-4 " color="#004370" />
+                Listen Recording
+              </button>
+              <button className="font-manrope font-semibold text-[14px] text-[#464554] border-none bg-transparent flex items-center gap-[6px] cursor-pointer p-0 hover:underline">
+                <FileText className="w-4 h-4" />
+                View Transcript
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="relative pl-14">
 
-        <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[10px] top-0 text-red-800'>
-          <CircleX className="w-4 h-4 stroke-[3]" />
+        <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[17px] top-[10px] bg-[#DC2626] text-white border-2 border-[#E2E8F0] z-10'>
+          <X className="w-3 h-3 stroke-[4]" />
         </div>
 
-        <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[12px]">
+        <div className="flex flex-col border-[1px] border-[#C9DFFF] p-6 rounded-[24px]">
           <div className="flex-1 flex flex-col items-start justify-between">
             <span className="font-bold text-[16px] text-[#0B1C30] font-manrope">Missed Call</span>
             <span className="text-[12px] text-[#464554] font-manrope">Incoming • 1 day ago</span>

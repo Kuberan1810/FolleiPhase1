@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, Calendar, Flame, Sun, Snowflake, Globe, Megaphone, Handshake, Import, AlertCircle } from 'lucide-react';
+import { Mail, Phone, Calendar, Flame, Sun, Snowflake } from 'lucide-react';
 import type { Lead } from '../Leads';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,23 +7,17 @@ interface ProfileDetailsCardProps {
   lead: Lead;
 }
 
+const getInitials = (name: string): string => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  }
+  return name.trim().charAt(0).toUpperCase();
+};
+
 const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
   const navigate = useNavigate();
-  // Helpers for source icons
-  const getSourceIcon = (source: string) => {
-    switch (source) {
-      case 'website':
-        return <Globe className="w-4 h-4 text-[#004370]" />;
-      case 'campaign':
-        return <Megaphone className="w-4 h-4 text-[#004370]" />;
-      case 'shield':
-        return <Handshake className="w-4 h-4 text-[#004370]" />;
-      case 'external':
-        return <Import className="w-4 h-4 text-[#004370]" />;
-      default:
-        return <Globe className="w-4 h-4 text-[#004370]" />;
-    }
-  };
+
 
   return (
     <div
@@ -34,17 +28,9 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
       <div className="flex flex-col items-center justify-between h-full w-[128px] shrink-0">
         {/* Avatar image container with highlights */}
         <div className="w-[128px] h-[128px] rounded-[12px] overflow-hidden border-2 border-[#004370] p-[4px] shrink-0">
-          {lead.avatar ? (
-            <img
-              src={lead.avatar}
-              alt={lead.name}
-              className="w-full h-full rounded-[8px] object-cover"
-            />
-          ) : (
-            <div className={`w-full h-full rounded-[8px] flex items-center justify-center font-bold text-xl ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
-              {lead.initials || 'U'}
-            </div>
-          )}
+          <div className={`w-full h-full rounded-[8px] flex items-center justify-center font-bold text-3xl ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
+            {getInitials(lead.name)}
+          </div>
         </div>
 
         {/* Temperature Tag */}
@@ -76,12 +62,11 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
                 lineHeight: '16px'
               }}
             >
-              <AlertCircle className="w-3.5 h-3.5 text-[#004370]" />
               <span>SCORE: {lead.score}%</span>
             </span>
 
             {/* Hover card */}
-            <div className="absolute right-0 top-full mt-2 z-50 w-[280px] sm:w-[300px] bg-white rounded-[16px] border border-slate-200/80 p-5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0 pointer-events-none">
+            <div className="absolute right-0 top-full mt-2 z-50 w-[280px] sm:w-[300px] bg-white rounded-[16px] border border-slate-200/80 p-5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0 pointer-events-auto before:content-[''] before:absolute before:w-full before:h-2 before:-top-2 before:left-0">
               {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                 <span className="font-semibold text-[12px] text-[#191C1D] font-inter sm:text-[16px]">
@@ -163,7 +148,6 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
               Source
             </span>
             <div className="flex items-center gap-2">
-              {getSourceIcon(lead.source)}
               <span
                 style={{
                   fontFamily: 'Manrope, sans-serif',
@@ -184,14 +168,14 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
           {/* Line 1: Email and Call */}
           <div className="flex gap-2 flex-1 lg:flex-none">
             <button
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-normal font-manrope cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
               style={{ height: '32px', boxSizing: 'border-box' }}
             >
               <Mail className="w-4 h-4" />
               <span>Email</span>
             </button>
             <button
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-normal font-manrope cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
               style={{ height: '32px', boxSizing: 'border-box' }}
             >
               <Phone className="w-4 h-4" />
@@ -202,7 +186,7 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
           {/* Line 2: Schedule and View Logs */}
           <div className="flex gap-2 flex-1 lg:flex-none">
             <button
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-bold font-sans cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-[#6063EE]/10 hover:bg-[#6063EE]/20 transition-all font-normal font-manrope cursor-pointer border-none rounded-[8px] py-1 px-4 text-[#004370]"
               style={{ height: '32px', boxSizing: 'border-box' }}
             >
               <Calendar className="w-4 h-4" />
@@ -210,7 +194,7 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
             </button>
             <button
               onClick={() => navigate("/presales/leads/logs")}
-              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-white hover:bg-[#EFF6FF] hover:text-[#1E40AF] hover:border-[#BFDBFE] transition-all font-bold cursor-pointer border-[1px] border-[#004370]/25 rounded-[8px] py-1 px-3 text-[#0B1C30] whitespace-nowrap"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-white hover:bg-[#EFF6FF] hover:text-[#1E40AF] hover:border-[#BFDBFE] transition-all font-normal font-manrope cursor-pointer border-[1px] border-[#004370]/25 rounded-[8px] py-1 px-3 text-[#0B1C30] whitespace-nowrap"
               style={{ height: '32px', boxSizing: 'border-box' }}
             >
               <span>View Logs</span>
