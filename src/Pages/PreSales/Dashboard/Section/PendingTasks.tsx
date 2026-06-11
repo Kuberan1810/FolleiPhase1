@@ -8,9 +8,9 @@ const PendingTasks = () => {
     <div className="BoxStyle shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-manrope font-bold text-[18px] text-[#191C1E]">Pending Tasks</h2>
-        <button 
+        <button
           onClick={() => navigate("/dashboard/pending-tasks")}
-          className="font-manrope font-bold text-[12px] text-[#004370] bg-transparent border-none hover:underline cursor-pointer"
+          className="flex items-center gap-2 px-3 py-1.5 border w-fit h-fit border-[#F2EEF4] rounded-[10px] bg-white hover:bg-[#fafafa] text-[14px] font-medium text-[#808080] cursor-pointer transition-colors"
         >
           View All
         </button>

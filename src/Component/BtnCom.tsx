@@ -3,7 +3,9 @@ import type { LucideIcon } from 'lucide-react';
 
 interface BtnComProps {
     /** The text to display inside the button */
-    title: string;
+    title?: string;
+    /** Optional alias for title */
+    label?: string;
     /** Optional click handler */
     onClick?: () => void;
     /** Optional Icon component (from lucide-react or similar) */
@@ -25,6 +27,7 @@ interface BtnComProps {
 }
 const BtnCom: React.FC<BtnComProps> = ({
     title,
+    label,
     onClick,
     icon: Icon,
     variant = 'primary',
@@ -124,7 +127,7 @@ const BtnCom: React.FC<BtnComProps> = ({
                 {Icon && iconPosition === 'left' && (
                     <Icon size={iconSize} strokeWidth={2.5} aria-hidden />
                 )}
-                <span>{title}</span>
+                <span>{title || label}</span>
                 {Icon && iconPosition === 'right' && (
                     <Icon size={iconSize} strokeWidth={2.5} aria-hidden />
                 )}

@@ -2,12 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Download, AlertTriangle, CircleDollarSign, Hourglass } from 'lucide-react';
 
+const AVATAR_COLORS = ["#004370", "#8B5CF6", "#10B981", "#3B82F6", "#EC4899", "#F59E0B"];
+const getAvatarColor = (name: string): string => {
+  const index = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[index];
+};
+
 const leads = [
   {
     id: 1,
     name: "Sophia Miller",
     email: "sophia.m@gmail.com",
-    avatar: "https://i.pravatar.cc/150?img=47",
     dropReason: "Competitor mentioned",
     dropType: "negative",
     sentiment: "NEGATIVE",
@@ -16,10 +21,10 @@ const leads = [
     lastInteraction: "3 days ago",
     lastInteractionSub: "Replied to pricing email"
   },
-  ...Array(5).fill({
-    name: "Sophia Miller",
-    email: "sophia.m@gmail.com",
-    avatar: "https://i.pravatar.cc/150?img=47",
+  {
+    id: 2,
+    name: "James Carter",
+    email: "j.carter@outlook.com",
     dropReason: "Budget concerns",
     dropType: "neutral",
     sentiment: "NEUTRAL",
@@ -27,11 +32,59 @@ const leads = [
     sentimentBar: 45,
     lastInteraction: "Ghosted after demo",
     lastInteractionSub: ""
-  }).map((item, i) => ({ ...item, id: i + 2 })),
-  ...Array(5).fill({
-    name: "Sophia Miller",
-    email: "sophia.m@gmail.com",
-    avatar: "https://i.pravatar.cc/150?img=47",
+  },
+  {
+    id: 3,
+    name: "Priya Nair",
+    email: "priya.nair@corp.in",
+    dropReason: "Budget concerns",
+    dropType: "neutral",
+    sentiment: "NEUTRAL",
+    sentimentScore: 45,
+    sentimentBar: 45,
+    lastInteraction: "Ghosted after demo",
+    lastInteractionSub: ""
+  },
+  {
+    id: 4,
+    name: "Lucas Fernandez",
+    email: "lucas.f@bizmail.com",
+    dropReason: "Budget concerns",
+    dropType: "neutral",
+    sentiment: "NEUTRAL",
+    sentimentScore: 45,
+    sentimentBar: 45,
+    lastInteraction: "Ghosted after demo",
+    lastInteractionSub: ""
+  },
+  {
+    id: 5,
+    name: "Aisha Bello",
+    email: "aisha.b@gmail.com",
+    dropReason: "Budget concerns",
+    dropType: "neutral",
+    sentiment: "NEUTRAL",
+    sentimentScore: 45,
+    sentimentBar: 45,
+    lastInteraction: "Ghosted after demo",
+    lastInteractionSub: ""
+  },
+  {
+    id: 6,
+    name: "Ryan Thompson",
+    email: "ryan.t@outlook.com",
+    dropReason: "Budget concerns",
+    dropType: "neutral",
+    sentiment: "NEUTRAL",
+    sentimentScore: 45,
+    sentimentBar: 45,
+    lastInteraction: "Ghosted after demo",
+    lastInteractionSub: ""
+  },
+  {
+    id: 7,
+    name: "Elena Vasquez",
+    email: "elena.v@corp.mx",
     dropReason: "Internal decision delay",
     dropType: "positive",
     sentiment: "POSITIVE",
@@ -39,7 +92,55 @@ const leads = [
     sentimentBar: 62,
     lastInteraction: "Opened Proposal 4x",
     lastInteractionSub: ""
-  }).map((item, i) => ({ ...item, id: i + 7 }))
+  },
+  {
+    id: 8,
+    name: "Omar Shaikh",
+    email: "omar.s@bizmail.ae",
+    dropReason: "Internal decision delay",
+    dropType: "positive",
+    sentiment: "POSITIVE",
+    sentimentScore: 62,
+    sentimentBar: 62,
+    lastInteraction: "Opened Proposal 4x",
+    lastInteractionSub: ""
+  },
+  {
+    id: 9,
+    name: "Nina Patel",
+    email: "nina.p@gmail.com",
+    dropReason: "Internal decision delay",
+    dropType: "positive",
+    sentiment: "POSITIVE",
+    sentimentScore: 62,
+    sentimentBar: 62,
+    lastInteraction: "Opened Proposal 4x",
+    lastInteractionSub: ""
+  },
+  {
+    id: 10,
+    name: "Carlos Mendes",
+    email: "carlos.m@outlook.com",
+    dropReason: "Internal decision delay",
+    dropType: "positive",
+    sentiment: "POSITIVE",
+    sentimentScore: 62,
+    sentimentBar: 62,
+    lastInteraction: "Opened Proposal 4x",
+    lastInteractionSub: ""
+  },
+  {
+    id: 11,
+    name: "Yuki Tanaka",
+    email: "yuki.t@corp.jp",
+    dropReason: "Internal decision delay",
+    dropType: "positive",
+    sentiment: "POSITIVE",
+    sentimentScore: 62,
+    sentimentBar: 62,
+    lastInteraction: "Opened Proposal 4x",
+    lastInteractionSub: ""
+  }
 ];
 
 const NotRepliedLeadsPage = () => {
@@ -128,7 +229,10 @@ const NotRepliedLeadsPage = () => {
                 <tr key={lead.id} className="bg-white hover:bg-[#F8FAFC] transition-colors duration-200">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
-                      <img src={lead.avatar} alt={lead.name} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 font-manrope font-bold text-[14px] sm:text-[16px] text-white"
+                        style={{ backgroundColor: getAvatarColor(lead.name) }}>
+                        {lead.name.charAt(0)}
+                      </div>
                       <div className="flex flex-col gap-0.5">
                         <span className="font-inter font-semibold text-[14px] sm:text-[18px] leading-[24px] text-[#0F172A]">{lead.name}</span>
                         <span className="font-inter font-normal text-[11px] sm:text-[14px] leading-[20px] text-[#767586]">{lead.email}</span>

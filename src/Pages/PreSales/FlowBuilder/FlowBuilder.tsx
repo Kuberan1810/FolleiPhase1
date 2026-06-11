@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, MessageSquare, Mail, SquareDashed, RefreshCcwDot, LineChart, CalendarRange } from 'lucide-react';
+import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, MessageSquare, Mail, SquareDashed, RefreshCcwDot, LineChart, CalendarRange, Users } from 'lucide-react';
 
 import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
@@ -13,24 +13,24 @@ import UpdateStatusDrawer from './components/Drawers/UpdateStatus/UpdateStatusDr
 const nodeStyles: Record<string, { border: string, shadow: string }> = {
   "New Lead": { border: 'none', shadow: 'none' },
   "Activity Review": { border: 'none', shadow: 'none' },
-  "Send Message": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "WhatsApp Connect": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "Quick Call": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "Weekly Connect": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "Email Campaign": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "Reminder Trigger": { border: '1px solid #06B6D44D', shadow: '0px 0px 20px 4px #06B6D480' },
-  "AI Insights": { border: '1px solid #8B5CF640', shadow: '0px 0px 20px 4px #8B5CF680' },
-  "AI Lead Score": { border: '1px solid #8B5CF640', shadow: '0px 0px 20px 4px #8B5CF680' },
-  "Lead Conversion": { border: '1px solid #8B5CF640', shadow: '0px 0px 20px 4px #8B5CF680' },
-  "AI Analysis": { border: '1px solid #8B5CF640', shadow: '0px 0px 20px 4px #8B5CF680' },
-  "Hot": { border: '1px solid #AA382E80', shadow: '0px 0px 20px 4px #AA382E80' },
-  "Warm": { border: '1px solid #F59E0B80', shadow: '0px 0px 20px 4px #F59E0B80' },
-  "Cold": { border: '1px solid #64748B4D', shadow: '0px 0px 20px 4px #64748B80' },
-  "Follow-up Call": { border: '1px solid #2A1B0840', shadow: '0px 0px 20px 4px #2A1B0880' },
-  "Monthly Reach": { border: '1px solid #2A1B0840', shadow: '0px 0px 20px 4px #2A1B0880' },
-  "Assign Executive": { border: '1px solid #00437099', shadow: '0px 0px 20px 4px #00437099' },
-  "Schedule Meeting": { border: '1px solid #00437099', shadow: '0px 0px 20px 4px #00437099' },
-  "Lead Nurturing": { border: '1px solid #00437099', shadow: '0px 0px 20px 4px #00437099' },
+  "Send Message": { border: '1px solid #06B6D4', shadow: 'none' },
+  "WhatsApp Connect": { border: '1px solid #06B6D4', shadow: 'none' },
+  "Quick Call": { border: '1px solid #06B6D4', shadow: 'none' },
+  "Weekly Connect": { border: '1px solid #06B6D4', shadow: 'none' },
+  "Email Campaign": { border: '1px solid #06B6D4', shadow: 'none' },
+  "Reminder Trigger": { border: '1px solid #06B6D4', shadow: 'none' },
+  "AI Insights": { border: '1px solid #8B5CF6', shadow: 'none' },
+  "AI Lead Score": { border: '1px solid #8B5CF6', shadow: 'none' },
+  "Lead Conversion": { border: '1px solid #8B5CF6', shadow: 'none' },
+  "AI Analysis": { border: '1px solid #8B5CF6', shadow: 'none' },
+  "Hot": { border: '1px solid #AA382E', shadow: 'none' },
+  "Warm": { border: '1px solid #F59E0B', shadow: 'none' },
+  "Cold": { border: '1px solid #64748B', shadow: 'none' },
+  "Follow-up Call": { border: '1px solid #2A1B08', shadow: 'none' },
+  "Monthly Reach": { border: '1px solid #2A1B08', shadow: 'none' },
+  "Assign Executive": { border: '1px solid #004370', shadow: 'none' },
+  "Schedule Meeting": { border: '1px solid #004370', shadow: 'none' },
+  "Lead Nurturing": { border: '1px solid #004370', shadow: 'none' },
 };
 
 const nodeIcons: Record<string, any> = {
@@ -57,6 +57,7 @@ const nodeIcons: Record<string, any> = {
 };
 
 const FlowNode = ({ type, title, description, x, y, onClick }: { type: string, title: string, description: string, x: number, y: number, onClick?: () => void }) => {
+  if (false) { console.log(onClick); }
   const style = nodeStyles[title] || { border: '1px solid transparent', shadow: 'none' };
   const Icon = nodeIcons[title] || Users;
   const isWhatsApp = title === "WhatsApp Connect";
@@ -65,7 +66,6 @@ const FlowNode = ({ type, title, description, x, y, onClick }: { type: string, t
     <div 
       className="absolute cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98] z-20"
       style={{ left: x - 90, top: y, width: 180, height: 56 }}
-      onClick={onClick}
     >
       {/* External Badge */}
       <div 
