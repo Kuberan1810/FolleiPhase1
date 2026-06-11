@@ -1,9 +1,20 @@
 import { MessageSquare, Video } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
 
 const PendingTasks = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="BoxStyle shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
-      <h2 className="font-manrope font-bold text-[18px] text-[#191C1E] mb-6">Pending Tasks</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-manrope font-bold text-[18px] text-[#191C1E]">Pending Tasks</h2>
+        <button 
+          onClick={() => navigate("/dashboard/pending-tasks")}
+          className="font-manrope font-bold text-[12px] text-[#004370] bg-transparent border-none hover:underline cursor-pointer"
+        >
+          View All
+        </button>
+      </div>
       
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between p-3 bg-[#FBFAFF] rounded-[12px]">

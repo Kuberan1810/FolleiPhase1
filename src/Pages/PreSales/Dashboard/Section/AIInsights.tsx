@@ -1,9 +1,16 @@
 import { AlertTriangle, Timer } from "lucide-react";
 import starIcon from "../../../../assets/star-icon.svg";
+import { useNavigate } from "react-router-dom";
 
 const AIInsights = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="w-full p-[2px] rounded-[22px] h-full" style={{ background: 'linear-gradient(135deg, #4F46E5, #EC4899, #F97316)' }}>
+    <div 
+      onClick={() => navigate("/dashboard/ai-insights")}
+      className="w-full p-[2px] rounded-[22px] h-full cursor-pointer hover:shadow-lg transition-shadow duration-200" 
+      style={{ background: 'linear-gradient(135deg, #4F46E5, #EC4899, #F97316)' }}
+    >
       <div className="bg-white rounded-[20px] p-3 sm:p-5 h-full">
         <div className="flex items-center gap-2 mb-6">
           <img src={starIcon} alt="AI Insights icon" className="w-5 h-5 shrink-0" />
