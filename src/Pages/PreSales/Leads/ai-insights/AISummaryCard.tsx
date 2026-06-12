@@ -13,8 +13,8 @@ const AISummaryCard: React.FC<AISummaryCardProps> = ({
   onInsightsClick
 }) => {
   return (
-    <div className="w-full lg:flex-1 h-[225px] rounded-[12px] bg-linear-to-r from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[2px] shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
-      <div className="w-full h-full bg-white rounded-[10px] p-6 flex flex-col justify-between">
+    <div className="w-full lg:flex-1 h-auto lg:h-[225px] rounded-[12px] bg-linear-to-r from-[#4F46E5] via-[#EC4899] to-[#F97316] p-[2px] shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
+      <div className="w-full h-full bg-white rounded-[10px] p-6 flex flex-col justify-between gap-4 lg:gap-0">
         <div>
           <div className="flex items-center justify-between mb-3.5">
             <div className="flex items-center gap-2">

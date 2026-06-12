@@ -84,10 +84,10 @@ const ScheduledActivities: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Title</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>From</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>To</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Host</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Title</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>From</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>To</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Host</th>
               </tr>
             </thead>
             <tbody>
@@ -96,10 +96,10 @@ const ScheduledActivities: React.FC = () => {
                 { title: 'Product Name Demo', from: 'Jan 21, 10:00 am', to: 'Jan 21, 11:00 am', host: 'Admin' }
               ].map((m, idx) => (
                 <tr key={idx} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.title}</td>
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.from}</td>
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.to}</td>
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.host}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.title}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.from}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.to}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.host}</td>
                 </tr>
               ))}
             </tbody>

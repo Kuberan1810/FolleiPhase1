@@ -84,19 +84,19 @@ const CompletedActivities: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Subject</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Started Time</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Owner</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Result</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Actions</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Subject</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Started Time</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Owner</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Call Result</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>Initial call</td>
-                <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>21 Dec 2026, 06:00 am</td>
-                <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>AI Agent</td>
-                <td className="px-4 py-3.5 text-sm font-manrope">
+                <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>Initial call</td>
+                <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>21 Dec 2026, 06:00 am</td>
+                <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>AI Agent</td>
+                <td className="px-4 py-3.5 text-sm font-manrope whitespace-nowrap">
                   <span 
                     style={{
                       display: 'inline-flex',
@@ -118,7 +118,7 @@ const CompletedActivities: React.FC = () => {
                     Interested
                   </span>
                 </td>
-                <td className="px-4 py-3.5 text-sm font-manrope">
+                <td className="px-4 py-3.5 text-sm font-manrope whitespace-nowrap">
                   <button className="text-[#0A71B7] hover:underline font-bold bg-transparent border-none cursor-pointer" style={{ fontSize: '14px', lineHeight: '16px' }}>
                     View
                   </button>
@@ -132,11 +132,11 @@ const CompletedActivities: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Subject</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Meeting Time</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Organizer</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Status</th>
-                <th className="px-4 py-3 font-manrope font-semibold" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Actions</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Subject</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Meeting Time</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Organizer</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Status</th>
+                <th className="px-4 py-3 font-manrope font-semibold whitespace-nowrap" style={{ fontSize: '15px', lineHeight: '16px', color: '#464555' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -146,10 +146,10 @@ const CompletedActivities: React.FC = () => {
                 { subject: 'Technical Q&A', time: '15 Dec 2026, 04:00 pm', organizer: 'AI Agent' }
               ].map((m, idx) => (
                 <tr key={idx} className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors">
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.subject}</td>
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.time}</td>
-                  <td className="px-4 py-3.5 font-manrope font-medium" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.organizer}</td>
-                  <td className="px-4 py-3.5 text-sm font-manrope">
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.subject}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.time}</td>
+                  <td className="px-4 py-3.5 font-manrope font-medium whitespace-nowrap" style={{ fontSize: '14px', lineHeight: '16px', color: '#464555' }}>{m.organizer}</td>
+                  <td className="px-4 py-3.5 text-sm font-manrope whitespace-nowrap">
                     <span 
                       style={{
                         display: 'inline-flex',
@@ -171,7 +171,7 @@ const CompletedActivities: React.FC = () => {
                       Completed
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 text-sm font-manrope">
+                  <td className="px-4 py-3.5 text-sm font-manrope whitespace-nowrap">
                     <button className="text-[#0A71B7] hover:underline font-bold bg-transparent border-none cursor-pointer" style={{ fontSize: '14px', lineHeight: '16px' }}>
                       View
                     </button>

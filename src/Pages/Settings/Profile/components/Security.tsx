@@ -7,7 +7,7 @@ interface SecurityProps {
 
 const Security: React.FC<SecurityProps> = ({ onOpenPasswordModal }) => {
     return (
-        <div className="h-[180px] bg-white rounded-[20px] overflow-hidden">
+        <div className="h-[180px] bg-white rounded-[20px] overflow-hidden m-4">
             <div className="p-6 bg-white">
                 <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Security

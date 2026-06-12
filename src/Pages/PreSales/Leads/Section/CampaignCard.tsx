@@ -5,7 +5,7 @@ const CampaignCard: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(true);
 
   return (
-    <div className="bg-white rounded-[20px] border border-slate-100 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
+    <div className="bg-white rounded-[20px] border border-slate-100 p-4 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
       <h3
         className="font-manrope uppercase tracking-wide mb-5"
         style={{
@@ -18,9 +18,9 @@ const CampaignCard: React.FC = () => {
         CAMPAIGN
       </h3>
 
-      <div className="bg-[#F8FAFC] rounded-[16px] border border-slate-100 p-6">
+      <div className="bg-[#F8FAFC] rounded-[16px] border border-slate-100 p-4 sm:p-6">
         {/* Campaign Header Row */}
-        <div className="flex items-start justify-between flex-wrap gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h4
               style={{
@@ -160,7 +160,7 @@ const CampaignCard: React.FC = () => {
             />
 
             {/* Step 1 */}
-            <div className="relative flex items-start justify-between">
+            <div className="relative flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
               {/* Circle Indicator */}
               <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-[#004370] text-white"
@@ -203,13 +203,14 @@ const CampaignCard: React.FC = () => {
                   fontSize: '14px',
                   color: '#0E9F6E'
                 }}
+                className="self-start sm:self-auto"
               >
                 Completed
               </span>
             </div>
 
             {/* Step 2 */}
-            <div className="relative flex items-start justify-between">
+            <div className="relative flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
               {/* Circle Indicator */}
               <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-[#004370] text-white"
@@ -252,13 +253,14 @@ const CampaignCard: React.FC = () => {
                   fontSize: '14px',
                   color: '#0E9F6E'
                 }}
+                className="self-start sm:self-auto"
               >
                 Completed
               </span>
             </div>
 
             {/* Step 3 */}
-            <div className="relative flex items-start justify-between">
+            <div className="relative flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
               {/* Circle Indicator */}
               <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-white border-2 border-[#004370]"
@@ -301,13 +303,14 @@ const CampaignCard: React.FC = () => {
                   fontSize: '14px',
                   color: '#0A71B7'
                 }}
+                className="self-start sm:self-auto"
               >
                 In Progress
               </span>
             </div>
 
             {/* Step 4 */}
-            <div className="relative flex items-start justify-between">
+            <div className="relative flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
               {/* Circle Indicator */}
               <div
                 className="absolute left-[-32px] top-0 w-6 h-6 rounded-full flex items-center justify-center bg-white border-2 border-slate-200"
@@ -348,11 +351,11 @@ const CampaignCard: React.FC = () => {
                   fontSize: '14px',
                   color: '#94A3B8'
                 }}
+                className="self-start sm:self-auto"
               >
                 Scheduled
               </span>
             </div>
-
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
     ];
 
     return (
-        <div className="bg-white rounded-[20px] h-full overflow-hidden">
+        <div className="bg-white rounded-[20px] h-full overflow-hidden m-4">
             <div className="p-6">
                 <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Preferences
@@ -98,7 +98,7 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences, setPreferences }
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input
                             type="checkbox"
-                            className="sr-only peer"    
+                            className="sr-only peer"
                             checked={preferences.notifications}
                             onChange={() => setPreferences((prev: PreferenceData) => ({ ...prev, notifications: !prev.notifications }))}
                         />

@@ -8,7 +8,7 @@ interface ProgressTimelineProps {
 
 const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStageIndex, stages }) => {
   return (
-    <div className="bg-white rounded-[20px] p-6 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] my-2">
+    <div className="bg-white rounded-[20px] p-4 sm:p-6 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] my-2">
       <div className="max-w-4xl mx-auto relative py-2">
         
         {/* Row 1: Circles & Connector Line */}
@@ -34,16 +34,16 @@ const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStageIndex, 
             return (
               <div key={`circle-${stage.key}`} className="flex-1 flex justify-center z-10 relative">
                 {/* Stage dot indicator */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isCompleted ? 'bg-[#004370] text-white shadow-sm' :
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${isCompleted ? 'bg-[#004370] text-white shadow-sm' :
                   isCurrent ? 'bg-white border-2 border-[#004370] text-[#004370] shadow-md' :
                     'bg-white border-2 border-slate-200 text-slate-400'
                   }`}>
                   {isCompleted ? (
-                    <Check className="w-4 h-4 stroke-[3px]" />
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3px]" />
                   ) : isCurrent ? (
-                    <Pencil className="w-3.5 h-3.5" />
+                    <Pencil className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   ) : (
-                    <span className="text-[10px] font-bold">{idx + 1}</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold">{idx + 1}</span>
                   )}
                 </div>
               </div>
@@ -56,8 +56,8 @@ const ProgressTimeline: React.FC<ProgressTimelineProps> = ({ currentStageIndex, 
           {stages.map((stage, idx) => {
             const isCurrent = idx === currentStageIndex;
             return (
-              <div key={`label-${stage.key}`} className="flex-1 flex justify-center text-center px-1">
-                <span className={`text-[11px] font-bold font-sans tracking-wide whitespace-nowrap ${isCurrent ? 'text-[#004370]' : 'text-slate-400 font-semibold'}`}>
+              <div key={`label-${stage.key}`} className="flex-1 flex justify-center text-center px-0.5 min-w-0">
+                <span className={`text-[9px] sm:text-[10px] md:text-[11px] font-bold font-sans tracking-wide leading-tight whitespace-normal break-words ${isCurrent ? 'text-[#004370]' : 'text-slate-400 font-semibold'}`}>
                   {stage.label}
                 </span>
               </div>

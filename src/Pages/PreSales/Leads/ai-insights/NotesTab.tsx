@@ -272,8 +272,8 @@ export const NotesTabContent: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-row items-center justify-between py-2">
-              <div className='flex items-center gap-3 bg-[#F7F9FB] rounded-[10px] px-2.5 py-2'>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between py-2 gap-3">
+              <div className="flex items-center justify-center sm:justify-start gap-4 bg-[#F7F9FB] rounded-[10px] px-4 py-2 w-full sm:w-auto">
                 <button
                   onClick={() => applyFormat('bold')}
                   className="text-[#464554] hover:text-[#004370] cursor-pointer border-none bg-transparent p-0 flex items-center justify-center transition-colors"
@@ -314,11 +314,12 @@ export const NotesTabContent: React.FC = () => {
 
               <button
                 onClick={handleAddNote}
-                className="px-6 py-2 bg-[#004370] hover:bg-[#00355a] text-white text-[16px] font-bold rounded-[12px] font-manrope cursor-pointer transition-colors"
+                className="w-full sm:w-auto px-6 py-2.5 bg-[#004370] hover:bg-[#00355a] text-white text-[16px] font-bold rounded-[12px] font-manrope cursor-pointer transition-colors text-center"
               >
                 Add Note
               </button>
             </div>
+
           </div>
         </div>
       </div>

@@ -32,8 +32,6 @@ const ProfileSettings: React.FC = () => {
 
     return (
 
-
-
         <div className="min-h-screen pb-12 -mx-4 -mt-4  lg:-mx-6 lg:-mt-6   bg-[#FAFAF9]">
             <div className="bg-[#014370] pt-6 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
 
@@ -54,7 +52,7 @@ const ProfileSettings: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-3">
                             <User size={40} className="text-white" />
-                            <h1 className="text-[30px] font-bold text-white tracking-tight">Profile Settings</h1>
+                            <h1 className="text-[22px] sm:text-[30px] font-bold text-white tracking-tight">Profile Settings</h1>
                         </div>
                     </div>
                 </div>

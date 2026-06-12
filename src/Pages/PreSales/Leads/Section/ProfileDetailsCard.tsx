@@ -21,13 +21,13 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
 
   return (
     <div
-      className="w-full lg:flex-1 h-[225px] bg-white rounded-[12px] border border-slate-100 p-6 flex gap-6 font-manrope"
+      className="w-full lg:flex-1 h-auto sm:h-[225px] bg-white rounded-[12px] border border-slate-100 p-6 flex flex-col sm:flex-row gap-6 font-manrope"
       style={{ boxSizing: 'border-box' }}
     >
       {/* Column 1: Avatar and Temperature Badge */}
-      <div className="flex flex-col items-center justify-between h-full w-[128px] shrink-0">
+      <div className="flex flex-col items-center justify-between w-full sm:w-[128px] shrink-0 gap-3 sm:gap-0 sm:h-full">
         {/* Avatar image container with highlights */}
-        <div className="w-[128px] h-[128px] rounded-[12px] overflow-hidden border-2 border-[#004370] p-[4px] shrink-0">
+        <div className="w-[128px] h-[128px] rounded-full overflow-hidden border-2 border-[#004370] p-[4px] shrink-0">
           <div className={`w-full h-full rounded-[8px] flex items-center justify-center font-bold text-3xl ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
             {getInitials(lead.name)}
           </div>
@@ -46,7 +46,7 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
       </div>
 
       {/* Column 2: Lead Info details & Action buttons */}
-      <div className="flex-1 flex flex-col justify-between h-full min-w-0">
+      <div className="flex-1 flex flex-col justify-between sm:h-full min-w-0 w-full gap-4 sm:gap-0">
         {/* Row 1: Name and score */}
         <div className="flex items-center justify-between relative">
           <h2 className="text-xl font-extrabold text-[#0B1C30] truncate pr-2" style={{ lineHeight: '28px' }}>
@@ -164,7 +164,7 @@ const ProfileDetailsCard: React.FC<ProfileDetailsCardProps> = ({ lead }) => {
         </div>
 
         {/* Row 3: Action Buttons */}
-        <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 w-full shrink-0">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full shrink-0">
           {/* Line 1: Email and Call */}
           <div className="flex gap-2 flex-1 lg:flex-none">
             <button

@@ -61,7 +61,7 @@ const Settings = () => {
           <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">
             Intelligence Hub
           </span>
-          <h1 className="text-[30px] font-bold text-[#000000] tracking-tight">
+          <h1 className="text-[22px] sm:text-[30px] font-bold text-[#000000] tracking-tight">
             Settings
           </h1>
         </div>
