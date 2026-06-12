@@ -82,13 +82,15 @@ const HandlesSection: React.FC = () => {
             <path
               d="M 20 100 A 80 80 0 0 1 180 100"
               fill="none"
-              stroke="#DFF2FE"
+              stroke="#004370"
               strokeWidth={strokeWidth}
+              strokeDasharray={`0, ${(percentage / 100) * circumference}, ${((100 - percentage) / 100) * circumference}, ${circumference}`}
+              strokeDashoffset={0}
             />
             <path
               d="M 20 100 A 80 80 0 0 1 180 100"
               fill="none"
-              stroke="#004370"
+              stroke="#DFF2FE"
               strokeWidth={strokeWidth}
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
@@ -124,6 +126,13 @@ const HandlesSection: React.FC = () => {
             <h3 className="font-urbanist font-semibold text-[18px] text-[#191C1E]">
               Admin Handles
             </h3>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-1 text-[#64748B] font-inter text-[14px] font-semibold cursor-pointer transition-colors hover:text-slate-800 border-none bg-transparent"
+            >
+              view all
+              <ChevronDown size={18} className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+            </button>
           </div>
 
           <div className="flex flex-col font-inter">
@@ -150,16 +159,6 @@ const HandlesSection: React.FC = () => {
             ))}
           </div>
         </div>
-
-        <div className="w-full flex justify-center">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-1 text-[#64748B] font-inter text-[14px] font-semibold cursor-pointer transition-colors hover:text-slate-800"
-          >
-            view all
-            <ChevronDown size={18} className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
-          </button>
-        </div>
       </div>
 
       <div
@@ -168,12 +167,11 @@ const HandlesSection: React.FC = () => {
         onClick={handleCloseHistory}
       />
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-[600px] bg-white z-[9999] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${isDrawerOpen && selectedHandle ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-full w-full max-w-[450px] bg-white z-[9999] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${isDrawerOpen && selectedHandle ? "translate-x-0" : "translate-x-full"
           }`}
       >
         {selectedHandle && (
           <>
-
             <div className="p-6 bg-white flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-linear-to-t from-[#6C86C9] to-[#0B4984] flex items-center justify-center text-white text-[20px] font-bold shrink-0">
                 {selectedHandle.name.charAt(0).toUpperCase()}
@@ -199,7 +197,6 @@ const HandlesSection: React.FC = () => {
             <div className="w-full px-6">
               <hr className="border-[1px] border-[#2B2B2B]/50 m-0" />
             </div>
-
             <div className="flex-1 overflow-y-auto px-6 py-3 space-y-6 bg-slate-50/20">
               {CHAT_HISTORY[selectedHandle.id]?.map((msg, idx) => {
                 const isMe = msg.sender === 'follei';
@@ -207,7 +204,7 @@ const HandlesSection: React.FC = () => {
                   <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                     {msg.isAudio ? (
                       <>
-                        <div className="border border-[#F1F5F9] rounded-[4px] p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] w-[380px] mt-2 select-none shadow-xs">
+                        <div className="border border-[#F1F5F9] rounded-[4px] p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] mt-2 select-none shadow-xs">
                           <button className="w-9 h-9 rounded-[12px] bg-[#059669] flex items-center justify-center text-white cursor-pointer hover:bg-[#059669] transition-colors border-none shrink-0 flex items-center justify-center">
                             <svg className="w-3.5 h-3.5 fill-[#DEFFF4] ml-0.5" viewBox="0 0 24 24">
                               <path d="M8 5v14l11-7z" />
@@ -215,7 +212,7 @@ const HandlesSection: React.FC = () => {
                           </button>
                           <div className="flex flex-col gap-1">
                             <div className="flex items-end gap-[3px] h-[22px] px-1">
-                              {[4, 6, 3, 5, 9, 11, 7, 9, 5, 4, 7, 10, 8, 6, 5, 8, 11, 9, 7, 6, 4, 5, 7, 9, 6, , 5, 9, 11, 7, 9, 8, 10, 7, 5, 3, 5, 9, 11, 7, 9, 5, 4, 7, 10, 8, 6, 5, 8].map((height, i) => (
+                              {[4, 6, 3, 4, 7, 10, 8, 6, 5, 8, 11, 9, 7, 6, 4, 5, 7, 9, 6, , 5, 9, 11, 7, 9, 6, 5, 8].map((height, i) => (
                                 <div
                                   key={i}
                                   className="w-[4px] rounded-full"
@@ -241,14 +238,14 @@ const HandlesSection: React.FC = () => {
                       </>
                     ) : (
                       <div
-                        className={`rounded-[6px] p-[10px] text-[20px] leading-relaxed max-w-[85%] flex flex-col gap-1 
+                        className={`rounded-[6px] p-[10px] text-[14px] leading-relaxed max-w-[85%] flex flex-col gap-1 
                           ${isMe
                             ? 'bg-[#004370] text-white'
                             : 'bg-[#DFF2FE] text-[#5E5353]'
                           }`}
                       >
                         <span>{msg.text}</span>
-                        <span className={`text-[16px] font-medium font-manrope mt-1 px-1 ${isMe ? 'text-blue-100/80 self-end' : 'text-[#94A3B8] self-start'
+                        <span className={`text-[12px] font-medium font-manrope mt-1 px-1 ${isMe ? 'text-blue-100/80 self-end' : 'text-[#94A3B8] self-start'
                           }`}>
                           {msg.time}
                         </span>

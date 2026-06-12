@@ -17,6 +17,14 @@ type LeadDrawerProps = {
   onDelete: (id: string) => void;
 };
 
+const getInitials = (name: string): string => {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  }
+  return name.trim().charAt(0).toUpperCase();
+};
+
 const LeadDrawer: React.FC<LeadDrawerProps> = ({ lead, onClose, onDelete }) => {
   return (
     <div className="fixed inset-0 bg-black/30 z-999 flex justify-end animate-in fade-in duration-200">
@@ -26,13 +34,9 @@ const LeadDrawer: React.FC<LeadDrawerProps> = ({ lead, onClose, onDelete }) => {
         {/* Drawer Header */}
         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {lead.avatar ? (
-              <img src={lead.avatar} alt={lead.name} className="w-10 h-10 rounded-full object-cover" />
-            ) : (
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${lead.bgColor} ${lead.textColor}`}>
-                {lead.initials}
-              </div>
-            )}
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
+              {getInitials(lead.name)}
+            </div>
             <div>
               <h3 className="text-[17px] font-bold text-[#191C1E]">{lead.name}</h3>
               <span className="text-[12px] text-slate-500 font-medium">{lead.company || 'Individual Lead'}</span>
@@ -80,7 +84,7 @@ const LeadDrawer: React.FC<LeadDrawerProps> = ({ lead, onClose, onDelete }) => {
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Source channel</span>
               <div className="text-slate-700 text-xs font-semibold capitalize flex items-center gap-1.5">
                 {getSourceIcon(lead.source)}
-                {lead.source}
+                {lead.source === 'campaign' ? 'Ads' : lead.source === 'shield' ? 'Referral' : lead.source === 'external' ? 'Import' : 'Website'}
               </div>
             </div>
           </div>

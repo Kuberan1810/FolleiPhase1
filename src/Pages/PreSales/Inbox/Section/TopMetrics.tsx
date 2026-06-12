@@ -7,7 +7,7 @@ const TopMetrics = () => {
   return (
     <div className="flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-8 mb-8 w-full">
       <div
-        className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
+        className="BoxStyle flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
         <div className="flex items-center gap-[10px] font-urbanist font-bold text-[18px] text-[#191C1E]">
@@ -22,7 +22,7 @@ const TopMetrics = () => {
         <div className="h-1" />
       </div>
 
-      <div className="BoxStyle text-white shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-center w-full md:w-[549px] shrink-0 h-[160px]"
+      <div className="BoxStyle text-white flex flex-col justify-between items-center w-full md:w-[549px] shrink-0 h-[160px]"
         style={{ backgroundColor: '#000000' }}>
         <div className="w-full">
           <h3 className="font-urbanist font-bold text-[18px] tracking-tight leading-tight">
@@ -39,7 +39,7 @@ const TopMetrics = () => {
       </div>
 
       <div
-        className="BoxStyle shadow-[0_1px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
+        className="BoxStyle flex flex-col justify-between items-start text-left flex-1 w-full font-urbanist h-[160px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
         <span className="font-urbanist font-bold text-[18px] text-[#191C1E]">

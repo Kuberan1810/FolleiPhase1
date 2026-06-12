@@ -1,5 +1,13 @@
 import { Globe, Megaphone } from "lucide-react";
-import profileImg from "../../../../assets/image.png";
+
+const getAvatarColor = (idx: number) => {
+  const colors = [
+    { bg: 'bg-[#EEF2FF]', text: 'text-[#004370]' },
+    { bg: 'bg-[#ECFDF5]', text: 'text-[#065F46]' },
+    { bg: 'bg-[#FFF1D7]', text: 'text-[#9A3412]' }
+  ];
+  return colors[idx % colors.length];
+};
 
 const NewLeads = () => {
   const leads = [
@@ -57,11 +65,9 @@ const NewLeads = () => {
               <tr key={idx} className="border-b border-[#F1F5F9]">
                 <td className="px-4 py-4 text-left">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={profileImg}
-                      alt="lead avatar"
-                      className="h-10 w-10 rounded-full object-cover shrink-0 border border-[#E2E8F0]"
-                    />
+                    <div className={`h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${getAvatarColor(idx).bg} ${getAvatarColor(idx).text}`}>
+                      {lead.initials}
+                    </div>
                     <div>
                       <div className="font-inter font-semibold text-[14px] text-[#191C1E]">{lead.name}</div>
                       <div className="text-[12px] text-[#64748B]">{lead.email}</div>
