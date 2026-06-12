@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Flame, Sun, Zap, FileText, Globe, CalendarDays } from 'lucide-react';
+import { Download, Flame, Sun, Zap, FileText, Globe, CalendarPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const mockPriorityLeads = [
@@ -47,6 +47,7 @@ const mockAlerts = [
     dot: "#004370",
     title: "Reply Rate Dropped -12%",
     timeAgo: "2 HOURS AGO",
+    link: "/dashboard/not-replied-leads",
     hasForensic: true,
     forensicItems: [
       "28 leads waiting > 48hrs",
@@ -58,6 +59,7 @@ const mockAlerts = [
     dot: "#F6810C",
     title: "24 Inactive Leads detected",
     timeAgo: "5 HOURS AGO",
+    link: "/dashboard/inactive-leads",
     hasForensic: false,
     forensicItems: []
   }
@@ -137,7 +139,7 @@ const AIInsightsPage = () => {
               </div>
             </div>
 
-            <div className="bg-[#F1F5F9] rounded-[10px] p-4 mt-4 flex flex-col gap-2">
+            <div className="bg-[#EFF4FF] rounded-[10px] p-4 mt-4 flex flex-col gap-2">
               <h3 className="font-manrope font-bold text-[12px] leading-[19.5px] text-[#4648D4] uppercase">
                 AI BEHAVIORAL ANALYSIS
               </h3>
@@ -147,7 +149,7 @@ const AIInsightsPage = () => {
             </div>
           </div>
 
-          <div className="BoxStyle p-6">
+          <div className="BoxStyle p-6 overflow-hidden">
             <h2 className="font-manrope font-semibold text-[26px] leading-[33.6px] text-[#0F172A] mb-4">
               Smart Alerts
             </h2>
@@ -155,55 +157,47 @@ const AIInsightsPage = () => {
               {mockAlerts.map((alert, index) => (
                 <div key={alert.id} className="flex gap-4">
                   <div className="flex flex-col items-center">
-                    {index !== mockAlerts.length - 1 && (
-                      <div className="flex-1 w-px bg-[#E2E8F0] mt-4" />
+                    <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: alert.dot }} />
+                    {index !== mockAlerts.length - 1 ? (
+                      <div className="flex-1 w-px bg-[#E2E8F0] mt-0.5" />
+                    ) : (
+                      <div className="flex-1" />
                     )}
                   </div>
 
                   <div className="flex-1 flex flex-col gap-3 pb-8 last:pb-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
-                      {/* Row 1: always visible */}
-                      <div className="flex items-center justify-between sm:justify-start sm:gap-3 w-full">
-                        <div className="flex items-center gap-3">
-                          <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: alert.dot }} />
-                          <span className="font-manrope font-bold text-[18px] leading-[28.8px] text-[#0F172A]">
-                            {alert.title}
-                          </span>
-                          {/* View All — desktop only inline */}
-                          <span 
-                            onClick={() => {
-                              if (alert.title.includes("Inactive Leads")) {
-                                navigate("/dashboard/inactive-leads");
-                              } else if (alert.title.includes("Reply Rate")) {
-                                navigate("/dashboard/not-replied-leads");
-                              }
-                            }}
-                            className="hidden sm:inline font-manrope font-bold text-[14px] leading-[20px] text-[#004370] cursor-pointer hover:underline ml-2"
-                          >
-                            View All
-                          </span>
-                        </div>
-                        {/* Timestamp — always top right */}
-                        <span className="font-manrope font-bold text-[12px] leading-[16px] text-[#767586] whitespace-nowrap shrink-0">
-                          {alert.timeAgo}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0 w-full">
+                      {/* Title row — always */}
+                      <div className="flex items-center gap-2">
+                        <span className="font-manrope font-bold text-[18px] leading-[28.8px] text-[#0F172A]">
+                          {alert.title}
                         </span>
-                      </div>
-
-                      {/* Row 2: View All — mobile only, indented under title */}
-                      <div className="pl-[22px] sm:hidden">
+                        {/* View All — desktop inline */}
                         <span 
-                          onClick={() => {
-                            if (alert.title.includes("Inactive Leads")) {
-                              navigate("/dashboard/inactive-leads");
-                            } else if (alert.title.includes("Reply Rate")) {
-                              navigate("/dashboard/not-replied-leads");
-                            }
-                          }}
-                          className="font-manrope font-bold text-[14px] leading-[20px] text-[#004370] cursor-pointer hover:underline"
+                          onClick={() => navigate(alert.link)}
+                          className="hidden sm:inline font-manrope font-bold text-[14px] text-[#004370] cursor-pointer hover:underline whitespace-nowrap shrink-0"
                         >
                           View All
                         </span>
                       </div>
+
+                      {/* Second row — mobile only: View All left, timestamp right */}
+                      <div className="flex items-center justify-between sm:hidden">
+                        <span 
+                          onClick={() => navigate(alert.link)}
+                          className="font-manrope font-bold text-[14px] text-[#004370] cursor-pointer hover:underline"
+                        >
+                          View All
+                        </span>
+                        <span className="font-manrope font-bold text-[12px] text-[#767586] whitespace-nowrap">
+                          {alert.timeAgo}
+                        </span>
+                      </div>
+
+                      {/* Timestamp — desktop only */}
+                      <span className="hidden sm:block font-manrope font-bold text-[12px] text-[#767586] whitespace-nowrap shrink-0 ml-auto">
+                        {alert.timeAgo}
+                      </span>
                     </div>
 
                     {alert.hasForensic && (
@@ -243,7 +237,9 @@ const AIInsightsPage = () => {
                   <div className="relative">
                     <img src={lead.avatar} alt={lead.name} className="w-12 h-12 rounded-full object-cover" />
                     {lead.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#16A34A] border-2 border-white" />
+                      <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-[#16A34A] border-2 border-white flex items-center justify-center">
+                        <Zap size={7} color="white" fill="white" />
+                      </div>
                     )}
                   </div>
                   <div className="flex flex-col">
@@ -299,7 +295,7 @@ const AIInsightsPage = () => {
                         Contact Now
                       </button>
                       <button className="w-10 h-10 rounded-[10px] bg-[#F1F5F9] hover:bg-[#E2E8F0] flex items-center justify-center cursor-pointer transition-colors shrink-0">
-                        <CalendarDays className="w-[19px] h-[20px] text-[#464554]" />
+                        <CalendarPlus className="w-[19px] h-[20px] text-[#464554]" />
                       </button>
                     </>
                   ) : (
