@@ -295,7 +295,7 @@ const OutboundCampaignList: React.FC<OutboundCampaignListProps> = ({ onSelectCam
                   <td className="px-8 py-4">
                     <div className="flex items-center gap-4">
                       <div>
-                        <div className="text-[18px] font-bold text-[#001E40] group-hover:text-[#004370] transition-colors">
+                        <div className="text-[13px] sm:text-[18px] font-bold text-[#001E40] group-hover:text-[#004370] transition-colors max-w-[120px] sm:max-w-none truncate">
                           {camp.name}
                         </div>
                         <div className="text-[15px] text-[#94A3B8] font-medium">
