@@ -205,6 +205,8 @@ const FlowBuilder = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const lastTouchRef = useRef<{ x: number; y: number } | null>(null);
+  const lastPinchDistRef = useRef<number | null>(null);
 
   const [activeDrawer, setActiveDrawer] = useState<string | null>(null);
 
@@ -248,6 +250,43 @@ const FlowBuilder = () => {
 
   const handleMouseUp = () => setIsDragging(false);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      lastTouchRef.current = {
+        x: e.touches[0].clientX - pan.x,
+        y: e.touches[0].clientY - pan.y
+      };
+      lastPinchDistRef.current = null;
+    } else if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      lastPinchDistRef.current = Math.sqrt(dx * dx + dy * dy);
+      lastTouchRef.current = null;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length === 1 && lastTouchRef.current) {
+      setPan({
+        x: e.touches[0].clientX - lastTouchRef.current.x,
+        y: e.touches[0].clientY - lastTouchRef.current.y
+      });
+    } else if (e.touches.length === 2 && lastPinchDistRef.current !== null) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const newDist = Math.sqrt(dx * dx + dy * dy);
+      const delta = newDist - lastPinchDistRef.current;
+      setScale(s => Math.min(1.5, Math.max(0.5, s + delta * 0.005)));
+      lastPinchDistRef.current = newDist;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    lastTouchRef.current = null;
+    lastPinchDistRef.current = null;
+  };
+
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 font-['Inter'] min-h-screen lg:mb-0 mb-20 bg-white">
       <div className="px-4 lg:px-6 pt-4 lg:pt-6">
@@ -278,11 +317,14 @@ const FlowBuilder = () => {
 
       <div
         ref={containerRef}
-        className={`relative overflow-hidden flex-1 z-10 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className={`relative overflow-hidden flex-1 z-10 touch-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <div
           className="relative min-w-[1200px] min-h-[1100px]"
