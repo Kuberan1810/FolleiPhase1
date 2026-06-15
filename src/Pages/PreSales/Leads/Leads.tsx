@@ -295,7 +295,7 @@ const Leads: React.FC = () => {
       </div>
 
       {/* Side-by-Side Sidebar + Content Layout */}
-      <div className="flex gap-6 items-start">
+      <div className="flex gap-6 items-start relative">
         <FilterPanel 
           show={viewMode === 'list' && showFilters}
           activeLeads={selectedLeads}

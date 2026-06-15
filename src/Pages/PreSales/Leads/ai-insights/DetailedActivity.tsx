@@ -36,8 +36,8 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
   };
 
   return (
-    <div className="lg:col-span-2 bg-white rounded-[20px] border border-slate-200/60 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
-      <h2 className="text-[20px] font-bold text-slate-800 font-inter mb-6">Detailed Activity</h2>
+    <div className="lg:col-span-2 bg-white rounded-[20px] border border-slate-200/60 p-4 sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.01)]">
+      <h2 className="text-[20px] font-bold text-slate-800 font-inter mb-4 sm:mb-6">Detailed Activity</h2>
 
       {filteredLogs.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-slate-400">
@@ -48,70 +48,26 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
       ) : (
         <div className="relative ml-2 py-2">
           {filteredLogs.map((log, index) => (
-            <div key={log.id} className="relative pl-14 pb-8 last:pb-0">
+            <div key={log.id} className="relative pl-10 sm:pl-14 pb-6 sm:pb-8 last:pb-0">
               {/* Timeline Connection Stick */}
               {index !== filteredLogs.length - 1 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: '19px',
-                    top: '20px',
-                    bottom: '-20px',
-                    width: '2px',
-                    backgroundColor: '#E2E8F0'
-                  }}
-                />
+                <div className="absolute left-[15px] sm:left-[19px] top-[20px] bottom-[-20px] w-[2px] bg-[#E2E8F0]" />
               )}
 
               {/* Circle Icon */}
-              <div
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '9999px',
-                  backgroundColor: '#E0E3E5',
-                  border: '1px solid #C7C4D8',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'absolute',
-                  left: '0px',
-                  top: '0px'
-                }}
-              >
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#E0E3E5] border border-[#C7C4D8] flex items-center justify-center absolute left-0 top-0">
                 {getIconForLog(log.type, log.title)}
               </div>
 
               {/* Log Details Container */}
               <div className="flex flex-col">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
                   <div className="flex items-center flex-wrap gap-2.5">
-                    <span className="font-bold text-[16px] text-slate-800 font-inter">{log.title}</span>
+                    <span className="font-bold text-[14px] sm:text-[16px] text-slate-800 font-inter">{log.title}</span>
                     {log.badge && (
-                      <span
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          backgroundColor: '#EEF2FF',
-                          padding: '1.5px 8px 2.5px 8px',
-                          borderRadius: '10px',
-                          height: '24px',
-                          boxSizing: 'border-box'
-                        }}
-                      >
+                      <span className="inline-flex items-center gap-[6px] bg-[#EEF2FF] px-2 py-0.5 rounded-[10px] h-6 box-border">
                         <MousePointerClick style={{ width: '12px', height: '12px', color: '#004370' }} />
-                        <span
-                          style={{
-                            fontFamily: 'Manrope, sans-serif',
-                            fontWeight: 700,
-                            fontSize: '10px',
-                            color: '#004370',
-                            lineHeight: '1',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
-                          }}
-                        >
+                        <span className="font-manrope font-bold text-[9px] sm:text-[10px] text-[#004370] leading-none uppercase tracking-[0.05em]">
                           {log.badge}
                         </span>
                       </span>
@@ -121,57 +77,23 @@ const DetailedActivity: React.FC<DetailedActivityProps> = ({ filteredLogs }) => 
                 </div>
 
                 {log.duration && (
-                  <p
-                    style={{
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 400,
-                      fontSize: '13px',
-                      lineHeight: '18px',
-                      color: '#475569',
-                      marginTop: '4px'
-                    }}
-                  >
+                  <p className="font-manrope font-normal text-[12px] sm:text-[13px] leading-[16px] sm:leading-[18px] text-slate-600 mt-1">
                     Duration : {log.duration}
                   </p>
                 )}
 
                 {log.details && (
-                  <p
-                    style={{
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 400,
-                      fontSize: '13px',
-                      lineHeight: '18px',
-                      color: '#475569',
-                      marginTop: '4px'
-                    }}
-                  >
+                  <p className="font-manrope font-normal text-[12px] sm:text-[13px] leading-[16px] sm:leading-[18px] text-slate-600 mt-1">
                     {log.details}
                   </p>
                 )}
 
                 {log.attachedFile && (
-                  <p
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontWeight: 400,
-                      fontSize: '13px',
-                      lineHeight: '18px',
-                      color: '#464555',
-                      marginTop: '6px'
-                    }}
-                  >
+                  <p className="font-inter font-normal text-[12px] sm:text-[13px] leading-[16px] sm:leading-[18px] text-[#464555] mt-1.5">
                     Attached:{' '}
                     <a
                       href="#"
-                      style={{
-                        fontFamily: 'Manrope, sans-serif',
-                        fontWeight: 500,
-                        fontSize: '13px',
-                        color: '#004370',
-                        textDecoration: 'none'
-                      }}
-                      className="hover:underline"
+                      className="font-manrope font-medium text-[12px] sm:text-[13px] text-[#004370] no-underline hover:underline"
                       onClick={e => e.preventDefault()}
                     >
                       {log.attachedFile.name} ({log.attachedFile.size})

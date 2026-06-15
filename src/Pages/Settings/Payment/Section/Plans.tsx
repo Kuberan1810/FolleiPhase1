@@ -255,16 +255,16 @@ const Plans: React.FC = () => {
   return (
 
     <div className="w-full py-4 px-4 font-[Inter] relative bg-[#F8FAFC]">
-      
+
       {/* --- INTEGRATED MODAL SYSTEM --- */}
       {isModalOpen && selectedPlanData && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white w-full max-w-[500px] rounded-[32px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
-            
+
             {/* Close Button (Visible only in idle/failure) */}
             {paymentStatus !== 'processing' && (
-              <button 
-                onClick={() => setIsModalOpen(false)} 
+              <button
+                onClick={() => setIsModalOpen(false)}
                 className="absolute top-8 right-8 p-1.5 rounded-full hover:bg-gray-100 transition-colors z-10 cursor-pointer"
 
               >
@@ -272,9 +272,9 @@ const Plans: React.FC = () => {
               </button>
             )}
 
-{/* button fixed header fixed,COntent onscroll enable   */}
+            {/* button fixed header fixed,COntent onscroll enable   */}
             <div className="BoxStyle max-h-[600px] h-full overflow-y-scroll no-scrollbar">
-              
+
 
               {/* --- VIEW 1: PAYMENT FORM (IDLE/PROCESSING) --- */}
               {(paymentStatus === 'idle' || paymentStatus === 'processing') && (
@@ -361,21 +361,21 @@ const Plans: React.FC = () => {
 
 
                   {(paymentStatus === 'idle' || paymentStatus === 'processing') && (
-                  <div className="p-5 pt-4 bg-white border-t border-gray-100 z-10">
-                    <button 
-                      onClick={handlePayment}
-                      className="w-full py-4 rounded-3xl text-white font-bold text-[16px] bg-[#004370] shadow-lg flex items-center justify-center gap-2 hover:bg-[#00355a] transition-all cursor-pointer"
-                    >
-                      {paymentStatus === 'processing' ? 'Processing...' : `Pay ${selectedPlanData.price}.00`}
-                    </button>
-                  </div>
-                )}
+                    <div className="p-5 pt-4 bg-white border-t border-gray-100 z-10">
+                      <button
+                        onClick={handlePayment}
+                        className="w-full py-4 rounded-3xl text-white font-bold text-[16px] bg-[#004370] shadow-lg flex items-center justify-center gap-2 hover:bg-[#00355a] transition-all cursor-pointer"
+                      >
+                        {paymentStatus === 'processing' ? 'Processing...' : `Pay ${selectedPlanData.price}.00`}
+                      </button>
+                    </div>
+                  )}
 
-              </div>
+                </div>
 
               )}
 
-              
+
 
               {/* --- VIEW 2: SUCCESS MODAL --- */}
               {paymentStatus === 'success' && (
@@ -460,24 +460,24 @@ const Plans: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <button 
-                    onClick={() => handleOpenModal(plan)} 
-                    className={`w-full py-4 rounded-[12px] text-[14px] font-semibold cursor-pointer transition-all 
-                      ${isAdvanced 
-                        ? 'bg-[#004370] text-white hover:bg-[#00355a]' 
-                        : 'bg-[#F0F7FF] text-[#103960] hover:bg-[#E0EFFF]'
-                      }`}
-                  >
-                    {plan.buttonText}
-                  </button>
+              <button
+                onClick={() => handleOpenModal(plan)}
+                className={`w-full py-4 rounded-[12px] text-[14px] font-semibold cursor-pointer transition-all 
+                      ${isAdvanced
+                    ? 'bg-[#004370] text-white hover:bg-[#00355a]'
+                    : 'bg-[#F0F7FF] text-[#103960] hover:bg-[#E0EFFF]'
+                  }`}
+              >
+                {plan.buttonText}
+              </button>
             </div>
           );
         })}
       </div>
 
-          <div className="bg-[#E0EAF2] rounded-[24px] p-10 border border-[#D1E2EF] ">
-            <h2 className="text-[30px] font-extrabold text-[#191C1E] mb-4">Purchase Now & Get a Lot of Benefits</h2>
-              <p className="text-[#64748B] text-[16px]">Choose the plan that fits your workflow. Start with Starter for basic usage, or move to Pro for full-scale performance.</p>
+      <div className="bg-[#E0EAF2] rounded-[24px] p-10 border border-[#D1E2EF] ">
+        <h2 className="text-[30px] font-extrabold text-[#191C1E] mb-4">Purchase Now & Get a Lot of Benefits</h2>
+        <p className="text-[#64748B] text-[16px]">Choose the plan that fits your workflow. Start with Starter for basic usage, or move to Pro for full-scale performance.</p>
 
       </div>
     </div>

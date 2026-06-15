@@ -233,7 +233,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
         return (
           <div
             key={col.id}
-            className="flex flex-col min-h-[500px]"
+            className="flex flex-col min-h-0 md:min-h-[500px]"
           >
             {/* Column Header */}
             <div

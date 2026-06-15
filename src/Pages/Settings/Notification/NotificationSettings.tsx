@@ -71,7 +71,7 @@ const NotificationSettings = () => {
                   Presales
                 </span>
               </div>
-              <Toggle isOn={toggles.presales} onToggle={() => handleToggle('presales')}  />
+              <Toggle isOn={toggles.presales} onToggle={() => handleToggle('presales')} />
             </div>
 
             {/* Postsales */}

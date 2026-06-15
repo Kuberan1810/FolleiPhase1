@@ -553,10 +553,10 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                         <table className="w-full text-left font-manrope">
                             <thead>
                                 <tr>
-                                    <th className="h-12 py-0 pl-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px]">
+                                    <th className="h-12 py-0 pl-8 pr-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
                                         Date
                                     </th>
-                                    <th className="h-12 py-0 px-4 bg-[#F6FAFF] relative">
+                                    <th className="h-12 py-0 px-6 bg-[#F6FAFF] relative whitespace-nowrap">
                                         <div
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -597,10 +597,10 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                             </div>
                                         )}
                                     </th>
-                                    <th className="h-12 py-0 px-4 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px]">
+                                    <th className="h-12 py-0 px-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
                                         Phone Number
                                     </th>
-                                    <th className="h-12 py-0 pr-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px]">
+                                    <th className="h-12 py-0 pl-6 pr-8 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
                                         Status
                                     </th>
                                 </tr>
@@ -612,10 +612,10 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                             key={act.id}
                                             className="hover:bg-slate-50/80 transition-all duration-200 cursor-pointer group"
                                         >
-                                            <td className="py-4 pl-6 text-[16px] text-[#0D1C2E] font-medium align-middle">
+                                            <td className="py-4 pl-8 pr-6 text-[16px] text-[#0D1C2E] font-medium align-middle whitespace-nowrap">
                                                 {act.date}
                                             </td>
-                                            <td className="py-4 px-4 align-middle">
+                                            <td className="py-4 px-6 align-middle whitespace-nowrap">
                                                 <div className="flex items-center gap-3">
                                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-slate-100 ${getAvatarColors(act.name).bg} ${getAvatarColors(act.name).text}`}>
                                                         {getInitials(act.name)}
@@ -630,10 +630,10 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="py-4 px-4 text-[14px] text-[#0D1C2E] font-medium align-middle">
+                                            <td className="py-4 px-6 text-[14px] text-[#0D1C2E] font-medium align-middle whitespace-nowrap">
                                                 {act.phone}
                                             </td>
-                                            <td className="py-4 pr-6 align-middle">
+                                            <td className="py-4 pl-6 pr-8 align-middle whitespace-nowrap">
                                                 <span className={`px-2.5 py-1 rounded-[10px] text-[12px] font-semibold uppercase tracking-wider ${getStatusClass(act.status)}`}>
                                                     {act.status}
                                                 </span>

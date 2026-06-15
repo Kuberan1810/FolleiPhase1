@@ -25,13 +25,13 @@ const Payment = () => {
             <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
               Intelligence Hub
             </span>
-            <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Payment and Subscription</h1>
+            <h1 className="text-[22px] sm:text-[30px] font-bold text-[#191C1E] tracking-tight">Payment and Subscription</h1>
           </div>
         </div>
       </div>
 
       {/* Tabs - Using NavLink instead of Button */}
-      <nav className="flex gap-20 mb-8 border-b border-slate-200 font-regular">
+      <nav className="flex flex-wrap gap-4 sm:gap-10 md:gap-20 mb-8 border-b border-slate-200 font-regular">
         {tabs.map((tab) => (
           <NavLink
             key={tab.id}

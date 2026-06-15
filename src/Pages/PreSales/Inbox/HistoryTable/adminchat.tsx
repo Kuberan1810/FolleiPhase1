@@ -72,10 +72,10 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                     <thead>
                         <tr
                             className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
-                            <th className="py-4 px-8">Recent chats</th>
+                            <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Assigned To</th>
-                            <th className="py-4 px-6">Reason</th>
-                            <th className="py-4 px-6">Priority</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Reason</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Priority</th>
                             <th className="py-4 px-8 whitespace-nowrap">Status</th>
                         </tr>
                     </thead>
@@ -86,7 +86,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                                     key={chat.id}
                                     className="hover:bg-slate-50 transition-colors"
                                 >
-                                    <td className="py-4 px-8">
+                                    <td className="py-4 px-8 whitespace-nowrap">
                                         <div className="flex items-center gap-3">
                                             <div
                                                 className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}
@@ -101,15 +101,15 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                                         {chat.AssignedTo}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.Reason}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.priority}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.status}
                                     </td>
                                 </tr>

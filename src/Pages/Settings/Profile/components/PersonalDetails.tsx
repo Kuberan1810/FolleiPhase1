@@ -31,33 +31,18 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
     };
 
     return (
-        <div className="bg-white rounded-[20px] overflow-hidden">
+        <div className="bg-white rounded-[20px] overflow-hidden m-4">
             <div className="p-6 flex items-center justify-between bg-white">
                 <h2 className="text-[14px] font-bold text-[#414755] uppercase tracking-wider">
                     Personal Details
                 </h2>
-                {!isEditing ? (
+                {!isEditing && (
                     <button
                         onClick={onEdit}
                         className="py-[10px] px-[16px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
                     >
                         Edit Profile
                     </button>
-                ) : (
-                    <div className="flex gap-3">
-                        <button
-                            onClick={onCancel}
-                            className="py-[10px] px-[16px] bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            onClick={handleFormSave}
-                            className="py-[10px] px-[16px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
-                        >
-                            Save Changes
-                        </button>
-                    </div>
                 )}
             </div>
 
@@ -122,6 +107,23 @@ const PersonalDetails: React.FC<PersonalDetailsProps> = ({ data, isEditing, onEd
                         className="w-full px-[16px] py-[12px] border-b-[0.5px] border-[#000000]/15 rounded-[8px] bg-[#F7F9FB] text-[14px] text-[#191C1D] outline-none transition-colors"
                     />
                 </div>
+
+                {isEditing && (
+                    <div className="flex justify-end gap-3 pt-4 border-t border-[#000000]/10">
+                        <button
+                            onClick={onCancel}
+                            className="py-[10px] px-[16px] bg-[#F3F4F5] text-[#767676] text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#e8eaeb] transition-all"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleFormSave}
+                            className="py-[10px] px-[16px] bg-[#004370] text-white text-[12px] font-bold rounded-[8px] cursor-pointer hover:bg-[#00365a] transition-all"
+                        >
+                            Save Changes
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

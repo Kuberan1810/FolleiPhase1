@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ListFilter, 
-  ChevronDown 
+import {
+  ListFilter,
+  ChevronDown
 } from 'lucide-react';
 
 type FilterPanelProps = {
@@ -76,7 +76,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   onChange
 }) => (
   <div>
-    <div 
+    <div
       onClick={onToggle}
       className="flex items-center gap-2 py-2.5 cursor-pointer select-none group"
     >
@@ -89,7 +89,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           <path d="M8 5v14l11-7z" />
         </svg>
       )}
-      <span 
+      <span
         style={{
           fontFamily: 'Inter, sans-serif',
           fontWeight: 700,
@@ -108,16 +108,15 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         {options.map(option => {
           const checked = draftValues.includes(option.id);
           return (
-            <div 
-              key={option.id} 
+            <div
+              key={option.id}
               className="flex items-center gap-2.5 cursor-pointer text-slate-700 hover:text-slate-900 group/item"
               onClick={() => onChange(option.id)}
             >
-              <div className={`w-[18px] h-[18px] rounded border flex items-center justify-center transition-colors ${
-                checked 
-                  ? 'bg-[#004370] border-[#004370] text-white' 
+              <div className={`w-[18px] h-[18px] rounded border flex items-center justify-center transition-colors ${checked
+                  ? 'bg-[#004370] border-[#004370] text-white'
                   : 'bg-white border-slate-300'
-              }`}>
+                }`}>
                 {checked && (
                   <svg className="w-2.5 h-2.5 stroke-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -208,14 +207,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   return (
-    <div className="w-[260px] bg-white border border-slate-100 rounded-3xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.015)] shrink-0 select-none flex flex-col gap-1">
+    <div className="absolute lg:static top-0 left-0 z-30 w-[260px] bg-white border border-slate-100 rounded-3xl p-5 lg:shadow-[0_4px_20px_rgba(0,0,0,0.015)] shrink-0 select-none flex flex-col gap-1">
       {/* Filter Header */}
       <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-2">
         <div className="flex items-center gap-2 text-slate-800">
           <ListFilter className="w-4 h-4 text-[#004370]" />
           <span className="font-bold text-[13px] tracking-wider uppercase font-manrope text-[#004370]">Filter</span>
         </div>
-        <button 
+        <button
           onClick={handleClear}
           className="text-[#0A71B7] hover:text-[#004370] text-[10px] font-bold tracking-wider hover:underline transition-colors cursor-pointer"
         >
@@ -224,7 +223,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       </div>
 
       {/* Accordion LEADS */}
-      <FilterSection 
+      <FilterSection
         title="Leads"
         isOpen={leadsOpen}
         onToggle={() => setLeadsOpen(!leadsOpen)}
@@ -236,7 +235,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       <div className="h-px bg-slate-50 w-full my-1" />
 
       {/* Accordion STATUS */}
-      <FilterSection 
+      <FilterSection
         title="Status"
         isOpen={statusOpen}
         onToggle={() => setStatusOpen(!statusOpen)}
@@ -248,7 +247,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       <div className="h-px bg-slate-50 w-full my-1" />
 
       {/* Accordion SOURCE */}
-      <FilterSection 
+      <FilterSection
         title="Source"
         isOpen={sourceOpen}
         onToggle={() => setSourceOpen(!sourceOpen)}
@@ -260,7 +259,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       <div className="h-px bg-slate-50 w-full my-1" />
 
       {/* Accordion SCORE */}
-      <FilterSection 
+      <FilterSection
         title="Score"
         isOpen={scoreOpen}
         onToggle={() => setScoreOpen(!scoreOpen)}
@@ -273,7 +272,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
       {/* Accordion CAMPAIGN */}
       <div>
-        <div 
+        <div
           onClick={() => setCampaignOpen(!campaignOpen)}
           className="flex items-center gap-2 py-2.5 cursor-pointer select-none group"
         >
@@ -286,7 +285,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
-          <span 
+          <span
             style={{
               fontFamily: 'Inter, sans-serif',
               fontWeight: 700,
@@ -319,7 +318,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
-              
+
               {statusDropdownOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setStatusDropdownOpen(false)} />
@@ -329,9 +328,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         setDraftCampaignStatus(draftCampaignStatus === 'active' ? '' : 'active');
                         setStatusDropdownOpen(false);
                       }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${
-                        draftCampaignStatus === 'active' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignStatus === 'active' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
+                        }`}
                     >
                       Active
                     </div>
@@ -340,9 +338,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         setDraftCampaignStatus(draftCampaignStatus === 'inactive' ? '' : 'inactive');
                         setStatusDropdownOpen(false);
                       }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${
-                        draftCampaignStatus === 'inactive' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignStatus === 'inactive' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
+                        }`}
                     >
                       Inactive
                     </div>
@@ -368,7 +365,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
-              
+
               {nameDropdownOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNameDropdownOpen(false)} />
@@ -378,9 +375,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         setDraftCampaignName(draftCampaignName === 'campaign_a' ? '' : 'campaign_a');
                         setNameDropdownOpen(false);
                       }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${
-                        draftCampaignName === 'campaign_a' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignName === 'campaign_a' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
+                        }`}
                     >
                       Campaign A
                     </div>
@@ -389,9 +385,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                         setDraftCampaignName(draftCampaignName === 'campaign_b' ? '' : 'campaign_b');
                         setNameDropdownOpen(false);
                       }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${
-                        draftCampaignName === 'campaign_b' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                      }`}
+                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignName === 'campaign_b' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
+                        }`}
                     >
                       Campaign B
                     </div>
@@ -405,14 +400,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
       {/* Cancel and Apply Buttons at the bottom */}
       <div className="flex items-center justify-end gap-4 mt-5 pt-4 border-t border-slate-100">
-        <button 
-          onClick={onCancel} 
+        <button
+          onClick={onCancel}
           className="text-[#64748B] hover:text-slate-800 text-[13px] font-bold cursor-pointer transition-colors"
         >
           Cancel
         </button>
-        <button 
-          onClick={handleApply} 
+        <button
+          onClick={handleApply}
           className="bg-[#004370] text-white px-4 py-2.5 rounded-xl text-[13px] font-bold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm"
         >
           Apply Filter

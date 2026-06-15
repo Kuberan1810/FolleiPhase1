@@ -19,7 +19,7 @@ const TermsAndConditions: React.FC = () => {
                             <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
                                 Intelligence Hub
                             </span>
-                            <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Terms and Conditions</h1>
+                            <h1 className="text-[22px] sm:text-[30px] font-bold text-[#191C1E] tracking-tight">Terms and Conditions</h1>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ const TermsAndConditions: React.FC = () => {
                     <div className="space-y-6">
                         <div className="flex items-center gap-4">
                             <span className="text-[14px] font-bold bg-[#F2F4F6] text-[#0D4D77] w-[40px] h-[40px] flex items-center justify-center rounded-[12px]">02</span>
-                            <h2 className="text-xl md:text-[24px]  font-bold text-[#191C1E]">Privacy & Data Governance</h2>
+                            <h2 className="text-[17px] sm:text-xl md:text-[24px] font-bold text-[#191C1E]">Privacy & Data Governance</h2>
                         </div>
                         <div className="space-y-6">
                             <p className="text-[16px] text-[#434655] leading-relaxed w-full">

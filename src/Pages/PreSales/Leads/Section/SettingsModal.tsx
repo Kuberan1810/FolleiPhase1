@@ -30,27 +30,27 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   return (
     <>
       {/* Backdrop overlay */}
-      <div 
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-100" 
-        onClick={onClose} 
+      <div
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-100"
+        onClick={onClose}
       />
-      
+
       {/* Settings Modal Dialog */}
-      <div 
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-xl z-110 w-full max-w-[600px] border border-slate-100 overflow-hidden font-sans"
+      <div
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-xl z-110 w-[92%] sm:w-full max-w-[600px] border border-slate-100 overflow-hidden font-sans"
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         {/* Header */}
-        <div className="px-8 py-5 border-b border-slate-100">
+        <div className="px-6 sm:px-8 py-5 border-b border-slate-100">
           <h2 className="text-[#0D1C2E] text-[20px] font-bold tracking-tight">
             Kanban View - Settings
           </h2>
         </div>
 
         {/* Body */}
-        <div className="p-8 flex flex-col gap-6">
+        <div className="p-6 sm:p-8 flex flex-col gap-6">
           {/* Setting item: View Name */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-4">
             <span className="text-[#64748B] text-sm font-medium">
               Kanban View Name
             </span>
@@ -58,16 +58,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               type="text"
               value={viewName}
               onChange={(e) => setViewName(e.target.value)}
-              className="w-[320px] h-[38px] px-3 border border-slate-200 rounded-lg text-sm text-[#0D1C2E] focus:outline-none focus:ring-2 focus:ring-[#004370] bg-white"
+              className="w-full sm:w-[320px] h-[38px] px-3 border border-slate-200 rounded-lg text-sm text-[#0D1C2E] focus:outline-none focus:ring-2 focus:ring-[#004370] bg-white"
             />
           </div>
 
           {/* Setting item: Categorize By */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-4">
             <span className="text-[#64748B] text-sm font-medium">
               Categorize By
             </span>
-            <div className="relative w-[320px]">
+            <div className="relative w-full sm:w-[320px]">
               <button
                 type="button"
                 onClick={() => {
@@ -79,7 +79,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 <span>{categorizeBy}</span>
                 <ChevronDown className="w-4 h-4 text-slate-500" />
               </button>
-              
+
               {showCategorizeDropdown && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowCategorizeDropdown(false)} />
@@ -91,9 +91,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                           setCategorizeBy(opt);
                           setShowCategorizeDropdown(false);
                         }}
-                        className={`px-4 py-2 text-sm cursor-pointer hover:bg-slate-50 transition-colors ${
-                          categorizeBy === opt ? 'bg-[#EFF6FF] text-[#004370] font-semibold' : 'text-[#0D1C2E] font-medium'
-                        }`}
+                        className={`px-4 py-2 text-sm cursor-pointer hover:bg-slate-50 transition-colors ${categorizeBy === opt ? 'bg-[#EFF6FF] text-[#004370] font-semibold' : 'text-[#0D1C2E] font-medium'
+                          }`}
                       >
                         {opt}
                       </div>
@@ -105,11 +104,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* Setting item: Header Style */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-4">
             <span className="text-[#64748B] text-sm font-medium">
               Header Style
             </span>
-            <div className="relative w-[320px]">
+            <div className="relative w-full sm:w-[320px]">
               <button
                 type="button"
                 onClick={() => {
@@ -121,7 +120,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 <span>{headerStyle}</span>
                 <ChevronDown className="w-4 h-4 text-slate-500" />
               </button>
-              
+
               {showHeaderStyleDropdown && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setShowHeaderStyleDropdown(false)} />
@@ -133,9 +132,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                           setHeaderStyle(opt);
                           setShowHeaderStyleDropdown(false);
                         }}
-                        className={`px-4 py-2 text-sm cursor-pointer hover:bg-slate-50 transition-colors ${
-                          headerStyle === opt ? 'bg-[#EFF6FF] text-[#004370] font-semibold' : 'text-[#0D1C2E] font-medium'
-                        }`}
+                        className={`px-4 py-2 text-sm cursor-pointer hover:bg-slate-50 transition-colors ${headerStyle === opt ? 'bg-[#EFF6FF] text-[#004370] font-semibold' : 'text-[#0D1C2E] font-medium'
+                          }`}
                       >
                         {opt}
                       </div>
@@ -148,7 +146,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 bg-[#F8FAFC] border-t border-slate-100 flex justify-between items-center w-full">
+        <div className="px-6 sm:px-8 py-5 bg-[#F8FAFC] border-t border-slate-100 flex justify-between items-center w-full">
           <button
             onClick={onClose}
             className="h-[38px] px-6 border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 rounded-lg text-sm font-semibold transition-colors cursor-pointer"

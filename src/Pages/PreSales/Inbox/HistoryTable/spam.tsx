@@ -71,10 +71,10 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
                 <table className="w-full border-collapse text-left">
                     <thead>
                         <tr className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
-                            <th className="py-4 px-8">Recent chats</th>
+                            <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Reason</th>
-                            <th className="py-4 px-6">Source</th>
-                            <th className="py-4 px-6">Confidence</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Source</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Confidence</th>
                             <th className="py-4 px-8 whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
@@ -82,7 +82,7 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
                         {filteredChats.length > 0 ? (
                             filteredChats.map((chat) => (
                                 <tr key={chat.id} className="hover:bg-slate-50 transition-colors">
-                                    <td className="py-4 px-8">
+                                    <td className="py-4 px-8 whitespace-nowrap">
                                         <div className="flex items-center gap-3">
                                             <div className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}>
                                                 {chat.avatarChar}
@@ -94,15 +94,15 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
                                         {chat.reason}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.source}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.confi}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.action}
                                     </td>
                                 </tr>

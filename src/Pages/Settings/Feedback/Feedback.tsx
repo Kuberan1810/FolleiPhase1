@@ -20,7 +20,7 @@ const Feedback: React.FC = () => {
             case 'Experience':
                 return 'How was your overall experience?';
             case 'Suggestion':
-                return 'What improvement do you suggest?';          
+                return 'What improvement do you suggest?';
         }
     };
 
@@ -36,16 +36,16 @@ const Feedback: React.FC = () => {
                             <span className="text-[#626262]">{'>'}</span>
                             <span className="text-[#004370] font-medium">Feedback</span>
                         </div>
-                       <div className="flex flex-col gap-1.5">
-                         <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
-                            Intelligence Hub
-                        </span>
-                         <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Feedback</h1>
-                       </div>
+                        <div className="flex flex-col gap-1.5">
+                            <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
+                                Intelligence Hub
+                            </span>
+                            <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Feedback</h1>
+                        </div>
                     </div>
 
 
-                   
+
 
                 </div>
 
@@ -113,7 +113,7 @@ const Feedback: React.FC = () => {
                     <div className="flex flex-col items-center gap-4 pt-4">
                         <button className="flex items-center w-[200px] md:w-[260px] h-[52px] md:h-[68px] justify-center gap-2 bg-[#004370] hover:bg-[#00365a] text-white rounded-[12px] text-[14px] md:text-[16px] font-bold transition-all  cursor-pointer">
                             Submit Feedback
-                         
+
                         </button>
                         <p className="text-[10px] text-[#94A3B8] font-medium uppercase tracking-widest text-center">
                             OUR TEAM REVIEWS EVERY RESPONSE WITHIN 24 HOURS.

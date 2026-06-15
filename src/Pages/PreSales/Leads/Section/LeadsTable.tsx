@@ -69,8 +69,8 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
         <table className="w-full min-w-[900px] border-collapse text-left">
           <thead>
             <tr className="bg-[#F6FAFF] h-[48px]">
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-l-[10px]">Date</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope">
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-l-[10px] whitespace-nowrap">Date</th>
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">
                 <div className="flex items-center gap-1.5 select-none">
                   <span>LEAD</span>
                   <span 
@@ -104,10 +104,10 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </span>
                 </div>
               </th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope">Source</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope text-center">Status</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope">Score</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-r-[10px]">Activity</th>
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">Source</th>
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope text-center whitespace-nowrap">Status</th>
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">Score</th>
+              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-r-[10px] whitespace-nowrap">Activity</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -120,7 +120,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                 >
                   {/* Date */}
                   <td 
-                    className="px-6 py-5"
+                    className="px-6 py-5 whitespace-nowrap"
                     style={{
                       fontFamily: 'Manrope, sans-serif',
                       fontWeight: 500,
@@ -134,14 +134,14 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </td>
 
                   {/* Lead Avatar + Name + Email */}
-                  <td className="px-6 py-5">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
                         {getInitials(lead.name)}
                       </div>
                       <div className="min-w-0">
                         <h4 
-                          className="transition-colors truncate"
+                          className="transition-colors truncate font-sans"
                           style={{
                             fontFamily: 'Inter, sans-serif',
                             fontWeight: 600,
@@ -171,7 +171,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </td>
 
                   {/* Source */}
-                  <td className="px-6 py-5">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <div className="relative group/tooltip inline-block">
                       <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 transition-colors">
                         {getSourceIcon(lead.source)}
@@ -188,9 +188,9 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </td>
 
                   {/* Status */}
-                  <td className="px-6 py-5 text-center">
+                  <td className="px-6 py-5 text-center whitespace-nowrap">
                     <span 
-                      className="inline-flex items-center justify-center font-bold tracking-wider"
+                      className="inline-flex items-center justify-center font-bold tracking-wider whitespace-nowrap"
                       style={{
                         padding: '3.5px 12px',
                         borderRadius: '10px',
@@ -216,9 +216,9 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </td>
 
                   {/* Score Badge */}
-                  <td className="px-6 py-5">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <span 
-                      className="inline-flex items-center"
+                      className="inline-flex items-center whitespace-nowrap"
                       style={{
                         padding: '5px 8px',
                         borderRadius: '10px',
@@ -247,7 +247,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </td>
 
                   {/* Activity */}
-                  <td className="px-6 py-5">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <div className="min-w-[120px]">
                       <p 
                         style={{

@@ -24,7 +24,7 @@ const PrivacyPolicy: React.FC = () => {
               <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em] block">
                 Intelligence Hub
               </span>
-              <h1 className="text-[30px] font-bold text-[#191C1E] tracking-tight">Privacy policy</h1>
+              <h1 className="text-[22px] sm:text-[30px] font-bold text-[#191C1E] tracking-tight">Privacy policy</h1>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@ const PrivacyPolicy: React.FC = () => {
                 <div className="w-8 h-8 rounded-[12px] bg-white/20 flex items-center justify-center text-white">
                   <ShieldCheck size={16} />
                 </div>
-                <h2 className="text-[20px] sm:text-[24px] font-bold ">4. Security Protocols</h2>
+                <h2 className="text-[16px] sm:text-[24px] font-bold ">4. Security Protocols</h2>
               </div>
               <div className="space-y-6 relative z-10">
                 <p className="text-[14px] sm:text-[16px] text-white/80 leading-relaxed w-full">

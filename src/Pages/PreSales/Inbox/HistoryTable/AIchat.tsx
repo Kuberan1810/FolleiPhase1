@@ -71,10 +71,10 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                     <thead>
                         <tr
                             className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
-                            <th className="py-4 px-8">Recent chats</th>
+                            <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Number</th>
-                            <th className="py-4 px-6">Tone</th>
-                            <th className="py-4 px-6">Intent</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Tone</th>
+                            <th className="py-4 px-6 whitespace-nowrap">Intent</th>
                             <th className="py-4 px-8 whitespace-nowrap">Pricing discussed</th>
                         </tr>
                     </thead>
@@ -85,7 +85,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                                     key={chat.id}
                                     className="hover:bg-slate-50 transition-colors"
                                 >
-                                    <td className="py-4 px-8">
+                                    <td className="py-4 px-8 whitespace-nowrap">
                                         <div className="flex items-center gap-3">
                                             <div
                                                 className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}
@@ -100,15 +100,15 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                                         {chat.number}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.tone}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.intent}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium">
+                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.pricingDiscussed}
                                     </td>
                                 </tr>
