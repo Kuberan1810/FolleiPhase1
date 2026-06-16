@@ -34,7 +34,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="relative flex items-center gap-5 justify-between border-b border-[#E2E8F080] bg-white px-4 lg:px-6 font-['Manrope'] py-5">
+        <header className="relative flex items-center justify-between bg-transparent px-6 font-['Urbanist'] py-4">
             {/* Mobile Search Overlay */}
             {showMobileSearch && (
                 <div className="absolute inset-0 z-50 flex items-center justify-between bg-white px-4 md:hidden">
@@ -47,68 +47,36 @@ const Header: React.FC = () => {
                 </div>
             )}
 
-            <div className="flex items-center gap-4 flex-1">
-
-                <div className="flex items-center gap-2.5 lg:hidden">
-                    <Link to={salesMode === 'postsales' ? `/postsales/dashboard` : `/presales/dashboard`} className='lg:w-28 md:w-26 w-24 cursor-pointer'>
-                        <img src={FolleiLogo} alt="FolleiLogo" />
-                    </Link>
-                </div>
-
+            <div className="flex items-center flex-1">
                 {/* Search */}
-                <div className="relative w-full  hidden md:block">
+                <div className="relative w-full max-w-[320px]">
                     <SaasSearch />
                 </div>
             </div>
 
-            <div className='flex lg:gap-20 md:gap-16 sm:gap-10 gap-5'>
+            <div className='flex items-center gap-4'>
                 {/* Inbound / Outbound Toggle */}
                 <div className='hidden sm:flex'>
                     <BoundToggleSwitch salesMode={salesMode} onToggle={handleToggle} />
-               </div>
+                </div>
 
-                <div className="flex items-center gap-3 lg:gap-6">
-                    <div className="flex items-center gap-4 lg:gap-5 border-r border-[#E2E8F0] pr-3 lg:pr-6">
-                        <button 
-                            onClick={() => setShowMobileSearch(true)}
-                            className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 md:hidden block"
-                        >
-                            <Search size={24} />
-                        </button>
-
-                        <button
+                <div className="flex items-center gap-4">
+                    <button
                         onClick={()=>{navigate("/notifications")}} 
                         className="relative p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300">
-                            <NotificationBing color='currentColor' size={24} />
-                            <span className="absolute top-2 h-3 w-3 rounded-full bg-red-500 border-2 border-white duration-300"></span>
-                        </button>
+                        <NotificationBing color='currentColor' size={24} />
+                        <span className="absolute top-2 h-3 w-3 rounded-full bg-red-500 border-2 border-white duration-300"></span>
+                    </button>
 
-                        <button
-                            onClick={() => { navigate("/settings/help")}} 
-                            className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 hidden sm:block">
-                            <InfoCircle color='currentColor' size={24} />
-                        </button>
-
-                        <button
-                        
-                            onClick={()=>{navigate("/settings")}}
-                            className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 sm:hidden block">
-                            <Setting color='currentColor' size={24} />
-                        </button>
-                    </div>
-
-                    <div className="flex items-center gap-2 cursor-pointer shrink-0">
-                        <button
-                        
-                            onClick={() => { navigate("/settings/profile") }}
-                            className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100 cursor-pointer">
-                            <img
-                                src={profileImg}
-                                alt="User profile"
-                                className="h-full w-full object-cover"
-                            />
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => { navigate("/settings/profile") }}
+                        className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100 cursor-pointer shrink-0">
+                        <img
+                            src={profileImg}
+                            alt="User profile"
+                            className="h-full w-full object-cover"
+                        />
+                    </button>
                 </div>
             </div>
         </header>

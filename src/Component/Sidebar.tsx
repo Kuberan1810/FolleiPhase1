@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 
 import { Element4, Profile2User, Stickynote,HierarchySquare, Setting, DocumentUpload, DirectInbox, Diagram } from "iconsax-react"
-import FolleiLogo from "../assets/logo/FolleiLogo.svg"
+import FolleiCircle from "../assets/logo/FolleiCircle.svg"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import { Layers } from 'lucide-react';
@@ -126,87 +126,176 @@ const Sidebar: React.FC = () => {
        
 
             
-            {/* Desktop Sidebar */}
-            <aside className="w-64 flex-col border-r border-[#E2E8F080] bg-white lg:flex items-between hidden h-screen">
-                <div className="flex flex-col items-start justify-center gap-3 px-6 py-8">
-                    <Link to={`${prefix}/dashboard`} className='w-28 cursor-pointer'>
-                        <img src={FolleiLogo} alt="FolleiLogo" />
-                    </Link>
-                    {/* <p className=" text-[#4286C4] text-[12px] font-semibold font-[Manrope] ">AI-POWERED SALES</p> */}
+            {/* Desktop Sidebar Wrapper */}
+            <div className="hidden lg:flex flex-col ml-3 my-3 h-[calc(100vh-24px)] w-[72px] shrink-0">
+
+              {/* Logo - sits above sidebar */}
+              <div className="flex justify-center pb-2 shrink-0">
+                <img
+                  src={FolleiCircle}
+                  alt="Follei"
+                  className="w-11 h-11 rounded-full object-cover"
+                />
+              </div>
+
+              {/* Sidebar */}
+              <aside className="flex flex-col bg-[#014370] rounded-2xl flex-1 relative w-full overflow-visible">
+
+                {/* Active white pill — single element animated with layoutId */}
+                {(() => {
+                  const ITEM_HEIGHT = 50;
+                  const GAP = 12;
+                  const TOP_PADDING = 12;
+                  const CORNER = 20;
+
+                  const activeNavIndex = navItems.findIndex(item =>
+                    location.pathname === item.path ||
+                    (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
+                  );
+                  const settingsActive = location.pathname.startsWith('/settings');
+
+                  const activeTop = activeNavIndex >= 0
+                    ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
+                    : null;
+
+                  const showPill = activeNavIndex >= 0 || settingsActive;
+
+                  return showPill ? (
+                    <motion.div
+                      layoutId="active-pill"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                      className="absolute right-0 z-0 pointer-events-none"
+                      style={{
+                        left: '10px',
+                        top: activeTop !== null ? activeTop : undefined,
+                        bottom: settingsActive && activeNavIndex < 0 ? '20px' : undefined,
+                        height: settingsActive && activeNavIndex < 0 ? undefined : `${ITEM_HEIGHT}px`,
+                        backgroundColor: 'white',
+                        borderRadius: '14px 0 0 14px',
+                      }}
+                    />
+                  ) : null;
+                })()}
+
+                {/* Top concave corner */}
+                {(() => {
+                  const ITEM_HEIGHT = 50;
+                  const GAP = 12;
+                  const TOP_PADDING = 12;
+                  const CORNER = 20;
+
+                  const activeNavIndex = navItems.findIndex(item =>
+                    location.pathname === item.path ||
+                    (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
+                  );
+                  const settingsActive = location.pathname.startsWith('/settings');
+                  const activeTop = activeNavIndex >= 0
+                    ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
+                    : null;
+
+                  if (!activeNavIndex && activeNavIndex !== 0 && !settingsActive) return null;
+                  if (activeNavIndex < 0 && !settingsActive) return null;
+
+                  return (
+                    <motion.div
+                      layoutId="active-corner-top"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                      className="absolute right-0 z-10 pointer-events-none"
+                      style={{
+                        width: `${CORNER}px`,
+                        height: `${CORNER}px`,
+                        top: activeTop !== null ? activeTop - CORNER : undefined,
+                        bottom: settingsActive && activeNavIndex < 0 ? `${20 + ITEM_HEIGHT}px` : undefined,
+                        backgroundColor: '#014370',
+                        borderBottomRightRadius: '14px',
+                        boxShadow: `${CORNER/2}px ${CORNER/2}px 0 ${CORNER/2}px white`,
+                      }}
+                    />
+                  );
+                })()}
+
+                {/* Bottom concave corner */}
+                {(() => {
+                  const ITEM_HEIGHT = 50;
+                  const GAP = 12;
+                  const TOP_PADDING = 12;
+                  const CORNER = 20;
+
+                  const activeNavIndex = navItems.findIndex(item =>
+                    location.pathname === item.path ||
+                    (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
+                  );
+                  const settingsActive = location.pathname.startsWith('/settings');
+                  const activeTop = activeNavIndex >= 0
+                    ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
+                    : null;
+
+                  if (activeNavIndex < 0 && !settingsActive) return null;
+
+                  return (
+                    <motion.div
+                      layoutId="active-corner-bottom"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                      className="absolute right-0 z-10 pointer-events-none"
+                      style={{
+                        width: `${CORNER}px`,
+                        height: `${CORNER}px`,
+                        top: activeTop !== null ? activeTop + ITEM_HEIGHT : undefined,
+                        bottom: settingsActive && activeNavIndex < 0 ? `${20 - CORNER}px` : undefined,
+                        backgroundColor: '#014370',
+                        borderTopRightRadius: '14px',
+                        boxShadow: `${CORNER/2}px -${CORNER/2}px 0 ${CORNER/2}px white`,
+                      }}
+                    />
+                  );
+                })()}
+
+                {/* Nav items */}
+                <nav className="flex flex-1 flex-col items-center w-full overflow-visible pt-3 gap-3">
+                  {navItems.map((item, index) => {
+                    const isActive = location.pathname === item.path ||
+                      (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`));
+
+                    return (
+                      <div key={index} className="relative w-full group overflow-visible">
+                        <NavLink
+                          to={item.path}
+                          className="relative z-20 flex items-center justify-center py-3.5 w-full cursor-pointer transition-colors duration-200"
+                        >
+                          <item.icon
+                            color={isActive ? '#014370' : 'rgba(255,255,255,0.5)'}
+                            size={22}
+                          />
+                        </NavLink>
+                        {/* Tooltip */}
+                        <span className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#014370] text-white text-sm font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[999] shadow-lg">
+                          {item.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </nav>
+
+                {/* Settings */}
+                <div className="pb-5 w-full overflow-visible">
+                  <div className="relative w-full group overflow-visible">
+                    <NavLink
+                      to="/settings"
+                      className="relative z-20 flex items-center justify-center py-3.5 w-full cursor-pointer transition-colors duration-200"
+                    >
+                      {(() => {
+                        const isActive = location.pathname.startsWith('/settings');
+                        return <Setting color={isActive ? '#014370' : 'rgba(255,255,255,0.5)'} size={22} />;
+                      })()}
+                    </NavLink>
+                    <span className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#014370] text-white text-sm font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[999] shadow-lg">
+                      Settings
+                    </span>
+                  </div>
                 </div>
 
-                <div className='flex flex-col justify-between h-screen gap-5 scrollbar-hide overflow-scroll '>
-                    <nav className="flex flex-1 flex-col gap-4 px-4">
-
-                        {navItems.map((item, index) => {
-                            const isCustomActive = (isActive: boolean) => 
-                                isActive || (item.label === 'Dashboard' && location.pathname.startsWith('/dashboard'));
-
-
-                            return (
-                                <NavLink
-                                    key={index}
-                                    to={item.path}
-                                    className={({ isActive }) =>
-                                        `group relative flex items-center gap-3 px-4 py-3 text-sm font-semibold transition-all duration-200 cursor-pointer rounded-lg
-                                ${isCustomActive(isActive) ? active : inactive}`
-                                    }
-                                >
-                                    {({ isActive }: { isActive: boolean }) => (
-                                        <>
-                                            <item.icon strokeWidth={1.5} color='currentColor' size={22} />
-                                            <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
-                                        </>
-                                    )}
-                                </NavLink>
-                            );
-                        })}
-                    </nav>
-
-                    <div className="mt-auto flex flex-col gap-6 px-4 font-[inter] pb-8">
-                        <div className="rounded-[16px] border border-[#005B9620] bg-[#005B96]/10 p-5">
-                            <div className="text-[14px] font-bold text-[#004370] tracking-wider">Upgrade Plan</div>
-                            <p className="mt-2 text-[12px] leading-relaxed text-[#414750]">
-                                Get advanced analytics and automation tools.
-                            </p>
-                            <BtnCom
-                                title="Upgrade Now"
-                                onClick={() => { navigate('/settings/payment') }}
-                                variant="primary"
-                                // icon={Sparkles}
-                                className="mt-4 w-full text-[14px]! py-2.5! "
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-4">
-                            {bottomNavItems.map((item, index) => (
-                                item.isDanger ? (
-                                    <button
-                                        key={index}
-                                        onClick={() => setShowConfirmLogout(true)}
-                                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-500 hover:bg-red-50 w-full cursor-pointer transition-colors duration-200"
-                                    >
-                                        <item.icon color='currentColor' size={22} />
-                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
-                                    </button>
-                                ) : (
-                                    <NavLink
-                                        key={index}
-                                        to={item.path}
-                                        className={({ isActive }) =>
-                                            `flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer
-  ${isActive ? "bg-[#E0F2FE60] text-[#075985]" : "text-[#64748B] hover:bg-[#E0F2FE]/30"}`
-                                        }
-                                    >
-                                        <item.icon color='currentColor' size={22} />
-                                        <span className='text-base font-[Manrope] font-semibold'>{item.label}</span>
-                                    </NavLink>
-                                )
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </aside>
+              </aside>
+            </div>
 
             {showConfirmLogout && (
                 <ConfirmLogoutModal

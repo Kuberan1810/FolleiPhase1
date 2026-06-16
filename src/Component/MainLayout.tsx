@@ -7,8 +7,8 @@ const MainLayout = () => {
   return (
 
 
-    <div className="flex h-screen overflow-hidden bg-[#F7F9FB]">
-      <div className="h-screen shrink-0">
+    <div className="flex h-screen overflow-hidden bg-transparent" style={{ background: 'linear-gradient(to right, #FFFFFF, #F3F6FC)' }}>
+      <div className="shrink-0">
         <Sidebar />
       </div>
       <div className="flex flex-col flex-1 min-w-0 transition-all duration-300">

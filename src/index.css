@@ -4,10 +4,9 @@
 @plugin "tailwind-scrollbar";
 
 @theme {
-    --font-inter: "Inter", sans-serif;
-    --font-poppins: "Poppins", sans-serif;
-    --font-manrope: "Manrope", sans-serif;
-    
+    --font-inter: "Urbanist", sans-serif;
+
+
     --animate-spin-slow: spin 4s linear infinite;
     --animate-spin-reverse: spin-reverse 6s linear infinite;
     --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
@@ -17,57 +16,78 @@
 }
 
 @keyframes spin-reverse {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
 }
+
 @keyframes pulse-ring {
-    0%, 100% { transform: scale(1); opacity: 0.6; }
-    50% { transform: scale(1.15); opacity: 0; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 0;
+    }
 }
+
 @keyframes breathe {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
 }
+
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
 }
+
 @keyframes shine {
-    0% { transform: translateX(-100%) skewX(-15deg); }
-    100% { transform: translateX(250%) skewX(-15deg); }
+    0% {
+        transform: translateX(-100%) skewX(-15deg);
+    }
+
+    100% {
+        transform: translateX(250%) skewX(-15deg);
+    }
 }
 
 body {
-    font-family: "Inter", "Manrope", sans-serif;
-    background-color: #FAFAFA;
-    color: #191C1E;
+
+    font-family: "Urbanist", sans-serif;
+    background: linear-gradient(180deg, #ffffff 0%, #F3F6FC 100%);
 }
 
 .BoxStyle {
     padding: 20px;
     border-radius: 20px;
-    border: 1px solid #E2E8F090;
+    border: 1px solid #EDF3FD;
     background-color: white;
 }
 
-.text-primary {
-    color: #191C1E; 
-}
-.text-secondary {
-    color: #64748B;
-}
-
-.font-manrope {
-    font-family: 'Manrope', sans-serif !important;
-}
-
-.font-poppins {
-    font-family: 'Poppins', sans-serif !important;
-}
-
-.font-inter {
-    font-family: 'Inter', sans-serif !important;
-}
 
 .font-urbanist {
     font-family: 'Urbanist', sans-serif !important;
@@ -93,9 +113,11 @@ body {
 .custom-scroll::-webkit-scrollbar {
     width: 6px;
 }
+
 .custom-scroll::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .custom-scroll::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #0C4A6E, #3B82F6);
     border-radius: 999px;
@@ -151,27 +173,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* NewLeads table custom scrollbar */
 .leads-table-scroll::-webkit-scrollbar {
-  height: 4px;
+    height: 4px;
 }
+
 .leads-table-scroll::-webkit-scrollbar-track {
-  background: #F1F5F9;
-  border-radius: 99px;
+    background: #F1F5F9;
+    border-radius: 99px;
 }
+
 .leads-table-scroll::-webkit-scrollbar-thumb {
-  background: #004370;
-  border-radius: 99px;
+    background: #004370;
+    border-radius: 99px;
 }
 
 /* FlowBuilder flow-line animation */
 @keyframes flowDash {
-  from {
-    stroke-dashoffset: 22;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+    from {
+        stroke-dashoffset: 22;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 .flow-line {
-  animation: flowDash 1.2s linear infinite;
+    animation: flowDash 1.2s linear infinite;
 }
