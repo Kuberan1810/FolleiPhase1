@@ -61,8 +61,7 @@ const Sidebar: React.FC = () => {
             { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
             { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
             { icon: Stickynote, label: 'Organization Setup', path: `${prefix}/organization-setup` },
-
-
+            { icon: Setting, label: 'Settings', path: '/settings' }
         ];
     } else {
         navItems = [
@@ -74,7 +73,7 @@ const Sidebar: React.FC = () => {
             // { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
             { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
             { icon: Stickynote, label: 'Organization Setup', path: `${prefix}/organization-setup` },
-
+            { icon: Setting, label: 'Settings', path: '/settings' }
         ];
     }
 
@@ -149,27 +148,27 @@ const Sidebar: React.FC = () => {
                   const CORNER = 20;
 
                   const activeNavIndex = navItems.findIndex(item =>
+                    (item.label === 'Settings' && location.pathname.startsWith('/settings')) ||
                     location.pathname === item.path ||
                     (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
                   );
-                  const settingsActive = location.pathname.startsWith('/settings');
 
                   const activeTop = activeNavIndex >= 0
                     ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
                     : null;
+                  
+                  const isSettings = activeNavIndex === navItems.length - 1;
 
-                  const showPill = activeNavIndex >= 0 || settingsActive;
-
-                  return showPill ? (
+                  return activeNavIndex >= 0 ? (
                     <motion.div
                       layoutId="active-pill"
                       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                       className="absolute right-0 z-0 pointer-events-none"
                       style={{
                         left: '10px',
-                        top: activeTop !== null ? activeTop : undefined,
-                        bottom: settingsActive && activeNavIndex < 0 ? '20px' : undefined,
-                        height: settingsActive && activeNavIndex < 0 ? undefined : `${ITEM_HEIGHT}px`,
+                        top: isSettings ? undefined : (activeTop !== null ? activeTop : undefined),
+                        bottom: isSettings ? '20px' : undefined,
+                        height: `${ITEM_HEIGHT}px`,
                         backgroundColor: 'white',
                         borderRadius: '14px 0 0 14px',
                       }}
@@ -185,16 +184,18 @@ const Sidebar: React.FC = () => {
                   const CORNER = 20;
 
                   const activeNavIndex = navItems.findIndex(item =>
+                    (item.label === 'Settings' && location.pathname.startsWith('/settings')) ||
                     location.pathname === item.path ||
                     (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
                   );
-                  const settingsActive = location.pathname.startsWith('/settings');
+                  
                   const activeTop = activeNavIndex >= 0
                     ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
                     : null;
+                  
+                  const isSettings = activeNavIndex === navItems.length - 1;
 
-                  if (!activeNavIndex && activeNavIndex !== 0 && !settingsActive) return null;
-                  if (activeNavIndex < 0 && !settingsActive) return null;
+                  if (activeNavIndex <= 0) return null; // no top corner for first item or if no item active
 
                   return (
                     <motion.div
@@ -204,8 +205,8 @@ const Sidebar: React.FC = () => {
                       style={{
                         width: `${CORNER}px`,
                         height: `${CORNER}px`,
-                        top: activeTop !== null ? activeTop - CORNER : undefined,
-                        bottom: settingsActive && activeNavIndex < 0 ? `${20 + ITEM_HEIGHT}px` : undefined,
+                        top: isSettings ? undefined : (activeTop !== null ? activeTop - CORNER : undefined),
+                        bottom: isSettings ? '70px' : undefined,
                         backgroundColor: '#014370',
                         borderBottomRightRadius: '14px',
                         boxShadow: `${CORNER/2}px ${CORNER/2}px 0 ${CORNER/2}px white`,
@@ -222,15 +223,18 @@ const Sidebar: React.FC = () => {
                   const CORNER = 20;
 
                   const activeNavIndex = navItems.findIndex(item =>
+                    (item.label === 'Settings' && location.pathname.startsWith('/settings')) ||
                     location.pathname === item.path ||
                     (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`))
                   );
-                  const settingsActive = location.pathname.startsWith('/settings');
+                  
                   const activeTop = activeNavIndex >= 0
                     ? TOP_PADDING + activeNavIndex * (ITEM_HEIGHT + GAP)
                     : null;
+                  
+                  const isSettings = activeNavIndex === navItems.length - 1;
 
-                  if (activeNavIndex < 0 && !settingsActive) return null;
+                  if (activeNavIndex < 0 || isSettings) return null; // no bottom corner for settings
 
                   return (
                     <motion.div
@@ -241,7 +245,6 @@ const Sidebar: React.FC = () => {
                         width: `${CORNER}px`,
                         height: `${CORNER}px`,
                         top: activeTop !== null ? activeTop + ITEM_HEIGHT : undefined,
-                        bottom: settingsActive && activeNavIndex < 0 ? `${20 - CORNER}px` : undefined,
                         backgroundColor: '#014370',
                         borderTopRightRadius: '14px',
                         boxShadow: `${CORNER/2}px -${CORNER/2}px 0 ${CORNER/2}px white`,
@@ -253,11 +256,12 @@ const Sidebar: React.FC = () => {
                 {/* Nav items */}
                 <nav className="flex flex-1 flex-col items-center w-full overflow-visible pt-3 gap-3">
                   {navItems.map((item, index) => {
-                    const isActive = location.pathname === item.path ||
+                    const isActive = (item.label === 'Settings' && location.pathname.startsWith('/settings')) ||
+                      location.pathname === item.path ||
                       (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`));
 
                     return (
-                      <div key={index} className="relative w-full group overflow-visible">
+                      <div key={index} className={`relative w-full group overflow-visible ${index === navItems.length - 1 ? 'mt-auto mb-5' : ''}`}>
                         <NavLink
                           to={item.path}
                           className="relative z-20 flex items-center justify-center py-3.5 w-full cursor-pointer transition-colors duration-200"
@@ -268,7 +272,7 @@ const Sidebar: React.FC = () => {
                           />
                         </NavLink>
                         {/* Tooltip */}
-                        <span className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#014370] text-white text-sm font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[999] shadow-lg">
+                        <span className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#014370] text-white text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[999] shadow-md">
                           {item.label}
                         </span>
                       </div>
@@ -276,23 +280,7 @@ const Sidebar: React.FC = () => {
                   })}
                 </nav>
 
-                {/* Settings */}
-                <div className="pb-5 w-full overflow-visible">
-                  <div className="relative w-full group overflow-visible">
-                    <NavLink
-                      to="/settings"
-                      className="relative z-20 flex items-center justify-center py-3.5 w-full cursor-pointer transition-colors duration-200"
-                    >
-                      {(() => {
-                        const isActive = location.pathname.startsWith('/settings');
-                        return <Setting color={isActive ? '#014370' : 'rgba(255,255,255,0.5)'} size={22} />;
-                      })()}
-                    </NavLink>
-                    <span className="absolute left-[calc(100%+16px)] top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#014370] text-white text-sm font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[999] shadow-lg">
-                      Settings
-                    </span>
-                  </div>
-                </div>
+
 
               </aside>
             </div>
