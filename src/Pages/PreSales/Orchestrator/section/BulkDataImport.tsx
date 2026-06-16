@@ -50,7 +50,7 @@ const BulkDataImport = () => {
             </div>
 
             {/* Table */}
-            <div className="rounded-xl border border-[#E5E7EB] overflow-x-auto">
+            {/* <div className="rounded-xl border border-[#E5E7EB] overflow-x-auto">
                 <table className="w-full text-left" style={{ minWidth: 360 }}>
                     <thead>
                         <tr className="bg-[#F1F5F9]">
@@ -69,7 +69,7 @@ const BulkDataImport = () => {
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </div> */}
 
             {/* Upload button */}
             <button className="w-full flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors">

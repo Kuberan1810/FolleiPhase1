@@ -17,7 +17,6 @@ import InactiveLeadsPage from "../Pages/AiInsights/InactiveLeadsPage";
 import NotRepliedLeadsPage from "../Pages/AiInsights/NotRepliedLeadsPage";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
-import Reports from "../Pages/PreSales/Reports/Reports";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/inbox";
 import Campaigns from "../Pages/PreSales/campaings/Campaigns";
@@ -68,7 +67,6 @@ import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
 import CampaignCreation from "../Pages/PostSales/campaings/section/CampaignCreation";
-import Analytics from "../Pages/PreSales/Analytics/Analytics";
 import Leads from "../Pages/PreSales/Leads/Leads";
 
 
@@ -123,8 +121,6 @@ export default function AppRoutes() {
         <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
         <Route path="campaigns/drafts" element={<CampaignDrafts />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="reports" element={<Reports />} />
         <Route path="data-import" element={<Orchestrator />} />
 
         <Route path="organization-setup" element={<CompanyDetails />} />
