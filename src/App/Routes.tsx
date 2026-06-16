@@ -11,10 +11,10 @@ import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
-import PendingTasksPage from "../Pages/Dashboard/PendingTasksPage";
-import AIInsightsPage from "../Pages/Dashboard/AIInsightsPage";
-import InactiveLeadsPage from "../Pages/Dashboard/InactiveLeadsPage";
-import NotRepliedLeadsPage from "../Pages/Dashboard/NotRepliedLeadsPage";
+import PendingTasksPage from "../Pages/AiInsights/PendingTasksPage";
+import AIInsightsPage from "../Pages/AiInsights/AIInsightsPage";
+import InactiveLeadsPage from "../Pages/AiInsights/InactiveLeadsPage";
+import NotRepliedLeadsPage from "../Pages/AiInsights/NotRepliedLeadsPage";
 import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
 import Reports from "../Pages/PreSales/Reports/Reports";

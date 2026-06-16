@@ -1,4 +1,3 @@
-import React from 'react';
 import { Download, Flame, Sun, Zap, FileText, Globe, CalendarPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
