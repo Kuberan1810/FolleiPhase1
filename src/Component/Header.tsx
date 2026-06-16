@@ -34,7 +34,7 @@ const Header: React.FC = () => {
     };
 
     return (
-        <header className="relative flex items-center gap-5 justify-between border-b border-[#E2E8F080] bg-white px-4 lg:px-6 font-['Manrope'] py-5">
+        <header className="relative flex items-center gap-5 justify-betweenpx-4 lg:px-6  py-5">
             {/* Mobile Search Overlay */}
             {showMobileSearch && (
                 <div className="absolute inset-0 z-50 flex items-center justify-between bg-white px-4 md:hidden">
