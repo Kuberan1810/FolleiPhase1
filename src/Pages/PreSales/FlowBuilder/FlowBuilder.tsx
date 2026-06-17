@@ -288,7 +288,7 @@ const FlowBuilder = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6 md:gap-8 font-['Inter'] min-h-screen lg:mb-0 mb-20 bg-white">
+    <div className="w-full flex flex-col gap-6 md:gap-8 font-['Inter'] min-h-screen lg:mb-0 mb-20 ">
       <div className="px-4 lg:px-6 pt-4 lg:pt-6">
         <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
           <div>

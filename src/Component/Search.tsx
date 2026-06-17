@@ -99,7 +99,7 @@ export default function SaasSearch() {
           }}
           onFocus={() => { if (query.trim()) setOpen(true); }}
           onKeyDown={handleKey}
-          className={`w-full pl-10 pr-9 py-2.5 rounded-xl text-[14px] font-semibold text-[#004370] placeholder:text-[#6B7280] placeholder:font-medium transition-all outline-none ${
+          className={`w-full pl-10 pr-9 py-2.5 rounded-xl text-[14px] font-semibold text-[#004370] placeholder:text-[#6B7280] placeholder:font-medium transition-all outline-none shadow-[#EDF3FD] shadow-xs ${
             open && query
               ? "bg-white border-[1.5px] border-[#004370] focus:outline-none focus:ring-1"
               : "bg-[#F7F9FF] border-[1.5px] border-[#EDF3FD] focus:bg-white focus:border-[#004370] focus:outline-none focus:ring-1"
