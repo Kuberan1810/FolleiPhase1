@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Auth Pages
@@ -19,9 +20,9 @@ import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/inbox";
-import Campaigns from "../Pages/PreSales/campaings/Campaigns";
-import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
-import CampaignDrafts from "../Pages/PreSales/campaings/section/CampaignDrafts";
+const CampaignDash = React.lazy(() => import('../Pages/PreSales/campaings/campaigndash/index'));
+const CampaignDetail = React.lazy(() => import('../Pages/PreSales/campaings/campaigndetail/index'));
+const EngagementAll = React.lazy(() => import('../Pages/PreSales/campaings/engagementall/index'));
 
 import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
 
@@ -114,12 +115,9 @@ export default function AppRoutes() {
         <Route path="inbox" element={<InBox />} />
         <Route path="leads" element={<Leads />} />
         <Route path="campaign" element={<Navigate to="/presales/campaigns" replace />} />
-        <Route path="campaigns" element={<Campaigns />} />
-        <Route path="campaigns/:campaignId" element={<Campaigns />} />
-        <Route path="campaigns/:campaignId/activities" element={<Campaigns />} />
-        <Route path="campaigns/create" element={<Navigate to="/presales/campaigns/create/step/1" replace />} />
-        <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
-        <Route path="campaigns/drafts" element={<CampaignDrafts />} />
+        <Route path="campaigns" element={<CampaignDash />} />
+        <Route path="campaigns/:id" element={<CampaignDetail />} />
+        <Route path="campaigns/:id/engagement" element={<EngagementAll />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="data-import" element={<Orchestrator />} />
 
