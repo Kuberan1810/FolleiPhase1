@@ -17,7 +17,6 @@ import FilterPanel from './FilterPanel';
 import SortDropdown from './SortDropdown';
 import LeadsHeaderCard from './LeadsHeaderCard';
 import { initialLeads } from '../data/mockLeads';
-import LeadProfile from './LeadProfile';
 
 import type { Lead } from '../Leads';
 
@@ -268,16 +267,6 @@ const Leadslayout: React.FC = () => {
     return sortDirection === 'asc' ? comparison : -comparison;
   });
 
-  if (selectedLeadForProfile) {
-    return (
-      <div className="min-h-screen bg-[#F8FAFC] pb-12 font-manrope">
-        <LeadProfile
-          lead={selectedLeadForProfile}
-          onBack={() => setSelectedLeadForProfile(null)}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-12 px-6 font-manrope">
