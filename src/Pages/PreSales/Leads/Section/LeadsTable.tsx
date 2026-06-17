@@ -12,9 +12,6 @@ import type { Lead } from '../Leads';
 
 type LeadsTableProps = {
   leads: Lead[];
-  sortField: 'name' | 'activity' | 'budget' | 'assigned';
-  sortDirection: 'asc' | 'desc';
-  onSortChange: (field: 'name' | 'activity' | 'budget' | 'assigned', direction: 'asc' | 'desc') => void;
   onLeadClick: (lead: Lead) => void;
   selectedLetter: string;
   onSelectLetter: (letter: string) => void;
@@ -116,9 +113,6 @@ const getTempStyle = (temp: string) => {
 
 const LeadsTable: React.FC<LeadsTableProps> = ({
   leads,
-  sortField,
-  sortDirection,
-  onSortChange,
   onLeadClick,
   selectedLetter,
   onSelectLetter

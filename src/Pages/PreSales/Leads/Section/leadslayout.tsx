@@ -170,7 +170,18 @@ const headerCardsData: HeaderCardDataItem[] = [
 
 const Leadslayout: React.FC = () => {
   const [leadsList] = useState<Lead[]>(initialLeads);
-  const searchQuery = '';
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedScores, setSelectedScores] = useState<string[]>([]);
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+
+  // Draft filter states for the popover/modal
+  const [draftSearchQuery, setDraftSearchQuery] = useState('');
+  const [draftStatuses, setDraftStatuses] = useState<string[]>([]);
+  const [draftScores, setDraftScores] = useState<string[]>([]);
+  const [draftSources, setDraftSources] = useState<string[]>([]);
+
+  const [showFilters, setShowFilters] = useState(false);
   const [sortField, setSortField] = useState<'name' | 'activity' | 'budget' | 'assigned'>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [draftSortField, setDraftSortField] = useState<'name' | 'activity' | 'budget' | 'assigned' | null>('name');
@@ -186,16 +197,6 @@ const Leadslayout: React.FC = () => {
   }, [showSortDropdown, sortField, sortDirection]);
 
   const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
-  const [selectedLeads, setSelectedLeads] = useState<string[]>(['all']);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
-  const [selectedSources, setSelectedSources] = useState<string[]>([]);
-  const [selectedScores, setSelectedScores] = useState<string[]>([]);
-  const [campaignStatus, setCampaignStatus] = useState('');
-  const [campaignName, setCampaignName] = useState('');
-
-  // Filters state
-  const [showFilters, setShowFilters] = useState(false);
-
   // Header Style settings state
   const headerStyle = 'Multi Color';
   const categorizeBy = 'Lead Source';
@@ -204,14 +205,11 @@ const Leadslayout: React.FC = () => {
   const [selectedLeadForProfile, setSelectedLeadForProfile] = useState<Lead | null>(null);
   const [selectedLetter, setSelectedLetter] = useState('All');
 
-  const handleClearAll = () => {
-    setSelectedLeads(['all']);
-    setSelectedStatuses([]);
-    setSelectedSources([]);
-    setSelectedScores([]);
-    setCampaignStatus('');
-    setCampaignName('');
-  };
+  useEffect(() => {
+    if (selectedLeadForProfile) {
+      console.log('Lead profile selected:', selectedLeadForProfile.name);
+    }
+  }, [selectedLeadForProfile]);
 
   const handleExportCSV = () => {
     const headers = ['Date', 'Lead Name', 'Email', 'Phone', 'Company', 'Source', 'Status', 'Score', 'Temperature', 'ActivityTime', 'ActivityType'];
@@ -309,14 +307,53 @@ const Leadslayout: React.FC = () => {
 
         {/* Action Controls */}
         <div className="flex items-center gap-3 self-end md:self-center">
-          {/* FILTER Button */}
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
-          >
-            <span>Filter</span>
-            <ChevronDown className="w-4 h-4 text-slate-500" />
-          </button>
+          {/* FILTER Button with Popover */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setDraftSearchQuery(searchQuery);
+                setDraftStatuses(selectedStatuses);
+                setDraftScores(selectedScores);
+                setDraftSources(selectedSources);
+                setShowFilters(!showFilters);
+              }}
+              className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 filter-btn-trigger"
+            >
+              <span>Filter</span>
+              <ChevronDown className="w-4 h-4 text-slate-500" />
+            </button>
+
+            <FilterPanel
+              show={showFilters}
+              onClose={() => setShowFilters(false)}
+              searchQuery={draftSearchQuery}
+              onSearchChange={setDraftSearchQuery}
+              selectedStatuses={draftStatuses}
+              onStatusesChange={setDraftStatuses}
+              selectedScores={draftScores}
+              onScoresChange={setDraftScores}
+              selectedSources={draftSources}
+              onSourcesChange={setDraftSources}
+              onApply={() => {
+                setSearchQuery(draftSearchQuery);
+                setSelectedStatuses(draftStatuses);
+                setSelectedScores(draftScores);
+                setSelectedSources(draftSources);
+                setShowFilters(false);
+              }}
+              onClear={() => {
+                setDraftSearchQuery('');
+                setDraftStatuses([]);
+                setDraftScores([]);
+                setDraftSources([]);
+                setSearchQuery('');
+                setSelectedStatuses([]);
+                setSelectedScores([]);
+                setSelectedSources([]);
+                setShowFilters(false);
+              }}
+            />
+          </div>
 
           {/* SORT Button */}
           <SortDropdown
@@ -410,37 +447,11 @@ const Leadslayout: React.FC = () => {
 
       {/* Side-by-Side Sidebar + Content Layout */}
       <div className="flex gap-6 items-start relative">
-        <FilterPanel
-          show={viewMode === 'list' && showFilters}
-          activeLeads={selectedLeads}
-          activeStatuses={selectedStatuses}
-          activeSources={selectedSources}
-          activeScores={selectedScores}
-          activeCampaignStatus={campaignStatus}
-          activeCampaignName={campaignName}
-          onApplyFilters={(filters) => {
-            setSelectedLeads(filters.leads);
-            setSelectedStatuses(filters.statuses);
-            setSelectedSources(filters.sources);
-            setSelectedScores(filters.scores);
-            setCampaignStatus(filters.campaignStatus);
-            setCampaignName(filters.campaignName);
-          }}
-          onCancel={() => setShowFilters(false)}
-          onClearAll={handleClearAll}
-        />
-
         <div className="flex-1 min-w-0">
           {/* List Layout View */}
           {viewMode === 'list' && (
             <LeadsTable
               leads={filteredLeads}
-              sortField={sortField}
-              sortDirection={sortDirection}
-              onSortChange={(field, direction) => {
-                setSortField(field);
-                setSortDirection(direction);
-              }}
               onLeadClick={setSelectedLeadForProfile}
               selectedLetter={selectedLetter}
               onSelectLetter={setSelectedLetter}

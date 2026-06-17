@@ -1,416 +1,322 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ListFilter,
-  ChevronDown
-} from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Search, ChevronDown, Check } from 'lucide-react';
 
 type FilterPanelProps = {
   show: boolean;
-  activeLeads: string[];
-  activeStatuses: string[];
-  activeSources: string[];
-  activeScores: string[];
-  activeCampaignStatus: string;
-  activeCampaignName: string;
-  onApplyFilters: (filters: {
-    leads: string[];
-    statuses: string[];
-    sources: string[];
-    scores: string[];
-    campaignStatus: string;
-    campaignName: string;
-  }) => void;
-  onCancel: () => void;
-  onClearAll: () => void;
+  onClose: () => void;
+  searchQuery: string;
+  onSearchChange: (val: string) => void;
+  selectedStatuses: string[];
+  onStatusesChange: (vals: string[]) => void;
+  selectedScores: string[];
+  onScoresChange: (vals: string[]) => void;
+  selectedSources: string[];
+  onSourcesChange: (vals: string[]) => void;
+  onApply: () => void;
+  onClear: () => void;
 };
 
-const LEADS_OPTIONS = [
-  { id: 'all', label: 'All Leads' },
-  { id: 'my', label: 'My Leads' },
-  { id: 'today', label: "Today's Leads" },
-  { id: 'spam', label: 'Spam Leads' },
-  { id: 'unread', label: 'Unread Leads' },
-  { id: 'open', label: 'Open Leads' },
-  { id: 'unsubscribed', label: 'Unsubscribed Leads' }
-];
+const STATUS_OPTIONS = ['NEW INQUIRY', 'CONTACTED', 'DEMO SCHEDULED', 'PROPOSAL'];
+const SCORE_OPTIONS = ['Hot', 'Warm', 'Cold'];
+const SOURCE_OPTIONS = ['website', 'campaign', 'shield', 'external'];
 
-const STATUS_OPTIONS = [
-  { id: 'NEW INQUIRY', label: 'New Inquiry' },
-  { id: 'CONTACTED', label: 'Contacted' },
-  { id: 'QUALIFIED', label: 'Qualified' },
-  { id: 'DEMO SCHEDULED', label: 'Demo scheduled' },
-  { id: 'PROPOSAL', label: 'Proposal' },
-  { id: 'NEGOTIATION', label: 'Negotiation' },
-  { id: 'CONVERTED', label: 'Converted' },
-  { id: 'NOT CONVERTED', label: 'Not Converted' }
-];
-
-const SOURCE_OPTIONS = [
-  { id: 'website', label: 'Website' },
-  { id: 'campaign', label: 'Ads' },
-  { id: 'shield', label: 'Referral' },
-  { id: 'external', label: 'Import' }
-];
-
-const SCORE_OPTIONS = [
-  { id: 'Hot', label: 'Hot' },
-  { id: 'Warm', label: 'Warm' },
-  { id: 'Cold', label: 'Cold' }
-];
-
-type FilterSectionProps = {
-  title: string;
-  isOpen: boolean;
-  onToggle: () => void;
-  options: { id: string; label: string }[];
-  draftValues: string[];
-  onChange: (id: string) => void;
+const formatStatus = (s: string) => {
+  if (s === 'NEW INQUIRY') return 'New Inquiry';
+  if (s === 'DEMO SCHEDULED') return 'Demo Scheduled';
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 };
 
-const FilterSection: React.FC<FilterSectionProps> = ({
-  title,
-  isOpen,
-  onToggle,
-  options,
-  draftValues,
-  onChange
-}) => (
-  <div>
-    <div
-      onClick={onToggle}
-      className="flex items-center gap-2 py-2.5 cursor-pointer select-none group"
-    >
-      {isOpen ? (
-        <svg className="w-3 h-3 fill-[#004370] text-[#004370] shrink-0" viewBox="0 0 24 24">
-          <path d="M5 8h14l-7 11z" />
-        </svg>
-      ) : (
-        <svg className="w-3 h-3 fill-[#004370] text-[#004370] shrink-0" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      )}
-      <span
-        style={{
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 700,
-          fontSize: '12px',
-          lineHeight: '16px',
-          letterSpacing: '0.6px',
-          textTransform: 'uppercase',
-          color: '#004370'
-        }}
-      >
-        {title}
-      </span>
-    </div>
-    {isOpen && (
-      <div className="pl-1 pr-1 pb-3 space-y-2.5">
-        {options.map(option => {
-          const checked = draftValues.includes(option.id);
-          return (
-            <div
-              key={option.id}
-              className="flex items-center gap-2.5 cursor-pointer text-slate-700 hover:text-slate-900 group/item"
-              onClick={() => onChange(option.id)}
-            >
-              <div className={`w-[18px] h-[18px] rounded border flex items-center justify-center transition-colors ${checked
-                  ? 'bg-[#004370] border-[#004370] text-white'
-                  : 'bg-white border-slate-300'
-                }`}>
-                {checked && (
-                  <svg className="w-2.5 h-2.5 stroke-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </div>
-              <span className="text-[13px] font-medium leading-none font-manrope select-none">
-                {option.label}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    )}
-  </div>
-);
+const formatSource = (src: string) => {
+  if (src === 'website') return 'Website';
+  if (src === 'campaign') return 'Campaign';
+  if (src === 'shield') return 'Referral';
+  if (src === 'external') return 'Import';
+  return src.charAt(0).toUpperCase() + src.slice(1).toLowerCase();
+};
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
   show,
-  activeLeads,
-  activeStatuses,
-  activeSources,
-  activeScores,
-  activeCampaignStatus,
-  activeCampaignName,
-  onApplyFilters,
-  onCancel,
-  onClearAll
+  onClose,
+  searchQuery,
+  onSearchChange,
+  selectedStatuses,
+  onStatusesChange,
+  selectedScores,
+  onScoresChange,
+  selectedSources,
+  onSourcesChange,
+  onApply,
+  onClear
 }) => {
-  const [leadsOpen, setLeadsOpen] = useState(true);
-  const [statusOpen, setStatusOpen] = useState(true);
-  const [sourceOpen, setSourceOpen] = useState(true);
-  const [scoreOpen, setScoreOpen] = useState(true);
-  const [campaignOpen, setCampaignOpen] = useState(true);
+  const [openDropdown, setOpenDropdown] = useState<'status' | 'score' | 'source' | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const scoreRef = useRef<HTMLDivElement>(null);
+  const sourceRef = useRef<HTMLDivElement>(null);
 
-  // Temporary draft state for the filters
-  const [draftLeads, setDraftLeads] = useState<string[]>([]);
-  const [draftStatuses, setDraftStatuses] = useState<string[]>([]);
-  const [draftSources, setDraftSources] = useState<string[]>([]);
-  const [draftScores, setDraftScores] = useState<string[]>([]);
-  const [draftCampaignStatus, setDraftCampaignStatus] = useState('');
-  const [draftCampaignName, setDraftCampaignName] = useState('');
-
-  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
-  const [nameDropdownOpen, setNameDropdownOpen] = useState(false);
-
-  // Sync draft state with active parent state when panel opens
   useEffect(() => {
-    if (show) {
-      setDraftLeads(activeLeads);
-      setDraftStatuses(activeStatuses);
-      setDraftSources(activeSources);
-      setDraftScores(activeScores);
-      setDraftCampaignStatus(activeCampaignStatus);
-      setDraftCampaignName(activeCampaignName);
-    }
-  }, [show, activeLeads, activeStatuses, activeSources, activeScores, activeCampaignStatus, activeCampaignName]);
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        openDropdown === 'status' &&
+        statusRef.current &&
+        !statusRef.current.contains(e.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+      if (
+        openDropdown === 'score' &&
+        scoreRef.current &&
+        !scoreRef.current.contains(e.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+      if (
+        openDropdown === 'source' &&
+        sourceRef.current &&
+        !sourceRef.current.contains(e.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        const isFilterBtn = (e.target as HTMLElement).closest('.filter-btn-trigger');
+        if (!isFilterBtn) {
+          onClose();
+        }
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [openDropdown, onClose]);
 
   if (!show) return null;
 
-  const toggleDraftItem = (list: string[], setList: (ids: string[]) => void, id: string) => {
-    if (list.includes(id)) {
-      setList(list.filter(x => x !== id));
+  const toggleOption = (list: string[], onChange: (vals: string[]) => void, val: string) => {
+    if (list.includes(val)) {
+      onChange(list.filter(x => x !== val));
     } else {
-      setList([...list, id]);
+      onChange([...list, val]);
     }
   };
 
-  const handleClear = () => {
-    setDraftLeads(['all']);
-    setDraftStatuses([]);
-    setDraftSources([]);
-    setDraftScores([]);
-    setDraftCampaignStatus('');
-    setDraftCampaignName('');
-    onClearAll();
+  const removeBadge = (e: React.MouseEvent, list: string[], onChange: (vals: string[]) => void, val: string) => {
+    e.stopPropagation();
+    onChange(list.filter(x => x !== val));
   };
 
-  const handleApply = () => {
-    onApplyFilters({
-      leads: draftLeads,
-      statuses: draftStatuses,
-      sources: draftSources,
-      scores: draftScores,
-      campaignStatus: draftCampaignStatus,
-      campaignName: draftCampaignName
-    });
-  };
+  const totalSelectedCount = selectedStatuses.length + selectedScores.length + selectedSources.length;
 
   return (
-    <div className="absolute lg:static top-0 left-0 z-30 w-[260px] bg-white border border-slate-100 rounded-3xl p-5 lg:shadow-[0_4px_20px_rgba(0,0,0,0.015)] shrink-0 select-none flex flex-col gap-1">
-      {/* Filter Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-2">
-        <div className="flex items-center gap-2 text-slate-800">
-          <ListFilter className="w-4 h-4 text-[#004370]" />
-          <span className="font-bold text-[13px] tracking-wider uppercase font-manrope text-[#004370]">Filter</span>
-        </div>
-        <button
-          onClick={handleClear}
-          className="text-[#0A71B7] hover:text-[#004370] text-[10px] font-bold tracking-wider hover:underline transition-colors cursor-pointer"
+    <div 
+      ref={containerRef}
+      className="absolute top-[48px] right-0 z-[100] bg-white w-[340px] rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col overflow-hidden max-h-[90vh] font-manrope text-left"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-slate-100">
+        <h2 className="text-[18px] font-bold text-slate-800">Filters</h2>
+        <button 
+          onClick={onClose}
+          className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
         >
-          CLEAR ALL
+          <X className="w-4.5 h-4.5" />
         </button>
       </div>
 
-      {/* Accordion LEADS */}
-      <FilterSection
-        title="Leads"
-        isOpen={leadsOpen}
-        onToggle={() => setLeadsOpen(!leadsOpen)}
-        options={LEADS_OPTIONS}
-        draftValues={draftLeads}
-        onChange={(id) => toggleDraftItem(draftLeads, setDraftLeads, id)}
-      />
-
-      <div className="h-px bg-slate-50 w-full my-1" />
-
-      {/* Accordion STATUS */}
-      <FilterSection
-        title="Status"
-        isOpen={statusOpen}
-        onToggle={() => setStatusOpen(!statusOpen)}
-        options={STATUS_OPTIONS}
-        draftValues={draftStatuses}
-        onChange={(id) => toggleDraftItem(draftStatuses, setDraftStatuses, id)}
-      />
-
-      <div className="h-px bg-slate-50 w-full my-1" />
-
-      {/* Accordion SOURCE */}
-      <FilterSection
-        title="Source"
-        isOpen={sourceOpen}
-        onToggle={() => setSourceOpen(!sourceOpen)}
-        options={SOURCE_OPTIONS}
-        draftValues={draftSources}
-        onChange={(id) => toggleDraftItem(draftSources, setDraftSources, id)}
-      />
-
-      <div className="h-px bg-slate-50 w-full my-1" />
-
-      {/* Accordion SCORE */}
-      <FilterSection
-        title="Score"
-        isOpen={scoreOpen}
-        onToggle={() => setScoreOpen(!scoreOpen)}
-        options={SCORE_OPTIONS}
-        draftValues={draftScores}
-        onChange={(id) => toggleDraftItem(draftScores, setDraftScores, id)}
-      />
-
-      <div className="h-px bg-slate-50 w-full my-1" />
-
-      {/* Accordion CAMPAIGN */}
-      <div>
-        <div
-          onClick={() => setCampaignOpen(!campaignOpen)}
-          className="flex items-center gap-2 py-2.5 cursor-pointer select-none group"
-        >
-          {campaignOpen ? (
-            <svg className="w-3 h-3 fill-[#004370] text-[#004370] shrink-0" viewBox="0 0 24 24">
-              <path d="M5 8h14l-7 11z" />
-            </svg>
-          ) : (
-            <svg className="w-3 h-3 fill-[#004370] text-[#004370] shrink-0" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-          <span
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '12px',
-              lineHeight: '16px',
-              letterSpacing: '0.6px',
-              textTransform: 'uppercase',
-              color: '#004370'
-            }}
-          >
-            Campaign
-          </span>
+      {/* Form Fields */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+        {/* Search Field */}
+        <div className="relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search"
+            className="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-[13px] text-slate-700 placeholder-slate-400 focus:outline-none focus:border-slate-300 transition-colors font-medium"
+          />
         </div>
-        {campaignOpen && (
-          <div className="pl-1 pr-1 pb-3 space-y-3">
-            {/* Dropdown 1: Select Campaign Status */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => {
-                  setStatusDropdownOpen(!statusDropdownOpen);
-                  setNameDropdownOpen(false);
-                }}
-                className="w-full bg-[#F8FAFC] border border-slate-200 text-slate-700 text-[13px] rounded-xl px-3 py-2 flex items-center justify-between cursor-pointer font-manrope font-semibold"
-              >
-                <span className={draftCampaignStatus ? "text-slate-700" : "text-slate-400"}>
-                  {draftCampaignStatus === 'active' && 'Active'}
-                  {draftCampaignStatus === 'inactive' && 'Inactive'}
-                  {!draftCampaignStatus && 'Select Campaign Status'}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
 
-              {statusDropdownOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setStatusDropdownOpen(false)} />
-                  <div className="absolute left-0 mt-1.5 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1.5 overflow-hidden">
-                    <div
-                      onClick={() => {
-                        setDraftCampaignStatus(draftCampaignStatus === 'active' ? '' : 'active');
-                        setStatusDropdownOpen(false);
-                      }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignStatus === 'active' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                        }`}
-                    >
-                      Active
-                    </div>
-                    <div
-                      onClick={() => {
-                        setDraftCampaignStatus(draftCampaignStatus === 'inactive' ? '' : 'inactive');
-                        setStatusDropdownOpen(false);
-                      }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignStatus === 'inactive' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                        }`}
-                    >
-                      Inactive
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Dropdown 2: Campaign Name */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => {
-                  setNameDropdownOpen(!nameDropdownOpen);
-                  setStatusDropdownOpen(false);
-                }}
-                className="w-full bg-[#F8FAFC] border border-slate-200 text-slate-700 text-[13px] rounded-xl px-3 py-2 flex items-center justify-between cursor-pointer font-manrope font-semibold"
-              >
-                <span className={draftCampaignName ? "text-slate-700" : "text-slate-400"}>
-                  {draftCampaignName === 'campaign_a' && 'Campaign A'}
-                  {draftCampaignName === 'campaign_b' && 'Campaign B'}
-                  {!draftCampaignName && 'Campaign Name'}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-
-              {nameDropdownOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setNameDropdownOpen(false)} />
-                  <div className="absolute left-0 mt-1.5 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1.5 overflow-hidden">
-                    <div
-                      onClick={() => {
-                        setDraftCampaignName(draftCampaignName === 'campaign_a' ? '' : 'campaign_a');
-                        setNameDropdownOpen(false);
-                      }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignName === 'campaign_a' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                        }`}
-                    >
-                      Campaign A
-                    </div>
-                    <div
-                      onClick={() => {
-                        setDraftCampaignName(draftCampaignName === 'campaign_b' ? '' : 'campaign_b');
-                        setNameDropdownOpen(false);
-                      }}
-                      className={`px-4 py-2 text-[13px] font-manrope font-semibold cursor-pointer hover:bg-slate-50 transition-colors ${draftCampaignName === 'campaign_b' ? 'bg-[#EFF6FF] text-[#004370]' : 'text-slate-700'
-                        }`}
-                    >
-                      Campaign B
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+        {/* Status Dropdown */}
+        <div className="relative" ref={statusRef}>
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-[13px] font-bold text-slate-700">Status</span>
+            {selectedStatuses.length > 0 && (
+              <span className="text-[11px] font-medium text-slate-400">
+                {selectedStatuses.length} selected
+              </span>
+            )}
           </div>
-        )}
+          <div
+            onClick={() => setOpenDropdown(openDropdown === 'status' ? null : 'status')}
+            className="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-1.5 flex items-center justify-between bg-white cursor-pointer hover:border-slate-300 transition-colors select-none"
+          >
+            <div className="flex flex-wrap gap-1 min-w-0 pr-2">
+              {selectedStatuses.length > 0 ? (
+                selectedStatuses.map((s) => (
+                  <span
+                    key={s}
+                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                  >
+                    {formatStatus(s)}
+                    <X
+                      onClick={(e) => removeBadge(e, selectedStatuses, onStatusesChange, s)}
+                      className="w-2.5 h-2.5 ml-1 text-slate-400 hover:text-slate-600 cursor-pointer shrink-0"
+                    />
+                  </span>
+                ))
+              ) : (
+                <span className="text-slate-400 text-[13px] font-medium">Select status</span>
+              )}
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          </div>
+
+          {openDropdown === 'status' && (
+            <div className="absolute left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1 overflow-hidden">
+              {STATUS_OPTIONS.map((status) => {
+                const isChecked = selectedStatuses.includes(status);
+                return (
+                  <div
+                    key={status}
+                    onClick={() => toggleOption(selectedStatuses, onStatusesChange, status)}
+                    className="px-3.5 py-2 text-[13px] font-medium text-slate-700 cursor-pointer hover:bg-slate-50 transition-colors flex items-center justify-between"
+                  >
+                    <span>{formatStatus(status)}</span>
+                    {isChecked && <Check className="w-3.5 h-3.5 text-[#004370]" />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Score Dropdown */}
+        <div className="relative" ref={scoreRef}>
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-[13px] font-bold text-slate-700">Score</span>
+            {selectedScores.length > 0 && (
+              <span className="text-[11px] font-medium text-slate-400">
+                {selectedScores.length} selected
+              </span>
+            )}
+          </div>
+          <div
+            onClick={() => setOpenDropdown(openDropdown === 'score' ? null : 'score')}
+            className="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-1.5 flex items-center justify-between bg-white cursor-pointer hover:border-slate-300 transition-colors select-none"
+          >
+            <div className="flex flex-wrap gap-1 min-w-0 pr-2">
+              {selectedScores.length > 0 ? (
+                selectedScores.map((score) => (
+                  <span
+                    key={score}
+                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                  >
+                    {score}
+                    <X
+                      onClick={(e) => removeBadge(e, selectedScores, onScoresChange, score)}
+                      className="w-2.5 h-2.5 ml-1 text-slate-400 hover:text-slate-600 cursor-pointer shrink-0"
+                    />
+                  </span>
+                ))
+              ) : (
+                <span className="text-slate-400 text-[13px] font-medium">Select score</span>
+              )}
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          </div>
+
+          {openDropdown === 'score' && (
+            <div className="absolute left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1 overflow-hidden">
+              {SCORE_OPTIONS.map((score) => {
+                const isChecked = selectedScores.includes(score);
+                return (
+                  <div
+                    key={score}
+                    onClick={() => toggleOption(selectedScores, onScoresChange, score)}
+                    className="px-3.5 py-2 text-[13px] font-medium text-slate-700 cursor-pointer hover:bg-slate-50 transition-colors flex items-center justify-between"
+                  >
+                    <span>{score}</span>
+                    {isChecked && <Check className="w-3.5 h-3.5 text-[#004370]" />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Source Dropdown */}
+        <div className="relative" ref={sourceRef}>
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-[13px] font-bold text-slate-700">Source</span>
+            {selectedSources.length > 0 && (
+              <span className="text-[11px] font-medium text-slate-400">
+                {selectedSources.length} selected
+              </span>
+            )}
+          </div>
+          <div
+            onClick={() => setOpenDropdown(openDropdown === 'source' ? null : 'source')}
+            className="w-full min-h-[40px] border border-slate-200 rounded-xl px-3 py-1.5 flex items-center justify-between bg-white cursor-pointer hover:border-slate-300 transition-colors select-none"
+          >
+            <div className="flex flex-wrap gap-1 min-w-0 pr-2">
+              {selectedSources.length > 0 ? (
+                selectedSources.map((src) => (
+                  <span
+                    key={src}
+                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                  >
+                    {formatSource(src)}
+                    <X
+                      onClick={(e) => removeBadge(e, selectedSources, onSourcesChange, src)}
+                      className="w-2.5 h-2.5 ml-1 text-slate-400 hover:text-slate-600 cursor-pointer shrink-0"
+                    />
+                  </span>
+                ))
+              ) : (
+                <span className="text-slate-400 text-[13px] font-medium">Select source</span>
+              )}
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          </div>
+
+          {openDropdown === 'source' && (
+            <div className="absolute left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1 overflow-hidden">
+              {SOURCE_OPTIONS.map((src) => {
+                const isChecked = selectedSources.includes(src);
+                return (
+                  <div
+                    key={src}
+                    onClick={() => toggleOption(selectedSources, onSourcesChange, src)}
+                    className="px-3.5 py-2 text-[13px] font-medium text-slate-700 cursor-pointer hover:bg-slate-50 transition-colors flex items-center justify-between"
+                  >
+                    <span>{formatSource(src)}</span>
+                    {isChecked && <Check className="w-3.5 h-3.5 text-[#004370]" />}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Cancel and Apply Buttons at the bottom */}
-      <div className="flex items-center justify-end gap-4 mt-5 pt-4 border-t border-slate-100">
+      {/* Footer Actions */}
+      <div className="px-5 py-4 border-t border-slate-100 flex items-center justify-between">
         <button
-          onClick={onCancel}
-          className="text-[#64748B] hover:text-slate-800 text-[13px] font-bold cursor-pointer transition-colors"
+          onClick={onClear}
+          className="text-slate-500 hover:text-slate-800 text-[13px] font-bold cursor-pointer transition-colors"
         >
           Cancel
         </button>
         <button
-          onClick={handleApply}
-          className="bg-[#004370] text-white px-4 py-2.5 rounded-xl text-[13px] font-bold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm"
+          onClick={onApply}
+          className="bg-[#004370] text-white px-4 py-2 rounded-xl text-[13px] font-bold hover:bg-[#003152] transition-colors cursor-pointer shadow-sm"
         >
-          Apply Filter
+          Apply Filter{totalSelectedCount > 0 ? `(${totalSelectedCount})` : ''}
         </button>
       </div>
     </div>
