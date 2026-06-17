@@ -45,7 +45,7 @@ export const LeadsHeaderCard: React.FC<LeadsHeaderCardProps> = ({
     <div className="BoxStyle transition-all flex flex-col justify-between h-[215px]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-[#64748B] font-bold text-[12px] leading-[16px]">
-          <Icon className={`w-4 h-4 ${iconColorClass}`} />
+          <Icon color="currentColor" className={`${iconColorClass}`} size={18}/>
           <span>{title}</span>
         </div>
         <span className={`w-5 h-5 rounded-full ${countBgClass} text-white font-bold text-[10px] flex items-center justify-center`}>
