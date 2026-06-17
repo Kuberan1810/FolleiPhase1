@@ -2,14 +2,14 @@ import React from "react";
 
 const LeadsForm: React.FC = () => {
   return (
-    <div className="lg:col-span-5 rounded-[10px] p-5 bg-white border border-[#EDF3FD] relative font-urbanist w-full overflow-hidden">
+    <div className="col-span-1 md:col-span-5 lg:col-span-5 BoxStyle relative w-full overflow-hidden h-[428px]">
       <div>
         <h3 className="text-[20px] font-bold text-[#000000] leading-[1.2] tracking-[0.6px]">Leads from</h3>
       </div>
       
       {/* SVG Polar-Area Donut Chart centered dynamically */}
       <div className="absolute left-1/2 -translate-x-1/2 top-[54px]">
-        <svg width="293" height="293" viewBox="0 0 200 200" className="drop-shadow-sm">
+        <svg viewBox="0 0 200 200" className="w-[220px] h-[220px] sm:w-[250px] sm:h-[250px] lg:w-[240px] lg:h-[240px] xl:w-[293px] xl:h-[293px] drop-shadow-sm transition-all">
           {/* Sector 1: Meta Adds (Dark Blue, Radius 100) - spans 135 to 360 deg */}
           <path
             d="M 100 100 L 29.3 170.7 A 100 100 0 1 1 200 100 Z"
@@ -40,21 +40,21 @@ const LeadsForm: React.FC = () => {
       </div>
       
       {/* Legend Grid positioned at the bottom */}
-      <div className="absolute bottom-4 left-5 right-5 flex flex-wrap justify-center items-center gap-x-[32px] gap-y-2">
-        <div className="flex items-center gap-2 text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
-          <span className="w-3.5 h-3.5 rounded-xs bg-[#0E4C77] shrink-0" />
+      <div className="absolute bottom-4 left-4 right-4 flex flex-wrap justify-center items-center gap-x-4 xl:gap-x-8 gap-y-1.5">
+        <div className="flex items-center gap-1.5 text-xs xl:text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
+          <span className="w-3 h-3 rounded-xs bg-[#0E4C77] shrink-0" />
           <span>Meta Adds</span>
         </div>
-        <div className="flex items-center gap-2 text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
-          <span className="w-3.5 h-3.5 rounded-xs bg-[#34698D] shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs xl:text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
+          <span className="w-3 h-3 rounded-xs bg-[#34698D] shrink-0" />
           <span>Website Form</span>
         </div>
-        <div className="flex items-center gap-2 text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
-          <span className="w-3.5 h-3.5 rounded-xs bg-[#678EA9] shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs xl:text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
+          <span className="w-3 h-3 rounded-xs bg-[#678EA9] shrink-0" />
           <span>CRM</span>
         </div>
-        <div className="flex items-center gap-2 text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
-          <span className="w-3.5 h-3.5 rounded-xs bg-[#99B4C6] shrink-0" />
+        <div className="flex items-center gap-1.5 text-xs xl:text-[16px] font-normal text-black leading-[1.2] tracking-[0.6px] align-middle">
+          <span className="w-3 h-3 rounded-xs bg-[#99B4C6] shrink-0" />
           <span>Manual Import</span>
         </div>
       </div>

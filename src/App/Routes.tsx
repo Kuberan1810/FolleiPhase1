@@ -123,8 +123,7 @@ export default function AppRoutes() {
 
         {/* <Route path="company-details" element={<CompanyDetails />} /> */}
 
-
-        =
+=
         <Route path="inbox/admin-needs" element={<AdminNeeds />} />
 
       </Route>
