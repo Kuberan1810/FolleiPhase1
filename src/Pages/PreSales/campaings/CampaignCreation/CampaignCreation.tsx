@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic } from 'lucide-react';
 import StarIcon from '../../../../assets/logo/star.svg';
-import CampaignReady from './CampaignReady';
+import CampaignReady from './section/CampaignReady';
 
 const GmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="21" height="21" viewBox="0 0 48 48">
@@ -27,18 +27,17 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
+import { useNavigate } from 'react-router-dom';
+
 const CampaignCreation = () => {
   const [prompt, setPrompt] = useState('');
-  const [isGenerated, setIsGenerated] = useState(false);
+  const navigate = useNavigate();
 
-  if (isGenerated) {
-    return (
-      <CampaignReady
-        onBack={() => setIsGenerated(false)}
-        campaignTitle={prompt.trim() ? prompt : "Summer Collection Win-Back"}
-      />
-    );
-  }
+  const handleGenerate = () => {
+    navigate('/presales/campaigns/preview', { 
+      state: { title: prompt.trim() ? prompt : "Summer Collection Win-Back" } 
+    });
+  };
 
   const suggestions = [
     "Launch our new product",
@@ -112,7 +111,7 @@ const CampaignCreation = () => {
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && prompt.trim()) {
-                  setIsGenerated(true);
+                  handleGenerate();
                 }
               }}
               placeholder="Describe your goal, audience, and budget..."
@@ -123,7 +122,7 @@ const CampaignCreation = () => {
                 <Mic size={18} />
               </button>
               <button
-                onClick={() => setIsGenerated(true)}
+                onClick={handleGenerate}
                 disabled={!prompt.trim()}
                 className={`h-[56px] rounded-[14px] px-6 py-4 font-semibold text-[16px] flex items-center gap-3 transition-all select-none ${prompt.trim()
                   ? 'bg-[#004370] text-white hover:bg-[#002e62] cursor-pointer'

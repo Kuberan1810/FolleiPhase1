@@ -4,7 +4,7 @@ import Header from "./Header";
 
 const FlowBuilderLayout = () => {
   return (
-    <div className="flex h-screen overflow-hidden bg-[#F7F9FB]">
+    <div className="flex h-screen overflow-hidden from-[#ffffff] to-[#F3F6FC]">
       <div className="h-screen shrink-0">
         <Sidebar />
       </div>
@@ -12,7 +12,7 @@ const FlowBuilderLayout = () => {
         <div className="shrink-0">
           <Header />
         </div>
-        <main className="flex-1 overflow-y-auto bg-[#F7F9FB]">
+        <main className="flex-1 overflow-y-auto from-[#ffffff] to-[#F3F6FC]">
           <Outlet />
         </main>
       </div>

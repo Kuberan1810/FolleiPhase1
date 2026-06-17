@@ -1,4 +1,4 @@
-import summerBeachBanner from '../../../../assets/img/summer_beach_banner.jpg';
+import summerBeachBanner from '../../../../../assets/img/summer_beach_banner.jpg';
 
 const EmailPreview = () => {
   return (

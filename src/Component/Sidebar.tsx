@@ -92,9 +92,8 @@ const Sidebar: React.FC = () => {
             className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:hidden rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
           >
             {navItems.map((item, index) => {
-              const isActive = item.label === 'Dashboard'
-                ? (location.pathname === item.path || location.pathname.startsWith('/dashboard'))
-                : location.pathname === item.path;
+              const isActive = location.pathname.startsWith(item.path) || 
+                (item.label === 'Dashboard' && location.pathname.startsWith('/dashboard'));
 
               return (
                 <React.Fragment key={index}>
@@ -139,8 +138,7 @@ const Sidebar: React.FC = () => {
           {/* Nav items */}
           <nav className="flex flex-1 flex-col items-center w-full overflow-visible pt-7 gap-3">
             {navItems.map((item, index) => {
-              const isActive = (item.label === 'Settings' && location.pathname.startsWith('/settings')) ||
-                location.pathname === item.path ||
+              const isActive = location.pathname.startsWith(item.path) ||
                 (item.label === 'Dashboard' && location.pathname.startsWith(`/${salesMode}/dashboard`));
 
               return (

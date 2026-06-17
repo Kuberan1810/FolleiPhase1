@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, Calendar, Users, TrendingUp, Eye, TagIcon, ChevronDown } from 'lucide-react';
 import EmailPreview from './EmailPreview';
 import WhatsAppPreview from './WhatsAppPreview';
-import StarIcon from '../../../../assets/logo/star.svg';
+import StarIcon from '../../../../../assets/logo/star.svg';
 
 const GmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="21" height="21" viewBox="0 0 48 48">
@@ -29,12 +29,14 @@ const MessageIcon = () => (
   </svg>
 );
 
-interface CampaignReadyProps {
-  onBack: () => void;
-  campaignTitle: string;
-}
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const CampaignReady = ({ onBack, campaignTitle }: CampaignReadyProps) => {
+const CampaignReady = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const campaignTitle = location.state?.title || "Summer Collection Win-Back";
+  const onBack = () => navigate(-1);
+
   const [activeTab, setActiveTab] = useState<'email' | 'whatsapp'>('email');
   const [isEditing, setIsEditing] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<'timeline' | 'audience' | 'channels' | 'tone' | null>(null);
