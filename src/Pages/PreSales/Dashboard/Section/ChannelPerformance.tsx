@@ -35,7 +35,6 @@ const ChannelPerformance: React.FC = () => {
       icon: (
         <div className="relative w-full h-full flex items-center justify-center">
           <img src={mailIcon} className="w-full h-full object-contain" alt="Mail" />
-          <span className="absolute top-0 right-0 w-2 h-2 bg-rose-500 rounded-full border border-white" />
         </div>
       ),
     },

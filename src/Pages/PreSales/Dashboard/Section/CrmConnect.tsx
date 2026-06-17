@@ -15,7 +15,7 @@ const CrmConnect: React.FC = () => {
         />
       </div>
       <div>
-        <button 
+        <button
           className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px]"
           style={{
             width: '91px',

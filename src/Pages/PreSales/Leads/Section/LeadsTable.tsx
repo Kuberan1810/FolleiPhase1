@@ -1,12 +1,12 @@
-import React from 'react';
-import { 
-  Globe, 
-  Megaphone, 
-  Handshake, 
-  Import, 
-  Flame, 
-  Snowflake, 
-  Sun 
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Globe,
+  Megaphone,
+  Handshake,
+  Import,
+  Flame,
+  Snowflake,
+  Sun
 } from 'lucide-react';
 import type { Lead } from '../Leads';
 
@@ -16,35 +16,37 @@ type LeadsTableProps = {
   sortDirection: 'asc' | 'desc';
   onSortChange: (field: 'name' | 'activity' | 'budget' | 'assigned', direction: 'asc' | 'desc') => void;
   onLeadClick: (lead: Lead) => void;
+  selectedLetter: string;
+  onSelectLetter: (letter: string) => void;
 };
 
 export const getSourceIcon = (source: string) => {
-  switch (source) {
+  switch (source.toLowerCase()) {
     case 'website':
-      return <Globe className="w-4 h-4 text-[#0B3A64]" />;
+      return <Globe className="w-[18px] h-[18px] text-[#0A4268]" />;
     case 'campaign':
-      return <Megaphone className="w-4 h-4 text-[#0B3A64]" />;
+      return <Megaphone className="w-[18px] h-[18px] text-[#0A4268]" />;
     case 'shield':
-      return <Handshake className="w-4 h-4 text-[#0B3A64]" />;
+      return <Handshake className="w-[18px] h-[18px] text-[#0A4268]" />;
     case 'external':
-      return <Import className="w-4 h-4 text-[#0B3A64]" />;
+      return <Import className="w-[18px] h-[18px] text-[#0A4268]" />;
     default:
-      return <Globe className="w-4 h-4 text-[#0B3A64]" />;
+      return <Globe className="w-[18px] h-[18px] text-[#0A4268]" />;
   }
 };
 
 export const getSourceName = (source: string): string => {
   switch (source.toLowerCase()) {
     case 'website':
-      return 'WEBSITE';
+      return 'Website';
     case 'campaign':
-      return 'ADS';
+      return 'Ads';
     case 'shield':
-      return 'REFERRAL';
+      return 'Referral';
     case 'external':
-      return 'IMPORT';
+      return 'Import';
     default:
-      return source.toUpperCase();
+      return source.charAt(0).toUpperCase() + source.slice(1);
   }
 };
 
@@ -56,230 +58,230 @@ const getInitials = (name: string): string => {
   return name.trim().charAt(0).toUpperCase();
 };
 
-const LeadsTable: React.FC<LeadsTableProps> = ({ 
-  leads, 
-  sortField, 
+const formatStatus = (status: string): string => {
+  switch (status.toUpperCase()) {
+    case 'NEW INQUIRY':
+      return 'New Inquiry';
+    case 'CONTACTED':
+      return 'Contacted';
+    case 'QUALIFIED':
+      return 'Qualified';
+    case 'DEMO SCHEDULED':
+      return 'Demo Scheduled';
+    default:
+      return status;
+  }
+};
+
+const STATUS_STYLES: Record<string, { padding: string; borderRadius: string; bg: string; text: string }> = {
+  'NEW INQUIRY': { padding: '1px 8px', borderRadius: '6px', bg: '#EFF6FF', text: '#2563EB' },
+  'CONTACTED': { padding: '1px 8px', borderRadius: '6px', bg: '#FFF7ED', text: '#EA580C' },
+  'DEMO SCHEDULED': { padding: '3.5px 8px', borderRadius: '9px', bg: '#FAF5FF', text: '#9333EA' },
+  'QUALIFIED': { padding: '1px 8px', borderRadius: '6px', bg: '#ECFDF5', text: '#047857' }
+};
+
+const getStatusBadgeStyle = (status: string) => {
+  const style = STATUS_STYLES[status.toUpperCase()] || STATUS_STYLES['NEW INQUIRY'];
+  return {
+    padding: style.padding,
+    borderRadius: style.borderRadius,
+    fontSize: '14px',
+    lineHeight: '20px',
+    fontWeight: 700,
+    backgroundColor: style.bg,
+    color: style.text,
+  };
+};
+
+const getTempStyle = (temp: string) => {
+  switch (temp) {
+    case 'Hot':
+      return {
+        color: '#B91C1C',
+        icon: <Flame className="w-4 h-4 shrink-0 text-[#DC2626]" />
+      };
+    case 'Warm':
+      return {
+        color: '#C2410C',
+        icon: <Sun className="w-4 h-4 shrink-0 text-[#EA580C]" />
+      };
+    case 'Cold':
+    default:
+      return {
+        color: '#2563EB',
+        icon: <Snowflake className="w-4 h-4 shrink-0 text-[#2563EB]" />
+      };
+  }
+};
+
+const LeadsTable: React.FC<LeadsTableProps> = ({
+  leads,
+  sortField,
   sortDirection,
   onSortChange,
-  onLeadClick
+  onLeadClick,
+  selectedLetter,
+  onSelectLetter
 }) => {
+  const [showAZPopup, setShowAZPopup] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+        setShowAZPopup(false);
+      }
+    };
+    if (showAZPopup) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showAZPopup]);
   return (
-    <div className="bg-white rounded-[24px] overflow-hidden border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
-      <div className="overflow-x-auto">
+    <div className="bg-white rounded-[24px] overflow-visible border border-slate-100/80 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
+      <div className={`overflow-x-auto ${showAZPopup ? 'pb-48' : ''} transition-all duration-200`}>
         <table className="w-full min-w-[900px] border-collapse text-left">
           <thead>
-            <tr className="bg-[#F6FAFF] h-[48px]">
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-l-[10px] whitespace-nowrap">Date</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">
+            <tr className="bg-[#FAFBFF] border-b border-[#EDF3FD] h-[52px]">
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">DATE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap relative">
                 <div className="flex items-center gap-1.5 select-none">
                   <span>LEAD</span>
-                  <span 
-                    onClick={() => {
-                      if (sortField === 'name') {
-                        onSortChange('name', sortDirection === 'asc' ? 'desc' : 'asc');
-                      } else {
-                        onSortChange('name', 'asc');
-                      }
-                    }} 
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAZPopup(!showAZPopup);
+                    }}
                     className="inline-flex items-center gap-[2px] cursor-pointer hover:bg-slate-50 transition-colors"
                     style={{
                       backgroundColor: '#FFFFFF',
                       border: '1px solid rgba(234, 243, 255, 0.97)',
                       borderRadius: '5px',
                       padding: '0 5px',
-                      height: '16px',
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 500,
+                      height: '18px',
+                      fontWeight: 600,
                       fontSize: '10px',
-                      lineHeight: '16px',
+                      lineHeight: '18px',
                       letterSpacing: '0px',
                       textTransform: 'uppercase',
                       color: '#004370',
                     }}
                   >
-                    A-Z
-                    <svg className="w-2.5 h-2.5 text-[#004370]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
+                    <span>A-Z</span>
+                    <span className="text-[8px] leading-none select-none ml-0.5">
+                      {selectedLetter !== 'All' ? '▲' : '▼'}
+                    </span>
+                  </div>
                 </div>
+
+                {showAZPopup && (
+                  <div
+                    ref={popupRef}
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-[42px] left-6 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[16px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-14 flex flex-col items-center gap-0.5"
+                  >
+                    {['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
+                      <button
+                        key={letter}
+                        onClick={() => {
+                          onSelectLetter(letter);
+                          setShowAZPopup(false);
+                        }}
+                        className={`w-10 h-8 shrink-0 flex items-center justify-center text-[13px] font-bold transition-all duration-150 scrollbar-hide no-scrollbar cursor-pointer ${selectedLetter === letter
+                            ? 'text-[#004370]'
+                            : 'text-[#434655] hover:bg-slate-50 hover:text-[#004370]'
+                          }`}
+                      >
+                        {letter}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">Source</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope text-center whitespace-nowrap">Status</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope whitespace-nowrap">Score</th>
-              <th className="px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-[0.55px] font-manrope rounded-r-[10px] whitespace-nowrap">Activity</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">SOURCE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">STATUS</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">SCORE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">LAST ACTIVITY</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-50">
+          <tbody className="divide-y divide-[#EDF3FD]">
             {leads.length > 0 ? (
-              leads.map((lead) => (
-                <tr 
-                  key={lead.id} 
-                  onClick={() => onLeadClick(lead)}
-                  className="hover:bg-slate-50/50 transition-colors group cursor-pointer"
-                >
-                  {/* Date */}
-                  <td 
-                    className="px-6 py-5 whitespace-nowrap"
-                    style={{
-                      fontFamily: 'Manrope, sans-serif',
-                      fontWeight: 500,
-                      fontSize: '16px',
-                      lineHeight: '24px',
-                      letterSpacing: '0px',
-                      color: '#0D1C2E'
-                    }}
+              leads.map((lead) => {
+                const tempStyle = getTempStyle(lead.temperature);
+                return (
+                  <tr
+                    key={lead.id}
+                    onClick={() => onLeadClick(lead)}
+                    className="hover:bg-slate-50/60 transition-colors group cursor-pointer h-[72px]"
                   >
-                    {lead.addedTime}
-                  </td>
+                    {/* Date */}
+                    <td className="px-6 py-3 whitespace-nowrap text-[14px] font-regular text-[#00000] ">
+                      {lead.addedTime}
+                    </td>
 
-                  {/* Lead Avatar + Name + Email */}
-                  <td className="px-6 py-5 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
-                        {getInitials(lead.name)}
+                    {/* Lead Avatar + Name + Email */}
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-[38px] h-[38px] rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
+                          {getInitials(lead.name)}
+                        </div>
+                        <div className="min-w-0 flex flex-col justify-center">
+                          <h4 className="font-sans font-semibold text-[14px] text-black leading-tight">
+                            {lead.name}
+                          </h4>
+                          <span className="font-sans font-bold text-[12px] text-[#6B7280] leading-tight">
+                            {lead.email}
+                          </span>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <h4 
-                          className="transition-colors truncate font-sans"
-                          style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontWeight: 600,
-                            fontSize: '18px',
-                            lineHeight: '24px',
-                            letterSpacing: '0px',
-                            color: '#0D1C2E'
-                          }}
-                        >
-                          {lead.name}
-                        </h4>
-                        <span 
-                          className="truncate block"
-                          style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontWeight: 400,
-                            fontSize: '14px',
-                            lineHeight: '20px',
-                            letterSpacing: '0px',
-                            color: '#434655'
-                          }}
-                        >
-                          {lead.email}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  {/* Source */}
-                  <td className="px-6 py-5 whitespace-nowrap">
-                    <div className="relative group/tooltip inline-block">
-                      <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center cursor-pointer hover:bg-slate-200 transition-colors">
+                    {/* Source */}
+                    <td className="px-6 py-3 whitespace-nowrap text-[14px] font-regular text-[#000000] font-sans">
+                      <div className="flex items-center gap-2">
                         {getSourceIcon(lead.source)}
+                        <span>{getSourceName(lead.source)}</span>
                       </div>
-                      
-                      {/* Tooltip */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover/tooltip:flex flex-col items-center z-50">
-                        <span className="bg-[#0D1C2E] text-white text-[9px] font-bold px-2 py-1 rounded shadow-md whitespace-nowrap tracking-wider font-manrope">
-                          {getSourceName(lead.source)}
+                    </td>
+
+                    {/* Status */}
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <span
+                        className="inline-flex items-center justify-center font-bold whitespace-nowrap font-urbanist"
+                        style={getStatusBadgeStyle(lead.status)}
+                      >
+                        {formatStatus(lead.status)}
+                      </span>
+                    </td>
+
+                    {/* Score */}
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <div
+                        className="inline-flex items-center gap-1.5  font-bold text-[14px]"
+                        style={{ color: tempStyle.color }}
+                      >
+                        {tempStyle.icon}
+                        <span>{lead.temperature}</span>
+                      </div>
+                    </td>
+
+                    {/* Last Activity */}
+                    <td className="px-6 py-3 whitespace-nowrap">
+                      <div className="flex flex-col justify-center font-sans">
+                        <span className="text-[14px] font-medium text-[#222222] leading-tight">
+                          {lead.activityType === 'WHATSAPP' ? 'Whatsapp' :
+                            lead.activityType === 'CALL LOGGED' ? 'Call Logged' : 'Meeting Setup'}
                         </span>
-                        <div className="w-1.5 h-1.5 bg-[#0D1C2E] rotate-45 -mt-0.5" />
+                        <span className="text-[12px] text-[#94A3B8] leading-tight mt-0.5">
+                          {lead.activityTime}
+                        </span>
                       </div>
-                    </div>
-                  </td>
-
-                  {/* Status */}
-                  <td className="px-6 py-5 text-center whitespace-nowrap">
-                    <span 
-                      className="inline-flex items-center justify-center font-bold tracking-wider whitespace-nowrap"
-                      style={{
-                        padding: '3.5px 12px',
-                        borderRadius: '10px',
-                        height: '23px',
-                        fontSize: '10px',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        lineHeight: '16px',
-                        backgroundColor: 
-                          lead.status === 'NEW INQUIRY' ? '#E4EDFF' :
-                          lead.status === 'CONTACTED' ? '#FFE3C6' :
-                          lead.status === 'QUALIFIED' ? '#E8F5E9' :
-                          '#FFE7FC',
-                        color:
-                          lead.status === 'NEW INQUIRY' ? '#004370' :
-                          lead.status === 'CONTACTED' ? '#78350F' :
-                          lead.status === 'QUALIFIED' ? '#2E7D32' :
-                          '#701A75',
-                      }}
-                    >
-                      {lead.status}
-                    </span>
-                  </td>
-
-                  {/* Score Badge */}
-                  <td className="px-6 py-5 whitespace-nowrap">
-                    <span 
-                      className="inline-flex items-center whitespace-nowrap"
-                      style={{
-                        padding: '5px 8px',
-                        borderRadius: '10px',
-                        height: '25px',
-                        gap: '8px',
-                        fontFamily: 'Manrope, sans-serif',
-                        fontWeight: 700,
-                        fontSize: '14px',
-                        lineHeight: '15px',
-                        letterSpacing: '0px',
-                        backgroundColor:
-                          lead.temperature === 'Hot' ? '#FEE2E2' :
-                          lead.temperature === 'Warm' ? '#FFEDD5' :
-                          '#DBEAFE',
-                        color:
-                          lead.temperature === 'Hot' ? '#991B1B' :
-                          lead.temperature === 'Warm' ? '#C2410C' :
-                          '#1E40AF',
-                      }}
-                    >
-                      {lead.temperature === 'Hot' ? <Flame className="w-3.5 h-3.5 shrink-0" /> :
-                       lead.temperature === 'Warm' ? <Sun className="w-3.5 h-3.5 shrink-0" /> :
-                       <Snowflake className="w-3.5 h-3.5 shrink-0" />}
-                      {lead.temperature}
-                    </span>
-                  </td>
-
-                  {/* Activity */}
-                  <td className="px-6 py-5 whitespace-nowrap">
-                    <div className="min-w-[120px]">
-                      <p 
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 400,
-                          fontSize: '14px',
-                          lineHeight: '20px',
-                          letterSpacing: '0px',
-                          color: '#0D1C2E',
-                          margin: '0 0 2px 0'
-                        }}
-                      >
-                        {lead.activityTime}
-                      </p>
-                      <p 
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '12px',
-                          lineHeight: '16px',
-                          letterSpacing: '0.6px',
-                          textTransform: 'uppercase',
-                          color: '#0A4268',
-                          margin: 0
-                        }}
-                      >
-                        {lead.activityType}
-                      </p>
-                    </div>
-                  </td>
-                </tr>
-              ))
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan={6} className="px-6 py-12 text-center text-slate-400 text-sm">
