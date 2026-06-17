@@ -112,14 +112,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   const totalSelectedCount = selectedStatuses.length + selectedScores.length + selectedSources.length;
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="absolute top-[48px] right-0 z-[100] bg-white w-[340px] rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col overflow-hidden max-h-[90vh] font-manrope text-left"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-slate-100">
-        <h2 className="text-[18px] font-bold text-slate-800">Filters</h2>
-        <button 
+        <h2 className="text-[20px] font-bold text-slate-800">Filters</h2>
+        <button
           onClick={onClose}
           className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
         >
@@ -144,9 +144,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Status Dropdown */}
         <div className="relative" ref={statusRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[13px] font-bold text-slate-700">Status</span>
+            <span className="text-[14px] font-semibold text-slate-700">Status</span>
             {selectedStatuses.length > 0 && (
-              <span className="text-[11px] font-medium text-slate-400">
+              <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedStatuses.length} selected
               </span>
             )}
@@ -198,9 +198,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Score Dropdown */}
         <div className="relative" ref={scoreRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[13px] font-bold text-slate-700">Score</span>
+            <span className="text-[14px] font-semibold text-slate-700">Score</span>
             {selectedScores.length > 0 && (
-              <span className="text-[11px] font-medium text-slate-400">
+              <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedScores.length} selected
               </span>
             )}
@@ -252,9 +252,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Source Dropdown */}
         <div className="relative" ref={sourceRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[13px] font-bold text-slate-700">Source</span>
+            <span className="text-[14px] font-semibold text-slate-700">Source</span>
             {selectedSources.length > 0 && (
-              <span className="text-[11px] font-medium text-slate-400">
+              <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedSources.length} selected
               </span>
             )}
