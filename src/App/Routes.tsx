@@ -19,9 +19,8 @@ import FlowBuilder from "../Pages/PreSales/FlowBuilder/FlowBuilder";
 import EditActionPage from "../Pages/PreSales/FlowBuilder/EditActionPage";
 import Orchestrator from "../Pages/PreSales/Orchestrator/Orchestrator";
 import InBox from "../Pages/PreSales/Inbox/inbox";
-import Campaigns from "../Pages/PreSales/campaings/Campaigns";
-import CampaignCreations from "../Pages/PreSales/campaings/section/CampaignCreation";
-import CampaignDrafts from "../Pages/PreSales/campaings/section/CampaignDrafts";
+
+import CampaignCreation from "../Pages/PreSales/campaings/CampaignCreation/CampaignCreation";
 
 import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
 
@@ -66,7 +65,6 @@ import UploadCompanyData from "../Pages/OnBoarding/uploadData";
 import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
-import CampaignCreation from "../Pages/PostSales/campaings/section/CampaignCreation";
 import Leads from "../Pages/PreSales/Leads/Leads";
 
 
@@ -114,12 +112,8 @@ export default function AppRoutes() {
         <Route path="inbox" element={<InBox />} />
         <Route path="leads" element={<Leads />} />
         <Route path="campaign" element={<Navigate to="/presales/campaigns" replace />} />
-        <Route path="campaigns" element={<Campaigns />} />
-        <Route path="campaigns/:campaignId" element={<Campaigns />} />
-        <Route path="campaigns/:campaignId/activities" element={<Campaigns />} />
         <Route path="campaigns/create" element={<Navigate to="/presales/campaigns/create/step/1" replace />} />
-        <Route path="campaigns/create/step/:stepId" element={<CampaignCreations />} />
-        <Route path="campaigns/drafts" element={<CampaignDrafts />} />
+        <Route path="campaigns/create/ai" element={<CampaignCreation />} />
         <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="data-import" element={<Orchestrator />} />
 
@@ -128,7 +122,7 @@ export default function AppRoutes() {
         {/* <Route path="company-details" element={<CompanyDetails />} /> */}
 
         <Route path="leads/logs" element={<ActivityLogsView />} />
-=
+
         <Route path="inbox/admin-needs" element={<AdminNeeds />} />
 
       </Route>
