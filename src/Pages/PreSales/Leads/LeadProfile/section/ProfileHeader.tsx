@@ -7,7 +7,7 @@ import { Flame } from "lucide-react"
 
 const ProfileHeader = () => {
     return (
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-[20px] p-6 border border-[#EDF3FD]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between BoxStyle">
             <div className="flex items-center gap-5">
                 {/* Avatar */}
                 <div className="w-[100px] h-[100px] rounded-[20px] bg-[#E1EDFE] border border-[#EDF3FD] flex items-center justify-center shrink-0">

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 const CrmConnect: React.FC = () => {
-  const [url, setUrl] = useState("");
+ 
 
   return (
-    <div className="col-span-1 md:col-span-6 lg:col-span-3 BoxStyle flex flex-col justify-between h-[175px]">
+    <div className="col-span-1 md:col-span-6 lg:col-span-3 BoxStyle flex flex-col justify-between h-fit space-y-5">
       <div>
-        <h3 className="text-[18px] font-bold text-[#191C1E] mb-3.5 ">CRM Connect</h3>
+        <h3 className="text-[18px] font-bold text-[#191C1E] mb-3.5">CRM Connect</h3>
         <input
           type="text"
           readOnly

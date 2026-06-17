@@ -4,7 +4,7 @@ const DataImport: React.FC = () => {
   const [filePath, setFilePath] = useState("");
 
   return (
-    <div className="col-span-1 md:col-span-6 lg:col-span-3 BoxStyle !bg-black !border-black text-white flex flex-col justify-between h-[175px]">
+    <div className="col-span-1 md:col-span-6 lg:col-span-3 BoxStyle !bg-black !border-black text-white flex flex-col justify-between  space-y-5 h-fit">
       <div>
         <h3 className="text-[18px] font-bold text-white mb-3.5 ">Data Import</h3>
         <input
