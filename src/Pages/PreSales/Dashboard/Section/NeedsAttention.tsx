@@ -10,30 +10,47 @@ const NeedsAttention: React.FC = () => {
   ];
 
   return (
-    <div className="lg:col-span-7 BoxStyle font-urbanist">
-      <h3 className="text-[20px] font-bold text-[#000000] mb-5 leading-[1.2] tracking-[0.6px]">Needs attention now</h3>
-      <div className="w-full">
+    <div 
+      className="col-span-1 md:col-span-7 lg:col-span-7 BoxStyle flex flex-col gap-[15px]"
+      style={{
+        height: '428px',
+        boxShadow: '0px 4px 4px 0px rgba(229, 236, 251, 0.25)'
+      }}
+    >
+      <h3 className="text-[20px] font-bold text-[#000000] leading-[24px] tracking-[0.6px]">Needs attention now</h3>
+      
+      <div 
+        className="w-full bg-white border border-[#EDF3FD] rounded-[10px] overflow-hidden flex flex-col"
+        style={{
+          height: '349px'
+        }}
+      >
         {/* Header */}
-        <div className="grid grid-cols-12 items-center rounded-t-[10px] px-5 h-11">
-          <div className="col-span-3 text-[14px] font-semibold text-[#191C1E] opacity-80">Lead</div>
-          <div className="col-span-5 text-[14px] font-semibold text-center text-[#191C1E] opacity-80">Issue</div>
-          <div className="col-span-2 text-center text-[14px] font-semibold text-[#191C1E] opacity-80">Priority</div>
-          <div className="col-span-2"></div>
+        <div className="grid grid-cols-12 items-center px-5 h-[44px] bg-[#F3F5FF] border-b border-[#EDF3FD] rounded-t-[10px]">
+          <div className="col-span-2 sm:col-span-3 text-[16px] font-semibold text-[#191C1E]">Lead</div>
+          <div className="col-span-4 sm:col-span-5 text-[16px] font-semibold text-[#191C1E]">Issue</div>
+          <div className="col-span-3 sm:col-span-2 text-center text-[16px] font-semibold text-[#191C1E]">Priority</div>
+          <div className="col-span-3 sm:col-span-2"></div>
         </div>
         
         {/* Body */}
-        <div className="space-y-2 mt-2">
+        <div className="flex-1">
           {attentionLeads.map((lead, idx) => (
-            <div key={idx} className="grid grid-cols-12 items-center px-5 h-[48px] bg-[#FAFBFF] border border-[#EDF3FD] rounded-[8px] transition-colors hover:bg-[#F3F5FF]">
-              <div className="col-span-3 text-[16px] font-medium text-black leading-[1.2] tracking-[0.6px]">{lead.name}</div>
-              <div className="col-span-5 text-[16px] font-medium text-black leading-[1.2] tracking-[0.6px] truncate pr-2">{lead.issue}</div>
-              <div className="col-span-2 flex justify-center">
+            <div 
+              key={idx} 
+              className={`grid grid-cols-12 items-center px-5 h-[61px] bg-[#FAFBFF]  ${
+                idx !== attentionLeads.length - 1 ? "border-b border-[#EDF3FD]" : ""
+              }`}
+            >
+              <div className="col-span-2 sm:col-span-3 text-[16px] font-medium text-black leading-[1.2] tracking-[0.6px]">{lead.name}</div>
+              <div className="col-span-4 sm:col-span-5 text-[16px] font-medium text-black leading-[1.2] tracking-[0.6px] truncate pr-2">{lead.issue}</div>
+              <div className="col-span-3 sm:col-span-2 flex justify-center">
                 <span className="bg-[#FF8A8A] text-white w-[54px] h-[27px] rounded-[60px] text-[12px] font-bold flex items-center justify-center">
                   {lead.priority}
                 </span>
               </div>
-              <div className="col-span-2 flex justify-end">
-                <button className="border border-[#EDF3FD] hover:bg-slate-50 text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer">
+              <div className="col-span-3 sm:col-span-2 flex justify-end">
+                <button className="text-[16px] border border-[#EDF3FD] bg-white text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer">
                   view
                 </button>
               </div>

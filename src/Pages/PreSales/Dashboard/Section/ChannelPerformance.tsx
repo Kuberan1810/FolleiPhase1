@@ -42,8 +42,8 @@ const ChannelPerformance: React.FC = () => {
   ];
 
   return (
-    <div className="lg:col-span-4 BoxStyle flex flex-col ">
-      <h3 className="text-[16px] font-bold text-[#000000] mb-4 leading-[1.2] tracking-[0.6px]">Channel performance</h3>
+    <div className="col-span-12 lg:col-span-12 xl:col-span-3 BoxStyle flex flex-col">
+      <h3 className="text-[20px] font-bold text-[#000000] mb-4 leading-[1.2] tracking-[0.6px]">Channel performance</h3>
       <div className="flex flex-col gap-[10px]">
         {channels.map((chan, idx) => (
           <div key={idx} className="bg-[#F6F8FF] border border-[#EDF3FD] rounded-[10px] h-[71px] px-5 flex items-center justify-between">
@@ -55,7 +55,7 @@ const ChannelPerformance: React.FC = () => {
             </div>
             <div className="flex flex-col items-start gap-1">
               <div className="flex items-baseline text-black leading-[1.2] tracking-[0.6px]">
-                <span className="text-[14px] font-normal">{chan.progress}%</span>
+                <span className="text-[20px] font-normal">{chan.progress}%</span>
                 <span className="text-[16px] font-normal ml-1">open</span>
               </div>
               <div className="w-[114px] bg-[#D9D9D9] rounded-[30px] h-[7px] overflow-hidden">

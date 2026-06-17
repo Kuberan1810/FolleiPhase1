@@ -67,7 +67,7 @@ const DashboardLayout = () => {
 
     const firstPoint = { x: 0, y: points[0].y + 10 };
     const lastPoint = { x: width, y: points[points.length - 1].y + 10 };
-    
+
     const allPoints = [firstPoint, ...points, lastPoint];
 
     let path = `M ${allPoints[0].x} ${allPoints[0].y}`;
@@ -83,15 +83,15 @@ const DashboardLayout = () => {
 
   return (
     <div className="space-y-6 w-full pb-16 font-urbanist">
-      
+
       {/* Top Section */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        
+
         {/* 1. Overview Chart Card */}
-        <div 
-          className="lg:col-span-5 rounded-[20px] p-5 relative overflow-hidden flex flex-col justify-between w-full h-[350px]"
-          style={{ 
-            backgroundColor: '#B4CCFF',
+        <div
+          className="col-span-12 lg:col-span-8 xl:col-span-5 rounded-[20px] p-5 relative overflow-hidden flex flex-col justify-between w-full h-full"
+          style={{
+            background: 'linear-gradient(180deg, #B4CCFF 0%, #8EB0EF 100%)',
             boxShadow: '0px 4px 4px 0px #E5ECFB'
           }}
         >
@@ -107,16 +107,18 @@ const DashboardLayout = () => {
             <path d={generateWavePath(overviewColumns, 0)} fill="url(#mountainGrad)" style={{ transition: 'd 0.5s ease-in-out' }} />
           </svg>
 
-          {/* Dotted threshold line */}
-          <div className="absolute left-6 right-6 bottom-[48px] border-b border-dashed border-white/50 z-0 pointer-events-none" />
+          {/* Dashed threshold line */}
+          <svg className="absolute left-6 right-6 bottom-[48px] h-[2px] z-0 pointer-events-none" style={{ width: 'calc(100% - 48px)' }}>
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="5,5" />
+          </svg>
 
           {/* Card Header */}
-          <div className="flex items-center justify-between relative z-10">
+          <div className="flex items-center justify-between relative z-20">
             <span className="bg-white text-slate-800 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100/30">
               Overview
             </span>
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="bg-white hover:bg-slate-50 transition-colors text-slate-800 rounded-full px-3.5 py-1.5 text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100/30"
               >
@@ -131,7 +133,7 @@ const DashboardLayout = () => {
                         setSelectedMonth(item);
                         setShowDropdown(false);
                       }}
-                      className="w-full text-left px-3 py-2 hover:bg-slate-50 transition-colors font-medium"
+                      className="w-full text-left px-3 py-2 hover:bg-slate-50 transition-colors font-medium cursor-pointer"
                     >
                       {item}
                     </button>
@@ -147,7 +149,7 @@ const DashboardLayout = () => {
               {overviewColumns.map((col, idx) => (
                 <div key={idx} className="relative flex flex-col items-center justify-end h-full group" style={{ width: "61px" }}>
                   {col.tooltip && (
-                    <div 
+                    <div
                       className="absolute left-1/2 -translate-x-1/2 bg-white text-slate-800 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-md flex-col items-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none flex"
                       style={{ bottom: `${col.height + 12}px` }}
                     >
@@ -155,9 +157,9 @@ const DashboardLayout = () => {
                       <div className="w-2 h-2 bg-white rotate-45 -mt-1" />
                     </div>
                   )}
-                  <div 
+                  <div
                     className="w-[61px] rounded-t-[10px] rounded-b-none shadow-sm cursor-pointer"
-                    style={{ 
+                    style={{
                       height: `${col.height}px`,
                       background: 'linear-gradient(180deg, #FFFFFF 0%, #8EB0EF 100%)'
                     }}
@@ -179,16 +181,16 @@ const DashboardLayout = () => {
         </div>
 
         {/* 2. Stats Grid - formatted to match Figma layout and specs */}
-        <div className="lg:col-span-3 grid grid-cols-2 gap-x-5 gap-y-8 pt-6">
+        <div className="col-span-12 lg:col-span-4 xl:col-span-4 grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-8 pt-6">
           {stats.map((item, idx) => (
-            <div 
-              key={idx} 
-              className="bg-white rounded-[20px] pt-7 pb-3 px-3 border border-[#EDF3FD] relative flex flex-col justify-between items-center w-full max-w-[173.5px] h-[138.73px] cursor-pointer"
+            <div
+              key={idx}
+              className="bg-white rounded-[20px] pt-7 pb-3 px-3 border border-[#EDF3FD] relative flex flex-col justify-between items-center w-full max-w-[173.5px] h-full cursor-pointer"
               style={{
                 boxShadow: '0px 4px 4px 0px rgba(237, 243, 253, 0.3)'
               }}
             >
-              <div 
+              <div
                 className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50px] h-[50px] rounded-full bg-white border border-[#EDF3FD] flex items-center justify-center z-10"
                 style={{
                   boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
@@ -196,20 +198,20 @@ const DashboardLayout = () => {
               >
                 <item.icon size={20} className="text-[#014370] stroke-[2.5]" fill="#014370" />
               </div>
-              
+
               <div className="text-center flex flex-col items-center justify-center mt-1.5 flex-1">
-                <p className="text-[14px] font-semibold text-slate-400 font-urbanist">{item.title}</p>
-                <h3 
+                <p className="text-[16px] font-semibold text-[#6E6E6E]">{item.title}</p>
+                <h3
                   className="text-[36px] font-bold text-[#6693B1] font-urbanist leading-none mt-1"
                   style={{ fontWeight: 700 }}
                 >
                   {item.value}
                 </h3>
               </div>
-              
-              <div 
+
+              <div
                 className="flex items-center gap-1 text-[16px] font-light font-urbanist"
-                style={{ 
+                style={{
                   fontWeight: 300,
                   color: item.trend === "up" ? "#008900" : "#D60509"
                 }}
@@ -228,7 +230,7 @@ const DashboardLayout = () => {
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        
+
         {/* 4. Needs Attention Now Table Card */}
         <NeedsAttention />
 
