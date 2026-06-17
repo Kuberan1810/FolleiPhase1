@@ -26,7 +26,7 @@ const NeedsAttention: React.FC = () => {
         }}
       >
         {/* Header */}
-        <div className="grid grid-cols-12 items-center px-5 h-[44px] bg-[#F3F5FF] border-b border-[#EDF3FD] rounded-t-[10px]">
+        <div className="grid grid-cols-12 items-center px-5  h-[44px] bg-[#F3F5FF] border-b border-[#EDF3FD] rounded-t-[10px]">
           <div className="col-span-2 sm:col-span-3 text-[16px] font-semibold text-[#191C1E]">Lead</div>
           <div className="col-span-4 sm:col-span-5 text-[16px] font-semibold text-[#191C1E]">Issue</div>
           <div className="col-span-3 sm:col-span-2 text-center text-[16px] font-semibold text-[#191C1E]">Priority</div>
