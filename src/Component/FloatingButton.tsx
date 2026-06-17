@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AiBrain from "../assets/AiFloat.svg";
 import AIBrainPopup from "./AIBrainPopup";
-import AiLiveChat from "../Pages/PreSales/Dashboard/Section/AiLiveChat";
+// import AiLiveChat from "../Pages/PreSales/Dashboard/Section/AiLiveChat";
 import { motion, AnimatePresence } from "framer-motion";
 
 const FloatingButton = () => {
@@ -39,7 +39,7 @@ const FloatingButton = () => {
     return (
         <>
             <AIBrainPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} isOutbound={isOutbound} />
-            <AnimatePresence>
+            {/* <AnimatePresence>
               {isLiveChatOpen && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -51,7 +51,7 @@ const FloatingButton = () => {
                   <AiLiveChat onClose={() => setIsLiveChatOpen(false)} />
                 </motion.div>
               )}
-            </AnimatePresence>
+            </AnimatePresence> */}
 
             <div className="fixed bottom-24 right-4 lg:bottom-10 lg:right-10 z-50 pointer-events-none">
                 <motion.div
@@ -83,9 +83,9 @@ const FloatingButton = () => {
 
                         {/* AI Button — Premium Glow */}
                         <div
-                            onClick={() => { setIsLiveChatOpen(!isLiveChatOpen); }}
-                            className="relative w-[58px] h-[58px] flex items-center justify-center cursor-pointer"
-                            style={{ animation: 'float 3s ease-in-out infinite' }}
+                            // onClick={() => { setIsLiveChatOpen(!isLiveChatOpen); }}
+                            // className="relative w-[58px] h-[58px] flex items-center justify-center cursor-pointer"
+                            // style={{ animation: 'float 3s ease-in-out infinite' }}
                         >
                             {/* Pulse rings */}
                             <div
