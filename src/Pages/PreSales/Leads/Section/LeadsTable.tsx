@@ -6,7 +6,10 @@ import {
   Import,
   Flame,
   Snowflake,
-  Sun
+  Sun,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react';
 import type { Lead } from '../Leads';
 
@@ -84,7 +87,7 @@ const getStatusBadgeStyle = (status: string) => {
     borderRadius: style.borderRadius,
     fontSize: '14px',
     lineHeight: '20px',
-    fontWeight: 700,
+    fontWeight: 500,
     backgroundColor: style.bg,
     color: style.text,
   };
@@ -95,7 +98,7 @@ const getTempStyle = (temp: string) => {
     case 'Hot':
       return {
         color: '#B91C1C',
-        icon: <Flame className="w-4 h-4 shrink-0 text-[#DC2626]" />
+        icon: <Flame className="w-4 h-4 shrink-0 text-[#DC2626] fill-[#DC2626]" />
       };
     case 'Warm':
       return {
@@ -120,6 +123,11 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
   const [showAZPopup, setShowAZPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [showRowsDropdown, setShowRowsDropdown] = useState(false);
+  const rowsDropdownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
@@ -133,14 +141,67 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [showAZPopup]);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (rowsDropdownRef.current && !rowsDropdownRef.current.contains(e.target as Node)) {
+        setShowRowsDropdown(false);
+      }
+    };
+    if (showRowsDropdown) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showRowsDropdown]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [leads.length, rowsPerPage]);
+
+  const totalItems = leads.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const paginatedLeads = leads.slice(startIndex, startIndex + rowsPerPage);
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) {
+        pages.push('ellipsis-start');
+      }
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      for (let i = start; i <= end; i++) {
+        if (!pages.includes(i)) pages.push(i);
+      }
+      if (currentPage < totalPages - 2) {
+        pages.push('ellipsis-end');
+      }
+      if (!pages.includes(totalPages)) pages.push(totalPages);
+    }
+    return pages;
+  };
   return (
     <div className="bg-white rounded-[24px] overflow-visible border border-slate-100/80 shadow-[0_4px_20px_rgba(0,0,0,0.015)]">
       <div className={`overflow-x-auto ${showAZPopup ? 'pb-48' : ''} transition-all duration-200`}>
         <table className="w-full min-w-[900px] border-collapse text-left">
           <thead>
             <tr className="bg-[#FAFBFF] border-b border-[#EDF3FD] h-[52px]">
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">DATE</th>
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap relative">
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap">DATE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap relative">
                 <div className="flex items-center gap-1.5 select-none">
                   <span>LEAD</span>
                   <div
@@ -194,15 +255,15 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                   </div>
                 )}
               </th>
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">SOURCE</th>
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">STATUS</th>
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">SCORE</th>
-              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] font-manrope whitespace-nowrap">LAST ACTIVITY</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap">SOURCE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap">STATUS</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap">SCORE</th>
+              <th className="px-6 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]  whitespace-nowrap">LAST ACTIVITY</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#EDF3FD]">
-            {leads.length > 0 ? (
-              leads.map((lead) => {
+            {paginatedLeads.length > 0 ? (
+              paginatedLeads.map((lead) => {
                 const tempStyle = getTempStyle(lead.temperature);
                 return (
                   <tr
@@ -222,10 +283,10 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                           {getInitials(lead.name)}
                         </div>
                         <div className="min-w-0 flex flex-col justify-center">
-                          <h4 className="font-sans font-semibold text-[14px] text-black leading-tight">
+                          <h4 className=" font-semibold text-[14px] text-black leading-tight">
                             {lead.name}
                           </h4>
-                          <span className="font-sans font-bold text-[12px] text-[#6B7280] leading-tight">
+                          <span className=" font-bold text-[12px] text-[#6B7280] leading-tight">
                             {lead.email}
                           </span>
                         </div>
@@ -233,7 +294,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                     </td>
 
                     {/* Source */}
-                    <td className="px-6 py-3 whitespace-nowrap text-[14px] font-regular text-[#000000] font-sans">
+                    <td className="px-6 py-3 whitespace-nowrap text-[14px] font-regular text-[#000000] ">
                       <div className="flex items-center gap-2">
                         {getSourceIcon(lead.source)}
                         <span>{getSourceName(lead.source)}</span>
@@ -243,7 +304,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                     {/* Status */}
                     <td className="px-6 py-3 whitespace-nowrap">
                       <span
-                        className="inline-flex items-center justify-center font-bold whitespace-nowrap font-urbanist"
+                        className="inline-flex items-center justify-center whitespace-nowrap "
                         style={getStatusBadgeStyle(lead.status)}
                       >
                         {formatStatus(lead.status)}
@@ -263,7 +324,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
 
                     {/* Last Activity */}
                     <td className="px-6 py-3 whitespace-nowrap">
-                      <div className="flex flex-col justify-center font-sans">
+                      <div className="flex flex-col justify-center ">
                         <span className="text-[14px] font-medium text-[#222222] leading-tight">
                           {lead.activityType === 'WHATSAPP' ? 'Whatsapp' :
                             lead.activityType === 'CALL LOGGED' ? 'Call Logged' : 'Meeting Setup'}
@@ -285,6 +346,90 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Table Pagination Footer */}
+      <div className="flex items-center justify-between border-t border-[#EDF3FD] py-4 px-6 font-manrope bg-white rounded-b-[24px]">
+        {/* Pagination Left */}
+        <div className="flex items-center gap-1.5">
+          {/* Previous Button */}
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${
+              currentPage === 1 ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          
+          {/* Page numbers */}
+          {getPageNumbers().map((page, idx) => {
+            if (typeof page === 'string') {
+              return (
+                <span key={`ellipsis-${idx}`} className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
+                  ...
+                </span>
+              );
+            }
+            return (
+              <button
+                key={`page-${page}`}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors font-medium text-sm cursor-pointer ${
+                  currentPage === page
+                    ? 'bg-[#0F365C] text-white font-semibold'
+                    : 'text-slate-500 hover:bg-slate-50'
+                }`}
+              >
+                {page}
+              </button>
+            );
+          })}
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${
+              currentPage === totalPages ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
+            }`}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Rows per page Right */}
+        <div className="flex items-center gap-2" ref={rowsDropdownRef}>
+          <span className="text-[13px] text-slate-500 font-medium">Rows per page:</span>
+          <div className="relative">
+            <button
+              onClick={() => setShowRowsDropdown(!showRowsDropdown)}
+              className="flex items-center justify-between gap-1.5 border border-[#E2E8F0] px-3 py-1.5 rounded-lg text-[13px] font-semibold text-[#0F365C] hover:bg-slate-50 transition-colors bg-white cursor-pointer"
+            >
+              <span>{rowsPerPage}</span>
+              <ChevronDown className="w-4 h-4 text-slate-400" />
+            </button>
+            {showRowsDropdown && (
+              <div className="absolute bottom-full right-0 mb-1.5 z-50 bg-white border border-[#E2E8F0] rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 min-w-[70px] flex flex-col">
+                {[5, 10, 20, 50].map((val) => (
+                  <button
+                    key={val}
+                    onClick={() => {
+                      setRowsPerPage(val);
+                      setShowRowsDropdown(false);
+                    }}
+                    className={`px-3 py-1.5 text-left text-[13px] font-medium transition-colors hover:bg-slate-50 cursor-pointer ${
+                      rowsPerPage === val ? 'text-[#0F365C] font-semibold bg-slate-50/50' : 'text-slate-600'
+                    }`}
+                  >
+                    {val}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

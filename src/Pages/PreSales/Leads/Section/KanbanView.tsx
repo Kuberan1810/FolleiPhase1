@@ -5,14 +5,25 @@ import {
   Megaphone,
   Handshake,
   Import,
-  MoreVertical,
   MessageSquare,
-  PhoneCall,
-  Calendar,
+  Phone,
   Flame,
   Sun,
   Snowflake,
+  AlertCircle,
+  CheckCircle2,
+  Calendar
 } from 'lucide-react';
+
+type KanbanColumn = {
+  id: string;
+  label: string;
+  bgColor: string;
+  borderColor: string;
+  textColor: string;
+  badgeBg: string;
+  icon?: React.ReactNode;
+};
 
 type KanbanViewProps = {
   leads: Lead[];
@@ -21,41 +32,45 @@ type KanbanViewProps = {
   categorizeBy?: string;
 };
 
-const getColumnsForCategorization = (categorizeBy: string) => {
+const getColumnsForCategorization = (categorizeBy: string): KanbanColumn[] => {
   switch (categorizeBy) {
     case 'Lead Status':
       return [
         {
           id: 'NEW INQUIRY',
           label: 'NEW INQUIRY',
-          bgColor: '#DBEAFE',
-          borderColor: '#70ADFF',
+          bgColor: '#EFEFFF',
+          borderColor: '#1D4ED8',
           textColor: '#0D1C2E',
-          badgeBg: '#70ADFF',
+          badgeBg: '#1D4ED8',
+          icon: <AlertCircle className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'CONTACTED',
           label: 'CONTACTED',
-          bgColor: '#FFF1D7',
-          borderColor: '#DB9407',
+          bgColor: '#FFFBEB',
+          borderColor: '#D97706',
           textColor: '#0D1C2E',
-          badgeBg: '#DB9407',
+          badgeBg: '#D97706',
+          icon: <Megaphone className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'QUALIFIED',
           label: 'QUALIFIED',
-          bgColor: '#ECFCCB',
-          borderColor: '#A3E635',
+          bgColor: '#F0FDF4',
+          borderColor: '#16A34A',
           textColor: '#0D1C2E',
-          badgeBg: '#A3E635',
+          badgeBg: '#16A34A',
+          icon: <CheckCircle2 className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'DEMO SCHEDULED',
           label: 'DEMO SCHEDULED',
-          bgColor: '#FEE2E2',
-          borderColor: '#FCA5A5',
+          bgColor: '#FEF2F2',
+          borderColor: '#EF4444',
           textColor: '#0D1C2E',
-          badgeBg: '#FCA5A5',
+          badgeBg: '#EF4444',
+          icon: <Calendar className="w-[18px] h-[18px] text-[#0D1C2E]" />
         }
       ];
     case 'Lead Score':
@@ -63,29 +78,29 @@ const getColumnsForCategorization = (categorizeBy: string) => {
         {
           id: 'Hot',
           label: 'Hot',
-          bgColor: '#FEE2E2',
-          borderColor: '#B91C1C',
-          textColor: '#222222',
-          badgeBg: '#B91C1C',
-          icon: <Flame className="w-4 h-4 text-[#222222]" />
+          bgColor: '#FEF2F2',
+          borderColor: '#DC2626',
+          textColor: '#0D1C2E',
+          badgeBg: '#DC2626',
+          icon: <Flame className="w-[18px] h-[18px] text-[#0D1C2E] fill-current" />
         },
         {
           id: 'Warm',
           label: 'Warm',
-          bgColor: '#FFEDD5',
-          borderColor: '#C2410C',
-          textColor: '#222222',
-          badgeBg: '#C2410C',
-          icon: <Sun className="w-4 h-4 text-[#222222]" />
+          bgColor: '#FFFBEB',
+          borderColor: '#D97706',
+          textColor: '#0D1C2E',
+          badgeBg: '#D97706',
+          icon: <Sun className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'Cold',
           label: 'Cold',
-          bgColor: '#DBEAFE',
+          bgColor: '#EFEFFF',
           borderColor: '#1D4ED8',
-          textColor: '#222222',
+          textColor: '#0D1C2E',
           badgeBg: '#1D4ED8',
-          icon: <Snowflake className="w-4 h-4 text-[#222222]" />
+          icon: <Snowflake className="w-[18px] h-[18px] text-[#0D1C2E]" />
         }
       ];
     case 'Campaign':
@@ -93,34 +108,38 @@ const getColumnsForCategorization = (categorizeBy: string) => {
         {
           id: 'GROWTH X',
           label: 'GROWTH X',
-          bgColor: '#DBEAFE',
-          borderColor: '#70ADFF',
+          bgColor: '#EFEFFF',
+          borderColor: '#1D4ED8',
           textColor: '#0D1C2E',
-          badgeBg: '#70ADFF',
+          badgeBg: '#1D4ED8',
+          icon: <Globe className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'CUSTOMER RE-ENGAGEMENT PROGRAM',
           label: 'CUSTOMER RE-ENGAGEMENT PROGRAM',
-          bgColor: '#FFF1D7',
-          borderColor: '#DB9407',
+          bgColor: '#FFFBEB',
+          borderColor: '#D97706',
           textColor: '#0D1C2E',
-          badgeBg: '#DB9407',
+          badgeBg: '#D97706',
+          icon: <Megaphone className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'PRODUCT AWARENESS',
           label: 'PRODUCT AWARENESS',
-          bgColor: '#ECFCCB',
-          borderColor: '#A3E635',
+          bgColor: '#F0FDF4',
+          borderColor: '#16A34A',
           textColor: '#0D1C2E',
-          badgeBg: '#A3E635',
+          badgeBg: '#16A34A',
+          icon: <Handshake className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'INTELLIGENT OUTREACH',
           label: 'INTELLIGENT OUTREACH',
-          bgColor: '#FEE2E2',
-          borderColor: '#FCA5A5',
+          bgColor: '#FEF2F2',
+          borderColor: '#EF4444',
           textColor: '#0D1C2E',
-          badgeBg: '#FCA5A5',
+          badgeBg: '#EF4444',
+          icon: <Import className="w-[18px] h-[18px] text-[#0D1C2E]" />
         }
       ];
     case 'Lead Source':
@@ -129,57 +148,41 @@ const getColumnsForCategorization = (categorizeBy: string) => {
         {
           id: 'website',
           label: 'Website',
-          bgColor: '#DBEAFE',
-          borderColor: '#70ADFF',
+          bgColor: '#EFEFFF',
+          borderColor: '#1D4ED8',
           textColor: '#0D1C2E',
-          badgeBg: '#70ADFF',
-          icon: <Globe className="w-4 h-4 text-[#0D1C2E]" />
+          badgeBg: '#1D4ED8',
+          icon: <Globe className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'campaign',
           label: 'Ads',
-          bgColor: '#FFF1D7',
-          borderColor: '#DB9407',
+          bgColor: '#FFFFF0',
+          borderColor: '#C7CD25',
           textColor: '#0D1C2E',
-          badgeBg: '#DB9407',
-          icon: <Megaphone className="w-4 h-4 text-[#0D1C2E]" />
+          badgeBg: '#C7CD25',
+          icon: <Megaphone className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'shield',
           label: 'Referral',
-          bgColor: '#ECFCCB',
-          borderColor: '#A3E635',
+          bgColor: '#EEFFF5',
+          borderColor: '#04612D',
           textColor: '#0D1C2E',
-          badgeBg: '#A3E635',
-          icon: <Handshake className="w-4 h-4 text-[#0D1C2E]" />
+          badgeBg: '#04612D',
+          icon: <Handshake className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'external',
           label: 'Import',
-          bgColor: '#FEE2E2',
-          borderColor: '#FCA5A5',
+          bgColor: '#FFF7F0',
+          borderColor: '#CD6E25',
           textColor: '#0D1C2E',
-          badgeBg: '#FCA5A5',
-          icon: <Import className="w-4 h-4 text-[#0D1C2E]" />
+          badgeBg: '#CD6E25',
+          icon: <Import className="w-[18px] h-[18px] text-[#0D1C2E]" />
         }
       ];
   }
-};
-
-const getActivityIcon = (type: string) => {
-  const t = type.toUpperCase();
-  if (t.includes('CHAT') || t.includes('WHATSAPP') || t.includes('MESSAGE')) {
-    return <MessageSquare className="w-3.5 h-3.5 text-[#3B82F6]" />;
-  }
-  if (t.includes('CALL')) {
-    return <PhoneCall className="w-3.5 h-3.5 text-emerald-500" />;
-  }
-  return <Calendar className="w-3.5 h-3.5 text-amber-500" />;
-};
-
-const formatActivityText = (type: string, time: string) => {
-  const formattedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-  return `${formattedType} ${time}`;
 };
 
 const getInitials = (name: string): string => {
@@ -188,6 +191,19 @@ const getInitials = (name: string): string => {
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
   }
   return name.trim().charAt(0).toUpperCase();
+};
+
+const getDealValue = (lead: Lead): number => {
+  // Map lead score to realistic deal value (e.g. score 90 -> 90k)
+  const val = lead.score > 0 ? lead.score : 10;
+  return val * 1000;
+};
+
+const formatTotalDealValue = (leads: Lead[]): string => {
+  const total = leads.reduce((sum, l) => sum + getDealValue(l), 0);
+  const lakhs = total / 100000;
+  if (total === 0) return '₹0L';
+  return `₹${lakhs.toFixed(1)}L`;
 };
 
 const KanbanView: React.FC<KanbanViewProps> = ({
@@ -200,8 +216,9 @@ const KanbanView: React.FC<KanbanViewProps> = ({
   const columns = getColumnsForCategorization(categorizeBy);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 ${columns.length === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
-      } gap-6 items-start`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 ${
+      columns.length === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
+    } gap-6 items-start font-manrope`}>
       {columns.map((col) => {
         const colLeads = leads.filter(l => {
           if (categorizeBy === 'Lead Status') {
@@ -220,14 +237,14 @@ const KanbanView: React.FC<KanbanViewProps> = ({
             ];
             return campaignNames[index] === col.id;
           }
-          // Default: Lead Source
           return l.source === col.id;
         });
+
         const activeColorSource = isMono ? {
-          bgColor: '#DBEAFE',
-          borderColor: '#70ADFF',
+          bgColor: '#EFEFFF',
+          borderColor: '#1D4ED8',
           textColor: '#0D1C2E',
-          badgeBg: '#70ADFF'
+          badgeBg: '#1D4ED8'
         } : col;
 
         return (
@@ -235,49 +252,47 @@ const KanbanView: React.FC<KanbanViewProps> = ({
             key={col.id}
             className="flex flex-col min-h-0 md:min-h-[500px]"
           >
-            {/* Column Header */}
             <div
               className="flex justify-between items-center"
               style={{
-                height: '44px',
+                height: '48px',
                 boxSizing: 'border-box',
-                padding: '14px 20px',
-                borderTop: `3px solid ${activeColorSource.borderColor}`,
+                padding: '12px',
+                borderTop: `2px solid ${activeColorSource.borderColor}`,
                 backgroundColor: activeColorSource.bgColor,
                 color: activeColorSource.textColor,
                 fontFamily: 'Inter, sans-serif'
               }}
             >
-              <div className="flex items-center" style={{ gap: '16px' }}>
+              <div className="flex items-center gap-2">
                 {col.icon}
                 <span
+                  className="font-bold text-[14px]"
                   style={{
-                    fontWeight: 700,
-                    fontSize: '12px',
-                    lineHeight: '16px',
-                    letterSpacing: '0.6px',
-                    textTransform: 'uppercase',
+                    color: '#0D1C2E',
+                    letterSpacing: '-0.2px'
                   }}
                 >
                   {col.label}
                 </span>
+                <span
+                  className="inline-flex items-center justify-center font-bold text-[11px] w-5 h-5 rounded-full"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    color: activeColorSource.borderColor,
+                    border: `1px solid ${activeColorSource.borderColor}33`
+                  }}
+                >
+                  {colLeads.length.toString().padStart(2, '0')}
+                </span>
               </div>
               <span
+                className="font-bold text-[14px]"
                 style={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '10px',
-                  backgroundColor: activeColorSource.badgeBg,
-                  color: '#FFFFFF',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: '20px'
+                  color: '#0D1C2E'
                 }}
               >
-                {colLeads.length}
+                {formatTotalDealValue(colLeads)}
               </span>
             </div>
 
@@ -287,41 +302,50 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <div
                   key={lead.id}
                   onClick={() => onLeadClick(lead)}
-                  className="bg-white border border-slate-100 rounded-2xl p-4 cursor-pointer hover:shadow-md transition-all"
+                  className="BoxStyle p-4 cursor-pointer hover:shadow-md transition-all flex flex-col justify-between"
                 >
                   {/* Lead Info */}
-                  <div className="flex justify-between items-center gap-2">
-                    <div className="flex items-center gap-2.5">
+                  <div>
+                    <div className="flex items-start gap-2.5">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
                         {getInitials(lead.name)}
                       </div>
                       <div>
-                        <h4 className="text-[14px] font-semibold text-[#0D1C2E] group-hover:text-[#004370] transition-colors leading-snug">
+                        <h4 className="text-[15px] font-bold text-[#0D1C2E] leading-snug">
                           {lead.name}
                         </h4>
-                        <p className="text-[12px] text-slate-400 font-normal">
-                          {lead.email}
+                        <p className="text-[12px] text-slate-400 font-normal mt-0.5">
+                          Mail Id
                         </p>
                       </div>
                     </div>
 
-                    <button className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-50 transition-colors">
-                      <MoreVertical className="w-4 h-4" />
-                    </button>
+                    {/* Description Notes */}
+                    {lead.notes && (
+                      <p className="text-[13px] text-[#475569] font-medium leading-relaxed mt-3.5">
+                        {lead.notes}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Activity Details Bar */}
-                  <div className="bg-[#F8FAFC] rounded-xl py-2 px-3 flex items-center gap-2 mt-3 text-[12px] text-slate-600 font-medium">
-                    {getActivityIcon(lead.activityType)}
-                    <span>
-                      {formatActivityText(lead.activityType, lead.activityTime)}
-                    </span>
+                  {/* Footer actions and value */}
+                  <div>
+                    <div className="border-t border-slate-100 my-3.5" />
+                    <div className="flex justify-between items-center text-slate-500">
+                      <div className="flex items-center gap-3">
+                        <Phone className="w-4 h-4 hover:text-[#004370] transition-colors cursor-pointer text-slate-400" />
+                        <MessageSquare className="w-4 h-4 hover:text-[#004370] transition-colors cursor-pointer text-slate-400" />
+                      </div>
+                      <span className="text-[12px] font-semibold text-slate-500">
+                        Deal Value : {getDealValue(lead) / 1000}k
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
 
               {colLeads.length === 0 && (
-                <div className="h-32 border-2 border-dashed border-slate-200/60 rounded-2xl flex items-center justify-center text-slate-400 text-xs font-semibold">
+                <div className="h-32 border-2 border-dashed border-slate-200/60 rounded-[16px] flex items-center justify-center text-slate-400 text-xs font-semibold">
                   No leads in this group
                 </div>
               )}
