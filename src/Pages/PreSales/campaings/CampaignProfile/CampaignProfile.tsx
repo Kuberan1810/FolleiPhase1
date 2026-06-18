@@ -5,6 +5,7 @@ import DetailStatCards from './section/DetailStatCards';
 import RecentEngagement from './section/RecentEngagement';
 import CampaignPlayback from './section/CampaignPlayback';
 import AIInsightBanner from './section/AIInsightBanner';
+import { ChevronLeft } from 'lucide-react';
 
 export default function CampaignProfile() {
   const navigate = useNavigate();
@@ -14,24 +15,26 @@ export default function CampaignProfile() {
       {/* ── HEADER ── */}
       <div className="flex items-start justify-between mb-6">
         {/* Left: back arrow + title + pill + date */}
-        <div>
+        <div className=''>
           {/* Back arrow */}
-          <ArrowLeft 
-            size="20" 
-            color="#464555" 
-            className="cursor-pointer inline" 
-            onClick={() => navigate(-1)} 
-          />
+          <div className='flex items-center'>
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+            >
+              <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+            </button>
 
-          {/* Title */}
-          <h1 style={{
-            fontWeight: 700,
-            fontSize: '32px',
-            lineHeight: '40px',
-            letterSpacing: '-0.32px',
-            color: '#0F172A',
-            display: 'inline', marginLeft: '12px'
-          }}>GrowthX</h1>
+            {/* Title */}
+            <h1 style={{
+              fontWeight: 700,
+              fontSize: '32px',
+              lineHeight: '40px',
+              letterSpacing: '-0.32px',
+              color: '#0F172A',
+              display: 'inline', marginLeft: '12px'
+            }}>GrowthX</h1>
+          </div>
 
           {/* Below title: Active pill + date */}
           <div className="flex items-center gap-2 mt-1 ml-8">

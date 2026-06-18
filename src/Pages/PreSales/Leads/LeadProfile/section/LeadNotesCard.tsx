@@ -1,6 +1,5 @@
-import React from 'react';
 
-const LeadNotesCard = () => {
+const LeadNotesCard = ({ lead }: { lead?: any }) => {
     return (
         <div className="BoxStyle">
             <h2 className="text-[20px] font-bold text-[#191C1E] mb-7">Lead Notes</h2>
@@ -19,7 +18,7 @@ const LeadNotesCard = () => {
 
                 <div className="bg-[#EFF6FF] rounded-[16px] p-5">
                     <p className="text-[16px] text-[#475569] font-medium leading-relaxed mb-4">
-                        "Interested in enterprise pricing and custom API volume discounts. Highlight the scalability features in the next call."
+                        "{lead?.notes || "Interested in enterprise pricing and custom API volume discounts. Highlight the scalability features in the next call."}"
                     </p>
                     <div className="flex items-center gap-2 text-[14px] font-medium text-[#94A3B8]">
                         <span > Sarah Wilson</span>

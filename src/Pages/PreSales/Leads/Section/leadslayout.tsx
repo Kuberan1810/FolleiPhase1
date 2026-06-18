@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Download, LayoutGrid, List, Flame, Phone, UserPlus, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Calendar2 } from 'iconsax-react';
+import { useNavigate } from 'react-router-dom';
 import LeadsTable from './LeadsTable';
 import KanbanView from './KanbanView';
 import FilterPanel from './FilterPanel';
@@ -164,6 +165,7 @@ const headerCardsData: HeaderCardDataItem[] = [
 ];
 
 const Leadslayout: React.FC = () => {
+  const navigate = useNavigate();
   const [leadsList] = useState<Lead[]>(initialLeads);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
@@ -193,8 +195,9 @@ const Leadslayout: React.FC = () => {
   useEffect(() => {
     if (selectedLeadForProfile) {
       console.log('Lead profile selected:', selectedLeadForProfile.name);
+      navigate('/presales/leads/profile', { state: { lead: selectedLeadForProfile } });
     }
-  }, [selectedLeadForProfile]);
+  }, [selectedLeadForProfile, navigate]);
 
   const handleExportCSV = () => {
     const headers = ['Date', 'Lead Name', 'Email', 'Phone', 'Company', 'Source', 'Status', 'Score', 'Temperature', 'ActivityTime', 'ActivityType'];
@@ -251,7 +254,7 @@ const Leadslayout: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-12 px-6 font-manrope">
+    <div className="min-h-screen pb-12 px-6 ">
       {/* Title & Description Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-4">
         <div>

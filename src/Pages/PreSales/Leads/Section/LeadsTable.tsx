@@ -349,7 +349,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
       </div>
 
       {/* Table Pagination Footer */}
-      <div className="flex items-center justify-between border-t border-[#EDF3FD] py-4 px-6 font-manrope bg-white rounded-b-[24px]">
+      <div className="flex items-center justify-between border-t border-[#EDF3FD] py-4 px-6  bg-white rounded-b-[24px]">
         {/* Pagination Left */}
         <div className="flex items-center gap-1.5">
           {/* Previous Button */}

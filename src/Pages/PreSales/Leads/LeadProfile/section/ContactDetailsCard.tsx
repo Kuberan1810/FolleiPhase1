@@ -1,11 +1,11 @@
 
 import { Phone, MapPin, Building2 } from 'lucide-react';
 
-const ContactDetailsCard = () => {
+const ContactDetailsCard = ({ lead }: { lead?: any }) => {
   const details = [
-    { icon: Phone, label: 'PHONE', value: '+91 98765 43210' },
-    { icon: MapPin, label: 'LOCATION', value: 'Bangalore, India' },
-    { icon: Building2, label: 'COMPANY', value: 'ABC Technologies' },
+    { icon: Phone, label: 'PHONE', value: lead?.phone || '+91 98765 43210' },
+    { icon: MapPin, label: 'LOCATION', value: lead?.location || 'Bangalore, India' },
+    { icon: Building2, label: 'COMPANY', value: lead?.company || 'ABC Technologies' },
   ];
 
   return (

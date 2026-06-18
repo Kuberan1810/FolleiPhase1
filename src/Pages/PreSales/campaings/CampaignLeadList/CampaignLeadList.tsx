@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PauseCircle, Trash, ArrowDown2 } from 'iconsax-react';
+import { ChevronLeft } from 'lucide-react';
 import CampaignLeadTable from './section/CampaignLeadTable';
 
 export default function CampaignLeadList() {
@@ -45,11 +46,12 @@ export default function CampaignLeadList() {
         {/* Left: back + title + pill + date */}
         <div>
           <div className="flex items-center gap-3">
-            <span
-              className="cursor-pointer"
+            <button
               onClick={() => navigate(-1)}
-              style={{ fontSize: '20px', color: '#464555' }}
-            >←</span>
+              className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+            >
+              <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+            </button>
             <h1 style={{
               fontWeight: 700, fontSize: '32px',
               lineHeight: '40px', letterSpacing: '-0.32px', color: '#0F172A'

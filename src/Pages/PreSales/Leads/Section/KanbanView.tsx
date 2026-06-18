@@ -218,7 +218,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
   return (
     <div className={`grid grid-cols-1 md:grid-cols-2 ${
       columns.length === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
-    } gap-6 items-start font-manrope`}>
+    } gap-6 items-start `}>
       {columns.map((col) => {
         const colLeads = leads.filter(l => {
           if (categorizeBy === 'Lead Status') {

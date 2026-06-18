@@ -13,7 +13,7 @@ const NeedsAttention: React.FC = () => {
     <div 
       className="col-span-1 md:col-span-7 lg:col-span-7 BoxStyle flex flex-col gap-[15px]"
       style={{
-        height: '428px',
+      
         boxShadow: '0px 4px 4px 0px rgba(229, 236, 251, 0.25)'
       }}
     >
@@ -21,9 +21,7 @@ const NeedsAttention: React.FC = () => {
       
       <div 
         className="w-full bg-white border border-[#EDF3FD] rounded-[10px] overflow-hidden flex flex-col"
-        style={{
-          height: '349px'
-        }}
+    
       >
         {/* Header */}
         <div className="grid grid-cols-12 items-center px-5 py-3 bg-[#F3F5FF] border-b border-[#EDF3FD] rounded-t-[10px]">
@@ -50,7 +48,7 @@ const NeedsAttention: React.FC = () => {
                 </span>
               </div>
               <div className="col-span-3 sm:col-span-2 flex justify-end">
-                <button className="text-[16px] border border-[#EDF3FD] bg-white text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer">
+                <button className="text-[16px] border border-[#EDF3FD] bg-white text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer hover:bg-slate-50">
                   view
                 </button>
               </div>
