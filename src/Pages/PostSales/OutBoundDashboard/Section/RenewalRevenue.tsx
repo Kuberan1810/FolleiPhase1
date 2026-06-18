@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const revenueData = [
   { label: 'Safe', color: '#00BB42', width: '90%' },
