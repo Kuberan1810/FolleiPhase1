@@ -8,14 +8,14 @@ import FloatingButton from '../../../../Component/FloatingButton';
 export default function DashboardLayout() {
     return (
         <div className="space-y-6 w-full pb-16 text-slate-800">
-            {/* Upper Grid: Stats + Customer Health Rate + Channel Performance */}
+            {/* Upper Grid*/}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 <StatsGrid />
                 <CustomerHealth />
                 <ChannelPerformance />
             </div>
 
-            {/* Lower Grid: Needs Attention + Renewal Revenue */}
+            {/* Lower Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 <NeedsAttention />
                 <RenewalRevenue />

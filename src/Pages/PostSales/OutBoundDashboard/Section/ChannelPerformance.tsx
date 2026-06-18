@@ -41,7 +41,7 @@ const ChannelPerformance: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-12 lg:col-span-3 BoxStyle flex flex-col">
+    <div className="col-span-12 md:col-span-6 lg:col-span-3 BoxStyle flex flex-col">
       <h3 className="text-[20px] font-medium text-[#000000] mb-4 leading-[1.2] tracking-[0.6px]">Channel performance</h3>
       <div className="flex flex-col gap-[10px]">
         {channels.map((chan, idx) => (

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { LogOut, Megaphone } from 'lucide-react';
 
-import { Home, Profile2User, Stickynote, HierarchySquare, Setting2, DocumentUpload, DirectInbox, Diagram } from "iconsax-react"
+import { Home, Profile2User, People, HierarchySquare, Setting2, DocumentUpload, ChartSquare, Ticket, EmptyWalletChange } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
-import { Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSalesContext } from '../Context/SalesContext';
 
@@ -51,18 +50,18 @@ const Sidebar: React.FC = () => {
   if (salesMode === 'postsales') {
     navItems = [
       { icon: Home, label: 'Dashboard', path: `${prefix}/dashboard` },
-      { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
-      { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
-      { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaigns` },
-      { icon: Layers, label: 'Cadences', path: `${prefix}/cadences` },
-      { icon: Diagram, label: 'Analytics', path: `${prefix}/analytics` },
-      { icon: DocumentUpload, label: 'Data Import', path: `${prefix}/data-import` },
+      { icon: People, label: 'Customers', path: `${prefix}/customer` },
+      { icon: Profile2User, label: 'Onboarding', path: `${prefix}/onboarding` },
+      { icon: Ticket, label: 'Tickets', path: `${prefix}/tickets` },
+      { icon: EmptyWalletChange, label: 'Renewals', path: `${prefix}/renewals` },
+      { icon: ChartSquare, label: 'Analytics', path: `${prefix}/analytics` },
+
       { icon: Setting2, label: 'Settings', path: '/settings' }
     ];
   } else {
     navItems = [
       { icon: Home, label: 'Dashboard', path: `${prefix}/dashboard` },
-      { icon: DirectInbox, label: 'Inbox', path: `${prefix}/inbox` },
+      { icon: People, label: 'Inbox', path: `${prefix}/inbox` },
       { icon: Profile2User, label: 'Leads', path: `${prefix}/leads` },
       { icon: Megaphone, label: 'Campaign', path: `${prefix}/campaigns` },
       { icon: HierarchySquare, label: 'Flow Builder', path: `${prefix}/flow-builder` },
@@ -92,7 +91,7 @@ const Sidebar: React.FC = () => {
             className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:hidden rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
           >
             {navItems.map((item, index) => {
-              const isActive = location.pathname.startsWith(item.path) || 
+              const isActive = location.pathname.startsWith(item.path) ||
                 (item.label === 'Dashboard' && location.pathname.startsWith('/dashboard'));
 
               return (
@@ -227,4 +226,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;
