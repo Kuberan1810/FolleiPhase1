@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Download,
-  LayoutGrid,
-  List,
-  Flame,
-  Phone,
-  Calendar,
-  UserPlus,
-  X,
-  ChevronDown
-} from 'lucide-react';
-
+import { Download, LayoutGrid, List, Flame, Phone, UserPlus, X, ChevronDown } from 'lucide-react';
+import { Calendar2 } from 'iconsax-react';
 import LeadsTable from './LeadsTable';
 import KanbanView from './KanbanView';
 import FilterPanel from './FilterPanel';
@@ -93,7 +83,7 @@ const headerCardsData: HeaderCardDataItem[] = [
     }
   },
   {
-    icon: Calendar,
+    icon: Calendar2,
     iconColorClass: "text-[#7C3AED]",
     title: "Upcoming Demos",
     count: "03",
@@ -407,7 +397,7 @@ const Leadslayout: React.FC = () => {
       </div>
 
       {/* 4 Cards Alert Block */}
-      {showHighlightCards && (
+      {viewMode === 'list' && showHighlightCards && (
         <div className="relative mb-8 pt-2">
           {/* Close button in the top right of the section */}
           <button
