@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Download, LayoutGrid, List, Flame, Phone, UserPlus, X, ChevronDown } from 'lucide-react';
+import { Download, LayoutGrid, List, Flame, Phone, UserPlus, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Calendar2 } from 'iconsax-react';
 import LeadsTable from './LeadsTable';
 import KanbanView from './KanbanView';
 import FilterPanel from './FilterPanel';
-import SortDropdown from './SortDropdown';
 import LeadsHeaderCard from './LeadsHeaderCard';
 import { initialLeads } from '../data/mockLeads';
+
+const parseDate = (dateStr: string) => {
+  if (!dateStr) return 0;
+  const parsed = Date.parse(dateStr);
+  return isNaN(parsed) ? 0 : parsed;
+};
 
 import type { Lead } from '../Leads';
 
@@ -42,9 +47,9 @@ const headerCardsData: HeaderCardDataItem[] = [
     leadName: "Sophia Miller",
     email: "sophia.m@gmail.com",
     badgeText: "Hot",
-    badgeBorderClass: "border-[#FCA5A5]",
+    badgeBorderClass: "",
     badgeBgClass: "bg-[#FEF2F2]",
-    badgeTextColorClass: "text-[#DC2626]",
+    badgeTextColorClass: "text-[#EF4444]",
     description: '"Asked pricing twice and opened proposal."',
   },
   {
@@ -59,7 +64,7 @@ const headerCardsData: HeaderCardDataItem[] = [
     leadName: "Marcus Bennett",
     email: "m.bennett@gmail.com",
     badgeText: "Warm",
-    badgeBorderClass: "border-[#FDBA74]",
+    badgeBorderClass: "",
     badgeBgClass: "bg-[#FFF7ED]",
     badgeTextColorClass: "text-[#EA580C]",
     description: '"Interested in enterprise plan. Waiting for call."',
@@ -89,12 +94,12 @@ const headerCardsData: HeaderCardDataItem[] = [
     count: "03",
     countBgClass: "bg-[#A855F7]",
     avatarText: "OC",
-    avatarBgClass: "bg-[#ECFDF5]",
-    avatarTextColorClass: "text-[#047857]",
+    avatarBgClass: "bg-[#DCFCE7]",
+    avatarTextColorClass: "text-[#15803D]",
     leadName: "Olivia Carter",
     email: "olivia.c@gmail.com",
     badgeText: "Demo",
-    badgeBorderClass: "border-[#C084FC]",
+    badgeBorderClass: "",
     badgeBgClass: "bg-[#FAF5FF]",
     badgeTextColorClass: "text-[#7C3AED]",
     description: (
@@ -133,7 +138,7 @@ const headerCardsData: HeaderCardDataItem[] = [
     leadName: "Daniel Wilson",
     email: "daniel.w@gmail.com",
     badgeText: "New",
-    badgeBorderClass: "border-[#93C5FD]",
+    badgeBorderClass: "",
     badgeBgClass: "bg-[#EFF6FF]",
     badgeTextColorClass: "text-[#475569]",
     description: '"Downloaded whitepaper on AI sales."',
@@ -172,19 +177,9 @@ const Leadslayout: React.FC = () => {
   const [draftSources, setDraftSources] = useState<string[]>([]);
 
   const [showFilters, setShowFilters] = useState(false);
-  const [sortField, setSortField] = useState<'name' | 'activity' | 'budget' | 'assigned'>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [draftSortField, setDraftSortField] = useState<'name' | 'activity' | 'budget' | 'assigned' | null>('name');
-  const [draftSortDirection, setDraftSortDirection] = useState<'asc' | 'desc' | null>('asc');
+  const [sortOption, setSortOption] = useState<'newest' | 'oldest' | 'score-desc' | 'score-asc'>('newest');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [showHighlightCards, setShowHighlightCards] = useState(true);
-
-  useEffect(() => {
-    if (showSortDropdown) {
-      setDraftSortField(sortField);
-      setDraftSortDirection(sortDirection);
-    }
-  }, [showSortDropdown, sortField, sortDirection]);
 
   const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
   // Header Style settings state
@@ -242,17 +237,16 @@ const Leadslayout: React.FC = () => {
 
     return matchesSearch && matchesStatus && matchesSource && matchesScore && matchesLetter;
   }).sort((a, b) => {
-    let comparison = 0;
-    if (sortField === 'name') {
-      comparison = a.name.localeCompare(b.name);
-    } else if (sortField === 'activity') {
-      comparison = (a.activityTime || '').localeCompare(b.activityTime || '');
-    } else if (sortField === 'budget') {
-      comparison = a.score - b.score;
-    } else if (sortField === 'assigned') {
-      comparison = (a.initials || '').localeCompare(b.initials || '');
+    if (sortOption === 'newest') {
+      return parseDate(b.addedTime) - parseDate(a.addedTime);
+    } else if (sortOption === 'oldest') {
+      return parseDate(a.addedTime) - parseDate(b.addedTime);
+    } else if (sortOption === 'score-desc') {
+      return b.score - a.score;
+    } else if (sortOption === 'score-asc') {
+      return a.score - b.score;
     }
-    return sortDirection === 'asc' ? comparison : -comparison;
+    return 0;
   });
 
 
@@ -264,8 +258,8 @@ const Leadslayout: React.FC = () => {
           <h1
             className="tracking-tight"
             style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
+              fontFamily: '',
+              fontWeight: 500,
               fontSize: '36px',
               lineHeight: '44px',
               letterSpacing: '-0.72px',
@@ -277,7 +271,7 @@ const Leadslayout: React.FC = () => {
           <p
             className="mt-1"
             style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: '',
               fontWeight: 400,
               fontSize: '16px',
               lineHeight: '24px',
@@ -310,7 +304,11 @@ const Leadslayout: React.FC = () => {
               className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 filter-btn-trigger"
             >
               <span>Filter</span>
-              <ChevronDown className="w-4 h-4 text-slate-500" />
+              {showFilters ? (
+                <ChevronUp className="w-4 h-4 text-slate-500" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-slate-500" />
+              )}
             </button>
 
             <FilterPanel
@@ -346,20 +344,48 @@ const Leadslayout: React.FC = () => {
           </div>
 
           {/* SORT Button */}
-          <SortDropdown
-            sortField={sortField}
-            sortDirection={sortDirection}
-            draftSortField={draftSortField}
-            draftSortDirection={draftSortDirection}
-            setDraftSortField={setDraftSortField}
-            setDraftSortDirection={setDraftSortDirection}
-            showSortDropdown={showSortDropdown}
-            setShowSortDropdown={setShowSortDropdown}
-            setSortField={setSortField}
-            setSortDirection={setSortDirection}
-          />
+          <div className="relative">
+            <button
+              onClick={() => setShowSortDropdown(!showSortDropdown)}
+              className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
+            >
+              <span>Sort by: {
+                sortOption === 'newest' ? 'Newest' :
+                sortOption === 'oldest' ? 'Oldest' :
+                sortOption === 'score-desc' ? 'Score: High to Low' : 'Score: Low to High'
+              }</span>
+              <ChevronDown className="w-4 h-4 text-slate-500" />
+            </button>
 
-          <div className="w-px h-6 bg-slate-200/80 mx-1" />
+            {showSortDropdown && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowSortDropdown(false)} />
+                <div className="absolute right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                  {[
+                    { value: 'newest', label: 'Newest' },
+                    { value: 'oldest', label: 'Oldest' },
+                    { value: 'score-desc', label: 'Score: High to Low' },
+                    { value: 'score-asc', label: 'Score: Low to High' }
+                  ].map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => {
+                        setSortOption(opt.value as any);
+                        setShowSortDropdown(false);
+                      }}
+                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer ${
+                        sortOption === opt.value ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="w-px h-6 bg-[#EDF3FD] mx-1" />
 
           {/* View Toggle Layout */}
           <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">

@@ -44,8 +44,8 @@ export const LeadsHeaderCard: React.FC<LeadsHeaderCardProps> = ({
   return (
     <div className="BoxStyle transition-all flex flex-col justify-between h-[215px]">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-[#64748B] font-bold text-[12px] leading-[16px]">
-          <Icon color="currentColor" className={`${iconColorClass}`} size={18}/>
+        <div className="flex items-center gap-2 text-[#64748B] font-bold text-[14px] leading-[20px]">
+          <Icon color="currentColor" fill={title === "Needs Attention" ? "currentColor" : "none"} className={`${iconColorClass}`} size={18}/>
           <span>{title}</span>
         </div>
         <span className={`w-5 h-5 rounded-full ${countBgClass} text-white font-bold text-[10px] flex items-center justify-center`}>
@@ -62,11 +62,11 @@ export const LeadsHeaderCard: React.FC<LeadsHeaderCardProps> = ({
             <span className="font-bold text-[16px] leading-[22px] text-[#0F172A] truncate">
               {leadName}
             </span>
-            <span className={`text-[10px] font-bold px-[6px] py-[2px] rounded-[4px] border ${badgeBorderClass} ${badgeBgClass} ${badgeTextColorClass} leading-none shrink-0 h-[18px] flex items-center justify-center`}>
+            <span className={`text-[13px] font-bold px-[6px] py-[2px] rounded-[4px] ${badgeBorderClass ? `border ${badgeBorderClass}` : ''} ${badgeBgClass} ${badgeTextColorClass} leading-none shrink-0 h-[18px] flex items-center justify-center`}>
               {badgeText}
             </span>
           </div>
-          <p className="text-[13px] font-normal text-[#5C5F62] truncate mt-0.5">
+          <p className="text-[13px] font-normal text-[#94A3B8] truncate mt-0.5">
             {email}
           </p>
         </div>
@@ -79,7 +79,7 @@ export const LeadsHeaderCard: React.FC<LeadsHeaderCardProps> = ({
       <div className="flex items-center gap-2 mt-4">
         <button
           onClick={onViewLead}
-          className="flex-1 border border-[#EDF3FD] bg-white text-[#004370] font-bold py-1.5 rounded-lg text-[16x] leading-[16.5px] hover:bg-slate-50 transition-colors cursor-pointer flex items-center justify-center h-9"
+          className="flex-1 border border-[#EDF3FD] bg-white text-[#004370] font-medium py-1.5 rounded-lg text-[16x] leading-[16.5px] hover:bg-slate-50 transition-colors cursor-pointer flex items-center justify-center h-9"
         >
           View Lead
         </button>

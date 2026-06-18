@@ -5,7 +5,6 @@ import {
   Megaphone,
   Handshake,
   Import,
-  MoreVertical,
   MessageSquare,
   Phone,
   Flame,
@@ -83,7 +82,7 @@ const getColumnsForCategorization = (categorizeBy: string): KanbanColumn[] => {
           borderColor: '#DC2626',
           textColor: '#0D1C2E',
           badgeBg: '#DC2626',
-          icon: <Flame className="w-[18px] h-[18px] text-[#0D1C2E]" />
+          icon: <Flame className="w-[18px] h-[18px] text-[#0D1C2E] fill-current" />
         },
         {
           id: 'Warm',
@@ -158,28 +157,28 @@ const getColumnsForCategorization = (categorizeBy: string): KanbanColumn[] => {
         {
           id: 'campaign',
           label: 'Ads',
-          bgColor: '#FFFBEB',
-          borderColor: '#D97706',
+          bgColor: '#FFFFF0',
+          borderColor: '#C7CD25',
           textColor: '#0D1C2E',
-          badgeBg: '#D97706',
+          badgeBg: '#C7CD25',
           icon: <Megaphone className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'shield',
           label: 'Referral',
-          bgColor: '#F0FDF4',
-          borderColor: '#16A34A',
+          bgColor: '#EEFFF5',
+          borderColor: '#04612D',
           textColor: '#0D1C2E',
-          badgeBg: '#16A34A',
+          badgeBg: '#04612D',
           icon: <Handshake className="w-[18px] h-[18px] text-[#0D1C2E]" />
         },
         {
           id: 'external',
           label: 'Import',
-          bgColor: '#FEF2F2',
-          borderColor: '#EF4444',
+          bgColor: '#FFF7F0',
+          borderColor: '#CD6E25',
           textColor: '#0D1C2E',
-          badgeBg: '#EF4444',
+          badgeBg: '#CD6E25',
           icon: <Import className="w-[18px] h-[18px] text-[#0D1C2E]" />
         }
       ];
@@ -303,34 +302,22 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <div
                   key={lead.id}
                   onClick={() => onLeadClick(lead)}
-                  className="bg-white border border-slate-100 rounded-[16px] p-4 cursor-pointer hover:shadow-md transition-all flex flex-col justify-between"
-                  style={{
-                    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)'
-                  }}
+                  className="BoxStyle p-4 cursor-pointer hover:shadow-md transition-all flex flex-col justify-between"
                 >
                   {/* Lead Info */}
                   <div>
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="flex items-center gap-2.5">
-                        <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
-                          {getInitials(lead.name)}
-                        </div>
-                        <div>
-                          <h4 className="text-[15px] font-bold text-[#0D1C2E] leading-snug">
-                            {lead.name}
-                          </h4>
-                          <p className="text-[12px] text-slate-400 font-normal mt-0.5">
-                            Mail Id
-                          </p>
-                        </div>
+                    <div className="flex items-start gap-2.5">
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${lead.bgColor || 'bg-[#EEF2FF]'} ${lead.textColor || 'text-[#004370]'}`}>
+                        {getInitials(lead.name)}
                       </div>
-
-                      <button 
-                        onClick={(e) => e.stopPropagation()} 
-                        className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-50 transition-colors"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <div>
+                        <h4 className="text-[15px] font-bold text-[#0D1C2E] leading-snug">
+                          {lead.name}
+                        </h4>
+                        <p className="text-[12px] text-slate-400 font-normal mt-0.5">
+                          Mail Id
+                        </p>
+                      </div>
                     </div>
 
                     {/* Description Notes */}

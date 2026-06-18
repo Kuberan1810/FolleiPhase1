@@ -128,7 +128,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       </div>
 
       {/* Form Fields */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+      <div className="flex-1 overflow-visible px-5 py-4 space-y-5">
         {/* Search Field */}
         <div className="relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -137,14 +137,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search"
-            className="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-[13px] text-slate-700 placeholder-slate-400 focus:outline-none focus:border-slate-300 transition-colors font-medium"
+            className="w-full bg-transparent border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-[13px] text-slate-700 placeholder-slate-400 focus:outline-none focus:border-slate-300 transition-colors font-medium"
           />
         </div>
 
         {/* Status Dropdown */}
         <div className="relative" ref={statusRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[14px] font-semibold text-slate-700">Status</span>
+            <span className="text-[16px] font-semibold text-slate-700">Status</span>
             {selectedStatuses.length > 0 && (
               <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedStatuses.length} selected
@@ -160,7 +160,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 selectedStatuses.map((s) => (
                   <span
                     key={s}
-                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                    className="inline-flex items-center bg-[#F3F4F6] text-[#000000] text-[13px] font-medium leading-[19.5px] px-2 py-0.5 rounded-[4px]"
                   >
                     {formatStatus(s)}
                     <X
@@ -198,7 +198,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Score Dropdown */}
         <div className="relative" ref={scoreRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[14px] font-semibold text-slate-700">Score</span>
+            <span className="text-[16px] font-semibold text-slate-700">Score</span>
             {selectedScores.length > 0 && (
               <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedScores.length} selected
@@ -214,7 +214,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 selectedScores.map((score) => (
                   <span
                     key={score}
-                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                    className="inline-flex items-center bg-[#F3F4F6] text-[#000000] text-[13px] font-medium leading-[19.5px] px-2 py-0.5 rounded-[4px]"
                   >
                     {score}
                     <X
@@ -252,7 +252,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Source Dropdown */}
         <div className="relative" ref={sourceRef}>
           <div className="flex justify-between items-center mb-1.5">
-            <span className="text-[14px] font-semibold text-slate-700">Source</span>
+            <span className="text-[16px] font-semibold text-slate-700">Source</span>
             {selectedSources.length > 0 && (
               <span className="text-[12px] font-medium text-[#64748B]">
                 {selectedSources.length} selected
@@ -268,7 +268,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 selectedSources.map((src) => (
                   <span
                     key={src}
-                    className="inline-flex items-center bg-[#F1F5F9] text-slate-700 text-[11px] font-bold px-2 py-0.5 rounded-md"
+                    className="inline-flex items-center bg-[#F3F4F6] text-[#000000] text-[13px] font-medium leading-[19.5px] px-2 py-0.5 rounded-[4px]"
                   >
                     {formatSource(src)}
                     <X
@@ -285,7 +285,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </div>
 
           {openDropdown === 'source' && (
-            <div className="absolute left-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1 overflow-hidden">
+            <div className="absolute left-0 bottom-full mb-1.5 w-full bg-white border border-slate-200 rounded-xl shadow-lg z-50 py-1 overflow-hidden">
               {SOURCE_OPTIONS.map((src) => {
                 const isChecked = selectedSources.includes(src);
                 return (
