@@ -37,7 +37,9 @@ import PostSalesOutboundFlowBuilder from "../Pages/PostSales/FlowBuilder/FlowBui
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
 import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences"
-
+import RenewalDash from "../Pages/PostSales/RenewalMain/renewaldash/RenewalDash";
+import Renewal from "../Pages/PostSales/RenewalMain/renewal/Renewal";
+import RenewalDetailsPage from "../Pages/PostSales/RenewalMain/renewaldetails/RenewalDetailsPage";
 
 // Settings Pages
 import Settings from "../Pages/Settings/Settings";
@@ -145,6 +147,9 @@ export default function AppRoutes() {
         {/* <Route path="outbound/orchestrator" element={<PostSalesOrchestrator />} /> */}
         <Route path="customer" element={<PostSalesCustomer />} />
         <Route path="customer/profile" element={<PostSalesCustomerProfile />} />
+        <Route path="renewaldash" element={<RenewalDash />} />
+        <Route path="renewal" element={<Renewal />} />
+        <Route path="renewal/details" element={<RenewalDetailsPage />} />
 
       </Route>
 
