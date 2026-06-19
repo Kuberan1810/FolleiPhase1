@@ -15,8 +15,6 @@ const defaultCustomer = {
   name: 'Sophia Miller',
   email: 'sophia.m@gmail.com',
   initials: 'SM',
-  logoColor: 'bg-[#E1EDFE]',
-  textColor: 'text-[#01539D]',
   status: 'Active',
   renewalDate: 'Jan 28, 2026',
   daysRemaining: '45 days',
@@ -42,7 +40,7 @@ const CustomerProfile = () => {
         <ProfileHeader customer={customer} />
 
         {/* Metrics */}
-        {!showDetailedProducts && <MetricsCards customer={customer} />}
+        {!showDetailedProducts && <MetricsCards />}
 
         {showDetailedProducts ? (
           <div className="w-full">
@@ -56,7 +54,7 @@ const CustomerProfile = () => {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full items-start">
             {/* Left Column */}
             <div className="flex flex-col gap-6">
-              <ContactDetailsCard customer={customer} />
+              <ContactDetailsCard />
               <PurchasedProductsCard
                 customer={customer}
                 onViewAllClick={() => setShowDetailedProducts(true)}

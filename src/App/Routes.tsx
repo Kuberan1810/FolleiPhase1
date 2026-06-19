@@ -40,6 +40,7 @@ import PostSalesOutboundFlowBuilder from "../Pages/PostSales/FlowBuilder/FlowBui
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
 import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences";
+import PostSalesTickets from "../Pages/PostSales/Tickets/Ticket";
 
 // Settings Pages
 import Settings from "../Pages/Settings/Settings";
@@ -145,6 +146,7 @@ export default function AppRoutes() {
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>
+        <Route path="tickets" element={<PostSalesTickets />} />
       </Route>
 
       {/* ==========================================

@@ -5,8 +5,6 @@ export type Customer = {
   name: string;
   email: string;
   initials: string;
-  logoColor: string;
-  textColor: string;
   status: 'Active' | 'At Risk' | 'Onboarding' | 'Renewal Due';
   renewalDate: string;
   daysRemaining: string;
@@ -196,7 +194,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                     <td className="px-6 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-[32px] h-[32px] rounded-full flex items-center justify-center font-medium text-[13px] shrink-0 bg-[#F4F3FF] ${cust.textColor}`}
+                          className="w-[32px] h-[32px] rounded-full flex items-center justify-center font-medium text-[13px] shrink-0 bg-[#F4F3FF] text-[#07006C]"
                         >
                           {cust.initials}
                         </div>
@@ -214,7 +212,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                     {/* Status */}
                     <td className="px-6 py-3 whitespace-nowrap">
                       <span
-                        className="inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[14px] font-bold"
+                        className="inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[14px] font-medium"
                         style={{
                           backgroundColor: badgeStyle.bg,
                           color: badgeStyle.text

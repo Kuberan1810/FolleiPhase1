@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import { Download, List, LayoutGrid, ChevronDown } from 'lucide-react';
+import { CustomerFilterPanel } from './CustomerFilterPanel';
 
 interface CustomerHeaderProps {
-
-  statusFilter: 'All' | 'Active' | 'At Risk' | 'Onboarding' | 'Renewal Due';
-  setStatusFilter: (status: 'All' | 'Active' | 'At Risk' | 'Onboarding' | 'Renewal Due') => void;
+  selectedStatuses: string[];
+  selectedUsages: string[];
+  onApplyFilters: (filters: { statuses: string[]; usages: string[] }) => void;
   sortOption: 'Newest' | 'Name';
   setSortOption: (option: 'Newest' | 'Name') => void;
-
   onExport: () => void;
 }
 
 const CustomerHeader: React.FC<CustomerHeaderProps> = ({
-
-  statusFilter,
-  setStatusFilter,
+  selectedStatuses,
+  selectedUsages,
+  onApplyFilters,
   sortOption,
   setSortOption,
-
   onExport
 }) => {
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [showFilterPanel, setShowFilterPanel] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   return (
@@ -61,32 +60,28 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
         {/* FILTER Button */}
         <div className="relative">
           <button
-            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)]"
+            onClick={() => {
+              setShowFilterPanel(!showFilterPanel);
+              setShowSortDropdown(false);
+            }}
+            className={`flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${
+              showFilterPanel ? 'border-[#004370] bg-[#EFF4FF]/50' : ''
+            }`}
           >
-            <span>Filter: {statusFilter}</span>
+            <span>Filter</span>
             <ChevronDown className="w-4 h-4 text-slate-500" />
           </button>
 
-          {showFilterDropdown && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl z-[100] py-2 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
-              {(['All', 'Active', 'At Risk', 'Onboarding', 'Renewal Due'] as const).map((status) => (
-                <button
-                  key={status}
-                  onClick={() => {
-                    setStatusFilter(status);
-                    setShowFilterDropdown(false);
-                  }}
-                  className={`w-full text-left px-4 py-2 text-sm transition-colors cursor-pointer ${statusFilter === status
-                    ? 'bg-[#E6F2FF] text-[#007BFF] font-semibold'
-                    : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                >
-                  {status}
-                </button>
-              ))}
-            </div>
-          )}
+          <CustomerFilterPanel
+            isOpen={showFilterPanel}
+            onClose={() => setShowFilterPanel(false)}
+            currentStatuses={selectedStatuses}
+            currentUsages={selectedUsages}
+            onApply={(filters) => {
+              onApplyFilters(filters);
+              setShowFilterPanel(false);
+            }}
+          />
         </div>
 
         {/* SORT Button */}

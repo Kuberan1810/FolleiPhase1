@@ -7,7 +7,7 @@ const SupportTicketsCard: React.FC = () => {
       title: 'Integration Setup Issue',
       requester: 'John Doe',
       time: '2h ago',
-      priority: 'High',
+      priority: 'Critical',
       color: 'text-[#B91C1C]',
       bg: 'bg-[#FEF2F2]',
       icon: AlertCircleIcon,
@@ -17,9 +17,9 @@ const SupportTicketsCard: React.FC = () => {
       title: 'Reporting Config Request',
       requester: 'Sophia Miller',
       time: '1d ago',
-      priority: 'Normal',
-      color: 'text-[#090788]',
-      bg: 'bg-[#E6F2FF]',
+      priority: 'Low',
+      color: 'text-[#02882C]',
+      bg: 'bg-[#F0FFF5]',
       icon: FileText,
       iconColor: 'text-[#767587]',
     },
@@ -27,9 +27,9 @@ const SupportTicketsCard: React.FC = () => {
       title: 'API Support Query',
       requester: 'Dev Team',
       time: '3d ago',
-      priority: 'Normal',
-      color: 'text-[#090788]',
-      bg: 'bg-[#E6F2FF]',
+      priority: 'Low',
+      color: 'text-[#02882C]',
+      bg: 'bg-[#F0FFF5]',
       icon: Activity,
       iconColor: 'text-[#767587]',
     }
@@ -62,7 +62,7 @@ const SupportTicketsCard: React.FC = () => {
                 </div>
               </div>
 
-              <span className={`px-2.5 py-0.5 rounded-[8px] text-[10px] ${t.bg} ${t.color} shrink-0`}>
+              <span className={`px-2.5 py-0.5 font-bold rounded-[8px] text-[14px] ${t.bg} ${t.color} shrink-0`}>
                 {t.priority}
               </span>
             </div>
@@ -70,7 +70,7 @@ const SupportTicketsCard: React.FC = () => {
         })}
       </div>
 
-      <button className="w-full bg-[#F8FAFC] text-[#004370] py-2 rounded-[8px] text-sm bg-[#F8FAFC] transition-colors cursor-pointer flex items-center justify-center h-10 shadow-[0_2px_8px_rgba(237,243,253,0.15)] mt-1">
+      <button className="w-full bg-[#F8FAFC] text-[#464555] py-2 rounded-[8px] text-[13px] bg-[#F8FAFC] transition-colors cursor-pointer flex items-center justify-center h-10 shadow-[0_2px_8px_rgba(237,243,253,0.15)] mt-1">
         View All Tickets
       </button>
     </div>
