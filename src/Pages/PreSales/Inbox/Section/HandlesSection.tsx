@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { ChevronDown, X } from "lucide-react";
+import { Play, X } from "lucide-react";
+import BtnComSecondary from "../../../../Component/BtnComSecondary";
+import { useNavigate } from "react-router-dom";
+// import { Play } from "iconsax-react";
 
 interface HandleItem {
   id: string;
@@ -46,7 +49,8 @@ const HandlesSection: React.FC = () => {
     { id: "4", name: "Kineemay", type: "Enquiry" },
   ]);
 
-  const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
+  // const [expanded, setExpanded] = useState(false);
   const [selectedHandle, setSelectedHandle] = useState<HandleItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -60,7 +64,7 @@ const HandlesSection: React.FC = () => {
   };
 
   const radius = 80;
-  const strokeWidth = 16;
+  const strokeWidth = 25;
   const circumference = Math.PI * radius;
   const percentage = 92;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -68,16 +72,16 @@ const HandlesSection: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8 w-full relative">
       <div
-        className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]"
+        className="BoxStyle shadow-xs border border-[#EEF2F5] flex flex-col items-center justify-between min-h-[400px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
         <div className="w-full text-left">
-          <h3 className="font-urbanist font-semibold text-[18px] text-[#191C1E]">
+          <h3 className=" font-semibold text-[24px] text-[#191C1E]">
             Follei Handles
           </h3>
         </div>
 
-        <div className="relative flex flex-col items-center justify-center my-6 select-none w-full">
+        <div className="relative flex flex-col items-center justify-center mt-6 select-none w-full">
           <svg className="w-full max-w-[406px] h-auto" viewBox="0 0 200 115">
             <path
               d="M 20 100 A 80 80 0 0 1 180 100"
@@ -99,13 +103,13 @@ const HandlesSection: React.FC = () => {
             />
           </svg>
           <div className="absolute bottom-[10px] sm:bottom-[15px] flex flex-col items-center justify-center">
-            <span className="text-[56px] font-extrabold font-urbanist text-[#191C1E] tracking-tight leading-none">
+            <span className="text-[46px] font-bold  text-[#191C1E] tracking-tight leading-none">
               {percentage}%
             </span>
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-2 w-full text-[14px] font-semibold tracking-wider font-urbanist">
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 mt-2 w-full text-[14px] font-semibold tracking-wider ">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-[#E0F2FE] shadow-[0_1px_1.8px_rgba(0,0,0,0.25)] flex-shrink-0"></div>
             <span className="text-[#64748B]">Follei handles</span>
@@ -118,44 +122,55 @@ const HandlesSection: React.FC = () => {
       </div>
 
       <div
-        className="BoxStyle shadow-[0_4px_20px_rgba(0,0,0,0.02)] border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]"
+        className="BoxStyle shadow-xs border border-[#EEF2F5] flex flex-col justify-between min-h-[400px]"
         style={{ backgroundColor: '#F6FBFF' }}
       >
         <div className="w-full">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-urbanist font-semibold text-[18px] text-[#191C1E]">
+            <h3 className=" font-semibold text-[24px] text-[#191C1E]">
               Admin Handles
             </h3>
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-1 text-[#64748B] font-inter text-[14px] font-semibold cursor-pointer transition-colors hover:text-slate-800 border-none bg-transparent"
+            {/* <button
+              onClick={() => navigate('/presales/inbox/admin-handles')}
+              className="flex items-center gap-1 text-[#64748B]  text-[14px] font-semibold cursor-pointer transition-colors hover:text-slate-800 border-none bg-transparent"
             >
               view all
               <ChevronDown size={18} className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
-            </button>
+            </button> */}
+
+            <BtnComSecondary
+              label="View All"
+              onClick={() => navigate('/presales/inbox/admin-handles')}
+            />
           </div>
 
-          <div className="flex flex-col font-inter">
+          <div className="flex flex-col ">
             {adminHandles.map((handle) => (
               <div
                 key={handle.id}
-                className="flex items-center justify-between py-4 px-2 border-b border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
+                className="grid grid-cols-3 items-center py-4 px-2 border-b border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors"
               >
-                <span className="font-inter font-semibold text-[16px] text-[#0D1C2E]">
+                <span className="font-semibold text-[18px] text-[#0D1C2E] text-left capitalize">
                   {handle.name}
                 </span>
 
-                <span className="font-inter text-[14px] font-medium text-[#434655]">
+                <span className="text-[18px] font-medium text-[#434655] text-center">
                   {handle.type}
                 </span>
 
-                <button
-                  onClick={() => handleOpenHistory(handle)}
-                  className="font-inter text-[#004370] hover:text-[#194E73] text-[14px] font-semibold hover:underline cursor-pointer transition-colors border-none bg-transparent"
-                >
-                  History
-                </button>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => handleOpenHistory(handle)}
+                    className="relative text-[#23669C] hover:text-[#194E73] text-[18px] font-medium cursor-pointer border-none bg-transparent active:scale-95 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out after:bg-[#194E73]"
+                  >
+                    History
+                  </button>
+                </div>
               </div>
+
+
+
+
             ))}
           </div>
         </div>
@@ -177,10 +192,10 @@ const HandlesSection: React.FC = () => {
                 {selectedHandle.name.charAt(0).toUpperCase()}
               </div>
               <div>
-                <h3 className="font-inter font-bold text-[18px] text-[#0F172A] leading-snug">
+                <h3 className=" font-semibold md:text-[20px] text-lg text-[#0F172A] leading-snug capitalize">
                   {selectedHandle.name}
                 </h3>
-                <p className="font-inter text-[14px] font-medium text-[#64748B] leading-none mt-1">
+                <p className=" text-[14px] font-medium text-[#64748B] leading-none mt-1">
                   {selectedHandle.name === 'Raleni' ? 'Pricing enquiry' : `${selectedHandle.type} enquiry`}
                 </p>
               </div>
@@ -194,8 +209,8 @@ const HandlesSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="w-full px-6">
-              <hr className="border-[1px] border-[#2B2B2B]/50 m-0" />
+            <div className="w-full shadow-xs">
+              <hr className="border border-[#EDF3FD] m-0" />
             </div>
             <div className="flex-1 overflow-y-auto px-6 py-3 space-y-6 bg-slate-50/20">
               {CHAT_HISTORY[selectedHandle.id]?.map((msg, idx) => {
@@ -204,11 +219,9 @@ const HandlesSection: React.FC = () => {
                   <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                     {msg.isAudio ? (
                       <>
-                        <div className="border border-[#F1F5F9] rounded-[4px] p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] mt-2 select-none shadow-xs">
+                        <div className="border border-[#EDF3FD] rounded-[10px] p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] mt-2 select-none shadow-xs">
                           <button className="w-9 h-9 rounded-[12px] bg-[#059669] flex items-center justify-center text-white cursor-pointer hover:bg-[#059669] transition-colors border-none shrink-0 flex items-center justify-center">
-                            <svg className="w-3.5 h-3.5 fill-[#DEFFF4] ml-0.5" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
+                            <Play size={18} color="#fff" fill="#fff " />
                           </button>
                           <div className="flex flex-col gap-1">
                             <div className="flex items-end gap-[3px] h-[22px] px-1">
@@ -238,10 +251,10 @@ const HandlesSection: React.FC = () => {
                       </>
                     ) : (
                       <div
-                        className={`rounded-[6px] p-[10px] text-[14px] leading-relaxed max-w-[85%] flex flex-col gap-1 
+                        className={`shadow-sm rounded-[16px] p-[16px] text-[14px] leading-relaxed max-w-[85%] flex flex-col gap-1 
                           ${isMe
                             ? 'bg-[#004370] text-white'
-                            : 'bg-[#DFF2FE] text-[#5E5353]'
+                            : 'bg-[#DFF2FE] text-[#004370]'
                           }`}
                       >
                         <span>{msg.text}</span>

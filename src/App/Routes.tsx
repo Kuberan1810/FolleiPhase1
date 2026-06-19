@@ -34,9 +34,6 @@ import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
-import PostSalesOutboundReports from "../Pages/PostSales/Report/OutboundReports";
-import PostSalesCampaigns from "../Pages/PostSales/campaings/Campaigns";
-import PostSalesOutboundFlowBuilder from "../Pages/PostSales/FlowBuilder/FlowBuilder";
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
 import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences";
@@ -133,15 +130,7 @@ export default function AppRoutes() {
             ========================================== */}
       <Route path="/postsales" element={<MainLayout />}>
         <Route path="dashboard" element={<PostSalesOutBoardDashboard />} />
-        <Route path="cadences" element={<PostSalesOutboundCadences />} />
-        <Route path="campaign" element={<Navigate to="/postsales/campaigns" replace />} />
-        <Route path="campaigns">
-          <Route index element={<PostSalesCampaigns />} />
-          <Route path="create" element={<CampaignCreation />} />
-        </Route>
-        <Route path="flow-builder" element={<PostSalesOutboundFlowBuilder />} />
-        <Route path="reports" element={<PostSalesOutboundReports />} />
-        <Route path="customer">
+        <Route path="customers">
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>

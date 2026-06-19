@@ -56,11 +56,12 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
 
     const filteredChats = useMemo(() => {
         return chats.filter((chat) => {
+            const query = searchQuery.toLowerCase().trim();
             const matchesSearch =
-                chat.product.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.value.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.convertedDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.owner.toLowerCase().includes(searchQuery.toLowerCase());
+                chat.product.toLowerCase().includes(query) ||
+                chat.value.toLowerCase().includes(query) ||
+                chat.convertedDate.toLowerCase().includes(query) ||
+                chat.owner.toLowerCase().includes(query);
             return matchesSearch;
         });
     }, [searchQuery]);

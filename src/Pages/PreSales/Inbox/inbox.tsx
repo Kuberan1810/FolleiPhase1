@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import TopMetrics from "./Section/TopMetrics";
 import HandlesSection from "./Section/HandlesSection";
 import ChatHistory from "./Section/ChatHistory";
-import FloatingButton from "../../../Component/FloatingButton";
 import Img from "../../../assets/img/upgrade.png";
+import BtnCom from "../../../Component/BtnCom";
 
 const InBox: React.FC = () => {
   const [activeChannel, setActiveChannel] = useState<"whatsapp" | "call" | "email">("whatsapp");
@@ -24,8 +24,8 @@ const InBox: React.FC = () => {
               key={channel.id}
               onClick={() => setActiveChannel(channel.id as any)}
               className={`py-[14px] px-[20px] rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 cursor-pointer ${isActive
-                ? "bg-[#000000] text-[#F6FBFF]"
-                : "bg-[#EBEBEB] text-[#000000] shadow-[inset_0_4px_4px_rgba(0,0,0,0.25)]"
+                ? "bg-[#0F172A] text-[#F6FBFF]"
+                : "bg-[#EBEBEB] text-[#0F172A] shadow-[inset_0_4px_4px_rgba(0,0,0,0.25)] hover:bg-gray-300"
                 }`}
             >
               {channel.label}
@@ -49,24 +49,29 @@ const InBox: React.FC = () => {
             className="w-[183px] h-auto mb-8 pointer-events-none drop-shadow-sm"
           />
 
-          <h2 className="text-[#4F4E4E] text-[28px] sm:text-[48px] font-semibold leading-tight mb-2 tracking-tight">
+          <h2 className="text-[#4F4E4E] text-[28px] sm:text-[32px] font-medium leading-tight mb-2 tracking-tight">
             You're one step away from making {activeChannel === "call" ? "calls" : "emails"}
           </h2>
 
-          <p className="text-[#707070] text-[14px] sm:text-[32px] font-medium font-inter mb-8">
+          <p className="text-[#707070] text-[14px] sm:text-[20px] font-regular mb-8">
             upgrade your plan to enable this feature
           </p>
 
-          <button
+          {/* <button
             onClick={() => alert("Redirecting to Plan Upgrades & Billing Section...")}
-            className="bg-[#DCE4E9] hover:bg-[#D1D5DB] text-[#777272] px-[30px] py-[10px] rounded-[10px] text-[13px] font-bold font-inter transition-all duration-200 cursor-pointer active:scale-95"
+            className="bg-[#DCE4E9] hover:bg-[#D1D5DB] text-[#94A3B8] px-[30px] py-[10px] rounded-[10px] text-[13px] font-bold transition-all duration-200 cursor-pointer active:scale-95"
           >
             Upgrade
-          </button>
+          </button> */}
+          <BtnCom
+            label="Upgrade"
+            className="py-3! px-10!"
+            onClick={() => alert("Redirecting to Plan Upgrades & Billing Section...")}
+          />
         </div>
       )}
 
-      <FloatingButton />
+
     </div>
   );
 };

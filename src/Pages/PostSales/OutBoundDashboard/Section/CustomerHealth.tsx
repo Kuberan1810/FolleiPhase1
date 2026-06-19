@@ -97,7 +97,7 @@ export default function CustomerHealth() {
         </svg>
       </div>
 
-      <div className="flex items-center justify-center gap-12 mt-4 text-[14px] font-medium">
+      <div className="flex items-center justify-center flex-wrap gap-12 sm:gap-6 lg:gap-12 mt-4 text-[14px] font-medium">
         {chartData.map((item) => (
           <div key={item.label} className="flex items-center gap-2">
             <span

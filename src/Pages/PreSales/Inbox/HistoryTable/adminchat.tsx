@@ -56,11 +56,12 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
 
     const filteredChats = useMemo(() => {
         return chats.filter((chat) => {
+            const query = searchQuery.toLowerCase().trim();
             const matchesSearch =
-                chat.AssignedTo.includes(searchQuery) ||
-                chat.Reason.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.priority.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.status.toLowerCase().includes(searchQuery.toLowerCase());
+                chat.AssignedTo.toLowerCase().includes(query) ||
+                chat.Reason.toLowerCase().includes(query) ||
+                chat.priority.toLowerCase().includes(query) ||
+                chat.status.toLowerCase().includes(query);
             return matchesSearch;
         });
     }, [searchQuery]);

@@ -56,10 +56,12 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
 
     const filteredChats = useMemo(() => {
         return chats.filter((chat) => {
+            const query = searchQuery.toLowerCase().trim();
             const matchesSearch =
-                chat.number.includes(searchQuery) ||
-                chat.tone.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.intent.toLowerCase().includes(searchQuery.toLowerCase());
+                chat.number.toLowerCase().includes(query) ||
+                chat.tone.toLowerCase().includes(query) ||
+                chat.intent.toLowerCase().includes(query) ||
+                chat.pricingDiscussed.toLowerCase().includes(query);
             return matchesSearch;
         });
     }, [searchQuery]);
@@ -70,7 +72,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                     className="w-full border-collapse text-left">
                     <thead>
                         <tr
-                            className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
+                            className="border-b border-[#EDF3FD] font-semibold text-[14px]  uppercase tracking-wider text-[#64748B] bg-white">
                             <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Number</th>
                             <th className="py-4 px-6 whitespace-nowrap">Tone</th>
@@ -78,7 +80,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                             <th className="py-4 px-8 whitespace-nowrap">Pricing discussed</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#F1F5F9] bg-white">
+                    <tbody className="divide-y divide-[#EDF3FD] bg-white">
                         {filteredChats.length > 0 ? (
                             filteredChats.map((chat) => (
                                 <tr
@@ -96,19 +98,19 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                                         </div>
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.number}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.tone}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.intent}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-8  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.pricingDiscussed}
                                     </td>
                                 </tr>

@@ -56,11 +56,12 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
 
     const filteredChats = useMemo(() => {
         return chats.filter((chat) => {
+            const query = searchQuery.toLowerCase().trim();
             const matchesSearch =
-                chat.reason.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.source.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.confi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                chat.action.toLowerCase().includes(searchQuery.toLowerCase());
+                chat.reason.toLowerCase().includes(query) ||
+                chat.source.toLowerCase().includes(query) ||
+                chat.confi.toLowerCase().includes(query) ||
+                chat.action.toLowerCase().includes(query);
             return matchesSearch;
         });
     }, [searchQuery]);

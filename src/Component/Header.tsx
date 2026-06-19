@@ -2,7 +2,7 @@ import { Search, X } from 'lucide-react';
 import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import {  useNavigate, Link } from 'react-router-dom';
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import { useState } from 'react';
 import { useSalesContext } from '../Context/SalesContext';
@@ -11,26 +11,13 @@ import BoundToggleSwitch from './BoundToggleSwitch';
 
 const Header: React.FC = () => {
     const { salesMode } = useSalesContext();
-    const location = useLocation();
+
     const navigate = useNavigate();
     const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-    // Get the current page segment (dashboard, flow-builder, reports, orchestrator)
-    const segments = location.pathname.split('/').filter(Boolean);
-    // Path structure: /:salesMode/:page
-    const currentPage = segments[1] ?? 'dashboard'; 
 
     const handleToggle = (type: 'presales' | 'postsales') => {
-        let targetPage = currentPage;
-        if (type === 'presales') {
-            const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
-            if (forbiddenInbound.includes(targetPage.toLowerCase())) {
-                targetPage = 'dashboard';
-            }
-            navigate(`/presales/${targetPage}`);
-        } else {
-            navigate(`/postsales/${targetPage}`);
-        }
+        navigate(`/${type}/dashboard`);
     };
 
     return (
