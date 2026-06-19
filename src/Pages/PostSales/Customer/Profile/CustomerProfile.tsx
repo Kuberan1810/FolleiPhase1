@@ -33,6 +33,7 @@ const defaultCustomer = {
 const CustomerProfile = () => {
   const location = useLocation();
   const customer = location.state?.customer || defaultCustomer;
+  const [showDetailedProducts, setShowDetailedProducts] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-12">
@@ -41,25 +42,37 @@ const CustomerProfile = () => {
         <ProfileHeader customer={customer} />
 
         {/* Metrics */}
-        <MetricsCards customer={customer} />
+        {!showDetailedProducts && <MetricsCards customer={customer} />}
 
-        {/* Responsive Masonry / Two-Column Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full items-start">
-          {/* Left Column */}
-          <div className="flex flex-col gap-6">
-            <ContactDetailsCard customer={customer} />
-            <PurchasedProductsCard customer={customer} />
-            <UpcomingActivitiesCard />
-            <LeadNotesCard />
+        {showDetailedProducts ? (
+          <div className="w-full">
+            <PurchasedProductsCard
+              customer={customer}
+              isDetailedView={true}
+              onBack={() => setShowDetailedProducts(false)}
+            />
           </div>
+        ) : (
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full items-start">
+            {/* Left Column */}
+            <div className="flex flex-col gap-6">
+              <ContactDetailsCard customer={customer} />
+              <PurchasedProductsCard
+                customer={customer}
+                onViewAllClick={() => setShowDetailedProducts(true)}
+              />
+              <UpcomingActivitiesCard />
+              <LeadNotesCard />
+            </div>
 
-          {/* Right Column */}
-          <div className="flex flex-col gap-6">
-            <SupportTicketsCard />
-            <AttachmentsCard />
-            <ActivityTimelineCard />
+            {/* Right Column */}
+            <div className="flex flex-col gap-6">
+              <SupportTicketsCard />
+              <AttachmentsCard />
+              <ActivityTimelineCard />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
