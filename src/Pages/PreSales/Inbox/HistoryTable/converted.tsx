@@ -71,7 +71,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
             <div className="w-full overflow-x-auto scrollbar-thin">
                 <table className="w-full border-collapse text-left">
                     <thead>
-                        <tr className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
+                        <tr className="border-b border-[#EDF3FD] font-semibold text-[14px]  uppercase tracking-wider text-[#64748B] bg-white">
                             <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Product</th>
                             <th className="py-4 px-6 whitespace-nowrap">Deal Value</th>
@@ -91,19 +91,19 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
                                         </div>
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.product}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.value}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.convertedDate}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-8  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.owner}
                                     </td>
                                 </tr>

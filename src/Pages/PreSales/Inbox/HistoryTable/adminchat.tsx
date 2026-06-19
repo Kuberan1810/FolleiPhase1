@@ -72,7 +72,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                     className="w-full border-collapse text-left">
                     <thead>
                         <tr
-                            className="border-b border-[#F1F5F9] font-bold text-[12px] font-manrope uppercase tracking-wider text-[#64748B] bg-white">
+                            className="border-b border-[#F1F5F9] font-bold text-[12px]  uppercase tracking-wider text-[#64748B] bg-white">
                             <th className="py-4 px-8 whitespace-nowrap">Recent chats</th>
                             <th className="py-4 px-6 whitespace-nowrap">Assigned To</th>
                             <th className="py-4 px-6 whitespace-nowrap">Reason</th>
@@ -98,19 +98,19 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                                         </div>
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.AssignedTo}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.Reason}
                                     </td>
 
-                                    <td className="py-4 px-6 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-6  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.priority}
                                     </td>
 
-                                    <td className="py-4 px-8 font-inter text-[14px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-8  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
                                         {chat.status}
                                     </td>
                                 </tr>

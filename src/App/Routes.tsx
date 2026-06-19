@@ -29,6 +29,7 @@ import CampaignLeadList from '../Pages/PreSales/campaings/CampaignLeadList/Campa
 
 import CompanyDetails from "../Pages/PreSales/CompanyDetails/companyDetails";
 import AdminNeeds from "../Pages/PreSales/Inbox/Section/AdminNeeds";
+import AdminHandles from "../Pages/PreSales/Inbox/Section/AdminHandles";
 import Leads from "../Pages/PreSales/Leads/Leads";
 import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 
@@ -109,6 +110,7 @@ export default function AppRoutes() {
         <Route path="inbox">
           <Route index element={<InBox />} />
           <Route path="admin-needs" element={<AdminNeeds />} />
+          <Route path="admin-handles" element={<AdminHandles />} />
         </Route>
 
         <Route path="leads">
