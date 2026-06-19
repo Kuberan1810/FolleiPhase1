@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Auth Pages
@@ -36,7 +36,12 @@ import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
-import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences";
+
+import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences"
+import RenewalDash from "../Pages/PostSales/RenewalMain/renewaldash/RenewalDash";
+import Renewal from "../Pages/PostSales/RenewalMain/renewal/Renewal";
+import RenewalDetailsPage from "../Pages/PostSales/RenewalMain/renewaldetails/RenewalDetailsPage";
+
 
 // Settings Pages
 import Settings from "../Pages/Settings/Settings";
@@ -130,10 +135,18 @@ export default function AppRoutes() {
             ========================================== */}
       <Route path="/postsales" element={<MainLayout />}>
         <Route path="dashboard" element={<PostSalesOutBoardDashboard />} />
+
         <Route path="customers">
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>
+
+        <Route path="renewals">
+          <Route index element={<RenewalDash />} />
+          <Route path="list" element={<Renewal />} />
+          <Route path=":renewalId" element={<RenewalDetailsPage />} />
+        </Route>
+
       </Route>
 
       {/* ==========================================
