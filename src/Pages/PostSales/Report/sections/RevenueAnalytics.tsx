@@ -2,7 +2,7 @@ import { TrendingUp, Heart, Timer, Users } from 'lucide-react';
 
 const AnalyticsCard = ({ icon: Icon, title, value, trend, status, iconBg, iconColor }: any) => {
   return (
-    <div className="BoxStyle flex flex-col justify-between min-h-[180px] font-[Manrope]">
+    <div className="BoxStyle flex flex-col justify-between min-h-[180px]">
       <div className="flex justify-between items-start mb-4">
         <div className={`${iconBg} p-2.5 rounded-lg`}>
           <Icon size={20} className={iconColor} />

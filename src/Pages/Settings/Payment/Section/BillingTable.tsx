@@ -14,7 +14,7 @@ const BillingTable: React.FC = () => {
     
     <div className="w-full mt-0 font-['Inter']">
        <div className="pb-6">
-          <h1 className="text-[20px] font-bold text-[#191C1E] font-[Manrope]" >Recent Billing Activities</h1>
+          <h1 className="text-[20px] font-bold text-[#191C1E]">Recent Billing Activities</h1>
           <p className="text-[#64748B] text-[14px]">Access your complete billing and invoice history</p>
         </div>
       <div className="bg-white border border-[#F1F5F9] rounded-[24px] overflow-hidden shadow-sm">
@@ -81,7 +81,7 @@ const BillingTable: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-[20px] font-medium text-[#0F172A] font-['Manrope']">
+                <p className="text-[20px] font-medium text-[#0F172A]">
                   {row.amount}
                 </p>
                 <button className="flex items-center gap-2 text-[#004370] text-[13px] font-bold">
