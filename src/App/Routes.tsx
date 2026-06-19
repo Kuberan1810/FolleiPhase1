@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Auth Pages
@@ -141,6 +141,7 @@ export default function AppRoutes() {
         </Route>
         <Route path="flow-builder" element={<PostSalesOutboundFlowBuilder />} />
         <Route path="reports" element={<PostSalesOutboundReports />} />
+        <Route path="analytics" element={<PostSalesOutboundReports />} />
         <Route path="customer">
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />

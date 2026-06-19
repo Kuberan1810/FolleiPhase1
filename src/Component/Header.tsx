@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     const handleToggle = (type: 'presales' | 'postsales') => {
         let targetPage = currentPage;
         if (type === 'presales') {
-            const forbiddenInbound = ['campaigns', 'customer', 'cadences'];
+            const forbiddenInbound = ['campaigns', 'customer', 'cadences', 'analytics'];
             if (forbiddenInbound.includes(targetPage.toLowerCase())) {
                 targetPage = 'dashboard';
             }
