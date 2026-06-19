@@ -7,6 +7,7 @@ import LeadsForm from "./LeadsForm";
 import AiActivity from "./AiActivity";
 import CrmConnect from "./CrmConnect";
 import DataImport from "./DataImport";
+import ScopeChart from "./ScopeChart";
 
 const DashboardLayout = () => {
   const [selectedMonth, setSelectedMonth] = useState("Month");
@@ -228,20 +229,20 @@ const DashboardLayout = () => {
 
       </div>
 
-      {/* Bottom Section */}
+      {/* Row 1: Needs Attention & Leads From */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-
-        {/* 4. Needs Attention Now Table Card */}
         <NeedsAttention />
-
-        {/* 5. Leads From Polar Area Card */}
         <LeadsForm />
-
       </div>
 
-      {/* AI Activity, CRM Connect, Data Import Section */}
+      {/* Row 2: ScopeChart & AI Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        <ScopeChart />
         <AiActivity />
+      </div>
+
+      {/* Row 3: CRM Connect & Data Import */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
         <CrmConnect />
         <DataImport />
       </div>

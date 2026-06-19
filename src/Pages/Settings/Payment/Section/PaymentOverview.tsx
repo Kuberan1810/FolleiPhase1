@@ -27,7 +27,7 @@ const PaymentOverview: React.FC = () => {
             */}
             <div className="py-6">
 
-           
+
 
                 {/* Grid Container - Matches Figma Spacing */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
@@ -74,12 +74,12 @@ const PaymentOverview: React.FC = () => {
 
                         <button className="mt-10 w-full py-4 bg-[#004370] hover:bg-[#00355a] text-white text-[20px] font-bold rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
                             Upgrade Plan
-                           
+
                         </button>
                     </div>
 
                     {/* Next Payment Card (Blue) */}
-                    <div className="bg-[#00426e] rounded-[24px] p-6 md:p-8 text-white flex flex-col justify-between min-h-[380px] shadow-xl relative overflow-hidden font-[Manrope]">
+                    <div className="bg-[#00426e] rounded-[24px] p-6 md:p-8 text-white flex flex-col justify-between min-h-[380px] shadow-xl relative overflow-hidden">
                         {/* Figma Light Glow Effect */}
                         <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-24 -mt-24 blur-3xl"></div>
 
@@ -87,7 +87,7 @@ const PaymentOverview: React.FC = () => {
                             <div className="flex items-center justify-between mb-10">
                                 <div className="flex items-center gap-3">
                                     <CalendarDays size={26} className="text-white" />
-                                    <span className="text-[15px] font-[400] text-white">Next Payment</span>
+                                    <span className="text-[15px] font-normal text-white">Next Payment</span>
                                 </div>
                                 <span className="px-3.5 py-1.5 bg-[#D9E3EA] text-[#004370] text-[15px]  rounded-lg border border-white/20">
                                     Automated Renewal
@@ -115,9 +115,9 @@ const PaymentOverview: React.FC = () => {
 
                 </div>
                 <div className="mt-4">
-        
-                <BillingTable />
-            </div>
+
+                    <BillingTable />
+                </div>
             </div>
         </div>
     );

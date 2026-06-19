@@ -73,11 +73,11 @@ const FlowBuilder: React.FC = () => {
   const closeDrawer = () => setActiveDrawer(null);
 
   return (
-    <div className=" w-full min-h-screen font-['Manrope'] bg-[#F7F9FB] relative">
+    <div className=" w-full min-h-screen bg-[#F7F9FB] relative">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10 ">
         <div>
-          <h1 className="text-[30px] font-[800] text-[#0F172A] mb-2 tracking-tight">Outbound Flow Builder</h1>
-          <p className="text-[14px] text-[#64748B] font-[500]">Define triggers and actions to automate your workflow</p>
+          <h1 className="text-[30px] font-extrabold text-[#0F172A] mb-2 tracking-tight">Outbound Flow Builder</h1>
+          <p className="text-[14px] text-[#64748B] font-medium">Define triggers and actions to automate your workflow</p>
         </div>
         {/* <button
           onClick={() => setActiveDrawer('edit-action')}

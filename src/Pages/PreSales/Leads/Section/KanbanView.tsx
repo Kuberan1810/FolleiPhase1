@@ -276,7 +276,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                   {col.label}
                 </span>
                 <span
-                  className="inline-flex items-center justify-center font-bold text-[11px] w-5 h-5 rounded-full"
+                  className="inline-flex items-center justify-center font-semibold text-[10px] w-[22px] h-[22px] rounded-full leading-[16px] tracking-normal"
                   style={{
                     backgroundColor: '#FFFFFF',
                     color: activeColorSource.borderColor,
@@ -333,10 +333,10 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                     <div className="border-t border-slate-100 my-3.5" />
                     <div className="flex justify-between items-center text-slate-500">
                       <div className="flex items-center gap-3">
-                        <Phone className="w-4 h-4 hover:text-[#004370] transition-colors cursor-pointer text-slate-400" />
-                        <MessageSquare className="w-4 h-4 hover:text-[#004370] transition-colors cursor-pointer text-slate-400" />
+                        <Phone className="w-[15px] h-[15px] hover:text-[#004370] transition-colors cursor-pointer text-[#464555]" />
+                        <MessageSquare className="w-[15px] h-[15px] hover:text-[#004370] transition-colors cursor-pointer text-[#464555]" />
                       </div>
-                      <span className="text-[12px] font-semibold text-slate-500">
+                      <span className="text-[13px] font-medium text-[#464555] leading-none tracking-normal">
                         Deal Value : {getDealValue(lead) / 1000}k
                       </span>
                     </div>
