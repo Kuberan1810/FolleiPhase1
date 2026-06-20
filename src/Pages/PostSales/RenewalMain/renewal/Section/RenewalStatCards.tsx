@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Profile2User, Calendar, UserTick } from 'iconsax-react';
 import type { RenewalStatCard } from '../Renewal';
 

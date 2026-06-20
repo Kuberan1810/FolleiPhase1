@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import type { RenewalRow } from '../RenewalDash';
 import BtnComSecondary from '../../../../../Component/BtnComSecondary';
@@ -20,8 +20,6 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
         </div>
         <BtnComSecondary 
           label="View All" 
-          icon={<ArrowRight size={16} />} 
-          iconPosition="right" 
           onClick={() => navigate('/postsales/renewals/list')} 
         />
       </div>

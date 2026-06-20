@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { UpsellItem } from '../RenewalDash';
@@ -25,8 +25,6 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
         </div>
         <BtnComSecondary 
           label="View All" 
-          icon={<ArrowRight size={16} />} 
-          iconPosition="right" 
           onClick={() => navigate('/postsales/renewals/list')} 
         />
       </div>
@@ -36,11 +34,9 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
           <div key={upsell.id} className="border border-[rgba(1,67,112,0.2)] rounded-2xl" style={{ marginBottom: index === upsells.length - 1 ? 0 : '16px' }}>
             <div className="p-4 px-5 flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <img 
-                  src={upsell.avatar} 
-                  alt={upsell.name} 
-                  className="w-11 h-11 rounded-full object-cover" 
-                />
+                <div className="w-11 h-11 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: upsell.avatarBg }}>
+                  <span className="font-semibold text-[18px] leading-[24px] text-[#222222]">{upsell.initials}</span>
+                </div>
                 <div className="flex flex-col">
                   <span className="font-semibold text-[18px] leading-[24px] text-[#0D1C2E]">
                     {upsell.name}

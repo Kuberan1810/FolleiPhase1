@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalDetailsStatCard } from '../RenewalDetailsPage';
 import { Calendar, Receipt21, PresentionChart, Heart } from 'iconsax-react';
 
@@ -36,12 +36,12 @@ export default function RenewalDetailsStatCards({ cards }: Props) {
             </div>
 
             {/* Row 2 */}
-            <div className="flex items-baseline gap-[6px] mt-2">
+            <div className="flex items-baseline gap-0 mt-2">
               <span className="font-semibold text-2xl leading-8 text-[#0D1C2E]">
                 {card.value}
               </span>
               {card.unit && (
-                <span className="font-normal text-sm text-[#6B7280]">
+                <span className="font-semibold text-2xl leading-8 text-[#6B7280]">
                   {card.unit}
                 </span>
               )}

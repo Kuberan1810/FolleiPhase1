@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
 import { DocumentText } from 'iconsax-react';
 
@@ -12,7 +12,7 @@ export default function ActivityTimelineCard({ data }: Props) {
       <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Activity Timeline
       </h2>
-      <div className="border-b border-[#EDF3FD] mt-3 mb-6" />
+      <div className="border-b border-[#EDF3FD] mt-3 mb-6 -mx-6" />
 
       <div className="flex flex-col flex-1 justify-between">
         {data.map((item, idx) => {
@@ -47,7 +47,7 @@ export default function ActivityTimelineCard({ data }: Props) {
                 {item.file && (
                   <div className="mt-4 flex items-center justify-between bg-[#F7F9FB] rounded-lg px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <DocumentText size="18" color="#004370" variant="Linear" />
+                        <DocumentText size="18" color="#0051D5" variant="Linear" />
                         <span className="font-medium text-sm text-[#1B1B1D]">
                         {item.file.name}
                       </span>

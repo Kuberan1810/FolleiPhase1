@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
 
 interface Props {
@@ -11,7 +11,7 @@ export default function ProductUsageCard({ data }: Props) {
       <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Product Usage
       </h2>
-      <div className="border-b border-[#EDF3FD] mt-3 mb-5" />
+      <div className="border-b border-[#EDF3FD] mt-3 mb-5 -mx-6" />
 
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">

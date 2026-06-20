@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalListRow } from '../Renewal';
 
 interface RenewalListTableProps {
@@ -48,11 +48,9 @@ export default function RenewalListTable({ rows, onRowClick }: RenewalListTableP
                 >
                   <td className="px-6 py-0 align-middle">
                     <div className="flex items-center gap-3">
-                      <img 
-                        src={row.avatar} 
-                        alt={row.name} 
-                        className="w-10 h-10 rounded-full object-cover shrink-0" 
-                      />
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: row.avatarBg }}>
+                          <span className="font-semibold text-[18px] leading-[24px] text-[#222222]">{row.initials}</span>
+                        </div>
                       <div className="flex flex-col">
                         <span className="font-semibold text-[18px] leading-[24px] text-[#0D1C2E]">{row.name}</span>
                         <span className="font-normal text-[14px] leading-[20px] text-[#434655]">{row.email}</span>

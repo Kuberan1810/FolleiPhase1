@@ -1,6 +1,6 @@
-import { Bot } from 'lucide-react';
 import type { AiInsight } from '../RenewalDash';
 import { useNavigate } from 'react-router-dom';
+import AiIcon from '../../../../../assets/icons/ai-icon.svg';
 
 interface AiInsightsPanelProps {
   insights: AiInsight[];
@@ -33,7 +33,7 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
       
       <div style={{ zIndex: 1, position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <Bot style={{ width: '22px', height: '22px', color: '#004370' }} />
+          <img src={AiIcon} alt="AI Insights" style={{ width: '22px', height: '22px' }} />
           <h2 style={{
             margin: 0,
             fontWeight: 700,
@@ -55,22 +55,22 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
             }}>
               <div style={{
                 fontWeight: 700,
-                fontSize: '12px',
-                lineHeight: '14.4px',
+                fontSize: '14px',
+                lineHeight: '16.8px',
                 letterSpacing: '0.12px',
                 color: '#FFFFFF',
                 marginBottom: '4px'
               }}>{insight.title}</div>
               <div style={{
                 fontWeight: 400,
-                fontSize: '12px',
+                fontSize: '14px',
                 lineHeight: '16.5px',
                 color: '#7C839B',
                 marginBottom: '8px'
               }}>{insight.caption}</div>
               <div style={{
                 fontWeight: 700,
-                fontSize: '11px',
+                fontSize: '13px',
                 lineHeight: '16.5px',
                 color: '#0051D5',
                 cursor: 'pointer'

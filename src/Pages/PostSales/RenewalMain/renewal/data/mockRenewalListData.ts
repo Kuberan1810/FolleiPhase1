@@ -7,18 +7,20 @@ export const mockStatCards: RenewalStatCard[] = [
 ];
 
 export const mockRenewalListRows: RenewalListRow[] = [
-  { id: '1', name: 'Sophia Miller', email: 'sophia.m@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Committed', score: 92 },
-  { id: '2', name: 'Sophia Miller', email: 'sophia.m@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Risk', score: 32 },
-  { id: '3', name: 'Sophia Miller', email: 'sophia.m@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5', plan: 'PRO', date: '12 Jan, 2026', status: 'Negotiating', score: 56 },
-  { id: '4', name: 'Sophia Miller', email: 'sophia.m@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Negotiating', score: 56 },
-  { id: '5', name: 'Sophia Miller', email: 'sophia.m@gmail.com', avatar: 'https://i.pravatar.cc/150?img=5', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Risk', score: 32 },
+  { id: '1', name: 'Jeevan lin', email: 'jeevan.l@gmail.com', avatar: '', initials: 'JL', avatarBg: '#E7D2D2', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Committed', score: 92 },
+  { id: '2', name: 'Sealfa Que', email: 'sealfa.q@gmail.com', avatar: '', initials: 'SQ', avatarBg: '#C4EAC7', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Risk', score: 32 },
+  { id: '3', name: 'Hasunla', email: 'hasunla@gmail.com', avatar: '', initials: 'HS', avatarBg: '#E8E7AD', plan: 'PRO', date: '12 Jan, 2026', status: 'Negotiating', score: 56 },
+  { id: '4', name: 'Willemkon', email: 'willemkon@gmail.com', avatar: '', initials: 'WM', avatarBg: '#D2DAE7', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Negotiating', score: 56 },
+  { id: '5', name: 'Andro pea', email: 'andro.p@gmail.com', avatar: '', initials: 'AP', avatarBg: '#E7C16A', plan: 'ENTERPRISE', date: '12 Jan, 2026', status: 'Risk', score: 32 },
 ];
 
 export const mockRenewalDetail: RenewalDetail = {
   id: '1',
-  name: 'Sophia Miller',
-  email: 'sophia.m@gmail.com',
-  avatar: 'https://i.pravatar.cc/150?img=5',
+  name: 'Jeevan lin',
+  email: 'jeevan.l@gmail.com',
+  avatar: '',
+  initials: 'JL',
+  avatarBg: '#E7D2D2',
   plan: 'Platinum',
   planUpgradeNote: 'Next: Diamond upgrade',
   seatsUsed: 842,

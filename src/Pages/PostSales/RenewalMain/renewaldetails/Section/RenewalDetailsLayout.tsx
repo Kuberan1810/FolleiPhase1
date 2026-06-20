@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { mockRenewalDetailsData } from '../data/mockRenewalDetailsPage';
 import RenewalDetailsHeader from './RenewalDetailsHeader';
 import RenewalDetailsStatCards from './RenewalDetailsStatCards';

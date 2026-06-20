@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
 
 interface Props {
@@ -14,7 +14,7 @@ export default function SubscriptionFinancialsCard({ data }: Props) {
       <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Subscription Financials
       </h2>
-      <div className="border-b border-[#EDF3FD] mt-3" />
+      <div className="border-b border-[#EDF3FD] mt-3 -mx-6" />
 
       <div className="flex flex-col">
         <div className={rowClass}>

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import RenewalListLayout from './Section/RenewalListLayout';
 
 export type RenewalStatCard = {
@@ -17,6 +17,8 @@ export type RenewalListRow = {
   name: string;
   email: string;
   avatar: string;
+  initials?: string;
+  avatarBg?: string;
   plan: 'ENTERPRISE' | 'PRO';
   date: string;
   status: 'Committed' | 'Risk' | 'Negotiating';
@@ -28,6 +30,8 @@ export type RenewalDetail = {
   name: string;
   email: string;
   avatar: string;
+  initials?: string;
+  avatarBg?: string;
   plan: string;
   planUpgradeNote: string;
   seatsUsed: number;

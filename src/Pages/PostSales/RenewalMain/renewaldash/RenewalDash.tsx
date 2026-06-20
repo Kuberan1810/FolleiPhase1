@@ -46,6 +46,8 @@ export type UpsellItem = {
   name: string;
   email: string;
   avatar: string; // image url
+  initials?: string;
+  avatarBg?: string;
   amount: string;
   percentage: string;
   note: string;

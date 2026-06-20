@@ -39,27 +39,33 @@ export const mockForecast: ForecastItem[] = [
 export const mockUpsells: UpsellItem[] = [
   { 
     id: '1', 
-    name: 'Sophia Miller', 
-    email: 'sophia.m@gmail.com', 
-    avatar: 'https://i.pravatar.cc/150?img=5',
+    name: 'Jeevan lin', 
+    email: 'jeevan.l@gmail.com', 
+    avatar: '',
+    initials: 'JL',
+    avatarBg: '#E7D2D2',
     amount: '$4.2M', 
     percentage: '+10.4%', 
     note: 'Expansion proposal v2 delivered to Jane Doe (VP Procurement). Includes the 15% multi-year discount package.' 
   },
   { 
     id: '2', 
-    name: 'Sophia Miller', 
-    email: 'sophia.m@gmail.com', 
-    avatar: 'https://i.pravatar.cc/150?img=5',
+    name: 'Sealfa Que', 
+    email: 'sealfa.q@gmail.com', 
+    avatar: '',
+    initials: 'SQ',
+    avatarBg: '#C4EAC7',
     amount: '$4.2M', 
     percentage: '+10.4%', 
     note: 'Expansion proposal v2 delivered to Jane Doe (VP Procurement). Includes the 15% multi-year discount package.' 
   },
   { 
     id: '3', 
-    name: 'Sophia Miller', 
-    email: 'sophia.m@gmail.com', 
-    avatar: 'https://i.pravatar.cc/150?img=5',
+    name: 'Hasunla', 
+    email: 'hasunla@gmail.com', 
+    avatar: '',
+    initials: 'HS',
+    avatarBg: '#E8E7AD',
     amount: '$4.2M', 
     percentage: '+10.4%', 
     note: 'Expansion proposal v2 delivered to Jane Doe (VP Procurement). Includes the 15% multi-year discount package.' 

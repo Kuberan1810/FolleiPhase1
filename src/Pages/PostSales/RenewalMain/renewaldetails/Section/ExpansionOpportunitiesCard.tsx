@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
 import { Folder2 } from 'iconsax-react';
 import { Bot } from 'lucide-react';

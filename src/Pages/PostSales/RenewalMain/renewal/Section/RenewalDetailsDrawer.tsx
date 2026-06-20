@@ -1,8 +1,9 @@
-import React from 'react';
-import { X, Sparkles, Calendar, TrendingUp } from 'lucide-react';
+
+import { X, Calendar, TrendingUp } from 'lucide-react';
 import { Ticket, Happyemoji } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 import type { RenewalDetail } from '../Renewal';
+import AiIcon from '../../../../../assets/icons/ai-icon.svg';
 
 interface RenewalDetailsDrawerProps {
   isOpen: boolean;
@@ -28,11 +29,9 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               <div className="p-6 pb-4">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-3">
-                    <img 
-                      src={detail.avatar} 
-                      alt={detail.name} 
-                      className="w-12 h-12 rounded-full object-cover shrink-0" 
-                    />
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: detail.avatarBg }}>
+                        <span className="font-semibold text-[20px] leading-[24px] text-[#222222]">{detail.initials}</span>
+                      </div>
                     <div className="flex flex-col">
                       <span className="font-semibold text-[16px] sm:text-lg leading-6 text-[#0D1C2E]">
                         {detail.name}
@@ -69,12 +68,12 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               {/* 3. AI RENEWAL INSIGHTS SECTION */}
               <div className="px-6 pb-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="w-[22px] h-[22px] text-[#004370]" />
+                  <img src={AiIcon} alt="AI Insights" className="w-[22px] h-[22px]" />
                   <span className="font-semibold text-sm leading-[16.8px] tracking-[1.4px] uppercase text-[#45464D]">
                     AI RENEWAL INSIGHTS
                   </span>
                 </div>
-                <div className="rounded-2xl p-5 bg-[#F8FAFF]" style={{ background: 'radial-gradient(120% 120% at 100% 0%, rgba(0, 81, 213, 0.15) 0%, rgba(0, 81, 213, 0) 60%)' }}>
+                <div className="rounded-2xl p-5 bg-[#F8FAFF]">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0">
                     <div className="flex flex-col">
                       <span className="font-semibold text-sm leading-[21px] text-[#0051D5]">Renewal Chance</span>
