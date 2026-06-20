@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
       { icon: People, label: 'Customers', path: `${prefix}/customers` },
       { icon: Profile2User, label: 'Onboarding', path: `${prefix}/onboarding` },
       { icon: Ticket, label: 'Tickets', path: `${prefix}/tickets` },
-      { icon: EmptyWalletChange, label: 'Renewals', path: `${prefix}/renewals` },
+      { icon: EmptyWalletChange, label: 'Renewals', path: `${prefix}/renewals/1` },
       { icon: ChartSquare, label: 'Analytics', path: `${prefix}/analytics` },
       
       { icon: Setting2, label: 'Settings', path: '/settings' }

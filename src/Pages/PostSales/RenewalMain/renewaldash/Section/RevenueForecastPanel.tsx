@@ -15,7 +15,6 @@ export default function RevenueForecastPanel({ forecast }: RevenueForecastPanelP
     }}>
       <h2 style={{
         margin: '0 0 16px 0',
-        fontFamily: 'Urbanist',
         fontWeight: 600,
         fontSize: '14px',
         lineHeight: '100%',
@@ -30,14 +29,12 @@ export default function RevenueForecastPanel({ forecast }: RevenueForecastPanelP
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{
-                    fontFamily: 'Urbanist',
                     fontWeight: 400,
                     fontSize: '14px',
                     lineHeight: '100%',
                     color: item.color
                   }}>{item.label}</span>
                   <span style={{
-                    fontFamily: 'Urbanist',
                     fontWeight: 700,
                     fontSize: '14px',
                     lineHeight: '20px',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Calendar, TrendingUp, Ticket, Smile } from 'lucide-react';
+import { CloseCircle, MagicStar, Calendar, TrendUp, Ticket, EmojiHappy } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
 import type { RenewalDetail } from '../Renewal';
 
@@ -53,16 +53,16 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
                       style={{ width: '48px', height: '48px', borderRadius: '999px', objectFit: 'cover' }} 
                     />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>
+                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>
                         {detail.name}
                       </span>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>
+                      <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>
                         {detail.email}
                       </span>
                     </div>
                   </div>
-                  <X 
-                    style={{ width: '14px', height: '14px', color: '#464555', cursor: 'pointer' }} 
+                  <CloseCircle 
+                    color="#464555" style={{ width: '14px', height: '14px', cursor: 'pointer' }} 
                     onClick={onClose} 
                   />
                 </div>
@@ -72,13 +72,13 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               {/* 2. PLAN + SEATS CARDS */}
               <div style={{ padding: '20px 24px', display: 'flex', gap: '12px' }}>
                 <div className="BoxStyle flex-1" style={{ backgroundColor: '#F1F6FF', display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontFamily: 'Manrope', fontWeight: 400, fontSize: '11px', lineHeight: '16.5px', color: '#464555' }}>PLAN</span>
-                  <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '13px', lineHeight: '16.5px', color: '#0B1C30' }}>{detail.plan}</span>
-                  <span style={{ fontFamily: 'Manrope', fontWeight: 400, fontSize: '10px', lineHeight: '20px', color: '#0B1C30' }}>{detail.planUpgradeNote}</span>
+                  <span style={{ fontWeight: 400, fontSize: '11px', lineHeight: '16.5px', color: '#464555' }}>PLAN</span>
+                  <span style={{ fontWeight: 600, fontSize: '13px', lineHeight: '16.5px', color: '#0B1C30' }}>{detail.plan}</span>
+                  <span style={{ fontWeight: 400, fontSize: '10px', lineHeight: '20px', color: '#0B1C30' }}>{detail.planUpgradeNote}</span>
                 </div>
                 <div className="BoxStyle flex-1" style={{ backgroundColor: '#F1F6FF', display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontFamily: 'Manrope', fontWeight: 400, fontSize: '11px', lineHeight: '16.5px', color: '#464555' }}>SEATS</span>
-                  <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '20px', lineHeight: '28px', color: '#0B1C30' }}>{detail.seatsUsed} / {detail.seatsTotal}</span>
+                  <span style={{ fontWeight: 400, fontSize: '11px', lineHeight: '16.5px', color: '#464555' }}>SEATS</span>
+                  <span style={{ fontWeight: 600, fontSize: '20px', lineHeight: '28px', color: '#0B1C30' }}>{detail.seatsUsed} / {detail.seatsTotal}</span>
                   <div style={{ width: '100%', height: '6px', borderRadius: '999px', backgroundColor: '#E2E8F0', marginTop: '4px' }}>
                     <div style={{ width: `${(detail.seatsUsed / detail.seatsTotal) * 100}%`, height: '6px', borderRadius: '999px', backgroundColor: '#000000' }} />
                   </div>
@@ -88,8 +88,8 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               {/* 3. AI RENEWAL INSIGHTS SECTION */}
               <div style={{ padding: '0 24px 20px 24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                  <Sparkles style={{ width: '22px', height: '22px', color: '#004370' }} />
-                  <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '14px', lineHeight: '16.8px', letterSpacing: '1.4px', textTransform: 'uppercase', color: '#45464D' }}>
+                  <MagicStar color="#004370" style={{ width: '22px', height: '22px'}} />
+                  <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '16.8px', letterSpacing: '1.4px', textTransform: 'uppercase', color: '#45464D' }}>
                     AI RENEWAL INSIGHTS
                   </span>
                 </div>
@@ -101,25 +101,25 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '14px', lineHeight: '21px', color: '#0051D5' }}>Renewal Chance</span>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '48px', lineHeight: '57.6px', letterSpacing: '-0.96px', color: '#0051D5' }}>{detail.renewalChance}%</span>
+                      <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '21px', color: '#0051D5' }}>Renewal Chance</span>
+                      <span style={{ fontWeight: 700, fontSize: '48px', lineHeight: '57.6px', letterSpacing: '-0.96px', color: '#0051D5' }}>{detail.renewalChance}%</span>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '14px', lineHeight: '21px', color: '#059669' }}>Churn Risk</span>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '24px', lineHeight: '33.6px', color: '#059669' }}>{detail.churnRisk}</span>
+                      <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '21px', color: '#059669' }}>Churn Risk</span>
+                      <span style={{ fontWeight: 600, fontSize: '24px', lineHeight: '33.6px', color: '#059669' }}>{detail.churnRisk}</span>
                     </div>
                   </div>
                   <div className="BoxStyle" style={{ marginTop: '16px', display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>
+                    <span style={{ fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>
                       BEST NEXT ACTION
                     </span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                      <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '16px', lineHeight: '25.6px', color: '#0D1C2E' }}>
+                      <span style={{ fontWeight: 700, fontSize: '16px', lineHeight: '25.6px', color: '#0D1C2E' }}>
                         {detail.bestAction.title}
                       </span>
                       <Calendar style={{ width: '13.5px', height: '15px' }} />
                     </div>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '14px', lineHeight: '22.75px', color: '#45464D', marginTop: '8px' }}>
+                    <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '22.75px', color: '#45464D', marginTop: '8px' }}>
                       {detail.bestAction.caption}
                     </span>
                   </div>
@@ -129,12 +129,12 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               {/* 4. PRODUCT USAGE SECTION */}
               <div style={{ padding: '0 24px 20px 24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                  <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '14px', lineHeight: '16.8px', letterSpacing: '1.4px', textTransform: 'uppercase', color: '#45464D' }}>
+                  <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '16.8px', letterSpacing: '1.4px', textTransform: 'uppercase', color: '#45464D' }}>
                     PRODUCT USAGE
                   </span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <TrendingUp style={{ width: '14px', height: '14px', color: '#059669' }} />
-                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '12px', lineHeight: '18px', color: '#059669' }}>
+                    <TrendUp color="#059669" style={{ width: '14px', height: '14px'}} />
+                    <span style={{ fontWeight: 700, fontSize: '12px', lineHeight: '18px', color: '#059669' }}>
                       {detail.usageTrend}
                     </span>
                   </div>
@@ -162,20 +162,20 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
               <div style={{ padding: '0 24px 20px 24px', display: 'flex', gap: '12px' }}>
                 <div className="BoxStyle flex-1" style={{ backgroundColor: '#F1F6FF', display: 'flex', alignItems: 'center', gap: '14px', padding: '16px' }}>
                   <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(255,218,214,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Ticket style={{ width: '20px', height: '20px', color: '#BA1A1A' }} />
+                    <Ticket color="#BA1A1A" style={{ width: '20px', height: '20px'}} />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>Tickets</span>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '16px', lineHeight: '22px', color: '#0D1C2E' }}>{detail.tickets} Open</span>
+                    <span style={{ fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>Tickets</span>
+                    <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '22px', color: '#0D1C2E' }}>{detail.tickets} Open</span>
                   </div>
                 </div>
                 <div className="BoxStyle flex-1" style={{ backgroundColor: '#F1F6FF', display: 'flex', alignItems: 'center', gap: '14px', padding: '16px' }}>
                   <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: '#ECFDF5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Smile style={{ width: '20px', height: '20px', color: '#059669' }} />
+                    <EmojiHappy color="#059669" style={{ width: '20px', height: '20px'}} />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>CSAT</span>
-                    <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '16px', lineHeight: '22px', color: '#0D1C2E' }}>{detail.csat} / 5</span>
+                    <span style={{ fontWeight: 500, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: '#45464D' }}>CSAT</span>
+                    <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '22px', color: '#0D1C2E' }}>{detail.csat} / 5</span>
                   </div>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function RenewalDetailsDrawer({ isOpen, detail, onClose }: Renewa
             <div style={{ position: 'sticky', bottom: 0, backgroundColor: '#FFFFFF', padding: '16px 24px', borderTop: '1px solid #C7C4D87D' }}>
               <button 
                 onClick={() => navigate(`/postsales/renewals/${detail.id}`)}
-                style={{ width: '100%', backgroundColor: '#004370', color: '#FFFFFF', fontFamily: 'Inter', fontWeight: 700, fontSize: '12px', lineHeight: '16px', textAlign: 'center', borderRadius: '999px', padding: '14px', border: 'none', cursor: 'pointer' }}
+                style={{ width: '100%', backgroundColor: '#004370', color: '#FFFFFF', fontWeight: 700, fontSize: '12px', lineHeight: '16px', textAlign: 'center', borderRadius: '999px', padding: '14px', border: 'none', cursor: 'pointer' }}
               >
                 View Renewal details
               </button>

@@ -20,7 +20,6 @@ export default function RenewalLayout() {
       <div style={{ marginBottom: '24px' }}>
         <h1 style={{
           margin: 0,
-          fontFamily: 'Urbanist',
           fontWeight: 800,
           fontSize: '30px',
           lineHeight: '36px',
@@ -30,7 +29,6 @@ export default function RenewalLayout() {
         </h1>
         <p style={{
           margin: 0,
-          fontFamily: 'Urbanist',
           fontWeight: 400,
           fontSize: '16px',
           lineHeight: '36px',

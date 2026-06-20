@@ -37,7 +37,6 @@ export default function RenewalHeaderCards({ stats }: RenewalHeaderCardsProps) {
             }}
           >
             <div style={{
-              fontFamily: 'Urbanist',
               fontWeight: 600,
               fontSize: '12px',
               lineHeight: '16px',
@@ -49,7 +48,6 @@ export default function RenewalHeaderCards({ stats }: RenewalHeaderCardsProps) {
             </div>
 
             <div style={{
-              fontFamily: 'Urbanist',
               fontWeight: 800,
               fontSize: '36px',
               lineHeight: '40px',
@@ -59,7 +57,6 @@ export default function RenewalHeaderCards({ stats }: RenewalHeaderCardsProps) {
             </div>
 
             <div style={{
-              fontFamily: 'Urbanist',
               fontWeight: 700,
               fontSize: '12px',
               lineHeight: '16px',

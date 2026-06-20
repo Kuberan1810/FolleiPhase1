@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
-import { HardDrive, Bot } from 'lucide-react';
+import { Data, Cpu } from 'iconsax-react';
 
 interface Props {
   data: RenewalDetailsData['expansionOpportunities'];
@@ -9,14 +9,14 @@ interface Props {
 export default function ExpansionOpportunitiesCard({ data }: Props) {
   return (
     <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0, marginBottom: '20px' }}>
+      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0, marginBottom: '20px' }}>
         Expansion Opportunities
       </h2>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {data.map((item, idx) => {
           const isLast = idx === data.length - 1;
-          const IconComponent = item.iconName === 'bot' ? Bot : HardDrive;
+          const IconComponent = item.iconName === 'bot' ? Cpu : Data;
           
           let iconColor = '#0051D5';
           let iconBg = 'rgba(0,81,213,0.1)';
@@ -40,11 +40,11 @@ export default function ExpansionOpportunitiesCard({ data }: Props) {
                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <IconComponent style={{ width: '20px', height: '20px', color: iconColor }} />
                 </div>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', color: '#1B1B1D' }}>
+                <span style={{ fontWeight: 600, fontSize: '16px', color: '#1B1B1D' }}>
                   {item.label}
                 </span>
               </div>
-              <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '16px', color: '#16A34A' }}>
+              <span style={{ fontWeight: 700, fontSize: '16px', color: '#16A34A' }}>
                 {item.value}
               </span>
             </div>

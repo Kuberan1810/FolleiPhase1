@@ -10,38 +10,38 @@ export default function CustomerOverviewCard({ data }: Props) {
 
   return (
     <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
         Customer Overview
       </h2>
       <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px' }} />
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.company}</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.company}</span>
         </div>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Industry</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.industry}</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Industry</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.industry}</span>
         </div>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company Size</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.companySize}</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company Size</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.companySize}</span>
         </div>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Region</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.region}</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Region</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.region}</span>
         </div>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Customer Since</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Customer Since</span>
           <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.customerSince}</span>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '12px', lineHeight: '16px', color: '#6B7280' }}>{data.yearsTotal}</span>
+            <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.customerSince}</span>
+            <span style={{ fontWeight: 400, fontSize: '12px', lineHeight: '16px', color: '#6B7280' }}>{data.yearsTotal}</span>
           </div>
         </div>
         <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Tier</span>
-          <div style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '12px', lineHeight: '16px', color: '#0051D5', backgroundColor: 'rgba(0,81,213,0.1)', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
+          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Tier</span>
+          <div style={{ fontWeight: 500, fontSize: '12px', lineHeight: '16px', color: '#0051D5', backgroundColor: 'rgba(0,81,213,0.1)', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
             {data.tier}
           </div>
         </div>
@@ -50,18 +50,18 @@ export default function CustomerOverviewCard({ data }: Props) {
       <div style={{ flex: 1 }} />
 
       <div style={{ marginTop: '16px' }}>
-        <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '14px', lineHeight: '24px', textTransform: 'uppercase', color: '#6B7280' }}>
+        <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '24px', textTransform: 'uppercase', color: '#6B7280' }}>
           PRIMARY CONTACT
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
           <div style={{ width: '40px', height: '40px', borderRadius: '999px', backgroundColor: 'rgba(0,81,213,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '16px', lineHeight: '24px', textAlign: 'center', color: '#0051D5' }}>
+            <span style={{ fontWeight: 700, fontSize: '16px', lineHeight: '24px', textAlign: 'center', color: '#0051D5' }}>
               {data.primaryContact.initials}
             </span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.primaryContact.name}</span>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '14px', lineHeight: '120%', color: '#6B7280' }}>{data.primaryContact.role}</span>
+            <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.primaryContact.name}</span>
+            <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '120%', color: '#6B7280' }}>{data.primaryContact.role}</span>
           </div>
         </div>
       </div>

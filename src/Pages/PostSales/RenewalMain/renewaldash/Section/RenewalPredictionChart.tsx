@@ -55,7 +55,6 @@ export default function RenewalPredictionChart({ data }: RenewalPredictionChartP
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h3 style={{
           margin: 0,
-          fontFamily: 'Urbanist',
           fontWeight: 600,
           fontSize: '20px',
           lineHeight: '28px',
@@ -67,7 +66,6 @@ export default function RenewalPredictionChart({ data }: RenewalPredictionChartP
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '20px', height: '20px', borderRadius: '999px', backgroundColor: '#014370' }} />
             <span style={{
-              fontFamily: 'Urbanist',
               fontWeight: 500,
               fontSize: '16px',
               lineHeight: '28px',
@@ -77,7 +75,6 @@ export default function RenewalPredictionChart({ data }: RenewalPredictionChartP
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '20px', height: '20px', borderRadius: '999px', backgroundColor: '#99B4C6' }} />
             <span style={{
-              fontFamily: 'Urbanist',
               fontWeight: 500,
               fontSize: '16px',
               lineHeight: '28px',

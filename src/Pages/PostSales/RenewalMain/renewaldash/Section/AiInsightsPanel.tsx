@@ -1,5 +1,6 @@
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ShieldTick } from 'iconsax-react';
 import type { AiInsight } from '../RenewalDash';
 
 interface AiInsightsPanelProps {
@@ -7,6 +8,7 @@ interface AiInsightsPanelProps {
 }
 
 export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
+  const navigate = useNavigate();
   return (
     <div style={{
       position: 'relative',
@@ -32,10 +34,9 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
       
       <div style={{ zIndex: 1, position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <ShieldCheck style={{ width: '22px', height: '19px', color: '#0051D5' }} />
+          <ShieldTick color="#0051D5" style={{ width: '22px', height: '19px'}} />
           <h2 style={{
             margin: 0,
-            fontFamily: 'Urbanist',
             fontWeight: 700,
             fontSize: '14px',
             lineHeight: '16.8px',
@@ -54,7 +55,6 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
               padding: '16px'
             }}>
               <div style={{
-                fontFamily: 'Urbanist',
                 fontWeight: 700,
                 fontSize: '12px',
                 lineHeight: '14.4px',
@@ -63,7 +63,6 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
                 marginBottom: '4px'
               }}>{insight.title}</div>
               <div style={{
-                fontFamily: 'Urbanist',
                 fontWeight: 400,
                 fontSize: '12px',
                 lineHeight: '16.5px',
@@ -71,13 +70,12 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
                 marginBottom: '8px'
               }}>{insight.caption}</div>
               <div style={{
-                fontFamily: 'Urbanist',
                 fontWeight: 700,
                 fontSize: '11px',
                 lineHeight: '16.5px',
                 color: '#0051D5',
                 cursor: 'pointer'
-              }}>{insight.ctaText}</div>
+              }} onClick={() => navigate('/postsales/renewals/list')}>{insight.ctaText}</div>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsStatCard } from '../RenewalDetailsPage';
-import { Calendar, DollarSign, Activity, ActivitySquare } from 'lucide-react';
+import { Calendar, DollarSquare, Activity, Activity } from 'iconsax-react';
 
 interface Props {
   cards: RenewalDetailsStatCard[];
@@ -11,9 +11,9 @@ export default function RenewalDetailsStatCards({ cards }: Props) {
     <div className="flex flex-row gap-3 w-full">
       {cards.map((card, idx) => {
         let IconComponent = Calendar;
-        if (idx === 1) IconComponent = DollarSign;
+        if (idx === 1) IconComponent = DollarSquare;
         else if (idx === 2) IconComponent = Activity;
-        else if (idx === 3) IconComponent = ActivitySquare;
+        else if (idx === 3) IconComponent = Activity;
 
         return (
           <div key={card.id} className="BoxStyle flex-1 flex flex-col">
@@ -24,7 +24,6 @@ export default function RenewalDetailsStatCards({ cards }: Props) {
               </div>
               {card.pillText && (
                 <div style={{
-                  fontFamily: 'Manrope',
                   fontWeight: 500,
                   fontSize: '12px',
                   lineHeight: '16px',
@@ -38,11 +37,11 @@ export default function RenewalDetailsStatCards({ cards }: Props) {
 
             {/* Row 2 */}
             <div className="flex items-baseline gap-[6px]" style={{ marginTop: '8px' }}>
-              <span style={{ fontFamily: 'Manrope', fontWeight: 600, fontSize: '24px', lineHeight: '32px', color: '#0D1C2E' }}>
+              <span style={{ fontWeight: 600, fontSize: '24px', lineHeight: '32px', color: '#0D1C2E' }}>
                 {card.value}
               </span>
               {card.unit && (
-                <span style={{ fontFamily: 'Manrope', fontWeight: 400, fontSize: '14px', color: '#6B7280' }}>
+                <span style={{ fontWeight: 400, fontSize: '14px', color: '#6B7280' }}>
                   {card.unit}
                 </span>
               )}
@@ -50,7 +49,7 @@ export default function RenewalDetailsStatCards({ cards }: Props) {
 
             {/* Row 3 */}
             <div style={{ marginTop: '4px' }}>
-              <span style={{ fontFamily: 'Manrope', fontWeight: 500, fontSize: '13px', lineHeight: '16px', color: '#464555' }}>
+              <span style={{ fontWeight: 500, fontSize: '13px', lineHeight: '16px', color: '#464555' }}>
                 {card.title}
               </span>
             </div>

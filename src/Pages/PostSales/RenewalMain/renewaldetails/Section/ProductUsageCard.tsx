@@ -8,15 +8,15 @@ interface Props {
 export default function ProductUsageCard({ data }: Props) {
   return (
     <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
         Product Usage
       </h2>
       <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px', marginBottom: '20px' }} />
 
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Seat Utilization</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', color: '#2563EB' }}>{data.seatUtilization}%</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Seat Utilization</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', color: '#2563EB' }}>{data.seatUtilization}%</span>
         </div>
         <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
           <div style={{ height: '8px', borderRadius: '999px', width: `${data.seatUtilization}%`, backgroundColor: '#2563EB' }} />
@@ -25,8 +25,8 @@ export default function ProductUsageCard({ data }: Props) {
 
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Storage Usage</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', color: '#DC2626' }}>{data.storageUsage}%</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Storage Usage</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', color: '#DC2626' }}>{data.storageUsage}%</span>
         </div>
         <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
           <div style={{ height: '8px', borderRadius: '999px', width: `${data.storageUsage}%`, backgroundColor: '#DC2626' }} />
@@ -35,8 +35,8 @@ export default function ProductUsageCard({ data }: Props) {
 
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>API Usage</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', color: '#16A34A' }}>{data.apiUsage}%</span>
+          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>API Usage</span>
+          <span style={{ fontWeight: 600, fontSize: '16px', color: '#16A34A' }}>{data.apiUsage}%</span>
         </div>
         <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
           <div style={{ height: '8px', borderRadius: '999px', width: `${data.apiUsage}%`, backgroundColor: '#16A34A' }} />

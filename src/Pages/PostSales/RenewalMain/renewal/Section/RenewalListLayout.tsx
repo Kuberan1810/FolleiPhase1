@@ -5,12 +5,15 @@ import RenewalListTable from './RenewalListTable';
 import RenewalDetailsDrawer from './RenewalDetailsDrawer';
 import { mockStatCards, mockRenewalListRows, mockRenewalDetail } from '../data/mockRenewalListData';
 import type { RenewalListRow, RenewalDetail } from '../Renewal';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'iconsax-react';
 
 export default function RenewalListLayout() {
   const [statCards] = useState(mockStatCards);
   const [renewalRows] = useState(mockRenewalListRows);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState<RenewalDetail | null>(null);
+  const navigate = useNavigate();
 
   const handleRowClick = (row: RenewalListRow) => {
     setSelectedDetail(mockRenewalDetail);
@@ -20,19 +23,35 @@ export default function RenewalListLayout() {
   return (
     <div>
       <div style={{ marginBottom: '24px' }}>
-        <h1 style={{
-          margin: 0,
-          fontFamily: 'Urbanist',
-          fontWeight: 800,
-          fontSize: '30px',
-          lineHeight: '36px',
-          color: '#0D1C2E',
-        }}>
-          Renewal
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <button 
+            onClick={() => navigate(-1)}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #EDF3FD',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+          >
+            <ArrowLeft color="#0D1C2E" size={20} />
+          </button>
+          <h1 style={{
+            margin: 0,
+            fontWeight: 800,
+            fontSize: '30px',
+            lineHeight: '36px',
+            color: '#0D1C2E',
+          }}>
+            Renewal
+          </h1>
+        </div>
         <p style={{
           margin: 0,
-          fontFamily: 'Urbanist',
           fontWeight: 400,
           fontSize: '16px',
           lineHeight: '36px',
