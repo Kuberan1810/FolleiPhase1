@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsStatCard } from '../RenewalDetailsPage';
-import { Calendar, DollarSquare, Activity, Activity } from 'iconsax-react';
+import { Calendar, DollarSquare, Activity } from 'iconsax-react';
 
 interface Props {
   cards: RenewalDetailsStatCard[];
