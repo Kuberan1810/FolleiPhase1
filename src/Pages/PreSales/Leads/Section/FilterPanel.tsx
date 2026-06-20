@@ -114,7 +114,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   return (
     <div
       ref={containerRef}
-      className="absolute top-[48px] right-0 z-[100] bg-white w-[340px] rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col overflow-hidden max-h-[90vh] font-manrope text-left"
+      className="fixed md:absolute left-1/2 md:left-auto md:right-0 top-1/2 md:top-auto -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mt-0 md:mt-2 w-[340px] max-w-[calc(100vw-32px)] z-[100] bg-white rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] border border-slate-100 flex flex-col overflow-hidden max-h-[90vh] font-manrope text-left"
     >
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-slate-100">

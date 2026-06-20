@@ -32,7 +32,7 @@ const ProfileHeader = ({ lead }: { lead?: any }) => {
 
     return (
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between BoxStyle">
-            <div className="flex items-center gap-5">
+            <div className="flex flex-col sm:flex-row items-start gap-5">
                 {/* Avatar */}
                 <div className={`w-[100px] h-[100px] rounded-[20px] ${lead?.bgColor || 'bg-[#E1EDFE]'} border border-[#EDF3FD] flex items-center justify-center shrink-0`}>
                     <span className={`${lead?.textColor || 'text-[#131B2E]'} text-[32px] font-semibold tracking-wide`}>{initials}</span>
@@ -40,7 +40,7 @@ const ProfileHeader = ({ lead }: { lead?: any }) => {
 
                 {/* Lead Info */}
                 <div className="flex flex-col gap-1.5">
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                         <h1 className="md:text-[32px] text-xl font-semibold text-[#131B2E] leading-tight ">
                             {name}
                         </h1>
@@ -54,7 +54,7 @@ const ProfileHeader = ({ lead }: { lead?: any }) => {
                         {title} @ {company}
                     </p>
 
-                    <div className="flex items-center gap-5 mt-1">
+                    <div className="flex flex-wrap items-center gap-4 mt-1">
                         <div className="flex items-center gap-2.5 text-[16px] font-medium text-[#0B1C30] capitalize">
                             <Global className=" text-[#004370]" color="currentColor" size={18} />
                             {source}

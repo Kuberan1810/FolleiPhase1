@@ -303,7 +303,7 @@ const Leadslayout: React.FC = () => {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3 self-end md:self-center">
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end mt-4 md:mt-0">
           {/* FILTER Button with Popover */}
           <div className="relative">
             <button
@@ -324,6 +324,9 @@ const Leadslayout: React.FC = () => {
               )}
             </button>
 
+            {showFilters && (
+              <div className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[1px] md:hidden" onClick={() => setShowFilters(false)} />
+            )}
             <FilterPanel
               show={showFilters}
               onClose={() => setShowFilters(false)}
@@ -373,7 +376,7 @@ const Leadslayout: React.FC = () => {
             {showSortDropdown && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowSortDropdown(false)} />
-                <div className="absolute right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
                   {[
                     { value: 'newest', label: 'Newest' },
                     { value: 'oldest', label: 'Oldest' },
@@ -415,7 +418,7 @@ const Leadslayout: React.FC = () => {
             {showCategoryDropdown && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowCategoryDropdown(false)} />
-                <div className="absolute right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
                   {(['Lead Source', 'Lead Status', 'Lead Score', 'Campaign'] as const).map((opt) => (
                     <button
                       key={opt}

@@ -16,9 +16,9 @@ const LeadProfile = () => {
     const lead = location.state?.lead;
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] pb-12 ">
+        <div className="min-h-screen pb-12 ">
             {/* Back Button */}
-            <div className="pt-4 px-6 mb-2">
+            <div className="pt-4 px-6 mb-5">
                 <button 
                     onClick={() => navigate(-1)} 
                     className="flex items-center gap-2 text-[#464555] hover:text-[#004370] transition-all duration-300 cursor-pointer font-semibold group"
@@ -27,7 +27,7 @@ const LeadProfile = () => {
                     Back to Leads
                 </button>
             </div>
-            <div className="flex flex-col gap-6 w-full px-6">
+            <div className="flex flex-col gap-6 w-full ">
                 {/* Header Section */}
                 <ProfileHeader lead={lead} />
 

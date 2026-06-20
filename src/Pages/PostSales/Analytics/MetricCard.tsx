@@ -39,7 +39,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
           className="text-[#64748B] tracking-tight"
           style={{
             fontWeight: 500,
-            fontSize: '14px',
+            fontSize: '16px',
             lineHeight: '16.5px',
             color: '#64748B'
           }}
@@ -48,10 +48,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
         </span>
       </div>
       <div>
-        <h3 className="text-[28px] font-bold text-[#0D1C2E] leading-none mb-2">
+        <h3 className="text-[28px] font-semibold text-[#1E293B] leading-none mb-2">
           {value}
         </h3>
-        <p className="text-[14px] font-medium flex items-center gap-1 text-slate-400">
+        <p className="text-[16px] font-medium flex items-center gap-1 text-[#64748B]">
           <span className="inline-flex items-center text-[13px] leading-[15px] font-bold text-[#22C55E]">
             {trendType === 'up' ? '▲' : '▼'} {trend}
           </span>
