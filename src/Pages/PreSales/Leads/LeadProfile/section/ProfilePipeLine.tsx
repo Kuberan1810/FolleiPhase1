@@ -18,7 +18,7 @@ const ProfilePipeLine = () => {
 
   return (
     <div className="w-full py-8 overflow-x-auto no-scrollbar">
-      <div className="max-w-5xl mx-auto flex items-start justify-between relative">
+      <div className="min-w-[700px] max-w-5xl mx-auto flex items-start justify-between relative">
         
         {/* Background Line container */}
         <div className="absolute left-[48px] right-[48px] top-[19px] h-[3px] bg-[#E5EEFF] z-0">

@@ -12,14 +12,14 @@ const NetRevenueChart: React.FC = () => {
   const [activeHoverBar, setActiveHoverBar] = useState<number | null>(null);
 
   return (
-    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col font-[Inter]">
-      <div className="flex flex-col gap-4 mb-8">
+    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
+      <div className="flex flex-col gap-4 mb-16">
         <div>
           <h3
             className="tracking-normal font-semibold text-[#1E293B]"
             style={{
               fontWeight: 600,
-              fontSize: '14px',
+              fontSize: '20px',
               lineHeight: '20px',
               color: '#1E293B'
             }}
@@ -29,14 +29,14 @@ const NetRevenueChart: React.FC = () => {
         </div>
 
         {/* Legends */}
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-7">
           <div className="flex items-center gap-1.5">
             <div className="w-3 h-3 bg-[#BFDBFE] rounded-sm" />
             <span
               className="text-[#64748B] font-normal"
               style={{
                 fontWeight: 400,
-                fontSize: '10px',
+                fontSize: '13px',
                 lineHeight: '15px',
                 color: '#64748B'
               }}
@@ -50,7 +50,7 @@ const NetRevenueChart: React.FC = () => {
               className="text-[#64748B] font-normal"
               style={{
                 fontWeight: 400,
-                fontSize: '10px',
+                fontSize: '13px',
                 lineHeight: '15px',
                 color: '#64748B'
               }}
@@ -68,22 +68,22 @@ const NetRevenueChart: React.FC = () => {
           {/* Y Axis Grid Lines & Y-Axis Labels */}
           <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[11px] font-bold text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
                 ₹150K
               </span>
             </div>
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[11px] font-bold text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
                 ₹100K
               </span>
             </div>
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[11px] font-bold text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
                 ₹50K
               </span>
             </div>
             <div className="w-full relative">
-              <span className="absolute right-full pr-3 text-[11px] font-bold text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
                 ₹0
               </span>
             </div>
@@ -102,20 +102,7 @@ const NetRevenueChart: React.FC = () => {
                 onMouseEnter={() => setActiveHoverBar(index)}
                 onMouseLeave={() => setActiveHoverBar(null)}
               >
-                {/* Tooltip on Hover */}
-                {activeHoverBar === index && (
-                  <div className="absolute -top-12 bg-[#0B1C30] text-white p-2.5 rounded-lg shadow-lg z-50 text-[11px] font-semibold space-y-1 transition-all">
-                    <p className="text-slate-300 border-b border-slate-700 pb-1 mb-1 font-bold">{data.label}, 2026</p>
-                    <p className="flex justify-between gap-4">
-                      <span className="text-[#BFDBFE]">May:</span>
-                      <span>{data.labelCur}</span>
-                    </p>
-                    <p className="flex justify-between gap-4">
-                      <span className="text-white">Apr:</span>
-                      <span>{data.labelPrev}</span>
-                    </p>
-                  </div>
-                )}
+
 
                 {/* Comparative Bars */}
                 <div className="flex items-end justify-center gap-1.5 w-full h-[180px] pb-1">
@@ -139,7 +126,7 @@ const NetRevenueChart: React.FC = () => {
         <div className="flex items-center ml-[50px] mt-2">
           {netRevenueChartData.map((data, index) => (
             <div key={index} className="flex-1 text-center">
-              <span className="text-[12px] font-bold text-slate-400 whitespace-nowrap">
+              <span className="text-[12px] font-medium text-slate-400 whitespace-nowrap">
                 {data.label}
               </span>
             </div>
