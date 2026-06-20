@@ -1,4 +1,3 @@
-import React from 'react';
 import type { ForecastItem } from '../RenewalDash';
 
 interface RevenueForecastPanelProps {
@@ -22,23 +21,29 @@ export default function RevenueForecastPanel({ forecast }: RevenueForecastPanelP
         color: '#0D1C2E'
       }}>REVENUE FORECAST</h2>
       
-      <div style={{ backgroundColor: '#F7F9FB', border: '1px solid #EFECFF', borderRadius: '12px', padding: '16px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {forecast.map((item) => {
+          const textColor = item.label === 'At Risk' ? '#BA1A1A' : '#191C1E';
           return (
-            <div key={item.id}>
+            <div key={item.id} style={{
+              backgroundColor: '#F7F9FB',
+              border: '1px solid #EFECFF',
+              borderRadius: '12px',
+              padding: '14px 16px'
+            }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{
                     fontWeight: 400,
                     fontSize: '14px',
                     lineHeight: '100%',
-                    color: item.color
+                    color: textColor
                   }}>{item.label}</span>
                   <span style={{
                     fontWeight: 700,
                     fontSize: '14px',
                     lineHeight: '20px',
-                    color: item.color
+                    color: textColor
                   }}>{item.value}</span>
                 </div>
                 <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#ECEEF0' }}>

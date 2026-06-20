@@ -6,62 +6,62 @@ interface Props {
 }
 
 export default function CustomerOverviewCard({ data }: Props) {
-  const rowStyle = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid #EDF3FD' };
+  const rowClass = "flex justify-between items-center py-3.5 border-b border-[#EDF3FD]";
 
   return (
-    <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
+      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Customer Overview
       </h2>
-      <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px' }} />
+      <div className="border-b border-[#EDF3FD] mt-3" />
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.company}</span>
+      <div className="flex flex-col">
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Company</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.company}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Industry</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.industry}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Industry</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.industry}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Company Size</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.companySize}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Company Size</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.companySize}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Region</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.region}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Region</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.region}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Customer Since</span>
-          <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'right' }}>
-            <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.customerSince}</span>
-            <span style={{ fontWeight: 400, fontSize: '12px', lineHeight: '16px', color: '#6B7280' }}>{data.yearsTotal}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Customer Since</span>
+          <div className="flex flex-col text-right">
+            <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.customerSince}</span>
+            <span className="font-normal text-xs leading-4 text-[#6B7280]">{data.yearsTotal}</span>
           </div>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Tier</span>
-          <div style={{ fontWeight: 500, fontSize: '12px', lineHeight: '16px', color: '#0051D5', backgroundColor: 'rgba(0,81,213,0.1)', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Tier</span>
+          <div className="font-medium text-xs leading-4 text-[#0051D5] bg-[rgba(0,81,213,0.1)] rounded-md px-2.5 py-1 w-fit">
             {data.tier}
           </div>
         </div>
       </div>
 
-      <div style={{ flex: 1 }} />
+      <div className="flex-1" />
 
-      <div style={{ marginTop: '16px' }}>
-        <span style={{ fontWeight: 600, fontSize: '14px', lineHeight: '24px', textTransform: 'uppercase', color: '#6B7280' }}>
+      <div className="mt-4">
+        <span className="font-semibold text-sm leading-6 uppercase text-[#6B7280]">
           PRIMARY CONTACT
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '999px', backgroundColor: 'rgba(0,81,213,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontWeight: 700, fontSize: '16px', lineHeight: '24px', textAlign: 'center', color: '#0051D5' }}>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="w-10 h-10 rounded-full bg-[rgba(0,81,213,0.1)] flex items-center justify-center">
+            <span className="font-bold text-base leading-6 text-center text-[#0051D5]">
               {data.primaryContact.initials}
             </span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.primaryContact.name}</span>
-            <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '120%', color: '#6B7280' }}>{data.primaryContact.role}</span>
+          <div className="flex flex-col">
+            <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.primaryContact.name}</span>
+            <span className="font-normal text-sm leading-[120%] text-[#6B7280]">{data.primaryContact.role}</span>
           </div>
         </div>
       </div>

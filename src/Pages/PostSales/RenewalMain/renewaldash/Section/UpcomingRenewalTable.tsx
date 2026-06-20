@@ -12,32 +12,11 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
   const navigate = useNavigate();
 
   return (
-    <div style={{
-      backgroundColor: '#FFFFFF',
-      borderRadius: '20px',
-      border: '1px solid #EDF3FD',
-      padding: '24px',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+    <div className="bg-white rounded-[20px] border border-[#EDF3FD] p-6 h-full flex flex-col justify-between">
+      <div className="flex justify-between items-start mb-3">
         <div>
-          <h2 style={{
-            margin: 0,
-            fontWeight: 600,
-            fontSize: '20px',
-            lineHeight: '28px',
-            color: '#0D1C2E'
-          }}>Upcoming Renewal</h2>
-          <p style={{
-            margin: 0,
-            fontWeight: 400,
-            fontSize: '14px',
-            lineHeight: '20px',
-            color: '#64748B'
-          }}>Managing 08 New leads this hour</p>
+          <h2 className="m-0 font-semibold text-[20px] leading-[28px] text-[#0D1C2E]">Upcoming Renewal</h2>
+          <p className="m-0 font-normal text-[14px] leading-[20px] text-[#64748B]">Managing 08 New leads this hour</p>
         </div>
         <BtnComSecondary 
           label="View All" 
@@ -47,81 +26,82 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
         />
       </div>
 
-      <table style={{ width: '100%', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
-        <thead style={{ backgroundColor: '#F6FAFF', height: '52px' }}>
-          <tr>
-            <th style={{ width: '40%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>CUSTOMER NAME</th>
-            <th style={{ width: '35%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>STATUS</th>
-            <th style={{ width: '25%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>PLAN</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => {
-            let statusColor = '';
-            let statusBg = '';
-            let scoreColor = '';
+      <div className="flex-1 overflow-x-auto pb-2">
+        <table className="w-full table-fixed border-collapse flex-1 min-w-[700px]">
+          <thead className="bg-[#F6FAFF] h-[40px]">
+            <tr>
+              <th className="w-[40%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">CUSTOMER NAME</th>
+              <th className="w-[35%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">STATUS</th>
+              <th className="w-[25%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">PLAN</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => {
+              let statusColor = '';
+              let statusBg = '';
+              let scoreColor = '';
 
-            if (row.status === 'Committed') {
-              statusColor = '#047857';
-              statusBg = '#ECFDF5';
-              scoreColor = '#10B981';
-            } else if (row.status === 'Risk') {
-              statusColor = '#B91C1C';
-              statusBg = '#FEE2E2';
-              scoreColor = '#FF2121';
-            } else if (row.status === 'Negotiating') {
-              statusColor = '#B91C1C';
-              statusBg = '#FFFBEB';
-              scoreColor = '#F59E0B';
-            }
+              if (row.status === 'Committed') {
+                statusColor = 'text-[#047857]';
+                statusBg = 'bg-[#ECFDF5]';
+                scoreColor = '#10B981';
+              } else if (row.status === 'Risk') {
+                statusColor = 'text-[#B91C1C]';
+                statusBg = 'bg-[#FEE2E2]';
+                scoreColor = '#FF2121';
+              } else if (row.status === 'Negotiating') {
+                statusColor = 'text-[#B91C1C]';
+                statusBg = 'bg-[#FFFBEB]';
+                scoreColor = '#F59E0B';
+              }
 
-            return (
-              <tr 
-                key={row.id} 
-                onClick={() => navigate('/postsales/renewals/list')}
-                style={{ height: '72px', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}
-              >
-                <td style={{ width: '40%', padding: '0 24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '999px', backgroundColor: row.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#222222' }}>{row.initials}</span>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>{row.name}</span>
-                      <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>{row.email}</span>
-                    </div>
-                    <div style={{ marginLeft: 'auto' }}>
-                      <div style={{ fontWeight: 600, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#222222', backgroundColor: '#E4EDFF', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
-                        {row.plan}
+              return (
+                <tr 
+                  key={row.id} 
+                  className="h-[88px] border-b border-[#F1F5F9] transition-colors"
+                >
+                  <td className="w-[40%] px-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: row.avatarBg }}>
+                        <span className="font-semibold text-[18px] leading-[24px] text-[#222222]">{row.initials}</span>
+                      </div>
+                      <div className="flex flex-col overflow-hidden">
+                        <span className="font-semibold text-[18px] leading-[24px] text-[#0D1C2E] truncate">{row.name}</span>
+                        <span className="font-normal text-[14px] leading-[20px] text-[#434655] truncate">{row.email}</span>
+                      </div>
+                      <div className="ml-auto shrink-0 hidden sm:block">
+                        <div className="font-semibold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#222222] bg-[#E4EDFF] rounded-md px-2.5 py-1 w-fit">
+                          {row.plan}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td style={{ width: '35%', padding: '0 24px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center' }}>
-                    <div style={{ textAlign: 'left' }}>
-                      <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#0D1C2E' }}>{row.date}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <div style={{ fontWeight: 700, fontSize: '14px', lineHeight: '15px', borderRadius: '6px', padding: '4px 10px', width: 'fit-content', color: statusColor, backgroundColor: statusBg }}>
-                        {row.status}
+                  </td>
+                  <td className="w-[35%] px-6">
+                    <div className="grid grid-cols-2 items-center gap-2">
+                      <div className="text-left">
+                        <span className="font-medium text-[16px] leading-[24px] text-[#0D1C2E]">{row.date}</span>
+                      </div>
+                      <div className="flex justify-center">
+                        <div className={`font-medium text-[14px] leading-[15px] rounded-md px-2.5 py-1 w-fit ${statusColor} ${statusBg}`}>
+                          {row.status}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td style={{ width: '25%', padding: '0 24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ flex: 1, height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
-                      <div style={{ width: `${row.score}%`, height: '100%', borderRadius: '999px', backgroundColor: scoreColor }}></div>
+                  </td>
+                  <td className="w-[25%] px-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 h-2 rounded-full bg-[#EAE7E9]">
+                        <div className="h-full rounded-full transition-all duration-500" style={{ width: `${row.score}%`, backgroundColor: scoreColor }}></div>
+                      </div>
+                      <span className="font-bold text-[12px] leading-[14.4px] tracking-[0.12px]" style={{ color: scoreColor }}>{row.score}</span>
                     </div>
-                    <span style={{ fontWeight: 700, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: scoreColor }}>{row.score}</span>
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsStatCard } from '../RenewalDetailsPage';
-import { Calendar, DollarSquare, Activity } from 'iconsax-react';
+import { Calendar, Receipt21, PresentionChart, Heart } from 'iconsax-react';
 
 interface Props {
   cards: RenewalDetailsStatCard[];
@@ -8,48 +8,48 @@ interface Props {
 
 export default function RenewalDetailsStatCards({ cards }: Props) {
   return (
-    <div className="flex flex-row gap-3 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row gap-3 w-full">
       {cards.map((card, idx) => {
-        let IconComponent = Calendar;
-        if (idx === 1) IconComponent = DollarSquare;
-        else if (idx === 2) IconComponent = Activity;
-        else if (idx === 3) IconComponent = Activity;
+        let IconElement = <Calendar size="20" color="#014370" variant="Linear" />;
+        if (idx === 1) IconElement = <Receipt21 size="20" color="#004AC6" variant="Linear" />;
+        else if (idx === 2) IconElement = <PresentionChart size="20" color="#0D9488" variant="Linear" />;
+        else if (idx === 3) IconElement = <Heart size="20" color="#16A34A" variant="Linear" />;
 
         return (
-          <div key={card.id} className="BoxStyle flex-1 flex flex-col">
+          <div key={card.id} className="BoxStyle flex-1 flex flex-col bg-white rounded-xl p-5 border border-[#EDF3FD]">
             {/* Row 1 */}
             <div className="flex items-center justify-between">
-              <div style={{ backgroundColor: card.iconBg, borderRadius: '12px', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <IconComponent style={{ width: '20px', height: '20px', color: card.iconColor }} />
+              <div 
+                className="rounded-xl w-10 h-10 flex items-center justify-center shrink-0" 
+                style={{ backgroundColor: card.iconBg }}
+              >
+                {IconElement}
               </div>
               {card.pillText && (
-                <div style={{
-                  fontWeight: 500,
-                  fontSize: '12px',
-                  lineHeight: '16px',
-                  color: card.iconColor,
-                  textAlign: 'right'
-                }}>
+                <div 
+                  className="font-medium text-xs leading-4 text-right"
+                  style={{ color: card.iconColor }}
+                >
                   {card.pillText}
                 </div>
               )}
             </div>
 
             {/* Row 2 */}
-            <div className="flex items-baseline gap-[6px]" style={{ marginTop: '8px' }}>
-              <span style={{ fontWeight: 600, fontSize: '24px', lineHeight: '32px', color: '#0D1C2E' }}>
+            <div className="flex items-baseline gap-[6px] mt-2">
+              <span className="font-semibold text-2xl leading-8 text-[#0D1C2E]">
                 {card.value}
               </span>
               {card.unit && (
-                <span style={{ fontWeight: 400, fontSize: '14px', color: '#6B7280' }}>
+                <span className="font-normal text-sm text-[#6B7280]">
                   {card.unit}
                 </span>
               )}
             </div>
 
             {/* Row 3 */}
-            <div style={{ marginTop: '4px' }}>
-              <span style={{ fontWeight: 500, fontSize: '13px', lineHeight: '16px', color: '#464555' }}>
+            <div className="mt-1">
+              <span className="font-medium text-[13px] leading-4 text-[#464555]">
                 {card.title}
               </span>
             </div>

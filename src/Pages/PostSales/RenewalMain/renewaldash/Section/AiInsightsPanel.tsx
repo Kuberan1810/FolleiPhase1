@@ -1,7 +1,6 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ShieldTick } from 'iconsax-react';
+import { Bot } from 'lucide-react';
 import type { AiInsight } from '../RenewalDash';
+import { useNavigate } from 'react-router-dom';
 
 interface AiInsightsPanelProps {
   insights: AiInsight[];
@@ -34,7 +33,7 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
       
       <div style={{ zIndex: 1, position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <ShieldTick color="#0051D5" style={{ width: '22px', height: '19px'}} />
+          <Bot style={{ width: '22px', height: '22px', color: '#004370' }} />
           <h2 style={{
             margin: 0,
             fontWeight: 700,

@@ -7,43 +7,43 @@ interface Props {
 
 export default function ProductUsageCard({ data }: Props) {
   return (
-    <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
+      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Product Usage
       </h2>
-      <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px', marginBottom: '20px' }} />
+      <div className="border-b border-[#EDF3FD] mt-3 mb-5" />
 
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Seat Utilization</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', color: '#2563EB' }}>{data.seatUtilization}%</span>
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-medium text-base text-[#1B1B1D]">Seat Utilization</span>
+          <span className="font-semibold text-base text-[#2563EB]">{data.seatUtilization}%</span>
         </div>
-        <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
-          <div style={{ height: '8px', borderRadius: '999px', width: `${data.seatUtilization}%`, backgroundColor: '#2563EB' }} />
+        <div className="w-full h-2 rounded-full bg-[#EAE7E9]">
+          <div className="h-2 rounded-full bg-[#2563EB] transition-all duration-500" style={{ width: `${data.seatUtilization}%` }} />
         </div>
       </div>
 
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>Storage Usage</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', color: '#DC2626' }}>{data.storageUsage}%</span>
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-medium text-base text-[#1B1B1D]">Storage Usage</span>
+          <span className="font-semibold text-base text-[#DC2626]">{data.storageUsage}%</span>
         </div>
-        <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
-          <div style={{ height: '8px', borderRadius: '999px', width: `${data.storageUsage}%`, backgroundColor: '#DC2626' }} />
-        </div>
-      </div>
-
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={{ fontWeight: 500, fontSize: '16px', color: '#1B1B1D' }}>API Usage</span>
-          <span style={{ fontWeight: 600, fontSize: '16px', color: '#16A34A' }}>{data.apiUsage}%</span>
-        </div>
-        <div style={{ width: '100%', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
-          <div style={{ height: '8px', borderRadius: '999px', width: `${data.apiUsage}%`, backgroundColor: '#16A34A' }} />
+        <div className="w-full h-2 rounded-full bg-[#EAE7E9]">
+          <div className="h-2 rounded-full bg-[#DC2626] transition-all duration-500" style={{ width: `${data.storageUsage}%` }} />
         </div>
       </div>
 
-      <div style={{ flex: 1 }} />
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-medium text-base text-[#1B1B1D]">API Usage</span>
+          <span className="font-semibold text-base text-[#16A34A]">{data.apiUsage}%</span>
+        </div>
+        <div className="w-full h-2 rounded-full bg-[#EAE7E9]">
+          <div className="h-2 rounded-full bg-[#16A34A] transition-all duration-500" style={{ width: `${data.apiUsage}%` }} />
+        </div>
+      </div>
+
+      <div className="flex-1" />
     </div>
   );
 }

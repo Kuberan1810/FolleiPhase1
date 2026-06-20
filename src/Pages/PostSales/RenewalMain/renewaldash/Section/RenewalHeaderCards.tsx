@@ -7,65 +7,35 @@ interface RenewalHeaderCardsProps {
 
 export default function RenewalHeaderCards({ stats }: RenewalHeaderCardsProps) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 210px)', gap: '20px' }}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
       {stats.map((stat) => {
         let subBg = '';
         let subText = '';
         if (stat.subType === 'success') {
-          subBg = '#006A6A0D';
-          subText = '#006A6A';
+          subBg = 'bg-[#006A6A0D]';
+          subText = 'text-[#006A6A]';
         } else if (stat.subType === 'urgent') {
-          subBg = '#EBF0FF';
-          subText = '#316BF3';
+          subBg = 'bg-[#EBF0FF]';
+          subText = 'text-[#316BF3]';
         } else if (stat.subType === 'risk') {
-          subBg = '#FEE2E2';
-          subText = '#DC2626';
+          subBg = 'bg-[#FEE2E2]';
+          subText = 'text-[#DC2626]';
         }
 
         return (
           <div
             key={stat.id}
-            style={{
-              backgroundColor: '#EFEBEB',
-              width: '210px',
-              height: '155px',
-              borderRadius: '20px',
-              padding: '20px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
+            className="bg-[#EFEBEB] w-full sm:w-[210px] h-[155px] shrink-0 rounded-[20px] p-5 flex flex-col justify-between"
           >
-            <div style={{
-              fontWeight: 600,
-              fontSize: '12px',
-              lineHeight: '16px',
-              letterSpacing: '1.2px',
-              textTransform: 'uppercase',
-              color: '#64748B',
-            }}>
+            <div className="font-semibold text-xs leading-4 tracking-[1.2px] uppercase text-[#64748B]">
               {stat.label}
             </div>
 
-            <div style={{
-              fontWeight: 800,
-              fontSize: '36px',
-              lineHeight: '40px',
-              color: '#0D1C2E',
-            }}>
+            <div className="font-extrabold text-[36px] leading-10 text-[#0D1C2E]">
               {stat.value}
             </div>
 
-            <div style={{
-              fontWeight: 700,
-              fontSize: '12px',
-              lineHeight: '16px',
-              borderRadius: '6px',
-              padding: '2px 8px',
-              width: 'fit-content',
-              backgroundColor: subBg,
-              color: subText,
-            }}>
+            <div className={`font-bold text-xs leading-4 rounded-md px-2 py-0.5 w-fit ${subBg} ${subText}`}>
               {stat.subLabel}
             </div>
           </div>
