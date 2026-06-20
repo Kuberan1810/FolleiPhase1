@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
-import { FileText, Download } from 'lucide-react';
+import { DocumentText, Import } from 'iconsax-react';
 
 interface Props {
   data: RenewalDetailsData['activityTimeline'];
@@ -9,7 +9,7 @@ interface Props {
 export default function ActivityTimelineCard({ data }: Props) {
   return (
     <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+      <h2 style={{ fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
         Activity Timeline
       </h2>
       <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px', marginBottom: '24px' }} />
@@ -40,13 +40,13 @@ export default function ActivityTimelineCard({ data }: Props) {
 
               {/* Content */}
               <div style={{ paddingBottom: '32px', flex: 1 }}>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '13px', color: '#6B7280', display: 'block', marginBottom: '6px' }}>
+                <span style={{ fontWeight: 500, fontSize: '13px', color: '#6B7280', display: 'block', marginBottom: '6px' }}>
                   {item.timestamp}
                 </span>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', display: 'block', marginBottom: '8px' }}>
+                <span style={{ fontWeight: 700, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', display: 'block', marginBottom: '8px' }}>
                   {item.title}
                 </span>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '16px', lineHeight: '1.5', color: '#6B7280', display: 'block' }}>
+                <span style={{ fontWeight: 400, fontSize: '16px', lineHeight: '1.5', color: '#6B7280', display: 'block' }}>
                   {item.description}
                 </span>
 
@@ -61,8 +61,8 @@ export default function ActivityTimelineCard({ data }: Props) {
                     padding: '12px 16px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileText style={{ width: '18px', height: '18px', color: '#45464D' }} />
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '14px', color: '#1B1B1D' }}>
+                      <DocumentText color="#45464D" style={{ width: '18px', height: '18px'}} />
+                      <span style={{ fontWeight: 500, fontSize: '14px', color: '#1B1B1D' }}>
                         {item.file.name}
                       </span>
                     </div>
@@ -72,11 +72,10 @@ export default function ActivityTimelineCard({ data }: Props) {
                       gap: '4px', 
                       textDecoration: 'none', 
                       color: '#004370', 
-                      fontFamily: 'Urbanist', 
                       fontWeight: 600, 
                       fontSize: '14px' 
                     }}>
-                      Download
+                      Import
                     </a>
                   </div>
                 )}

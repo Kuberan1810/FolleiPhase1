@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { RenewalRow } from '../RenewalDash';
+import BtnComSecondary from '../../../../../Component/BtnComSecondary';
+import { ArrowRight } from 'iconsax-react';
 
 interface UpcomingRenewalTableProps {
   rows: RenewalRow[];
@@ -24,7 +26,6 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
         <div>
           <h2 style={{
             margin: 0,
-            fontFamily: 'Urbanist',
             fontWeight: 600,
             fontSize: '20px',
             lineHeight: '28px',
@@ -32,31 +33,26 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
           }}>Upcoming Renewal</h2>
           <p style={{
             margin: 0,
-            fontFamily: 'Urbanist',
             fontWeight: 400,
             fontSize: '14px',
             lineHeight: '20px',
             color: '#64748B'
           }}>Managing 08 New leads this hour</p>
         </div>
-        <div style={{
-          fontFamily: 'Urbanist',
-          fontWeight: 700,
-          fontSize: '14px',
-          lineHeight: '20px',
-          color: '#004370',
-          cursor: 'pointer'
-        }}>
-          View All
-        </div>
+        <BtnComSecondary 
+          label="View All" 
+          icon={<ArrowRight size={16} />} 
+          iconPosition="right" 
+          onClick={() => navigate('/postsales/renewals/list')} 
+        />
       </div>
 
       <table style={{ width: '100%', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
         <thead style={{ backgroundColor: '#F6FAFF', height: '52px' }}>
           <tr>
-            <th style={{ width: '40%', textAlign: 'left', padding: '0 24px', fontFamily: 'Urbanist', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>CUSTOMER NAME</th>
-            <th style={{ width: '35%', textAlign: 'left', padding: '0 24px', fontFamily: 'Urbanist', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>STATUS</th>
-            <th style={{ width: '25%', textAlign: 'left', padding: '0 24px', fontFamily: 'Urbanist', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>PLAN</th>
+            <th style={{ width: '40%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>CUSTOMER NAME</th>
+            <th style={{ width: '35%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>STATUS</th>
+            <th style={{ width: '25%', textAlign: 'left', padding: '0 24px', fontWeight: 700, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#434655' }}>PLAN</th>
           </tr>
         </thead>
         <tbody>
@@ -88,14 +84,14 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
                 <td style={{ width: '40%', padding: '0 24px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ width: '40px', height: '40px', borderRadius: '999px', backgroundColor: row.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#222222' }}>{row.initials}</span>
+                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#222222' }}>{row.initials}</span>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>{row.name}</span>
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>{row.email}</span>
+                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>{row.name}</span>
+                      <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>{row.email}</span>
                     </div>
                     <div style={{ marginLeft: 'auto' }}>
-                      <div style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#222222', backgroundColor: '#E4EDFF', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
+                      <div style={{ fontWeight: 600, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#222222', backgroundColor: '#E4EDFF', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
                         {row.plan}
                       </div>
                     </div>
@@ -104,10 +100,10 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
                 <td style={{ width: '35%', padding: '0 24px' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center' }}>
                     <div style={{ textAlign: 'left' }}>
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#0D1C2E' }}>{row.date}</span>
+                      <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#0D1C2E' }}>{row.date}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <div style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '14px', lineHeight: '15px', borderRadius: '6px', padding: '4px 10px', width: 'fit-content', color: statusColor, backgroundColor: statusBg }}>
+                      <div style={{ fontWeight: 700, fontSize: '14px', lineHeight: '15px', borderRadius: '6px', padding: '4px 10px', width: 'fit-content', color: statusColor, backgroundColor: statusBg }}>
                         {row.status}
                       </div>
                     </div>
@@ -118,7 +114,7 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
                     <div style={{ flex: 1, height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
                       <div style={{ width: `${row.score}%`, height: '100%', borderRadius: '999px', backgroundColor: scoreColor }}></div>
                     </div>
-                    <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: scoreColor }}>{row.score}</span>
+                    <span style={{ fontWeight: 700, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: scoreColor }}>{row.score}</span>
                   </div>
                 </td>
               </tr>

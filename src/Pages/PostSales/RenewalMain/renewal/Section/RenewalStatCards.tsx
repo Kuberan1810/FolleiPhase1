@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Calendar, UserCheck } from 'lucide-react';
+import { Profile2User, Calendar, UserTick } from 'iconsax-react';
 import type { RenewalStatCard } from '../Renewal';
 
 interface RenewalStatCardsProps {
@@ -8,10 +8,10 @@ interface RenewalStatCardsProps {
 
 export default function RenewalStatCards({ cards }: RenewalStatCardsProps) {
   const renderIcon = (iconName: string) => {
-    const props = { style: { width: '18.82px', height: '14.55px', color: '#004370' } };
-    if (iconName === 'users') return <Users {...props} />;
+    const props = { color: '#004370', style: { width: '18.82px', height: '14.55px' } };
+    if (iconName === 'users') return <Profile2User {...props} />;
     if (iconName === 'calendar') return <Calendar {...props} />;
-    if (iconName === 'userCheck') return <UserCheck {...props} />;
+    if (iconName === 'userCheck') return <UserTick {...props} />;
     return null;
   };
 
@@ -26,7 +26,6 @@ export default function RenewalStatCards({ cards }: RenewalStatCardsProps) {
             </div>
             <div>
               <span style={{
-                fontFamily: 'Inter',
                 fontWeight: 500,
                 fontSize: '12px',
                 lineHeight: '14.4px',
@@ -52,7 +51,7 @@ export default function RenewalStatCards({ cards }: RenewalStatCardsProps) {
 
           {/* Row 3: Number */}
           <div className="mt-1 flex items-baseline gap-2">
-            <span style={{ fontFamily: 'Manrope', fontSize: '36px', fontWeight: 800, lineHeight: '40px', color: '#191C1E' }}>
+            <span style={{ fontSize: '36px', fontWeight: 800, lineHeight: '40px', color: '#191C1E' }}>
               {card.value}
             </span>
           </div>

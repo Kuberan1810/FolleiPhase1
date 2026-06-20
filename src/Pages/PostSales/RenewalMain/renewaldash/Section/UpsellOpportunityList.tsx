@@ -1,12 +1,16 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MagicStar } from 'iconsax-react';
 import type { UpsellItem } from '../RenewalDash';
+import BtnComSecondary from '../../../../../Component/BtnComSecondary';
+import { ArrowRight } from 'iconsax-react';
 
 interface UpsellOpportunityListProps {
   upsells: UpsellItem[];
 }
 
 export default function UpsellOpportunityList({ upsells }: UpsellOpportunityListProps) {
+  const navigate = useNavigate();
   return (
     <div style={{
       backgroundColor: '#FFFFFF',
@@ -18,7 +22,6 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
         <div>
           <h2 style={{
             margin: 0,
-            fontFamily: 'Urbanist',
             fontWeight: 600,
             fontSize: '20px',
             lineHeight: '36px',
@@ -26,24 +29,18 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
           }}>Upsell Opportunities</h2>
           <p style={{
             margin: 0,
-            fontFamily: 'Urbanist',
             fontWeight: 400,
             fontSize: '14px',
             lineHeight: '20px',
             color: '#64748B'
           }}>AI-recommended plan upgrades and add-ons</p>
         </div>
-        <div style={{
-          fontFamily: 'Urbanist',
-          fontWeight: 700,
-          fontSize: '14px',
-          lineHeight: '20px',
-          color: '#004370',
-          textAlign: 'center',
-          cursor: 'pointer'
-        }}>
-          View All
-        </div>
+        <BtnComSecondary 
+          label="View All" 
+          icon={<ArrowRight size={16} />} 
+          iconPosition="right" 
+          onClick={() => navigate('/postsales/renewals/list')} 
+        />
       </div>
 
       <div>
@@ -67,14 +64,12 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
                 />
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{
-                    fontFamily: 'Urbanist',
                     fontWeight: 600,
                     fontSize: '18px',
                     lineHeight: '24px',
                     color: '#0D1C2E'
                   }}>{upsell.name}</span>
                   <span style={{
-                    fontFamily: 'Urbanist',
                     fontWeight: 400,
                     fontSize: '14px',
                     lineHeight: '20px',
@@ -85,14 +80,12 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
               
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                 <span style={{
-                  fontFamily: 'Urbanist',
                   fontWeight: 700,
                   fontSize: '18px',
                   lineHeight: '33.6px',
                   color: '#0D1C2E'
                 }}>{upsell.amount}</span>
                 <span style={{
-                  fontFamily: 'Urbanist',
                   fontWeight: 600,
                   fontSize: '12px',
                   lineHeight: '16px',
@@ -114,9 +107,8 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
               alignItems: 'flex-start',
               gap: '8px'
             }}>
-              <Sparkles style={{ width: '22px', height: '22px', color: '#636365', flexShrink: 0, marginTop: '2px' }} />
+              <MagicStar color="#636365" style={{ width: '22px', height: '22px', flexShrink: 0, marginTop: '2px' }} />
               <span style={{
-                fontFamily: 'Urbanist',
                 fontWeight: 400,
                 fontSize: '13px',
                 lineHeight: '21.13px',

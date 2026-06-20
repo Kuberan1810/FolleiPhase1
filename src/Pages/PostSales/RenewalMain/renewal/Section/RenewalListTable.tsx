@@ -54,15 +54,15 @@ export default function RenewalListTable({ rows, onRowClick }: RenewalListTableP
                       style={{ width: '40px', height: '40px', borderRadius: '999px', objectFit: 'cover' }} 
                     />
                     <div className="flex flex-col">
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>{row.name}</span>
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>{row.email}</span>
+                      <span style={{ fontWeight: 600, fontSize: '18px', lineHeight: '24px', color: '#0D1C2E' }}>{row.name}</span>
+                      <span style={{ fontWeight: 400, fontSize: '14px', lineHeight: '20px', color: '#434655' }}>{row.email}</span>
                     </div>
                   </div>
                 </td>
                 
                 <td className="px-[10px] py-0 text-center" style={{ verticalAlign: 'middle' }}>
                   <div className="flex justify-center">
-                    <div style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#222222', backgroundColor: '#E4EDFF', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
+                    <div style={{ fontWeight: 600, fontSize: '12px', lineHeight: '16px', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#222222', backgroundColor: '#E4EDFF', borderRadius: '6px', padding: '4px 10px', width: 'fit-content' }}>
                       {row.plan}
                     </div>
                   </div>
@@ -70,13 +70,13 @@ export default function RenewalListTable({ rows, onRowClick }: RenewalListTableP
 
                 <td className="px-[10px] py-0 text-center" style={{ verticalAlign: 'middle' }}>
                   <div className="flex justify-center">
-                    <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#0D1C2E' }}>{row.date}</span>
+                    <span style={{ fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#0D1C2E' }}>{row.date}</span>
                   </div>
                 </td>
 
                 <td className="px-[10px] py-0 text-center" style={{ verticalAlign: 'middle' }}>
                   <div className="flex justify-center">
-                    <div style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '14px', lineHeight: '15px', borderRadius: '6px', padding: '4px 10px', width: 'fit-content', color: statusColor, backgroundColor: statusBg }}>
+                    <div style={{ fontWeight: 700, fontSize: '14px', lineHeight: '15px', borderRadius: '6px', padding: '4px 10px', width: 'fit-content', color: statusColor, backgroundColor: statusBg }}>
                       {row.status}
                     </div>
                   </div>
@@ -87,7 +87,7 @@ export default function RenewalListTable({ rows, onRowClick }: RenewalListTableP
                     <div style={{ width: '100px', height: '8px', borderRadius: '999px', backgroundColor: '#EAE7E9' }}>
                       <div style={{ width: `${row.score}%`, height: '100%', borderRadius: '999px', backgroundColor: scoreColor }}></div>
                     </div>
-                    <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: scoreColor }}>{row.score}</span>
+                    <span style={{ fontWeight: 700, fontSize: '12px', lineHeight: '14.4px', letterSpacing: '0.12px', color: scoreColor }}>{row.score}</span>
                   </div>
                 </td>
               </tr>

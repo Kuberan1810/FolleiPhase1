@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Plus } from 'lucide-react';
+import { Import, Add } from 'iconsax-react';
 
 export default function RenewalActionButtons() {
   return (
@@ -7,7 +7,6 @@ export default function RenewalActionButtons() {
       <button className="hover:bg-[#003258] transition-colors duration-200" style={{
         backgroundColor: '#004370',
         color: '#FFFFFF',
-        fontFamily: 'Inter',
         fontWeight: 700,
         fontSize: '13px',
         lineHeight: '16px',
@@ -20,14 +19,13 @@ export default function RenewalActionButtons() {
         cursor: 'pointer',
         border: 'none'
       }}>
-        <Download style={{ width: '13.33px', height: '13.33px' }} />
+        <Import style={{ width: '13.33px', height: '13.33px' }} />
         Export
       </button>
 
       <button className="hover:bg-[#003258] transition-colors duration-200" style={{
         backgroundColor: '#004370',
         color: '#FFFFFF',
-        fontFamily: 'Inter',
         fontWeight: 700,
         fontSize: '13px',
         lineHeight: '16px',
@@ -40,7 +38,7 @@ export default function RenewalActionButtons() {
         cursor: 'pointer',
         border: 'none'
       }}>
-        <Plus style={{ width: '13.33px', height: '13.33px' }} />
+        <Add style={{ width: '13.33px', height: '13.33px' }} />
         Add Entry
       </button>
     </div>
