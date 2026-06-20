@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import type { AiInsight } from '../RenewalDash';
 
 interface AiInsightsPanelProps {
@@ -32,7 +31,7 @@ export default function AiInsightsPanel({ insights }: AiInsightsPanelProps) {
       
       <div style={{ zIndex: 1, position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-          <ShieldCheck style={{ width: '22px', height: '19px', color: '#0051D5' }} />
+          <Bot style={{ width: '22px', height: '22px', color: '#004370' }} />
           <h2 style={{
             margin: 0,
             fontFamily: 'Urbanist',

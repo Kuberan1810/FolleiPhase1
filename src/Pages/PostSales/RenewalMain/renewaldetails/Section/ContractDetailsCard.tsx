@@ -6,45 +6,45 @@ interface Props {
 }
 
 export default function ContractDetailsCard({ data }: Props) {
-  const rowStyle = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid #EDF3FD' };
+  const rowClass = "flex justify-between items-center py-3.5 border-b border-[#EDF3FD]";
 
   return (
-    <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
+      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Contract Details
       </h2>
-      <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px' }} />
+      <div className="border-b border-[#EDF3FD] mt-3" />
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Contract ID</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.contractId}</span>
+      <div className="flex flex-col">
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Contract ID</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.contractId}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Start Date</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.startDate}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Start Date</span>
+          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.startDate}</span>
         </div>
-        <div style={rowStyle}>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '16px', lineHeight: '24px', color: '#6B7280' }}>Expiry Date</span>
-          <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#DC2626' }}>{data.expiryDate}</span>
+        <div className={rowClass}>
+          <span className="font-medium text-base leading-6 text-[#6B7280]">Expiry Date</span>
+          <span className="font-semibold text-base leading-[120%] text-[#DC2626]">{data.expiryDate}</span>
         </div>
       </div>
 
-      <div style={{ flex: 1 }} />
+      <div className="flex-1" />
 
-      <div style={{ marginTop: '16px' }}>
-        <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '14px', lineHeight: '24px', textTransform: 'uppercase', color: '#6B7280' }}>
+      <div className="mt-4">
+        <span className="font-semibold text-sm leading-6 uppercase text-[#6B7280]">
           ACCOUNT MANAGER
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '999px', backgroundColor: 'rgba(220,38,38,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '16px', lineHeight: '24px', textAlign: 'center', color: '#DC2626' }}>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="w-10 h-10 rounded-full bg-[rgba(220,38,38,0.1)] flex items-center justify-center">
+            <span className="font-bold text-base leading-6 text-center text-[#DC2626]">
               {data.accountManager.initials}
             </span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '16px', lineHeight: '120%', color: '#1B1B1D' }}>{data.accountManager.name}</span>
-            <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '14px', lineHeight: '120%', color: '#6B7280' }}>{data.accountManager.role}</span>
+          <div className="flex flex-col">
+            <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.accountManager.name}</span>
+            <span className="font-normal text-sm leading-[120%] text-[#6B7280]">{data.accountManager.role}</span>
           </div>
         </div>
       </div>

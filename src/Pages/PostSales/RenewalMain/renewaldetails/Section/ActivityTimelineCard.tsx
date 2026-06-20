@@ -1,6 +1,6 @@
 import React from 'react';
 import type { RenewalDetailsData } from '../RenewalDetailsPage';
-import { FileText, Download } from 'lucide-react';
+import { DocumentText } from 'iconsax-react';
 
 interface Props {
   data: RenewalDetailsData['activityTimeline'];
@@ -8,74 +8,54 @@ interface Props {
 
 export default function ActivityTimelineCard({ data }: Props) {
   return (
-    <div className="BoxStyle" style={{ backgroundColor: '#FFFFFF', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ fontFamily: 'Urbanist', fontWeight: 600, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', margin: 0 }}>
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
+      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
         Activity Timeline
       </h2>
-      <div style={{ borderBottom: '1px solid #EDF3FD', marginTop: '12px', marginBottom: '24px' }} />
+      <div className="border-b border-[#EDF3FD] mt-3 mb-6" />
 
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+      <div className="flex flex-col flex-1 justify-between">
         {data.map((item, idx) => {
           const isFirst = idx === 0;
           const isLast = idx === data.length - 1;
 
           return (
-            <div key={item.id} style={{ display: 'flex', position: 'relative', flex: 1 }}>
+            <div key={item.id} className="flex relative flex-1">
               {/* Timeline graphic */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '20px' }}>
-                <div style={{ 
-                  width: '12px', 
-                  height: '12px', 
-                  borderRadius: '999px', 
-                  backgroundColor: isFirst ? '#0051D5' : '#9CA3AF',
-                  boxShadow: '0px 0px 0px 4px #DBE1FF',
-                  zIndex: 1,
-                  marginTop: '6px',
-                  flexShrink: 0
-                }} />
+              <div className="flex flex-col items-center mr-5">
+                <div 
+                  className={`w-3 h-3 rounded-full z-10 mt-1.5 shrink-0 ${isFirst ? 'shadow-[0px_0px_0px_4px_#DBE1FF]' : 'shadow-[0px_0px_0px_4px_#F3F4F6]'}`}
+                  style={{ backgroundColor: isFirst ? '#0051D5' : '#000000' }}
+                />
                 {!isLast && (
-                  <div style={{ width: '2px', flex: 1, backgroundColor: '#EAE7E9', marginTop: '4px', marginBottom: '-6px' }} />
+                  <div className="w-[2px] flex-1 bg-[#EAE7E9] mt-1 -mb-1.5" />
                 )}
               </div>
 
               {/* Content */}
-              <div style={{ paddingBottom: '32px', flex: 1 }}>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '13px', color: '#6B7280', display: 'block', marginBottom: '6px' }}>
+              <div className="pb-8 flex-1">
+                <span className="font-medium text-[13px] text-[#6B7280] block mb-1.5">
                   {item.timestamp}
                 </span>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 700, fontSize: '20px', lineHeight: '24px', color: '#0D1C2E', display: 'block', marginBottom: '8px' }}>
+                <span className="font-bold text-xl leading-6 text-[#0D1C2E] block mb-2">
                   {item.title}
                 </span>
-                <span style={{ fontFamily: 'Urbanist', fontWeight: 400, fontSize: '16px', lineHeight: '1.5', color: '#6B7280', display: 'block' }}>
+                <span className="font-normal text-base leading-relaxed text-[#6B7280] block">
                   {item.description}
                 </span>
 
                 {item.file && (
-                  <div style={{ 
-                    marginTop: '16px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between',
-                    backgroundColor: '#F7F9FB',
-                    borderRadius: '8px',
-                    padding: '12px 16px'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileText style={{ width: '18px', height: '18px', color: '#45464D' }} />
-                      <span style={{ fontFamily: 'Urbanist', fontWeight: 500, fontSize: '14px', color: '#1B1B1D' }}>
+                  <div className="mt-4 flex items-center justify-between bg-[#F7F9FB] rounded-lg px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <DocumentText size="18" color="#004370" variant="Linear" />
+                        <span className="font-medium text-sm text-[#1B1B1D]">
                         {item.file.name}
                       </span>
                     </div>
-                    <a href={item.file.url} style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '4px', 
-                      textDecoration: 'none', 
-                      color: '#004370', 
-                      fontFamily: 'Urbanist', 
-                      fontWeight: 600, 
-                      fontSize: '14px' 
-                    }}>
+                    <a 
+                      href={item.file.url} 
+                      className="flex items-center gap-1 no-underline text-[#004370] font-semibold text-sm hover:underline"
+                    >
                       Download
                     </a>
                   </div>

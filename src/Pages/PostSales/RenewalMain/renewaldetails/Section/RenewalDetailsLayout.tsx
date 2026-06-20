@@ -13,16 +13,16 @@ export default function RenewalDetailsLayout() {
   const [data] = useState(mockRenewalDetailsData);
 
   return (
-    <div style={{ paddingBottom: '40px' }}>
+    <div className="pb-10">
       <RenewalDetailsHeader />
       
-      <div style={{ marginTop: '24px', marginBottom: '24px' }}>
+      <div className="my-6">
         <RenewalDetailsStatCards cards={data.statCards} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginTop: '24px' }}>
+      <div className="flex flex-col lg:grid lg:grid-cols-[2fr_1fr] gap-6 mt-6">
         {/* Left 2 columns */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <CustomerOverviewCard data={data.customerOverview} />
           <ContractDetailsCard data={data.contractDetails} />
           
@@ -31,8 +31,8 @@ export default function RenewalDetailsLayout() {
         </div>
         
         {/* Right 1 column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div style={{ flex: 1 }}>
+        <div className="flex flex-col gap-6">
+          <div className="flex-1">
             <ActivityTimelineCard data={data.activityTimeline} />
           </div>
           <div>

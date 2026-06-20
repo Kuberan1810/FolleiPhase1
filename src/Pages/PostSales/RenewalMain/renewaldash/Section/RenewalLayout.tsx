@@ -16,32 +16,18 @@ export default function RenewalLayout() {
   const [upsells] = useState(mockUpsells);
 
   return (
-    <div>
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{
-          margin: 0,
-          fontFamily: 'Urbanist',
-          fontWeight: 800,
-          fontSize: '30px',
-          lineHeight: '36px',
-          color: '#0D1C2E',
-        }}>
+    <div className="w-full">
+      <div className="mb-6">
+        <h1 className="m-0 font-extrabold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
           Renewal Management
         </h1>
-        <p style={{
-          margin: 0,
-          fontFamily: 'Urbanist',
-          fontWeight: 400,
-          fontSize: '16px',
-          lineHeight: '36px',
-          color: '#6B7280',
-        }}>
+        <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
           Monitor upcoming renewals, reduce churn risk, and maximize recurring revenue.
         </p>
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-shrink-0">
+      <div className="flex flex-col xl:flex-row gap-6">
+        <div className="w-full xl:w-auto xl:flex-shrink-0">
           <RenewalHeaderCards stats={stats} />
         </div>
         <div className="flex-1 min-w-0">
@@ -49,11 +35,11 @@ export default function RenewalLayout() {
         </div>
       </div>
 
-      <div className="flex gap-6 items-stretch mt-6">
+      <div className="flex flex-col lg:flex-row gap-6 items-stretch mt-6">
         <div className="flex-1 min-w-0">
           <UpcomingRenewalTable rows={renewalRows} />
         </div>
-        <div className="w-[380px] flex-shrink-0 flex flex-col gap-4">
+        <div className="w-full lg:w-[380px] flex-shrink-0 flex flex-col gap-4">
           <AiInsightsPanel insights={aiInsights} />
           <RevenueForecastPanel forecast={forecast} />
         </div>

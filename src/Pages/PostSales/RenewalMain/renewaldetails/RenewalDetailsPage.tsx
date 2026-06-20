@@ -1,4 +1,3 @@
-import React from 'react';
 import RenewalDetailsLayout from './Section/RenewalDetailsLayout';
 
 export type RenewalDetailsStatCard = {
