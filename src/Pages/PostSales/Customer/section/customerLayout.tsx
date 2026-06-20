@@ -10,8 +10,6 @@ const mockCustomers: Customer[] = [
         name: 'Sophia Miller',
         email: 'sophia.m@gmail.com',
         initials: 'SM',
-        logoColor: 'bg-[#E1EDFE]',
-        textColor: 'text-[#01539D]',
         status: 'Active',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -29,8 +27,6 @@ const mockCustomers: Customer[] = [
         name: 'Noah Davis',
         email: 'noah03@gmail.com',
         initials: 'ND',
-        logoColor: 'bg-[#FFF1F2]',
-        textColor: 'text-[#BE123C]',
         status: 'Active',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -48,8 +44,6 @@ const mockCustomers: Customer[] = [
         name: 'Liam Anderson',
         email: 'anderson@gmail.com',
         initials: 'LA',
-        logoColor: 'bg-[#ECFDF5]',
-        textColor: 'text-[#047857]',
         status: 'At Risk',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -67,8 +61,6 @@ const mockCustomers: Customer[] = [
         name: 'Mia Thompson',
         email: 'miathompson09@gmail.com',
         initials: 'MT',
-        logoColor: 'bg-[#FDF4FF]',
-        textColor: 'text-[#A21CAF]',
         status: 'Onboarding',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -86,8 +78,6 @@ const mockCustomers: Customer[] = [
         name: 'Benjamin Clark',
         email: 'ben08@gmail.com',
         initials: 'BC',
-        logoColor: 'bg-[#FEF3C7]',
-        textColor: 'text-[#D97706]',
         status: 'At Risk',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -105,8 +95,6 @@ const mockCustomers: Customer[] = [
         name: 'Meera Nair',
         email: 'meera04@gmail.com',
         initials: 'MN',
-        logoColor: 'bg-[#EEF2FF]',
-        textColor: 'text-[#4F46E5]',
         status: 'Renewal Due',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -124,8 +112,6 @@ const mockCustomers: Customer[] = [
         name: 'Emma Wilson',
         email: 'emmaw@gmail.com',
         initials: 'EW',
-        logoColor: 'bg-[#ECFDF5]',
-        textColor: 'text-[#065F46]',
         status: 'Active',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -143,8 +129,6 @@ const mockCustomers: Customer[] = [
         name: 'Ananya Rao',
         email: 'ananya62@gmail.com',
         initials: 'AR',
-        logoColor: 'bg-[#E0F2FE]',
-        textColor: 'text-[#0369A1]',
         status: 'Onboarding',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -162,8 +146,6 @@ const mockCustomers: Customer[] = [
         name: 'James Miller',
         email: 'james32@gmail.com',
         initials: 'JM',
-        logoColor: 'bg-[#FAF5FF]',
-        textColor: 'text-[#6B21A8]',
         status: 'Renewal Due',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -181,8 +163,6 @@ const mockCustomers: Customer[] = [
         name: 'Marcus Bennett',
         email: 'm.bennett@gmail.com',
         initials: 'MB',
-        logoColor: 'bg-[#FEF3C7]',
-        textColor: 'text-[#92400E]',
         status: 'Onboarding',
         renewalDate: 'Jan 28, 2026',
         daysRemaining: '45 days',
@@ -202,7 +182,9 @@ const PostSalesCustomer = () => {
     const [customersList] = useState<Customer[]>(mockCustomers);
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(mockCustomers[0]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedLetter, setSelectedLetter] = useState('All'); const [statusFilter, setStatusFilter] = useState<'All' | 'Active' | 'At Risk' | 'Onboarding' | 'Renewal Due'>('All');
+    const [selectedLetter, setSelectedLetter] = useState('All');
+    const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+    const [selectedUsages, setSelectedUsages] = useState<string[]>([]);
     const [sortOption, setSortOption] = useState<'Newest' | 'Name'>('Newest');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -210,7 +192,7 @@ const PostSalesCustomer = () => {
 
     React.useEffect(() => {
         setCurrentPage(1);
-    }, [searchQuery, statusFilter, selectedLetter]);
+    }, [searchQuery, selectedStatuses, selectedUsages, selectedLetter]);
 
     const handleExportCSV = () => {
         const headers = ['Customer ID', 'Name', 'Email', 'Status', 'Renewal Date', 'Usage', 'Last Activity', 'Phone', 'Location', 'Company'];
@@ -246,10 +228,11 @@ const PostSalesCustomer = () => {
             cust.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
             cust.id.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const matchesStatus = statusFilter === 'All' || cust.status === statusFilter;
+        const matchesStatus = selectedStatuses.length === 0 || selectedStatuses.includes(cust.status);
+        const matchesUsage = selectedUsages.length === 0 || selectedUsages.includes(cust.usage);
         const matchesLetter = selectedLetter === 'All' || cust.name.trim().toUpperCase().startsWith(selectedLetter.toUpperCase());
 
-        return matchesSearch && matchesStatus && matchesLetter;
+        return matchesSearch && matchesStatus && matchesUsage && matchesLetter;
     }).sort((a, b) => {
         if (sortOption === 'Name') {
             return a.name.localeCompare(b.name);
@@ -267,8 +250,12 @@ const PostSalesCustomer = () => {
         <div className="min-h-screen ">
             {/* Header & Controls Section */}
             <CustomerHeader
-                statusFilter={statusFilter}
-                setStatusFilter={setStatusFilter}
+                selectedStatuses={selectedStatuses}
+                selectedUsages={selectedUsages}
+                onApplyFilters={(filters) => {
+                    setSelectedStatuses(filters.statuses);
+                    setSelectedUsages(filters.usages);
+                }}
                 sortOption={sortOption}
                 setSortOption={setSortOption}
                 onExport={handleExportCSV}

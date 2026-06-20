@@ -37,11 +37,10 @@ import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
-
-import PostSalesOutboundCadences from "../Pages/PostSales/Cadences/Cadences"
 import RenewalDash from "../Pages/PostSales/RenewalMain/renewaldash/RenewalDash";
 import Renewal from "../Pages/PostSales/RenewalMain/renewal/Renewal";
 import RenewalDetailsPage from "../Pages/PostSales/RenewalMain/renewaldetails/RenewalDetailsPage";
+import PostSalesTickets from "../Pages/PostSales/Tickets/Ticket";
 
 
 // Settings Pages
@@ -127,7 +126,6 @@ export default function AppRoutes() {
           <Route path=":id/campaign-lead" element={<CampaignLeadList />} />
         </Route>
 
-        <Route path="cadences" element={<PostSalesOutboundCadences />} />
         <Route path="data-import" element={<Orchestrator />} />
         <Route path="organization-setup" element={<CompanyDetails />} />
       </Route>
@@ -143,14 +141,17 @@ export default function AppRoutes() {
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>
 
+
         <Route path="renewals">
           <Route index element={<RenewalDash />} />
           <Route path="list" element={<Renewal />} />
           <Route path=":renewalId" element={<RenewalDetailsPage />} />
         </Route>
 
-      </Route>
 
+        <Route path="tickets" element={<PostSalesTickets />} />
+
+      </Route>
       {/* ==========================================
                         SETTINGS ROUTES 
             ========================================== */}

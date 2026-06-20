@@ -1,40 +1,30 @@
 import React from 'react';
-import { FileText } from 'lucide-react';
+import { FileText, FileSpreadsheet, FileIcon } from 'lucide-react';
 
-const AttachmentsCard: React.FC = () => {
+const AttachmentsCard = () => {
   const files = [
-    { name: 'Invoice_June_2026.pdf', size: '2.4 MB', type: 'PDF', color: 'text-[#EF4444]', bg: 'bg-[#FEF2F2]' },
-    { name: 'Implementation_plan.docx', size: '1.8 MB', type: 'DOCX', color: 'text-[#3B82F6]', bg: 'bg-[#EFF6FF]' },
-    { name: 'Pricing_Sheet.xlsx', size: '1.2 MB', type: 'XLSX', color: 'text-[#22C55E]', bg: 'bg-[#F0FDF4]' }
+    { icon: FileText, name: 'Invoice_June_2026.pdf', size: '2.4 MB • PDF', color: 'text-[#EF4444]', bg: 'bg-[#EF444410]' },
+    { icon: FileIcon, name: 'Implementation_Plan.docx', size: '1.1 MB • DOCX', color: 'text-[#3B82F6]', bg: 'bg-[#3B82F610]' },
+    { icon: FileSpreadsheet, name: 'Pricing_Sheet.xlsx', size: '850 KB • XLSX', color: 'text-[#22C55E]', bg: 'bg-[#22C55E10]' },
   ];
 
   return (
-    <div className="bg-white border border-[#EEF0FF] rounded-[20px] p-6 shadow-[0_4px_20px_rgba(237,243,253,0.25)] flex flex-col gap-4">
-      <h3 className="text-[16px] font-bold text-[#0D1C2E] ">Attachments</h3>
-
-      <div className="flex flex-col gap-3">
-        {files.map((file, i) => (
-          <div
-            key={i}
-            className="flex items-center justify-between p-3 cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-[4px] ${file.bg} ${file.color} flex items-center justify-center shrink-0`}>
-                <FileText className="w-4.5 h-4.5" />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-[12px] font-bold text-[#1E293B] truncate">{file.name}</span>
-                <span className="text-[9px] text-[#94A3B8] font-medium mt-0.5">
-                  {file.size} • {file.type}
-                </span>
-              </div>
+    <div className="BoxStyle">
+      <h2 className="text-[20px] font-bold text-[#191C1E] mb-7">Attachments</h2>
+      <div className="flex flex-col gap-5">
+        {files.map((f, i) => (
+          <div key={i} className="flex items-center gap-4">
+            <div className={`w-10 h-10 rounded-[12px] ${f.bg} flex items-center justify-center shrink-0`}>
+              <f.icon className={`w-5 h-5 ${f.color}`} />
             </div>
-
+            <div className="flex flex-col">
+              <span className="text-[16px] font-bold text-[#1E293B] mb-0.5">{f.name}</span>
+              <span className="text-[12px] font-medium text-[#94A3B8] uppercase tracking-wide">{f.size}</span>
+            </div>
           </div>
         ))}
       </div>
     </div>
-  );
-};
-
+  )
+}
 export default AttachmentsCard;
