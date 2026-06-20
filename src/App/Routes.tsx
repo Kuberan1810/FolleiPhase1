@@ -68,6 +68,7 @@ import UploadCompanyData from "../Pages/OnBoarding/uploadData";
 import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
+import Analytics from "../Pages/PostSales/Analytics/Analytics";
 
 export default function AppRoutes() {
   return (
@@ -141,6 +142,7 @@ export default function AppRoutes() {
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>
 
+        <Route path="tickets" element={<PostSalesTickets />} />
 
         <Route path="renewals">
           <Route index element={<RenewalDash />} />
@@ -148,8 +150,9 @@ export default function AppRoutes() {
           <Route path=":renewalId" element={<RenewalDetailsPage />} />
         </Route>
 
+        <Route path="analytics" element={<Analytics />} />
 
-        <Route path="tickets" element={<PostSalesTickets />} />
+
 
       </Route>
       {/* ==========================================

@@ -257,9 +257,9 @@ const KanbanView: React.FC<KanbanViewProps> = ({
               style={{
                 height: '48px',
                 boxSizing: 'border-box',
-                padding: '12px',
+                padding: '12px 4px',
                 borderTop: `2px solid ${activeColorSource.borderColor}`,
-                backgroundColor: activeColorSource.bgColor,
+                backgroundColor: 'transparent',
                 color: activeColorSource.textColor,
                 fontFamily: 'Inter, sans-serif'
               }}
@@ -278,7 +278,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <span
                   className="inline-flex items-center justify-center font-semibold text-[10px] w-[22px] h-[22px] rounded-full leading-[16px] tracking-normal"
                   style={{
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: activeColorSource.bgColor,
                     color: activeColorSource.borderColor,
                     border: `1px solid ${activeColorSource.borderColor}33`
                   }}
@@ -302,7 +302,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <div
                   key={lead.id}
                   onClick={() => onLeadClick(lead)}
-                  className="BoxStyle p-4 cursor-pointer hover:shadow-md transition-all flex flex-col justify-between"
+                  className="p-4 cursor-pointer transition-all flex flex-col justify-between rounded-[16px] border bg-[#FCFCFC] border-[#EDF3FB] opacity-90"
                 >
                   {/* Lead Info */}
                   <div>
@@ -330,7 +330,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
 
                   {/* Footer actions and value */}
                   <div>
-                    <div className="border-t border-slate-100 my-3.5" />
+                    <div className="border-t border-slate-100/50 my-3.5" />
                     <div className="flex justify-between items-center text-slate-500">
                       <div className="flex items-center gap-3">
                         <Phone className="w-[15px] h-[15px] hover:text-[#004370] transition-colors cursor-pointer text-[#464555]" />

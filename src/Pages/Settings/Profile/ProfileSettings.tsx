@@ -32,7 +32,7 @@ const ProfileSettings: React.FC = () => {
 
     return (
 
-        <div className="min-h-screen pb-12 -mx-4 -mt-4  lg:-mx-6 lg:-mt-6   bg-[#FAFAF9]">
+        <div className="min-h-screen pb-12 -mx-4 -mt-4  lg:mx-2 lg:-mt-6   ">
             <div className="bg-[#014370] pt-6 pb-24 px-8 rounded-b-[50px] relative overflow-hidden">
 
 
