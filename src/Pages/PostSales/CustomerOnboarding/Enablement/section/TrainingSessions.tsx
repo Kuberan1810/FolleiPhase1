@@ -31,7 +31,7 @@ const TrainingSessions: React.FC = () => {
                   : 'border-[#F2F4F6] bg-[#F2F4F6]'
                 }`}
             >
-              <div className="flex items-center gap-3.5">
+              <div className="flex items-center gap-3.5 min-w-0 flex-1">
                 <div className={`w-[48px] h-[48px] rounded-[4px] flex flex-col items-center justify-center shrink-0 ${isLink
                   ? 'bg-[#004370] border border-[#C3C6D7]'
                   : 'bg-[#FFFFFF] border border-[#C3C6D7]'
@@ -46,17 +46,17 @@ const TrainingSessions: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#191C1E] leading-tight">
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[14px] font-semibold text-[#191C1E] leading-tight truncate">
                     {session.title}
                   </span>
-                  <span className="text-[12px] font-medium text-[#565E74] mt-1 leading-none">
+                  <span className="text-[12px] font-medium text-[#565E74] mt-1 leading-none truncate">
                     {session.subtitle}
                   </span>
                 </div>
               </div>
 
-              <div>
+              <div className="shrink-0 pl-2">
                 {isAttended && (
                   <span className="flex items-center gap-1.5 text-[12px] font-semibold text-[#16A34A] uppercase">
                     <CheckCircle2 className="w-4 h-4 fill-[#16A34A] text-white" />
@@ -65,7 +65,6 @@ const TrainingSessions: React.FC = () => {
                 )}
                 {isLink && (
                   <a
-                    href="#link"
                     onClick={(e) => e.preventDefault()}
                     className="flex items-center gap-1 text-[#004370] text-[12px] font-bold hover:underline"
                   >

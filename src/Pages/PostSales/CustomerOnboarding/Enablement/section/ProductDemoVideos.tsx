@@ -19,10 +19,10 @@ const ProductDemoVideos: React.FC = () => {
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-[#EDF3FD] bg-[#F9FBFE] pb-2 text-[11px] font-bold text-[#8C90A6] uppercase tracking-[0.5px]">
-              <th className="py-2.5 pl-4">NAME</th>
-              <th className="py-2.5 text-center">DURATION</th>
-              <th className="py-2.5 text-center">STATUS</th>
-              <th className="py-2.5 text-right pr-4">WATCHED</th>
+              <th className="py-2.5 pl-2 sm:pl-4 pr-4 whitespace-nowrap">NAME</th>
+              <th className="py-2.5 px-4 text-center whitespace-nowrap">DURATION</th>
+              <th className="py-2.5 px-4 text-center whitespace-nowrap">STATUS</th>
+              <th className="py-2.5 pl-4 pr-2 sm:pr-4 text-right whitespace-nowrap">WATCHED</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#EDF3FD]">
@@ -32,30 +32,30 @@ const ProductDemoVideos: React.FC = () => {
 
               return (
                 <tr key={idx} className="text-[14px] text-[#191C1E]">
-                  <td className="py-3.5 font-semibold text-[14px] pl-4">
+                  <td className="py-3.5 font-semibold text-[14px] pl-2 sm:pl-4 pr-4 whitespace-nowrap">
                     {item.name}
                   </td>
-                  <td className="py-3.5 text-[#565E74] font-medium text-center">
+                  <td className="py-3.5 px-4 text-[#565E74] font-medium text-center whitespace-nowrap">
                     {item.duration}
                   </td>
-                  <td className="py-3.5 text-center">
+                  <td className="py-3.5 px-4 text-center whitespace-nowrap">
                     {isCompleted && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#DCFCE7] text-[#166534] text-[11px] font-bold">
+                      <span className="whitespace-nowrap px-2.5 py-0.5 rounded-full bg-[#DCFCE7] text-[#166534] text-[11px] font-bold">
                         COMPLETED
                       </span>
                     )}
                     {isInProgress && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#DBEAFE] text-[#1E40AF] text-[11px] font-bold">
+                      <span className="whitespace-nowrap px-2.5 py-0.5 rounded-full bg-[#DBEAFE] text-[#1E40AF] text-[11px] font-bold">
                         IN PROGRESS
                       </span>
                     )}
                     {!isCompleted && !isInProgress && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#E6E8EA] text-[#565E74] text-[11px] font-bold">
+                      <span className="whitespace-nowrap px-2.5 py-0.5 rounded-full bg-[#E6E8EA] text-[#565E74] text-[11px] font-bold">
                         NOT STARTED
                       </span>
                     )}
                   </td>
-                  <td className="py-3.5 text-right pr-4">
+                  <td className="py-3.5 pl-4 pr-2 sm:pr-4 text-right whitespace-nowrap">
                     <div className="flex items-center justify-end gap-2">
                       {isInProgress && (
                         <div className="w-[40px] h-[6px] bg-[#E6E8EA] rounded-full overflow-hidden">

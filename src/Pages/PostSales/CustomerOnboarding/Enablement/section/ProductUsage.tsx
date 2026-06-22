@@ -40,19 +40,19 @@ const ProductUsage: React.FC<ProductUsageProps> = () => {
         }
       `}} />
       {/* Header and usage score */}
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div>
           <h3 className="text-[20px] font-semibold text-[#191C1E]">Product Usage</h3>
           <p className="text-[14px] font-medium text-[#565E74] mt-1">
             Engagement activity over the last 30 days
           </p>
         </div>
-        <div className="text-right">
-          <span className="text-[30px] text-[#004370] block leading-none">
-            {statsData.usageScore}
-          </span>
-          <span className="text-[12px] text-[#565E74] uppercase tracking-[0.5px] block mt-1.5">
+        <div className="flex items-baseline justify-between sm:flex-col sm:items-end w-full sm:w-auto border-t sm:border-t-0 border-[#EDF3FD] pt-3 sm:pt-0 mt-1 sm:mt-0">
+          <span className="text-[12px] text-[#565E74] uppercase tracking-[0.5px] font-semibold leading-none order-1 sm:order-none">
             Usage Score
+          </span>
+          <span className="text-[30px] font-semibold text-[#004370] leading-none order-2 sm:order-none mt-0 sm:mt-1.5">
+            {statsData.usageScore}
           </span>
         </div>
       </div>
@@ -81,7 +81,7 @@ const ProductUsage: React.FC<ProductUsageProps> = () => {
               dy={8}
             />
             <YAxis hide />
-            <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={68}>
+            <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={48}>
               {usageData.map((_entry, index) => (
                 <Cell
                   key={`cell-${index}`}
