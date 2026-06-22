@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, MessageSquare, Mail, SquareDashed, RefreshCcwDot, LineChart, CalendarRange, Users } from 'lucide-react';
+import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, Mail, SquareDashed, RefreshCcwDot, CalendarRange, Users } from 'lucide-react';
 
 import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';

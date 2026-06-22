@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpDown, ArrowLeft, List } from 'lucide-react';
+import { ArrowUpDown, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Sort } from 'iconsax-react';
-import { AiOutlineAlignLeft } from "react-icons/ai";
+
 
 const getInitials = (name: string): string => {
     const parts = name.trim().split(/\s+/);

@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 import AiBrain from "../assets/AiFloat.svg";
 import AIBrainPopup from "./AIBrainPopup";
 // import AiLiveChat from "../Pages/PreSales/Dashboard/Section/AiLiveChat";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const FloatingButton = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
+    // const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const location = useLocation();

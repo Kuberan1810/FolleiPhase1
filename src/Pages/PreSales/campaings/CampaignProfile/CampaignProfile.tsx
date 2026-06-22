@@ -1,6 +1,6 @@
 
 import { useNavigate } from 'react-router-dom';
-import { PauseCircle, Trash, ArrowLeft } from 'iconsax-react';
+import { PauseCircle, Trash } from 'iconsax-react';
 import DetailStatCards from './section/DetailStatCards';
 import RecentEngagement from './section/RecentEngagement';
 import CampaignPlayback from './section/CampaignPlayback';

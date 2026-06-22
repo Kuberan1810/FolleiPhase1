@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Filter, ArrowUpDown, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Filter, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export type OnboardingCustomer = {
   id: string;

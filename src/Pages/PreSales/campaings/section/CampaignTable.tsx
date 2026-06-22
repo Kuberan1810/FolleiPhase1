@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowDown2, More } from 'iconsax-react';
 import GmailIcon from '../../../../assets/icons/Gmail - Email by Google.svg';
@@ -19,7 +19,7 @@ export default function CampaignTable() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => setOpenMenuId(null);
+    const handler = (_e: MouseEvent) => setOpenMenuId(null);
     if (openMenuId !== null) document.addEventListener('click', handler);
     return () => document.removeEventListener('click', handler);
   }, [openMenuId]);

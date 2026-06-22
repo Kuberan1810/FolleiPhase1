@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
-import { LogOut, Megaphone } from 'lucide-react';
+import { Megaphone } from 'lucide-react';
 
 import { Home, Profile2User, People, HierarchySquare, Setting2, DocumentUpload, ChartSquare, Ticket, EmptyWalletChange } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
@@ -71,10 +71,10 @@ const Sidebar: React.FC = () => {
     ];
   }
 
-  const bottomNavItems = [
+  /* const bottomNavItems = [
     { icon: Setting2, label: 'Settings', path: '/settings' },
     { icon: LogOut, label: 'Logout', path: '/logout', isDanger: true },
-  ];
+  ]; */
 
 
 

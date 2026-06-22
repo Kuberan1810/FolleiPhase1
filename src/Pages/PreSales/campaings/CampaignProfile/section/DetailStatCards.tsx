@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Profile2User, Pointer, TrendUp, WalletMoney, ChartSquare } from 'iconsax-react';
 
 export default function DetailStatCards() {

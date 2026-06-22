@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Check, ClipboardEdit, Users, FileText, Handshake, Trophy } from 'lucide-react';
 
 const stages = [

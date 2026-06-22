@@ -82,7 +82,7 @@ const ProductUsage: React.FC<ProductUsageProps> = () => {
             />
             <YAxis hide />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={68}>
-              {usageData.map((entry, index) => (
+              {usageData.map((_entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={index === usageData.length - 1 ? '#004AC6' : '#DBE1FF'}

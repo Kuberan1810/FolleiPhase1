@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FileText, FileSpreadsheet, FileIcon } from 'lucide-react';
 
 const AttachmentsCard = () => {

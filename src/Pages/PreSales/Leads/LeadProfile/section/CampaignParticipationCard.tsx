@@ -1,5 +1,5 @@
 import { Tag, Heart } from 'iconsax-react';
-import { Shield, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const data = [
     {

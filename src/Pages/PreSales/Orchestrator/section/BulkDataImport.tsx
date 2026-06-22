@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Download, LayoutGrid } from 'lucide-react';
 import { ImportCurve } from 'iconsax-react';
 
-const rows = [
+/* const rows = [
     { source: 'Customer_Name', target: 'Full Name', preview: 'Ravi Sharma' },
     { source: 'Lead_Email_01', target: 'Email Primary', preview: 'ravi@corp.in' },
     { source: 'Phone_Personal', target: 'Phone Number', preview: '+91 98XXX XXX01' },
-];
+]; */
 
 const BulkDataImport = () => {
     const [url, setUrl] = useState('');

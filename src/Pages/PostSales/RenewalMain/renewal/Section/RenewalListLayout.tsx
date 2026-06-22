@@ -6,7 +6,7 @@ import RenewalActionButtons from './RenewalActionButtons';
 import RenewalListTable from './RenewalListTable';
 import RenewalDetailsDrawer from './RenewalDetailsDrawer';
 import { mockStatCards, mockRenewalListRows, mockRenewalDetail } from '../data/mockRenewalListData';
-import type { RenewalListRow, RenewalDetail } from '../Renewal';
+import type { RenewalDetail } from '../Renewal';
 
 
 export default function RenewalListLayout() {

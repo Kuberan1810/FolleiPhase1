@@ -9,7 +9,7 @@ const netRevenueChartData = [
 ];
 
 const NetRevenueChart: React.FC = () => {
-  const [activeHoverBar, setActiveHoverBar] = useState<number | null>(null);
+  const [, setActiveHoverBar] = useState<number | null>(null);
 
   return (
     <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">

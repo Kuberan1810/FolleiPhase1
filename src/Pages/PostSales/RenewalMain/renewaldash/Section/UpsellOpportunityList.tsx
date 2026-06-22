@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { UpsellItem } from '../RenewalDash';
 import BtnComSecondary from '../../../../../Component/BtnComSecondary';
-import { ArrowRight } from 'iconsax-react';
+
 
 interface UpsellOpportunityListProps {
   upsells: UpsellItem[];

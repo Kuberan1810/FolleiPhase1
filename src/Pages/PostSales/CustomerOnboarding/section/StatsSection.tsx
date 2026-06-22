@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, FileText, TrendingUp, GraduationCap, CheckCircle, MessageSquare } from 'lucide-react';
+import { TrendingUp, MessageSquare } from 'lucide-react';
 import { DocumentDownload, Note, Profile2User } from 'iconsax-react';
 
 interface StatCardProps {

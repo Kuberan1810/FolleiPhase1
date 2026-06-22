@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { useLocation, useParams } from 'react-router-dom';
+
 import EnablementHeader from './section/EnablementHeader';
 import ProductUsage from './section/ProductUsage';
 import ProductUnderstanding from './section/ProductUnderstanding';
@@ -18,7 +18,7 @@ const mockCustomers = [
 const CustomerEnablement: React.FC = () => {
   const { customerId } = useParams<{ customerId: string }>();
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Find customer from location state or mock list
   const stateCustomer = location.state?.customer;
