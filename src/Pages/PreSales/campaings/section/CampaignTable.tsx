@@ -19,7 +19,7 @@ export default function CampaignTable() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handler = (_e: MouseEvent) => setOpenMenuId(null);
+    const handler = () => setOpenMenuId(null);
     if (openMenuId !== null) document.addEventListener('click', handler);
     return () => document.removeEventListener('click', handler);
   }, [openMenuId]);
@@ -52,8 +52,8 @@ export default function CampaignTable() {
 
   return (
     <>
-      <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden mt-6 w-full" style={{ border: '1px solid #DDEBFF' }}>
-        <table className="w-full border-collapse">
+      <div className="bg-[#FFFFFF] rounded-2xl overflow-x-auto mt-6 w-full" style={{ border: '1px solid #DDEBFF' }}>
+        <table className="w-full border-collapse whitespace-nowrap">
           <thead>
             <tr className="bg-[#FAFBFF]">
               <th className="px-6 py-3 text-left" style={{ fontWeight: 600, fontSize: '12px', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: '20px' }}>CAMPAIGN</th>

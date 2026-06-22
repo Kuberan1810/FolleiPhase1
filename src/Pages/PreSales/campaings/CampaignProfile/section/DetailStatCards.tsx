@@ -46,9 +46,9 @@ export default function DetailStatCards() {
   ];
 
   return (
-    <div className="flex flex-row gap-3 w-full" style={{ }}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row gap-3 w-full">
       {cards.map((card, index) => (
-        <div key={index} className="flex-1 BoxStyle flex flex-col">
+        <div key={index} className="flex-1 BoxStyle flex flex-col p-5 bg-white rounded-xl border border-[#EDF3FD]">
           {/* Row 1: icon box left, badge right */}
           <div className="flex items-center justify-between">
             <div style={{ background: card.iconBg }} className="rounded-xl w-10 h-10 flex items-center justify-center shrink-0">

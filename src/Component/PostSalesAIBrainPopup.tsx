@@ -1,38 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Flame, Sun, Snowflake, ChevronDown } from 'lucide-react';
 import AiBrain from "../assets/AiFloat.svg";
-import { useState } from 'react';
 
-interface AIBrainPopupProps {
+interface PostSalesAIBrainPopupProps {
   isOpen: boolean;
   onClose: () => void;
-  isOutbound?: boolean;
 }
 
-const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound }) => {
+const PostSalesAIBrainPopup: React.FC<PostSalesAIBrainPopupProps> = ({ isOpen, onClose }) => {
   const [autoResponse, setAutoResponse] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedTiming, setSelectedTiming] = useState('AI Recommended');
 
   const timingOptions = ['AI Recommended', 'Immediately', '1 Hour Later', '24 Hours Later', 'Next Business Day'];
-
-  const intentData = [
-    { count: '26', label: 'Interested', colorClass: 'text-[#0E9F6E]' },
-    { count: '07', label: 'Not Interested', colorClass: 'text-[#E02424]' },
-    { count: '15', label: 'Later / Neutral', colorClass: 'text-[#F6810C]' }
-  ];
-
-  const leadScoringData = [
-    { score: '18', label: 'Hot', Icon: Flame, iconColor: 'text-orange-500', fill: 'currentColor' },
-    { score: '22', label: 'Warm', Icon: Sun, iconColor: 'text-yellow-500', fill: 'currentColor' },
-    { score: '08', label: 'Cold', Icon: Snowflake, iconColor: 'text-blue-400', fill: 'none' }
-  ];
-
-  const contextMemoryData = [
-    { name: 'Ravi Sharma', memory: 'Visited pricing page twice, not ready yet' },
-    { name: 'Priya Mehta', memory: 'Mentioned 50-person team, bulk pricing interest' }
-  ];
 
   // Outbound Data
   const outboundIntentData = [
@@ -120,10 +101,10 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
               {/* Intent Classification */}
               <div className="space-y-3">
                 <h4 className="text-sm  md:text-base font-medium text-white/95 font-manrope">
-                  {isOutbound ? "Email Sentiment :" : "Intent Classification :"}
+                  Email Sentiment :
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
-                  {(isOutbound ? outboundIntentData : intentData).map((item, index) => (
+                  {outboundIntentData.map((item, index) => (
                     <div key={index} className="bg-[#4837A720] p-3 rounded-xl border border-white/5 flex flex-col items-center">
                       <span className={`text-xl font-bold ${item.colorClass}`}>{item.count}</span>
                       <span className="text-[11px] font-medium text-white/85 mt-1 text-center">{item.label}</span>
@@ -135,10 +116,10 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
               {/* Lead Scoring */}
               <div className="space-y-3">
                 <h4 className="text-sm  md:text-base font-medium text-white/95 font-manrope">
-                  {isOutbound ? "Campaign Success :" : "Lead Scoring :"}
+                  Campaign Success :
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
-                  {(isOutbound ? outboundCampaignData : leadScoringData).map((item, index) => (
+                  {outboundCampaignData.map((item, index) => (
                     <div key={index} className="bg-[#4837A720] p-3 rounded-xl border border-white/5 flex flex-col items-center text-center">
                       <span className="text-xl font-bold">{item.score}</span>
                       <div className="flex items-center gap-1 mt-1">
@@ -153,7 +134,7 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
               {/* Auto-response Generation */}
               <div className="flex items-center justify-between">
                 <h4 className="text-sm md:text-base font-medium text-white/95 font-manrope">
-                  {isOutbound ? "A/B Test Optimization" : "Auto-response Generation"}
+                  A/B Test Optimization
                 </h4>
 
                 <div
@@ -171,7 +152,7 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
               {/* Smart follow-up Timing */}
               <div className="space-y-3 relative">
                 <h4 className="text-sm  md:text-base font-medium text-white/95 font-manrope">
-                  {isOutbound ? "Optimal Sending Time" : "Smart follow-up Timing"}
+                  Optimal Sending Time
                 </h4>
                 <div
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -208,13 +189,13 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
                 </AnimatePresence>
               </div>
 
-              {/* Context Memory per Lead / Campaign */}
+              {/* Context Memory per Campaign */}
               <div className="space-y-3 pb-2">
                 <h4 className="text-sm  md:text-base font-medium text-white/95 font-manrope">
-                  {isOutbound ? "AI Campaign Insights" : "Context Memory per Lead"}
+                  AI Campaign Insights
                 </h4>
                 <div className="space-y-3">
-                  {(isOutbound ? outboundActivityData : contextMemoryData).map((lead, index) => (
+                  {outboundActivityData.map((lead, index) => (
                     <div key={index} className="p-4 rounded-xl bg-linear-to-r from-[#004370]/20 to-[#004370]/10  ">
                       <p className="text-xs  md:text-base font-semibold text-white">{lead.name}</p>
                       <p className="text-[12px] md:text-[15px] text-gray-400 mt-1">{lead.memory}</p>
@@ -233,4 +214,4 @@ const AIBrainPopup: React.FC<AIBrainPopupProps> = ({ isOpen, onClose, isOutbound
   );
 };
 
-export default AIBrainPopup;
+export default PostSalesAIBrainPopup;

@@ -41,7 +41,7 @@ export default function CampaignLeadList() {
   return (
     <div className="w-full" style={{ }}>
       {/* ── HEADER ROW ── */}
-      <div className="flex items-start justify-between mb-6 w-full">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6 w-full">
 
         {/* Left: back + title + pill + date */}
         <div>
@@ -71,7 +71,7 @@ export default function CampaignLeadList() {
         </div>
 
         {/* Right: Filter + Sort + Pause + Trash */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
 
           {/* Filter button */}
           <div className="relative" ref={filterRef}>

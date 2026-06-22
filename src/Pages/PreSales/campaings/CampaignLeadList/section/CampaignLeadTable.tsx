@@ -160,9 +160,9 @@ export default function CampaignLeadTable({ appliedFilters }: { appliedFilters?:
 
   return (
     <>
-      <div className="bg-[#FFFFFF] rounded-2xl overflow-hidden w-full"
+      <div className="bg-[#FFFFFF] rounded-2xl overflow-x-auto w-full"
         style={{ border: '1px solid #DDEBFF' }}>
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse whitespace-nowrap">
           <thead>
             <tr className="bg-[#FAFBFF]">
               {/* LEAD with A-Z sort */}

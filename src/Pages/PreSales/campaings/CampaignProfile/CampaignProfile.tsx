@@ -13,7 +13,7 @@ export default function CampaignProfile() {
   return (
     <div className="w-full">
       {/* ── HEADER ── */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex items-start justify-between gap-4 mb-6">
         {/* Left: back arrow + title + pill + date */}
         <div className=''>
           {/* Back arrow */}
@@ -63,11 +63,11 @@ export default function CampaignProfile() {
       <DetailStatCards />
 
       {/* ── TWO COLUMN SECTION ── */}
-      <div className="flex gap-4 mt-6 items-stretch">
+      <div className="flex flex-col lg:flex-row gap-4 mt-6 items-stretch">
         <div className="flex-1 min-w-0 h-full">
           <RecentEngagement />
         </div>
-        <div className="w-[650px] shrink-0">
+        <div className="w-full lg:w-[650px] shrink-0">
           <CampaignPlayback />
         </div>
       </div>

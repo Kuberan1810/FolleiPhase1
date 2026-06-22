@@ -6,7 +6,7 @@ import wabg from '../../../../../assets/img/wabg.png';
 const WhatsAppPreview = () => {
   return (
     <div className="w-full flex justify-center py-4 animate-in fade-in duration-300">
-      <div className="w-[320px] h-[640px] bg-[#E5DDD5] rounded-[48px] border-[6px] border-[#222222] shadow-2xl relative overflow-hidden flex flex-col">
+      <div className="w-full max-w-[320px] h-[640px] bg-[#E5DDD5] rounded-[48px] border-[6px] border-[#222222] shadow-2xl relative overflow-hidden flex flex-col shrink-0">
 
         <div className="bg-[#075E54] text-white pt-7 pb-2.5 px-3 flex items-center justify-between shrink-0 shadow-md">
           <div className="flex items-center gap-1.5">

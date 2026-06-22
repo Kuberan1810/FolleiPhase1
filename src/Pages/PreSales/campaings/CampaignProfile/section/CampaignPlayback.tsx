@@ -23,10 +23,10 @@ export default function CampaignPlayback() {
 
       {/* ── HEADER SECTION ── */}
       <div className="p-4">
-        <div className="flex items-center justify-between px-4 py-3 rounded-[16px]"
+        <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 rounded-[16px] gap-4 sm:gap-0"
           style={{ backgroundColor: '#F7F7FE' }}>
           {/* Title + tagline */}
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-0.5 text-center sm:text-left">
             <span style={{ fontWeight:600, fontSize:'18px', lineHeight:'24px', color:'#131B2E' }}>
               Campaign Playback
             </span>

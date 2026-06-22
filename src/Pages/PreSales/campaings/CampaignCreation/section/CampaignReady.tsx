@@ -352,7 +352,7 @@ const CampaignReady = () => {
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-between gap-4 mb-6 px-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 px-1 sm:px-3">
         <div>
           <h3 className="text-[18px] font-semibold text-[#131B2E] flex items-center gap-2">
             <Eye size={22} className="text-[#004370]" /> Campaign Preview
@@ -455,26 +455,26 @@ const CampaignReady = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-12 gap-4">
+      <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between pt-12 gap-4">
         <button
           onClick={onBack}
-          className="flex items-center justify-center gap-1.5 px-6 py-3 text-[#464555] font-bold text-[14px] transition-colors cursor-pointer bg-white"
+          className="flex items-center justify-center gap-1.5 px-6 py-3 text-[#464555] font-bold text-[14px] transition-colors cursor-pointer bg-white w-full sm:w-auto"
         >
           <ArrowLeft size={16} /> Back
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
           <button
             onClick={() => {
               setIsEditing(!isEditing);
               setOpenDropdown(null);
             }}
-            className={`flex items-center justify-center gap-1.5 px-4 py-2 border font-semibold text-[14px] rounded-[12px] transition-colors cursor-pointer ${isEditing ? 'bg-[#E1DFFF] border-[#004370] text-[#004370]' : 'border-[#E2E8F0] hover:bg-slate-50 text-[#131B2E]'
+            className={`flex items-center justify-center gap-1.5 px-4 py-2 border font-semibold text-[14px] rounded-[12px] transition-colors cursor-pointer w-full sm:w-auto ${isEditing ? 'bg-[#E1DFFF] border-[#004370] text-[#004370]' : 'border-[#E2E8F0] hover:bg-slate-50 text-[#131B2E]'
               }`}
           >
             {isEditing ? 'Save' : 'Edit'}
           </button>
-          <button className="flex items-center justify-center gap-1.5 px-8 py-2 bg-[#004370] hover:bg-[#002e62] text-white font-bold text-[16px] rounded-[8px] transition-colors cursor-pointer shadow-sm">
+          <button className="flex items-center justify-center gap-1.5 px-8 py-2 bg-[#004370] hover:bg-[#002e62] text-white font-bold text-[16px] rounded-[8px] transition-colors cursor-pointer shadow-sm w-full sm:w-auto">
             Launch Campaign
           </button>
         </div>

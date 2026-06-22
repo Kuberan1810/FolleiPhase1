@@ -2,7 +2,7 @@
 
 export default function AIInsightBanner() {
   return (
-    <div className="flex items-center gap-4 mt-6 rounded-[20px] overflow-hidden"
+    <div className="flex flex-col md:flex-row items-center gap-4 mt-6 rounded-[20px] overflow-hidden"
       style={{
         backgroundColor: '#F9F8FF',
         boxShadow: '0px 1px 14px 0px #00437033',
@@ -35,8 +35,8 @@ export default function AIInsightBanner() {
       </div>
 
       {/* ── RIGHT: Real-time Pulse card ── */}
-      <div className="flex flex-col items-center justify-between rounded-[16px] p-4 shrink-0"
-        style={{ backgroundColor: '#004370', width: '380px', minHeight: '140px' }}>
+      <div className="flex flex-col items-center justify-between rounded-[16px] p-4 shrink-0 w-full md:w-[380px]"
+        style={{ backgroundColor: '#004370', minHeight: '140px' }}>
 
         {/* Heading — centered */}
         <span style={{ fontWeight:700, fontSize:'13px', lineHeight:'18px', color:'#FFFFFF', width:'100%' }}>
