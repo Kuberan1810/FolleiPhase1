@@ -158,7 +158,7 @@ const TicketLayout: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen  pb-12 px-6">
+        <div className="min-h-screen pb-12">
             {/* Header and Controls */}
             <TicketHeader
                 searchQuery={searchQuery}

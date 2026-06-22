@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Calendar } from 'lucide-react';
+import { Building, Calendar1 } from 'iconsax-react';
 
 interface EnablementHeaderProps {
   customer: {
@@ -69,11 +69,11 @@ const EnablementHeader: React.FC<EnablementHeaderProps> = ({ customer }) => {
           </h2>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[14px] text-[#565E74] mt-2">
             <span className="flex items-center gap-1.5">
-              <Briefcase className="w-4 h-4 text-[#565E74]" />
+              <Building size="16" color="#565E74" variant="Linear" />
               {customer.product} • {customer.plan}
             </span>
             <span className="flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-[#565E74]" />
+              <Calendar1 size="16" color="#565E74" variant="Linear" />
               {activationDate}
             </span>
             {getStatusBadge(customer.status)}

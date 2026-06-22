@@ -18,7 +18,7 @@ export default function RenewalLayout() {
   return (
     <div className="w-full">
       <div className="mb-6">
-        <h1 className="m-0 font-extrabold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+        <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
           Renewal Management
         </h1>
         <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">

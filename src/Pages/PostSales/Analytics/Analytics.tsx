@@ -100,31 +100,16 @@ const Analytics: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen pb-12">
             {/* Title & Description Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
-                    <h1
-                        className="tracking-tight"
-                        style={{
-                            fontWeight: 500,
-                            fontSize: '36px',
-                            lineHeight: '44px',
-                            letterSpacing: '-0.72px',
-                            color: '#0D1C2E'
-                        }}
-                    >
+                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+
                         Analytics
                     </h1>
-                    <p
-                        className="mt-1 max-w-3xl font-normal text-[16px] text-[#434655] leading-[24px]"
-                        style={{
-                            fontWeight: 400,
-                            fontSize: '16px',
-                            color: '#434655',
-                            lineHeight: '24px'
-                        }}
-                    >
+                    <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+
                         Evaluate sales performance and customer outcomes after the sale to drive retention, satisfaction and repeat business.
                     </p>
                 </div>
