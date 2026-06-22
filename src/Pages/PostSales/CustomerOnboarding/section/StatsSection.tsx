@@ -86,7 +86,7 @@ const StatsSection: React.FC = () => {
       iconColor: '#003366',
       badge: {
         text: 'OVERALL',
-        bgColor: null,
+        bgColor: 'transparent',
         textColor: '#94A3B8'
       }
     },
