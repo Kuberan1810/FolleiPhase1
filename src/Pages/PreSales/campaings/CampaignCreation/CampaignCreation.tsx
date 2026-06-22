@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic } from 'lucide-react';
 import StarIcon from '../../../../assets/logo/star.svg';
-import CampaignReady from './section/CampaignReady';
+
 
 const GmailIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="21" height="21" viewBox="0 0 48 48">
@@ -99,26 +99,26 @@ const CampaignCreation = () => {
             What campaign would you like to <span className="text-[#004370] font-bold">Create today?</span>
           </h1>
 
-          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-4 flex items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
-            <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center align-center pt-1 cursor-pointer'>
-
-              <Plus color="black" size={18} />
-
+          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
+            <div className="flex items-center gap-3 flex-1">
+              <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center items-center shrink-0 cursor-pointer'>
+                <Plus color="black" size={18} />
+              </div>
+              <input
+                type="text"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && prompt.trim()) {
+                    handleGenerate();
+                  }
+                }}
+                placeholder="Describe your goal, audience, and budget..."
+                className="flex-1 bg-transparent border-none text-[#767587] placeholder:text-[#767587] text-[16px] sm:text-[18px] font-medium outline-none min-w-0"
+              />
             </div>
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && prompt.trim()) {
-                  handleGenerate();
-                }
-              }}
-              placeholder="Describe your goal, audience, and budget..."
-              className="flex-1 bg-transparent border-none text-[#767587] placeholder:text-[#767587] text-[18px] font-medium outline-none"
-            />
-            <div className="flex items-center gap-3.5 pr-2">
-              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer">
+            <div className="flex items-center justify-between sm:justify-end gap-3 px-1 sm:pr-2 mt-2 sm:mt-0">
+              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer shrink-0">
                 <Mic size={18} />
               </button>
               <button

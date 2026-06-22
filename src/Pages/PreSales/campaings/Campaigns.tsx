@@ -11,20 +11,20 @@ export default function Campaigns() {
 
   return (
     <div className="w-full" style={{}}>
-      {/* Section 1 — Page header row */}
-      <div className="flex items-start justify-between mb-6 w-full">
+      {/* Section 1 - Page header row */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6 w-full">
         {/* Left side */}
         <div className="flex flex-col gap-1">
-          <h1 style={{ fontWeight: 600, fontSize: '36px', lineHeight: '44px', color: '#0F172A' }}>
+          <h1 className="font-semibold text-2xl md:text-4xl text-[#0F172A] m-0">
             Campaign Intelligence
           </h1>
-          <p style={{ fontWeight: 400, fontSize: '16px', lineHeight: '24px', color: '#64748B' }}>
-            Manage and track <span style={{ fontWeight: 700, color: '#64748B' }}>08</span> active Campaign
+          <p className="font-normal text-sm md:text-base text-[#64748B] m-0">
+            Manage and track <span className="font-bold text-[#64748B]">08</span> active Campaign
           </p>
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           {/* Sort by dropdown */}
           <div className="relative">
             <div
