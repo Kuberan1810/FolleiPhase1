@@ -35,13 +35,25 @@ const MilestoneTimeline: React.FC = () => {
               className="relative flex md:flex-col items-center gap-4 md:gap-3 flex-1 w-full md:w-auto"
             >
               {idx < steps.length - 1 && (
-                <div
-                  className={`absolute left-1/2 w-full h-[3px] hidden md:block z-0 ${steps[idx + 1].status === 'Completed' || steps[idx].status === 'Completed'
-                    ? 'bg-[#22C55E]'
-                    : 'border-t-2 border-dashed border-[#D1D5DB]'
+                <>
+                  {/* Horizontal line for desktop */}
+                  <div
+                    className={`absolute left-1/2 w-full h-[3px] hidden md:block z-0 ${
+                      isCompleted && (steps[idx + 1].status === 'Completed' || steps[idx + 1].status === 'InProgress')
+                        ? 'bg-[#22C55E]'
+                        : 'border-t-2 border-dashed border-[#D1D5DB]'
                     }`}
-                  style={{ top: '20px' }}
-                />
+                    style={{ top: '20px' }}
+                  />
+                  {/* Vertical line for mobile */}
+                  <div
+                    className={`absolute top-[40px] left-[20px] w-[3px] h-[calc(100%+32px)] md:hidden z-0 ${
+                      isCompleted && (steps[idx + 1].status === 'Completed' || steps[idx + 1].status === 'InProgress')
+                        ? 'bg-[#22C55E]'
+                        : 'border-l-2 border-dashed border-[#D1D5DB]'
+                    }`}
+                  />
+                </>
               )}
 
               {/* Stepper node indicator */}

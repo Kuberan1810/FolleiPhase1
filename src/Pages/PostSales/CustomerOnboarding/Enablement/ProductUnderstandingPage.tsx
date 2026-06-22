@@ -26,25 +26,13 @@ const ProductUnderstandingPage: React.FC = () => {
         <div>
 
           <h1
-            className="tracking-tight"
-            style={{
-              fontWeight: 700,
-              fontSize: '36px',
-              lineHeight: '44px',
-              letterSpacing: '-0.72px',
-              color: '#191C1E'
-            }}
+            className="text-[28px] md:text-[36px] font-bold leading-[34px] md:leading-[44px] tracking-tight text-[#191C1E]"
+            style={{ letterSpacing: '-0.72px' }}
           >
             Product Understanding
           </h1>
           <p
-            className="mt-1"
-            style={{
-              fontWeight: 400,
-              fontSize: '16px',
-              lineHeight: '24px',
-              color: '#434655'
-            }}
+            className="mt-1 text-[14px] md:text-[16px] leading-[22px] md:leading-[24px] text-[#434655]"
           >
             Track how well customers understand and use the product.
           </p>

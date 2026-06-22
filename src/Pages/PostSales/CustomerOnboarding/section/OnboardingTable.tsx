@@ -197,19 +197,19 @@ const OnboardingTable: React.FC = () => {
 
   return (
     <div className="BoxStyle">
-      <div className="flex items-center justify-between gap-4 mb-6 border-b border-[#EDF3FD] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-[#EDF3FD] pb-4">
         <div>
           <h2 className="text-[20px] font-bold text-[#191C1E]">Customer list</h2>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto shrink-0">
           <div className="relative" ref={filterRef}>
             <button
               onClick={() => {
                 setShowFilterPanel(!showFilterPanel);
                 setShowSortPanel(false);
               }}
-              className={`flex items-center gap-2 border-[1px] border-[#C3C6D7] bg-white text-[#191C1E] px-3 py-1.5 rounded-[8px] text-[14px] transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showFilterPanel || selectedPlans.length > 0 || selectedStages.length > 0
+              className={`flex items-center justify-center gap-2 border-[1px] border-[#C3C6D7] bg-white text-[#191C1E] px-3 py-1.5 rounded-[8px] text-[14px] transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showFilterPanel || selectedPlans.length > 0 || selectedStages.length > 0
                 ? 'border-[#004370] bg-[#EFF4FF]/50 text-[#004370]'
                 : ''
                 }`}
@@ -222,7 +222,7 @@ const OnboardingTable: React.FC = () => {
             </button>
 
             {showFilterPanel && (
-              <div className="absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-2xl z-[100] p-4 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+              <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-72 max-w-[calc(100vw-32px)] bg-white border border-slate-200 rounded-2xl z-[100] p-4 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-left sm:origin-top-right">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-100">
                   <h3 className="font-bold text-slate-800 text-sm">Filters</h3>
                   {(selectedPlans.length > 0 || selectedStages.length > 0) && (
@@ -286,7 +286,7 @@ const OnboardingTable: React.FC = () => {
                 setShowSortPanel(!showSortPanel);
                 setShowFilterPanel(false);
               }}
-              className={`flex items-center gap-2 border-[1px] border-[#C3C6D7] bg-white text-[#191C1E] px-3 py-1.5 rounded-[8px] text-[14px] transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showSortPanel ? 'border-[#004370] bg-[#EFF4FF]/50 text-[#004370]' : ''
+              className={`flex items-center justify-center gap-2 border-[1px] border-[#C3C6D7] bg-white text-[#191C1E] px-3 py-1.5 rounded-[8px] text-[14px] transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showSortPanel ? 'border-[#004370] bg-[#EFF4FF]/50 text-[#004370]' : ''
                 }`}
             >
               <ArrowUpDown className="w-4 h-4" />
@@ -294,7 +294,7 @@ const OnboardingTable: React.FC = () => {
             </button>
 
             {showSortPanel && (
-              <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-2xl z-[100] py-2 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+              <div className="absolute right-0 mt-2 w-56 max-w-[calc(100vw-32px)] bg-white border border-slate-200 rounded-2xl z-[100] py-2 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
                 {[
                   { label: 'Customer Name (A-Z)', value: 'Name' },
                   { label: 'Adoption Score (High to Low)', value: 'AdoptionHigh' },
@@ -325,28 +325,28 @@ const OnboardingTable: React.FC = () => {
 
       {/* Table Container */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left">
+        <table className="w-full text-center">
           <thead>
             <tr className="bg-[#FAFBFF] h-[64px]">
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Customer Name
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Product Name
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Plan
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Adoption Score
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Last Login
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Stage
               </th>
-              <th className="px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px]">
+              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
                 Learning Progress
               </th>
             </tr>
@@ -362,8 +362,8 @@ const OnboardingTable: React.FC = () => {
                     onClick={() => navigate(`/postsales/onboarding/enablement/${cust.id}`, { state: { customer: cust } })}
                     className="hover:bg-slate-50/50 transition-colors group cursor-pointer"
                   >
-                    <td className="px-5 py-3 whitespace-nowrap">
-                      <div className="flex items-center gap-3">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap">
+                      <div className="flex items-center justify-center gap-3">
                         <div
                           className="w-[36px] h-[36px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0"
                           style={{ backgroundColor: cust.avatarBg, color: cust.avatarText }}
@@ -377,12 +377,12 @@ const OnboardingTable: React.FC = () => {
                     </td>
 
                     {/* Product Name */}
-                    <td className="px-5 py-3 whitespace-nowrap text-[14px] text-[#191C1E]">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap text-[14px] text-[#191C1E]">
                       {cust.product}
                     </td>
 
                     {/* Plan */}
-                    <td className="px-5 py-3 whitespace-nowrap">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap">
                       <span
                         className="px-2.5 py-1 rounded-[6px] text-xs font-bold"
                         style={{
@@ -395,22 +395,22 @@ const OnboardingTable: React.FC = () => {
                     </td>
 
                     {/* Adoption Score */}
-                    <td className="px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
                       {cust.adoptionScore}%
                     </td>
 
                     {/* Last Login */}
-                    <td className="px-5 py-3 whitespace-nowrap text-[14px] text-[#434655]">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap text-[14px] text-[#434655]">
                       {cust.lastLogin}
                     </td>
 
                     {/* Stage */}
-                    <td className="px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
                       {cust.stage}
                     </td>
 
                     {/* Learning Progress */}
-                    <td className="px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
+                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
                       {cust.learningProgress}%
                     </td>
                   </tr>
@@ -418,7 +418,7 @@ const OnboardingTable: React.FC = () => {
               })
             ) : (
               <tr>
-                <td colSpan={7} className="px-5 py-10 text-center text-slate-400 text-sm">
+                <td colSpan={7} className="px-3 sm:px-5 py-10 text-center text-slate-400 text-sm">
                   No accounts match the selected filters.
                 </td>
               </tr>

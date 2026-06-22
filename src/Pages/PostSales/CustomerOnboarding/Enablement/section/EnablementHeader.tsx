@@ -70,7 +70,7 @@ const EnablementHeader: React.FC<EnablementHeaderProps> = ({ customer }) => {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[14px] text-[#565E74] mt-2">
             <span className="flex items-center gap-1.5">
               <Briefcase className="w-4 h-4 text-[#565E74]" />
-              {customer.product}{customer.plan}
+              {customer.product} • {customer.plan}
             </span>
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4 text-[#565E74]" />
@@ -82,7 +82,7 @@ const EnablementHeader: React.FC<EnablementHeaderProps> = ({ customer }) => {
       </div>
 
       {/* Right Metrics Section */}
-      <div className="flex items-center gap-8 w-full md:w-auto border-t md:border-t-0 border-[#EDF3FD] pt-4 md:pt-0 justify-between md:justify-end">
+      <div className="grid grid-cols-2 md:flex items-center gap-4 md:gap-8 w-full md:w-auto border-t md:border-t-0 border-[#EDF3FD] pt-4 md:pt-0">
         <div className="hidden md:block w-[1px] h-[48px] bg-[#EDF3FD]" />
 
         {/* Onboarding Score */}

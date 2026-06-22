@@ -102,9 +102,9 @@ const LearningProgress: React.FC<LearningProgressProps> = ({ customer }) => {
       </div>
 
       {/* Right Column: Mini Stats and AI Recommendations Grid */}
-      <div className="lg:col-span-7 grid grid-cols-2 gap-4 h-full min-h-[289px]">
+      <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 h-full min-h-[289px]">
         {miniStats.map((item, idx) => (
-          <div key={idx} className="BoxStyle flex flex-col justify-between h-[84px] lg:h-auto">
+          <div key={idx} className="BoxStyle flex flex-col justify-between h-auto py-4 lg:h-auto">
             <div className="flex justify-between items-start">
               <div className="flex flex-col">
                 <span className="text-[12px] font-semibold text-[#565E74] uppercase tracking-[0.5px] mb-1 leading-none">
@@ -129,7 +129,7 @@ const LearningProgress: React.FC<LearningProgressProps> = ({ customer }) => {
           </div>
         ))}
 
-        <div className="col-span-2  rounded-[20px] p-5 bg-[#2563EB]/10 border border-[#D0E1FD] p-5 flex flex-col gap-2 justify-center">
+        <div className="col-span-1 sm:col-span-2 rounded-[20px] p-5 bg-[#2563EB]/10 border border-[#D0E1FD] flex flex-col gap-2 justify-center">
           <div className="flex items-center gap-2 text-[#004370]">
             <Sparkles className="w-4 h-4 fill-current shrink-0" />
             <span className="text-[12px] font-semibold tracking-[0.5px] uppercase">

@@ -86,7 +86,7 @@ const StatsSection: React.FC = () => {
       iconColor: '#003366',
       badge: {
         text: 'OVERALL',
-        bgColor: '#F1F5F9',
+        bgColor: null,
         textColor: '#94A3B8'
       }
     },
@@ -140,7 +140,7 @@ const StatsSection: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
       {stats.map((stat, index) => (
         <StatCard key={index} {...stat} />
       ))}
