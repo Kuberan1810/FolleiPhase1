@@ -1,5 +1,5 @@
 
-import Leadslayout from "./section/leadslayout"
+import Leadslayout from "./Section/leadslayout"
 
 export type Lead = {
   id: string;

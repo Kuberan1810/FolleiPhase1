@@ -15,7 +15,7 @@ export default function Campaigns() {
       <div className="flex items-start justify-between mb-6 w-full">
         {/* Left side */}
         <div className="flex flex-col gap-1">
-          <h1 style={{ fontWeight: 600, fontSize: '36px', lineHeight: '44px', color: '#0F172A' }}>
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
             Campaign Intelligence
           </h1>
           <p style={{ fontWeight: 400, fontSize: '16px', lineHeight: '24px', color: '#64748B' }}>

@@ -95,36 +95,36 @@ const CampaignCreation = () => {
             <img src={StarIcon} className="w-7 h-7" alt="Star Icon" />
           </div>
 
-          <h1 className="w-[600px] text-[32px] sm:text-[48px] font-medium text-[#131B2E] leading-tight mb-8">
+          <h1 className="w-full max-w-[600px] text-[32px] sm:text-[48px] font-medium text-[#131B2E] leading-tight mb-8">
             What campaign would you like to <span className="text-[#004370] font-bold">Create today?</span>
           </h1>
 
-          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-4 flex items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
-            <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center align-center pt-1 cursor-pointer'>
-
-              <Plus color="black" size={18} />
-
+          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
+            <div className="flex items-center flex-1 gap-3">
+              <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center items-center cursor-pointer shrink-0'>
+                <Plus color="black" size={18} />
+              </div>
+              <input
+                type="text"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && prompt.trim()) {
+                    handleGenerate();
+                  }
+                }}
+                placeholder="Describe your goal, audience, and budget..."
+                className="flex-1 bg-transparent border-none text-[#767587] placeholder:text-[#767587] text-[16px] sm:text-[18px] font-medium outline-none min-w-0"
+              />
             </div>
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && prompt.trim()) {
-                  handleGenerate();
-                }
-              }}
-              placeholder="Describe your goal, audience, and budget..."
-              className="flex-1 bg-transparent border-none text-[#767587] placeholder:text-[#767587] text-[18px] font-medium outline-none"
-            />
-            <div className="flex items-center gap-3.5 pr-2">
-              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer">
+            <div className="flex items-center justify-end gap-3.5 pr-2 border-t sm:border-t-0 border-[#EDF3FD] pt-3 sm:pt-0">
+              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer p-1">
                 <Mic size={18} />
               </button>
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim()}
-                className={`h-[56px] rounded-[14px] px-6 py-4 font-semibold text-[16px] flex items-center gap-3 transition-all select-none ${prompt.trim()
+                className={`h-[48px] sm:h-[56px] rounded-[14px] px-5 sm:px-6 py-2 sm:py-4 font-semibold text-[15px] sm:text-[16px] flex items-center gap-3 transition-all select-none shrink-0 ${prompt.trim()
                   ? 'bg-[#004370] text-white hover:bg-[#002e62] cursor-pointer'
                   : 'bg-[#E2E8F0] text-gray-400 cursor-not-allowed'
                   }`}

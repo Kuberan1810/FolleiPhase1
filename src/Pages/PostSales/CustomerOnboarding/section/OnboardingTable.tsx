@@ -196,8 +196,8 @@ const OnboardingTable: React.FC = () => {
   const paginatedCustomers = filteredAndSortedCustomers.slice(startIndex, endIndex);
 
   return (
-    <div className="BoxStyle">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-[#EDF3FD] pb-4">
+    <>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pt-4">
         <div>
           <h2 className="text-[20px] font-bold text-[#191C1E]">Customer list</h2>
         </div>
@@ -323,135 +323,135 @@ const OnboardingTable: React.FC = () => {
         </div>
       </div>
 
-      {/* Table Container */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-center">
-          <thead>
-            <tr className="bg-[#FAFBFF] h-[64px]">
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Customer Name
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Product Name
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Plan
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Adoption Score
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Last Login
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Stage
-              </th>
-              <th className="px-3 sm:px-5 py-3 text-[12px] font-bold text-[#434655] uppercase tracking-[0.5px] whitespace-nowrap">
-                Learning Progress
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#EDF3FD]">
-            {paginatedCustomers.length > 0 ? (
-              paginatedCustomers.map(cust => {
-                const planStyle = getPlanBadgeStyle(cust.plan);
-
-                return (
-                  <tr
-                    key={cust.id}
-                    onClick={() => navigate(`/postsales/onboarding/enablement/${cust.id}`, { state: { customer: cust } })}
-                    className="hover:bg-slate-50/50 transition-colors group cursor-pointer"
-                  >
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap">
-                      <div className="flex items-center justify-center gap-3">
-                        <div
-                          className="w-[36px] h-[36px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0"
-                          style={{ backgroundColor: cust.avatarBg, color: cust.avatarText }}
-                        >
-                          {cust.initials}
-                        </div>
-                        <span className="font-semibold text-[14px] text-[#191C1E] whitespace-nowrap">
-                          {cust.name}
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Product Name */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap text-[14px] text-[#191C1E]">
-                      {cust.product}
-                    </td>
-
-                    {/* Plan */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap">
-                      <span
-                        className="px-2.5 py-1 rounded-[6px] text-xs font-bold"
-                        style={{
-                          backgroundColor: planStyle.bg,
-                          color: planStyle.text
-                        }}
-                      >
-                        {cust.plan}
-                      </span>
-                    </td>
-
-                    {/* Adoption Score */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
-                      {cust.adoptionScore}%
-                    </td>
-
-                    {/* Last Login */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap text-[14px] text-[#434655]">
-                      {cust.lastLogin}
-                    </td>
-
-                    {/* Stage */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
-                      {cust.stage}
-                    </td>
-
-                    {/* Learning Progress */}
-                    <td className="px-3 sm:px-5 py-3 whitespace-nowrap font-bold text-[14px] text-[#191C1E]">
-                      {cust.learningProgress}%
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan={7} className="px-3 sm:px-5 py-10 text-center text-slate-400 text-sm">
-                  No accounts match the selected filters.
-                </td>
+      {/* Table Card container */}
+      <div className="bg-white rounded-[16px] overflow-visible border border-[#F3F4F6] shadow-[0_4px_20px_rgba(237,243,253,0.4)]">
+        <div className="overflow-x-auto">
+          <table className="w-full text-center">
+            <thead>
+              <tr className="bg-[#FAFBFF] border-b border-[#F3F4F6] h-[52px]">
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap text-left">
+                  Customer Name
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap text-left">
+                  Product Name
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap">
+                  Plan
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap">
+                  Adoption Score
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap">
+                  Last Login
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap">
+                  Stage
+                </th>
+                <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap">
+                  Learning Progress
+                </th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-[#EDF3FD]">
+              {paginatedCustomers.length > 0 ? (
+                paginatedCustomers.map(cust => {
+                  const planStyle = getPlanBadgeStyle(cust.plan);
 
-      <div className="flex items-center justify-between mt-6 pt-4 border-t border-[#EDF3FD]">
-        <div className="text-xs text-[#434655] font-medium">
-          Showing {filteredAndSortedCustomers.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredAndSortedCustomers.length)} of {filteredAndSortedCustomers.length} accounts
+                  return (
+                    <tr
+                      key={cust.id}
+                      onClick={() => navigate(`/postsales/onboarding/enablement/${cust.id}`, { state: { customer: cust } })}
+                      className="hover:bg-slate-50/60 transition-colors group cursor-pointer h-[72px]"
+                    >
+                      <td className="px-6 py-3 whitespace-nowrap text-left">
+                        <div className="flex items-center justify-start gap-3">
+                          <div
+                            className="w-[32px] h-[32px] rounded-full flex items-center justify-center font-medium text-[13px] shrink-0"
+                            style={{ backgroundColor: cust.avatarBg, color: cust.avatarText }}
+                          >
+                            {cust.initials}
+                          </div>
+                          <span className="font-semibold text-[14px] text-[#111827] whitespace-nowrap">
+                            {cust.name}
+                          </span>
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-3 whitespace-nowrap text-[14px] text-[#111827] text-left">
+                        {cust.product}
+                      </td>
+
+                      <td className="px-6 py-3 whitespace-nowrap">
+                        <span
+                          className="font-medium text-[13px] rounded-[12px] px-2.5 py-0.5 inline-block"
+                          style={{
+                            backgroundColor: planStyle.bg,
+                            color: planStyle.text
+                          }}
+                        >
+                          {cust.plan}
+                        </span>
+                      </td>
+
+                      {/* Adoption Score */}
+                      <td className="px-6 py-3 whitespace-nowrap font-bold text-[14px] text-[#111827]">
+                        {cust.adoptionScore}%
+                      </td>
+
+                      {/* Last Login */}
+                      <td className="px-6 py-3 whitespace-nowrap text-[14px] text-[#111827]">
+                        {cust.lastLogin}
+                      </td>
+
+                      {/* Stage */}
+                      <td className="px-6 py-3 whitespace-nowrap font-bold text-[14px] text-[#111827]">
+                        {cust.stage}
+                      </td>
+
+                      {/* Learning Progress */}
+                      <td className="px-6 py-3 whitespace-nowrap font-bold text-[14px] text-[#111827]">
+                        {cust.learningProgress}%
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400 text-sm">
+                    No accounts match the selected filters.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => activePage > 1 && setCurrentPage(activePage - 1)}
-            disabled={activePage === 1}
-            className={`w-9 h-9 rounded-xl border border-[#EDF3FD] flex items-center justify-center bg-white text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors ${activePage === 1 ? 'opacity-40 cursor-not-allowed' : ''
-              }`}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => activePage < totalPages && setCurrentPage(activePage + 1)}
-            disabled={activePage === totalPages}
-            className={`w-9 h-9 rounded-xl border border-[#EDF3FD] flex items-center justify-center bg-white text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors ${activePage === totalPages ? 'opacity-40 cursor-not-allowed' : ''
-              }`}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        <div className="flex items-center justify-between border-t border-[#F3F4F6] py-4 px-6 bg-white rounded-b-[16px]">
+          <div className="text-xs text-[#434655] font-medium">
+            Showing {filteredAndSortedCustomers.length === 0 ? 0 : startIndex + 1}-{Math.min(endIndex, filteredAndSortedCustomers.length)} of {filteredAndSortedCustomers.length} accounts
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => activePage > 1 && setCurrentPage(activePage - 1)}
+              disabled={activePage === 1}
+              className={`w-9 h-9 rounded-xl border border-[#F3F4F6] flex items-center justify-center bg-white text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors ${activePage === 1 ? 'opacity-40 cursor-not-allowed' : ''
+                }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => activePage < totalPages && setCurrentPage(activePage + 1)}
+              disabled={activePage === totalPages}
+              className={`w-9 h-9 rounded-xl border border-[#F3F4F6] flex items-center justify-center bg-white text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors ${activePage === totalPages ? 'opacity-40 cursor-not-allowed' : ''
+                }`}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
