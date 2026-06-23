@@ -12,6 +12,7 @@ import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
+import NeedsAttentionPage from "../Pages/PreSales/Dashboard/NeedsAttentionPage";
 import PendingTasksPage from "../Pages/AiInsights/PendingTasksPage";
 import AIInsightsPage from "../Pages/AiInsights/AIInsightsPage";
 import InactiveLeadsPage from "../Pages/AiInsights/InactiveLeadsPage";
@@ -109,6 +110,7 @@ export default function AppRoutes() {
 
       <Route path="/presales" element={<MainLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard/needs-attention" element={<NeedsAttentionPage />} />
 
         <Route path="inbox">
           <Route index element={<InBox />} />
