@@ -2,19 +2,14 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
-  AlertTriangle,
   CalendarCheck,
-  Rocket,
-  User,
-  Users,
   GraduationCap,
   Star,
   CloudUpload,
-  Users2,
-  MessageSquareCheckIcon
+  Users2
 } from 'lucide-react';
 import AiBrain from "../assets/AiFloat.svg";
-import { Convertshape, Flash, MessageText, MessageTick, Profile2User, Repeat, SmartHome } from 'iconsax-react';
+import { Convertshape, MessageTick, Profile2User, SmartHome } from 'iconsax-react';
 
 interface PreSalesAIBrainPopupProps {
   isOpen: boolean;

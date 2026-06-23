@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Users, RefreshCw, Send, UserCheck, ChevronDown } from "lucide-react";
 import FloatingButton from "../../../../Component/FloatingButton";
 import ChannelPerformance from "./ChannelPerformance";
@@ -12,6 +12,19 @@ import ScopeChart from "./ScopeChart";
 const DashboardLayout = () => {
   const [selectedMonth, setSelectedMonth] = useState("Month");
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showDropdown]);
 
   // Stats Grid data
   const stats = [
@@ -46,14 +59,34 @@ const DashboardLayout = () => {
   ];
 
   // Overview columns heights matching Figma specs (Apr is 200px, June is 240px)
-  const overviewColumns = [
-    { label: "Mar", height: 110, tooltip: "55 customers" },
-    { label: "Apl", height: 200, tooltip: "100 customers" },
-    { label: "May", height: 140, tooltip: "70 customers" },
-    { label: "Jun", height: 240, tooltip: "120 customers" },
-    { label: "Jul", height: 120, tooltip: "60 customers" },
-    { label: "Oct", height: 200, tooltip: "100 customers" },
-  ];
+  const overviewData: Record<string, any[]> = {
+    "Month": [
+      { label: "Mar", height: 110, tooltip: "55 customers", spamHeight: 18, spamTooltip: "10 Spam" },
+      { label: "Apl", height: 200, tooltip: "100 customers", spamHeight: 35, spamTooltip: "20 Spam" },
+      { label: "May", height: 140, tooltip: "70 customers", spamHeight: 25, spamTooltip: "15 Spam" },
+      { label: "Jun", height: 240, tooltip: "120 customers", spamHeight: 45, spamTooltip: "30 Spam" },
+      { label: "Jul", height: 120, tooltip: "60 customers", spamHeight: 15, spamTooltip: "8 Spam" },
+      { label: "Oct", height: 200, tooltip: "100 customers", spamHeight: 30, spamTooltip: "22 Spam" },
+    ],
+    "Week": [
+      { label: "Mon", height: 80, tooltip: "40 customers", spamHeight: 10, spamTooltip: "5 Spam" },
+      { label: "Tue", height: 120, tooltip: "60 customers", spamHeight: 15, spamTooltip: "8 Spam" },
+      { label: "Wed", height: 160, tooltip: "80 customers", spamHeight: 20, spamTooltip: "12 Spam" },
+      { label: "Thu", height: 100, tooltip: "50 customers", spamHeight: 12, spamTooltip: "6 Spam" },
+      { label: "Fri", height: 200, tooltip: "100 customers", spamHeight: 30, spamTooltip: "15 Spam" },
+      { label: "Sat", height: 60, tooltip: "30 customers", spamHeight: 5, spamTooltip: "2 Spam" },
+    ],
+    "Day": [
+      { label: "8 AM", height: 40, tooltip: "20 customers", spamHeight: 5, spamTooltip: "2 Spam" },
+      { label: "10 AM", height: 90, tooltip: "45 customers", spamHeight: 12, spamTooltip: "5 Spam" },
+      { label: "12 PM", height: 180, tooltip: "90 customers", spamHeight: 25, spamTooltip: "10 Spam" },
+      { label: "2 PM", height: 140, tooltip: "70 customers", spamHeight: 18, spamTooltip: "8 Spam" },
+      { label: "4 PM", height: 110, tooltip: "55 customers", spamHeight: 15, spamTooltip: "6 Spam" },
+      { label: "6 PM", height: 60, tooltip: "30 customers", spamHeight: 8, spamTooltip: "3 Spam" },
+    ]
+  };
+
+  const overviewColumns = overviewData[selectedMonth] || overviewData["Month"];
 
   const generateWavePath = (columns: { height: number }[], yOffset: number = 0) => {
     const width = 524;
@@ -118,15 +151,15 @@ const DashboardLayout = () => {
             <span className="bg-white text-slate-800 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100/30">
               Overview
             </span>
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="bg-white hover:bg-slate-50 transition-colors text-slate-800 rounded-full px-3.5 py-1.5 text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100/30"
+                className="bg-white hover:bg-slate-50 transition-colors text-[#014370] rounded-full px-4 py-1.5 text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100/30"
               >
                 {selectedMonth} <ChevronDown size={14} />
               </button>
               {showDropdown && (
-                <div className="absolute right-0 mt-1.5 w-28 bg-white rounded-xl shadow-lg border border-slate-100 py-1 z-30 text-xs text-slate-700">
+                <div className="absolute right-0 mt-2 w-28 bg-white rounded-[12px] shadow-[0_8px_24px_rgba(0,0,0,0.12)] border border-slate-100 py-2 z-30 text-[13px] text-[#014370]">
                   {["Month", "Week", "Day"].map((item) => (
                     <button
                       key={item}
@@ -134,7 +167,7 @@ const DashboardLayout = () => {
                         setSelectedMonth(item);
                         setShowDropdown(false);
                       }}
-                      className="w-full text-left px-3 py-2 hover:bg-slate-50 transition-colors font-medium cursor-pointer"
+                      className="w-full text-left px-4 py-2.5 hover:bg-slate-50 transition-colors cursor-pointer"
                     >
                       {item}
                     </button>
@@ -154,8 +187,11 @@ const DashboardLayout = () => {
                       className="absolute left-1/2 -translate-x-1/2 bg-white text-slate-800 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-md flex-col items-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none flex"
                       style={{ bottom: `${col.height + 12}px` }}
                     >
-                      <span className="whitespace-nowrap">{col.tooltip}</span>
-                      <div className="w-2 h-2 bg-white rotate-45 -mt-1" />
+                      <span className="whitespace-nowrap relative z-10 text-[12px]">{col.tooltip}</span>
+                      {col.spamTooltip && (
+                        <span className="whitespace-nowrap text-[#EF4444] text-[12px] mt-0.5 relative z-10">{col.spamTooltip}</span>
+                      )}
+                      <div className="w-2 h-2 bg-white rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2 z-0" />
                     </div>
                   )}
                   <div
