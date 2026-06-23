@@ -1,18 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  X,
-  AlertTriangle,
-  CalendarCheck,
-  Rocket,
-  User,
-  Users,
-  GraduationCap,
-  Star,
-  CloudUpload
-} from 'lucide-react';
+import { X, User, Users, GraduationCap, Star, CloudUpload } from 'lucide-react';
 import AiBrain from "../assets/AiFloat.svg";
-import { Flash } from 'iconsax-react';
 
 interface PostSalesAIBrainPopupProps {
   isOpen: boolean;
@@ -26,33 +15,24 @@ const PostSalesAIBrainPopup: React.FC<PostSalesAIBrainPopupProps> = ({ isOpen, o
       value: '12',
       colorClass: 'text-[#10B981]',
       bgClass: 'bg-[#111827]/40 border-[#064E3B]/30',
-      iconBgClass: 'bg-[#22C55E]/10 text-[#22C55E]',
-      Icon: Flash,
-      variant: 'linear'
     },
     {
       label: 'Risk Resolved',
       value: '3',
       colorClass: 'text-[#EF4444]',
       bgClass: 'bg-[#111827]/40 border-[#7F1D1D4D]/30',
-      iconBgClass: 'bg-[#271D2A] text-[#EF4444]',
-      Icon: AlertTriangle
     },
     {
       label: 'Renewals Done',
       value: '4',
       colorClass: 'text-[#22C55E]',
       bgClass: 'bg-[#111827]/40 border-[#14532D]/30',
-      iconBgClass: 'bg-[#271D2A] text-[#3B82F6]',
-      Icon: CalendarCheck
     },
     {
       label: 'Onboarding Finished',
       value: '18',
       colorClass: 'text-[#3B82F6]',
       bgClass: 'bg-[#111827]/40 border-[#1E3A8A]/30',
-      iconBgClass: 'bg-[#271D2A] text-[#3B82F6]',
-      Icon: Rocket
     }
   ];
 
@@ -193,9 +173,7 @@ const PostSalesAIBrainPopup: React.FC<PostSalesAIBrainPopupProps> = ({ isOpen, o
                       className={`flex flex-col justify-between p-2 rounded-[8px] border ${item.bgClass}`}
                     >
                       <div className="flex items-start gap-1 text-[10px] font-semibold tracking-tight">
-                        <div className={`w-[15px] h-[15px] rounded-[4px] flex items-center justify-center shrink-0 mt-0.5 ${item.iconBgClass}`}>
-                          <item.Icon size={12} color="currentColor" {...(item.variant ? { variant: item.variant } as any : {})} />
-                        </div>
+
                         <span className="leading-tight text-[#6B7280]">{item.label}</span>
                       </div>
                       <span className={`text-[20px] text-center font-bold mt-2 ${item.colorClass}`}>{item.value}</span>

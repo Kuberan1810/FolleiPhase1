@@ -1,20 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  X,
-  AlertTriangle,
-  CalendarCheck,
-  Rocket,
-  User,
-  Users,
-  GraduationCap,
-  Star,
-  CloudUpload,
-  Users2,
-  MessageSquareCheckIcon
-} from 'lucide-react';
+import { X } from 'lucide-react';
 import AiBrain from "../assets/AiFloat.svg";
-import { Convertshape, Flash, MessageText, MessageTick, Profile2User, Repeat, SmartHome } from 'iconsax-react';
+import { Activity, Convertshape, VideoPlay, Profile2User, SmartHome } from 'iconsax-react';
 
 interface PreSalesAIBrainPopupProps {
   isOpen: boolean;
@@ -28,40 +16,35 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
       value: '124',
       colorClass: 'text-[#10B981]',
       bgClass: 'bg-[#111827]/40 border-[#064E3B]/30',
-      iconBgClass: 'bg-[#22C55E]/10 text-[#22C55E]',
-      Icon: Users2,
-      variant: 'linear'
+
     },
     {
       label: 'Replies Received',
       value: '18',
       colorClass: 'text-[#4F46E5]',
       bgClass: 'bg-[#111827]/40 border-[#7F1D1D4D]/30',
-      iconBgClass: 'bg-[#4F46E5]/10 text-[#4F46E5]',
-      Icon: MessageTick
+
     },
     {
       label: 'Demos Scheduled',
       value: '48',
       colorClass: 'text-[#22C55E]',
       bgClass: 'bg-[#111827]/40 border-[#14532D]/30',
-      iconBgClass: 'bg-[#271D2A] text-[#3B82F6]',
-      Icon: CalendarCheck
+
     },
     {
       label: 'Conversions',
       value: '12',
       colorClass: 'text-[#3B82F6]',
       bgClass: 'bg-[#111827]/40 border-[#1E3A8A]/30',
-      iconBgClass: 'bg-[#271D2A] text-[#3B82F6]',
-      Icon: Convertshape
+
     }
   ];
 
-  // Section 2: Onboarding Journey Overview
-  const onboardingJourney = [
+  // Section 2: leads Journey Overview
+  const leadsJourney = [
     {
-      label: 'Setup',
+      label: 'New Leads',
       value: '8',
       color: '#FFFFFF',
       bgClass: 'bg-[#4F46E5] border-[#030D34]',
@@ -69,50 +52,71 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
 
     },
     {
-      label: 'Configuration',
+      label: 'Contacted',
       value: '12',
       color: '#FFFFFF',
       bgClass: 'bg-[#3B82F6] border-[#030D34]',
       Icon: SmartHome
     },
     {
-      label: 'Data Import',
+      label: 'Engaged',
       value: '18',
       color: '#FFFFFF',
       bgClass: 'bg-[#6366F1] border-[#030D34]',
-      Icon: CloudUpload
+      Icon: Activity
     },
     {
-      label: 'Training',
+      label: 'Demo',
       value: '8',
       color: '#FFFFFF',
       bgClass: 'bg-[#14B8A6] border-[#030D34]',
-      Icon: GraduationCap
+      Icon: VideoPlay
     },
     {
-      label: 'Features',
+      label: 'Converted',
       value: '14',
       color: '#FFFFFF',
       bgClass: 'bg-[#22C55E] border-[#030D34]',
-      Icon: Star
+      Icon: Convertshape
     }
   ];
 
-  // Section 3: Critical Risks
-  const criticalRisks = [
+  const HotLeads = [
     {
-      initials: 'MN',
-      name: 'Meera Nair',
-      details: 'Usage dropped 41% this week • Renewal in 18 days',
+      initials: 'JD',
+      name: 'John Davis',
+      details: 'Viewed pricing page 5 times • Demo requested',
       avatarBg: 'bg-[#670505] text-white'
     },
     {
-      initials: 'JM',
-      name: 'James Miller',
-      details: 'Health score down 15 points • Support tickets up 57%',
+      initials: 'SM',
+      name: 'Sarah Miller',
+      details: 'Replied to WhatsApp • Requested proposal',
       avatarBg: 'bg-[#773405] text-white'
     },
 
+  ];
+  const Risks = [
+    {
+      initials: 'MJ',
+      name: 'Michael Johnson',
+      details: 'No response for 7 days',
+      avatarBg: 'bg-[#670505] text-white'
+    },
+    {
+      initials: 'AR',
+      name: 'Anita Rao',
+      details: 'Demo scheduled but not attended',
+      avatarBg: 'bg-[#773405] text-white'
+    },
+
+  ];
+
+  const predictions = [
+    '• 12 leads likely to convert this week',
+    '• 8 leads require immediate follow-up',
+    '• Expected Revenue: ₹4.8L',
+    '• Conversion Probability: 74%'
   ];
 
   return (
@@ -191,9 +195,7 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
                       className={`flex flex-col justify-between p-2 rounded-[8px] border ${item.bgClass}`}
                     >
                       <div className="flex items-start gap-1 text-[10px] font-semibold tracking-tight">
-                        <div className={`w-[15px] h-[15px] rounded-[4px] flex items-center justify-center shrink-0 mt-0.5 ${item.iconBgClass}`}>
-                          <item.Icon size={12} color="currentColor" {...(item.variant ? { variant: item.variant } as any : {})} />
-                        </div>
+
                         <span className="leading-tight text-[#6B7280]">{item.label}</span>
                       </div>
                       <span className={`text-[20px] text-center font-bold mt-2 ${item.colorClass}`}>{item.value}</span>
@@ -202,20 +204,21 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
                 </div>
               </div>
 
-              {/* Section 2: Onboarding Journey Overview */}
+              {/* Section 2 */}
+
               <div className="space-y-3">
                 <h4 className="text-[14px] font-bold tracking-wider text-[#9CA3AF] uppercase">
-                  Onboarding Journey Overview
+                  Lead Journey Overview
                 </h4>
                 <div className="relative">
                   <div className="absolute top-4 left-[10%] right-[10%] h-[1px] bg-[#FFFFFF]/10 -translate-y-1/2 z-0" />
 
                   <div className="grid grid-cols-5 gap-1.5 relative z-10">
-                    {onboardingJourney.map((step, index) => (
+                    {leadsJourney.map((step, index) => (
                       <div key={index} className="flex flex-col items-center text-center">
                         <div className="w-8 h-8 rounded-full bg-[#020713] p-[1.5px] relative z-10 mb-2">
                           <div className={`w-full h-full rounded-full flex items-center justify-center border ${step.bgClass}`} style={{ color: step.color }}>
-                            <step.Icon size={13} />
+                            <step.Icon size={13} color="currentColor" />
                           </div>
                         </div>
                         <span className="text-[10px] font-medium text-[#9CA3AF] leading-tight min-h-[22px] flex items-center justify-center">
@@ -228,16 +231,15 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
                 </div>
               </div>
 
-              {/* Section 3: Critical Risks */}
+              {/* Section 3 */}
               <div className="space-y-3">
                 <h4 className="text-[14px] font-bold tracking-wider text-[#9CA3AF] uppercase">
-                  Critical Risks
-                </h4>
+                  Hot Leads Requiring Attention                </h4>
                 <div className="space-y-2">
-                  {criticalRisks.map((risk, index) => (
+                  {HotLeads.map((risk, index) => (
                     <div
                       key={index}
-                      className="bg-white/5 border border-white/5 p-3 rounded-[12px] flex items-center gap-3 hover:bg-white/[0.08] transition-colors duration-200"
+                      className="bg-[#170D19] border border-[#521229] p-3 rounded-[12px] flex items-center gap-3 hover:bg-white/[0.08] transition-colors duration-200"
                     >
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-[12px] shrink-0 ${risk.avatarBg}`}>
                         {risk.initials}
@@ -248,6 +250,43 @@ const PreSalesAIBrainPopup: React.FC<PreSalesAIBrainPopupProps> = ({ isOpen, onC
                       </div>
                     </div>
                   ))}
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-[14px] font-bold tracking-wider text-[#9CA3AF] uppercase">
+                    At Risk Leads
+                  </h4>
+                  <div className="space-y-2">
+                    {Risks.map((risks, index) => (
+                      <div
+                        key={index}
+                        className="bg-[#171415] border border-[#523E10] p-3 rounded-[12px] flex items-center gap-3 hover:bg-white/[0.08] transition-colors duration-200"
+                      >
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-[12px] shrink-0 ${risks.avatarBg}`}>
+                          {risks.initials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[14px] font-bold text-white leading-none">{risks.name}</p>
+                          <p className="text-[11px] text-[#9CA3AF] mt-1.5 leading-normal truncate">{risks.details}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="text-[14px] font-bold tracking-wider text-[#9CA3AF] uppercase">
+                  AI Predictions
+                </h4>
+                <div className="bg-transparent border border-blue-500/20 p-[10px] rounded-[10px]">
+                  <div className="space-y-2.5 text-[14px] font-bold text-[#9CA3AF] leading-normal">
+                    {predictions.map((prediction, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <span>{prediction}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
