@@ -286,7 +286,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                           <h4 className=" font-semibold text-[14px] text-black leading-tight">
                             {lead.name}
                           </h4>
-                          <span className=" font-bold text-[12px] text-[#6B7280] leading-tight">
+                          <span className=" font-medium text-[12px] text-[#6B7280] leading-tight">
                             {lead.email}
                           </span>
                         </div>
