@@ -82,8 +82,14 @@ export default function RenewalPredictionChart({ data }: RenewalPredictionChartP
 
       <div className="w-full h-[250px] mt-auto">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} barCategoryGap="15%">
-            <XAxis dataKey="month" hide />
+          <ComposedChart data={data} barCategoryGap="15%" margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
+              dy={10}
+            />
             <YAxis hide />
             <Tooltip content={<CustomTooltip />} cursor={false} />
             <Bar dataKey="follei" shape={OverlayBars} maxBarSize={64} />

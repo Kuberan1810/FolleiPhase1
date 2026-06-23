@@ -18,8 +18,8 @@ export default function Campaigns() {
           <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
             Campaign Intelligence
           </h1>
-          <p className="font-normal text-sm md:text-base text-[#64748B] m-0">
-            Manage and track <span className="font-bold text-[#64748B]">08</span> active Campaign
+          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+            Manage and track 08 active Campaign
           </p>
         </div>
 
