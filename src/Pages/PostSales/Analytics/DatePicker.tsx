@@ -171,7 +171,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ selectedDateRange, onClose, onA
     };
 
     return (
-        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-[288px] bg-white border border-[#EDF3FD] rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-6 z-50 flex flex-col select-none font-[Inter]">
+        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-[288px] bg-white border border-[#EDF3FD] rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] p-6 z-50 flex flex-col select-none">
             {/* Header Navigation */}
             <div className="flex items-center justify-between mb-5">
                 <button

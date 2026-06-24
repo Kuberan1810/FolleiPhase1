@@ -9,7 +9,7 @@ const MetricBox = ({ label, value }: { label: string; value: string | number }) 
 
 const RevenueFollowUp = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 font-[Inter]">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
       {/* Left Card: Follow-up Completion */}
       <div className="BoxStyle flex flex-col">
         <div className="flex justify-between items-start mb-4">

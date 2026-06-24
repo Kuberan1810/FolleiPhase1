@@ -30,15 +30,12 @@ const CustomerEnablement: React.FC = () => {
       <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
 
-          <h1
-            className="text-[28px] md:text-[36px] font-bold leading-[34px] md:leading-[44px] tracking-tight text-[#222222]"
-            style={{ letterSpacing: '-0.72px' }}
-          >
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+
             Customer Enablement
           </h1>
-          <p
-            className="mt-1 text-[14px] md:text-[16px] leading-[22px] md:leading-[24px] text-[#434655]"
-          >
+          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+
             Track customer readiness and product adoption.
           </p>
         </div>

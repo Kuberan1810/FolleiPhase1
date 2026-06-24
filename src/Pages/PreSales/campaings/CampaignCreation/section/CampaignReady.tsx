@@ -89,10 +89,10 @@ const CampaignReady = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-gray-100 pb-3">
         <div>
 
-          <h1 className="text-[28px] sm:text-[32px] font-semibold text-[#131B2E] tracking-tight">
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
             Campaign Ready
           </h1>
-          <p className="text-[#464555] text-[14px]">
+          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
             AI analyzed your request and prepared a complete campaign.
           </p>
         </div>
