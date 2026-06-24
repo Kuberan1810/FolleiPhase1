@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle2, ChevronLeft, Layers2 } from "lucide-react";
+import { CheckCircle2, ChevronLeft, Layers2, X } from "lucide-react";
 
 interface DataValidationModalProps {
   isOpen: boolean;
@@ -17,6 +17,7 @@ const validationMetricsConfig = [
 
 const DataValidationModal: React.FC<DataValidationModalProps> = ({
   isOpen,
+  onClose,
   onBack,
   onSuccessContinue,
   sourceName,
@@ -70,11 +71,11 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl border border-[#EDF3FD] shadow-2xl w-full max-w-[580px] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-center relative">
+      <div className="bg-white rounded-2xl border border-[#EDF3FD] shadow-2xl w-full max-w-[580px] max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-center relative">
 
         {step === "validation" ? (
           /*                 VALIDATION SCREEN         */
-          <div className="text-left flex flex-col w-full">
+          <div className="text-left flex flex-col w-full flex-1 overflow-hidden">
             <div className="p-6 md:p-8 flex justify-between items-start">
               <div>
                 <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
@@ -86,7 +87,7 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
               </div>
             </div>
 
-            <div className="p-4 md:p-8 overflow-y-auto max-h-[calc(100vh-220px)] flex flex-col">
+            <div className="p-4 md:p-8 overflow-y-auto no-scrollbar flex-1 flex flex-col">
               {/* Circular Progress Indicator */}
               <div className="flex flex-col items-center justify-center w-full">
                 <div className="relative w-[180px] h-[180px]">
@@ -163,8 +164,14 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
         ) : (
 
           // success
-          <div className="flex flex-col p-6 md:p-8">
-            <div className="flex flex-col items-center mt-4 mb-6">
+          <div className="flex flex-col p-6 md:p-8 flex-1 overflow-hidden relative">
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 md:top-6 md:right-6 p-1.5 hover:bg-slate-150 rounded-full transition-colors cursor-pointer text-[#64748B] hover:text-[#1E293B]"
+            >
+              <X size={20} />
+            </button>
+            <div className="flex flex-col items-center ">
               <div className="w-20 h-20 bg-[#0c7351ff] text-[#10B981] flex items-center justify-center rounded-full mb-4">
                 <CheckCircle2 size={40} className="text-white" fill="#0c7351ff" />
               </div>

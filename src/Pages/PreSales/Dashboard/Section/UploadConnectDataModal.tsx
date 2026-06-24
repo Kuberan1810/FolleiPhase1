@@ -139,7 +139,7 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
 
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 pb-6 md:px-8 md:pb-8 pt-4 space-y-3">
+        <div className="flex-1 overflow-y-auto no-scrollbar px-6 pb-6 md:px-8 md:pb-8 pt-4 space-y-3">
           {/* Local Data Assets */}
           <div>
             <span className="text-[24px] font-medium text-[#333333] mb-3 block">
