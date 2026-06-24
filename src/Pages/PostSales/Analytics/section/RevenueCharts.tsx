@@ -54,7 +54,7 @@ const RevenueCharts = () => {
       </div>
 
       {/* Right Section: Renewal Rate */}
-      <div className="BoxStyle flex flex-col font-[Inter]">
+      <div className="BoxStyle flex flex-col">
         <p className="text-[#767686] text-[11px] font-bold tracking-[0.55px] uppercase mb-8">
           Renewal Rate
         </p>

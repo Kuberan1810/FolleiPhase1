@@ -295,7 +295,7 @@ const FlowBuilder = () => {
             <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
               Flow Builder
             </h1>
-            <p className="text-[13px] md:text-base text-[#64748B] mt-1 font-regular font-inter whitespace-nowrap">
+            <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
               Automate Every Customer Interaction
             </p>
           </div>

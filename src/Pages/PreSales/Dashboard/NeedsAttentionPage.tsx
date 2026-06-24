@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
 import NeedsAttentionDrawer from "./Section/NeedsAttentionDrawer";
 
 const NeedsAttentionPage: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
 
   const attentionLeads = [
@@ -23,12 +26,20 @@ const NeedsAttentionPage: React.FC = () => {
   ];
 
   return (
-    <div className="w-full pb-16 font-urbanist animate-fade-in relative">
+    <div className="w-full pb-6 font-urbanist animate-fade-in relative">
       <div className="mb-6 flex flex-col gap-2">
-        <h1 className="m-0 text-[20px] font-bold text-[#000000] leading-[24px] tracking-[0.6px]">
-          Needs attention now
-        </h1>
-        <p className="m-0 font-normal text-sm leading-[24px] text-[#6B7280]">
+        <div className="flex items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+          >
+            <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          </button>
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E] ml-3">
+            Needs attention now
+          </h1>
+        </div>
+        <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280] ml-10">
           Track 120 activities needing immediate attention.
         </p>
       </div>

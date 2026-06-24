@@ -10,7 +10,7 @@ const EditActionPage = () => {
   const [warmMax, setWarmMax] = useState(79);
   const [coldMin, setColdMin] = useState(0);
   const [coldMax, setColdMax] = useState(49);
-  
+
   const [firstTouch, setFirstTouch] = useState(1);
   const [followUpInterval, setFollowUpInterval] = useState(24);
   const [maxRetries, setMaxRetries] = useState(5);
@@ -26,10 +26,10 @@ const EditActionPage = () => {
       <div className="px-4 lg:px-6 pt-4 lg:pt-6">
         <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
           <div>
-            <h1 className="text-[26px] sm:text-[30px] font-extrabold text-[#0F172A] font-manrope leading-none">
+            <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
               Edit Action
             </h1>
-            <p className="text-[13px] md:text-base text-[#64748B] mt-1 font-regular font-inter whitespace-nowrap">
+            <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
               Smart Customer Activity Tracking
             </p>
           </div>
@@ -141,7 +141,7 @@ const EditActionPage = () => {
             <button className="flex-1 h-[40px] bg-[#004370] hover:bg-[#003152] text-white rounded-[8px] font-['Inter'] font-semibold text-[13px] leading-[19.5px] transition-colors cursor-pointer">
               Save Rules
             </button>
-            <button 
+            <button
               onClick={() => {
                 setHotMin(80); setHotMax(100);
                 setWarmMin(50); setWarmMax(79);
@@ -158,133 +158,133 @@ const EditActionPage = () => {
         <div className="w-full flex flex-col gap-5 min-w-0">
           {/* Select Channel */}
           <div className="BoxStyle !p-4 w-full flex flex-col gap-4">
-          <h2 className="text-[#191C1E] font-['Inter'] font-semibold text-[18px] leading-[25.2px] tracking-[0px]">
-            Select Channel
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { icon: MessageSquare, label: 'SMS' },
-              { icon: Mail, label: 'Email' },
-              { icon: Phone, label: 'Phone' },
-              { icon: MessageCircle, label: 'WhatsApp' }
-            ].map((item, i) => {
-              const isSelected = selectedChannels.includes(item.label);
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setSelectedChannels(prev =>
-                      prev.includes(item.label)
-                        ? prev.filter(c => c !== item.label)
-                        : [...prev, item.label]
-                    );
-                  }}
-                  className={`BoxStyle !py-2 !px-2 flex flex-col items-center justify-center gap-1.5 h-[60px] transition-all cursor-pointer
-                    ${isSelected
-                      ? '!text-white !border-transparent'
-                      : '!bg-white !border-[#E2E8F0] text-[#595C5E] hover:!bg-[#F8FAFC]'}`}
-                  style={isSelected ? { background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' } : {}}
-                >
-                  <div className={`${isSelected ? 'text-white' : 'text-[#004370]'}`}>
-                    <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${isSelected ? 'bg-white/20' : 'bg-[#C1C7D1]/30'}`} />
-                  </div>
-                  <span className={`text-[12px] font-bold ${isSelected ? 'text-white' : 'text-[#595C5E]'}`}>{item.label}</span>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Reminder Cadence */}
-        <div className="BoxStyle p-6 w-full flex flex-col gap-6">
-          <div className="flex items-center gap-2">
-            <Clock size={20} color="#004370" />
             <h2 className="text-[#191C1E] font-['Inter'] font-semibold text-[18px] leading-[25.2px] tracking-[0px]">
-              Reminder Cadence
+              Select Channel
             </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Box 1: FIRST TOUCH */}
-            <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
-              <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
-                FIRST TOUCH
-              </span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={firstTouch}
-                  onChange={(e) => setFirstTouch(Number(e.target.value))}
-                  className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
-                  Hours After
-                </span>
-              </div>
-            </div>
-
-            {/* Box 2: FOLLOW-UP INTERVAL */}
-            <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
-              <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
-                FOLLOW-UP INTERVAL
-              </span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={followUpInterval}
-                  onChange={(e) => setFollowUpInterval(Number(e.target.value))}
-                  className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
-                  Hours Gap
-                </span>
-              </div>
-            </div>
-
-            {/* Box 3: MAX RETRIES */}
-            <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
-              <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
-                MAX RETRIES
-              </span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={maxRetries}
-                  onChange={(e) => setMaxRetries(Number(e.target.value))}
-                  className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
-                  Attempts
-                </span>
-              </div>
-            </div>
-
-            {/* Box 4: Toggles */}
-            <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col justify-center gap-4">
-              <div className="flex items-center justify-between">
-                <span className="font-['Inter'] font-semibold text-[13px] leading-[19.5px] text-[#1B1B23]">
-                  Business Hours Only
-                </span>
-                <div
-                  onClick={() => setIsBusinessHoursOnly(!isBusinessHoursOnly)}
-                  className={`w-10 h-5 rounded-full relative p-1 cursor-pointer transition-colors duration-200 ${isBusinessHoursOnly ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
-                >
-                  <div className={`w-3 h-3 bg-white rounded-full absolute top-1 transition-all duration-200 ${isBusinessHoursOnly ? 'right-1' : 'left-1'}`} />
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-['Inter'] font-semibold text-[13px] leading-[19.5px] text-[#1B1B23]">
-                  Stop on Reply
-                </span>
-                <div
-                  onClick={() => setStopOnReply(!stopOnReply)}
-                  className={`w-10 h-5 rounded-full relative p-1 cursor-pointer transition-colors duration-200 ${stopOnReply ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
-                >
-                  <div className={`w-3 h-3 bg-white rounded-full absolute top-1 transition-all duration-200 ${stopOnReply ? 'right-1' : 'left-1'}`} />
-                </div>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { icon: MessageSquare, label: 'SMS' },
+                { icon: Mail, label: 'Email' },
+                { icon: Phone, label: 'Phone' },
+                { icon: MessageCircle, label: 'WhatsApp' }
+              ].map((item, i) => {
+                const isSelected = selectedChannels.includes(item.label);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setSelectedChannels(prev =>
+                        prev.includes(item.label)
+                          ? prev.filter(c => c !== item.label)
+                          : [...prev, item.label]
+                      );
+                    }}
+                    className={`BoxStyle !py-2 !px-2 flex flex-col items-center justify-center gap-1.5 h-[60px] transition-all cursor-pointer
+                    ${isSelected
+                        ? '!text-white !border-transparent'
+                        : '!bg-white !border-[#E2E8F0] text-[#595C5E] hover:!bg-[#F8FAFC]'}`}
+                    style={isSelected ? { background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' } : {}}
+                  >
+                    <div className={`${isSelected ? 'text-white' : 'text-[#004370]'}`}>
+                      <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${isSelected ? 'bg-white/20' : 'bg-[#C1C7D1]/30'}`} />
+                    </div>
+                    <span className={`text-[12px] font-bold ${isSelected ? 'text-white' : 'text-[#595C5E]'}`}>{item.label}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
-        </div>
+
+          {/* Reminder Cadence */}
+          <div className="BoxStyle p-6 w-full flex flex-col gap-6">
+            <div className="flex items-center gap-2">
+              <Clock size={20} color="#004370" />
+              <h2 className="text-[#191C1E] font-['Inter'] font-semibold text-[18px] leading-[25.2px] tracking-[0px]">
+                Reminder Cadence
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Box 1: FIRST TOUCH */}
+              <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
+                <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
+                  FIRST TOUCH
+                </span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={firstTouch}
+                    onChange={(e) => setFirstTouch(Number(e.target.value))}
+                    className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
+                    Hours After
+                  </span>
+                </div>
+              </div>
+
+              {/* Box 2: FOLLOW-UP INTERVAL */}
+              <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
+                <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
+                  FOLLOW-UP INTERVAL
+                </span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={followUpInterval}
+                    onChange={(e) => setFollowUpInterval(Number(e.target.value))}
+                    className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
+                    Hours Gap
+                  </span>
+                </div>
+              </div>
+
+              {/* Box 3: MAX RETRIES */}
+              <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col gap-2">
+                <span className="font-['Inter'] font-bold text-[11px] leading-[16.5px] tracking-[0px] text-[#464554] uppercase">
+                  MAX RETRIES
+                </span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={maxRetries}
+                    onChange={(e) => setMaxRetries(Number(e.target.value))}
+                    className="bg-white rounded-[8px] h-[38px] w-full max-w-[150px] text-left px-4 font-['Inter'] font-normal text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  />
+                  <span className="font-['Inter'] font-normal text-[13px] leading-[19.5px] text-[#464554] whitespace-nowrap">
+                    Attempts
+                  </span>
+                </div>
+              </div>
+
+              {/* Box 4: Toggles */}
+              <div className="bg-[#F7F9FB] rounded-[8px] p-[14px] px-[16px] flex flex-col justify-center gap-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-['Inter'] font-semibold text-[13px] leading-[19.5px] text-[#1B1B23]">
+                    Business Hours Only
+                  </span>
+                  <div
+                    onClick={() => setIsBusinessHoursOnly(!isBusinessHoursOnly)}
+                    className={`w-10 h-5 rounded-full relative p-1 cursor-pointer transition-colors duration-200 ${isBusinessHoursOnly ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
+                  >
+                    <div className={`w-3 h-3 bg-white rounded-full absolute top-1 transition-all duration-200 ${isBusinessHoursOnly ? 'right-1' : 'left-1'}`} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-['Inter'] font-semibold text-[13px] leading-[19.5px] text-[#1B1B23]">
+                    Stop on Reply
+                  </span>
+                  <div
+                    onClick={() => setStopOnReply(!stopOnReply)}
+                    className={`w-10 h-5 rounded-full relative p-1 cursor-pointer transition-colors duration-200 ${stopOnReply ? 'bg-[#004370]' : 'bg-[#E2E8F0]'}`}
+                  >
+                    <div className={`w-3 h-3 bg-white rounded-full absolute top-1 transition-all duration-200 ${stopOnReply ? 'right-1' : 'left-1'}`} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

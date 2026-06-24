@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChurnAnalysis: React.FC = () => {
   return (
-    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col font-[Inter] h-auto lg:h-[440px]">
+    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
       <div className="mb-6">
         <h3 className="tracking-normal font-semibold text-[20px] leading-[28px] text-[#0F172A]">
           Churn Analysis
