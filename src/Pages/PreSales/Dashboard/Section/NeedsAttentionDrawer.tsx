@@ -41,7 +41,7 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
           <>
             <div className="p-6 bg-white flex flex-col gap-3.5 border-b border-[#EDF3FD]">
               <div className="flex items-center justify-between w-full">
-                <h3 className="font-medium text-[20px] text-[#0F172A] leading-snug">
+                <h3 className="font-medium text-[20px] text-[#0F172A] leading-snug capitalize">
                   Demo Interest
                 </h3>
                 <button
