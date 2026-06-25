@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, CreditCard, Bell, MessageSquare, ShieldCheck, FileText, CircleHelp, ChevronRight } from 'lucide-react';
+import BtnCom from '../../Component/BtnCom';
 
 
 interface SettingsItemProps {
@@ -38,6 +39,8 @@ const SettingsItem = ({ icon: Icon, label, description, to, className = "" }: Se
 );
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   const accountOptions = [
     { icon: User, label: "Profile Settings", description: "Update personal info and verification details", to: "/settings/profile" },
     { icon: CreditCard, label: "Payment & Subscription", description: "Manage billing cycles and payment methods", to: "/settings/payment" },
@@ -57,13 +60,20 @@ const Settings = () => {
   return (
     <div className="min-h-screen">
       <div className="w-full space-y-3">
-        <div className="space-y-1 ">
-          <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">
-            Intelligence Hub
-          </span>
-          <h1 className="text-[22px] sm:text-[30px] font-bold text-[#000000] tracking-tight">
-            Settings
-          </h1>
+        <div className="flex flex-row justify-between items-center gap-4 pb-2">
+          <div className="space-y-1">
+            <span className="text-[12px] font-semibold text-[#004370] uppercase tracking-[0.15em]">
+              Intelligence Hub
+            </span>
+            <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+              Settings
+            </h1>
+          </div>
+          <BtnCom
+            title="Organization Setup"
+            onClick={() => navigate('/presales/organization-setup')}
+            className="text-sm shrink-0"
+          />
         </div>
 
         <div className="space-y-4 pb-2">

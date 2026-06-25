@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic } from 'lucide-react';
+import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic, ChevronLeft } from 'lucide-react';
 import StarIcon from '../../../../assets/logo/star.svg';
 
 
@@ -34,8 +34,8 @@ const CampaignCreation = () => {
   const navigate = useNavigate();
 
   const handleGenerate = () => {
-    navigate('/presales/campaigns/preview', { 
-      state: { title: prompt.trim() ? prompt : "Summer Collection Win-Back" } 
+    navigate('/presales/campaigns/preview', {
+      state: { title: prompt.trim() ? prompt : "Summer Collection Win-Back" }
     });
   };
 
@@ -87,7 +87,15 @@ const CampaignCreation = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-transparent py-6 font-manrope flex flex-col items-center">
+    <div className="w-full min-h-screen bg-transparent py-6 font-manrope flex flex-col items-center relative">
+      <div className="absolute top-6 left-6 z-10">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+        >
+          <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+        </button>
+      </div>
       <div className="w-full px-4 flex-1 flex flex-col justify-center">
         <div className="flex flex-col items-center justify-center text-center py-8">
 
@@ -95,13 +103,13 @@ const CampaignCreation = () => {
             <img src={StarIcon} className="w-7 h-7" alt="Star Icon" />
           </div>
 
-          <h1 className="w-[600px] text-[32px] sm:text-[48px] font-medium text-[#131B2E] leading-tight mb-8">
+          <h1 className="w-full max-w-[600px] text-[32px] sm:text-[48px] font-medium text-[#131B2E] leading-tight mb-8">
             What campaign would you like to <span className="text-[#004370] font-bold">Create today?</span>
           </h1>
 
-          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
-            <div className="flex items-center gap-3 flex-1">
-              <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center items-center shrink-0 cursor-pointer'>
+          <div className="w-full max-w-[820px] bg-white rounded-[16px] border border-[#004370] shadow-[0px_4px_20px_rgba(0,0,0,0.04)] p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 transition-all focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370]/40">
+            <div className="flex items-center flex-1 gap-3">
+              <div className='w-[26px] h-[26px] bg-[#EBF5FF] rounded-full flex justify-center items-center cursor-pointer shrink-0'>
                 <Plus color="black" size={18} />
               </div>
               <input
@@ -117,14 +125,14 @@ const CampaignCreation = () => {
                 className="flex-1 bg-transparent border-none text-[#767587] placeholder:text-[#767587] text-[16px] sm:text-[18px] font-medium outline-none min-w-0"
               />
             </div>
-            <div className="flex items-center justify-between sm:justify-end gap-3 px-1 sm:pr-2 mt-2 sm:mt-0">
-              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer shrink-0">
+            <div className="flex items-center justify-end gap-3.5 pr-2 border-t sm:border-t-0 border-[#EDF3FD] pt-3 sm:pt-0">
+              <button className="text-[#464555] hover:text-[#004370] transition-colors cursor-pointer p-1">
                 <Mic size={18} />
               </button>
               <button
                 onClick={handleGenerate}
                 disabled={!prompt.trim()}
-                className={`h-[56px] rounded-[14px] px-6 py-4 font-semibold text-[16px] flex items-center gap-3 transition-all select-none ${prompt.trim()
+                className={`h-[48px] sm:h-[56px] rounded-[14px] px-5 sm:px-6 py-2 sm:py-4 font-semibold text-[15px] sm:text-[16px] flex items-center gap-3 transition-all select-none shrink-0 ${prompt.trim()
                   ? 'bg-[#004370] text-white hover:bg-[#002e62] cursor-pointer'
                   : 'bg-[#E2E8F0] text-gray-400 cursor-not-allowed'
                   }`}

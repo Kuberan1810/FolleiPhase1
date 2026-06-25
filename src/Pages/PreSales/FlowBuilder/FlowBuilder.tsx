@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, MessageSquare, Mail, SquareDashed, RefreshCcwDot, LineChart, CalendarRange, Users } from 'lucide-react';
+import { Plus, Minus, RotateCcw, TimerReset, MessageSquareDot, Bot, Waves, PhoneOutgoing, MonitorDot, Play, FileCog, BellRing, CalendarDays, UserCheck, Activity, Mail, SquareDashed, RefreshCcwDot, CalendarRange, Users } from 'lucide-react';
 
 import EditActionDrawer from './components/Drawers/EditAction/EditActionDrawer';
 import NewLeadDrawer from './components/Drawers/NewLead/NewLeadDrawer';
@@ -292,10 +292,10 @@ const FlowBuilder = () => {
       <div className="px-4 lg:px-6 pt-4 lg:pt-6">
         <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
           <div>
-            <h1 className="text-[26px] sm:text-[30px] font-extrabold text-[#0F172A] font-manrope leading-none">
+            <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
               Flow Builder
             </h1>
-            <p className="text-[13px] md:text-base text-[#64748B] mt-1 font-regular font-inter whitespace-nowrap">
+            <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
               Automate Every Customer Interaction
             </p>
           </div>

@@ -2,12 +2,12 @@ import React from 'react';
 
 const ChurnAnalysis: React.FC = () => {
   return (
-    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col font-[Inter]">
+    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
       <div className="mb-6">
-        <h3 className="tracking-normal font-semibold text-[14px] leading-[28px] text-[#0F172A]">
+        <h3 className="tracking-normal font-semibold text-[20px] leading-[28px] text-[#0F172A]">
           Churn Analysis
         </h3>
-        <p className="text-[13px] text-slate-400 font-medium mt-0.5">
+        <p className="text-[15px] text-slate-400   mt-1.5">
           Data-driven signals for customer retention management.
         </p>
       </div>
@@ -15,22 +15,22 @@ const ChurnAnalysis: React.FC = () => {
       {/* Sub-cards grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         {/* Accounts at Risk */}
-        <div className="p-4 rounded-2xl border border-rose-100 bg-rose-50/10 flex flex-col justify-between min-h-[105px]">
-          <span className="text-[11px] tracking-wider uppercase font-bold text-slate-400">
+        <div className="p-4 rounded-2xl border border-[#FEF2F2] bg-[#FEF2F2]/30 flex flex-col justify-between min-h-[105px]">
+          <span className="text-[13px] tracking-wider uppercase font-semibold text-slate-400">
             Accounts at Risk
           </span>
-          <div className="flex items-baseline gap-2 mt-2">
+          <div className="flex items-baseline gap-2 mt-2 flex-col">
             <h4 className="text-[30px] leading-[36px] font-bold text-[#DC2626]">120</h4>
             <span className="text-[12px] font-bold text-emerald-600">▲ 12 vs last month</span>
           </div>
         </div>
 
         {/* Revenue at Risk */}
-        <div className="p-4 rounded-2xl border border-blue-100 bg-blue-50/10 flex flex-col justify-between min-h-[105px]">
-          <span className="text-[11px] tracking-wider uppercase font-bold text-slate-400">
+        <div className="p-4 rounded-2xl border border-[#EFF6FF] bg-[#EFF6FF] flex flex-col justify-between min-h-[105px]">
+          <span className="text-[13px] tracking-wider uppercase font-semibold text-slate-400">
             Revenue at Risk
           </span>
-          <div className="flex items-baseline gap-2 mt-2">
+          <div className="flex items-baseline gap-2 flex-col mt-2">
             <h4 className="text-[30px] leading-[36px] font-bold text-[#2563EB]">₹ 4.2L</h4>
             <span className="text-[12px] font-bold text-emerald-600">▲ 8.6% vs last month</span>
           </div>
@@ -46,8 +46,8 @@ const ChurnAnalysis: React.FC = () => {
         ].map((reason, idx) => (
           <div key={idx} className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-[#0D1C2E] text-[13px] font-semibold">{reason.label}</span>
-              <span className="text-[#0D1C2E] text-[13px] font-bold">{reason.value}%</span>
+              <span className="text-[#0D1C2E] text-[14px] font-semibold">{reason.label}</span>
+              <span className="text-[#0D1C2E] text-[14px] font-semibold">{reason.value}%</span>
             </div>
             <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
               <div

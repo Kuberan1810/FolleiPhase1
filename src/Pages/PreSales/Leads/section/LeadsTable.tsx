@@ -245,8 +245,8 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                           setShowAZPopup(false);
                         }}
                         className={`w-10 h-8 shrink-0 flex items-center justify-center text-[13px] font-bold transition-all duration-150 scrollbar-hide no-scrollbar cursor-pointer ${selectedLetter === letter
-                            ? 'text-[#004370]'
-                            : 'text-[#434655] hover:bg-slate-50 hover:text-[#004370]'
+                          ? 'text-[#004370]'
+                          : 'text-[#434655] hover:bg-slate-50 hover:text-[#004370]'
                           }`}
                       >
                         {letter}
@@ -286,7 +286,7 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                           <h4 className=" font-semibold text-[14px] text-black leading-tight">
                             {lead.name}
                           </h4>
-                          <span className=" font-bold text-[12px] text-[#6B7280] leading-tight">
+                          <span className=" font-medium text-[12px] text-[#6B7280] leading-tight">
                             {lead.email}
                           </span>
                         </div>
@@ -356,13 +356,12 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${
-              currentPage === 1 ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
-            }`}
+            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${currentPage === 1 ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
+              }`}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          
+
           {/* Page numbers */}
           {getPageNumbers().map((page, idx) => {
             if (typeof page === 'string') {
@@ -376,11 +375,10 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
               <button
                 key={`page-${page}`}
                 onClick={() => setCurrentPage(page)}
-                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors font-medium text-sm cursor-pointer ${
-                  currentPage === page
-                    ? 'bg-[#0F365C] text-white font-semibold'
-                    : 'text-slate-500 hover:bg-slate-50'
-                }`}
+                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors font-medium text-sm cursor-pointer ${currentPage === page
+                  ? 'bg-[#0F365C] text-white font-semibold'
+                  : 'text-slate-500 hover:bg-slate-50'
+                  }`}
               >
                 {page}
               </button>
@@ -391,9 +389,8 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${
-              currentPage === totalPages ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
-            }`}
+            className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
+              }`}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -419,9 +416,8 @@ const LeadsTable: React.FC<LeadsTableProps> = ({
                       setRowsPerPage(val);
                       setShowRowsDropdown(false);
                     }}
-                    className={`px-3 py-1.5 text-left text-[13px] font-medium transition-colors hover:bg-slate-50 cursor-pointer ${
-                      rowsPerPage === val ? 'text-[#0F365C] font-semibold bg-slate-50/50' : 'text-slate-600'
-                    }`}
+                    className={`px-3 py-1.5 text-left text-[13px] font-medium transition-colors hover:bg-slate-50 cursor-pointer ${rowsPerPage === val ? 'text-[#0F365C] font-semibold bg-slate-50/50' : 'text-slate-600'
+                      }`}
                   >
                     {val}
                   </button>

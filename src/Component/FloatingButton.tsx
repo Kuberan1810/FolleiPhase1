@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AiBrain from "../assets/AiFloat.svg";
-import AIBrainPopup from "./AIBrainPopup";
+import PreSalesAIBrainPopup from "./PreSalesAIBrainPopup";
+import PostSalesAIBrainPopup from "./PostSalesAIBrainPopup";
 // import AiLiveChat from "../Pages/PreSales/Dashboard/Section/AiLiveChat";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const FloatingButton = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
+    // const [isLiveChatOpen, setIsLiveChatOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const location = useLocation();
@@ -34,11 +35,15 @@ const FloatingButton = () => {
         return () => document.removeEventListener('scroll', handleScroll, { capture: true });
     }, [lastScrollY]);
 
-    const isOutbound = location.pathname.startsWith('/postsales/campaigns');
+    const isOutbound = location.pathname.startsWith('/postsales');
 
     return (
         <>
-            <AIBrainPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} isOutbound={isOutbound} />
+            {isOutbound ? (
+                <PostSalesAIBrainPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+            ) : (
+                <PreSalesAIBrainPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+            )}
             {/* <AnimatePresence>
               {isLiveChatOpen && (
                 <motion.div
@@ -83,9 +88,9 @@ const FloatingButton = () => {
 
                         {/* AI Button — Premium Glow */}
                         <div
-                            // onClick={() => { setIsLiveChatOpen(!isLiveChatOpen); }}
-                            // className="relative w-[58px] h-[58px] flex items-center justify-center cursor-pointer"
-                            // style={{ animation: 'float 3s ease-in-out infinite' }}
+                            onClick={() => setIsPopupOpen(true)}
+                            className="relative w-[58px] h-[58px] flex items-center justify-center cursor-pointer"
+                            style={{ animation: 'float 3s ease-in-out infinite' }}
                         >
                             {/* Pulse rings */}
                             <div

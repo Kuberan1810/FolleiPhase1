@@ -25,37 +25,18 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-4">
       <div>
-        <h1
-          className="tracking-tight"
-          style={{
-            fontWeight: 700,
-            fontSize: '36px',
-            lineHeight: '44px',
-            letterSpacing: '-0.72px',
-            color: '#0D1C2E'
-          }}
-        >
+        <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+
           Customer
         </h1>
-        <p
-          className="mt-1"
-          style={{
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#434655'
-          }}
-        >
-          Manage and track{' '}
-          <span className="font-bold text-[#004370]">
-            1,284 Customer
-          </span>{' '}
-          across your sales pipeline.
+        <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+
+          Manage and track 1,284 Customer across your sales pipeline.
         </p>
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-3 self-end md:self-center">
+      <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end mt-4 md:mt-0">
 
         {/* FILTER Button */}
         <div className="relative">
@@ -64,14 +45,16 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
               setShowFilterPanel(!showFilterPanel);
               setShowSortDropdown(false);
             }}
-            className={`flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${
-              showFilterPanel ? 'border-[#004370] bg-[#EFF4FF]/50' : ''
-            }`}
+            className={`flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showFilterPanel ? 'border-[#004370] bg-[#EFF4FF]/50' : ''
+              }`}
           >
             <span>Filter</span>
             <ChevronDown className="w-4 h-4 text-slate-500" />
           </button>
 
+          {showFilterPanel && (
+            <div className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[1px] md:hidden" onClick={() => setShowFilterPanel(false)} />
+          )}
           <CustomerFilterPanel
             isOpen={showFilterPanel}
             onClose={() => setShowFilterPanel(false)}
@@ -95,7 +78,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
           </button>
 
           {showSortDropdown && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl z-[100] py-2 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+            <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl z-[100] py-2 shadow-xl animate-in fade-in zoom-in-95 duration-200 origin-top-right">
               {(['Newest', 'Name'] as const).map((opt) => (
                 <button
                   key={opt}

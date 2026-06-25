@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import type { RenewalRow } from '../RenewalDash';
 import BtnComSecondary from '../../../../../Component/BtnComSecondary';
-import { ArrowRight } from 'iconsax-react';
+
 
 interface UpcomingRenewalTableProps {
   rows: RenewalRow[];

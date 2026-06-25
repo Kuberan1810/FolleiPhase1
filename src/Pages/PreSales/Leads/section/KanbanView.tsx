@@ -257,9 +257,9 @@ const KanbanView: React.FC<KanbanViewProps> = ({
               style={{
                 height: '48px',
                 boxSizing: 'border-box',
-                padding: '12px 4px',
+                padding: '12px 16px',
                 borderTop: `2px solid ${activeColorSource.borderColor}`,
-                backgroundColor: 'transparent',
+                backgroundColor: activeColorSource.bgColor,
                 color: activeColorSource.textColor,
                 fontFamily: 'Inter, sans-serif'
               }}
@@ -278,7 +278,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <span
                   className="inline-flex items-center justify-center font-semibold text-[10px] w-[22px] h-[22px] rounded-full leading-[16px] tracking-normal"
                   style={{
-                    backgroundColor: activeColorSource.bgColor,
+                    backgroundColor: '#FFFFFF',
                     color: activeColorSource.borderColor,
                     border: `1px solid ${activeColorSource.borderColor}33`
                   }}
@@ -302,7 +302,7 @@ const KanbanView: React.FC<KanbanViewProps> = ({
                 <div
                   key={lead.id}
                   onClick={() => onLeadClick(lead)}
-                  className="p-4 cursor-pointer transition-all flex flex-col justify-between rounded-[16px] border bg-[#FCFCFC] border-[#EDF3FB] opacity-90"
+                  className="p-4 cursor-pointer transition-all flex flex-col justify-between rounded-[16px] border bg-[#FCFCFC] border-[#EDF3FB]"
                 >
                   {/* Lead Info */}
                   <div>

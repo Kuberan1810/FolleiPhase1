@@ -148,7 +148,7 @@ const TicketLayout: React.FC = () => {
 
     if (selectedTicket) {
         return (
-            <div className="min-h-screen bg-[#F8FAFC] pb-12 px-6 pt-4">
+            <div className="min-h-screen  pb-12 px-6 pt-4">
                 <TicketDetail
                     ticket={selectedTicket}
                     onBack={() => setSelectedTicket(null)}
@@ -158,7 +158,7 @@ const TicketLayout: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] pb-12 px-6">
+        <div className="min-h-screen pb-12">
             {/* Header and Controls */}
             <TicketHeader
                 searchQuery={searchQuery}

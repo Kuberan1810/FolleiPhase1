@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, FileText, Activity, AlertCircleIcon } from 'lucide-react';
+import { FileText, Activity, AlertCircleIcon } from 'lucide-react';
 
 const SupportTicketsCard: React.FC = () => {
   const tickets = [

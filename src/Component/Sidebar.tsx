@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
-import { LogOut, Megaphone } from 'lucide-react';
+import { Megaphone } from 'lucide-react';
 
 import { Home, Profile2User, People, HierarchySquare, Setting2, DocumentUpload, ChartSquare, Ticket, EmptyWalletChange } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
@@ -71,10 +71,10 @@ const Sidebar: React.FC = () => {
     ];
   }
 
-  const bottomNavItems = [
+  /* const bottomNavItems = [
     { icon: Setting2, label: 'Settings', path: '/settings' },
     { icon: LogOut, label: 'Logout', path: '/logout', isDanger: true },
-  ];
+  ]; */
 
 
 
@@ -88,7 +88,7 @@ const Sidebar: React.FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:hidden rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
+            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:!hidden rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
           >
             {navItems.map((item, index) => {
               const isActive = location.pathname.startsWith(item.path) || 

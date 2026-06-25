@@ -43,27 +43,12 @@ const TicketHeader: React.FC<TicketHeaderProps> = ({
     return (
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12 pt-4">
             <div>
-                <h1
-                    className="tracking-tight"
-                    style={{
-                        fontWeight: 700,
-                        fontSize: '30px',
-                        lineHeight: '44px',
-                        letterSpacing: '-0.72px',
-                        color: '#222222'
-                    }}
-                >
+                <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+
                     Support Ticket Intelligence
                 </h1>
-                <p
-                    className="mt-1"
-                    style={{
-                        fontWeight: 400,
-                        fontSize: '16px',
-                        lineHeight: '24px',
-                        color: '#434655'
-                    }}
-                >
+                <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+
                     Real time oversight of enterprise post-sale support operations and SLA health across the portfolio.
                 </p>
             </div>

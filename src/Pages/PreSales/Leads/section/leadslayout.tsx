@@ -38,7 +38,7 @@ interface HeaderCardDataItem {
 const headerCardsData: HeaderCardDataItem[] = [
   {
     icon: Flame,
-    iconColorClass: "text-[#DC2626]",
+    iconColorClass: "text-[#E41E1E]",
     title: "Needs Attention",
     count: "18",
     countBgClass: "bg-[#E41E1E]",
@@ -50,7 +50,7 @@ const headerCardsData: HeaderCardDataItem[] = [
     badgeText: "Hot",
     badgeBorderClass: "",
     badgeBgClass: "bg-[#FEF2F2]",
-    badgeTextColorClass: "text-[#EF4444]",
+    badgeTextColorClass: "text-[#E41E1E]",
     description: '"Asked pricing twice and opened proposal."',
   },
   {
@@ -67,7 +67,7 @@ const headerCardsData: HeaderCardDataItem[] = [
     badgeText: "Warm",
     badgeBorderClass: "",
     badgeBgClass: "bg-[#FFF7ED]",
-    badgeTextColorClass: "text-[#EA580C]",
+    badgeTextColorClass: "text-[#F97316]",
     description: '"Interested in enterprise plan. Waiting for call."',
     fallbackLead: {
       id: 'temp_mb',
@@ -96,13 +96,13 @@ const headerCardsData: HeaderCardDataItem[] = [
     countBgClass: "bg-[#A855F7]",
     avatarText: "OC",
     avatarBgClass: "bg-[#DCFCE7]",
-    avatarTextColorClass: "text-[#15803D]",
+    avatarTextColorClass: "text-[#16A34A]",
     leadName: "Olivia Carter",
     email: "olivia.c@gmail.com",
     badgeText: "Demo",
     badgeBorderClass: "",
     badgeBgClass: "bg-[#FAF5FF]",
-    badgeTextColorClass: "text-[#7C3AED]",
+    badgeTextColorClass: "text-[#A855F7]",
     description: (
       <>
         Demo scheduled on <span className="text-[#191C1E] font-medium text-[11px] inline">14 Jan, 2026</span>
@@ -129,19 +129,19 @@ const headerCardsData: HeaderCardDataItem[] = [
   },
   {
     icon: UserPlus,
-    iconColorClass: "text-[#EA580C]",
+    iconColorClass: "text-[#F6733B]",
     title: "New Leads",
     count: "01",
     countBgClass: "bg-[#F6733B]",
     avatarText: "DW",
-    avatarBgClass: "bg-[#FEF3C7]",
-    avatarTextColorClass: "text-[#D97706]",
+    avatarBgClass: "bg-[#FFEDD5]",
+    avatarTextColorClass: "text-[#EA580C]",
     leadName: "Daniel Wilson",
     email: "daniel.w@gmail.com",
     badgeText: "New",
     badgeBorderClass: "",
     badgeBgClass: "bg-[#EFF6FF]",
-    badgeTextColorClass: "text-[#475569]",
+    badgeTextColorClass: "text-[#3B82F6]",
     description: '"Downloaded whitepaper on AI sales."',
     fallbackLead: {
       id: 'temp_dw',
@@ -264,46 +264,22 @@ const Leadslayout: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen pb-12 px-6 ">
+    <div className="min-h-screen pb-6">
       {/* Title & Description Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-4">
         <div>
-          <h1
-            className="tracking-tight"
-            style={{
-              fontFamily: '',
-              fontWeight: 500,
-              fontSize: '36px',
-              lineHeight: '44px',
-              letterSpacing: '-0.72px',
-              color: '#0D1C2E'
-            }}
-          >
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+
             Leads Management
           </h1>
-          <p
-            className="mt-1"
-            style={{
-              fontFamily: '',
-              fontWeight: 400,
-              fontSize: '16px',
-              lineHeight: '24px',
-              letterSpacing: '0px',
-              color: '#434655'
-            }}
-          >
-            Manage and track{' '}
-            <span
-              className="cursor-pointer hover:underline font-bold text-[#0A71B7]"
-            >
-              1,284 Leads
-            </span>{' '}
-            across your sales pipeline.
+          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+
+            Manage and track 1,284 Leads across your sales pipeline.
           </p>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3 self-end md:self-center">
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end mt-4 md:mt-0">
           {/* FILTER Button with Popover */}
           <div className="relative">
             <button
@@ -324,6 +300,9 @@ const Leadslayout: React.FC = () => {
               )}
             </button>
 
+            {showFilters && (
+              <div className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[1px] md:hidden" onClick={() => setShowFilters(false)} />
+            )}
             <FilterPanel
               show={showFilters}
               onClose={() => setShowFilters(false)}
@@ -364,8 +343,8 @@ const Leadslayout: React.FC = () => {
             >
               <span>Sort by: {
                 sortOption === 'newest' ? 'Newest' :
-                sortOption === 'oldest' ? 'Oldest' :
-                sortOption === 'score-desc' ? 'Score: High to Low' : 'Score: Low to High'
+                  sortOption === 'oldest' ? 'Oldest' :
+                    sortOption === 'score-desc' ? 'Score: High to Low' : 'Score: Low to High'
               }</span>
               <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>
@@ -373,7 +352,7 @@ const Leadslayout: React.FC = () => {
             {showSortDropdown && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowSortDropdown(false)} />
-                <div className="absolute right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
                   {[
                     { value: 'newest', label: 'Newest' },
                     { value: 'oldest', label: 'Oldest' },
@@ -386,9 +365,8 @@ const Leadslayout: React.FC = () => {
                         setSortOption(opt.value as any);
                         setShowSortDropdown(false);
                       }}
-                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer ${
-                        sortOption === opt.value ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
-                      }`}
+                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer ${sortOption === opt.value ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
+                        }`}
                     >
                       {opt.label}
                     </button>
@@ -415,7 +393,7 @@ const Leadslayout: React.FC = () => {
             {showCategoryDropdown && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowCategoryDropdown(false)} />
-                <div className="absolute right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
                   {(['Lead Source', 'Lead Status', 'Lead Score', 'Campaign'] as const).map((opt) => (
                     <button
                       key={opt}
@@ -423,9 +401,8 @@ const Leadslayout: React.FC = () => {
                         setCategorizeBy(opt);
                         setShowCategoryDropdown(false);
                       }}
-                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer flex justify-between items-center ${
-                        categorizeBy === opt ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
-                      }`}
+                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer flex justify-between items-center ${categorizeBy === opt ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
+                        }`}
                     >
                       <span>{getCategoryLabel(opt)}</span>
                       {categorizeBy === opt && (

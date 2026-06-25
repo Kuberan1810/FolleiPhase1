@@ -2,10 +2,10 @@ const OrchestratorHeader = () => {
   return (
     <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
       <div>
-        <h1 className="text-[26px] sm:text-[30px] font-extrabold text-[#0F172A]  font-manrope">
+        <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
           Data Import
         </h1>
-        <p className="text-[13px] md:text-base  text-[#64748B] mt-1 font-regular font-inter">
+        <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
           Management suite for automated intelligence and data synchronization
         </p>
       </div>

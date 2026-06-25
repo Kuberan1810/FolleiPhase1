@@ -202,7 +202,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                           <h4 className="font-semibold text-[14px] text-[#111827] leading-tight">
                             {cust.name}
                           </h4>
-                          <span className="font-bold text-[12px] text-[#6B7280] leading-tight">
+                          <span className="font-medium text-[12px] text-[#6B7280] leading-tight">
                             {cust.email}
                           </span>
                         </div>

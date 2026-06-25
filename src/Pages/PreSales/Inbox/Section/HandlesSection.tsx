@@ -230,7 +230,7 @@ const HandlesSection: React.FC = () => {
                                   key={i}
                                   className="w-[4px] rounded-full"
                                   style={{
-                                    height: `${height * 1.8}px`,
+                                    height: height ? `${height * 1.8}px` : undefined,
                                     backgroundColor: i % 3 === 0 ? "#34D399" : i % 3 === 1 ? "#10B981" : "#6EE7B7"
                                   }}
                                 />

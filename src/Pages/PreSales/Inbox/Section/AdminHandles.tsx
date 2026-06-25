@@ -227,9 +227,11 @@ const AdminHandles: React.FC = () => {
                     >
                         <ArrowLeft className="w-6 h-6 text-[#0B1C30]" />
                     </button>
-                    <h1 className="text-[30px] font-extrabold text-[#0F172A]">Admin Handles</h1>
+                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+                        Admin Handles
+                    </h1>
                 </div>
-                <p className="text-[14px] font-medium text-[#64748B] mt-1 pl-9">
+                <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
                     Management suite for automated intelligence and data synchronization
                 </p>
             </div>

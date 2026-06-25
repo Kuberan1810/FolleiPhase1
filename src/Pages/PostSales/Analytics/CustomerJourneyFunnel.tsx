@@ -1,124 +1,226 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { User, Gem } from 'lucide-react';
+import { Chart1, PresentionChart } from 'iconsax-react';
+
+interface StageData {
+  id: string;
+  label: string;
+  value: string;
+  icon: React.ComponentType<any>;
+  gradientId: string;
+  cx: number;
+  cy: number;
+  path: string;
+}
+
+interface ConversionCardData {
+  id: number;
+  rate: string;
+  label: string;
+  description: string;
+  fromStage: string;
+  toStage: string;
+}
+
+const stagesData: StageData[] = [
+  {
+    id: 'new',
+    label: 'New Customers',
+    value: '1,246',
+    icon: User,
+    gradientId: 'funnelGrad1',
+    cx: 55,
+    cy: 55,
+    path: 'M 0,20 C 60,20 80,80 110,80 L 110,200 L 0,200 Z'
+  },
+  {
+    id: 'onboard',
+    label: 'Onboarding Completed',
+    value: '564',
+    icon: PresentionChart,
+    gradientId: 'funnelGrad2',
+    cx: 170,
+    cy: 100,
+    path: 'M 115,80 C 175,80 195,120 225,120 L 225,200 L 115,200 Z'
+  },
+  {
+    id: 'active',
+    label: 'Actively Using Product',
+    value: '345',
+    icon: Chart1,
+    gradientId: 'funnelGrad3',
+    cx: 285,
+    cy: 135,
+    path: 'M 230,120 C 290,120 310,150 340,150 L 340,200 L 230,200 Z'
+  },
+  {
+    id: 'renewal',
+    label: 'Renewal Ready Customers',
+    value: '213',
+    icon: Gem,
+    gradientId: 'funnelGrad4',
+    cx: 400,
+    cy: 160,
+    path: 'M 345,150 C 405,150 425,170 455,170 L 455,200 L 345,200 Z'
+  }
+];
+
+const conversionCards: ConversionCardData[] = [
+  {
+    id: 0,
+    rate: '76%',
+    label: 'Conversion rate',
+    description: 'Customers who signed up in the selected period.',
+    fromStage: 'New Customers',
+    toStage: 'Onboarding Completed'
+  },
+  {
+    id: 1,
+    rate: '53%',
+    label: 'Conversion rate',
+    description: 'Customers who completed onboarding successfully.',
+    fromStage: 'Onboarding Completed',
+    toStage: 'Actively Using Product'
+  },
+  {
+    id: 2,
+    rate: '38%',
+    label: 'Conversion rate',
+    description: 'Customers who used key features in the last 7 days.',
+    fromStage: 'Actively Using Product',
+    toStage: 'Renewal Ready'
+  }
+];
+
+const defaultConversion = {
+  rate: '22%',
+  label: 'Conversion rate',
+  description: 'from New Customers to Renewal Ready',
+  fromStage: undefined as string | undefined,
+  toStage: undefined as string | undefined
+};
 
 const CustomerJourneyFunnel: React.FC = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const getCardPositionStyle = () => {
+    if (hoveredIndex === 0) return { left: '16%', top: '5px' };
+    if (hoveredIndex === 1) return { left: '40%', top: '25px' };
+    if (hoveredIndex === 2) return { left: '52%', top: '45px' };
+    return { right: '20px', top: '10px' };
+  };
+
+  const activeCard = hoveredIndex !== null ? conversionCards[hoveredIndex] : defaultConversion;
+
   return (
-    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col font-[Inter]">
-      <div className="mb-6">
-        <h3
-          className="tracking-normal font-semibold text-[#1E293B]"
-          style={{
-            fontWeight: 600,
-            fontSize: '14px',
-            lineHeight: '20px',
-            color: '#1E293B'
-          }}
-        >
+    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
+      <div className="mb-4 text-left">
+        <h3 className="tracking-normal font-semibold text-[#1E293B] text-[20px] leading-[20px]">
           Customer Journey Funnel
         </h3>
-        <p className="text-[13px] text-slate-400 font-medium mt-0.5">
-          Track Customer Progression after purchase.
+        <p className="text-[15px] text-slate-400 mt-1.5">
+          Measure customer progress across key success milestones.
         </p>
       </div>
 
-      {/* Custom SVG Funnel rendering */}
-      <div className="w-full flex justify-center py-4">
-        <svg
-          width="100%"
-          height="270"
-          viewBox="0 0 580 254"
-          preserveAspectRatio="xMidYMid meet"
-          className="max-w-[480px] sm:max-w-full"
+      <div className="relative flex flex-col justify-center flex-grow min-h-0">
+        <div
+          className="absolute bg-white shadow-[0px_1px_4px_0px_#0000002E] rounded-[8px] py-1.5 px-2 flex items-start gap-3 text-left transition-all duration-300 ease-out w-[240px] z-10"
+          style={getCardPositionStyle()}
         >
-          {/* Step 1: Purchase Completed */}
-          <g className="cursor-pointer group">
-            <path
-              d="M 0,0 L 460,0 L 414,44 L 46,44 Z"
-              fill="#E3DBFA"
-              className="transition-all duration-300 group-hover:brightness-95"
-            />
-            <text x="230" y="20" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0D1C2E">
-              Purchase Completed
-            </text>
-            <text x="230" y="34" textAnchor="middle" fontSize="11" fontWeight="semibold" fill="#5E6366">
-              23,240
-            </text>
-            <text x="500" y="26" fontSize="15" fontWeight="bold" fill="#0D1C2E">
-              89%
-            </text>
-          </g>
+          <span className="text-[24px] font-bold text-[#004370] leading-none shrink-0">
+            {activeCard.rate}
+          </span>
+          <div className="flex flex-col">
+            <span className="text-[14px] font-bold text-[#1E293B]">
+              {activeCard.label}
+            </span>
+            <span className="text-[10px] text-[#64748B] mt-0.5 leading-tight">
+              {activeCard.fromStage && activeCard.toStage
+                ? `from ${activeCard.fromStage} to ${activeCard.toStage}`
+                : activeCard.description}
+            </span>
+          </div>
+        </div>
 
-          {/* Step 2: Order Delivered */}
-          <g className="cursor-pointer group">
-            <path
-              d="M 46,48 L 414,48 L 368,92 L 92,92 Z"
-              fill="#C7B5FB"
-              className="transition-all duration-300 group-hover:brightness-95"
-            />
-            <text x="230" y="68" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0D1C2E">
-              Order Delivered
-            </text>
-            <text x="230" y="82" textAnchor="middle" fontSize="11" fontWeight="semibold" fill="#5E6366">
-              10,240
-            </text>
-            <text x="500" y="74" fontSize="15" fontWeight="bold" fill="#0D1C2E">
-              82%
-            </text>
-          </g>
+        <div className="w-full relative mt-3">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 455 210"
+            preserveAspectRatio="xMidYMid meet"
+            className="w-full"
+          >
+            <defs>
+              <linearGradient id="funnelGrad1" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stopColor="#CAB6FF" />
+                <stop offset="49.11%" stopColor="#BD99FA" />
+                <stop offset="100%" stopColor="#BD99FA" />
+              </linearGradient>
+              <linearGradient id="funnelGrad2" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stopColor="#8084FF" />
+                <stop offset="49.52%" stopColor="#7459F4" />
+                <stop offset="100%" stopColor="#7459F4" />
+              </linearGradient>
+              <linearGradient id="funnelGrad3" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stopColor="#D6EBFF" />
+                <stop offset="100%" stopColor="#B0BDFF" />
+              </linearGradient>
+              <linearGradient id="funnelGrad4" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#C7E6F9" />
+                <stop offset="100%" stopColor="#D6F5FF" />
+              </linearGradient>
+            </defs>
 
-          {/* Step 3: Product Used */}
-          <g className="cursor-pointer group">
-            <path
-              d="M 92,96 L 368,96 L 322,140 L 138,140 Z"
-              fill="#5C82F2"
-              className="transition-all duration-300 group-hover:brightness-95"
-            />
-            <text x="230" y="116" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#FFFFFF">
-              Product Used
-            </text>
-            <text x="230" y="130" textAnchor="middle" fontSize="11" fontWeight="semibold" fill="#E2E8F0">
-              5,240
-            </text>
-            <text x="500" y="122" fontSize="15" fontWeight="bold" fill="#0D1C2E">
-              71%
-            </text>
-          </g>
+            {stagesData.map((stage, idx) => {
+              const IconComponent = stage.icon;
+              return (
+                <g
+                  key={stage.id}
+                  className={`cursor-pointer transition-all duration-300 `}
+                  onMouseEnter={() => setHoveredIndex(idx === 3 ? null : idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <path
+                    d={stage.path}
+                    fill={`url(#${stage.gradientId})`}
+                  />
+                  <circle
+                    cx={stage.cx}
+                    cy={stage.cy}
+                    r="18"
+                    fill={`url(#${stage.gradientId})`}
+                    stroke="rgba(255, 255, 255, 0.5)"
+                    strokeWidth="1.5"
+                  />
+                  <g transform={`translate(${stage.cx - 8}, ${stage.cy - 8})`} className="text-white">
+                    <IconComponent size={16} color="white" variant="Linear" />
+                  </g>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
 
-          {/* Step 4: Repeat Purchase */}
-          <g className="cursor-pointer group">
-            <path
-              d="M 138,144 L 322,144 L 286,188 L 174,188 Z"
-              fill="#06B6D4"
-              className="transition-all duration-300 group-hover:brightness-95"
-            />
-            <text x="230" y="164" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#FFFFFF">
-              Repeat Purchase
-            </text>
-            <text x="230" y="178" textAnchor="middle" fontSize="11" fontWeight="semibold" fill="#E2E8F0">
-              3,240
-            </text>
-            <text x="500" y="170" fontSize="15" fontWeight="bold" fill="#0D1C2E">
-              40%
-            </text>
-          </g>
-
-          {/* Step 5: Referral */}
-          <g className="cursor-pointer group">
-            <path
-              d="M 174,192 L 286,192 L 286,236 L 174,236 Z"
-              fill="#10B981"
-              className="transition-all duration-300 group-hover:brightness-95"
-            />
-            <text x="230" y="212" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#FFFFFF">
-              Referral
-            </text>
-            <text x="230" y="226" textAnchor="middle" fontSize="11" fontWeight="semibold" fill="#E2E8F0">
-              1,240
-            </text>
-            <text x="500" y="218" fontSize="15" fontWeight="bold" fill="#0D1C2E">
-              32%
-            </text>
-          </g>
-        </svg>
+        <div className="grid grid-cols-4 gap-1 mt-2 text-center">
+          {stagesData.map((stage, idx) => (
+            <div
+              key={stage.id}
+              className={`flex flex-col items-center transition-all duration-300 ${hoveredIndex !== null &&
+                (hoveredIndex === idx || (hoveredIndex === idx - 1 && idx > 0))
+                ? 'scale-105 font-medium'
+                : ''
+                }`}
+            >
+              <span className="text-[14px] font-bold text-[#111827] leading-tight">
+                {stage.value}
+              </span>
+              <span className="text-[10px] text-[#6B7280] font-semibold leading-tight mt-1 max-w-[120px] block">
+                {stage.label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

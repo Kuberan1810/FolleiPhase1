@@ -181,7 +181,7 @@ const PostSalesCustomer = () => {
     const navigate = useNavigate();
     const [customersList] = useState<Customer[]>(mockCustomers);
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(mockCustomers[0]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery] = useState('');
     const [selectedLetter, setSelectedLetter] = useState('All');
     const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
     const [selectedUsages, setSelectedUsages] = useState<string[]>([]);

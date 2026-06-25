@@ -27,10 +27,10 @@ const BusinessInformation = () => {
     return (
         <div className="flex flex-col gap-5 w-full">
             <div className="mb-2">
-                <h2 className="font-inter font-bold text-[24px] text-[#0B1C30] leading-[30px] mb-2">
+                <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
                     Business Information
-                </h2>
-                <p className="font-inter text-[16px] text-[#424656] leading-[20px]">
+                </h1>
+                <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
                     Help our AI understand your business model and customer journey.
                 </p>
             </div>

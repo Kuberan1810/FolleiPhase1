@@ -12,6 +12,7 @@ import FlowBuilderLayout from "../Component/FlowBuilderLayout";
 
 // App Pages (PreSales Inbound)
 import Dashboard from "../Pages/PreSales/Dashboard/Dashboard";
+import NeedsAttentionPage from "../Pages/PreSales/Dashboard/NeedsAttentionPage";
 import PendingTasksPage from "../Pages/AiInsights/PendingTasksPage";
 import AIInsightsPage from "../Pages/AiInsights/AIInsightsPage";
 import InactiveLeadsPage from "../Pages/AiInsights/InactiveLeadsPage";
@@ -37,6 +38,9 @@ import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
+import CustomerOnboarding from "../Pages/PostSales/CustomerOnboarding/CustomerOnboarding";
+import CustomerEnablement from "../Pages/PostSales/CustomerOnboarding/Enablement/CustomerEnablement";
+import ProductUnderstandingPage from "../Pages/PostSales/CustomerOnboarding/Enablement/ProductUnderstandingPage";
 import RenewalDash from "../Pages/PostSales/RenewalMain/renewaldash/RenewalDash";
 import Renewal from "../Pages/PostSales/RenewalMain/renewal/Renewal";
 import RenewalDetailsPage from "../Pages/PostSales/RenewalMain/renewaldetails/RenewalDetailsPage";
@@ -106,6 +110,7 @@ export default function AppRoutes() {
 
       <Route path="/presales" element={<MainLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard/needs-attention" element={<NeedsAttentionPage />} />
 
         <Route path="inbox">
           <Route index element={<InBox />} />
@@ -142,7 +147,12 @@ export default function AppRoutes() {
           <Route path="profile" element={<PostSalesCustomerProfile />} />
         </Route>
 
+
         <Route path="tickets" element={<PostSalesTickets />} />
+
+        <Route path="onboarding" element={<CustomerOnboarding />} />
+        <Route path="onboarding/enablement/:customerId" element={<CustomerEnablement />} />
+        <Route path="onboarding/enablement/:customerId/understanding" element={<ProductUnderstandingPage />} />
 
         <Route path="renewals">
           <Route index element={<RenewalDash />} />

@@ -89,10 +89,10 @@ const CampaignReady = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-gray-100 pb-3">
         <div>
 
-          <h1 className="text-[28px] sm:text-[32px] font-semibold text-[#131B2E] tracking-tight">
+          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
             Campaign Ready
           </h1>
-          <p className="text-[#464555] text-[14px]">
+          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
             AI analyzed your request and prepared a complete campaign.
           </p>
         </div>
@@ -352,7 +352,7 @@ const CampaignReady = () => {
         </div>
       </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 px-1 sm:px-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 px-3">
         <div>
           <h3 className="text-[18px] font-semibold text-[#131B2E] flex items-center gap-2">
             <Eye size={22} className="text-[#004370]" /> Campaign Preview
@@ -360,7 +360,7 @@ const CampaignReady = () => {
           <p className="text-[#767587] text-[14px] mt-0.5">Review how your message appears across channels.</p>
         </div>
 
-        <div className="flex bg-[#E9ECF1] shadow-[0px_1px_4px_0px_rgba(0,0,0,0.08)] border border-[#E2E8F0] p-1 rounded-lg w-fit shrink-0">
+        <div className="flex bg-[#E9ECF1] shadow-[0px_1px_4px_0px_rgba(0,0,0,0.08)] border border-[#E2E8F0] p-1 rounded-lg w-fit shrink-0 self-end sm:self-auto">
           {selectedChannels.includes('Mail') && (
             <button
               onClick={() => setActiveTab('email')}
@@ -455,26 +455,26 @@ const CampaignReady = () => {
         </div>
       </div>
 
-      <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between pt-12 gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-8 pb-4 gap-4 border-t border-[#EDF3FD] mt-8">
         <button
           onClick={onBack}
-          className="flex items-center justify-center gap-1.5 px-6 py-3 text-[#464555] font-bold text-[14px] transition-colors cursor-pointer bg-white w-full sm:w-auto"
+          className="flex items-center justify-center gap-1.5 px-6 py-2.5 text-[#464555] hover:text-[#004370] font-bold text-[14px] transition-colors cursor-pointer bg-white order-2 sm:order-1 border sm:border-0 border-[#E2E8F0] rounded-[12px]"
         >
           <ArrowLeft size={16} /> Back
         </button>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+        <div className="flex items-center gap-3 order-1 sm:order-2">
           <button
             onClick={() => {
               setIsEditing(!isEditing);
               setOpenDropdown(null);
             }}
-            className={`flex items-center justify-center gap-1.5 px-4 py-2 border font-semibold text-[14px] rounded-[12px] transition-colors cursor-pointer w-full sm:w-auto ${isEditing ? 'bg-[#E1DFFF] border-[#004370] text-[#004370]' : 'border-[#E2E8F0] hover:bg-slate-50 text-[#131B2E]'
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 border font-semibold text-[14px] rounded-[12px] transition-colors cursor-pointer ${isEditing ? 'bg-[#E1DFFF] border-[#004370] text-[#004370]' : 'border-[#E2E8F0] hover:bg-slate-50 text-[#131B2E]'
               }`}
           >
             {isEditing ? 'Save' : 'Edit'}
           </button>
-          <button className="flex items-center justify-center gap-1.5 px-8 py-2 bg-[#004370] hover:bg-[#002e62] text-white font-bold text-[16px] rounded-[8px] transition-colors cursor-pointer shadow-sm w-full sm:w-auto">
+          <button className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 sm:px-8 py-2.5 bg-[#004370] hover:bg-[#002e62] text-white font-semibold sm:font-bold text-[14px] sm:text-[16px] rounded-[12px] transition-colors cursor-pointer shadow-sm whitespace-nowrap">
             Launch Campaign
           </button>
         </div>
