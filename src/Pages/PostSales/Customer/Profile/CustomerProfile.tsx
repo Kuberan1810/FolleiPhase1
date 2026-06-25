@@ -1,5 +1,6 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 import ProfileHeader from './section/ProfileHeader';
 import MetricsCards from './section/MetricsCards';
 import ContactDetailsCard from './section/ContactDetailsCard';
@@ -30,12 +31,22 @@ const defaultCustomer = {
 
 const CustomerProfile = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const customer = location.state?.customer || defaultCustomer;
   const [showDetailedProducts, setShowDetailedProducts] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-12">
-      <div className="flex flex-col gap-6 w-full">
+      <div className="pt-4 px-6 mb-5">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-[#464555] hover:text-[#004370] transition-all duration-300 cursor-pointer font-semibold group"
+        >
+          <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-1.5" />
+          Back
+        </button>
+      </div>
+      <div className="flex flex-col gap-6 w-full px-6">
         {/* Header Section */}
         <ProfileHeader customer={customer} />
 

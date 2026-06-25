@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic } from 'lucide-react';
+import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic, ChevronLeft } from 'lucide-react';
 import StarIcon from '../../../../assets/logo/star.svg';
 
 
@@ -87,7 +87,15 @@ const CampaignCreation = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-transparent py-6 font-manrope flex flex-col items-center">
+    <div className="w-full min-h-screen bg-transparent py-6 font-manrope flex flex-col items-center relative">
+      <div className="absolute top-6 left-6 z-10">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+        >
+          <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+        </button>
+      </div>
       <div className="w-full px-4 flex-1 flex flex-col justify-center">
         <div className="flex flex-col items-center justify-center text-center py-8">
 

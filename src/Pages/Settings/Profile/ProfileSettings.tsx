@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-
 import { Link } from 'react-router-dom';
-
 import { User, Camera } from 'lucide-react';
 import profileImg from '../../../assets/avatar.png';
 import { PersonalDetails, Preferences as ProfilePreferences, Security, ChangePasswordModal } from './components';
@@ -27,7 +25,6 @@ const ProfileSettings: React.FC = () => {
     const handleSave = (newData: any) => {
         setProfileData(newData);
         setIsEditing(false);
-
     };
 
     return (

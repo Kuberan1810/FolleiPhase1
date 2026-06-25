@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 import EnablementHeader from './section/EnablementHeader';
 import LearningProgress from './section/LearningProgress';
 import ProductDemoVideos from './section/ProductDemoVideos';
@@ -16,6 +17,7 @@ const mockCustomers = [
 const ProductUnderstandingPage: React.FC = () => {
   const { customerId } = useParams<{ customerId: string }>();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const stateCustomer = location.state?.customer;
   const customer = stateCustomer || mockCustomers.find(c => c.id === customerId) || mockCustomers[0];
@@ -23,16 +25,21 @@ const ProductUnderstandingPage: React.FC = () => {
   return (
     <div className="min-h-screen pt-4 pb-12">
       <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-
-          <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
-
-            Product Understanding
-          </h1>
-          <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
-
-            Track how well customers understand and use the product.
-          </p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+          >
+            <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          </button>
+          <div>
+            <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+              Product Understanding
+            </h1>
+            <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+              Track how well customers understand and use the product.
+            </p>
+          </div>
         </div>
       </div>
 

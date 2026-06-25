@@ -41,7 +41,7 @@ const NotificationSettings = () => {
   return (
     <div className="min-h-screen ">
       <div className="w-full space-y-6">
-        <div className="flex flex-col items-start gap-3.5">
+          <div className="flex flex-col items-start gap-3.5">
           <div className="flex items-center gap-2 text-[14px] font-medium">
             <Link to="/settings" className="text-[#626262] hover:text-[#004370] transition-colors cursor-pointer">Settings</Link>
             <span className="text-[#626262]">{'>'}</span>

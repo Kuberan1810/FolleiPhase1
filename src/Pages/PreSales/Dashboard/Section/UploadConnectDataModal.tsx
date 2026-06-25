@@ -42,7 +42,7 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
 
   if (!isOpen) return null;
 
-  const simulateUpload = (file: File) => {
+  const simulateUpload = (_file: File) => {
     setUploadState("uploading");
     setUploadProgress(0);
 

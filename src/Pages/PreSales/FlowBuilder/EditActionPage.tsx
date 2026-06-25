@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Pencil, History, MessageSquare, Mail, Phone, MessageCircle, Clock, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Pencil, History, MessageSquare, Mail, Phone, MessageCircle, Clock, Sparkles, ChevronLeft } from 'lucide-react';
 import { ChartSquare } from 'iconsax-react';
 
 const EditActionPage = () => {
+  const navigate = useNavigate();
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [hotMin, setHotMin] = useState(80);
   const [hotMax, setHotMax] = useState(100);
@@ -25,13 +27,21 @@ const EditActionPage = () => {
     <div className="w-full flex flex-col gap-6 md:gap-8 font-['Inter'] min-h-screen lg:mb-0 mb-20 pb-24 bg-[#F7F9FB]">
       <div className="px-4 lg:px-6 pt-4 lg:pt-6">
         <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
-          <div>
-            <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
-              Edit Action
-            </h1>
-            <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
-              Smart Customer Activity Tracking
-            </p>
+          <div className="flex items-start gap-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group mt-0.5"
+            >
+              <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
+            </button>
+            <div>
+              <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+                Edit Action
+              </h1>
+              <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+                Smart Customer Activity Tracking
+              </p>
+            </div>
           </div>
         </div>
       </div>
