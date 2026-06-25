@@ -45,7 +45,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
               setShowFilterPanel(!showFilterPanel);
               setShowSortDropdown(false);
             }}
-            className={`flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)] ${showFilterPanel ? 'border-[#004370] bg-[#EFF4FF]/50' : ''
+            className={`flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 ${showFilterPanel ? 'border-[#004370] bg-[#EFF4FF]/50' : ''
               }`}
           >
             <span>Filter</span>
@@ -71,7 +71,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowSortDropdown(!showSortDropdown)}
-            className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50 shadow-[0_2px_8px_rgba(237,243,253,0.3)]"
+            className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
           >
             <span>Sort by: {sortOption}</span>
             <ChevronDown className="w-4 h-4 text-slate-500" />
@@ -98,12 +98,12 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
           )}
         </div>
 
-        <div className="w-px h-6 bg-slate-200/80 mx-1" />
+        <div className="w-px h-6 bg-[#EDF3FD] mx-1" />
 
         {/* View Toggle Layout */}
-        <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl shadow-[0_2px_8px_rgba(237,243,253,0.3)]">
+        <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">
           <button
-            className="flex items-center justify-center transition-all rounded-lg p-1.5 bg-[#EFF4FF] text-[#007BFF]"
+            className="flex items-center justify-center transition-all rounded-lg p-1.5 bg-[#EFF4FF] text-[#004370]"
           >
             <List className="w-4 h-4 shrink-0" />
           </button>
@@ -117,7 +117,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
         {/* Export Button */}
         <button
           onClick={onExport}
-          className="flex items-center gap-2 bg-[#004370] hover:bg-[#003152] text-white px-4 py-2 rounded-xl text-sm font-bold transition-colors cursor-pointer shadow-[0_2px_8px_rgba(237,243,253,0.3)]"
+          className="flex items-center gap-2 bg-[#004370] hover:bg-[#003152] text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-colors cursor-pointer"
         >
           <Download className="w-4 h-4" />
           Export

@@ -153,7 +153,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   return (
     <div
       ref={containerRef}
-      className="absolute right-0 mt-2 w-[380px] bg-white border border-[#E5E7EB] rounded-[20px] p-5 shadow-xl z-[150] animate-in fade-in zoom-in-95 duration-200 origin-top-right flex flex-col gap-4"
+      className="fixed md:absolute left-1/2 md:left-auto md:right-0 top-1/2 md:top-auto -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mt-0 md:mt-2 w-[380px] max-w-[calc(100vw-32px)] bg-white border border-[#E5E7EB] rounded-[20px] p-5 shadow-xl z-[150] animate-in fade-in zoom-in-95 duration-200 origin-top-right flex flex-col gap-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex justify-between items-center pb-2 border-b border-[#E5E7EB] ">

@@ -79,11 +79,11 @@ X-Cache-Status: EXPIRED_STALE`
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-140px)]">
-      <div className="flex justify-between items-center bg-transparent py-4 mb-2">
+      <div className="flex justify-between items-center bg-transparent mb-4">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
+            className="rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors cursor-pointer"
           >
             <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
           </button>
@@ -112,7 +112,7 @@ X-Cache-Status: EXPIRED_STALE`
       </div>
 
       <div className="bg-white border border-[#F3F4FC] rounded-[20px] p-[4px] shadow-[0_4px_20px_rgba(237,243,253,0.25)] flex flex-col flex-1 overflow-hidden">
-        <div className="px-6 py-4 flex flex-col rounded-[15px] sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#F7F8FF]">
+        <div className="px-4 sm:px-6 py-4 flex flex-col rounded-[15px] sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#F7F8FF]">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2.5 flex-wrap">
               <span className="text-[14px] font-medium text-[#464555]">#{ticket.id}</span>
@@ -137,7 +137,7 @@ X-Cache-Status: EXPIRED_STALE`
             </div>
           </div>
 
-          <div className="flex flex-col items-center sm:items-end gap-1.5">
+          <div className="flex flex-col items-end gap-1.5 self-end sm:self-auto">
             <span className="text-[10px] font-bold text-[#777683] uppercase tracking-wide">
               Open Tickets
             </span>
@@ -157,14 +157,14 @@ X-Cache-Status: EXPIRED_STALE`
           Payment Gateway
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 pb-24 flex flex-col gap-6 max-h-[500px]">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-24 flex flex-col gap-6 max-h-[500px]">
           {messages.map((msg) => {
             const isCustomer = msg.sender === 'customer';
 
             return (
               <div
                 key={msg.id}
-                className={`flex gap-3 max-w-[70%] ${isCustomer ? 'self-start items-start' : 'self-end flex-row-reverse items-start'
+                className={`flex gap-3 max-w-[90%] sm:max-w-[80%] md:max-w-[70%] ${isCustomer ? 'self-start items-start' : 'self-end flex-row-reverse items-start'
                   }`}
               >
                 <div className="w-[32px] h-[32px] rounded-full overflow-hidden flex items-center justify-center font-bold text-[12px] shrink-0 bg-white">
@@ -181,7 +181,7 @@ X-Cache-Status: EXPIRED_STALE`
                   )}
                 </div>
 
-                <div className="flex flex-col gap-1 max-w-[85%]">
+                <div className="flex flex-col gap-1 flex-1 min-w-0">
                   <div
                     className={`rounded-[24px] p-4 text-[14px] leading-relaxed  ${isCustomer
                       ? 'bg-[#FCFCFC] text-[#191C1E] border border-[#E2EBF8] rounded-tl-none'
@@ -209,7 +209,7 @@ X-Cache-Status: EXPIRED_STALE`
                     )}
 
                     {msg.codeSnippet && (
-                      <pre className="mt-3 bg-white text-[#0B1C30] text-[12px] font-mono p-4 rounded-[16px]  leading-normal ">
+                      <pre className="mt-3 bg-white text-[#0B1C30] text-[12px] font-mono p-4 rounded-[16px] leading-normal overflow-x-auto whitespace-pre-wrap">
                         <div>POST /api/v2/auth HTTP/1.1</div>
                         <div>Host: api.resolutions.io</div>
                         <div className="text-[#BA1A1A]">HTTP/1.1 503 Service Unavailable</div>
@@ -227,7 +227,7 @@ X-Cache-Status: EXPIRED_STALE`
           })}
         </div>
 
-        <div className="bg-white px-6 py-4 flex items-center gap-3">
+        <div className="bg-white px-4 sm:px-6 py-4 flex items-center gap-3">
           <button className="p-3 rounded-[8px] text-[#333333] bg-[#F1F6FF] cursor-pointer shrink-0">
             <Paperclip className="w-5 h-5" />
           </button>

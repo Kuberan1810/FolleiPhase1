@@ -142,7 +142,7 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
         <div className="flex-1 overflow-y-auto no-scrollbar px-6 pb-6 md:px-8 md:pb-8 pt-4 space-y-3">
           {/* Local Data Assets */}
           <div>
-            <span className="text-[24px] font-medium text-[#333333] mb-3 block">
+            <span className="text-[18px] sm:text-[24px] font-medium text-[#333333] mb-3 block">
               Local Data Assets
             </span>
 
@@ -168,8 +168,8 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
                 <CloudUpload size={28} />
               </div>
               <div>
-                <p className="text-[24px] font-medium text-[#333333]">Upload your files</p>
-                <p className="text-[20px] text-[#626262] mt-0.5">
+                <p className="text-[18px] sm:text-[24px] font-medium text-[#333333]">Upload your files</p>
+                <p className="text-[14px] sm:text-[20px] text-[#626262] mt-0.5">
                   Drag and drop files here or click to select files
                 </p>
               </div>
@@ -208,9 +208,9 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
                   </button>
                 </div>
 
-                {/* Progress Bar inside flow */}
+                {/* Progress Bar  */}
                 {(uploadState === "uploading" || uploadState === "uploaded") && (
-                  <div className="w-[360px] h-2 bg-[#D3D3D3] rounded-full overflow-hidden">
+                  <div className="w-full max-w-[360px] h-2 bg-[#D3D3D3] rounded-full overflow-hidden">
                     <div
                       className="h-full bg-[#004370] rounded-full transition-all duration-150 ease-out"
                       style={{ width: `${uploadProgress}%` }}
@@ -224,7 +224,7 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
           {/* OR Separator */}
           <div className="relative flex items-center">
             <div className="flex-grow border-t border-[#F3F4F6]"></div>
-            <span className="flex-shrink mx-4 text-[#333333] font-medium text-[24px] tracking-widest uppercase">
+            <span className="flex-shrink mx-4 text-[#333333] font-medium text-[18px] sm:text-[24px] tracking-widest uppercase">
               OR
             </span>
             <div className="flex-grow border-t border-[#F3F4F6]"></div>
@@ -232,7 +232,7 @@ const UploadConnectDataModal: React.FC<UploadConnectDataModalProps> = ({
 
           {/* Import from URL link */}
           <div>
-            <span className="text-[24px] font-medium text-[#333333] mb-3 block">
+            <span className="text-[18px] sm:text-[24px] font-medium text-[#333333] mb-3 block">
               Import from URL link
             </span>
             <div className="relative">

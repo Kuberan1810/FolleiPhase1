@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Gem } from 'lucide-react';
 import { Chart1, PresentionChart } from 'iconsax-react';
 
@@ -102,8 +102,21 @@ const defaultConversion = {
 
 const CustomerJourneyFunnel: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const getCardPositionStyle = () => {
+    if (isMobile) {
+      return { left: '50%', transform: 'translateX(-50%)', top: '-20px' };
+    }
     if (hoveredIndex === 0) return { left: '16%', top: '5px' };
     if (hoveredIndex === 1) return { left: '40%', top: '25px' };
     if (hoveredIndex === 2) return { left: '52%', top: '45px' };
@@ -123,7 +136,7 @@ const CustomerJourneyFunnel: React.FC = () => {
         </p>
       </div>
 
-      <div className="relative flex flex-col justify-center flex-grow min-h-0">
+      <div className="relative flex flex-col justify-center flex-grow min-h-0 mt-4">
         <div
           className="absolute bg-white shadow-[0px_1px_4px_0px_#0000002E] rounded-[8px] py-1.5 px-2 flex items-start gap-3 text-left transition-all duration-300 ease-out w-[240px] z-10"
           style={getCardPositionStyle()}
