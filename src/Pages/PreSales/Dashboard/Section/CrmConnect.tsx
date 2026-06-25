@@ -51,41 +51,43 @@ const CrmConnect: React.FC = () => {
   return (
     <div className="col-span-12 lg:col-span-7 BoxStyle flex flex-col justify-between">
       <h3 className="text-[20px] font-bold text-[#000000] mb-3.5 leading-[1.2] tracking-[0.6px]">CRM Connect</h3>
-      <div className="flex items-center gap-[15px] w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-[15px] w-full">
         <input
           type="text"
           readOnly
           value="https://follei-vercel-eta.vercel.app/presales/data-import"
-          className="flex-1 px-4 py-2 bg-white border border-[#CAD4E0] rounded-[10px] text-sm text-slate-800 focus:outline-none focus:border-[#014370] transition-colors"
+          className="w-full sm:flex-1 px-4 py-2 bg-white border border-[#CAD4E0] rounded-[10px] text-sm text-slate-800 focus:outline-none focus:border-[#014370] transition-colors"
         />
-        <button
-          className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
-          style={{
-            width: '91px',
-            height: '34px',
-            backgroundColor: '#E5ECF1',
-            boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
-          }}
-        >
-          Connect
-        </button>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
-          style={{
-            height: '34px',
-            backgroundColor: '#DCEFFE',
-            boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
-          }}
-        >
-          Available CRM
-        </button>
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-start shrink-0">
+          <button
+            className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
+            style={{
+              width: '91px',
+              height: '34px',
+              backgroundColor: '#E5ECF1',
+              boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
+            }}
+          >
+            Connect
+          </button>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
+            style={{
+              height: '34px',
+              backgroundColor: '#DCEFFE',
+              boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
+            }}
+          >
+            Available CRM
+          </button>
+        </div>
       </div>
 
       {/* Available CRM Popup Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-black/55 z-[9999] flex items-center justify-center p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/55 z-[9999] flex items-start sm:items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200"
           onClick={() => {
             if (!isConnecting || showSuccess) {
               handleCloseAll();
@@ -93,7 +95,7 @@ const CrmConnect: React.FC = () => {
           }}
         >
           <div
-            className="bg-white rounded-[10px] w-full max-w-[1100px] p-6 flex flex-col gap-6 relative animate-in zoom-in-95 duration-200"
+            className="bg-white rounded-[10px] w-full max-w-[1100px] p-6 flex flex-col gap-6 relative my-auto animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
@@ -149,8 +151,8 @@ const CrmConnect: React.FC = () => {
 
             {/* Connecting & Success  */}
             {isConnecting && (
-              <div className="absolute inset-0 bg-black/65 rounded-[10px] flex items-center justify-center z-[10000] animate-in fade-in duration-200">
-                <div className="bg-white rounded-[10px] w-[600px] h-[430px] p-6 flex flex-col items-center justify-center gap-6 relative animate-in zoom-in-95 duration-200">
+              <div className="fixed inset-0 bg-black/65 flex items-center justify-center p-4 z-[10000] overflow-y-auto animate-in fade-in duration-200">
+                <div className="bg-white rounded-[10px] w-full max-w-[600px] min-h-[430px] h-auto p-6 flex flex-col items-center justify-center gap-6 relative my-auto animate-in zoom-in-95 duration-200">
 
                   {!showSuccess ? (
                     <>
@@ -245,7 +247,6 @@ const CrmConnect: React.FC = () => {
                         Connected Successfully!
                       </motion.span>
 
-                      {/* Done Button to close modal manually */}
                       <motion.div
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}

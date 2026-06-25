@@ -70,12 +70,12 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
   const strokeDashoffset = circumference - (validationProgress / 100) * circumference;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl border border-[#EDF3FD] shadow-2xl w-full max-w-[580px] max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-center relative">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/60 p-4 overflow-y-auto animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl border border-[#EDF3FD] shadow-2xl w-full max-w-[580px] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-center relative my-auto">
 
         {step === "validation" ? (
           /*                 VALIDATION SCREEN         */
-          <div className="text-left flex flex-col w-full flex-1 overflow-hidden">
+          <div className="text-left flex flex-col w-full flex-1">
             <div className="p-6 md:p-8 flex justify-between items-start">
               <div>
                 <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
@@ -87,7 +87,7 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
               </div>
             </div>
 
-            <div className="p-4 md:p-8 overflow-y-auto no-scrollbar flex-1 flex flex-col">
+            <div className="p-2 pb-2 md:p-6 md:pb-2 flex-1 flex flex-col">
               {/* Circular Progress Indicator */}
               <div className="flex flex-col items-center justify-center w-full">
                 <div className="relative w-[180px] h-[180px]">
@@ -127,16 +127,16 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
               {/* Stats List */}
               <div className="space-y-3 w-full mt-3">
                 {validationMetricsConfig.map((metric, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-2.5 px-5 bg-white border border-[#F3F4F6] rounded-xl">
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[13px] font-semibold text-[#434655] tracking-wider uppercase">
+                  <div key={idx} className="flex items-center justify-between py-2.5 px-3 md:px-5 bg-white border border-[#F3F4F6] rounded-xl gap-2">
+                    <div className="flex flex-col gap-0.5 min-w-0 flex-1 text-left">
+                      <span className="text-[11px] md:text-[13px] font-semibold text-[#434655] tracking-wider uppercase truncate">
                         {metric.label}
                       </span>
-                      <span className="text-[14px] text-[#434655] truncate max-w-[260px] font-medium">
+                      <span className="text-[11px] md:text-[14px] text-[#434655] truncate font-medium">
                         Source: {getSourceDisplayName()}
                       </span>
                     </div>
-                    <span className="text-[32px] font-bold text-[#004370]">
+                    <span className="text-[20px] sm:text-[24px] md:text-[32px] font-bold text-[#004370] shrink-0">
                       {Math.floor((validationProgress / 100) * metric.multiplier).toLocaleString()}
                     </span>
                   </div>
@@ -144,7 +144,7 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
               </div>
             </div>
 
-            <div className="p-6 md:p-8 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <div className="px-6 py-3 flex items-center justify-between">
               <button
                 onClick={onBack}
                 className="flex items-center gap-1 px-4 py-2 border border-[#E2E8F0] hover:bg-slate-50 text-[#464555] rounded-[12px] text-[16px] font-semibold cursor-pointer transition-colors"
@@ -164,7 +164,7 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
         ) : (
 
           // success
-          <div className="flex flex-col p-6 md:p-8 flex-1 overflow-hidden relative">
+          <div className="flex flex-col p-6 md:p-8 flex-1 relative">
             <button
               onClick={onClose}
               className="absolute top-4 right-4 md:top-6 md:right-6 p-1.5 hover:bg-slate-150 rounded-full transition-colors cursor-pointer text-[#64748B] hover:text-[#1E293B]"
@@ -175,26 +175,26 @@ const DataValidationModal: React.FC<DataValidationModalProps> = ({
               <div className="w-20 h-20 bg-[#0c7351ff] text-[#10B981] flex items-center justify-center rounded-full mb-4">
                 <CheckCircle2 size={40} className="text-white" fill="#0c7351ff" />
               </div>
-              <h2 className="text-[32px] font-bold text-[#191C1D] leading-tight">
-                Imported Successfull
+              <h2 className="text-[24px] sm:text-[32px] font-bold text-[#191C1D] leading-tight">
+                Imported Successfully
               </h2>
-              <p className="text-[16px] text-[#434655] mt-1">
+              <p className="text-[14px] md:text-[16px] text-[#434655] mt-1">
                 Your data has been imported into Follei.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-3 md:gap-4 mb-8">
               {successMetrics.map((metric, idx) => {
                 return (
-                  <div key={idx} className="bg-[#F7F9FB] border border-[#F1F7FF] rounded-[32px] p-6 flex flex-col items-start gap-3 text-left">
+                  <div key={idx} className="bg-[#F7F9FB] border border-[#F1F7FF] rounded-2xl p-4 md:p-6 flex flex-col items-start gap-3 text-left">
                     <div className="w-10 h-10 flex items-center justify-center rounded-[12px] bg-[#E6EDF1] text-[#004370]">
                       <Layers2 size={18} />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-widest">
+                    <div className="flex flex-col min-w-0 w-full">
+                      <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-widest truncate">
                         {metric.label}
                       </span>
-                      <span className={`text-[32px] md:text-[22px] font-bold mt-0.5 ${metric.valueColor}`}>
+                      <span className={`text-[16px] sm:text-[20px] md:text-[22px] font-bold mt-0.5 truncate ${metric.valueColor}`}>
                         {metric.value}
                       </span>
                     </div>

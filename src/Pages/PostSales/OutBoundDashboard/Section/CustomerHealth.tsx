@@ -43,9 +43,9 @@ export default function CustomerHealth() {
       </div>
 
       <div className="relative flex justify-center items-center h-[220px]">
-        <svg width="220" height="220" viewBox="0 0 220 220" className="mx-auto">
+        <svg width="220" height="220" viewBox="-10 -10 240 240" className="mx-auto">
           <defs>
-            <filter id="roundCorners" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
+            <filter id="roundCorners" x="-30%" y="-30%" width="155%" height="155%" colorInterpolationFilters="sRGB">
               <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
               <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9.5" result="contrast" />
             </filter>

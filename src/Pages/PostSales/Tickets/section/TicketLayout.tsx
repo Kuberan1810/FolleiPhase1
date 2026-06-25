@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import TicketHeader from './TicketHeader';
 import TicketStats from './TicketStats';
 import TicketTable, { type Ticket } from './TicketTable';
@@ -83,10 +83,25 @@ const TicketLayout: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [showRowsDropdown, setShowRowsDropdown] = useState(false);
+    const rowsDropdownRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery, selectedStatuses, selectedPriorities, selectedTicketTypes, viewType]);
+
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (rowsDropdownRef.current && !rowsDropdownRef.current.contains(e.target as Node)) {
+                setShowRowsDropdown(false);
+            }
+        };
+        if (showRowsDropdown) {
+            document.addEventListener('mousedown', handleOutsideClick);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [showRowsDropdown]);
 
     const handleExportCSV = () => {
         const headers = ['Ticket ID', 'Subject', 'Category', 'Customer Name', 'Customer Email', 'Priority', 'Status', 'Created'];
@@ -146,9 +161,39 @@ const TicketLayout: React.FC = () => {
     const endIndex = startIndex + rowsPerPage;
     const paginatedTickets = filteredTickets.slice(startIndex, endIndex);
 
+    const handlePrev = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const getPageNumbers = () => {
+        const pages = [];
+        if (totalPages <= 5) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            pages.push(1);
+            if (currentPage > 3) {
+                pages.push('ellipsis-start');
+            }
+            const start = Math.max(2, currentPage - 1);
+            const end = Math.min(totalPages - 1, currentPage + 1);
+            for (let i = start; i <= end; i++) {
+                if (!pages.includes(i)) pages.push(i);
+            }
+            if (currentPage < totalPages - 2) {
+                pages.push('ellipsis-end');
+            }
+            if (!pages.includes(totalPages)) pages.push(totalPages);
+        }
+        return pages;
+    };
+
     if (selectedTicket) {
         return (
-            <div className="min-h-screen  pb-12 px-6 pt-4">
+            <div className="min-h-screen">
                 <TicketDetail
                     ticket={selectedTicket}
                     onBack={() => setSelectedTicket(null)}
@@ -198,67 +243,84 @@ const TicketLayout: React.FC = () => {
                             onTicketClick={(ticket) => setSelectedTicket(ticket)}
                         />
 
-                        {/* Pagination Controls */}
-                        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+                        {/* Table Pagination Footer */}
+                        <div className="flex items-center justify-between mt-6 w-full px-2">
+                            {/* Pagination Left */}
                             <div className="flex items-center gap-1.5">
+                                {/* Previous Button */}
                                 <button
-                                    onClick={() => activePage > 1 && setCurrentPage(activePage - 1)}
-                                    disabled={activePage === 1}
-                                    className={`w-8 h-8 rounded-lg border border-[#F3F4FC] flex items-center justify-center text-slate-500 hover:bg-slate-50 cursor-pointer ${activePage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                                    onClick={handlePrev}
+                                    disabled={currentPage === 1}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors bg-white ${currentPage === 1 ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
                                         }`}
                                 >
-                                    &lt;
+                                    <ChevronLeft className="w-4 h-4" />
                                 </button>
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                                    <button
-                                        key={p}
-                                        onClick={() => setCurrentPage(p)}
-                                        className={`w-8 h-8 rounded-lg font-bold text-sm cursor-pointer transition-colors ${p === activePage
-                                            ? 'bg-[#004370] text-white'
-                                            : 'hover:bg-slate-50 text-slate-600'
-                                            }`}
-                                    >
-                                        {p}
-                                    </button>
-                                ))}
+
+                                {/* Page numbers */}
+                                {getPageNumbers().map((page, idx) => {
+                                    if (typeof page === 'string') {
+                                        return (
+                                            <span key={`ellipsis-${idx}`} className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
+                                                ...
+                                            </span>
+                                        );
+                                    }
+                                    return (
+                                        <button
+                                            key={`page-${page}`}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors font-medium text-sm cursor-pointer ${currentPage === page
+                                                ? 'bg-[#0F365C] text-white font-semibold'
+                                                : 'bg-white text-slate-500 border border-[#E2E8F0] hover:bg-slate-50'
+                                                }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    );
+                                })}
+
+                                {/* Next Button */}
                                 <button
-                                    onClick={() => activePage < totalPages && setCurrentPage(activePage + 1)}
-                                    disabled={activePage === totalPages}
-                                    className={`w-8 h-8 rounded-lg border border-[#F3F4FC] flex items-center justify-center text-slate-500 hover:bg-slate-50 cursor-pointer ${activePage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                                    onClick={handleNext}
+                                    disabled={currentPage === totalPages}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-lg border border-[#E2E8F0] transition-colors bg-white ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed text-slate-300' : 'hover:bg-slate-50 text-slate-500 cursor-pointer'
                                         }`}
                                 >
-                                    &gt;
+                                    <ChevronRight className="w-4 h-4" />
                                 </button>
                             </div>
 
-                            <div className="flex items-center gap-2 text-slate-500 text-sm relative">
-                                <span>Rows per page:</span>
-                                <button
-                                    onClick={() => setShowRowsDropdown(!showRowsDropdown)}
-                                    className="flex items-center gap-1 bg-white border border-slate-100 px-2.5 py-1.5 rounded-lg font-semibold text-slate-700 cursor-pointer"
-                                >
-                                    {rowsPerPage} <ChevronDown className="w-3.5 h-3.5" />
-                                </button>
-                                {showRowsDropdown && (
-                                    <div className="absolute right-0 bottom-full mb-1 bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50 min-w-[60px] flex flex-col">
-                                        {[5, 10, 20].map((option) => (
-                                            <button
-                                                key={option}
-                                                onClick={() => {
-                                                    setRowsPerPage(option);
-                                                    setCurrentPage(1);
-                                                    setShowRowsDropdown(false);
-                                                }}
-                                                className={`px-3 py-1.5 text-xs text-left hover:bg-slate-50 cursor-pointer font-medium ${option === rowsPerPage
-                                                    ? 'bg-[#E6F2FF] text-[#007BFF] font-semibold'
-                                                    : 'text-slate-700'
-                                                    }`}
-                                            >
-                                                {option}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
+                            {/* Rows per page Right */}
+                            <div className="flex items-center gap-2" ref={rowsDropdownRef}>
+                                <span className="text-[13px] text-slate-500 font-medium">Rows per page:</span>
+                                <div className="relative">
+                                    <button
+                                        onClick={() => setShowRowsDropdown(!showRowsDropdown)}
+                                        className="flex items-center justify-between gap-1.5 border border-[#E2E8F0] px-3 py-1.5 rounded-lg text-[13px] font-semibold text-[#0F365C] hover:bg-slate-50 transition-colors bg-white cursor-pointer"
+                                    >
+                                        <span>{rowsPerPage}</span>
+                                        <ChevronDown className="w-4 h-4 text-slate-400" />
+                                    </button>
+                                    {showRowsDropdown && (
+                                        <div className="absolute bottom-full right-0 mb-1.5 z-50 bg-white border border-[#E2E8F0] rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 min-w-[70px] flex flex-col">
+                                            {[5, 10, 20, 50].map((val) => (
+                                                <button
+                                                    key={val}
+                                                    onClick={() => {
+                                                        setRowsPerPage(val);
+                                                        setCurrentPage(1);
+                                                        setShowRowsDropdown(false);
+                                                    }}
+                                                    className={`px-3 py-1.5 text-left text-[13px] font-medium transition-colors hover:bg-slate-50 cursor-pointer ${rowsPerPage === val ? 'text-[#0F365C] font-semibold bg-slate-50/50' : 'text-slate-600'
+                                                        }`}
+                                                >
+                                                    {val}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </>

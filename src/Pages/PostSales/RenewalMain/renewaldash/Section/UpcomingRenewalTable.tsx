@@ -26,11 +26,11 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
 
       <div className="flex-1 overflow-x-auto pb-2">
         <table className="w-full table-fixed border-collapse flex-1 min-w-[700px]">
-          <thead className="bg-[#F6FAFF] h-[40px]">
-            <tr>
-              <th className="w-[40%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">CUSTOMER NAME</th>
-              <th className="w-[35%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">STATUS</th>
-              <th className="w-[25%] text-left px-6 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">PLAN</th>
+          <thead>
+            <tr className="bg-[#F6FAFF] border-b border-[#EDF3FD] h-[52px]">
+              <th className="w-[40%] text-left px-6 py-3 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">CUSTOMER NAME</th>
+              <th className="w-[35%] text-left px-6 py-3 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">STATUS</th>
+              <th className="w-[25%] text-left px-6 py-3 font-bold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#434655]">PLAN</th>
             </tr>
           </thead>
           <tbody>
