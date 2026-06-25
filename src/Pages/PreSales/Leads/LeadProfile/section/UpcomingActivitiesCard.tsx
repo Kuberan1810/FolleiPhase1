@@ -1,33 +1,83 @@
+import { useState } from 'react';
 import { Phone, Presentation } from 'lucide-react';
+import BtnComSecondary from '../../../../../Component/BtnComSecondary';
+import AddActivityModal from './AddActivityModal';
 
-const activities = [
-  {
-    id: 1,
-    title: 'Follow-up Call',
-    time: 'Today • 4:00 PM',
-    icon: Phone,
-    iconBg: 'bg-[#EAF2FF]',
-    iconColor: 'text-[#004370]',
-    iconFill: '#004370',
-    badge: { text: 'High Priority', bg: 'bg-[#22C55E10]', color: 'text-[#22C55E]' }
-  },
-  {
-    id: 2,
-    title: 'Product Demo',
-    time: 'Tomorrow • 11:00 AM',
-    icon: Presentation,
-    iconBg: 'bg-purple-100',
-    iconColor: 'text-purple-600',
-    iconFill: 'none',
-  }
-];
+interface ActivityItem {
+  id: number;
+  title: string;
+  time: string;
+  icon: React.ComponentType<any>;
+  iconBg: string;
+  iconColor: string;
+  badge?: { text: string; bg: string; color: string };
+}
 
 const UpcomingActivitiesCard = () => {
+  const [activities, setActivities] = useState<ActivityItem[]>([
+    {
+      id: 1,
+      title: 'Follow-up Call',
+      time: 'Today • 4:00 PM',
+      icon: Phone,
+      iconBg: 'bg-[#EAF2FF]',
+      iconColor: 'text-[#004370]',
+      badge: { text: 'High Priority', bg: 'bg-[#22C55E10]', color: 'text-[#22C55E]' }
+    },
+    {
+      id: 2,
+      title: 'Product Demo',
+      time: 'Tomorrow • 11:00 AM',
+      icon: Presentation,
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
+    }
+  ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSaveActivity = (newAct: {
+    title: string;
+    date: string;
+    time: string;
+    priority: "High" | "Medium" | "Low";
+  }) => {
+    // Choose icon based on activity title
+    let Icon = Phone;
+    let iconBg = 'bg-[#EAF2FF]';
+    let iconColor = 'text-[#004370]';
+    
+    if (
+      newAct.title.toLowerCase().includes("demo") ||
+      newAct.title.toLowerCase().includes("product") ||
+      newAct.title.toLowerCase().includes("presentation")
+    ) {
+      Icon = Presentation;
+      iconBg = 'bg-purple-100';
+      iconColor = 'text-purple-600';
+    }
+
+    setActivities((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        title: newAct.title,
+        time: `${newAct.date} • ${newAct.time}`,
+        icon: Icon,
+        iconBg,
+        iconColor,
+        badge: newAct.priority === "High" ? { text: 'High Priority', bg: 'bg-[#22C55E10]', color: 'text-[#22C55E]' } : undefined
+      }
+    ]);
+  };
+
   return (
     <div className="BoxStyle">
       <div className="flex items-center justify-between mb-7">
         <h2 className="text-[20px] font-bold text-[#1E293B]">Upcoming Activities</h2>
-        <button className="text-[16px] font-semibold text-[#004370] hover:underline duration-300 cursor-pointer">+ Add Activity</button>
+        <BtnComSecondary
+          label="+ Add Activity"
+          onClick={() => setIsModalOpen(true)}
+        />
       </div>
       <div className="flex flex-col gap-3">
         {activities.map((activity) => {
@@ -52,8 +102,14 @@ const UpcomingActivitiesCard = () => {
           );
         })}
       </div>
+
+      <AddActivityModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveActivity}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default UpcomingActivitiesCard;
