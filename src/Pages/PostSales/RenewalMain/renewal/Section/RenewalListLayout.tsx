@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import RenewalStatCards from './RenewalStatCards';
 import RenewalActionButtons from './RenewalActionButtons';
 import RenewalListTable from './RenewalListTable';
@@ -26,11 +26,11 @@ export default function RenewalListLayout() {
     <div>
       <div className="mb-6">
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-full bg-white border border-[#EDF3FD] flex items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors shrink-0"
+            className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
           >
-            <ArrowLeft className="text-[#0D1C2E] w-5 h-5" />
+            <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
           </button>
           <h1 className="m-0 font-extrabold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
             Renewal

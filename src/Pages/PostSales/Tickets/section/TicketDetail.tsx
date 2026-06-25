@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Clock, Paperclip, Send, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, Paperclip, Send, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Ticket } from './TicketTable';
 import FolleiCircle from '../../../../assets/logo/FolleiCircle.svg';
 
@@ -83,9 +83,9 @@ X-Cache-Status: EXPIRED_STALE`
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="p-2 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-colors cursor-pointer"
+            className="flex items-center justify-center p-1 rounded-xl transition-all duration-300 hover:bg-[#F1F5F9] text-[#464555] hover:text-[#004370] cursor-pointer group"
           >
-            <ArrowLeft className="w-4 h-4 text-[#464652] font-bold" />
+            <ChevronLeft size={26} className="transition-transform duration-300 group-hover:-translate-x-1" />
           </button>
 
           <div
