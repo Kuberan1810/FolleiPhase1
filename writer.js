@@ -1,0 +1,1 @@
+const fs = require('fs'); const txt = fs.readFileSync('src/Pages/PostSales/Customer/Profile/section/AddActivityModal.tsx', 'utf8'); fs.writeFileSync('src/Pages/PostSales/Customer/Profile/section/AddActivityModal.tsx', txt.replace(//g, ''), 'utf8');

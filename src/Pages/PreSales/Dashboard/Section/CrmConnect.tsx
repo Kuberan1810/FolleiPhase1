@@ -58,30 +58,28 @@ const CrmConnect: React.FC = () => {
           value="https://follei-vercel-eta.vercel.app/presales/data-import"
           className="w-full sm:flex-1 px-4 py-2 bg-white border border-[#CAD4E0] rounded-[10px] text-sm text-slate-800 focus:outline-none focus:border-[#014370] transition-colors"
         />
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-start shrink-0">
-          <button
-            className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
-            style={{
-              width: '91px',
-              height: '34px',
-              backgroundColor: '#E5ECF1',
-              boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
-            }}
-          >
-            Connect
-          </button>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
-            style={{
-              height: '34px',
-              backgroundColor: '#DCEFFE',
-              boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
-            }}
-          >
-            Available CRM
-          </button>
-        </div>
+        <button
+          className="text-[#000000] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
+          style={{
+            width: '91px',
+            height: '34px',
+            backgroundColor: '#E5ECF1',
+            boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
+          }}
+        >
+          Connect
+        </button>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="text-[#000000] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
+          style={{
+            height: '34px',
+            backgroundColor: '#DCEFFE',
+            boxShadow: 'inset 0px 2px 4px 0px rgba(0, 0, 0, 0.25)'
+          }}
+        >
+          Available CRM
+        </button>
       </div>
 
       {/* Available CRM Popup Modal */}

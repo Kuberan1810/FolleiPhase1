@@ -1,8 +1,10 @@
 import { Whatsapp } from "iconsax-react"
 import { Eye, Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import BtnComSecondary from '../../../../../Component/BtnComSecondary';
 
 const ActivityTimelineCard = () => {
+  const navigate = useNavigate();
   const activities = [
     {
       icon: Whatsapp,
@@ -36,6 +38,7 @@ const ActivityTimelineCard = () => {
         <h2 className="text-[20px] font-bold text-[#191C1E] ">Activity Timeline</h2>
         <BtnComSecondary
           label='View All'
+          onClick={() => navigate('/postsales/customers/profile/activity-timeline')}
         />
       </div>
 
