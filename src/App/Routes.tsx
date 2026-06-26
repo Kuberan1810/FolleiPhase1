@@ -58,6 +58,7 @@ import PrivacyPolicy from "../Pages/Settings/PrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "../Pages/Settings/TermsAndConditions/TermsAndCondition";
 import Payment from "../Pages/Settings/Payment/Payment";
 
+import Notification from "../Component/Notification";
 // Onboarding Pages
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
 import ContactDetails from "../Pages/OnBoarding/ContactDetails";
@@ -178,6 +179,8 @@ export default function AppRoutes() {
         <Route path="help" element={<HelpCenter />} />
         <Route path="privacy" element={<PrivacyPolicy />} />
         <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+
+        <Route path="notifications" element={<Notification />} />
 
         {/* --- NESTED PAYMENT ROUTES --- */}
         <Route path="payment" element={<Payment />}>
