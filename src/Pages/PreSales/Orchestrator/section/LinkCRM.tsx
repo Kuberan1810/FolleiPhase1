@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { LayoutGrid, FileInput } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import BtnComSecondary from "../../../../Component/BtnComSecondary";
 
 const LinkCRM = () => {
   const [url, setUrl] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="BoxStyle md:p-8! flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center gap-2.5">
-                <div className="p-1 rounded-lg bg-[#005B9620] flex items-center justify-center shrink-0">
-                        <LayoutGrid size={20} color='#005B96' className='hidden md:flex' />
-                        <LayoutGrid size={16} color='#005B96' className='md:hidden flex' />
-
-                    </div>
-        <h2 className="font-manrope font-bold text-[18px] text-[#191C1E]">Link CRM</h2>
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center gap-2.5">
+          <div className="p-1 rounded-lg bg-[#005B9620] flex items-center justify-center shrink-0">
+            <LayoutGrid size={20} color='#005B96' className='hidden md:flex' />
+            <LayoutGrid size={16} color='#005B96' className='md:hidden flex' />
+          </div>
+          <h2 className="font-manrope font-bold text-[18px] text-[#191C1E]">Link CRM</h2>
+        </div>
+        <BtnComSecondary
+          label="Connected CRM"
+          onClick={() => navigate("/presales/connected-crm")}
+        />
       </div>
 
       {/* Input section */}
