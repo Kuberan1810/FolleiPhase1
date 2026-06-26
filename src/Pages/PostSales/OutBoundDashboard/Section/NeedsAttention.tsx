@@ -1,6 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import BtnComSecondary from "../../../../Component/BtnComSecondary";
 
 const NeedsAttention: React.FC = () => {
+  const navigate = useNavigate();
+
   const attentionLeads = [
     { name: "Klen", issue: "Custom pricing asked — Follei can't ..", priority: "High" },
     { name: "Klen", issue: "Custom pricing asked — Follei can't ..", priority: "High" },
@@ -16,7 +20,10 @@ const NeedsAttention: React.FC = () => {
         boxShadow: '0px 4px 4px 0px rgba(229, 236, 251, 0.25)'
       }}
     >
-      <h3 className="text-[20px] font-bold text-[#000000] leading-[24px] tracking-[0.6px]">Needs attention now</h3>
+      <div className="flex justify-between items-center w-full capitalize">
+        <h3 className="text-[20px] font-bold text-[#000000] leading-[24px] tracking-[0.6px]">Needs attention now</h3>
+        <BtnComSecondary label="View All" onClick={() => navigate("/postsales/dashboard/needs-attention")} />
+      </div>
 
       <div
         className="w-full bg-white border border-[#EDF3FD] rounded-[10px] flex flex-col overflow-hidden"

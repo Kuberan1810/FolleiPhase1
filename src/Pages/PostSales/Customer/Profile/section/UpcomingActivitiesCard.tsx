@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Phone } from 'lucide-react';
+import AddActivityModal from './AddActivityModal';
 
-const activities = [
+const initialActivities = [
   {
     id: 1,
     title: 'Renewal Discussion',
@@ -11,15 +13,26 @@ const activities = [
     iconFill: '#004370',
     badge: { text: 'High Priority', bg: 'bg-[#22C55E10]', color: 'text-[#22C55E]' }
   },
-
 ];
 
 const UpcomingActivitiesCard = () => {
+  const [activities, setActivities] = useState(initialActivities);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddActivity = (newActivity: any) => {
+    setActivities([newActivity, ...activities]);
+  };
+
   return (
     <div className="BoxStyle">
       <div className="flex items-center justify-between mb-7">
         <h2 className="text-[20px] font-bold text-[#1E293B]">Upcoming Activities</h2>
-        <button className="text-[16px] font-semibold text-[#004370] hover:underline duration-300 cursor-pointer">+ Add Activity</button>
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="text-[16px] font-semibold text-[#004370] hover:underline duration-300 cursor-pointer"
+        >
+          + Add Activity
+        </button>
       </div>
       <div className="flex flex-col gap-3">
         {activities.map((activity) => {
@@ -44,6 +57,12 @@ const UpcomingActivitiesCard = () => {
           );
         })}
       </div>
+
+      <AddActivityModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSave={handleAddActivity} 
+      />
     </div>
   )
 }

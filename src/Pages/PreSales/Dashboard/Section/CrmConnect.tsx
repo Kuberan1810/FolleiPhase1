@@ -59,7 +59,7 @@ const CrmConnect: React.FC = () => {
           className="flex-1 px-4 py-2 bg-white border border-[#CAD4E0] rounded-[10px] text-sm text-slate-800 focus:outline-none focus:border-[#014370] transition-colors"
         />
         <button
-          className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
+          className="text-[#000000] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0"
           style={{
             width: '91px',
             height: '34px',
@@ -71,7 +71,7 @@ const CrmConnect: React.FC = () => {
         </button>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="text-[#000000] font-bold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
+          className="text-[#000000] font-semibold text-sm transition-colors cursor-pointer flex items-center justify-center rounded-[218px] shrink-0 px-4 whitespace-nowrap hover:opacity-90 active:scale-95"
           style={{
             height: '34px',
             backgroundColor: '#DCEFFE',

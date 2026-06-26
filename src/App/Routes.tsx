@@ -36,8 +36,10 @@ import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
 
 // App Pages (PostSales Outbound)
 import PostSalesOutBoardDashboard from "../Pages/PostSales/OutBoundDashboard/OutboundDashboard";
+import PostSalesNeedsAttentionPage from "../Pages/PostSales/OutBoundDashboard/NeedsAttentionPage";
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
+import ActivityTimelinePage from "../Pages/PostSales/Customer/ActivityTimeline/ActivityTimelinePage";
 import CustomerOnboarding from "../Pages/PostSales/CustomerOnboarding/CustomerOnboarding";
 import CustomerEnablement from "../Pages/PostSales/CustomerOnboarding/Enablement/CustomerEnablement";
 import ProductUnderstandingPage from "../Pages/PostSales/CustomerOnboarding/Enablement/ProductUnderstandingPage";
@@ -141,10 +143,12 @@ export default function AppRoutes() {
             ========================================== */}
       <Route path="/postsales" element={<MainLayout />}>
         <Route path="dashboard" element={<PostSalesOutBoardDashboard />} />
+        <Route path="dashboard/needs-attention" element={<PostSalesNeedsAttentionPage />} />
 
         <Route path="customers">
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />
+          <Route path="profile/activity-timeline" element={<ActivityTimelinePage />} />
         </Route>
 
 
