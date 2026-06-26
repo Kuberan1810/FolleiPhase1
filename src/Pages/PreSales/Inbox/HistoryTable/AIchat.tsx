@@ -5,6 +5,7 @@ interface ChatItem {
     avatarChar: string;
     avatarColor: string;
     number: string;
+    name:string
     tone: string;
     intent: string;
     pricingDiscussed: string;
@@ -18,9 +19,10 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
     const chats: ChatItem[] = [
         {
             id: "1",
-            avatarChar: "K",
+            avatarChar: "A",
             avatarColor: "bg-gradient-to-br from-[#DCB1B1] to-[#419EF5] text-white",
             number: "+91 8344427271",
+            name: "Aravind",
             tone: "Cold",
             intent: "Good",
             pricingDiscussed: "Not yet",
@@ -30,24 +32,27 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
             avatarChar: "N",
             avatarColor: "bg-gradient-to-br from-[#AEA14C] to-[#F5E941] text-white",
             number: "+91 7678837890",
+            name: "Ananya",
             tone: "Warm",
             intent: "Good",
             pricingDiscussed: "Not yet",
         },
         {
             id: "3",
-            avatarChar: "R",
+            avatarChar: "V",
             avatarColor: "bg-gradient-to-br from-[#6C86C9] to-[#0B4984] text-white",
             number: "+91 4578443248",
+            name: "Viswa",
             tone: "Cold",
             intent: "Good",
             pricingDiscussed: "Not yet",
         },
         {
             id: "4",
-            avatarChar: "H",
+            avatarChar: "K",
             avatarColor: "bg-gradient-to-br from-[#3599AD] to-[#41F2F5] text-white",
             number: "+91 4098837839",
+            name: "Kubera Lakshmi",
             tone: "Hot",
             intent: "Good",
             pricingDiscussed: "Not yet",
@@ -58,6 +63,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
         return chats.filter((chat) => {
             const query = searchQuery.toLowerCase().trim();
             const matchesSearch =
+                chat.name.toLowerCase().includes(query) ||
                 chat.number.toLowerCase().includes(query) ||
                 chat.tone.toLowerCase().includes(query) ||
                 chat.intent.toLowerCase().includes(query) ||
@@ -94,7 +100,9 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                                             >
                                                 {chat.avatarChar}
                                             </div>
-
+                                            <span className="text-[16px] text-[#0D1C2E] font-medium">
+                                                {chat.name}
+                                            </span>
                                         </div>
                                     </td>
 

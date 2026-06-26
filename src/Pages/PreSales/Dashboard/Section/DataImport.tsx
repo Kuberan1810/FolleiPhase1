@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import UploadConnectDataModal from "./UploadConnectDataModal";
 import DataValidationModal from "./DataValidationModal";
 
@@ -16,9 +16,18 @@ const isLink = (val: string) => {
 
 const DataImport: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [inputValue, setInputValue] = useState("Internal storage/ downloads/ leads/ A team");
   const [activeModal, setActiveModal] = useState<"none" | "upload" | "validation">("none");
+
+  useEffect(() => {
+    if (location.state?.openDataImport) {
+      setActiveModal("upload");
+      // Clear navigation state to avoid re-opening on refreshes
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
   const [selectedData, setSelectedData] = useState<{ fileName?: string; size?: string; url?: string } | null>(null);
 
   // Connect or Import

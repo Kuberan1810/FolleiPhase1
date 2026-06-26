@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, List, LayoutGrid, ChevronDown } from 'lucide-react';
+import { Download, ChevronDown } from 'lucide-react';
 import { CustomerFilterPanel } from './CustomerFilterPanel';
 
 interface CustomerHeaderProps {
@@ -98,10 +98,10 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
           )}
         </div>
 
-        <div className="w-px h-6 bg-[#EDF3FD] mx-1" />
+        {/* <div className="w-px h-6 bg-[#EDF3FD] mx-1" /> */}
 
         {/* View Toggle Layout */}
-        <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">
+        {/* <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">
           <button
             className="flex items-center justify-center transition-all rounded-lg p-1.5 bg-[#EFF4FF] text-[#004370]"
           >
@@ -111,7 +111,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
             className="flex items-center justify-center transition-all rounded-lg p-1.5 bg-transparent text-[#64748B]"
           >
             <LayoutGrid className="w-4 h-4 shrink-0" />
-          </button>
+          </button> 
         </div>
 
         {/* Export Button */}

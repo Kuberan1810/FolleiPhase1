@@ -5,6 +5,7 @@ interface ChatItem {
     avatarChar: string;
     avatarColor: string;
     reason: string;
+    name : string;
     source: string;
     confi: string;
     action: string;
@@ -22,6 +23,7 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
             avatarColor: "bg-gradient-to-br from-[#DCB1B1] to-[#419EF5] text-white",
             reason: "Promotional Message",
             source: "WhatsApp",
+            name : "kuberan",
             confi: "98%",
             action: "Blocked",
         },
@@ -31,6 +33,7 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
             avatarColor: "bg-gradient-to-br from-[#AEA14C] to-[#F5E941] text-white",
             reason: "Irrelevant Query",
             source: "SMS",
+            name : "viswa",
             confi: "98%",
             action: "Ignored",
         },
@@ -40,6 +43,7 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
             avatarColor: "bg-gradient-to-br from-[#6C86C9] to-[#0B4984] text-white",
             reason: "Fake Information",
             source: "WhatsApp",
+            name : "pradeep",
             confi: "98%",
             action: "Blocked",
         },
@@ -48,6 +52,7 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
             avatarChar: "H",
             avatarColor: "bg-gradient-to-br from-[#3599AD] to-[#41F2F5] text-white",
             reason: "Spam Content",
+            name : "sivamani",
             source: "Email",
             confi: "98%",
             action: "Removed",
@@ -88,6 +93,8 @@ const SpamChatTable = ({ searchQuery = "" }: SpamChatTableProps) => {
                                             <div className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}>
                                                 {chat.avatarChar}
                                             </div>
+                                            <div className=" text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">{chat.name}</div>
+
                                         </div>
                                     </td>
 

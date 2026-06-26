@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LayoutGrid, FileInput } from "lucide-react";
+import { LayoutGrid, FileInput, Import } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BtnComSecondary from "../../../../Component/BtnComSecondary";
 
@@ -8,7 +8,7 @@ const LinkCRM = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="BoxStyle md:p-8! flex flex-col gap-6">
+    <div className="flex-1 BoxStyle md:p-8! flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2.5">
@@ -38,14 +38,21 @@ const LinkCRM = () => {
         />
       </div>
 
-      {/* Button */}
-      <button
-        className="w-full flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors"
-       
-      >
-        <FileInput size={20} color="white" />
-        Link CRM
-      </button>
+      {/* Action Buttons */}
+      <div className="flex flex-col md:flex-row gap-4">
+        <button
+          className="flex-1 flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors"
+        >
+          <FileInput size={20} color="white" />
+          Connect CRM
+        </button>
+        <button
+          onClick={() => navigate("/presales/dashboard", { state: { openAvailableCrm: true } })}
+          className="flex-1 flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors"
+        >
+        Available CRM
+        </button>
+      </div>
     </div>
   );
 };

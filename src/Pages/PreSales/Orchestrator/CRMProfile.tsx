@@ -102,6 +102,9 @@ const CRMProfile = () => {
   });
   const [showRowsDropdown, setShowRowsDropdown] = useState(false);
   const rowsDropdownRef = useRef<HTMLDivElement>(null);
+  const [selectedLetter, setSelectedLetter] = useState('All');
+  const [showAZPopup, setShowAZPopup] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -130,6 +133,20 @@ const CRMProfile = () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [activeMenuId]);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+        setShowAZPopup(false);
+      }
+    };
+    if (showAZPopup) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [showAZPopup]);
 
   const handleMenuClick = (e: React.MouseEvent, leadId: string) => {
     e.stopPropagation();
@@ -168,12 +185,15 @@ const CRMProfile = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [leads.length, rowsPerPage]);
+  }, [leads.length, rowsPerPage, selectedLetter]);
 
-  const totalItems = leads.length;
+  const filteredLeads = leads.filter(
+    (lead) => selectedLetter === 'All' || lead.name.trim().toUpperCase().startsWith(selectedLetter.toUpperCase())
+  );
+  const totalItems = filteredLeads.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const paginatedLeads = leads.slice(startIndex, startIndex + rowsPerPage);
+  const paginatedLeads = filteredLeads.slice(startIndex, startIndex + rowsPerPage);
 
   const toggleSort = () => {
     setSortAsc(!sortAsc);
@@ -206,11 +226,11 @@ const CRMProfile = () => {
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "New Inquiry":
-        return "bg-[#EFF6FF] text-[#1D4ED8]";
+        return "bg-[#EFF6FF] text-[#1D4ED8] font-medium";
       case "Demo Scheduled":
-        return "bg-[#FAF5FF] text-[#7E22CE]";
+        return "bg-[#FAF5FF] text-[#7E22CE] font-medium";
       case "Contacted":
-        return "bg-[#FFF7ED] text-[#C2410C]";
+        return "bg-[#FFF7ED] text-[#C2410C] font-medium";
       default:
         return "bg-slate-100 text-slate-700";
     }
@@ -328,16 +348,65 @@ const CRMProfile = () => {
             <thead>
               <tr className="bg-[#F8FAFC] border-b border-[#EDF3FD]">
                 <th className="py-4 pl-6 pr-4 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">Date</th>
-                <th className="py-4 px-4 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">
-                  <button
-                    onClick={toggleSort}
-                    className="flex items-center gap-1 bg-transparent border-none font-bold text-[12px] text-[#64748B] hover:text-[#004370] cursor-pointer"
-                  >
-                    Lead Name
-                    <span className="text-[#004370] font-bold text-[10px] ml-1 bg-slate-100 py-0.5 px-1.5 rounded">
-                      A-Z {sortAsc ? "▲" : "▼"}
-                    </span>
-                  </button>
+                <th className="py-4 px-4 text-[12px] font-bold text-[#64748B] uppercase tracking-wider relative">
+                  <div className="flex items-center gap-1.5 select-none">
+                    <button
+                      onClick={toggleSort}
+                      className="flex items-center gap-1 bg-transparent border-none font-bold text-[12px] text-[#64748B] hover:text-[#004370] cursor-pointer"
+                    >
+                      Lead Name
+                    </button>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAZPopup(!showAZPopup);
+                      }}
+                      className="inline-flex items-center gap-[2px] cursor-pointer hover:bg-slate-50 transition-colors"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        border: '1px solid rgba(234, 243, 255, 0.97)',
+                        borderRadius: '5px',
+                        padding: '0 5px',
+                        height: '18px',
+                        fontWeight: 600,
+                        fontSize: '10px',
+                        lineHeight: '18px',
+                        letterSpacing: '0px',
+                        textTransform: 'uppercase',
+                        color: '#004370',
+                      }}
+                    >
+                      <span>A-Z</span>
+                      <span className="text-[8px] leading-none select-none ml-0.5">
+                        {selectedLetter !== 'All' ? '▲' : '▼'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {showAZPopup && (
+                    <div
+                      ref={popupRef}
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute top-[42px] left-6 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[16px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-14 flex flex-col items-center gap-0.5"
+                    >
+                      {['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
+                        <button
+                          key={letter}
+                          onClick={() => {
+                            setSelectedLetter(letter);
+                            setShowAZPopup(false);
+                          }}
+                          className={`w-10 h-8 shrink-0 flex items-center justify-center text-[13px] font-bold transition-all duration-150 scrollbar-hide no-scrollbar cursor-pointer ${
+                            selectedLetter === letter
+                              ? 'text-[#004370]'
+                              : 'text-[#434655] hover:bg-slate-50 hover:text-[#004370]'
+                          }`}
+                        >
+                          {letter}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </th>
                 <th className="py-4 px-4 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">Company</th>
                 <th className="py-4 px-4 text-[12px] font-bold text-[#64748B] uppercase tracking-wider">Status</th>
@@ -346,43 +415,51 @@ const CRMProfile = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#EDF3FD]">
-              {paginatedLeads.map(lead => (
-                <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-4 pl-6 pr-4 text-[14px] text-[#0F172A] font-medium whitespace-nowrap">{lead.date}</td>
-                  <td className="py-4 px-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] shrink-0 border border-slate-100 ${getAvatarBgColor(lead.name)}`}>
-                        {getInitials(lead.name)}
+              {paginatedLeads.length > 0 ? (
+                paginatedLeads.map(lead => (
+                  <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-4 pl-6 pr-4 text-[14px] text-[#0F172A] font-medium whitespace-nowrap">{lead.date}</td>
+                    <td className="py-4 px-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-[13px] shrink-0 border border-slate-100 ${getAvatarBgColor(lead.name)}`}>
+                          {getInitials(lead.name)}
+                        </div>
+                        <div>
+                          <p className="text-[15px] font-bold text-[#0F172A] leading-tight">{lead.name}</p>
+                          <p className="text-[13px] text-[#64748B] mt-0.5 leading-none">{lead.email}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-[15px] font-bold text-[#0F172A] leading-tight">{lead.name}</p>
-                        <p className="text-[13px] text-[#64748B] mt-0.5 leading-none">{lead.email}</p>
+                    </td>
+                    <td className="py-4 px-4 text-[14px] text-[#64748B] font-medium whitespace-nowrap">{lead.company}</td>
+                    <td className="py-4 px-4 whitespace-nowrap">
+                      <span className={`px-2.5 py-1 rounded-[10px] text-[12px] font-semibold tracking-wide ${getStatusStyle(lead.status)}`}>
+                        {lead.status}
+                      </span>
+                    </td>
+                    <td className="py-4 px-4 text-[14px] text-[#0F172A] font-medium whitespace-nowrap font-mono">{lead.crmIdValue}</td>
+                    <td className="py-4 pl-4 pr-6 text-right whitespace-nowrap text-[#64748B]">
+                      <div className="flex items-center justify-end pr-1 gap-2">
+                        {syncingLeadId === lead.id ? (
+                          <RefreshCw size={16} className="text-[#004370] animate-spin" />
+                        ) : (
+                          <button
+                            onClick={(e) => handleMenuClick(e, lead.id)}
+                            className="p-1 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-slate-500 hover:text-slate-800"
+                          >
+                            <MoreVertical size={18} />
+                          </button>
+                        )}
                       </div>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 text-[14px] text-[#64748B] font-medium whitespace-nowrap">{lead.company}</td>
-                  <td className="py-4 px-4 whitespace-nowrap">
-                    <span className={`px-2.5 py-1 rounded-[10px] text-[12px] font-semibold tracking-wide ${getStatusStyle(lead.status)}`}>
-                      {lead.status}
-                    </span>
-                  </td>
-                  <td className="py-4 px-4 text-[14px] text-[#0F172A] font-medium whitespace-nowrap font-mono">{lead.crmIdValue}</td>
-                  <td className="py-4 pl-4 pr-6 text-right whitespace-nowrap text-[#64748B]">
-                    <div className="flex items-center justify-end pr-1 gap-2">
-                      {syncingLeadId === lead.id ? (
-                        <RefreshCw size={16} className="text-[#004370] animate-spin" />
-                      ) : (
-                        <button
-                          onClick={(e) => handleMenuClick(e, lead.id)}
-                          className="p-1 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-slate-500 hover:text-slate-800"
-                        >
-                          <MoreVertical size={18} />
-                        </button>
-                      )}
-                    </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-slate-400 text-sm font-medium">
+                    No leads matching current filters.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
