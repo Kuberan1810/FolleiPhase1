@@ -2,10 +2,11 @@ import { Search, X } from 'lucide-react';
 import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
-import {  useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import FolleiLogo from "../assets/logo/FolleiLogo.svg"
 import { useState } from 'react';
 import { useSalesContext } from '../Context/SalesContext';
+import Notification from './Notification';
 
 import BoundToggleSwitch from './BoundToggleSwitch';
 
@@ -15,6 +16,7 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
     const [showMobileSearch, setShowMobileSearch] = useState(false);
 
+    const [openNotification, setOpenNotification] = useState(false);
 
     const handleToggle = (type: 'presales' | 'postsales') => {
         navigate(`/${type}/dashboard`);
@@ -52,11 +54,11 @@ const Header: React.FC = () => {
                 {/* Inbound / Outbound Toggle */}
                 <div className='hidden sm:flex'>
                     <BoundToggleSwitch salesMode={salesMode} onToggle={handleToggle} />
-               </div>
+                </div>
 
                 <div className="flex items-center gap-3 lg:gap-6">
                     <div className="flex items-center gap-4 lg:gap-5 border-r border-[#E2E8F0] pr-3 lg:pr-6">
-                        <button 
+                        <button
                             onClick={() => setShowMobileSearch(true)}
                             className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 md:hidden block"
                         >
@@ -64,21 +66,21 @@ const Header: React.FC = () => {
                         </button>
 
                         <button
-                        onClick={()=>{navigate("/notifications")}} 
-                        className="relative p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300">
+                            onClick={() => setOpenNotification(true)}
+                            className="relative p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300">
                             <NotificationBing color='currentColor' size={24} />
                             <span className="absolute top-2 h-3 w-3 rounded-full bg-red-500 border-2 border-white duration-300"></span>
                         </button>
 
                         <button
-                            onClick={() => { navigate("/settings/help")}} 
+                            onClick={() => { navigate("/settings/help") }}
                             className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 hidden sm:block">
                             <InfoCircle color='currentColor' size={24} />
                         </button>
 
                         <button
-                        
-                            onClick={()=>{navigate("/settings")}}
+
+                            onClick={() => { navigate("/settings") }}
                             className="p-2.5 text-[#64748B] hover:bg-[#F2F4F6] rounded-full cursor-pointer duration-300 sm:hidden block">
                             <Setting color='currentColor' size={24} />
                         </button>
@@ -86,7 +88,7 @@ const Header: React.FC = () => {
 
                     <div className="flex items-center gap-2 cursor-pointer shrink-0">
                         <button
-                        
+
                             onClick={() => { navigate("/settings/profile") }}
                             className="h-[36px] w-[36px] overflow-hidden rounded-full border border-[#E2E8F0] bg-slate-100 cursor-pointer">
                             <img
@@ -98,6 +100,11 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            <Notification
+                open={openNotification}
+                onClose={() => setOpenNotification(false)}
+            />
         </header>
     );
 };
