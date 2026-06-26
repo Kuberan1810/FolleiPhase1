@@ -1,6 +1,6 @@
 const OrchestratorHeader = () => {
   return (
-    <div className="flex items-end justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
+    <div className="flex items-end justify-between gap-4">
       <div>
         <h1 className="text-[26px] sm:text-[30px] font-extrabold text-[#0F172A]  font-manrope">
           Data Import

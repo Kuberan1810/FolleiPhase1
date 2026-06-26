@@ -5,7 +5,7 @@ import LinkCRM from './section/LinkCRM';
 
 const Orchestrator = () => {
   return (
-    <div className="w-full flex flex-col gap-6 md:gap-8 font-['Inter'] min-h-screen lg:mb-0 mb-20" >
+    <div className="w-full flex flex-col gap-6 md:gap-8  lg:mb-0 mb-20" >
       <OrchestratorHeader />
       <BulkDataImport />
       <LinkCRM />

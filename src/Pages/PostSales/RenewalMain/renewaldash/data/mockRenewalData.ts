@@ -8,13 +8,12 @@ export const mockStats: RenewalStat[] = [
 ];
 
 export const mockPredictionData: PredictionDataPoint[] = [
-  { month: 'Jan', follei: 90, actual: 60 },
   { month: 'Feb', follei: 55, actual: 35 },
   { month: 'Mar', follei: 80, actual: 55 },
   { month: 'Apr', follei: 100, actual: 70 },
   { month: 'May', follei: 70, actual: 45 },
-  { month: 'Jun', follei: 85, actual: 58 },
-  { month: 'Jul', follei: 75, actual: 50 },
+  { month: 'June', follei: 85, actual: 58 },
+  { month: 'july', follei: 0, actual:  0},
 ];
 
 export const mockRenewalRows: RenewalRow[] = [

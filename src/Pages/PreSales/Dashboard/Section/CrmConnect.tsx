@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { X, Check } from "lucide-react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { X, Check, Search } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import BtnCom from "../../../../Component/BtnCom";
 
 import salesforceLogo from "../../../../assets/crm/salesforce.png";
@@ -26,16 +27,30 @@ const CRM_LIST = [
 ];
 
 const CrmConnect: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCrm, setSelectedCrm] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (location.state?.openAvailableCrm) {
+      setIsModalOpen(true);
+      // Reset navigation state to avoid re-opening on manual refreshes
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
   const handleCloseAll = () => {
     setIsConnecting(false);
     setShowSuccess(false);
     setIsModalOpen(false);
     setSelectedCrm(null);
+    setShowSearchInput(false);
+    setSearchQuery("");
   };
 
   const handleConnectCrm = () => {
@@ -98,18 +113,50 @@ const CrmConnect: React.FC = () => {
           >
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-[24px] leading-[20px] text-[#000000] font-inter">Available CRM</h2>
-              <button
-                disabled={isConnecting && !showSuccess}
-                onClick={handleCloseAll}
-                className="p-1.5 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-slate-400 hover:text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-3">
+                <AnimatePresence>
+                  {showSearchInput && (
+                    <motion.input
+                      initial={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, borderWidth: 0 }}
+                      animate={{ width: 220, opacity: 1, paddingLeft: 14, paddingRight: 14, borderWidth: 1 }}
+                      exit={{ width: 0, opacity: 0, paddingLeft: 0, paddingRight: 0, borderWidth: 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      type="text"
+                      placeholder="Search CRM..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="h-9 bg-white border-solid border-[#CAD4E0] rounded-[10px] text-sm text-slate-800 focus:outline-none focus:border-[#014370]"
+                      autoFocus
+                    />
+                  )}
+                </AnimatePresence>
+                <button
+                  onClick={() => {
+                    if (showSearchInput) {
+                      setSearchQuery("");
+                      setShowSearchInput(false);
+                    } else {
+                      setShowSearchInput(true);
+                    }
+                  }}
+                  className="w-9 h-9 rounded-full bg-white border border-[#E2E8F0] text-[#64748B] flex items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer active:scale-95 shadow-sm flex-shrink-0"
+                >
+                  {showSearchInput ? <X size={16} /> : <Search size={16} />}
+                </button>
+                <button
+                  disabled={isConnecting && !showSuccess}
+                  onClick={handleCloseAll}
+                  className="p-1.5 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-slate-400 hover:text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
-
             {/* CRM Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-items-center">
-              {CRM_LIST.map((crm) => {
+              {CRM_LIST.filter((crm) =>
+                crm.name.toLowerCase().includes(searchQuery.toLowerCase())
+              ).map((crm) => {
                 const isSelected = selectedCrm === crm.id;
                 return (
                   <div
@@ -155,7 +202,7 @@ const CrmConnect: React.FC = () => {
                   {!showSuccess ? (
                     <>
                       {/* Central Wave Animation - Liquid Circle */}
-                      <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden bg-white shadow-[inset_0_2px_6px_rgba(0,0,0,0.06)] border border-[#E2E8F0] flex items-center justify-center">
+                      <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden bg-white  flex items-center justify-center">
                         <motion.div
                           initial={{ y: "100%" }}
                           animate={{ y: "-20%" }}

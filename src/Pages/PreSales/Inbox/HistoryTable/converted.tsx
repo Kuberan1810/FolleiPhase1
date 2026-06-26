@@ -3,6 +3,7 @@ import { useMemo } from "react";
 interface ChatItem {
     id: string;
     avatarChar: string;
+    name: string;
     avatarColor: string;
     product: string;
     value: string;
@@ -21,6 +22,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
             avatarChar: "K",
             avatarColor: "bg-gradient-to-br from-[#DCB1B1] to-[#419EF5] text-white",
             product: "CRM Pro",
+            name: "Kuber",
             value: "₹25,000",
             convertedDate: "Today",
             owner: "Raleni",
@@ -30,6 +32,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
             avatarChar: "N",
             avatarColor: "bg-gradient-to-br from-[#AEA14C] to-[#F5E941] text-white",
             product: "CRM Enterprise",
+            name: "Kubera Lakshmi",
             value: "₹25,000",
             convertedDate: "Today",
             owner: "Raleni",
@@ -39,6 +42,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
             avatarChar: "R",
             avatarColor: "bg-gradient-to-br from-[#6C86C9] to-[#0B4984] text-white",
             product: "CRM Pro",
+            name: "Harish",
             value: "₹80,000",
             convertedDate: "2 Days Ago",
             owner: "Raleni",
@@ -48,6 +52,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
             avatarChar: "H",
             avatarColor: "bg-gradient-to-br from-[#3599AD] to-[#41F2F5] text-white",
             product: "CRM Pro",
+            name: "Harish",
             value: "₹80,000",
             convertedDate: "2 Days Ago",
             owner: "Raleni",
@@ -88,6 +93,7 @@ const ConvertedChatTable = ({ searchQuery = "" }: ConvertedChatTableProps) => {
                                             <div className={`w-[40px] h-[40px] rounded-full flex items-center justify-center font-bold text-[14px] shrink-0 shadow-sm ${chat.avatarColor}`}>
                                                 {chat.avatarChar}
                                             </div>
+                                            <div className=" text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">{chat.name}</div>
                                         </div>
                                     </td>
 

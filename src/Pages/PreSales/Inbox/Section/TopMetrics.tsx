@@ -1,17 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Dropdown from "./Dropdown";
 import BtnCom from "../../../../Component/BtnCom";
-
-const chatOptions = [
-  { label: "Total Chats", value: "total_chats" },
-  { label: "Active Chats", value: "active_chats" },
-  { label: "Closed Chats", value: "closed_chats" },
-];
 
 const TopMetrics = () => {
   const navigate = useNavigate();
-  const [chatType, setChatType] = useState("total_chats");
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-center gap-6 lg:gap-8 mb-8 w-full">
@@ -19,12 +10,9 @@ const TopMetrics = () => {
         className="BoxStyle bg-[#F6FBFF]! shadow-xs flex flex-col justify-between items-start text-left flex-1 w-full  "
 
       >
-        <Dropdown
-          options={chatOptions}
-          value={chatType}
-          onChange={setChatType}
-          className="font-semibold text-[24px] text-[#191C1E]"
-        />
+        <span className="font-semibold text-[24px] text-[#191C1E]">
+          Total Chats
+        </span>
         <div className="w-full text-center">
           <span className=" font-semibold text-[48px] text-[#191C1E] leading-none tracking-tight">
             568

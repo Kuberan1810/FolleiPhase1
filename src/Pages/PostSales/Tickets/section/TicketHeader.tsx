@@ -163,33 +163,7 @@ const TicketHeader: React.FC<TicketHeaderProps> = ({
                     </div>
                 )}
 
-                <div className="w-px h-6 bg-[#EDF3FD] mx-1" />
 
-                {/* View Toggle Layout */}
-                <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">
-                    <button
-                        onClick={() => setViewType('list')}
-                        className={`flex items-center justify-center transition-all rounded-lg p-1.5 cursor-pointer ${viewType === 'list'
-                            ? 'bg-[#EFF6FF] text-[#004370]'
-                            : 'bg-transparent text-[#64748B]'
-                            }`}
-                        title="List View"
-                    >
-                        <List className="w-4 h-4 shrink-0" />
-                    </button>
-                    <button
-                        onClick={() => setViewType('grid')}
-                        className={`flex items-center justify-center transition-all rounded-lg p-1.5 cursor-pointer ${viewType === 'grid'
-                            ? 'bg-[#EFF6FF] text-[#004370]'
-                            : 'bg-transparent text-[#64748B]'
-                            }`}
-                        title="Grid View"
-                    >
-                        <LayoutGrid className="w-4 h-4 shrink-0" />
-                    </button>
-                </div>
-
-                {/* Export Button */}
                 <button
                     onClick={onExport}
                     className="flex items-center gap-2 bg-[#004370] hover:bg-[#003152] text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-colors cursor-pointer"

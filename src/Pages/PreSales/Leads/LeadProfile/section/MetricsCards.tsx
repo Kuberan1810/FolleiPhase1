@@ -4,7 +4,7 @@ const MetricsCards = () => {
     { title: 'LEAD SCORE', value: '92', suffix: '/100', sub: 'High Intent', subColor: 'text-[#10B981]', valueColor: 'text-[#10B981]' },
     { title: 'DEAL VALUE', value: '₹90K', suffix: '', sub: 'Estimated Opportunity', subColor: 'text-[#6B7280]' },
     { title: 'RESPONSE RATE', value: '68%', suffix: '', sub: 'Above Average', subColor: 'text-[#6B7280]' },
-    { title: 'BAND SCORE', value: 'A Band', suffix: '', sub: 'Excellent', valueColor: 'text-[#006A6A] text-[14px] bg-[#DBFEE8]', subColor: 'text-[#006A6A]' },
+    { title: 'BAND SCORE', value: '96%', suffix: '', sub: 'Excellent', valueColor: 'text-[#006A6A] text-[14px] bg-[#DBFEE8]', subColor: 'text-[#006A6A]' },
     { title: 'MEDDIC SCORE', value: '78%', suffix: '', sub: 'Strong Opportunity', valueColor: 'text-[#4F46E5]', subColor: 'text-[#4F46E5]' },
   ];
 

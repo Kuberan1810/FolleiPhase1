@@ -4,6 +4,7 @@ interface ChatItem {
     id: string;
     avatarChar: string;
     avatarColor: string;
+    name: string;
     AssignedTo: string;
     Reason: string;
     priority: string;
@@ -21,6 +22,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
             avatarChar: "K",
             avatarColor: "bg-gradient-to-br from-[#DCB1B1] to-[#419EF5] text-white",
             AssignedTo: "Raleni",
+            name: "Kubera Lakshmi",
             Reason: "Pricing Discussion",
             priority: "High",
             status: "In Progress",
@@ -30,6 +32,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
             avatarChar: "N",
             avatarColor: "bg-gradient-to-br from-[#AEA14C] to-[#F5E941] text-white",
             AssignedTo: "Roxaze",
+            name: "Naaradha",
             Reason: "Demo Request",
             priority: "High",
             status: "In Progress",
@@ -39,6 +42,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
             avatarChar: "R",
             avatarColor: "bg-gradient-to-br from-[#6C86C9] to-[#0B4984] text-white",
             AssignedTo: "Raleni",
+            name: "Rajesh",
             Reason: "Custom Requirement",
             priority: "Medium",
             status: "In Progress",
@@ -48,6 +52,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
             avatarChar: "H",
             avatarColor: "bg-gradient-to-br from-[#3599AD] to-[#41F2F5] text-white",
             AssignedTo: "Raleni",
+            name: "Harish",
             Reason: "Enterprise Query",
             priority: "High",
             status: "In Progress",
@@ -94,6 +99,7 @@ const AdminChatTable = ({ searchQuery = "" }: AdminChatTableProps) => {
                                             >
                                                 {chat.avatarChar}
                                             </div>
+                                            <div className=" text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">{chat.name}</div>
 
                                         </div>
                                     </td>
