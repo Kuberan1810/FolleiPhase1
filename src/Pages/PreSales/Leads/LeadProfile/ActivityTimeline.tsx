@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Calendar, Phone, Mail, MailOpen, Reply, MessageSquare, Eye, FileText, Globe, Play, FileDown, } from "lucide-react";
+import { ChevronLeft, Calendar, Phone, Mail, MailOpen, Reply, MessageSquare, Eye, FileText, Globe, Play, } from "lucide-react";
 
 interface TimelineActivity {
   type: string;

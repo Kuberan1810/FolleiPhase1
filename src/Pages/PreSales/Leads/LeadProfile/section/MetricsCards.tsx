@@ -1,6 +1,4 @@
 
-import { Whatsapp } from 'iconsax-react';
-
 const MetricsCards = () => {
   const metrics = [
     { title: 'LEAD SCORE', value: '92', suffix: '/100', sub: 'High Intent', subColor: 'text-[#10B981]', valueColor: 'text-[#10B981]' },

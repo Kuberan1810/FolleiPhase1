@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Download, LayoutGrid } from 'lucide-react';
 import { ImportCurve } from 'iconsax-react';
 
-/* const rows = [
-    { source: 'Customer_Name', target: 'Full Name', preview: 'Ravi Sharma' },
-    { source: 'Lead_Email_01', target: 'Email Primary', preview: 'ravi@corp.in' },
-    { source: 'Phone_Personal', target: 'Phone Number', preview: '+91 98XXX XXX01' },
-]; */
+
 
 const BulkDataImport = () => {
     const [url, setUrl] = useState('');
@@ -73,7 +69,7 @@ const BulkDataImport = () => {
 
             {/* Upload button */}
             <button className="w-full flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors">
-                <ImportCurve color='white' size={24} />
+                <ImportCurve  color='white' size={24} />
                 {/* <Icon icon="solar:import-outline" width="24" height="24" color='white' style={{ strokeWidth: 6 }} /> */}
                 Upload &amp; Synchronize Data
             </button>

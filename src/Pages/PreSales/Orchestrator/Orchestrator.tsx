@@ -1,7 +1,7 @@
 import OrchestratorHeader from './section/OrchestratorHeader';
 import BulkDataImport from './section/BulkDataImport';
 import LinkCRM from './section/LinkCRM';
-import IntelligenceAlerts from './section/IntelligenceAlerts';
+// import IntelligenceAlerts from './section/IntelligenceAlerts';
 
 const Orchestrator = () => {
   return (
@@ -9,7 +9,7 @@ const Orchestrator = () => {
       <OrchestratorHeader />
       <BulkDataImport />
       <LinkCRM />
-      <IntelligenceAlerts />
+      {/* <IntelligenceAlerts /> */}
     </div>
   );
 };
