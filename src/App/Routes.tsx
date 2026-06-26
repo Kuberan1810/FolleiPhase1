@@ -72,6 +72,7 @@ import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
 import Plans from "../Pages/Settings/Payment/Section/Plans";
 import PaymentMethod from "../Pages/Settings/Payment/Section/PaymentMethod";
 import Analytics from "../Pages/PostSales/Analytics/Analytics";
+import ActivityTimelinePage from "../Pages/PostSales/Customer/ActivityTimeline/ActivityTimelinePage";
 
 export default function AppRoutes() {
   return (
