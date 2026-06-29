@@ -49,7 +49,7 @@ const ScopeChart: React.FC = () => {
       {/* Recharts Area */}
       <div className="relative flex-1 w-full min-h-0 mt-2">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 20, right: 10, left: 10, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 20, right: 10, left: 10, bottom: 20 }}>
             <defs>
               <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#17BB84" stopOpacity={0.25} />
