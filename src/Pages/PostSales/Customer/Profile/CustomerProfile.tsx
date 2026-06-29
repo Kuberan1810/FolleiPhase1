@@ -36,7 +36,7 @@ const CustomerProfile = () => {
   const [showDetailedProducts, setShowDetailedProducts] = React.useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-12">
+    <div className="min pb-12">
       <div className="pt-4 px-6 mb-5">
         <button
           onClick={() => navigate(-1)}

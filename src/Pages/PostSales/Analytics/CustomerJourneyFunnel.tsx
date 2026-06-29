@@ -126,7 +126,7 @@ const CustomerJourneyFunnel: React.FC = () => {
   const activeCard = hoveredIndex !== null ? conversionCards[hoveredIndex] : defaultConversion;
 
   return (
-    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
+    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto">
       <div className="mb-4 text-left">
         <h3 className="tracking-normal font-semibold text-[#1E293B] text-[20px] leading-[20px]">
           Customer Journey Funnel
