@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, List, LayoutGrid, ChevronDown } from 'lucide-react';
+import { Download, ChevronDown } from 'lucide-react';
 import { FilterPanel } from './FilterPanel';
 
 interface TicketHeaderProps {
@@ -31,7 +31,6 @@ const TicketHeader: React.FC<TicketHeaderProps> = ({
     sortOption,
     setSortOption,
     viewType,
-    setViewType,
     groupByOption,
     setGroupByOption,
     onExport

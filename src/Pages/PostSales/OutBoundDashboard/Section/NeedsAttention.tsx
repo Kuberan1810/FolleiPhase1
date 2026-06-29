@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BtnComSecondary from "../../../../Component/BtnComSecondary";
+import NeedsAttentionDrawer from "./NeedsAttentionDrawer";
 
 const NeedsAttention: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
 
   const attentionLeads = [
     { name: "Klen", issue: "Custom pricing asked — Follei can't ..", priority: "High" },
@@ -54,7 +56,10 @@ const NeedsAttention: React.FC = () => {
                     </span>
                   </div>
                   <div className="col-span-2 flex justify-end">
-                    <button className="text-[16px] border border-[#EDF3FD] bg-white text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer hover:bg-slate-50">
+                    <button 
+                      onClick={() => setSelectedLead(lead)}
+                      className="text-[16px] border border-[#EDF3FD] bg-white text-[#191C1E] font-medium px-4 py-1.5 rounded-[10px] text-xs transition-colors cursor-pointer hover:bg-slate-50"
+                    >
                       view
                     </button>
                   </div>
@@ -64,6 +69,12 @@ const NeedsAttention: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <NeedsAttentionDrawer 
+        isOpen={!!selectedLead} 
+        onClose={() => setSelectedLead(null)} 
+        lead={selectedLead} 
+      />
     </div>
   );
 };
