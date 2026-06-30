@@ -19,8 +19,8 @@ const LeadProfile = () => {
         <div className="min-h-screen pb-12 ">
             {/* Back Button */}
             <div className="pt-4 px-6 mb-5">
-                <button 
-                    onClick={() => navigate(-1)} 
+                <button
+                    onClick={() => navigate(-1)}
                     className="flex items-center gap-2 text-[#464555] hover:text-[#004370] transition-all duration-300 cursor-pointer font-semibold group"
                 >
                     <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-1.5" />
@@ -36,7 +36,7 @@ const LeadProfile = () => {
 
                 {/* Metrics */}
                 <MetricsCards />
-                
+
                 {/* Responsive Masonry / Two-Column Grid */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full items-start">
                     {/* Left Column */}
@@ -45,7 +45,7 @@ const LeadProfile = () => {
                         <UpcomingActivitiesCard />
                         <LeadNotesCard lead={lead} />
                     </div>
-                    
+
                     {/* Right Column */}
                     <div className="flex flex-col gap-6">
                         <CampaignParticipationCard />

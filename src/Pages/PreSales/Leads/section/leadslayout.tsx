@@ -377,45 +377,47 @@ const Leadslayout: React.FC = () => {
           </div>
 
           {/* CATEGORY Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-              className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
-            >
-              <span>{getCategoryLabel(categorizeBy)}</span>
-              {showCategoryDropdown ? (
-                <ChevronUp className="w-4 h-4 text-slate-500" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-slate-500" />
+          {viewMode === 'kanban' && (
+            <div className="relative">
+              <button
+                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
+              >
+                <span>{getCategoryLabel(categorizeBy)}</span>
+                {showCategoryDropdown ? (
+                  <ChevronUp className="w-4 h-4 text-slate-500" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                )}
+              </button>
+
+              {showCategoryDropdown && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowCategoryDropdown(false)} />
+                  <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
+                    {(['Lead Source', 'Lead Status',] as const).map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => {
+                          setCategorizeBy(opt);
+                          setShowCategoryDropdown(false);
+                        }}
+                        className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer flex justify-between items-center ${categorizeBy === opt ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
+                          }`}
+                      >
+                        <span>{getCategoryLabel(opt)}</span>
+                        {categorizeBy === opt && (
+                          <ChevronUp className="w-4 h-4 text-[#004370]" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
-            </button>
+            </div>
+          )}
 
-            {showCategoryDropdown && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setShowCategoryDropdown(false)} />
-                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[190px] bg-white border border-[#EDF3FD] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.08)] py-1 z-50 flex flex-col">
-                  {(['Lead Source', 'Lead Status', 'Lead Score', 'Campaign'] as const).map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => {
-                        setCategorizeBy(opt);
-                        setShowCategoryDropdown(false);
-                      }}
-                      className={`px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 cursor-pointer flex justify-between items-center ${categorizeBy === opt ? 'text-[#004370] font-semibold' : 'text-slate-600 font-medium'
-                        }`}
-                    >
-                      <span>{getCategoryLabel(opt)}</span>
-                      {categorizeBy === opt && (
-                        <ChevronUp className="w-4 h-4 text-[#004370]" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-
-          <div className="w-px h-6 bg-[#EDF3FD] mx-1" />
+          {viewMode === 'kanban' && <div className="w-px h-6 bg-[#EDF3FD] mx-1" />}
 
           {/* View Toggle Layout */}
           <div className="flex items-center gap-1 bg-white border border-[#EDF3FD] p-1 rounded-xl">

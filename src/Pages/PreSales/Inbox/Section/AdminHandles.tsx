@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Flame, Snowflake, Sun, X, Play, ArrowUpDown } from 'lucide-react';
+import { ChevronLeft, Flame, Snowflake, Sun, X, Play, ArrowUpDown } from 'lucide-react';
 import { Sort } from 'iconsax-react';
 import { useNavigate } from 'react-router-dom';
+import { initialLeads } from '../../Leads/data/mockLeads';
 
 const getInitials = (name: string): string => {
     const parts = name.trim().split(/\s+/);
@@ -219,24 +220,28 @@ const AdminHandles: React.FC = () => {
 
     return (
         <div className="font-manrope animate-in fade-in slide-in-from-bottom-4 duration-500 pb-16">
-            <div className="mb-6">
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="p-1 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center"
-                    >
-                        <ArrowLeft className="w-6 h-6 text-[#0B1C30]" />
-                    </button>
-                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
-                        Admin Handles
-                    </h1>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <div className="flex items-center gap-3">
+                        {/* Back Button */}
+                        <div className="pt-4 mb-5">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="flex items-center gap-2 text-[#464555] hover:text-[#004370] transition-all duration-300 cursor-pointer font-semibold group"
+                            >
+                                <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-1.5" />
+                            </button>
+                        </div>
+                        <h1 className="font-semibold text-[24px] md:text-[30px] leading-[36px] text-[#0D1C2E]">
+                            Admin Handles
+                        </h1>
+                    </div>
+                    <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+                        Management suite for automated intelligence and data synchronization
+                    </p>
                 </div>
-                <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
-                    Management suite for automated intelligence and data synchronization
-                </p>
-            </div>
 
-            <div className="flex items-center gap-6 mb-6 px-1 relative">
+                <div className="flex items-center gap-6 px-1 relative">
                 {/* Filters Dropdown */}
                 <div className="relative" ref={filterRef}>
                     <button
@@ -248,7 +253,7 @@ const AdminHandles: React.FC = () => {
                     </button>
 
                     {isFilterOpen && (
-                        <div className="absolute left-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                        <div className="absolute right-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                             <div className="mb-2">
                                 <div
                                     onClick={() => setIsStatusExpanded(!isStatusExpanded)}
@@ -342,7 +347,7 @@ const AdminHandles: React.FC = () => {
                                 onClick={() => setIsSortOpen(false)}
                             />
 
-                            <div className="absolute left-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            <div className="absolute right-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                                 <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2 bg-[#F8FAFC]">
                                     <ArrowUpDown className="w-3.5 h-3.5 text-[#004370]" />
                                     <span
@@ -481,6 +486,7 @@ const AdminHandles: React.FC = () => {
                     )}
                 </div>
             </div>
+        </div>
 
             <div className="flex gap-6 items-start mt-2">
                 <div className="flex-1 min-w-0 bg-white rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.015)] overflow-hidden">
@@ -509,7 +515,7 @@ const AdminHandles: React.FC = () => {
                                             <div
                                                 ref={popupRef}
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="absolute top-[42px] left-4 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[16px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-14 flex flex-col items-center gap-0.5"
+                                                className="absolute top-[42px] left-4 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[10px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-16 flex flex-col items-center gap-0.5"
                                             >
                                                 {['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
                                                     <button
@@ -536,7 +542,7 @@ const AdminHandles: React.FC = () => {
                                         Status
                                     </th>
                                     <th className="h-12 py-0 px-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
-                                        Activity
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
@@ -545,7 +551,27 @@ const AdminHandles: React.FC = () => {
                                     sortedData.map((act) => (
                                         <tr
                                             key={act.id}
-                                            className="hover:bg-slate-50/80 transition-all duration-200 group"
+                                            onClick={() => {
+                                                const lead = initialLeads.find(l => l.email.toLowerCase() === act.email.toLowerCase()) || {
+                                                    id: act.id,
+                                                    name: act.name,
+                                                    email: act.email,
+                                                    phone: '+91 98765 43210',
+                                                    score: act.score.toLowerCase() === 'hot' ? 95 : act.score.toLowerCase() === 'warm' ? 65 : 35,
+                                                    temperature: act.score,
+                                                    source: 'website',
+                                                    status: act.status,
+                                                    addedTime: '12 Jan, 2026',
+                                                    activityTime: '1 day ago',
+                                                    activityType: 'MEETING SETUP',
+                                                    initials: getInitials(act.name),
+                                                    bgColor: getAvatarColors(act.name).bg,
+                                                    textColor: getAvatarColors(act.name).text,
+                                                    company: 'Company Inc.'
+                                                };
+                                                navigate('/presales/leads/profile', { state: { lead } });
+                                            }}
+                                            className="hover:bg-slate-50/80 transition-all duration-200 cursor-pointer group"
                                         >
                                             <td className="py-4 pl-8 pr-6 align-middle whitespace-nowrap">
                                                 <div className="flex items-center gap-3">
@@ -575,7 +601,10 @@ const AdminHandles: React.FC = () => {
                                             </td>
                                             <td className="py-4 px-6 align-middle whitespace-nowrap">
                                                 <button
-                                                    onClick={() => handleOpenHistory(act)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleOpenHistory(act);
+                                                    }}
                                                     className="relative text-[#23669C] hover:text-[#194E73] text-[16px] font-medium cursor-pointer border-none bg-transparent active:scale-95 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out after:bg-[#194E73]"
                                                 >
                                                     History

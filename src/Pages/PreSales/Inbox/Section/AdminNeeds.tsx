@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpDown, ArrowLeft } from 'lucide-react';
+import { ArrowUpDown, ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Sort } from 'iconsax-react';
+import { initialLeads } from '../../Leads/data/mockLeads';
 
 
 const getInitials = (name: string): string => {
@@ -302,23 +303,28 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
 
     return (
         <div className="font-manrope animate-in fade-in slide-in-from-bottom-4 duration-500 pb-16">
-            <div className="mb-6">
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="p-1 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center"
-                    >
-                        <ArrowLeft className="w-6 h-6 text-[#0B1C30]" />
-                    </button>
-                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
-                        Admin Needs</h1>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <div className="flex items-center gap-3">
+                        {/* Back Button */}
+                        <div className="pt-4 mb-5">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="flex items-center gap-2 text-[#464555] hover:text-[#004370] transition-all duration-300 cursor-pointer font-semibold group"
+                            >
+                                <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-1.5" />
+                            </button>
+                        </div>
+                        <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+                            Admin Needs
+                        </h1>
+                    </div>
+                    <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
+                        Management suite for automated intelligence and data synchronization
+                    </p>
                 </div>
-                <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
-                    Management suite for automated intelligence and data synchronization
-                </p>
-            </div>
 
-            <div className="flex items-center gap-6 mb-6 px-1 relative">
+                <div className="flex items-center gap-6 px-1 relative">
 
                 {/* Filters Dropdown */}
                 <div className="relative" ref={filterRef}>
@@ -331,7 +337,7 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                     </button>
 
                     {isFilterOpen && (
-                        <div className="absolute left-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                        <div className="absolute right-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                             <div className="mb-4">
                                 <div
                                     onClick={() => setIsStatusExpanded(!isStatusExpanded)}
@@ -396,7 +402,7 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                 onClick={() => setIsSortOpen(false)}
                             />
 
-                            <div className="absolute left-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            <div className="absolute right-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                                 {/* Dropdown Header */}
                                 <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2 bg-[#F8FAFC]">
                                     <ArrowUpDown className="w-3.5 h-3.5 text-[#004370]" />
@@ -535,10 +541,8 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                         </>
                     )}
                 </div>
-
-
-
             </div>
+        </div>
 
             <div className="flex gap-6 items-start">
                 <div className="flex-1 min-w-0 bg-white rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.015)] overflow-hidden">
@@ -570,7 +574,7 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                             <div
                                                 ref={popupRef}
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="absolute top-[42px] left-4 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[16px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-14 flex flex-col items-center gap-0.5"
+                                                className="absolute top-[42px] left-4 mt-1 z-50 bg-white border border-[#E2E8F0] rounded-[10px] p-1.5 shadow-[0_10px_25px_rgba(0,0,0,0.08)] max-h-[260px] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent w-16 flex flex-col items-center gap-0.5"
                                             >
                                                 {['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
                                                     <button
@@ -603,6 +607,26 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                     sortedActivities.map((act) => (
                                         <tr
                                             key={act.id}
+                                            onClick={() => {
+                                                const lead = initialLeads.find(l => l.email.toLowerCase() === act.email.toLowerCase()) || {
+                                                    id: act.id.toString(),
+                                                    name: act.name,
+                                                    email: act.email,
+                                                    phone: act.phone,
+                                                    score: 75,
+                                                    temperature: 'Warm' as const,
+                                                    source: 'website',
+                                                    status: act.status,
+                                                    addedTime: act.date,
+                                                    activityTime: '1 day ago',
+                                                    activityType: 'MEETING SETUP',
+                                                    initials: getInitials(act.name),
+                                                    bgColor: getAvatarColors(act.name).bg,
+                                                    textColor: getAvatarColors(act.name).text,
+                                                    company: 'Company Inc.'
+                                                };
+                                                navigate('/presales/leads/profile', { state: { lead } });
+                                            }}
                                             className="hover:bg-slate-50/80 transition-all duration-200 cursor-pointer group"
                                         >
                                             <td className="py-4 pl-8 pr-6 text-[16px] text-[#0D1C2E] font-medium align-middle whitespace-nowrap">

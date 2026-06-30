@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Edit2 } from 'iconsax-react';
 
 const LeadNotesCard = ({ lead }: { lead?: any }) => {
     const [noteText, setNoteText] = useState(lead?.notes || "Interested in enterprise pricing and custom API volume discounts. Highlight the scalability features in the next call.");
@@ -86,9 +87,10 @@ const LeadNotesCard = ({ lead }: { lead?: any }) => {
                                         setTempText(noteText);
                                         setIsEditing(true);
                                     }}
-                                    className="text-[14px] font-semibold text-[#004370] hover:text-[#003152] cursor-pointer transition-colors shrink-0"
+                                    className="flex items-center gap-1.5 text-[14px] font-semibold text-[#004370] hover:text-[#003152] cursor-pointer transition-colors shrink-0"
                                 >
-                                    Edit Note
+                                    <Edit2 color="currentColor" size={16} />
+                                    <span>Edit Note</span>
                                 </button>
                             </div>
                             <div className="flex items-center gap-2 text-[14px] font-medium text-[#94A3B8]">
