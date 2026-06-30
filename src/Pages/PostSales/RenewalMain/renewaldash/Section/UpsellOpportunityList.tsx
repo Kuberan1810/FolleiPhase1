@@ -25,7 +25,7 @@ export default function UpsellOpportunityList({ upsells }: UpsellOpportunityList
         </div>
         <BtnComSecondary 
           label="View All" 
-          onClick={() => navigate('/postsales/renewals/list')} 
+          onClick={() => navigate('/postsales/renewals/upsell')} 
         />
       </div>
 
