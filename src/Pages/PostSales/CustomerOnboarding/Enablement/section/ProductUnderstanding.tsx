@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TickCircle } from 'iconsax-react';
+import BtnComSecondary from '../../../../../Component/BtnComSecondary';
 
 interface ModuleItem {
   title: string;
@@ -23,12 +24,10 @@ const ProductUnderstanding: React.FC = () => {
     <div className="BoxStyle flex flex-col gap-5">
       <div className="flex justify-between items-center">
         <h3 className="text-[20px] font-bold text-[#191C1E]">Product understanding</h3>
-        <button
+        <BtnComSecondary
+          label="View All"
           onClick={() => navigate(`/postsales/onboarding/enablement/${customerId}/understanding`)}
-          className="text-[16px] text-[#004370] cursor-pointer"
-        >
-          View All
-        </button>
+        />
       </div>
 
       <div className="flex flex-col gap-3">
