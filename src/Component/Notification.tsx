@@ -137,8 +137,10 @@ const Notification = ({ open, onClose }: Props) => {
                   ${open ? "translate-x-0" : "translate-x-full"}
              `}
             >
-                <div className="w-full flex p-3 border-b border-[#F3F4F6] ">
-                    <h1 className="text-[18px] font-bold">Notification Center</h1>
+                <div className="w-full flex p-4 border-b border-[#F3F4F6] ">
+                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+                        Notification Center
+                    </h1>
                     <div className="ml-auto">
                         <button
                             onClick={onClose}
@@ -150,12 +152,12 @@ const Notification = ({ open, onClose }: Props) => {
                 </div>
 
                 <div className="p-6">
-                    <div className="flex flex-wrap mb-6 gap-4">
+                    <div className="flex flex-wrap mb-6 gap-2">
                         {tabs.map((tab, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setActive(idx)}
-                                className={`px-2 pt-[1px] pb-[2px] text-[12px] font-bold rounded-[4px] transition-colors cursor-pointer border ${active === idx
+                                className={`px-2 pt-[1px] pb-[2px] text-[14px] font-bold rounded-[4px] transition-colors cursor-pointer border ${active === idx
                                     ? "bg-[#014370] text-white"
                                     : "bg-[#004370]/5 text-[#64748B] border-transparent hover:bg-slate-100"
                                     }`}
@@ -180,16 +182,16 @@ const Notification = ({ open, onClose }: Props) => {
                                                     {note.icon}
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-[12px] font-bold text-[#1E293B]">{note.title}</h3>
-                                                    <p className="text-[10px] text-[#64748B] mt-1">{note.description}</p>
+                                                    <h3 className="text-[14px] font-bold text-[#1E293B]">{note.title}</h3>
+                                                    <p className="text-[12px] text-[#64748B] mt-1">{note.description}</p>
                                                     {note.action && (
-                                                        <button className="text-[9px] bg-[#004370]/10 font-bold text-[#004370] rounded-[4px] px-1.5 py-[2px] mt-2 block cursor-pointer hover:text-[#002f52] text-left">
+                                                        <button className="text-[11px] bg-[#004370]/10 font-bold text-[#004370] rounded-[4px] px-1.5 py-[2px] mt-2 block cursor-pointer hover:text-[#002f52] text-left">
                                                             {note.action}
                                                         </button>
                                                     )}
                                                 </div>
                                             </div>
-                                            <span className="text-[10px] text-[#64748B] shrink-0">{note.time}</span>
+                                            <span className="text-[12px] text-[#64748B] shrink-0">{note.time}</span>
                                         </div>
                                     ))}
                                 </div>
