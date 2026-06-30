@@ -46,7 +46,7 @@ export default function StatsGrid() {
       {stats.map((item, idx) => (
         <div
           key={idx}
-          className="bg-white rounded-[20px] pt-7 pb-3 px-3 border border-[#EDF3FD] relative flex flex-col justify-between items-center w-full h-full cursor-pointer"
+          className="bg-white rounded-[20px] pt-7 pb-3 px-3 border border-[#EDF3FD] relative flex flex-col justify-between items-center w-full h-full "
           style={{
             boxShadow: '0px 4px 4px 0px rgba(237, 243, 253, 0.3)'
           }}

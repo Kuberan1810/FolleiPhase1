@@ -4,6 +4,7 @@ import Messenger from "../../../../../assets/socialMediaIcons/Messenger.svg"
 import Calls from "../../../../../assets/socialMediaIcons/Calls.svg"
 import { Edit, Global } from "iconsax-react";
 import { Flame, Sun, Snowflake } from "lucide-react"
+import { useNavigate } from "react-router-dom";
 
 const getTempInfo = (temp: string) => {
     switch(temp) {
@@ -18,6 +19,7 @@ const getTempInfo = (temp: string) => {
 }
 
 const ProfileHeader = ({ lead }: { lead?: any }) => {
+    const navigate = useNavigate();
     const name = lead?.name || "Sophia Miller";
     const initials = name.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase();
     const company = lead?.company || "ABC Technologies";
@@ -63,6 +65,12 @@ const ProfileHeader = ({ lead }: { lead?: any }) => {
                             <Edit className="text-[#004370] " color="currentColor" size={18} />
                             {date}
                         </div>
+                        <button 
+                            onClick={() => navigate('/presales/leads/logs', { state: { lead } })}
+                            className="flex items-center gap-1.5 px-3 py-1 border border-[#EDF3FD] rounded-[8px] bg-white hover:bg-slate-50 text-[14px] font-medium text-[#0E4C77] cursor-pointer transition-colors"
+                        >
+                            View Logs
+                        </button>
                     </div>
                 </div>
             </div>

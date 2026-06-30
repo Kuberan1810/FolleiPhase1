@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LayoutGrid, FileInput } from "lucide-react";
+import { LayoutGrid, } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BtnComSecondary from "../../../../Component/BtnComSecondary";
 
@@ -43,7 +43,6 @@ const LinkCRM = () => {
         <button
           className="flex-1 flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[18px] font-bold py-4 rounded-xl cursor-pointer transition-colors"
         >
-          <FileInput size={20} color="white" />
           Connect CRM
         </button>
         <button

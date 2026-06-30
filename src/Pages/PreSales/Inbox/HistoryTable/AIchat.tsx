@@ -52,7 +52,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
             avatarChar: "K",
             avatarColor: "bg-gradient-to-br from-[#3599AD] to-[#41F2F5] text-white",
             number: "+91 4098837839",
-            name: "Kubera Lakshmi",
+            name: "Kuberan",
             tone: "Hot",
             intent: "Good",
             pricingDiscussed: "Not yet",

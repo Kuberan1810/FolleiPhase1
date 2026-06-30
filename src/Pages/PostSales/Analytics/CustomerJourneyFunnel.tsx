@@ -18,8 +18,8 @@ interface ConversionCardData {
   rate: string;
   label: string;
   description: string;
-  fromStage: string;
-  toStage: string;
+  fromStage?: string;
+  toStage?: string;
 }
 
 const stagesData: StageData[] = [
@@ -89,19 +89,20 @@ const conversionCards: ConversionCardData[] = [
     description: 'Customers who used key features in the last 7 days.',
     fromStage: 'Actively Using Product',
     toStage: 'Renewal Ready'
+  },
+  {
+    id: 3,
+    rate: '22%',
+    label: 'Conversion rate',
+    description: 'from New Customers to Renewal Ready'
   }
 ];
 
-const defaultConversion = {
-  rate: '22%',
-  label: 'Conversion rate',
-  description: 'from New Customers to Renewal Ready',
-  fromStage: undefined as string | undefined,
-  toStage: undefined as string | undefined
-};
+const defaultConversion = conversionCards[3];
 
 const CustomerJourneyFunnel: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeCard, setActiveCard] = useState<any>(defaultConversion);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -113,20 +114,25 @@ const CustomerJourneyFunnel: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      setActiveCard(conversionCards[hoveredIndex]);
+    }
+  }, [hoveredIndex]);
+
   const getCardPositionStyle = () => {
     if (isMobile) {
       return { left: '50%', transform: 'translateX(-50%)', top: '-20px' };
     }
-    if (hoveredIndex === 0) return { left: '16%', top: '5px' };
-    if (hoveredIndex === 1) return { left: '40%', top: '25px' };
-    if (hoveredIndex === 2) return { left: '52%', top: '45px' };
+    if (activeCard.id === 0) return { left: '25%', top: '5px' };
+    if (activeCard.id === 1) return { left: '40%', top: '25px' };
+    if (activeCard.id === 2) return { left: '55%', top: '35px' };
+    if (activeCard.id === 3) return { right: '25px', top: '45px' };
     return { right: '20px', top: '10px' };
   };
 
-  const activeCard = hoveredIndex !== null ? conversionCards[hoveredIndex] : defaultConversion;
-
   return (
-    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto">
+    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
       <div className="mb-4 text-left">
         <h3 className="tracking-normal font-semibold text-[#1E293B] text-[20px] leading-[20px]">
           Customer Journey Funnel
@@ -138,7 +144,8 @@ const CustomerJourneyFunnel: React.FC = () => {
 
       <div className="relative flex flex-col justify-center flex-grow min-h-0 mt-4">
         <div
-          className="absolute bg-white shadow-[0px_1px_4px_0px_#0000002E] rounded-[8px] py-1.5 px-2 flex items-start gap-3 text-left transition-all duration-300 ease-out w-[240px] z-10"
+          className={`absolute bg-white shadow-[0px_1px_4px_0px_#0000002E] rounded-[8px] py-1.5 px-2 flex items-start gap-3 text-left transition-all duration-300 ease-out w-[240px] z-10 ${hoveredIndex !== null ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
           style={getCardPositionStyle()}
         >
           <span className="text-[24px] font-bold text-[#004370] leading-none shrink-0">
@@ -191,7 +198,7 @@ const CustomerJourneyFunnel: React.FC = () => {
                 <g
                   key={stage.id}
                   className={`cursor-pointer transition-all duration-300 `}
-                  onMouseEnter={() => setHoveredIndex(idx === 3 ? null : idx)}
+                  onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <path

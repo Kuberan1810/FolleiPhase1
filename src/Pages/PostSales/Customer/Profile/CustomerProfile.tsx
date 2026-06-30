@@ -46,7 +46,7 @@ const CustomerProfile = () => {
           Back
         </button>
       </div>
-      <div className="flex flex-col gap-6 w-full px-6">
+      <div className="flex flex-col gap-6 w-full">
         {/* Header Section */}
         <ProfileHeader customer={customer} />
 

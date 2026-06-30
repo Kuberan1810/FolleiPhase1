@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Clock, Paperclip, Send, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Ticket } from './TicketTable';
 import FolleiCircle from '../../../../assets/logo/FolleiCircle.svg';
@@ -47,6 +47,41 @@ X-Cache-Status: EXPIRED_STALE`
   ]);
 
   const [inputMessage, setInputMessage] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const timeString = new Date().toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    const sizeInMB = (file.size / (1024 * 1024)).toFixed(1);
+    const sizeString = `${sizeInMB} MB • ${file.type.split('/')[1]?.toUpperCase() || 'FILE'} Document`;
+
+    setMessages([
+      ...messages,
+      {
+        id: Date.now(),
+        sender: 'specialist',
+        senderName: 'David (Specialist)',
+        senderInitials: 'DS',
+        text: `Uploaded attachment: ${file.name}`,
+        time: timeString,
+        attachment: {
+          name: file.name,
+          size: sizeString
+        }
+      }
+    ]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
@@ -228,7 +263,16 @@ X-Cache-Status: EXPIRED_STALE`
         </div>
 
         <div className="bg-white px-4 sm:px-6 py-4 flex items-center gap-3">
-          <button className="p-3 rounded-[8px] text-[#333333] bg-[#F1F6FF] cursor-pointer shrink-0">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="p-3 rounded-[8px] text-[#333333] bg-[#F1F6FF] hover:bg-[#E2EDFF] transition-colors cursor-pointer shrink-0"
+          >
             <Paperclip className="w-5 h-5" />
           </button>
 

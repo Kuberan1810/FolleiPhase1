@@ -33,6 +33,7 @@ import AdminNeeds from "../Pages/PreSales/Inbox/Section/AdminNeeds";
 import AdminHandles from "../Pages/PreSales/Inbox/Section/AdminHandles";
 import Leads from "../Pages/PreSales/Leads/Leads";
 import LeadProfile from "../Pages/PreSales/Leads/LeadProfile/LeadProfile";
+import ActivityLogsView from "../Pages/PreSales/Leads/LeadProfile/section/ai insight/ActivityLogsView";
 
 
 // App Pages (PostSales Outbound)
@@ -128,6 +129,7 @@ export default function AppRoutes() {
           <Route index element={<Leads />} />
           <Route path="profile" element={<LeadProfile />} />
           <Route path="profile/timeline" element={<ActivityTimelinePage />} />
+          <Route path="logs" element={<ActivityLogsView />} />
         </Route>
 
         <Route path="campaign" element={<Navigate to="/presales/campaigns" replace />} />

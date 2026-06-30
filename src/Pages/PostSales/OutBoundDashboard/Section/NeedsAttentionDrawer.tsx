@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Play, X } from "lucide-react";
 import whatsappLogo from "../../../../assets/icons/whatsapplogoo.svg";
 import gmailLogo from "../../../../assets/icons/Gmail - Email by Google.svg";
@@ -24,6 +24,26 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
   onClose,
   lead
 }) => {
+  const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
+
+  const handleTopBoxClick = () => {
+    const targetIdx = KLEN_CHAT_HISTORY.findIndex(
+      msg => msg.text === "I'm interested in the product. Could you arrange a demo sometime this week?"
+    );
+    if (targetIdx !== -1) {
+      setBlinkIndex(targetIdx);
+      setTimeout(() => {
+        const el = document.getElementById(`msg-${targetIdx}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 50);
+      setTimeout(() => {
+        setBlinkIndex(null);
+      }, 2000);
+    }
+  };
+
   return (
     <>
       {/* Drawer Overlay Backdrop */}
@@ -51,18 +71,41 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
                   <X size={20} />
                 </button>
               </div>
-              <div className="bg-[#FAF5FF] p-2 rounded-[10px] w-[85%]">
-                <p className="text-[14px] font-medium text-[#000000] leading-relaxed m-0">
+              <div 
+                onClick={handleTopBoxClick}
+                className="bg-[#FAF5FF] p-2 rounded-[10px] w-[85%] cursor-pointer hover:bg-[#F3E8FF] active:scale-[0.99] transition-all"
+              >
+                <p className="text-[14px] font-medium text-[#000000] leading-relaxed m-0 select-none">
                   "I'm interested in the product. Could you arrange a demo sometime this week?"
                 </p>
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 bg-slate-50/20 flex flex-col">
+              <style>{`
+                @keyframes blink-highlight {
+                  0%, 100% { 
+                    background-color: rgba(223, 242, 254, 0.7);
+                    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                  }
+                  50% { 
+                    background-color: #93C5FD;
+                    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+                  }
+                }
+                .blink-message {
+                  animation: blink-highlight 1.2s ease-in-out 3;
+                  transition: all 0.3s ease-in-out;
+                }
+              `}</style>
               {KLEN_CHAT_HISTORY.map((msg, idx) => {
                 const isMe = msg.sender === 'ai';
                 return (
-                  <div key={idx} className={`flex flex-col w-full ${isMe ? 'items-end' : 'items-start'}`}>
+                  <div 
+                    id={`msg-${idx}`}
+                    key={idx} 
+                    className={`flex flex-col w-full ${isMe ? 'items-end' : 'items-start'}`}
+                  >
                     {msg.isAudio ? (
                       <div className="flex items-end gap-2.5 max-w-[85%] self-start">
                         {msg.channel === 'whatsapp' ? (
@@ -118,9 +161,8 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
                               className={`shadow-sm rounded-[10px] p-[10px] text-[12px] leading-relaxed flex flex-col gap-1.5 min-w-[70px]
                                 ${isMe
                                   ? 'bg-[#004370] text-white rounded-tr-none'
-
                                   : 'bg-[#DFF2FE]/70 text-[#004370] rounded-tl-none'
-                                }`}
+                                } ${blinkIndex === idx ? 'blink-message' : ''}`}
                             >
                               <span>{msg.text}</span>
                               <span className={`text-[10px] font-medium font-manrope ${isMe ? 'text-blue-200/80 self-end' : 'text-[#5E5353]/75 self-start'}`}>

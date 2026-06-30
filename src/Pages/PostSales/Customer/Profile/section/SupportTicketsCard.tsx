@@ -62,7 +62,7 @@ const SupportTicketsCard: React.FC = () => {
                 </div>
               </div>
 
-              <span className={`px-2.5 py-0.5 font-bold rounded-[8px] text-[14px] ${t.bg} ${t.color} shrink-0`}>
+              <span className={`px-2.5 py-0.5 font-medium rounded-[8px] text-[14px] ${t.bg} ${t.color} shrink-0`}>
                 {t.priority}
               </span>
             </div>
