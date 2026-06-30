@@ -41,6 +41,8 @@ import PostSalesNeedsAttentionPage from "../Pages/PostSales/OutBoundDashboard/Ne
 import PostSalesCustomer from "../Pages/PostSales/Customer/Customer";
 import PostSalesCustomerProfile from "../Pages/PostSales/Customer/Profile/CustomerProfile";
 import ActivityTimelinePage from "../Pages/PostSales/Customer/ActivityTimeline/ActivityTimelinePage";
+import SupportTicketsPage from "../Pages/PostSales/Customer/SupportTickets/SupportTicketsPage";
+import SupportTicketDetailPage from "../Pages/PostSales/Customer/SupportTickets/SupportTicketDetailPage";
 import CustomerOnboarding from "../Pages/PostSales/CustomerOnboarding/CustomerOnboarding";
 import CustomerEnablement from "../Pages/PostSales/CustomerOnboarding/Enablement/CustomerEnablement";
 import ProductUnderstandingPage from "../Pages/PostSales/CustomerOnboarding/Enablement/ProductUnderstandingPage";
@@ -156,6 +158,8 @@ export default function AppRoutes() {
           <Route index element={<PostSalesCustomer />} />
           <Route path="profile" element={<PostSalesCustomerProfile />} />
           <Route path="profile/activity-timeline" element={<ActivityTimelinePage />} />
+          <Route path="profile/support-tickets" element={<SupportTicketsPage />} />
+          <Route path="profile/support-tickets/:id" element={<SupportTicketDetailPage />} />
         </Route>
 
 
