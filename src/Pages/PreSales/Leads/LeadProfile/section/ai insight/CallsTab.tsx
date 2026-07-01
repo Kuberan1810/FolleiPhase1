@@ -79,7 +79,7 @@ export const CallsDetailedActivity: React.FC = () => {
 
       <div className="relative pl-10 sm:pl-14">
 
-        <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[14px] sm:left-[10px] top-[10px] bg-[#DC2626] text-white border-2 border-[#E2E8F0] z-10'>
+        <div className='w-5 h-5 rounded-full flex items-center justify-center absolute left-[15px] sm:left-[18px] top-[10px] bg-[#DC2626] text-white border-2 border-[#E2E8F0] z-10'>
           <X className="w-3 h-3 stroke-[4]" />
         </div>
 
