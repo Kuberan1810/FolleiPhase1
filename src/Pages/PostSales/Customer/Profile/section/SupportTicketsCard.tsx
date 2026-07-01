@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Activity, AlertCircleIcon } from 'lucide-react';
 
 const SupportTicketsCard: React.FC = () => {
+  const navigate = useNavigate();
+
   const tickets = [
     {
       title: 'Integration Setup Issue',
@@ -70,7 +73,10 @@ const SupportTicketsCard: React.FC = () => {
         })}
       </div>
 
-      <button className="w-full bg-[#F8FAFC] text-[#464555] py-2 rounded-[8px] text-[13px] bg-[#F8FAFC] transition-colors cursor-pointer flex items-center justify-center h-10 shadow-[0_2px_8px_rgba(237,243,253,0.15)] mt-1">
+      <button 
+        onClick={() => navigate('/postsales/customers/profile/support-tickets')}
+        className="w-full bg-[#F8FAFC] text-[#464555] py-2 rounded-[8px] text-[13px] hover:bg-[#E2E8F0] hover:text-[#131B2E] transition-all duration-300 cursor-pointer flex items-center justify-center h-10 shadow-[0_2px_8px_rgba(237,243,253,0.15)] mt-1"
+      >
         View All Tickets
       </button>
     </div>
