@@ -50,6 +50,7 @@ import ProductUnderstandingPage from "../Pages/PostSales/CustomerOnboarding/Enab
 import RenewalDash from "../Pages/PostSales/RenewalMain/renewaldash/RenewalDash";
 import Renewal from "../Pages/PostSales/RenewalMain/renewal/Renewal";
 import RenewalDetailsPage from "../Pages/PostSales/RenewalMain/renewaldetails/RenewalDetailsPage";
+import UpsellOpportunityTable from "../Pages/PostSales/RenewalMain/renewaldash/Section/UpsellOpportunityTable";
 import PostSalesTickets from "../Pages/PostSales/Tickets/Ticket";
 
 
@@ -174,6 +175,7 @@ export default function AppRoutes() {
         <Route path="renewals">
           <Route index element={<RenewalDash />} />
           <Route path="list" element={<Renewal />} />
+          <Route path="upsell" element={<UpsellOpportunityTable />} />
           <Route path=":renewalId" element={<RenewalDetailsPage />} />
         </Route>
 

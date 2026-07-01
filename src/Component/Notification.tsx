@@ -138,7 +138,7 @@ const Notification = ({ open, onClose }: Props) => {
              `}
             >
                 <div className="w-full flex p-4 border-b border-[#F3F4F6] ">
-                    <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
+                    <h1 className="m-0 font-semibold text-[24px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
                         Notification Center
                     </h1>
                     <div className="ml-auto">
@@ -157,7 +157,7 @@ const Notification = ({ open, onClose }: Props) => {
                             <button
                                 key={idx}
                                 onClick={() => setActive(idx)}
-                                className={`px-2 pt-[1px] pb-[2px] text-[14px] font-bold rounded-[4px] transition-colors cursor-pointer border ${active === idx
+                                className={`px-4 py-1 text-[14px] font-medium rounded-[4px] transition-colors cursor-pointer border ${active === idx
                                     ? "bg-[#014370] text-white"
                                     : "bg-[#004370]/5 text-[#64748B] border-transparent hover:bg-slate-100"
                                     }`}
