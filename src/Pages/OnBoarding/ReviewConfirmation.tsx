@@ -1,174 +1,176 @@
-import { useState, type ChangeEvent } from 'react';
-import {
-  Phone,
-  Mail,
-  MapPin,
-  User
-} from 'lucide-react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OnboardingProgress from './OnboardingProgress';
-import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
-import BtnCom from '../../Component/BtnCom';
+import { 
+  ArrowRight, ArrowLeft, 
+  Phone, Mail, CheckCircle2, User, Check
+} from 'lucide-react';
+import folleiCircle from '../../assets/logo/FolleiCircle.svg';
 
-const ReviewConfirmation = () => {
+const ReviewConfirmation: React.FC = () => {
   const navigate = useNavigate();
-  const [confirmed, setConfirmed] = useState(false);
-  const [localData, setLocalData] = useState({
-    fullName: '',
-    email: '',
-    mobileNumber: '',
-    role: ''
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
-    setLocalData({ ...localData, [field]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    if (confirmed) {
-      navigate('/onboarding/success');
-    }
-  };
-
-  const isFormComplete = localData.fullName && localData.email && localData.mobileNumber && localData.role && confirmed;
+  const [confirmed, setConfirmed] = useState(true);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter'] px-5 pt-5">
-      <div className="flex items-center gap-3 mb-10">
-        <div className='w-28 fixed top-5'>
-          <img src={FolleiWhite} alt="FolleiLogo" />
-        </div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#E8F0F8] via-[#F8FAFC] to-[#DCE6ED] p-4 md:p-8 font-inter">
+      
+      {/* Background blur overlays */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] rounded-full bg-blue-300/40 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-cyan-200/40 blur-[120px]" />
+        <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-200/30 blur-[100px]" />
       </div>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 bg-[#]">
-        <div className="BoxStyle flex flex-col lg:flex-row relative w-full max-w-[1100px] overflow-hidden p-0! shadow-xs border-none">
-          {/* Left Panel - Review Summary */}
-          <div className="w-full lg:w-[400px] bg-[#005B96] p-10 flex flex-col text-white">
-            <h2 className="text-[24px] font-semibold leading-[28px] mb-[10px] font-manrope text-white">Review & Confirmation</h2>
-            <p className="text-white/80 text-[15px] font-regular mb-12 font-inter leading-[22px]">
-              Contact information submitted successfully and ready for next steps.
-            </p>
+      <div className="relative z-10 w-full max-w-[1000px] min-h-[600px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] flex flex-col md:flex-row overflow-hidden animate-in fade-in zoom-in duration-500">
+        
+        <div className="w-full md:w-[35%] bg-gradient-to-b from-[#0065A8] to-[#004370] p-10 flex flex-col justify-between text-white relative overflow-hidden">
+          {/* Follie Background Watermark effect (Optional) */}
+          <div className="absolute top-[-20%] right-[-20%] w-[150%] h-[150%] bg-white opacity-[0.03] rounded-full pointer-events-none blur-3xl"></div>
 
-            <div className="flex flex-col gap-8">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
-                  <Phone size={18} className="text-white" />
-                </div>
-                <span className="text-[16px] font-medium font-inter text-white">{localData.mobileNumber || 'Not provided'}</span>
+          <div>
+            {/* Logo area */}
+            <div className="flex items-center gap-3 mb-16">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center">
+                <img src={folleiCircle} alt="Follei" className="w-6 h-6 object-contain" />
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
-                  <Mail size={18} className="text-white" />
-                </div>
-                <span className="text-[16px] font-medium font-inter text-white truncate max-w-[220px]">{localData.email || 'Not provided'}</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
-                  <MapPin size={18} className="text-white" />
-                </div>
-                <span className="text-[16px] font-semibold font-inter">India</span>
-              </div>
+              <span className="text-[20px] font-bold tracking-wide">Follei</span>
             </div>
+
+            {/* Headers */}
+            <h1 className="text-[32px] font-semibold leading-[1.2] mb-4">
+              Review &<br />Confirmation
+            </h1>
+            <p className="text-white/80 text-[15px] leading-relaxed mb-12">
+              Review your information below. Once submitted, you'll be all set to explore Follei.
+            </p>
           </div>
 
-          {/* Right Panel - Contact Info */}
-          <div className="flex-1 p-8 lg:p-12 flex flex-col bg-white">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="bg-[#005B96]/10 text-[#005B96] p-3 rounded-[12px]">
-                <User size={24} />
+          {/* Info Rows */}
+          <div className="flex flex-col gap-6 mt-auto">
+            {/* Phone */}
+            <div className="flex items-center gap-4 p-3 rounded-[12px] relative">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <Phone size={18} className="text-white/90" />
               </div>
-              <div>
-                <h3 className="text-[16px] font-semibold text-[#191C1E] font-inter leading-none">Contact info</h3>
-                <p className="text-[12px] text-[#64748B] font-regular font-inter mt-1.5">Primary identity details for system verification</p>
-              </div>
+              <span className="text-[14px] text-white/90 font-medium tracking-wide">Not Provided</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-10 font-inter">
-              <div className="flex flex-col gap-2">
-                <label className="text-[13px] font-normal text-[#64748B] font-inter">Full name</label>
-                <input
-                  type="text"
-                  value={localData.fullName}
-                  onChange={(e) => handleInputChange(e, 'fullName')}
-                  placeholder="Full Name"
-                  className="pb-2 border-b border-[#E2E8F0] text-[15px] text-[#191C1E] font-medium font-inter bg-transparent focus:border-[#005B96] outline-none transition-colors"
-                />
+            {/* Email */}
+            <div className="flex items-center gap-4 p-3 rounded-[12px] relative">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                <Mail size={18} className="text-white/90" />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[13px] font-normal text-[#64748B] font-inter">Email id</label>
-                <input
-                  type="email"
-                  value={localData.email}
-                  onChange={(e) => handleInputChange(e, 'email')}
-                  placeholder="Email Address"
-                  className="pb-2 border-b border-[#E2E8F0] text-[15px] text-[#191C1E] font-medium font-inter bg-transparent focus:border-[#005B96] outline-none transition-colors"
-                />
+              <span className="text-[14px] text-white font-medium tracking-wide">indhu23@follei.com</span>
+              <div className="absolute right-4">
+                <CheckCircle2 size={20} className="text-[#10B981] fill-[#10B981] text-white" />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[13px] font-normal text-[#64748B] font-inter">Mobile number</label>
-                <input
-                  type="tel"
-                  value={localData.mobileNumber}
-                  onChange={(e) => handleInputChange(e, 'mobileNumber')}
-                  placeholder="Mobile Number"
-                  className="pb-2 border-b border-[#E2E8F0] text-[15px] text-[#191C1E] font-medium font-inter bg-transparent focus:border-[#005B96] outline-none transition-colors"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[13px] font-normal text-[#64748B] font-inter">Role</label>
-                <input
-                  type="text"
-                  value={localData.role}
-                  onChange={(e) => handleInputChange(e, 'role')}
-                  placeholder="Your Role"
-                  className="pb-2 border-b border-[#E2E8F0] text-[15px] text-[#191C1E] font-medium font-inter bg-transparent focus:border-[#005B96] outline-none transition-colors"
-                />
-              </div>
-            </div>
-
-            <label className="flex items-start gap-3 cursor-pointer mb-10 group">
-              <div className="relative flex items-center mt-0.5">
-                <input
-                  type="checkbox"
-                  checked={confirmed}
-                  onChange={(e) => setConfirmed(e.target.checked)}
-                  className="peer appearance-none w-5 h-5 border-2 border-[#CBD5E1] rounded-[6px] checked:bg-[#005B96] checked:border-[#005B96] transition-all cursor-pointer"
-                />
-                <Check className="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity left-0.75 pointer-events-none" />
-              </div>
-              <span className="text-[13.5px] text-[#64748B] font-regular font-inter group-hover:text-[#191C1E] transition-colors leading-relaxed">
-                I confirm my information is accurate and understand it will be used for system setup
-              </span>
-            </label>
-
-            <div className="mt-auto flex justify-end items-center gap-4">
-              <BtnCom
-                title="Go Back"
-                variant="outline"
-                onClick={() => navigate(-1)}
-                className="px-8!"
-              />
-              <BtnCom
-                title="Submit Profile"
-                variant="primary"
-                onClick={handleSubmit}
-                disabled={!isFormComplete}
-                className="px-8!"
-              />
             </div>
           </div>
         </div>
 
-        <OnboardingProgress currentStep={7} />
-      </main>
+        {/* Right Content Area (White Form) */}
+        <div className="w-full md:w-[65%] p-10 flex flex-col justify-between">
+          
+          <div className="flex flex-col">
+            {/* Form Header */}
+            <div className="flex items-start gap-4 mb-12">
+              <div className="w-12 h-12 rounded-[12px] bg-[#F0F6FC] flex items-center justify-center text-[#004370]">
+                <User size={24} strokeWidth={1.5} />
+              </div>
+              <div className="flex flex-col">
+                <h2 className="text-[24px] font-bold text-[#0D1C2E] mb-1 leading-none">Contact Info</h2>
+                <p className="text-[14px] text-[#64748B]">Primary identity details for system verification</p>
+              </div>
+            </div>
+
+            {/* Form Fields Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 mb-12">
+              
+              {/* Full Name */}
+              <div className="flex flex-col relative">
+                <label className="text-[11px] font-bold text-[#94A3B8] tracking-widest uppercase mb-2">Full Name</label>
+                <input 
+                  type="text" 
+                  placeholder="Full Name" 
+                  className="w-full pb-2 text-[15px] text-[#1E293B] bg-transparent border-b border-[#E2E8F0] focus:outline-none focus:border-[#004370] transition-colors placeholder:text-[#94A3B8]"
+                />
+              </div>
+
+              {/* Email ID */}
+              <div className="flex flex-col relative">
+                <label className="text-[11px] font-bold text-[#94A3B8] tracking-widest uppercase mb-2">Email ID</label>
+                <input 
+                  type="text" 
+                  defaultValue="indhu23@follei.com" 
+                  readOnly
+                  className="w-full pb-2 text-[15px] font-medium text-[#1E293B] bg-transparent border-b border-[#E2E8F0] focus:outline-none"
+                />
+              </div>
+
+              {/* Mobile Number */}
+              <div className="flex flex-col relative">
+                <label className="text-[11px] font-bold text-[#94A3B8] tracking-widest uppercase mb-2">Mobile Number</label>
+                <input 
+                  type="text" 
+                  placeholder="Mobile Number" 
+                  className="w-full pb-2 text-[15px] text-[#1E293B] bg-transparent border-b border-[#E2E8F0] focus:outline-none focus:border-[#004370] transition-colors placeholder:text-[#94A3B8]"
+                />
+              </div>
+
+              {/* Role */}
+              <div className="flex flex-col relative">
+                <label className="text-[11px] font-bold text-[#94A3B8] tracking-widest uppercase mb-2">Role</label>
+                <input 
+                  type="text" 
+                  placeholder="Your Role" 
+                  className="w-full pb-2 text-[15px] text-[#1E293B] bg-transparent border-b border-[#E2E8F0] focus:outline-none focus:border-[#004370] transition-colors placeholder:text-[#94A3B8]"
+                />
+              </div>
+
+            </div>
+
+            {/* Confirmation Checkbox */}
+            <div 
+              className="flex items-center gap-3 cursor-pointer mt-4" 
+              onClick={() => setConfirmed(!confirmed)}
+            >
+              <div className={`w-5 h-5 rounded-[4px] border-[1.5px] flex items-center justify-center transition-colors
+                ${confirmed ? 'bg-[#004370] border-[#004370]' : 'border-[#CBD5E1] bg-white'}`}>
+                {confirmed && <Check size={14} color="white" strokeWidth={3} />}
+              </div>
+              <span className="text-[14px] text-[#475569]">
+                I confirm my information is accurate and understand it will be used for system setup
+              </span>
+            </div>
+
+          </div>
+
+          {/* Bottom Navigation */}
+          <div className="w-full flex items-center justify-between pt-8 mt-12">
+            <button 
+              onClick={() => navigate('/onboarding/step-6')}
+              className="flex items-center gap-2 text-[#64748B] font-semibold text-[15px] hover:text-[#0D1C2E] transition-colors px-2 py-2 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back
+            </button>
+            
+            <button 
+              onClick={() => navigate('/onboarding/loading')}
+              disabled={!confirmed}
+              className={`h-[48px] px-8 text-white rounded-[10px] flex items-center justify-center gap-2 font-semibold text-[15px] transition-colors cursor-pointer
+                ${confirmed ? 'bg-[#004370] hover:bg-[#003152]' : 'bg-[#94A3B8] cursor-not-allowed'}
+              `}
+            >
+              Continue
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   );
 };
-
-const Check = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
 
 export default ReviewConfirmation;

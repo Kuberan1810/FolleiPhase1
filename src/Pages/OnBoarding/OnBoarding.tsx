@@ -1,108 +1,62 @@
-
-import { useState } from 'react';
-import { Mail, PhoneIncoming } from 'lucide-react';
-import { Whatsapp, SmsNotification, ShieldSecurity } from 'iconsax-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import FolleiWhite from '../../assets/logo/FolleiLogo.svg';
-import OnboardingProgress from './OnboardingProgress';
-import BtnCom from '../../Component/BtnCom';
+import { ArrowRight } from 'lucide-react';
+import illustration from '../../assets/illustration/login-illustration.png';
 
-const OnBoarding = () => {
-  const [selectedMethods, setSelectedMethods] = useState<string[]>([]);
+const OnBoarding: React.FC = () => {
   const navigate = useNavigate();
 
-  const methods = [
-    { id: 'mail', label: 'MAIL', icon: <Mail size={24} color="#005B96" /> },
-    { id: 'chat', label: 'CHAT', icon: <Whatsapp size={24} color="#005B96" /> },
-    { id: 'sms', label: 'SMS', icon: <SmsNotification size={24} color="#005B96" /> },
-    { id: 'voice', label: 'VOICE', icon: <PhoneIncoming size={24} color="#005B96" /> }
-  ];
-
-  const toggleMethod = (methodId: string) => {
-    setSelectedMethods(prev =>
-      prev.includes(methodId)
-        ? prev.filter(id => id !== methodId)
-        : [...prev, methodId]
-    );
-  };
-
-  const handleNext = () => {
-    navigate('/onboarding/details');
-  };
-
   return (
-    <div className="min-h-screen bg-[#F8F9FC] flex flex-col font-['Inter'] px-5 pt-5">
-      {/* <header className="bg-[#005B96] h-[100px] flex items-center px-8 shrink-0"> */}
-
-      <div className="flex items-center gap-3 mb-10">
-        <div className='w-28 fixed top-5'>
-          <img src={FolleiWhite} alt="FolleiLogo" />
-
-        </div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#E8F0F8] via-[#F8FAFC] to-[#DCE6ED] p-4 font-inter">
+      
+      {/* Background blur overlays for a more immersive feel */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] rounded-full bg-blue-300/40 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-cyan-200/40 blur-[120px]" />
+        <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-200/30 blur-[100px]" />
       </div>
 
-      {/* </header> */}
+      {/* Main Content Card */}
+      <div className="relative z-10 w-full max-w-[640px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] p-8 md:p-10 flex flex-col items-center text-center animate-in fade-in zoom-in duration-500">
+        
+        {/* Header */}
+        <h1 className="text-[36px] font-bold font-inter text-[#0D1C2E] mb-3 leading-[40px] tracking-[-0.9px]">
+          Let's Get Started
+        </h1>
+        <p className="text-[16px] font-normal font-inter text-[#767587] mb-8 leading-[29.3px] tracking-normal w-full max-w-none">
+          Answer a few quick question to personalize your Follie workspace
+        </p>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 bg-[#]">
-        <div
-          className="BoxStyle p-7.5! flex flex-col relative w-full max-w-[750px] shadow-xs "
-
-        >
-          <div className="mb-[48px]">
-            <h2 className="text-[#191C1E] text-xl md:text-[24px] font-semibold leading-[24px] mb-[10px] font-manrope">How Should We Reach Your Customer?</h2>
-            <p className="text-[#64748B] text-sm  md:text-[16px] font-regular leading-none font-inter">Pick your contact method securely</p>
-          </div>
-
-          <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-[39px] mb-[40px] justify-center font-inter">
-            {methods.map((method) => (
-              <button
-                key={method.id}
-                onClick={() => toggleMethod(method.id)}
-                className={`BoxStyle flex flex-col items-center justify-center rounded-[10px] border transition-all duration-200 cursor-pointer w-full group ${selectedMethods.includes(method.id)
-                  ? 'border-[#0C4A6E]! bg-[#d1e5ff20]! ring-1 ring-[#0C4A6E]'
-                  : 'border-[#e6e6e6]! bg-white! hover:border-[#0C4A6E]!'
-                  }`}
-              >
-                <div
-                  className={`transition-colors text-[#0C4A6E] mb-2`}
-                >
-                  {method.icon}
-                </div>
-                <span className="text-[12px] font-semibold tracking-widest text-[#191C1E]">
-                  {method.label}
-                </span>
-              </button>
-            ))}
-          </div>
-
-
-          <div className="flex items-center gap-3 mb-15 ">
-            <div className="mt-1 text-[#005B96] shrink-0">
-              <ShieldSecurity size={28} color='currentColor' strokeWidth={2.5} />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-[#191C1E] font-manrope">Your data is secure with us</h4>
-              <p className="text-xs text-[#6B7A90] font-regular leading-tight mt-0.5 ">We only use your contact method for essential updates no spam.</p>
-            </div>
-          </div>
-
-
-          <BtnCom
-            title="Next"
-            onClick={handleNext}
-            disabled={selectedMethods.length === 0}
-            // icon={ArrowRight}
-            // iconPosition="right"
-            className="ml-auto px-10!"
-          // variant="primary"
+        {/* Illustration */}
+        <div className="w-full max-w-[280px] mb-8">
+          <img 
+            src={illustration} 
+            alt="Onboarding workspace setup" 
+            className="w-full h-auto object-contain"
           />
         </div>
 
-        <OnboardingProgress currentStep={0} />
-      </main>
+        {/* Action Buttons */}
+        <div className="w-full flex flex-col gap-3 max-w-[480px]">
+          <button 
+            onClick={() => navigate('/onboarding/step-2')}
+            className="w-full h-[52px] bg-[#004370] text-white rounded-[12px] flex items-center justify-center gap-2 font-semibold text-[16px] hover:bg-[#003152] transition-colors group cursor-pointer"
+          >
+            Continue
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </button>
+          
+          <button 
+            onClick={() => navigate('/dashboard')} // Or wherever skip goes
+            className="w-full h-[52px] bg-[#F8FAFC] text-[#464555] rounded-[12px] flex items-center justify-center font-semibold text-[16px] hover:bg-[#F1F5F9] transition-colors cursor-pointer"
+          >
+            Skip setup
+          </button>
+        </div>
+
+      </div>
     </div>
   );
-
 };
 
 export default OnBoarding;
