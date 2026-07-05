@@ -109,6 +109,22 @@ body {
     scrollbar-width: none;
 }
 
+/* Onboarding Custom Scrollbar */
+.onboarding-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.onboarding-scroll::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 8px;
+}
+.onboarding-scroll::-webkit-scrollbar-thumb {
+    background: #E2E8F0;
+    border-radius: 8px;
+}
+.onboarding-scroll::-webkit-scrollbar-thumb:hover {
+    background: #CBD5E1;
+}
+
 /* Custom Webkit Scrollbars (Fallbacks if plugin has issues) */
 .custom-scroll::-webkit-scrollbar {
     width: 6px;
@@ -200,3 +216,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .flow-line {
     animation: flowDash 1.2s linear infinite;
 }
+
+/* Onboarding Selected Box Style */
+.onboarding-selected-box {
+    background-color: #F0F7FF66 !important;
+    box-shadow: 0px 6px 18px 0px #00437024 !important;
+    border: 2px solid transparent !important;
+    position: relative;
+}
+
+.onboarding-selected-box::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(180deg, #004370 0%, #0080D6 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}

@@ -67,14 +67,21 @@ import Payment from "../Pages/Settings/Payment/Payment";
 import Notification from "../Component/Notification";
 // Onboarding Pages
 import OnBoarding from "../Pages/OnBoarding/OnBoarding";
-import ContactDetails from "../Pages/OnBoarding/ContactDetails";
-import WorkDescription from "../Pages/OnBoarding/WorkDescription";
-import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
-import OnboardingSuccess from "../Pages/OnBoarding/OnboardingSuccess";
-import SecurityVerification from "../Pages/OnBoarding/SecurityVerification";
-import GeneralInformation from "../Pages/OnBoarding/GeneralInformation";
+import ContactMethod from "../Pages/OnBoarding/ContactMethod";
+import OrganizationDetails from "../Pages/OnBoarding/OrganizationDetails";
+import WorkspaceSetup from "../Pages/OnBoarding/WorkspaceSetup";
 import ProductInformation from "../Pages/OnBoarding/ProductInformation";
-import UploadCompanyData from "../Pages/OnBoarding/uploadData";
+import GoalSelection from "../Pages/OnBoarding/GoalSelection";
+import ReviewConfirmation from "../Pages/OnBoarding/ReviewConfirmation";
+import WorkspaceLoading from "../Pages/OnBoarding/WorkspaceLoading";
+// import ContactDetails from "../Pages/OnBoarding_Backup/ContactDetails";
+// import WorkDescription from "../Pages/OnBoarding_Backup/WorkDescription";
+// import ReviewConfirmation from "../Pages/OnBoarding_Backup/ReviewConfirmation";
+// import OnboardingSuccess from "../Pages/OnBoarding_Backup/OnboardingSuccess";
+// import SecurityVerification from "../Pages/OnBoarding_Backup/SecurityVerification";
+// import GeneralInformation from "../Pages/OnBoarding_Backup/GeneralInformation";
+// import ProductInformation from "../Pages/OnBoarding_Backup/ProductInformation";
+// import UploadCompanyData from "../Pages/OnBoarding_Backup/uploadData";
 
 // Payment Sub-components (Nested Routes)
 import PaymentOverview from "../Pages/Settings/Payment/Section/PaymentOverview";
@@ -98,16 +105,21 @@ export default function AppRoutes() {
       {/* Onboarding */}
       <Route path="/onboarding">
         <Route index element={<OnBoarding />} />
-        <Route path="details" element={<ContactDetails />} />
+        <Route path="step-2" element={<ContactMethod />} />
+        <Route path="step-3" element={<OrganizationDetails />} />
+        <Route path="step-4" element={<WorkspaceSetup />} />
+        <Route path="step-5" element={<ProductInformation />} />
+        <Route path="step-6" element={<GoalSelection />} />
+        <Route path="review" element={<ReviewConfirmation />} />
+        <Route path="loading" element={<WorkspaceLoading />} />
+        {/* <Route path="details" element={<ContactDetails />} />
         <Route path="verify" element={<SecurityVerification />} />
-        {/* <Route path="/onboarding/additional-details" element={<ContactDetailsFinal />} /> */}
-        {/* <Route path="/onboarding/whatsapp-verify" element={<WhatsAppVerification />} /> */}
         <Route path="work-description" element={<WorkDescription />} />
         <Route path="review" element={<ReviewConfirmation />} />
         <Route path="success" element={<OnboardingSuccess />} />
         <Route path="general-info" element={<GeneralInformation />} />
         <Route path="product-info" element={<ProductInformation />} />
-        <Route path="upload-data" element={<UploadCompanyData />} />
+        <Route path="upload-data" element={<UploadCompanyData />} /> */}
       </Route>
 
       {/* ==========================================
