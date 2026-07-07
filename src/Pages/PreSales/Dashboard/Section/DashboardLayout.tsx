@@ -195,7 +195,7 @@ const DashboardLayout = () => {
                     </div>
                   )}
                   <div
-                    className="2xl:w-[61px] xl:w-[45px] lg:w-[50px]  sm:w-[61px] w-[38px]  rounded-t-[10px] rounded-b-none shadow-sm cursor-pointer"
+                    className="2xl:w-[61px] xl:w-[45px] lg:w-[50px]  sm:w-[61px] w-[40px]  rounded-t-[10px] rounded-b-none shadow-sm cursor-pointer"
                     style={{
                       height: `${col.height}px`,
                       background: 'linear-gradient(180deg, #FFFFFF 0%, #8EB0EF 100%)'

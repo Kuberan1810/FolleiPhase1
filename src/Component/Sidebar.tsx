@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
-import { Megaphone } from 'lucide-react';
+import { Megaphone, Send, Radio } from 'lucide-react';
 
 import { Home, Profile2User, People, HierarchySquare, Setting2, DocumentUpload, ChartSquare, Ticket, EmptyWalletChange } from "iconsax-react"
 import FolleiCircle from "../assets/logo/FolleiCircle.svg"
@@ -8,10 +8,12 @@ import FolleiCircle from "../assets/logo/FolleiCircle.svg"
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSalesContext } from '../Context/SalesContext';
+import ModeBottomSheet from './ModeBottomSheet';
 
 const Sidebar: React.FC = () => {
   const { salesMode } = useSalesContext();
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+  const [openModeSheet, setOpenModeSheet] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -55,7 +57,7 @@ const Sidebar: React.FC = () => {
       { icon: Ticket, label: 'Tickets', path: `${prefix}/tickets` },
       { icon: EmptyWalletChange, label: 'Renewals', path: `${prefix}/renewals` },
       { icon: ChartSquare, label: 'Analytics', path: `${prefix}/analytics` },
-      
+
       { icon: Setting2, label: 'Settings', path: '/settings' }
     ];
   } else {
@@ -88,31 +90,50 @@ const Sidebar: React.FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-100 bg-[#014370] backdrop-blur-xl py-2 px-2 lg:!hidden rounded-full border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
+            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-[90] bg-[#014370] backdrop-blur-xl py-2 px-2 lg:!hidden rounded-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
           >
-            {navItems.map((item, index) => {
-              const isActive = location.pathname.startsWith(item.path) || 
+            {navItems.filter(item => item.label !== 'Settings').map((item, index) => {
+              const isActive = location.pathname.startsWith(item.path) ||
                 (item.label === 'Dashboard' && location.pathname.startsWith('/dashboard'));
 
               return (
                 <React.Fragment key={index}>
                   <NavLink
                     to={item.path}
-                    className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300
+                    className={`relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300
                                             ${isActive ? 'bg-white/95 backdrop-blur-xl text-[#014370] shadow-lg scale-105' : 'text-white/60 hover:text-white'}`}
                   >
                     <item.icon
                       color='currentColor'
-                      size={isActive ? 26 : 24}
+                      size={isActive ? 22 : 20}
                       variant={isActive ? "Bold" : "Outline"}
                     />
                   </NavLink>
                 </React.Fragment>
               );
             })}
+
+            {/* Mode Toggle Button in Center (Protruding absolute style) */}
+            <button
+              onClick={() => setOpenModeSheet(true)}
+              className="absolute left-1/2 -translate-x-1/2 -top-7 flex items-center justify-center w-[52px] h-[52px] bg-[#014370] rounded-full text-white border-[2px] border-[#F7F9FB] shadow-xl shrink-0 transition-transform active:scale-95"
+            >
+              {salesMode === 'presales' ? (
+                <Radio size={24} strokeWidth={2.5} />
+              ) : (
+                <Send size={24} strokeWidth={2.5} className="-ml-0.5 mt-0.5" />
+              )}
+            </button>
           </motion.nav>
         )}
       </AnimatePresence>
+
+      <ModeBottomSheet
+        isOpen={openModeSheet}
+        onClose={() => setOpenModeSheet(false)}
+        currentMode={salesMode}
+        onSelect={(mode) => navigate(`/${mode}/dashboard`)}
+      />
 
 
 
