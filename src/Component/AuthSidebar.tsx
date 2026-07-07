@@ -1,5 +1,5 @@
 import FolleiWhite from '../assets/logo/Follei-white.svg';
-import Dashboard from '../assets/login/dashboard.svg';
+import Dashboard from '../assets/login/dashboard1.svg';
 
 interface AuthSidebarProps {
   title?: string;
@@ -32,11 +32,11 @@ const AuthSidebar = ({
       </div>
 
       {/* Illustration */}
-      <div className="absolute -bottom-4 -right-12 hidden md:block pointer-events-none z-10">
+      <div className="absolute bottom-0   hidden md:flex items-end justify-end pointer-events-none z-10">
         <img
           src={Dashboard}
           alt="AI Agent Illustration"
-          className="w-full max-w-[350px] lg:max-w-[450px] h-auto object-contain"
+          className="max-w-[90%] h-auto object-contain object-right-bottom drop-shadow-[0_15px_40px_rgba(0,0,0,0.3)] rounded-tl-xl"
         />
       </div>
 
