@@ -90,7 +90,7 @@ const Sidebar: React.FC = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-[90] bg-[#014370] backdrop-blur-xl py-2 px-2 lg:!hidden rounded-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
+            className="flex justify-between items-center fixed bottom-2 left-2 right-2 z-[90] bg-[#014370] backdrop-blur-xl py-2.5 px-2 lg:!hidden rounded-[30px] shadow-[0_10px_40px_rgba(0,0,0,0.2)]"
           >
             {navItems.filter(item => item.label !== 'Settings').map((item, index) => {
               const isActive = location.pathname.startsWith(item.path) ||
@@ -105,7 +105,7 @@ const Sidebar: React.FC = () => {
                   >
                     <item.icon
                       color='currentColor'
-                      size={isActive ? 22 : 20}
+                      size={isActive ? 24 : 22}
                       variant={isActive ? "Bold" : "Outline"}
                     />
                   </NavLink>
