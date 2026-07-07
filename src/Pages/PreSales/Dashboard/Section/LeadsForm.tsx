@@ -8,7 +8,7 @@ const LeadsForm: React.FC = () => {
       </div>
       
       {/* SVG Polar-Area Donut Chart centered dynamically */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-[54px]">
+      <div className="absolute left-1/2 -translate-x-1/2 top-[100px]">
         <svg viewBox="0 0 200 200" className="w-[220px] h-[220px] sm:w-[250px] sm:h-[250px] lg:w-[240px] lg:h-[240px] xl:w-[293px] xl:h-[293px] drop-shadow-sm transition-all">
           {/* Sector 1: Meta Adds (Dark Blue, Radius 100) - spans 135 to 360 deg */}
           <path

@@ -123,7 +123,7 @@ const DashboardLayout = () => {
 
         {/* 1. Overview Chart Card */}
         <div
-          className="col-span-12 lg:col-span-8 xl:col-span-5 rounded-[20px] p-5 relative overflow-hidden flex flex-col justify-between w-full h-full"
+          className="col-span-12 lg:col-span-7 xl:col-span-4 rounded-[20px] p-5 relative overflow-hidden flex flex-col justify-between w-full h-full"
           style={{
             background: 'linear-gradient(180deg, #B4CCFF 0%, #8EB0EF 100%)',
             boxShadow: '0px 4px 4px 0px #E5ECFB'
@@ -195,7 +195,7 @@ const DashboardLayout = () => {
                     </div>
                   )}
                   <div
-                    className="w-[61px] rounded-t-[10px] rounded-b-none shadow-sm cursor-pointer"
+                    className="2xl:w-[61px] xl:w-[45px] lg:w-[50px]  sm:w-[61px] w-[38px]  rounded-t-[10px] rounded-b-none shadow-sm cursor-pointer"
                     style={{
                       height: `${col.height}px`,
                       background: 'linear-gradient(180deg, #FFFFFF 0%, #8EB0EF 100%)'
@@ -218,7 +218,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* 2. Stats Grid - formatted to match Figma layout and specs */}
-        <div className="col-span-12 lg:col-span-4 xl:col-span-4 grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-8 pt-6">
+        <div className="col-span-12 lg:col-span-5 xl:col-span-4 grid grid-cols-2 grid-rows-2 gap-x-5 gap-y-8 pt-6">
           {stats.map((item, idx) => (
             <div
               key={idx}
