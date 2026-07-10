@@ -1,6 +1,6 @@
 import { ArrowLeft, Video, Phone, MoreVertical, CheckCheck } from 'lucide-react';
 import summerBeachBanner from '../../../../../assets/img/summer_beach_banner.jpg';
-import FolleiCircle from '../../../../../assets/logo/FolleiCircle.svg';
+import FolleiCircle from '../../../../../assets/logo/follei-new.png';
 import wabg from '../../../../../assets/img/wabg.png';
 
 const WhatsAppPreview = () => {

@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Megaphone, Send, Radio } from 'lucide-react';
 
 import { Home, Profile2User, People, HierarchySquare, Setting2, DocumentUpload, ChartSquare, Ticket, EmptyWalletChange } from "iconsax-react"
-import FolleiCircle from "../assets/logo/FolleiCircle.svg"
+import FolleiCircle from "../assets/logo/follei-new.png"
 
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 import { motion, AnimatePresence } from 'framer-motion';

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, FileText } from 'lucide-react';
-import FolleiCircle from '../../../../assets/logo/FolleiCircle.svg';
+import FolleiCircle from '../../../../assets/logo/follei-new.png';
 import avatarImg from '../../../../assets/avatar.png'; // Fallback avatar
 
 const SupportTicketDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  
+
   // Default fallback if directly navigated
   const ticket = location.state?.ticket || {
     id: id || '#TK-8892',
@@ -44,7 +44,7 @@ const SupportTicketDetailPage: React.FC = () => {
 
       {/* Main Container */}
       <div className="bg-white border border-[#EDF3FD] rounded-[16px] shadow-[0_2px_12px_rgba(237,243,253,0.3)] flex flex-col overflow-hidden pb-10">
-        
+
         {/* Ticket Title Bar */}
         <div className="bg-[#F8FAFC] px-6 py-4 flex items-center gap-3 border-b border-[#EDF3FD]">
           <span className="text-[15px] font-semibold text-[#767587]">#{ticket.id}</span>
@@ -56,7 +56,7 @@ const SupportTicketDetailPage: React.FC = () => {
 
         {/* Chat Feed */}
         <div className="flex flex-col px-10 pt-8 gap-8">
-          
+
           {/* Section Divider */}
           <div className="text-center w-full">
             <span className="text-[15px] font-bold text-[#464555]">Payment Gateway</span>
@@ -73,7 +73,7 @@ const SupportTicketDetailPage: React.FC = () => {
                   <p className="text-[14px] text-[#131B2E] leading-relaxed">
                     We are seeing constant 503 errors when attempting to authorize payments via the API. This started about 15 minutes ago. Logs attached.
                   </p>
-                  
+
                   {/* Attachment Card */}
                   <div className="flex items-center gap-3 p-3 bg-[#FAFBFF] border border-[#EDF3FD] rounded-[8px] w-fit pr-8">
                     <div className="w-10 h-10 bg-[#FEF2F2] rounded-[8px] flex items-center justify-center text-[#DC2626]">
@@ -98,7 +98,7 @@ const SupportTicketDetailPage: React.FC = () => {
                   <p className="text-[14px] text-white leading-relaxed font-light">
                     Hello James, I've completed the initial analysis of your logs and identified a cache synchronization delay. To ensure the most accurate resolution, I've handed your case over to one of our senior specialists while I continue monitoring the progress. I'll keep you updated every step of the way.
                   </p>
-                  
+
                   {/* Code block */}
                   <div className="bg-white rounded-[8px] p-4 text-[13px] font-mono leading-relaxed overflow-x-auto">
                     <div className="text-[#131B2E]">POST /api/v2/auth HTTP/1.1</div>

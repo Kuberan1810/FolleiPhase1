@@ -1,7 +1,7 @@
 
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import FolleiLogo from "../../../assets/logo/FolleiLogo.svg"
+import FolleiLogo from "../../../assets/logo/Follei-dark.svg"
 import AuthSidebar from "../../../Component/AuthSidebar"
 
 
