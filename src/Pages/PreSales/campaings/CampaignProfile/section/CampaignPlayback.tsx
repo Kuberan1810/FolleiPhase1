@@ -62,15 +62,6 @@ export default function CampaignPlayback() {
                 <img src={WhatsAppIcon} alt="WhatsApp" width={22} height={22} />
               </div>
             </div>
-
-            {/* Expand Icon */}
-            <div className="flex items-center justify-center w-9 h-9 rounded-[10px] cursor-pointer transition-colors hover:bg-gray-50"
-              style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', boxShadow: '0px 1px 3px rgba(0,0,0,0.05)' }}>
-              <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
-                <path d="M7.5 1.5H10.5M10.5 1.5V4.5M10.5 1.5L6.5 5.5M4.5 10.5H1.5M1.5 10.5V7.5M1.5 10.5L5.5 6.5"
-                  stroke="#464555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
           </div>
         </div>
       </div>

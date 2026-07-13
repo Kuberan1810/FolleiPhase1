@@ -198,16 +198,17 @@ const EditActionPage = () => {
                           : [...prev, item.label]
                       );
                     }}
-                    className={`BoxStyle !py-2 !px-2 flex flex-col items-center justify-center gap-1.5 h-[60px] transition-all cursor-pointer
+                    className={`BoxStyle flex flex-col items-center justify-center gap-2 py-4 h-auto transition-all cursor-pointer
                     ${isSelected
-                        ? '!text-white !border-transparent'
-                        : '!bg-white !border-[#E2E8F0] text-[#595C5E] hover:!bg-[#F8FAFC]'}`}
-                    style={isSelected ? { background: 'linear-gradient(180deg, #1D7EBE 0%, #11629D 100%)' } : {}}
+                        ? 'onboarding-selected-box border-transparent'
+                        : 'bg-white border-[#E2E8F0] hover:bg-[#F8FAFC]'}`}
                   >
-                    <div className={`${isSelected ? 'text-white' : 'text-[#004370]'}`}>
-                      <item.icon size={24} className={`w-[20px] h-[20px] rounded-[4px] p-1 ${isSelected ? 'bg-white/20' : 'bg-[#C1C7D1]/30'}`} />
+                    <div className={`${isSelected ? 'text-[#004370]' : 'text-[#64748B]'}`}>
+                      <item.icon size={28} className={`w-[28px] h-[28px] rounded-[6px] p-1 transition-colors ${isSelected ? 'bg-[#004370]/10' : 'bg-[#F1F5F9]'}`} />
                     </div>
-                    <span className={`text-[12px] font-bold ${isSelected ? 'text-white' : 'text-[#595C5E]'}`}>{item.label}</span>
+                    <span className={`text-[13px] font-bold transition-colors ${isSelected ? 'text-[#004370]' : 'text-[#191C1E]'}`}>
+                      {item.label}
+                    </span>
                   </button>
                 )
               })}

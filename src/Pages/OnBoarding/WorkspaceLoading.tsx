@@ -55,7 +55,6 @@ const WorkspaceLoading: React.FC = () => {
         <div className="flex flex-col items-center mt-6">
           <div className="flex items-center gap-3 mb-8">
             <img src={folleiLogo} alt="Follie" className="h-10" />
-            <span className="text-[28px] font-bold text-[#0D1C2E]">Follei</span>
           </div>
 
           <h1 className="text-[28px] md:text-[32px] font-bold text-[#0D1C2E] mb-3 text-center tracking-[-0.5px]">
