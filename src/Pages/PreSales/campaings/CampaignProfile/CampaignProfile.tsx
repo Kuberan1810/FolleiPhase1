@@ -1,14 +1,15 @@
-
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PauseCircle, Trash } from 'iconsax-react';
+import { Trash } from 'iconsax-react';
 import DetailStatCards from './section/DetailStatCards';
 import RecentEngagement from './section/RecentEngagement';
 import CampaignPlayback from './section/CampaignPlayback';
 import AIInsightBanner from './section/AIInsightBanner';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, PauseCircle, PlayCircle } from 'lucide-react';
 
 export default function CampaignProfile() {
   const navigate = useNavigate();
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
     <div className="w-full">
@@ -40,10 +41,10 @@ export default function CampaignProfile() {
           <div className="flex items-center gap-2 mt-1 ml-8">
             <span style={{
               fontWeight: 700, fontSize: '14px',
-              lineHeight: '20px', color: '#2563EB',
-              backgroundColor: '#EFF6FF',
+              lineHeight: '20px', color: isPaused ? '#B91C1C' : '#2563EB',
+              backgroundColor: isPaused ? '#FFEFEF' : '#EFF6FF',
               borderRadius: '9999px', padding: '2px 10px'
-            }}>Active</span>
+            }}>{isPaused ? 'Paused' : 'Active'}</span>
 
             <span style={{
               fontWeight: 400, fontSize: '12px',
@@ -54,7 +55,9 @@ export default function CampaignProfile() {
 
         {/* Right: Pause + Trash icons */}
         <div className="flex items-center gap-3">
-          <PauseCircle size="28" color="#464555" variant="Linear" className="cursor-pointer" />
+          <button onClick={() => setIsPaused(!isPaused)} className="cursor-pointer text-[#464555] hover:text-[#004370] transition-colors p-1">
+            {isPaused ? <PlayCircle size={28} strokeWidth={1.5} /> : <PauseCircle size={28} strokeWidth={1.5} />}
+          </button>
           <Trash size="24" color="#BA1A1A" variant="Bold" className="cursor-pointer" />
         </div>
       </div>

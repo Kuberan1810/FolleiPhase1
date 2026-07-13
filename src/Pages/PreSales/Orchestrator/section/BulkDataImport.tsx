@@ -29,7 +29,7 @@ const BulkDataImport = () => {
                 <label className="text-[12px] font-bold text-[#64748B] uppercase tracking-widest">
                     Fetch &amp; Import Link
                 </label>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                     <input
                         type="text"
                         value={url}
@@ -37,13 +37,13 @@ const BulkDataImport = () => {
                         placeholder="https://external-resource.io/data.csv"
                         className="flex-1 min-w-0 text-[14px] text-[#374151] bg-[#F1F5F9] border border-[#E2E8F0] rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-[#004370]/20  transition-all placeholder:text-[#94A3B8] placeholder:font-medium"
                     />
-                    <button className="shrink-0 flex items-center gap-2 border border-[#E5E7EB] bg-white hover:bg-[#F2F4F6] text-[#374151] text-[13px] font-bold px-6 py-3.5 rounded-xl cursor-pointer transition-colors">
+                    <button className="shrink-0 flex items-center justify-center gap-2 border border-[#E5E7EB] bg-white hover:bg-[#F2F4F6] text-[#374151] text-[13px] font-bold px-6 py-3.5 rounded-xl cursor-pointer transition-colors">
                         <Download size={14} />
                         FETCH
                     </button>
                     <button 
                         onClick={() => navigate("/presales/dashboard", { state: { openDataImport: true } })}
-                        className="shrink-0 flex items-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[13px] font-bold px-6 py-3.5 rounded-xl cursor-pointer transition-colors"
+                        className="shrink-0 flex items-center justify-center gap-2.5 bg-[#005B96] hover:bg-[#076aac] text-white text-[13px] font-bold px-6 py-3.5 rounded-xl cursor-pointer transition-colors"
                     >
                         <ImportCurve color='white' size={16} />
                         UPLOAD

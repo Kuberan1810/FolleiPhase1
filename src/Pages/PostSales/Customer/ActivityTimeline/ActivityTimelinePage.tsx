@@ -115,7 +115,7 @@ const ActivityTimelinePage = () => {
     });
 
     return (
-      <div className="mt-4 bg-[#F8FAFC] rounded-2xl p-4 flex flex-col gap-2 max-w-[400px]">
+      <div className="mt-4 bg-[#F8FAFC] rounded-2xl p-4 flex flex-col gap-2 w-full max-w-[400px]">
         <div className="flex items-center gap-4">
           <button className="w-10 h-10 shrink-0 bg-[#004370] rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-[#003152] transition-colors">
             <Play className="w-5 h-5 ml-1" fill="currentColor" />
@@ -143,7 +143,7 @@ const ActivityTimelinePage = () => {
           <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-1.5" />
           Back
         </button>
-        <h1 className="text-[24px] font-bold text-[#191C1E]">Activity Timeline</h1>
+        <h1 className="text-[20px] md:text-[24px] font-bold text-[#191C1E]">Activity Timeline</h1>
       </div>
 
       {/* Timeline Wrapper */}
@@ -151,25 +151,25 @@ const ActivityTimelinePage = () => {
         {/* Continuous Vertical Line */}
         <div className="absolute left-[23px] top-[10px] bottom-[10px] w-[2px] bg-[#EDF3FD] z-0" />
 
-        <div className="flex flex-col gap-8 relative z-10">
+        <div className="flex flex-col gap-6 md:gap-8 relative z-10">
           {events.map((event) => (
-            <div key={event.id} className="flex gap-6 w-full">
+            <div key={event.id} className="flex gap-3 md:gap-6 w-full">
               {/* Icon Circle */}
               <div className={`w-12 h-12 rounded-full ${event.iconBg} ${event.iconColor} flex items-center justify-center shrink-0 border-4 border-[#F8FAFC]`}>
                 <event.icon className="w-5 h-5" />
               </div>
 
               {/* Event Card */}
-              <div className="flex-1 BoxStyle">
-                <div className="flex justify-between items-start gap-4 mb-2">
-                  <h3 className="text-[16px] font-semibold text-[#191C1E]">{event.title}</h3>
-                  <span className="text-[13px] font-medium text-[#64748B] shrink-0">{event.time}</span>
+              <div className="flex-1 min-w-0 BoxStyle">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-1 sm:gap-4 mb-2">
+                  <h3 className="text-[15px] md:text-[16px] font-semibold text-[#191C1E] break-words">{event.title}</h3>
+                  <span className="text-[12px] md:text-[13px] font-medium text-[#64748B] shrink-0">{event.time}</span>
                 </div>
                 
-                <p className="text-[14px] text-[#64748B] leading-relaxed">
+                <p className="text-[13px] md:text-[14px] text-[#64748B] leading-relaxed break-words">
                   {event.desc}
                   {event.linkText && (
-                    <span className="text-[#004370] font-medium cursor-pointer hover:underline">{event.linkText}</span>
+                    <span className="text-[#004370] font-medium cursor-pointer hover:underline break-all">{event.linkText}</span>
                   )}
                   {event.boldDesc && (
                     <span className="font-semibold text-[#191C1E]">{event.boldDesc}</span>
@@ -177,9 +177,9 @@ const ActivityTimelinePage = () => {
                 </p>
 
                 {event.descExtra && (
-                  <p className="text-[14px] text-[#64748B] mt-2">
+                  <p className="text-[13px] md:text-[14px] text-[#64748B] mt-2 break-words">
                     {event.descExtra}
-                    <span className="text-[#004370] font-medium cursor-pointer hover:underline">{event.linkText}</span>
+                    <span className="text-[#004370] font-medium cursor-pointer hover:underline break-all">{event.linkText}</span>
                   </p>
                 )}
 

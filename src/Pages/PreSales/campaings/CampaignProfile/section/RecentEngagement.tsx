@@ -1,5 +1,5 @@
-
 import { useNavigate, useParams } from 'react-router-dom';
+import BtnComSecondary from '../../../../../Component/BtnComSecondary';
 
 const leads = [
   { id: 1, initials: 'SM', name: 'Sophia Miller', action: 'Opened Email', cta: 'Purchased', ctaType: 'green', rightLabel: 'REVENUE', rightValue: ',148K' },
@@ -20,12 +20,10 @@ export default function RecentEngagement() {
         <span style={{ fontWeight:600, fontSize:'20px', lineHeight:'28px', color:'#0F172A' }}>
           Recent Engagement Activity
         </span>
-        <button
+        <BtnComSecondary
+          label="View All &rarr;"
           onClick={() => navigate(`/presales/campaigns/${id}/campaign-lead`)}
-          className="text-[#004370] text-[13px] font-bold hover:underline"
-        >
-          View All &rarr;
-        </button>
+        />
       </div>
 
       {/* Rows */}

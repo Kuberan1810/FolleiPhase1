@@ -130,7 +130,7 @@ const Notification = ({ open, onClose }: Props) => {
             <div
                 className={`
                      fixed top-0 right-0
-                     h-screen w-[460px]
+                     h-screen w-full sm:w-[460px] max-w-[460px]
                      bg-white shadow-xl
                      z-50 rounded-l-[10px]
                      transition-transform duration-300 ease-in-out

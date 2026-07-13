@@ -46,11 +46,11 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
         </div>
 
         {/* Tabs / Filter Chips */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
+        <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar items-center justify-start gap-1.5 sm:gap-2 w-full sm:w-auto pb-2 sm:pb-0">
           {/* All Logs */}
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 text-[13px] font-bold rounded-full  transition-colors cursor-pointer border border-transparent ${activeTab === 'all'
+            className={`shrink-0 px-2.5 py-1 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold rounded-full transition-colors cursor-pointer border border-transparent ${activeTab === 'all'
               ? 'bg-[#004370] text-white'
               : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
               }`}
@@ -61,36 +61,36 @@ const ActivityLogsView: React.FC<ActivityLogsViewProps> = ({ onBack, leadName })
           {/* Calls */}
           <button
             onClick={() => setActiveTab('call')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full  transition-colors cursor-pointer border ${activeTab === 'call'
+            className={`shrink-0 flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold rounded-full transition-colors cursor-pointer border ${activeTab === 'call'
               ? 'bg-[#004370] text-white border-transparent'
               : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
               }`}
           >
-            <Phone className="w-3.5 h-3.5" />
+            <Phone className="w-3 h-3 md:w-3.5 md:h-3.5" />
             Calls
           </button>
 
           {/* Emails */}
           <button
             onClick={() => setActiveTab('email')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full  transition-colors cursor-pointer border ${activeTab === 'email'
+            className={`shrink-0 flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold rounded-full transition-colors cursor-pointer border ${activeTab === 'email'
               ? 'bg-[#004370] text-white border-transparent'
               : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
               }`}
           >
-            <Mail className="w-3.5 h-3.5" />
+            <Mail className="w-3 h-3 md:w-3.5 md:h-3.5" />
             Emails
           </button>
 
           {/* Meetings */}
           <button
             onClick={() => setActiveTab('meeting')}
-            className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold rounded-full  transition-colors cursor-pointer border ${activeTab === 'meeting'
+            className={`shrink-0 flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-4 md:py-2 text-[11px] md:text-[13px] font-bold rounded-full transition-colors cursor-pointer border ${activeTab === 'meeting'
               ? 'bg-[#004370] text-white border-transparent'
               : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
               }`}
           >
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
             Meetings
           </button>
         </div>

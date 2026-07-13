@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, MoreHorizontal, TrendingUp, Plus, Mic, ChevronLeft } from 'lucide-react';
+import { MoreHorizontal, TrendingUp, Plus, Mic, ChevronLeft, Send } from 'lucide-react';
 import StarIcon from '../../../../assets/logo/star.svg';
 
 
@@ -137,7 +137,7 @@ const CampaignCreation = () => {
                   : 'bg-[#E2E8F0] text-gray-400 cursor-not-allowed'
                   }`}
               >
-                Generate <Sparkles size={18} />
+                Generate <Send size={18} />
               </button>
             </div>
           </div>
