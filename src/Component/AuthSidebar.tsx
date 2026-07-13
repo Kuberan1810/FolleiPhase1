@@ -1,4 +1,4 @@
-import FolleiWhite from '../assets/logo/Follei-white-new.svg';
+import FolleiWhite from '../assets/logo/follei-white-new.svg';
 import Dashboard from '../assets/login/dashboard1.svg';
 
 interface AuthSidebarProps {
