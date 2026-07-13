@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Clock, Paperclip, Send, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Ticket } from './TicketTable';
-import FolleiCircle from '../../../../assets/logo/FolleiCircle.svg';
+import FolleiCircle from '../../../../assets/logo/follei-new.png';
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -269,7 +269,7 @@ X-Cache-Status: EXPIRED_STALE`
             onChange={handleFileChange}
             className="hidden"
           />
-          <button 
+          <button
             onClick={() => fileInputRef.current?.click()}
             className="p-3 rounded-[8px] text-[#333333] bg-[#F1F6FF] hover:bg-[#E2EDFF] transition-colors cursor-pointer shrink-0"
           >

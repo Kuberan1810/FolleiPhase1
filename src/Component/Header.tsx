@@ -3,7 +3,7 @@ import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
 import { useNavigate, Link } from 'react-router-dom';
-import FolleiLogo from "../assets/logo/FolleiLogo.svg"
+import FolleiLogo from "../assets/logo/follei-dark.svg"
 import { useState } from 'react';
 import { useSalesContext } from '../Context/SalesContext';
 import Notification from './Notification';
