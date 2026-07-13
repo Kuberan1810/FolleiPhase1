@@ -6,27 +6,27 @@ interface Props {
 }
 
 export default function ContractDetailsCard({ data }: Props) {
-  const rowClass = "flex justify-between items-center py-3.5 border-b border-[#EDF3FD]";
+  const rowClass = "flex justify-between items-center py-3 border-b border-[#EDF3FD] gap-2";
 
   return (
-    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
-      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-4 sm:p-6">
+      <h2 className="font-semibold text-[17px] sm:text-xl leading-6 text-[#0D1C2E] m-0 whitespace-nowrap">
         Contract Details
       </h2>
-      <div className="border-b border-[#EDF3FD] mt-3 -mx-6" />
+      <div className="border-b border-[#EDF3FD] mt-3 -mx-4 sm:-mx-6" />
 
       <div className="flex flex-col">
         <div className={rowClass}>
-          <span className="font-medium text-base leading-6 text-[#6B7280]">Contract ID</span>
-          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.contractId}</span>
+          <span className="font-medium text-sm sm:text-base leading-6 text-[#6B7280] shrink-0">Contract ID</span>
+          <span className="font-semibold text-sm sm:text-base leading-[120%] text-[#1B1B1D] text-right">{data.contractId}</span>
         </div>
         <div className={rowClass}>
-          <span className="font-medium text-base leading-6 text-[#6B7280]">Start Date</span>
-          <span className="font-semibold text-base leading-[120%] text-[#1B1B1D]">{data.startDate}</span>
+          <span className="font-medium text-sm sm:text-base leading-6 text-[#6B7280] shrink-0">Start Date</span>
+          <span className="font-semibold text-sm sm:text-base leading-[120%] text-[#1B1B1D] text-right">{data.startDate}</span>
         </div>
         <div className={rowClass}>
-          <span className="font-medium text-base leading-6 text-[#6B7280]">Expiry Date</span>
-          <span className="font-semibold text-base leading-[120%] text-[#DC2626]">{data.expiryDate}</span>
+          <span className="font-medium text-sm sm:text-base leading-6 text-[#6B7280] shrink-0">Expiry Date</span>
+          <span className="font-semibold text-sm sm:text-base leading-[120%] text-[#DC2626] text-right">{data.expiryDate}</span>
         </div>
       </div>
 

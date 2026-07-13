@@ -15,12 +15,13 @@ export default function UpcomingRenewalTable({ rows }: UpcomingRenewalTableProps
     <div className="bg-white rounded-[20px] border border-[#EDF3FD] p-6 h-full flex flex-col justify-between">
       <div className="flex justify-between items-start mb-3">
         <div>
-          <h2 className="m-0 font-semibold text-[20px] leading-[28px] text-[#0D1C2E]">Upcoming Renewal</h2>
-          <p className="m-0 font-normal text-[14px] leading-[20px] text-[#64748B]">Managing 08 New leads this hour</p>
+          <h2 className="m-0 font-semibold text-[16px] sm:text-[20px] leading-[28px] text-[#0D1C2E] whitespace-nowrap">Upcoming Renewal</h2>
+          <p className="m-0 font-normal text-[13px] sm:text-[14px] leading-[20px] text-[#64748B]">Managing 08 New leads this hour</p>
         </div>
         <BtnComSecondary 
           label="View All" 
           onClick={() => navigate('/postsales/renewals/list')} 
+          className="px-2 py-1 text-xs whitespace-nowrap shrink-0"
         />
       </div>
 

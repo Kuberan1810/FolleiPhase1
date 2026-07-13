@@ -23,7 +23,7 @@ const MilestoneTimeline: React.FC = () => {
         <h3 className="text-[20px] font-bold text-[#191C1E]">Detailed Milestone Timeline</h3>
       </div>
 
-      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-4 px-6 py-4 overflow-hidden">
+      <div className="relative flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4 px-6 py-4 overflow-hidden">
 
         {steps.map((step, idx) => {
           const isCompleted = step.status === 'Completed';

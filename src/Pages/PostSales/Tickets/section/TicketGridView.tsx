@@ -57,14 +57,14 @@ const TicketGridView: React.FC<TicketGridViewProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start overflow-x-auto pb-4 select-none scrollbar-thin">
+    <div className="flex flex-row gap-6 overflow-x-auto pb-4 select-none scrollbar-thin items-start w-full">
       {columns.map((col) => {
         const colTickets = getTicketsForColumn(col);
 
         return (
           <div
             key={col}
-            className="flex flex-col overflow-hidden"
+            className="flex flex-col overflow-hidden min-w-[280px] sm:min-w-[320px] flex-1 shrink-0"
           >
             {/* Top Indicator Accent Bar */}
             <div className="w-full h-[3.5px] bg-[#1D4ED8]" />

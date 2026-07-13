@@ -43,8 +43,6 @@ const ActivityTimelineCard = () => {
       </div>
 
       <div className="">
-        {/* Line centered inside the 40px circle (12px padding + 20px radius - 1px half-width = 31px) */}
-        {/* <div className="absolute left-[31px] top-5 bottom-5 w-[2px] bg-[#EDF3FD]" /> */}
 
         <div className="flex flex-col gap-8">
           {activities.map((act, i) => (
@@ -53,11 +51,11 @@ const ActivityTimelineCard = () => {
                 <act.icon className={`${act.iconColor}`} color="currentColor" size={18} />
               </div>
               <div className="flex flex-col pt-0.5 w-full">
-                <div className="flex justify-between items-center">
-                  <span className="text-[16px] font-bold text-[#1E293B] mb-0.5">{act.title}</span>
-                  <span className="text-[14px] font-medium text-[#64748B]">{act.time}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5 sm:gap-4">
+                  <span className="text-[15px] sm:text-[16px] font-bold text-[#1E293B]">{act.title}</span>
+                  <span className="text-[12px] sm:text-[14px] font-medium text-[#94A3B8]">{act.time}</span>
                 </div>
-                <span className="text-[14px] font-medium text-[#64748B]">{act.desc}</span>
+                <span className="text-[13px] sm:text-[14px] font-medium text-[#64748B] mt-1">{act.desc}</span>
               </div>
             </div>
           ))}

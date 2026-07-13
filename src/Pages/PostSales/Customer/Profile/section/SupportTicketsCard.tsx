@@ -40,9 +40,9 @@ const SupportTicketsCard: React.FC = () => {
 
   return (
     <div className="bg-white border border-[#EDF3FD] rounded-[24px] p-6 shadow-[0_4px_20px_rgba(237,243,253,0.25)] flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-[16px] font-bold text-[#0D1C2E] ">Support & Tickets</h3>
-        <span className="text-[13px] text-[#131B2E]">3 Open • 2 Resolved</span>
+      <div className="flex items-center justify-between gap-2 w-full">
+        <h3 className="text-[14px] sm:text-[16px] font-bold text-[#0D1C2E] whitespace-nowrap">Support & Tickets</h3>
+        <span className="text-[11px] sm:text-[13px] text-[#131B2E] whitespace-nowrap">3 Open • 2 Resolved</span>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -51,21 +51,21 @@ const SupportTicketsCard: React.FC = () => {
           return (
             <div
               key={i}
-              className="flex items-center justify-between p-3 bg-[#F8FAFC] border border-[#F3F4FC] rounded-[8px]"
+              className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-[#F8FAFC] border border-[#F3F4FC] rounded-[8px] gap-2.5 sm:gap-4"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className={`w-9 h-9 ${t.iconColor} flex items-center justify-center shrink-0`}>
                   <IconComponent className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-[14px] font-bold text-[#131B2E] truncate">{t.title}</span>
-                  <span className="text-[13px] text-[#464555] font-medium mt-0.5">
+                  <span className="text-[12px] sm:text-[13px] text-[#464555] font-medium mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
                     Requested by {t.requester} • {t.time}
                   </span>
                 </div>
               </div>
 
-              <span className={`px-2.5 py-0.5 font-medium rounded-[8px] text-[14px] ${t.bg} ${t.color} shrink-0`}>
+              <span className={`px-2.5 py-0.5 font-medium rounded-[8px] text-[12px] sm:text-[14px] ${t.bg} ${t.color} self-start sm:self-auto shrink-0 whitespace-nowrap`}>
                 {t.priority}
               </span>
             </div>

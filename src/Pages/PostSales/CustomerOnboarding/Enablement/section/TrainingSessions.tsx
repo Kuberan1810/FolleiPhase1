@@ -46,11 +46,11 @@ const TrainingSessions: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[14px] font-semibold text-[#191C1E] leading-tight truncate">
+                 <div className="flex flex-col min-w-0">
+                  <span className="text-[14px] font-semibold text-[#191C1E] leading-tight">
                     {session.title}
                   </span>
-                  <span className="text-[12px] font-medium text-[#565E74] mt-1 leading-none truncate">
+                  <span className="text-[12px] font-medium text-[#565E74] mt-1 leading-normal">
                     {session.subtitle}
                   </span>
                 </div>

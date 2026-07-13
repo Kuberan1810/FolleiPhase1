@@ -326,7 +326,7 @@ const OnboardingTable: React.FC = () => {
       {/* Table Card container */}
       <div className="bg-white rounded-[16px] overflow-visible border border-[#F3F4F6] shadow-[0_4px_20px_rgba(237,243,253,0.4)]">
         <div className="overflow-x-auto">
-          <table className="w-full text-center">
+          <table className="w-full min-w-[800px] text-center">
             <thead>
               <tr className="bg-[#FAFBFF] border-b border-[#F3F4F6] h-[52px]">
                 <th className="px-6 py-3 text-[12px] font-semibold text-[#222222] uppercase tracking-[0.5px] whitespace-nowrap text-left">

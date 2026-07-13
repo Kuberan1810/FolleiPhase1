@@ -102,28 +102,26 @@ const Analytics: React.FC = () => {
     return (
         <div className="min-h-screen pb-12">
             {/* Title & Description Header Section */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                <div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-8">
+                <div className="min-w-0">
                     <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
-
                         Analytics
                     </h1>
-                    <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
-
+                    <p className="m-0 font-normal text-sm md:text-base leading-[24px] text-[#6B7280] line-clamp-2 md:line-clamp-none">
                         Evaluate sales performance and customer outcomes after the sale to drive retention, satisfaction and repeat business.
                     </p>
                 </div>
 
                 {/* Date Selector and Export */}
-                <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-between md:justify-end shrink-0">
                     <div className="relative">
                         <button
                             onClick={() => setShowDatePicker(!showDatePicker)}
-                            className="flex items-center gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors cursor-pointer hover:bg-slate-50"
+                            className="flex items-center gap-1.5 sm:gap-2 border border-[#EDF3FD] bg-white text-[#434655] font-semibold px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer hover:bg-slate-50"
                         >
-                            <Calendar size={16} className="text-[#64748B]" />
-                            <span>{selectedDateRange}</span>
-                            <ChevronDown size={14} className="text-[#64748B]" />
+                            <Calendar size={14} className="text-[#64748B] shrink-0" />
+                            <span className="whitespace-nowrap">{selectedDateRange}</span>
+                            <ChevronDown size={13} className="text-[#64748B] shrink-0" />
                         </button>
 
                         {showDatePicker && (
@@ -140,16 +138,16 @@ const Analytics: React.FC = () => {
 
                     <button
                         onClick={handleExport}
-                        className="flex items-center gap-2 bg-[#004370] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[#003152] transition-colors cursor-pointer"
+                        className="flex items-center gap-1.5 sm:gap-2 bg-[#004370] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#003152] transition-colors cursor-pointer whitespace-nowrap"
                     >
-                        <Download size={16} />
+                        <Download size={14} />
                         Export
                     </button>
                 </div>
             </div>
 
             {/* 5 KPI Metrics Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-5 mb-8">
                 {metricsData.map((metric, idx) => (
                     <MetricCard key={idx} {...metric} />
                 ))}

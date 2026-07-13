@@ -7,15 +7,15 @@ interface Props {
 
 export default function ProductUsageCard({ data }: Props) {
   return (
-    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-6">
-      <h2 className="font-semibold text-xl leading-6 text-[#0D1C2E] m-0">
+    <div className="bg-white h-full flex flex-col BoxStyle border border-[#EDF3FD] rounded-xl p-4 sm:p-6">
+      <h2 className="font-semibold text-[17px] sm:text-xl leading-6 text-[#0D1C2E] m-0 whitespace-nowrap">
         Product Usage
       </h2>
-      <div className="border-b border-[#EDF3FD] mt-3 mb-5 -mx-6" />
+      <div className="border-b border-[#EDF3FD] mt-3 mb-5 -mx-4 sm:-mx-6" />
 
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-medium text-base text-[#1B1B1D]">Seat Utilization</span>
+          <span className="font-medium text-sm sm:text-base text-[#1B1B1D]">Seat Utilization</span>
           <span className="font-semibold text-base text-[#2563EB]">{data.seatUtilization}%</span>
         </div>
         <div className="w-full h-2 rounded-full bg-[#EAE7E9]">
@@ -25,7 +25,7 @@ export default function ProductUsageCard({ data }: Props) {
 
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-medium text-base text-[#1B1B1D]">Storage Usage</span>
+          <span className="font-medium text-sm sm:text-base text-[#1B1B1D]">Storage Usage</span>
           <span className="font-semibold text-base text-[#DC2626]">{data.storageUsage}%</span>
         </div>
         <div className="w-full h-2 rounded-full bg-[#EAE7E9]">
@@ -35,7 +35,7 @@ export default function ProductUsageCard({ data }: Props) {
 
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-medium text-base text-[#1B1B1D]">API Usage</span>
+          <span className="font-medium text-sm sm:text-base text-[#1B1B1D]">API Usage</span>
           <span className="font-semibold text-base text-[#16A34A]">{data.apiUsage}%</span>
         </div>
         <div className="w-full h-2 rounded-full bg-[#EAE7E9]">

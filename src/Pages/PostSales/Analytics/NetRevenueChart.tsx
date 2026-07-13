@@ -12,8 +12,8 @@ const NetRevenueChart: React.FC = () => {
   const [, setActiveHoverBar] = useState<number | null>(null);
 
   return (
-    <div className="BoxStyle p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
-      <div className="flex flex-col gap-4 mb-16">
+    <div className="BoxStyle p-4 sm:p-6 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
+      <div className="flex flex-col gap-3 mb-8 sm:mb-16">
         <div>
           <h3
             className="tracking-normal font-semibold text-[#1E293B]"
@@ -29,14 +29,14 @@ const NetRevenueChart: React.FC = () => {
         </div>
 
         {/* Legends */}
-        <div className="flex items-center justify-center gap-7">
+        <div className="flex items-center justify-center gap-4 sm:gap-7 flex-wrap">
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 bg-[#BFDBFE] rounded-sm" />
+            <div className="w-3 h-3 bg-[#BFDBFE] rounded-sm shrink-0" />
             <span
-              className="text-[#64748B] font-normal"
+              className="text-[#64748B] font-normal whitespace-nowrap"
               style={{
                 fontWeight: 400,
-                fontSize: '13px',
+                fontSize: '12px',
                 lineHeight: '15px',
                 color: '#64748B'
               }}
@@ -45,12 +45,12 @@ const NetRevenueChart: React.FC = () => {
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 bg-[#004370] rounded-sm" />
+            <div className="w-3 h-3 bg-[#004370] rounded-sm shrink-0" />
             <span
-              className="text-[#64748B] font-normal"
+              className="text-[#64748B] font-normal whitespace-nowrap"
               style={{
                 fontWeight: 400,
-                fontSize: '13px',
+                fontSize: '12px',
                 lineHeight: '15px',
                 color: '#64748B'
               }}
@@ -64,26 +64,26 @@ const NetRevenueChart: React.FC = () => {
       {/* Interactive Comparative HTML Bar Chart */}
       <div className="relative h-[220px] w-full flex flex-col justify-end">
         {/* Chart Area Row */}
-        <div className="relative flex-1 flex items-end ml-[50px] border-b border-slate-100">
+        <div className="relative flex-1 flex items-end ml-[38px] sm:ml-[50px] border-b border-slate-100">
           {/* Y Axis Grid Lines & Y-Axis Labels */}
           <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-1.5 sm:pr-3 text-[10px] sm:text-[13px] text-slate-400 transform -translate-y-1/2 select-none">
                 ₹150K
               </span>
             </div>
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-1.5 sm:pr-3 text-[10px] sm:text-[13px] text-slate-400 transform -translate-y-1/2 select-none">
                 ₹100K
               </span>
             </div>
             <div className="w-full relative border-t border-dashed border-slate-100/80">
-              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-1.5 sm:pr-3 text-[10px] sm:text-[13px] text-slate-400 transform -translate-y-1/2 select-none">
                 ₹50K
               </span>
             </div>
             <div className="w-full relative">
-              <span className="absolute right-full pr-3 text-[13px]  text-slate-400 transform -translate-y-1/2 select-none">
+              <span className="absolute right-full pr-1.5 sm:pr-3 text-[10px] sm:text-[13px] text-slate-400 transform -translate-y-1/2 select-none">
                 ₹0
               </span>
             </div>
@@ -105,15 +105,15 @@ const NetRevenueChart: React.FC = () => {
 
 
                 {/* Comparative Bars */}
-                <div className="flex items-end justify-center gap-1.5 w-full h-[180px] pb-1">
+                <div className="flex items-end justify-center gap-1 sm:gap-1.5 w-full h-[180px] pb-1">
                   {/* Cur Bar (Light Blue) */}
                   <div
-                    className="w-[20px] rounded-t-sm transition-all duration-300 bg-[#BFDBFE] hover:brightness-95 cursor-pointer relative"
+                    className="w-[12px] sm:w-[20px] rounded-t-sm transition-all duration-300 bg-[#BFDBFE] hover:brightness-95 cursor-pointer relative"
                     style={{ height: curHeight }}
                   />
                   {/* Prev Bar (Dark Blue) */}
                   <div
-                    className="w-[20px] rounded-t-sm transition-all duration-300 bg-[#004370] hover:brightness-90 cursor-pointer relative"
+                    className="w-[12px] sm:w-[20px] rounded-t-sm transition-all duration-300 bg-[#004370] hover:brightness-90 cursor-pointer relative"
                     style={{ height: prevHeight }}
                   />
                 </div>
@@ -123,10 +123,10 @@ const NetRevenueChart: React.FC = () => {
         </div>
 
         {/* X-Axis Labels Row */}
-        <div className="flex items-center ml-[50px] mt-2">
+        <div className="flex items-center ml-[38px] sm:ml-[50px] mt-2">
           {netRevenueChartData.map((data, index) => (
             <div key={index} className="flex-1 text-center">
-              <span className="text-[12px] font-medium text-slate-400 whitespace-nowrap">
+              <span className="text-[10px] sm:text-[12px] font-medium text-slate-400 whitespace-nowrap">
                 {data.label}
               </span>
             </div>

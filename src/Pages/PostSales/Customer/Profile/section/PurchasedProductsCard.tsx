@@ -248,9 +248,13 @@ const PurchasedProductsCard: React.FC<PurchasedProductsCardProps> = ({
 
   return (
     <div className="bg-white border border-[#EEF0FF] rounded-[20px] p-5 flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-[16px] font-bold text-[#1E293B] uppercase tracking-wider">Purchased Products</h3>
-        <BtnComSecondary label="View All" onClick={onViewAllClick} />
+      <div className="flex justify-between items-center gap-2">
+        <h3 className="text-[13px] sm:text-[16px] font-bold text-[#1E293B] uppercase tracking-wider whitespace-nowrap">Purchased Products</h3>
+        <BtnComSecondary
+          label="View All"
+          onClick={onViewAllClick}
+          className="px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-[14px] whitespace-nowrap shrink-0"
+        />
       </div>
 
       <div className="flex flex-col gap-3">

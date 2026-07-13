@@ -13,7 +13,7 @@ export const mockPredictionData: PredictionDataPoint[] = [
   { month: 'Apr', follei: 100, actual: 70 },
   { month: 'May', follei: 70, actual: 45 },
   { month: 'June', follei: 85, actual: 58 },
-  { month: 'july', follei: 80, actual: 0},
+  { month: 'July', follei: 80, actual: 0},
   { month: 'August', follei: 60, actual: 0}
 ];
 

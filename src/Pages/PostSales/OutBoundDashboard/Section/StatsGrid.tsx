@@ -67,15 +67,15 @@ export default function StatsGrid() {
           </div>
 
           {/* Centered card header & values */}
-          <div className="text-center flex flex-col items-center justify-center mt-1.5 flex-1">
+          <div className="text-center flex flex-col items-center justify-center mt-1.5 flex-1 min-w-0">
             <p
-              className="text-[16px] font-semibold"
+              className="text-[11px] min-[360px]:text-[13px] lg:text-[16px] font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-full"
               style={{ color: item.titleColor }}
             >
               {item.title}
             </p>
             <h3
-              className="text-[36px] font-bold text-[#6693B1] leading-none mt-1"
+              className="text-[24px] min-[360px]:text-[30px] lg:text-[36px] font-bold text-[#6693B1] leading-none mt-1"
               style={{ fontWeight: 700 }}
             >
               {item.value}
@@ -84,7 +84,7 @@ export default function StatsGrid() {
 
           {/* Trend Indicator */}
           <div
-            className="flex items-center gap-1 text-[16px] font-light "
+            className="flex items-center gap-0.5 text-[10px] min-[360px]:text-[12px] lg:text-[14px] xl:text-[16px] font-light whitespace-nowrap"
             style={{
               fontWeight: 300,
               color: item.trend === "critical" ? "#D60509" : "#008900"
