@@ -60,7 +60,7 @@ const SupportTicketsPage: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6 w-full font-manrope">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate(-1)}
@@ -69,9 +69,9 @@ const SupportTicketsPage: React.FC = () => {
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-[24px] font-bold text-[#0D1C2E]">Support & Tickets</h1>
+          <h1 className="text-[20px] sm:text-[24px] font-bold text-[#0D1C2E]">Support & Tickets</h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 self-end sm:self-auto">
           <span className="text-[14px] text-[#464555] font-semibold">
             <span className="font-extrabold text-[#131B2E]">3</span> Open
           </span>
@@ -91,21 +91,21 @@ const SupportTicketsPage: React.FC = () => {
                 const { icon, ...serializableTicket } = t;
                 navigate(`/postsales/customers/profile/support-tickets/${t.id}`, { state: { ticket: serializableTicket } });
               }}
-              className="flex items-center justify-between p-4 bg-transparent border border-[#F3F4FC] rounded-[12px] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
+              className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 bg-transparent border border-[#F3F4FC] rounded-[12px] hover:bg-[#F8FAFC] transition-colors cursor-pointer gap-2.5 sm:gap-4"
             >
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 ${t.iconColor} flex items-center justify-center shrink-0`}>
-                  <IconComponent className="w-5 h-5" />
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className={`w-9 h-9 sm:w-10 sm:h-10 ${t.iconColor} flex items-center justify-center shrink-0`}>
+                  <IconComponent className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                 </div>
                 <div className="flex flex-col min-w-0 gap-0.5">
-                  <span className="text-[15px] font-bold text-[#131B2E] truncate">{t.title}</span>
-                  <span className="text-[13px] text-[#767587] font-medium truncate">
+                  <span className="text-[14px] sm:text-[15px] font-bold text-[#131B2E] truncate">{t.title}</span>
+                  <span className="text-[12px] sm:text-[13px] text-[#767587] font-medium truncate">
                     {t.time}
                   </span>
                 </div>
               </div>
 
-              <span className={`px-3 py-1 font-bold rounded-[8px] text-[13px] ${t.bg} ${t.color} shrink-0`}>
+              <span className={`px-2.5 py-0.5 sm:px-3 sm:py-1 font-bold rounded-[8px] text-[11px] sm:text-[13px] ${t.bg} ${t.color} self-start sm:self-auto shrink-0 whitespace-nowrap`}>
                 {t.priority}
               </span>
             </div>

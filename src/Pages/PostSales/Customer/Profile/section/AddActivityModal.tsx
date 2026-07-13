@@ -50,10 +50,10 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/40 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-[600px] overflow-hidden flex flex-col mx-4 animate-scale-in">
-        
+      <div className="bg-white w-full h-full sm:h-auto sm:max-w-[600px] rounded-none sm:rounded-2xl shadow-xl overflow-hidden flex flex-col mx-0 sm:mx-4 animate-scale-in">
+
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-[#EDF3FD]">
+        <div className="flex items-center justify-between p-6 border-b border-[#EDF3FD] shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-[#F1F5F9] rounded-xl flex items-center justify-center">
               <Calendar className="w-6 h-6 text-[#004370]" />
@@ -66,13 +66,13 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
         </div>
 
         {/* Body */}
-        <div className="p-6 flex flex-col gap-6 max-h-[70vh] overflow-y-auto scrollbar-thin">
-          
+        <div className="p-6 flex flex-col gap-6 flex-1 sm:max-h-[48vh] overflow-y-auto scrollbar-thin">
+
           {/* Activity Title */}
           <div className="flex flex-col gap-2">
             <label className="text-[12px] font-bold text-[#64748B] tracking-wider uppercase">ACTIVITY TITLE</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="e.g.,Demo"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -81,12 +81,12 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
           </div>
 
           {/* Date & Time */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-[12px] font-bold text-[#64748B] tracking-wider uppercase">DATE</label>
               <div className="relative">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   className="w-full h-12 pl-4 pr-10 border border-[#EDF3FD] rounded-xl text-[16px] text-[#1E293B] outline-none focus:border-[#004370] transition-colors cursor-pointer"
@@ -97,8 +97,8 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
             <div className="flex flex-col gap-2">
               <label className="text-[12px] font-bold text-[#64748B] tracking-wider uppercase">TIME</label>
               <div className="relative">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
                   className="w-full h-12 pl-4 pr-10 border border-[#EDF3FD] rounded-xl text-[16px] text-[#1E293B] outline-none focus:border-[#004370] transition-colors cursor-pointer"
@@ -116,11 +116,10 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
                 <button
                   key={level}
                   onClick={() => setPriority(level)}
-                  className={`h-12 rounded-xl text-[16px] font-medium transition-colors cursor-pointer ${
-                    priority === level 
-                    ? 'bg-[#004370] text-white border-transparent' 
-                    : 'bg-white text-[#1E293B] border border-[#EDF3FD] hover:bg-[#F8FAFC]'
-                  }`}
+                  className={`h-12 rounded-xl text-[16px] font-medium transition-colors cursor-pointer ${priority === level
+                      ? 'bg-[#004370] text-white border-transparent'
+                      : 'bg-white text-[#1E293B] border border-[#EDF3FD] hover:bg-[#F8FAFC]'
+                    }`}
                 >
                   {level}
                 </button>
@@ -139,7 +138,7 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
                 <button className="hover:text-[#1E293B] transition-colors cursor-pointer"><Paperclip className="w-4 h-4" /></button>
               </div>
             </div>
-            <textarea 
+            <textarea
               placeholder="Add a note or @mention team member..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -148,21 +147,20 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({ isOpen, onClose, on
           </div>
 
           {/* Set Reminder */}
-          <div className="bg-[#F8FAFC] rounded-2xl p-4 flex items-center justify-between">
+          <div className="bg-[#F8FAFC] rounded-2xl p-4 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
             <div className="flex items-center gap-3">
               <Bell className="w-5 h-5 text-[#004370]" />
               <span className="text-[16px] font-semibold text-[#1E293B]">Set Reminder</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {['15 MIN', '1 HOUR', '1 DAY'].map((timeStr) => (
                 <button
                   key={timeStr}
                   onClick={() => setReminder(timeStr)}
-                  className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors cursor-pointer ${
-                    reminder === timeStr
-                    ? 'bg-[#004370] text-white border-transparent'
-                    : 'bg-white text-[#1E293B] border border-[#EDF3FD] hover:bg-[#F1F5F9]'
-                  }`}
+                  className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-colors cursor-pointer ${reminder === timeStr
+                      ? 'bg-[#004370] text-white border-transparent'
+                      : 'bg-white text-[#1E293B] border border-[#EDF3FD] hover:bg-[#F1F5F9]'
+                    }`}
                 >
                   {timeStr}
                 </button>

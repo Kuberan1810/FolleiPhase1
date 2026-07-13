@@ -22,10 +22,11 @@ const ProductUnderstanding: React.FC = () => {
 
   return (
     <div className="BoxStyle flex flex-col gap-5">
-      <div className="flex justify-between items-center">
-        <h3 className="text-[20px] font-bold text-[#191C1E]">Product understanding</h3>
+      <div className="flex justify-between items-center gap-3">
+        <h3 className="text-[15px] sm:text-[20px] font-bold text-[#191C1E] whitespace-nowrap shrink-0">Product understanding</h3>
         <BtnComSecondary
           label="View All"
+          className="px-2 py-1 text-[12px] sm:text-[14px] sm:px-3 sm:py-1.5 shrink-0 whitespace-nowrap"
           onClick={() => navigate(`/postsales/onboarding/enablement/${customerId}/understanding`)}
         />
       </div>
@@ -37,20 +38,20 @@ const ProductUnderstanding: React.FC = () => {
           return (
             <div
               key={idx}
-              className="flex justify-between items-center p-3 rounded-[12px] bg-[#F7F9FB] hover:bg-slate-50 transition-colors"
+              className="flex justify-between items-center p-3 rounded-[12px] bg-[#F7F9FB] hover:bg-slate-50 transition-colors gap-3"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 {isCompleted ? (
                   <TickCircle size="20" color="#16A34A" variant="Bold" className="shrink-0" />
                 ) : (
                   <div className="w-5 h-5 rounded-full border-2 border-[#6B7280] shrink-0" />
                 )}
-                <span className={`text-[16px] font-semibold ${isCompleted ? 'text-[#191C1E]' : 'text-slate-400'}`}>
+                <span className={`text-[14px] sm:text-[16px] font-semibold leading-tight ${isCompleted ? 'text-[#191C1E]' : 'text-slate-400'}`}>
                   {m.title}
                 </span>
               </div>
               <span
-                className={`text-[16px] font-medium ${isCompleted ? 'text-[#16A34A]' : 'text-[#6B7280]'
+                className={`text-[14px] sm:text-[16px] font-medium shrink-0 ${isCompleted ? 'text-[#16A34A]' : 'text-[#6B7280]'
                   }`}
               >
                 {m.status}

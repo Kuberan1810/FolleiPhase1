@@ -23,7 +23,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pt-4">
+    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8 pt-4">
       <div>
         <h1 className="m-0 font-semibold text-[24px] md:text-[30px] leading-[32px] md:leading-[36px] text-[#0D1C2E]">
 
@@ -36,7 +36,7 @@ const CustomerHeader: React.FC<CustomerHeaderProps> = ({
       </div>
 
       {/* Action Controls */}
-      <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-start md:justify-end mt-4 md:mt-0">
+      <div className="flex flex-wrap items-center gap-2.5 w-full lg:w-auto justify-start lg:justify-end mt-4 lg:mt-0">
 
         {/* FILTER Button */}
         <div className="relative">

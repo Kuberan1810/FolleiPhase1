@@ -110,21 +110,25 @@ const ActivityTimelinePage = () => {
     const bars = Array.from({ length: 45 }).map((_, i) => {
       const h = Math.max(20, Math.floor(Math.random() * 100));
       return (
-        <div key={i} className="w-[3px] bg-[#004370] rounded-full mx-[1px]" style={{ height: `${h}%` }}></div>
+        <div 
+          key={i} 
+          className={`w-[3px] bg-[#004370] rounded-full mx-[1px] shrink-0 ${i >= 18 ? "hidden sm:block" : ""}`} 
+          style={{ height: `${h}%` }}
+        ></div>
       );
     });
 
     return (
-      <div className="mt-4 bg-[#F8FAFC] rounded-2xl p-4 flex flex-col gap-2 max-w-[400px]">
-        <div className="flex items-center gap-4">
-          <button className="w-10 h-10 shrink-0 bg-[#004370] rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-[#003152] transition-colors">
-            <Play className="w-5 h-5 ml-1" fill="currentColor" />
+      <div className="mt-4 bg-[#F8FAFC] rounded-2xl p-3 sm:p-4 flex flex-col gap-2 max-w-full sm:max-w-[400px] overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <button className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 bg-[#004370] rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-[#003152] transition-colors">
+            <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-1" fill="currentColor" />
           </button>
-          <div className="flex-1 flex items-center h-10 overflow-hidden">
+          <div className="flex-1 flex items-center h-10 overflow-hidden min-w-0">
             {bars}
           </div>
         </div>
-        <div className="flex justify-between items-center text-[11px] font-semibold text-[#64748B] px-[52px]">
+        <div className="flex justify-between items-center text-[10px] sm:text-[11px] font-semibold text-[#64748B] pl-[48px] sm:pl-[54px] pr-2">
           <span>00:00</span>
           <span>02:45</span>
         </div>
@@ -149,21 +153,21 @@ const ActivityTimelinePage = () => {
       {/* Timeline Wrapper */}
       <div className="relative w-full">
         {/* Continuous Vertical Line */}
-        <div className="absolute left-[23px] top-[10px] bottom-[10px] w-[2px] bg-[#EDF3FD] z-0" />
+        <div className="absolute left-[19px] sm:left-[23px] top-[10px] bottom-[10px] w-[2px] bg-[#EDF3FD] z-0" />
 
         <div className="flex flex-col gap-8 relative z-10">
           {events.map((event) => (
-            <div key={event.id} className="flex gap-6 w-full">
+            <div key={event.id} className="flex gap-3 sm:gap-6 w-full">
               {/* Icon Circle */}
-              <div className={`w-12 h-12 rounded-full ${event.iconBg} ${event.iconColor} flex items-center justify-center shrink-0 border-4 border-[#F8FAFC]`}>
-                <event.icon className="w-5 h-5" />
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${event.iconBg} ${event.iconColor} flex items-center justify-center shrink-0 border-4 border-[#F8FAFC]`}>
+                <event.icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
 
               {/* Event Card */}
               <div className="flex-1 BoxStyle">
-                <div className="flex justify-between items-start gap-4 mb-2">
-                  <h3 className="text-[16px] font-semibold text-[#191C1E]">{event.title}</h3>
-                  <span className="text-[13px] font-medium text-[#64748B] shrink-0">{event.time}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4 mb-2">
+                  <h3 className="text-[15px] sm:text-[16px] font-semibold text-[#191C1E]">{event.title}</h3>
+                  <span className="text-[12px] sm:text-[13px] font-medium text-[#64748B] shrink-0">{event.time}</span>
                 </div>
                 
                 <p className="text-[14px] text-[#64748B] leading-relaxed">

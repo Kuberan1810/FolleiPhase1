@@ -113,17 +113,18 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
                         ) : (
                           <img src={gmailLogo} className="w-[18px] h-[18px] object-contain shrink-0 mb-[2px]" alt="Gmail" />
                         )}
-                        <div className="flex flex-col items-start gap-1">
-                          <div className="border border-[#EDF3FD] rounded-[6px] rounded-tl-none p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] shadow-sm select-none">
-                            <button className="w-9 h-9 rounded-[12px] bg-[#059669] flex items-center justify-center text-white cursor-pointer hover:bg-[#047857] transition-colors border-none shrink-0">
-                              <Play size={18} fill="#fff" color="#fff" />
+                        <div className="flex flex-col items-start gap-1 w-full">
+                          <div className="border border-[#EDF3FD] rounded-[6px] rounded-tl-none p-2 px-2.5 sm:p-2.5 sm:pl-3 sm:pr-5 flex items-center gap-2 sm:gap-4 bg-[#F8FAFC] shadow-sm select-none w-full max-w-full overflow-hidden">
+                            <button className="w-8 h-8 sm:w-9 sm:h-9 rounded-[10px] sm:rounded-[12px] bg-[#059669] flex items-center justify-center text-white cursor-pointer hover:bg-[#047857] transition-colors border-none shrink-0">
+                              <Play size={16} className="sm:hidden" fill="#fff" color="#fff" />
+                              <Play size={18} className="hidden sm:block" fill="#fff" color="#fff" />
                             </button>
-                            <div className="flex flex-col gap-1">
-                              <div className="flex items-end gap-[3px] h-[22px] px-1">
+                            <div className="flex-1 flex flex-col gap-1 min-w-0">
+                              <div className="flex items-end gap-[2px] sm:gap-[3px] h-[22px] px-1 overflow-hidden">
                                 {[4, 6, 3, 4, 7, 10, 8, 6, 5, 8, 11, 9, 7, 6, 4, 5, 7, 9, 6, 5, 8].map((height, i) => (
                                   <div
                                     key={i}
-                                    className="w-[4px] rounded-full"
+                                    className={`w-[3px] sm:w-[4px] rounded-full shrink-0 ${i >= 12 ? "hidden sm:block" : ""}`}
                                     style={{
                                       height: `${height * 1.8}px`,
                                       backgroundColor: i % 3 === 0 ? "#34D399" : i % 3 === 1 ? "#10B981" : "#6EE7B7"
@@ -131,12 +132,12 @@ const NeedsAttentionDrawer: React.FC<NeedsAttentionDrawerProps> = ({
                                   />
                                 ))}
                               </div>
-                              <div className="flex justify-between text-[10px] text-[#64748B] font-normal px-1">
+                              <div className="flex justify-between text-[9px] sm:text-[10px] text-[#64748B] font-normal px-1">
                                 <span>00:00</span>
                                 <span>{msg.duration}</span>
                               </div>
                             </div>
-                            <button className="text-slate-400 hover:text-slate-600 transition-colors bg-transparent border-none cursor-pointer p-1 ml-auto flex items-center justify-center">
+                            <button className="text-slate-400 hover:text-slate-600 transition-colors bg-transparent border-none cursor-pointer p-1 flex items-center justify-center shrink-0">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                               </svg>

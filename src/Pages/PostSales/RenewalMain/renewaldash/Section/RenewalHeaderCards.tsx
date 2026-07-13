@@ -25,7 +25,7 @@ export default function RenewalHeaderCards({ stats }: RenewalHeaderCardsProps) {
         return (
           <div
             key={stat.id}
-            className="BoxStyle w-full sm:w-[210px] h-[155px] shrink-0 flex flex-col justify-between"
+            className="BoxStyle w-full sm:min-w-[180px] h-[155px] flex flex-col justify-between"
           >
             <div className="font-semibold text-xs leading-4 tracking-[1.2px] uppercase text-[#64748B]">
               {stat.label}

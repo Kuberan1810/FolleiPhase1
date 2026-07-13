@@ -30,18 +30,18 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
   return (
     <div
-      className="BoxStyle flex flex-col justify-between"
+      className="BoxStyle flex flex-col justify-between h-full p-4 sm:p-5"
     >
       <div className="flex justify-between items-start">
         <div
-          className="w-[40px] h-[40px] rounded-[12px] flex items-center justify-center shrink-0"
+          className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] rounded-[10px] sm:rounded-[12px] flex items-center justify-center shrink-0"
           style={{ backgroundColor: iconBg, color: iconColor }}
         >
           {icon}
         </div>
         {badge && (
           <span
-            className="px-2 py-0.5 rounded-[12px] text-[11px] font-bold flex items-center gap-1"
+            className="px-2 py-0.5 rounded-[12px] text-[10px] sm:text-[11px] font-bold flex items-center gap-1 shrink-0"
             style={{ backgroundColor: badge.bgColor, color: badge.textColor }}
           >
             {badge.dotColor && (
@@ -55,16 +55,16 @@ const StatCard: React.FC<StatCardProps> = ({
         )}
       </div>
 
-      <div className="mt-5 flex flex-col justify-end ">
-        <span className="text-[11px] font-bold text-[#64748B] tracking-wider uppercase leading-none">
+      <div className="mt-4 sm:mt-5 flex flex-col justify-end">
+        <span className="text-[10px] sm:text-[11px] font-bold text-[#64748B] tracking-wider uppercase leading-snug">
           {title}
         </span>
-        <div className="flex items-baseline gap-2 mt-3">
-          <span className="text-[32px] font-bold text-[#001E40] leading-none">
+        <div className="flex flex-wrap items-baseline gap-1 mt-2 sm:mt-3">
+          <span className="text-[22px] sm:text-[32px] font-bold text-[#001E40] leading-none whitespace-nowrap">
             {value}
           </span>
           {subtext && (
-            <span className={`text-[12px] font-medium leading-none ${subtextColor}`}>
+            <span className={`text-[10px] sm:text-[12px] font-medium leading-none ${subtextColor} whitespace-nowrap`}>
               {subtext}
             </span>
           )}
@@ -134,16 +134,27 @@ const StatsSection: React.FC = () => {
       badge: {
         text: 'Good',
         bgColor: '#E6F1F1',
-        textColor: '#006A6A',
+        textColor: '#006A6A'
       }
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-      {stats.map((stat, index) => (
-        <StatCard key={index} {...stat} />
-      ))}
+    <div className="grid grid-cols-2 sm:grid-cols-6 lg:grid-cols-5 gap-4 sm:gap-5">
+      {stats.map((stat, index) => {
+
+        const colSpanClass = index === 4
+          ? "col-span-2 sm:col-span-3 lg:col-span-1"
+          : index < 3
+            ? "col-span-1 sm:col-span-2 lg:col-span-1"
+            : "col-span-1 sm:col-span-3 lg:col-span-1";
+
+        return (
+          <div key={index} className={colSpanClass}>
+            <StatCard {...stat} />
+          </div>
+        );
+      })}
     </div>
   );
 };

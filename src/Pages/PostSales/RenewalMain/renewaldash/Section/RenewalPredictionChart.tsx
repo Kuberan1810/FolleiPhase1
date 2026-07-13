@@ -87,8 +87,9 @@ export default function RenewalPredictionChart({ data }: RenewalPredictionChartP
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
+              tick={{ fill: '#64748B', fontSize: 11, fontWeight: 500 }}
               dy={10}
+              interval={0}
             />
             <YAxis hide />
             <Tooltip content={<CustomTooltip />} cursor={false} />
