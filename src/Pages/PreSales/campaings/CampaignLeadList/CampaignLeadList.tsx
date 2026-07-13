@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PauseCircle, Trash, ArrowDown2 } from 'iconsax-react';
-import { ChevronLeft } from 'lucide-react';
+import { Trash, ArrowDown2 } from 'iconsax-react';
+import { ChevronLeft, PauseCircle, PlayCircle } from 'lucide-react';
 import CampaignLeadTable from './section/CampaignLeadTable';
 
 export default function CampaignLeadList() {
   const [sortBy, setSortBy] = React.useState('Newest');
   const [sortOpen, setSortOpen] = React.useState(false);
+  const [isPaused, setIsPaused] = React.useState(false);
   const navigate = useNavigate();
 
   const [filterOpen, setFilterOpen] = React.useState(false);
@@ -301,8 +302,10 @@ export default function CampaignLeadList() {
 
           {/* Pause + Trash */}
           <div className="flex items-center gap-3">
-            <PauseCircle size="28" color="#464555" variant="Linear" />
-            <Trash size="24" color="#BA1A1A" variant="Bold" />
+            <button onClick={() => setIsPaused(!isPaused)} className="cursor-pointer text-[#464555] hover:text-[#004370] transition-colors p-1">
+              {isPaused ? <PlayCircle size={28} strokeWidth={1.5} /> : <PauseCircle size={28} strokeWidth={1.5} />}
+            </button>
+            <Trash size="24" color="#BA1A1A" variant="Bold" className="cursor-pointer" />
           </div>
         </div>
       </div>

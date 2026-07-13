@@ -6,6 +6,7 @@ import { ChartSquare } from 'iconsax-react';
 const EditActionPage = () => {
   const navigate = useNavigate();
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+  const [isEditingLeadScoring, setIsEditingLeadScoring] = useState(false);
   const [hotMin, setHotMin] = useState(80);
   const [hotMax, setHotMax] = useState(100);
   const [warmMin, setWarmMin] = useState(50);
@@ -57,7 +58,7 @@ const EditActionPage = () => {
               </h2>
             </div>
             <div className="flex items-center gap-2 text-[#191C1E]">
-              <Pencil size={18} className="cursor-pointer hover:text-[#004370] transition-colors" />
+              <Pencil onClick={() => setIsEditingLeadScoring(true)} size={18} className="cursor-pointer hover:text-[#004370] transition-colors" />
               <History size={18} className="cursor-pointer hover:text-[#004370] transition-colors" />
             </div>
           </div>
@@ -74,19 +75,21 @@ const EditActionPage = () => {
                   Immediate manual intervention triggered.
                 </span>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className={`flex items-center gap-2 shrink-0 ${!isEditingLeadScoring ? 'opacity-70' : ''}`}>
                 <input
                   type="number"
                   value={hotMin}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setHotMin(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
                 <span className="text-[#94A3B8] font-bold">-</span>
                 <input
                   type="number"
                   value={hotMax}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setHotMax(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
               </div>
             </div>
@@ -101,19 +104,21 @@ const EditActionPage = () => {
                   Automatic sequence and nurturing path.
                 </span>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className={`flex items-center gap-2 shrink-0 ${!isEditingLeadScoring ? 'opacity-70' : ''}`}>
                 <input
                   type="number"
                   value={warmMin}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setWarmMin(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
                 <span className="text-[#94A3B8] font-bold">-</span>
                 <input
                   type="number"
                   value={warmMax}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setWarmMax(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
               </div>
             </div>
@@ -128,40 +133,44 @@ const EditActionPage = () => {
                   Low frequency long-term nurture.
                 </span>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className={`flex items-center gap-2 shrink-0 ${!isEditingLeadScoring ? 'opacity-70' : ''}`}>
                 <input
                   type="number"
                   value={coldMin}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setColdMin(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
                 <span className="text-[#94A3B8] font-bold">-</span>
                 <input
                   type="number"
                   value={coldMax}
+                  disabled={!isEditingLeadScoring}
                   onChange={(e) => setColdMax(Number(e.target.value))}
-                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370]"
+                  className="w-[48px] h-[32px] bg-white rounded-[4px] text-center font-['Inter'] font-bold text-[13px] leading-none tracking-[0px] text-[#191C1E] outline-none focus:border-[#004370] disabled:bg-transparent"
                 />
               </div>
             </div>
           </div>
 
           {/* Card CTAs */}
-          <div className="flex items-center gap-3 mt-2">
-            <button className="flex-1 h-[40px] bg-[#004370] hover:bg-[#003152] text-white rounded-[8px] font-['Inter'] font-semibold text-[13px] leading-[19.5px] transition-colors cursor-pointer">
-              Save Rules
-            </button>
-            <button
-              onClick={() => {
-                setHotMin(80); setHotMax(100);
-                setWarmMin(50); setWarmMax(79);
-                setColdMin(0); setColdMax(49);
-              }}
-              className="flex-1 h-[40px] bg-[#F7F9FB] hover:bg-[#E2E8F0] text-[#191C1E] rounded-[8px] font-['Inter'] font-semibold text-[13px] leading-[19.5px] transition-colors cursor-pointer"
-            >
-              Reset
-            </button>
-          </div>
+          {isEditingLeadScoring && (
+            <div className="flex items-center gap-3 mt-2">
+              <button onClick={() => setIsEditingLeadScoring(false)} className="flex-1 h-[40px] bg-[#004370] hover:bg-[#003152] text-white rounded-[8px] font-['Inter'] font-semibold text-[13px] leading-[19.5px] transition-colors cursor-pointer">
+                Save Rules
+              </button>
+              <button
+                onClick={() => {
+                  setHotMin(80); setHotMax(100);
+                  setWarmMin(50); setWarmMax(79);
+                  setColdMin(0); setColdMax(49);
+                }}
+                className="flex-1 h-[40px] bg-[#F7F9FB] hover:bg-[#E2E8F0] text-[#191C1E] rounded-[8px] font-['Inter'] font-semibold text-[13px] leading-[19.5px] transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Column Wrapper */}
@@ -171,7 +180,7 @@ const EditActionPage = () => {
             <h2 className="text-[#191C1E] font-['Inter'] font-semibold text-[18px] leading-[25.2px] tracking-[0px]">
               Select Channel
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               {[
                 { icon: MessageSquare, label: 'SMS' },
                 { icon: Mail, label: 'Email' },
