@@ -1,5 +1,5 @@
 import LoginForm from "./Section/LoginForm"
-import FolleiLogo from "../../../assets/logo/Follei-dark.svg"
+import FolleiLogo from "../../../assets/logo/follei-dark.svg"
 import AuthSidebar from "../../../Component/AuthSidebar"
 
 const Login = () => {
