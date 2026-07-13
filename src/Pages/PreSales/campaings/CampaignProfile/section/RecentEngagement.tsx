@@ -21,7 +21,7 @@ export default function RecentEngagement() {
           Recent Engagement Activity
         </span>
         <BtnComSecondary
-          label="View All &rarr;"
+          label="View All"
           onClick={() => navigate(`/presales/campaigns/${id}/campaign-lead`)}
         />
       </div>
