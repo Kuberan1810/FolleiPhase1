@@ -49,7 +49,7 @@ const WorkspaceLoading: React.FC = () => {
       </div>
 
       {/* Main Content Card */}
-      <div className="relative z-10 w-full max-w-[900px] h-[600px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] p-8 md:p-12 flex flex-col items-center animate-in fade-in zoom-in duration-500 overflow-hidden justify-between">
+      <div className="relative z-10 w-full max-w-[900px] h-[600px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] p-4 md:p-12 flex flex-col items-center animate-in fade-in zoom-in duration-500 overflow-hidden justify-between">
 
         {/* Header */}
         <div className="flex flex-col items-center mt-6">
@@ -57,7 +57,7 @@ const WorkspaceLoading: React.FC = () => {
             <img src={folleiLogo} alt="Follie" className="h-10" />
           </div>
 
-          <h1 className="text-[28px] md:text-[32px] font-bold text-[#0D1C2E] mb-3 text-center tracking-[-0.5px]">
+          <h1 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold text-[#0D1C2E] mb-3 text-center tracking-[-0.5px]">
             Loading Your Workspace
           </h1>
           <p className="text-[15px] font-normal text-[#64748B] text-center leading-relaxed">
@@ -74,8 +74,8 @@ const WorkspaceLoading: React.FC = () => {
               className="absolute left-1/2 -translate-x-1/2 w-[300px] h-[300px] transition-all duration-[2000ms] ease-in-out z-10"
               style={{ top: getFillTop() }}
             >
-              {/* Wave 3 - Deepest (Light Blue) */}
-              <div className="absolute top-0 left-0 w-full h-full bg-[#54D6E7] opacity-50 rounded-[38%] animate-[spin_5s_linear_infinite]" />
+              {/* Wave 3 - Back (Dark Blue) */}
+              <div className="absolute top-0 left-0 w-full h-full bg-[#004370] opacity-40 rounded-[45%] animate-[spin_8s_linear_infinite]" />
 
               {/* Wave 2 - Mid (Mid Blue) */}
               <div className="absolute top-0 left-0 w-full h-full bg-[#0065A8] opacity-70 rounded-[43%] animate-[spin_6s_linear_infinite]" />
@@ -90,7 +90,7 @@ const WorkspaceLoading: React.FC = () => {
         </div>
 
         {/* Loading Steps Indicator */}
-        <div className="w-full flex justify-between items-center px-4 md:px-12 mb-8">
+        <div className="w-full flex justify-between items-start px-0 md:px-12 mb-8">
 
           {/* Step 1: Connecting data */}
           <div className="flex flex-col items-center gap-3 w-1/4">
@@ -103,7 +103,7 @@ const WorkspaceLoading: React.FC = () => {
                 </div>
               )}
             </div>
-            <span className={`text-[12px] md:text-[13px] font-medium text-center transition-colors duration-500
+            <span className={`text-[9px] md:text-[13px] font-medium text-center transition-colors duration-500
               ${currentStep >= 1 ? 'text-[#0D1C2E]' : 'text-[#94A3B8]'}`}>
               Connecting data
             </span>
@@ -120,7 +120,7 @@ const WorkspaceLoading: React.FC = () => {
                 </div>
               )}
             </div>
-            <span className={`text-[12px] md:text-[13px] font-medium text-center transition-colors duration-500
+            <span className={`text-[9px] md:text-[13px] font-medium text-center transition-colors duration-500
               ${currentStep >= 2 ? 'text-[#0D1C2E]' : 'text-[#94A3B8]'}
               ${currentStep === 2 ? 'text-blue-500' : ''}`}>
               Analyzing data
@@ -138,7 +138,7 @@ const WorkspaceLoading: React.FC = () => {
                 </div>
               )}
             </div>
-            <span className={`text-[12px] md:text-[13px] font-medium text-center transition-colors duration-500
+            <span className={`text-[9px] md:text-[13px] font-medium text-center transition-colors duration-500
               ${currentStep >= 3 ? 'text-[#0D1C2E]' : 'text-[#94A3B8]'}
               ${currentStep === 3 ? 'text-blue-500' : ''}`}>
               Generating insights
@@ -156,7 +156,7 @@ const WorkspaceLoading: React.FC = () => {
                 </div>
               )}
             </div>
-            <span className={`text-[12px] md:text-[13px] font-medium text-center transition-colors duration-500
+            <span className={`text-[9px] md:text-[13px] font-medium text-center transition-colors duration-500
               ${currentStep >= 4 ? 'text-[#0D1C2E]' : 'text-[#94A3B8]'}
               ${currentStep === 4 ? 'text-blue-500' : ''}`}>
               Personalizing dashboard

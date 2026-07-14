@@ -22,7 +22,7 @@ const ReviewConfirmation: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-[1000px] min-h-[600px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] flex flex-col md:flex-row overflow-hidden animate-in fade-in zoom-in duration-500">
 
-        <div className="w-full md:w-[35%] bg-gradient-to-b from-[#0065A8] to-[#004370] p-10 flex flex-col justify-between text-white relative overflow-hidden">
+        <div className="w-full md:w-[35%] bg-gradient-to-b from-[#0065A8] to-[#004370] p-4 lg:p-10 flex flex-col justify-between text-white relative overflow-hidden">
           {/* Follie Background Watermark effect (Optional) */}
           <div className="absolute top-[-20%] right-[-20%] w-[150%] h-[150%] bg-white opacity-[0.03] rounded-full pointer-events-none blur-3xl"></div>
 
@@ -36,7 +36,7 @@ const ReviewConfirmation: React.FC = () => {
             </div>
 
             {/* Headers */}
-            <h1 className="text-[32px] font-semibold leading-[1.2] mb-4">
+            <h1 className="text-[22px] sm:text-[26px] md:text-[30px] lg:text-[32px] font-semibold leading-[1.2] mb-4">
               Review &<br />Confirmation
             </h1>
             <p className="text-white/80 text-[15px] leading-relaxed mb-12">
@@ -47,21 +47,29 @@ const ReviewConfirmation: React.FC = () => {
           {/* Info Rows */}
           <div className="flex flex-col gap-6 mt-auto">
             {/* Phone */}
-            <div className="flex items-center gap-4 p-3 rounded-[12px] relative">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                <Phone size={18} className="text-white/90" />
+            <div className="flex items-center justify-between p-3 rounded-[12px]">
+              <div className="flex items-center gap-2 lg:gap-4 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <Phone size={18} className="text-white/90" />
+                </div>
+                <span className="text-[12px] lg:text-[14px] text-white/90 font-medium tracking-wide whitespace-nowrap">
+                  Not Provided
+                </span>
               </div>
-              <span className="text-[14px] text-white/90 font-medium tracking-wide">Not Provided</span>
             </div>
 
             {/* Email */}
-            <div className="flex items-center gap-4 p-3 rounded-[12px] relative">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                <Mail size={18} className="text-white/90" />
+            <div className="flex items-center justify-between p-3 rounded-[12px]">
+              <div className="flex items-center gap-2 lg:gap-4 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <Mail size={18} className="text-white/90" />
+                </div>
+                <span className="text-[12px] lg:text-[14px] text-white font-medium tracking-wide whitespace-nowrap">
+                  indhu23@follei.com
+                </span>
               </div>
-              <span className="text-[14px] text-white font-medium tracking-wide">indhu23@follei.com</span>
-              <div className="absolute right-4">
-                <CheckCircle2 size={20} className="text-[#10B981] fill-[#10B981] text-white" />
+              <div className="shrink-0 ml-2">
+                <CheckCircle2 size={20} className="text-white fill-[#10B981]" />
               </div>
             </div>
           </div>
