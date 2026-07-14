@@ -83,7 +83,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                             <th className="py-4 px-6 whitespace-nowrap">Number</th>
                             <th className="py-4 px-6 whitespace-nowrap">Tone</th>
                             <th className="py-4 px-6 whitespace-nowrap">Intent</th>
-                            <th className="py-4 px-8 whitespace-nowrap">Pricing discussed</th>
+                            <th className="py-4 px-8 whitespace-nowrap text-center">Pricing discussed</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#EDF3FD] bg-white">
@@ -118,7 +118,7 @@ const AiChatTable = ({ searchQuery = "" }: AiChatTableProps) => {
                                         {chat.intent}
                                     </td>
 
-                                    <td className="py-4 px-8  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap">
+                                    <td className="py-4 px-8  text-[16px] text-[#0D1C2E] font-medium whitespace-nowrap text-center">
                                         {chat.pricingDiscussed}
                                     </td>
                                 </tr>
