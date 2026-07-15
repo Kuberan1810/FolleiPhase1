@@ -44,9 +44,14 @@ const OrganizationDetails: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-0 w-full h-full flex items-center justify-center p-4 md:p-8 font-inter overflow-hidden">
+    <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-[#E8F0F8] via-[#F8FAFC] to-[#DCE6ED] p-4 md:p-8 font-inter overflow-hidden">
       
-
+      {/* Background blur overlays */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] rounded-full bg-blue-300/40 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] rounded-full bg-cyan-200/40 blur-[120px]" />
+        <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] rounded-full bg-blue-200/30 blur-[100px]" />
+      </div>
 
       {/* Main Content Card - Flex Layout Chassis */}
       <div className="relative z-10 w-full max-w-[1200px] h-full max-h-[900px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] flex flex-col animate-in fade-in zoom-in duration-500">
@@ -67,7 +72,7 @@ const OrganizationDetails: React.FC = () => {
 
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-6">
-            <h1 className="text-[32px] md:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-[40px] tracking-[-0.9px]">
+            <h1 className="text-[22px] sm:text-[26px] md:text-[30px] lg:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-tight tracking-[-0.9px]">
               What best describes your organization?
             </h1>
             <p className="text-[16px] font-normal text-[#767587]">

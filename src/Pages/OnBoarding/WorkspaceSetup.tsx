@@ -73,7 +73,7 @@ const WorkspaceSetup: React.FC = () => {
 
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-6">
-            <h1 className="text-[32px] md:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-[40px] tracking-[-0.9px]">
+            <h1 className="text-[22px] sm:text-[26px] md:text-[30px] lg:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-tight tracking-[-0.9px]">
               Set Up Your Workspace
             </h1>
             <p className="text-[16px] font-normal text-[#767587]">

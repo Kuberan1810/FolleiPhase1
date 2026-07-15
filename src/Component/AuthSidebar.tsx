@@ -32,11 +32,11 @@ const AuthSidebar = ({
       </div>
 
       {/* Illustration */}
-      <div className="absolute bottom-0   hidden md:flex items-end justify-end pointer-events-none z-10">
+      <div className="relative flex-1 min-h-0 w-[calc(100%+1.5rem)] lg:w-[calc(100%+3rem)] hidden md:flex items-end justify-end pointer-events-none z-10 mt-6 -mr-6 lg:-mr-12 -mb-6 lg:-mb-12">
         <img
           src={Dashboard}
           alt="AI Agent Illustration"
-          className="max-w-[90%] h-auto object-contain object-right-bottom drop-shadow-[0_15px_40px_rgba(0,0,0,0.3)] rounded-tl-xl"
+          className="max-w-full max-h-full object-contain object-right-bottom drop-shadow-[0_15px_40px_rgba(0,0,0,0.3)] rounded-tl-xl ml-auto"
         />
       </div>
 

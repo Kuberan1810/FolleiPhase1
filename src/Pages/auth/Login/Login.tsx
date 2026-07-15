@@ -8,10 +8,10 @@ const Login = () => {
             <AuthSidebar />
 
             {/* Right Content */}
-            <div className="flex-1 bg-white flex flex-col justify-center items-center px-6 overflow-y-auto">
+            <div className="flex-1 bg-white flex flex-col md:justify-center items-center px-6 py-4 md:py-0 overflow-y-auto">
                 {/* Mobile Logo */}
-                <div className="md:hidden w-full max-w-sm flex flex-col items-start mb-8">
-                    <div className="w-24 mb-6">
+                <div className="md:hidden w-full max-w-sm flex flex-col items-start mb-6">
+                    <div className="w-24 mb-5">
                         <img src={FolleiLogo} alt="Follei" />
                     </div>
                     <h2 className="text-[26px] font-bold text-gray-900 mb-1 font-manrope">Welcome back</h2>

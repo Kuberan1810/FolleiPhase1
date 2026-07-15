@@ -20,7 +20,7 @@ const OnBoarding: React.FC = () => {
       <div className="relative z-10 w-full max-w-[640px] bg-white rounded-[24px] shadow-[0_8px_40px_rgba(0,0,0,0.06)] p-8 md:p-10 flex flex-col items-center text-center animate-in fade-in zoom-in duration-500">
         
         {/* Header */}
-        <h1 className="text-[36px] font-bold font-inter text-[#0D1C2E] mb-3 leading-[40px] tracking-[-0.9px]">
+        <h1 className="text-[26px] sm:text-[30px] md:text-[36px] font-bold font-inter text-[#0D1C2E] mb-3 leading-tight tracking-[-0.9px]">
           Let's Get Started
         </h1>
         <p className="text-[16px] font-normal font-inter text-[#767587] mb-8 leading-[29.3px] tracking-normal w-full max-w-none">

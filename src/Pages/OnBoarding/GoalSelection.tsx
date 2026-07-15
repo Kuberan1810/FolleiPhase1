@@ -115,7 +115,7 @@ const GoalSelection: React.FC = () => {
           </div>
 
           {/* Header & Skip Button */}
-          <div className="relative flex flex-col items-center text-center mb-6 w-full">
+          <div className="relative flex flex-col items-center text-center mb-6 w-full pt-10 lg:pt-0">
             <div className="absolute top-0 right-0">
               <button 
                 onClick={() => navigate('/')}
@@ -124,7 +124,7 @@ const GoalSelection: React.FC = () => {
                 Skip
               </button>
             </div>
-            <h1 className="text-[32px] md:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-[40px] tracking-[-0.9px]">
+            <h1 className="text-[22px] sm:text-[26px] md:text-[30px] lg:text-[36px] font-bold text-[#0D1C2E] mb-3 leading-tight tracking-[-0.9px]">
               What would you like to achieve first?
             </h1>
             <p className="text-[16px] font-normal text-[#767587]">
