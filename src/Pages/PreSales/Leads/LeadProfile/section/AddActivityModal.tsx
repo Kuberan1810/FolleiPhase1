@@ -18,6 +18,22 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
   const [priority, setPriority] = useState<"High" | "Medium" | "Low">("Medium");
   const [notes, setNotes] = useState("");
   const [reminder, setReminder] = useState<"15 MIN" | "1 HOUR" | "1 DAY">("1 HOUR");
+  const editorRef = React.useRef<HTMLDivElement>(null);
+  const [activeFormats, setActiveFormats] = useState({ bold: false, italic: false, list: false });
+
+  const checkFormat = () => {
+    setActiveFormats({
+      bold: document.queryCommandState('bold'),
+      italic: document.queryCommandState('italic'),
+      list: document.queryCommandState('insertUnorderedList')
+    });
+  };
+
+  React.useEffect(() => {
+    if (editorRef.current && notes === "") {
+      editorRef.current.innerHTML = "";
+    }
+  }, [notes]);
 
   if (!isOpen) return null;
 
@@ -135,20 +151,54 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
             <label className="text-[11px] font-semibold text-[#464652] uppercase tracking-wider">
               Activity Notes
             </label>
-            <div className="flex items-center gap-3 text-[#64748B]">
-              <button type="button" className="hover:text-[#1E293B] font-bold text-sm cursor-pointer">B</button>
-              <button type="button" className="hover:text-[#1E293B] italic font-serif text-sm cursor-pointer">I</button>
-              <button type="button" className="hover:text-[#1E293B] cursor-pointer flex items-center"><List size={14} /></button>
-              <button type="button" className="hover:text-[#1E293B] cursor-pointer flex items-center"><Paperclip size={14} /></button>
+            <div className="flex items-center gap-2 text-[#64748B]">
+              <button 
+                type="button" 
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false, ''); checkFormat(); }} 
+                className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer font-bold text-sm ${activeFormats.bold ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
+              >
+                B
+              </button>
+              <button 
+                type="button" 
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('italic', false, ''); checkFormat(); }} 
+                className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer italic font-serif text-sm ${activeFormats.italic ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
+              >
+                I
+              </button>
+              <button 
+                type="button" 
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('insertUnorderedList', false, ''); checkFormat(); }} 
+                className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer ${activeFormats.list ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
+              >
+                <List size={14} />
+              </button>
+              <div className="w-[1px] h-4 bg-slate-200 mx-1"></div>
+              <button 
+                type="button" 
+                className="w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer hover:bg-slate-100 hover:text-[#1E293B]"
+              >
+                <Paperclip size={14} />
+              </button>
             </div>
           </div>
-          <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Add a note or @mention team member..."
-            rows={3}
-            className="w-full px-4 py-2.5 bg-[#FFFFFF] border border-[#F3F4FC] rounded-[16px] text-[14px] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-[#004370]/10 focus:border-[#004370] placeholder-[#94A3B8]"
-          />
+          <div className="relative w-full bg-[#FFFFFF] border border-[#F3F4FC] rounded-[16px] focus-within:ring-2 focus-within:ring-[#004370]/10 focus-within:border-[#004370] min-h-[90px] overflow-hidden flex flex-col">
+            <div
+              ref={editorRef}
+              contentEditable
+              onInput={(e) => { setNotes(e.currentTarget.innerHTML); checkFormat(); }}
+              onKeyUp={checkFormat}
+              onMouseUp={checkFormat}
+              onFocus={checkFormat}
+              className="w-full flex-1 px-4 py-2.5 text-[14px] text-[#1E293B] focus:outline-none"
+              style={{ minHeight: '90px' }}
+            />
+            {notes === "" && (
+              <div className="absolute top-2.5 left-4 text-[#94A3B8] text-[14px] pointer-events-none">
+                Add a note or @mention team member...
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Set Reminder */}

@@ -132,7 +132,7 @@ const CustomerJourneyFunnel: React.FC = () => {
   };
 
   return (
-    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-auto lg:h-[440px]">
+    <div className="BoxStyle p-6 lg:pt-5 lg:pb-4 bg-white border border-[#EDF3FD] rounded-[24px] flex flex-col h-full lg:min-h-[440px]">
       <div className="mb-4 text-left">
         <h3 className="tracking-normal font-semibold text-[#1E293B] text-[20px] leading-[20px]">
           Customer Journey Funnel
@@ -197,9 +197,10 @@ const CustomerJourneyFunnel: React.FC = () => {
               return (
                 <g
                   key={stage.id}
-                  className={`cursor-pointer transition-all duration-300 `}
+                  className={`cursor-pointer transition-all duration-300 outline-none [-webkit-tap-highlight-color:transparent]`}
                   onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onTouchStart={() => setHoveredIndex(hoveredIndex === idx ? null : idx)}
                 >
                   <path
                     d={stage.path}

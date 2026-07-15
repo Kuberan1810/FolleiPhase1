@@ -58,6 +58,8 @@ const DashboardLayout = () => {
     },
   ];
 
+  const [activeColumnIndex, setActiveColumnIndex] = useState<number | null>(null);
+
   // Overview columns heights matching Figma specs (Apr is 200px, June is 240px)
   const overviewData: Record<string, any[]> = {
     "Month": [
@@ -123,28 +125,31 @@ const DashboardLayout = () => {
 
         {/* 1. Overview Chart Card */}
         <div
-          className="col-span-12 lg:col-span-7 xl:col-span-4 rounded-[20px] p-5 relative overflow-hidden flex flex-col justify-between w-full h-full"
+          className="col-span-12 lg:col-span-7 xl:col-span-4 rounded-[20px] p-5 relative flex flex-col justify-between w-full h-full"
           style={{
             background: 'linear-gradient(180deg, #B4CCFF 0%, #8EB0EF 100%)',
             boxShadow: '0px 4px 4px 0px #E5ECFB'
           }}
         >
-          {/* SVG mountain background layer */}
-          <svg className="absolute bottom-[48px] left-0 w-full h-[240px] z-0 pointer-events-none" viewBox="0 0 524 240" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="mountainGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#014370" />
-                <stop offset="100%" stopColor="#A0BEFF" />
-              </linearGradient>
-            </defs>
-            <path d={generateWavePath(overviewColumns, 15)} fill="#014370" opacity="0.25" style={{ transition: 'd 0.5s ease-in-out' }} />
-            <path d={generateWavePath(overviewColumns, 0)} fill="url(#mountainGrad)" style={{ transition: 'd 0.5s ease-in-out' }} />
-          </svg>
+          {/* Background layer container for rounded corners */}
+          <div className="absolute inset-0 overflow-hidden rounded-[20px] pointer-events-none">
+            {/* SVG mountain background layer */}
+            <svg className="absolute bottom-[48px] left-0 w-full h-[240px] z-0 pointer-events-none" viewBox="0 0 524 240" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="mountainGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#014370" />
+                  <stop offset="100%" stopColor="#A0BEFF" />
+                </linearGradient>
+              </defs>
+              <path d={generateWavePath(overviewColumns, 15)} fill="#014370" opacity="0.25" style={{ transition: 'd 0.5s ease-in-out' }} />
+              <path d={generateWavePath(overviewColumns, 0)} fill="url(#mountainGrad)" style={{ transition: 'd 0.5s ease-in-out' }} />
+            </svg>
 
-          {/* Dashed threshold line */}
-          <svg className="absolute left-6 right-6 bottom-[48px] h-[2px] z-0 pointer-events-none" style={{ width: 'calc(100% - 48px)' }}>
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="5,5" />
-          </svg>
+            {/* Dashed threshold line */}
+            <svg className="absolute left-6 right-6 bottom-[48px] h-[2px] z-0 pointer-events-none" style={{ width: 'calc(100% - 48px)' }}>
+              <line x1="0" y1="1" x2="100%" y2="1" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="5,5" />
+            </svg>
+          </div>
 
           {/* Card Header */}
           <div className="flex items-center justify-between relative z-20">
@@ -181,10 +186,17 @@ const DashboardLayout = () => {
           <div className="relative z-10 flex flex-col justify-end h-[240px] mb-8">
             <div className="flex justify-between items-end px-1" style={{ height: '240px' }}>
               {overviewColumns.map((col, idx) => (
-                <div key={idx} className="relative flex flex-col items-center justify-end h-full group" style={{ width: "61px" }}>
+                <div 
+                  key={idx} 
+                  className="relative flex flex-col items-center justify-end h-full group outline-none [-webkit-tap-highlight-color:transparent]" 
+                  style={{ width: "61px" }}
+                  onMouseEnter={() => setActiveColumnIndex(idx)}
+                  onMouseLeave={() => setActiveColumnIndex(null)}
+                  onClick={() => setActiveColumnIndex(activeColumnIndex === idx ? null : idx)}
+                >
                   {col.tooltip && (
                     <div
-                      className="absolute left-1/2 -translate-x-1/2 bg-white text-slate-800 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-md flex-col items-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none flex"
+                      className={`absolute left-1/2 -translate-x-1/2 bg-white text-slate-800 text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-md flex-col items-center z-20 transition-opacity duration-200 pointer-events-none flex ${activeColumnIndex === idx ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'}`}
                       style={{ bottom: `${col.height + 12}px` }}
                     >
                       <span className="whitespace-nowrap relative z-10 text-[12px]">{col.tooltip}</span>

@@ -2,11 +2,20 @@ import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./Routes";
 import { Toaster } from "react-hot-toast";
 import { SalesProvider } from "../Context/SalesContext";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
+      <Toaster position={isMobile ? "bottom-center" : "top-right"} />
       <SalesProvider>
         <AppRoutes />
       </SalesProvider>

@@ -28,6 +28,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const ScopeChart: React.FC = () => {
+  const [activeTooltip, setActiveTooltip] = React.useState<any>(null);
+
+  const handleInteraction = (e: any) => {
+    if (e && e.activePayload) {
+      setActiveTooltip(e);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTooltip(null);
+  };
+
   return (
     <div className="col-span-12 lg:col-span-7 BoxStyle flex flex-col justify-between h-[360px]">
       {/* Legend Header */}
@@ -47,9 +59,17 @@ const ScopeChart: React.FC = () => {
       </div>
 
       {/* Recharts Area */}
-      <div className="relative flex-1 w-full min-h-0 mt-2">
+      <div className="relative flex-1 w-full min-h-0 mt-2 outline-none [-webkit-tap-highlight-color:transparent]" onMouseLeave={handleMouseLeave}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 20, right: 10, left: 10, bottom: 20 }}>
+          <AreaChart 
+            data={data} 
+            margin={{ top: 20, right: 10, left: 10, bottom: 20 }}
+            onMouseMove={handleInteraction}
+            onClick={handleInteraction}
+            onTouchStart={handleInteraction}
+            onTouchMove={handleInteraction}
+            style={{ outline: 'none' }}
+          >
             <defs>
               <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#17BB84" stopOpacity={0.25} />
@@ -72,7 +92,8 @@ const ScopeChart: React.FC = () => {
               tick={{ fill: "#000000", fontSize: 16, fontWeight: 500 }} 
               dy={15}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5ECFB', strokeWidth: 1, strokeDasharray: '4 4' }} />
+            {/* Keep Recharts Tooltip for the cursor line, but hide its content */}
+            <Tooltip content={() => null} cursor={{ stroke: '#E5ECFB', strokeWidth: 1, strokeDasharray: '4 4' }} />
             
             <Area 
               type="monotone" 
@@ -111,6 +132,19 @@ const ScopeChart: React.FC = () => {
             />
           </AreaChart>
         </ResponsiveContainer>
+
+        {/* Manual Tooltip Overlay for Mobile/Touch Support */}
+        {activeTooltip && activeTooltip.activePayload && (
+          <div 
+            className="absolute z-50 pointer-events-none transform -translate-x-1/2 -translate-y-full pb-3"
+            style={{ 
+              left: activeTooltip.activeCoordinate?.x, 
+              top: activeTooltip.activeCoordinate?.y 
+            }}
+          >
+            <CustomTooltip active={true} payload={activeTooltip.activePayload} label={activeTooltip.activeLabel} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -337,7 +337,7 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                     </button>
 
                     {isFilterOpen && (
-                        <div className="absolute right-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                        <div className="absolute left-0 sm:left-auto sm:right-0 mt-3.5 w-[200px] bg-white z-50 font-manrope animate-in fade-in slide-in-from-top-2 duration-200 border border-slate-200 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                             <div className="mb-4">
                                 <div
                                     onClick={() => setIsStatusExpanded(!isStatusExpanded)}
@@ -402,7 +402,7 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                 onClick={() => setIsSortOpen(false)}
                             />
 
-                            <div className="absolute right-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 w-[220px] bg-white border border-slate-200 rounded-2xl z-50 overflow-hidden shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
                                 {/* Dropdown Header */}
                                 <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2 bg-[#F8FAFC]">
                                     <ArrowUpDown className="w-3.5 h-3.5 text-[#004370]" />
