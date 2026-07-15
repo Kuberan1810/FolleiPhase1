@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpDown, ChevronLeft } from 'lucide-react';
+import { ArrowUpDown, ChevronLeft, Play, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Sort } from 'iconsax-react';
 import { initialLeads } from '../../Leads/data/mockLeads';
@@ -131,6 +131,29 @@ const MOCK_ACTIVITIES: ActivityItem[] = [
     }
 ];
 
+interface MessageItem {
+    sender: 'handle' | 'follei';
+    text?: string;
+    time: string;
+    isAudio?: boolean;
+    duration?: string;
+}
+
+const CHAT_HISTORY: Record<string, MessageItem[]> = {
+    "1": [
+        { sender: 'handle', text: 'Hi, I saw your website and wanted to know more about your AI-powered sales assistant.', time: '10:20 AM' },
+        { sender: 'follei', text: 'Sure! Follei helps businesses automate lead qualification, follow-ups, and customer engagement through AI conversations.', time: '10:20 AM' },
+        { sender: 'handle', text: 'Sounds good. Does it integrate with WhatsApp?', time: '10:20 AM' },
+        { sender: 'follei', text: 'Yes, it integrates directly with WhatsApp and can handle customer inquiries automatically while escalating important conversations to your team.', time: '10:20 AM' },
+        { sender: 'handle', text: "That's exactly what we're looking for. Can you explain the pricing?", time: '10:20 AM' },
+        { sender: 'handle', isAudio: true, duration: '02:45', time: '10:20 AM' }
+    ],
+    "default": [
+        { sender: 'handle', text: 'Is there a free trial for the premium features?', time: '11:15 AM' },
+        { sender: 'follei', text: 'Yes! We offer a 14-day free trial with full access to all AI intelligence features. No credit card is required to sign up.', time: '11:16 AM' }
+    ]
+};
+
 const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
     campaign,
     activities,
@@ -138,6 +161,18 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
 }) => {
     const navigate = useNavigate();
     const listData = activities || MOCK_ACTIVITIES;
+
+    const [selectedHandle, setSelectedHandle] = useState<any | null>(null);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+    const handleOpenHistory = (handle: any) => {
+        setSelectedHandle(handle);
+        setIsDrawerOpen(true);
+    };
+
+    const handleCloseHistory = () => {
+        setIsDrawerOpen(false);
+    };
 
     const [activeStatuses, setActiveStatuses] = useState<string[]>([]);
     const [tempStatuses, setTempStatuses] = useState<string[]>([]);
@@ -600,6 +635,9 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                     <th className="h-12 py-0 pl-6 pr-8 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
                                         Status
                                     </th>
+                                    <th className="h-12 py-0 px-6 text-[12px] font-semibold text-[#434655] bg-[#F6FAFF] uppercase tracking-[1.5px] whitespace-nowrap">
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -655,11 +693,22 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                                                     {act.status}
                                                 </span>
                                             </td>
+                                            <td className="py-4 px-6 align-middle whitespace-nowrap">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleOpenHistory(act);
+                                                    }}
+                                                    className="relative text-[#23669C] hover:text-[#194E73] text-[16px] font-medium cursor-pointer border-none bg-transparent active:scale-95 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out after:bg-[#194E73]"
+                                                >
+                                                    History
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={4} className="py-12 text-center">
+                                        <td colSpan={5} className="py-12 text-center">
                                             <div className="flex flex-col items-center justify-center text-slate-400 gap-2">
                                                 <span className="text-[16px] font-semibold text-slate-500">No records found</span>
                                             </div>
@@ -670,6 +719,91 @@ const AdminNeeds: React.FC<AllEngagementActivitiesProps> = ({
                         </table>
                     </div>
                 </div>
+            </div>
+
+            {/* History Drawer */}
+            <div
+                className={`fixed inset-0 bg-black/40 z-[9998] transition-opacity duration-300 ${isDrawerOpen && selectedHandle ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                onClick={handleCloseHistory}
+            />
+            <div
+                className={`fixed top-0 right-0 h-full w-full max-w-[450px] bg-white z-[9999] shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${isDrawerOpen && selectedHandle ? "translate-x-0" : "translate-x-full"}`}
+            >
+                {selectedHandle && (
+                    <>
+                        <div className="p-6 bg-white flex items-center gap-4">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-[20px] font-bold shrink-0 bg-linear-to-t from-[#6C86C9] to-[#0B4984]`}>
+                                {selectedHandle.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <h3 className=" font-semibold md:text-[20px] text-lg text-[#0F172A] leading-snug capitalize">
+                                    {selectedHandle.name}
+                                </h3>
+                                <p className=" text-[14px] font-medium text-[#64748B] leading-none mt-1">
+                                    {selectedHandle.email}
+                                </p>
+                            </div>
+                            <div className="ml-auto">
+                                <button
+                                    onClick={handleCloseHistory}
+                                    className="p-1.5 hover:bg-slate-100 rounded-full transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center text-[#64748B] hover:text-[#0F172A]"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="w-full shadow-xs">
+                            <hr className="border border-[#EDF3FD] m-0" />
+                        </div>
+                        <div className="flex-1 overflow-y-auto px-6 py-3 space-y-6 bg-slate-50/20">
+                            {(CHAT_HISTORY[selectedHandle.id] || CHAT_HISTORY['default']).map((msg, idx) => {
+                                const isMe = msg.sender === 'follei';
+                                return (
+                                    <div key={idx} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+                                        {msg.isAudio ? (
+                                            <>
+                                                <div className="border border-[#EDF3FD] rounded-[10px] p-2.5 pl-3 pr-5 flex items-center gap-4 bg-[#F8FAFC] mt-2 select-none shadow-xs">
+                                                    <button className="w-9 h-9 rounded-[12px] bg-[#059669] flex items-center justify-center text-white cursor-pointer hover:bg-[#059669] transition-colors border-none shrink-0 flex items-center justify-center">
+                                                        <Play size={18} color="#fff" fill="#fff " />
+                                                    </button>
+                                                    <div className="flex flex-col gap-1">
+                                                        <div className="flex items-end gap-[3px] h-[22px] px-1">
+                                                            {[4, 6, 3, 4, 7, 10, 8, 6, 5, 8, 11, 9, 7, 6, 4, 5, 7, 9, 6, 5, 9, 11, 7, 9, 6, 5, 8].map((height, i) => (
+                                                                <div
+                                                                    key={i}
+                                                                    className="w-[4px] rounded-full"
+                                                                    style={{
+                                                                        height: `${height * 1.8}px`,
+                                                                        backgroundColor: i % 3 === 0 ? "#34D399" : i % 3 === 1 ? "#10B981" : "#6EE7B7"
+                                                                    }}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                        <div className="flex justify-between text-[10px] text-[#64748B] font-normal px-1">
+                                                            <span>00:00</span>
+                                                            <span>{msg.duration}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div
+                                                className={`shadow-sm rounded-[16px] p-[16px] text-[14px] leading-relaxed max-w-[85%] flex flex-col gap-1 
+                                                ${isMe ? 'bg-[#004370] text-white' : 'bg-[#DFF2FE] text-[#004370]'}`}
+                                            >
+                                                <span>{msg.text}</span>
+                                                <span className={`text-[12px] font-medium font-manrope mt-1 px-1 ${isMe ? 'text-blue-100/80 self-end' : 'text-[#94A3B8] self-start'}`}>
+                                                    {msg.time}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

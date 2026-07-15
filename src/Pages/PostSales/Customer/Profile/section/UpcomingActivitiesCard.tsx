@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Phone } from 'lucide-react';
+import { Phone, Presentation } from 'lucide-react';
 import AddActivityModal from './AddActivityModal';
 import BtnComSecondary from '../../../../../Component/BtnComSecondary';
 
@@ -20,7 +20,37 @@ const UpcomingActivitiesCard = () => {
   const [activities, setActivities] = useState(initialActivities);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddActivity = (newActivity: any) => {
+  const handleAddActivity = (newAct: {
+    title: string;
+    date: string;
+    time: string;
+    priority: "High" | "Medium" | "Low";
+  }) => {
+    let Icon = Phone;
+    let iconBg = 'bg-[#EAF2FF]';
+    let iconColor = 'text-[#004370]';
+    
+    if (
+      newAct.title.toLowerCase().includes("demo") ||
+      newAct.title.toLowerCase().includes("product") ||
+      newAct.title.toLowerCase().includes("presentation")
+    ) {
+      Icon = Presentation;
+      iconBg = 'bg-purple-100';
+      iconColor = 'text-purple-600';
+    }
+
+    const newActivity = {
+      id: activities.length + 1,
+      title: newAct.title,
+      time: `${newAct.date} • ${newAct.time}`,
+      icon: Icon,
+      iconBg,
+      iconColor,
+      iconFill: '#004370',
+      badge: newAct.priority === "High" ? { text: 'High Priority', bg: 'bg-[#22C55E10]', color: 'text-[#22C55E]' } : undefined
+    };
+
     setActivities([newActivity, ...activities]);
   };
 
