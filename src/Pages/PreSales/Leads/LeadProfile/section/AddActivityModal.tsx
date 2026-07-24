@@ -19,7 +19,22 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
   const [notes, setNotes] = useState("");
   const [reminder, setReminder] = useState<"15 MIN" | "1 HOUR" | "1 DAY">("1 HOUR");
   const editorRef = React.useRef<HTMLDivElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [attachments, setAttachments] = useState<File[]>([]);
   const [activeFormats, setActiveFormats] = useState({ bold: false, italic: false, list: false });
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setAttachments([...attachments, ...newFiles]);
+    }
+    // reset input so the same file can be uploaded again if removed
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments(attachments.filter((_, i) => i !== index));
+  };
 
   const checkFormat = () => {
     setActiveFormats({
@@ -48,6 +63,7 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
     });
     setTitle("");
     setNotes("");
+    setAttachments([]);
     onClose();
   };
 
@@ -152,30 +168,38 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
               Activity Notes
             </label>
             <div className="flex items-center gap-2 text-[#64748B]">
-              <button 
-                type="button" 
-                onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false, ''); checkFormat(); }} 
+              <button
+                type="button"
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('bold', false, ''); checkFormat(); }}
                 className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer font-bold text-sm ${activeFormats.bold ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
               >
                 B
               </button>
-              <button 
-                type="button" 
-                onMouseDown={(e) => { e.preventDefault(); document.execCommand('italic', false, ''); checkFormat(); }} 
+              <button
+                type="button"
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('italic', false, ''); checkFormat(); }}
                 className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer italic font-serif text-sm ${activeFormats.italic ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
               >
                 I
               </button>
-              <button 
-                type="button" 
-                onMouseDown={(e) => { e.preventDefault(); document.execCommand('insertUnorderedList', false, ''); checkFormat(); }} 
+              <button
+                type="button"
+                onMouseDown={(e) => { e.preventDefault(); document.execCommand('insertUnorderedList', false, ''); checkFormat(); }}
                 className={`w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer ${activeFormats.list ? 'bg-[#004370] text-white' : 'hover:bg-slate-100 hover:text-[#1E293B]'}`}
               >
                 <List size={14} />
               </button>
               <div className="w-[1px] h-4 bg-slate-200 mx-1"></div>
-              <button 
-                type="button" 
+              <input
+                type="file"
+                multiple
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
                 className="w-7 h-7 flex items-center justify-center rounded transition-colors cursor-pointer hover:bg-slate-100 hover:text-[#1E293B]"
               >
                 <Paperclip size={14} />
@@ -190,12 +214,24 @@ const AddActivityModal: React.FC<AddActivityModalProps> = ({
               onKeyUp={checkFormat}
               onMouseUp={checkFormat}
               onFocus={checkFormat}
-              className="w-full flex-1 px-4 py-2.5 text-[14px] text-[#1E293B] focus:outline-none"
+              className="w-full flex-1 px-4 py-2.5 text-[14px] text-[#1E293B] focus:outline-none [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:mb-1"
               style={{ minHeight: '90px' }}
             />
             {notes === "" && (
               <div className="absolute top-2.5 left-4 text-[#94A3B8] text-[14px] pointer-events-none">
                 Add a note or @mention team member...
+              </div>
+            )}
+            {attachments.length > 0 && (
+              <div className="flex flex-wrap gap-2 p-3 border-t border-[#F3F4FC] bg-slate-50 mt-auto">
+                {attachments.map((file, idx) => (
+                  <div key={idx} className="flex items-center gap-1.5 bg-white border border-[#E2E8F0] px-2.5 py-1.5 rounded-md text-[12px] text-[#1E293B]">
+                    <span className="truncate max-w-[150px]">{file.name}</span>
+                    <button type="button" onClick={() => removeAttachment(idx)} className="text-[#94A3B8] hover:text-red-500 cursor-pointer">
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>

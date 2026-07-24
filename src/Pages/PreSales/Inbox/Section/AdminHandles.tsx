@@ -239,6 +239,8 @@ const AdminHandles: React.FC = () => {
                     <p className="m-0 font-normal text-sm md:text-base leading-[24px] md:leading-[36px] text-[#6B7280]">
                         Management suite for automated intelligence and data synchronization
                     </p>
+
+                    
                 </div>
 
                 <div className="flex items-center gap-6 px-1 relative">
@@ -263,7 +265,7 @@ const AdminHandles: React.FC = () => {
                                         {isStatusExpanded ? '▼' : '▶'}
                                     </span>
                                     <span className="text-[12px] font-bold text-[#004370] uppercase tracking-[1px]">
-                                        Status
+                                        Status 
                                     </span>
                                 </div>
                                 {isStatusExpanded && (
