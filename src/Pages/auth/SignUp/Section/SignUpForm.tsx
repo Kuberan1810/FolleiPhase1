@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '../../Components/Input';
+import { Checkbox } from '../../signIn/Section/Checkbox';
 import Google from '../../../../assets/auth/google-logo.svg';
 
 interface SignUpFormProps {
@@ -23,11 +24,14 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   const [workEmail, setWorkEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
     workEmail?: string;
     password?: string;
+    agreedToTerms?: string;
   }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -43,6 +47,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
       newErrors.workEmail = 'Please enter a valid email address';
     }
     if (!password) newErrors.password = 'Password is required';
+    if (!agreedToTerms) newErrors.agreedToTerms = 'You must agree to the Terms of Service';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -111,19 +116,42 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
         </div>
 
-        {/* Terms of Service & Privacy Policy Agreement */}
-        <div className="text-center pt-2 pb-1">
-          <p className="text-xs text-[#444748] font-normal leading-relaxed">
-            I agree to the{' '}
-            <a href="#" className="font-semibold text-[#191C1E] hover:underline">
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a href="#" className="font-semibold text-[#191C1E] hover:underline">
-              Privacy Policy
-            </a>
-            .
-          </p>
+        {/* Terms of Service & Privacy Policy Agreement Checkbox */}
+        <div className="pt-2 pb-1">
+          <Checkbox
+            id="agree-terms"
+            checked={agreedToTerms}
+            onChange={(checked) => {
+              setAgreedToTerms(checked);
+              if (errors.agreedToTerms) {
+                setErrors((prev) => ({ ...prev, agreedToTerms: undefined }));
+              }
+            }}
+            label={
+              <span className="text-xs text-[#444748] font-normal leading-relaxed">
+                I agree to the{' '}
+                <a
+                  href="#"
+                  className="font-semibold text-[#191C1E] hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Terms of Service
+                </a>{' '}
+                and{' '}
+                <a
+                  href="#"
+                  className="font-semibold text-[#191C1E] hover:underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Privacy Policy
+                </a>
+                .
+              </span>
+            }
+          />
+          {errors.agreedToTerms && (
+            <p className="mt-1 text-xs text-red-500">{errors.agreedToTerms}</p>
+          )}
         </div>
 
         {/* Continue Button */}

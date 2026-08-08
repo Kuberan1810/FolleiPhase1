@@ -23,7 +23,7 @@ export default function AppRoutes() {
       <Route path="/signup" element={<SignUp />} />
 
       {/* Onboarding Routes */}
-      <Route path="/onboarding" element={<Navigate to="/onboarding/company-website" replace />} />
+      {/* <Route path="/onboarding" element={<Navigate to="/onboarding/company-website" replace />} /> */}
       <Route path="/onboarding/company-website" element={<CompanyWebsite />} />
       <Route path="/onboarding/workspace" element={<Workspace />} />
       <Route path="/onboarding/company-details" element={<CompanyDetails />} />
