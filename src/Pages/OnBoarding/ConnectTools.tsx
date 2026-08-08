@@ -122,7 +122,7 @@ const ConnectTools: React.FC = () => {
             return (
               <div
                 key={tool.id}
-                className="bg-white rounded-[8px] border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] hover:shadow-md hover:border-gray-300 transition-all"
+                className="bg-white rounded-[8px] border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] hover:shadow-md transition-all"
               >
                 <div>
                   {/* Top Bar: Icon */}
@@ -146,20 +146,18 @@ const ConnectTools: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => toggleConnect(tool.id)}
-                    className={`w-full py-2.5 px-4 rounded-[4px] text-[14px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isConnected
+                    className={`w-full py-2.5 px-4 text-[14px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isConnected
                       ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
                       : 'bg-[#000000] text-white hover:bg-black shadow-sm'
                       }`}
                   >
                     {isConnected ? (
                       <>
-                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                         <span>Connected</span>
                       </>
                     ) : (
                       <>
                         <span>Connect</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
                       </>
                     )}
                   </button>
@@ -169,7 +167,7 @@ const ConnectTools: React.FC = () => {
           })}
 
           {/* 10th Card: See More / Other */}
-          <div className="bg-white rounded-xl border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] hover:border-gray-400 transition-all min-h-[190px]">
+          <div className="bg-white rounded-xl border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all min-h-[190px]">
             <div className="my-auto flex flex-col items-center">
               <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-2">
                 <MoreHorizontal className="w-5 h-5" />
@@ -179,10 +177,9 @@ const ConnectTools: React.FC = () => {
 
             <button
               type="button"
-              className="w-full py-2.5 px-4 bg-[#0F172A] hover:bg-black text-white text-[14px] font-semibold rounded-[4px] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+              className="w-full py-2.5 px-4 bg-[#0F172A] hover:bg-black text-white text-[14px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
             >
               <span>See more</span>
-              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

@@ -126,7 +126,7 @@ const Workspace: React.FC = () => {
             <div className="flex justify-end border-t border-[#ECEEF0] pt-4 mt-6">
               <button
                 type="submit"
-                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold rounded-[4px] shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
