@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800;900&family=Urbanist:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 @plugin "tailwind-scrollbar";
 
 @theme {
-    --font-inter: "Urbanist", sans-serif;
-
-
+    --font-inter: "Inter", sans-serif;
     --animate-spin-slow: spin 4s linear infinite;
     --animate-spin-reverse: spin-reverse 6s linear infinite;
     --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
@@ -14,7 +12,6 @@
     --animate-float: float 3s ease-in-out infinite;
     --animate-shine: shine 3s infinite;
 }
-
 @keyframes spin-reverse {
     from {
         transform: rotate(360deg);
@@ -77,25 +74,10 @@
 
 body {
 
-    font-family: "Urbanist", sans-serif;
+    font-family: "Inter", sans-serif;
 
 }
 
-.BoxStyle {
-    padding: 28px;
-    border-radius: 20px;
-    border: 1px solid #EDF3FD;
-    background-color: white;
-}
-
-
-.font-urbanist {
-    font-family: 'Urbanist', sans-serif !important;
-}
-
-.premium-shadow {
-    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4), 0 8px 10px -6px rgba(37, 99, 235, 0.4);
-}
 
 /* Scrollbar Hide Utilities */
 .scrollbar-hide::-webkit-scrollbar,
@@ -236,4 +218,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-}
+}

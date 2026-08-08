@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./Routes";
 import { Toaster } from "react-hot-toast";
-import { SalesProvider } from "../Context/SalesContext";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -16,9 +15,9 @@ function App() {
   return (
     <BrowserRouter>
       <Toaster position={isMobile ? "bottom-center" : "top-right"} />
-      <SalesProvider>
-        <AppRoutes />
-      </SalesProvider>
+
+      <AppRoutes />
+
     </BrowserRouter>
   );
 }
