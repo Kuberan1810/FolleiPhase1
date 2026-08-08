@@ -73,9 +73,24 @@
 }
 
 body {
-
     font-family: "Inter", sans-serif;
+}
 
+/* Custom Light Gray Text Selection */
+::selection {
+    background-color: #e2e8f0;
+    color: #191C1E;
+}
+
+/* Custom Light Gray Input Autofill Override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #f3f4f6 inset !important;
+    -webkit-text-fill-color: #191C1E !important;
+    caret-color: #191C1E;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 

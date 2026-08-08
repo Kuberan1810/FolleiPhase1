@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "../Pages/auth/signIn/SignIn";
 import SignUp from "../Pages/auth/SignUp/SignUp";
+import CompanyWebsite from "../Pages/OnBoarding/CompanyWebsite";
 
 export default function AppRoutes() {
   return (
@@ -9,6 +10,9 @@ export default function AppRoutes() {
       <Route path="/" element={<Navigate to="/signin" replace />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      
+      {/* Onboarding Routes */}
+      <Route path="/onboarding/company-website" element={<CompanyWebsite />} />
     
 
       {/* Fallback Route */}
