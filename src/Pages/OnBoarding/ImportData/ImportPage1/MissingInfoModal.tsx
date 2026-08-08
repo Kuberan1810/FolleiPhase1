@@ -90,7 +90,7 @@ const MissingInfoModal: React.FC<MissingInfoModalProps> = ({
           <button
             type="button"
             onClick={onUploadMore}
-            className="px-5 py-2.5 rounded-[10px] border border-[#CBD5E1] bg-white hover:bg-slate-50 text-[14px] font-medium text-[#1E293B] cursor-pointer shadow-xs transition-all active:scale-[0.98]"
+            className="px-5 py-2.5 rounded-none border border-[#CBD5E1] bg-white hover:bg-slate-50 text-[14px] font-medium text-[#1E293B] cursor-pointer shadow-xs transition-all active:scale-[0.98]"
           >
             Upload more files
           </button>
@@ -98,7 +98,7 @@ const MissingInfoModal: React.FC<MissingInfoModalProps> = ({
           <button
             type="button"
             onClick={onContinueAnyway}
-            className="px-6 py-2.5 rounded-[10px] bg-[#004370] hover:bg-[#003357] text-[14px] font-medium text-white cursor-pointer shadow-xs transition-all active:scale-[0.98]"
+            className="px-6 py-2.5 rounded-none bg-black hover:bg-[#1A1A1A] text-[14px] font-medium text-white cursor-pointer shadow-xs transition-all active:scale-[0.98]"
           >
             Continue anyway
           </button>

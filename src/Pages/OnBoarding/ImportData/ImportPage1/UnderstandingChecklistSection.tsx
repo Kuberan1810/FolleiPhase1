@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Check, X, ChevronDown, ChevronUp } from "lucide-react";
 import type { UnderstandingCategory, ChecklistItem } from "./types";
 
@@ -17,6 +17,20 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
   subtitle = "Follei automatically analyzes your files and builds business context for your AI-powered sales workspace.",
   onItemClick,
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollUp = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: -120, behavior: "smooth" });
+    }
+  };
+
+  const scrollDown = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: 120, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="w-full">
       {/* Header Info */}
@@ -32,20 +46,31 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
       )}
 
       {/* Main Card Container */}
-      <div className="bg-white border border-[#E2E8F0] rounded-[24px] p-6 sm:p-7 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-        <div className="max-h-[540px] overflow-y-auto pr-2 space-y-6 onboarding-scroll">
-          {categories.map((category, catIdx) => (
+      <div className="bg-white border border-[#E2E8F0] rounded-[24px] p-6 sm:p-7 shadow-[0_2px_8px_rgba(0,0,0,0.02)] relative">
+        {/* Top Scroll Indicator */}
+        <div className="flex justify-end pr-1 mb-1">
+          <button
+            type="button"
+            onClick={scrollUp}
+            className="text-[#94A3B8] hover:text-[#0F172A] p-0.5 transition-colors cursor-pointer"
+            aria-label="Scroll up"
+          >
+            <ChevronUp size={16} strokeWidth={2.2} />
+          </button>
+        </div>
+
+        {/* Scrollable Categories List */}
+        <div
+          ref={scrollContainerRef}
+          className="max-h-[500px] overflow-y-auto pr-2 space-y-6 onboarding-scroll"
+        >
+          {categories.map((category) => (
             <div key={category.id}>
               {/* Category Header */}
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase">
                   {category.title}
                 </h3>
-                {catIdx === 0 ? (
-                  <ChevronUp size={14} className="text-[#94A3B8]" />
-                ) : (
-                  <ChevronDown size={14} className="text-[#94A3B8]" />
-                )}
               </div>
 
               {/* Items List */}
@@ -135,6 +160,18 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Bottom Scroll Indicator */}
+        <div className="flex justify-end pr-1 mt-2">
+          <button
+            type="button"
+            onClick={scrollDown}
+            className="text-[#94A3B8] hover:text-[#0F172A] p-0.5 transition-colors cursor-pointer"
+            aria-label="Scroll down"
+          >
+            <ChevronDown size={16} strokeWidth={2.2} />
+          </button>
         </div>
       </div>
     </div>
