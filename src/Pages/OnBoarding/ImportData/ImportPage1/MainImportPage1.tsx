@@ -184,8 +184,8 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-between py-10 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-[1240px] w-full mx-auto">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-between py-10 px-6 sm:px-10 lg:px-16">
+      <div className="max-w-[1460px] w-full mx-auto">
         {/* Page Header */}
         <PageHeaderSection
           title="Import Your Business Data"
