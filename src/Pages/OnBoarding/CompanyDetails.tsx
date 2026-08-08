@@ -1,0 +1,213 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronDown, ArrowRight, ArrowLeft } from 'lucide-react';
+
+const companySizes = ['1-10', '11-50', '51-200', '201-500', '500+'];
+
+const industries = [
+  'Software / SaaS',
+  'E-commerce & Retail',
+  'Financial Services',
+  'Healthcare & Life Sciences',
+  'Marketing & Advertising',
+  'Education',
+  'Consulting & Professional Services',
+  'Other',
+];
+
+const countries = [
+  'United States',
+  'United Kingdom',
+  'Canada',
+  'Australia',
+  'India',
+  'Germany',
+  'France',
+  'Singapore',
+];
+
+const timezones = [
+  'UTC -08:00 (PST)',
+  'UTC -05:00 (EST)',
+  'UTC +00:00 (GMT)',
+  'UTC +01:00 (CET)',
+  'UTC +05:30 (IST)',
+  'UTC +08:00 (SGT)',
+  'UTC +10:00 (AEST)',
+];
+
+const CompanyDetails: React.FC = () => {
+  const navigate = useNavigate();
+  const [website, setWebsite] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [companySize, setCompanySize] = useState('11-50');
+  const [country, setCountry] = useState('');
+  const [timezone, setTimezone] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate('/onboarding/define-customer');
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F7F9FB] flex flex-col items-center justify-center p-4 sm:p-6 font-sans">
+      <div className="w-full max-w-[640px] flex flex-col items-center">
+        {/* Step Indicator & Header Title */}
+        <div className="text-center mb-6">
+          <span className="text-[12px] font-medium uppercase tracking-widest text-[#505F76] block mb-1">
+            STEP 2 OF 3
+          </span>
+          <h1 className="text-[32px] font-bold text-[#000000] tracking-tight">
+            Company Details
+          </h1>
+          <p className="text-[14px] text-[#444748] mt-2 font-normal">
+            Tell us about your organization to help us tailor your experience.
+          </p>
+        </div>
+
+        {/* Card Box */}
+        <div className="w-full bg-white rounded-[8px] border border-[#E2E8F0] shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)] p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Section 1: BASIC INFO */}
+            <div>
+              <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
+                BASIC INFO
+              </label>
+              <input
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                placeholder="Company Website"
+                className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] placeholder-[#444748] focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all"
+              />
+            </div>
+
+            {/* Section 2: INDUSTRY & SECTOR */}
+            <div>
+              <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
+                INDUSTRY & SECTOR
+              </label>
+              <div className="relative">
+                <select
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer invalid:text-[#444748]"
+                >
+                  <option value="" disabled hidden>
+                    Select Industry
+                  </option>
+                  {industries.map((ind) => (
+                    <option key={ind} value={ind} className="text-[#0F172A]">
+                      {ind}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Section 3: COMPANY SIZE */}
+            <div>
+              <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
+                COMPANY SIZE
+              </label>
+              <div className="grid grid-cols-5 gap-2 sm:gap-2.5">
+                {companySizes.map((size) => {
+                  const isSelected = companySize === size;
+                  return (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => setCompanySize(size)}
+                      className={`h-[56px] px-2 rounded-[4px] text-xs font-semibold transition-all cursor-pointer text-center flex items-center justify-center ${isSelected
+                        ? 'border-[#004370] bg-[#F0F7FF] text-[#004370] shadow-sm ring-1 ring-[#004370]'
+                        : 'bg-[#F2F4F6] text-[#475569] hover:bg-gray-200/60'
+                        }`}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Section 4: LOCATION */}
+            <div>
+              <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
+                LOCATION
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Country */}
+                <div className="relative">
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer"
+                  >
+                    <option value="" disabled hidden>
+                      Country
+                    </option>
+                    {countries.map((c) => (
+                      <option key={c} value={c} className="text-[#0F172A]">
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+
+                {/* Time Zone */}
+                <div className="relative">
+                  <select
+                    value={timezone}
+                    onChange={(e) => setTimezone(e.target.value)}
+                    className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer"
+                  >
+                    <option value="" disabled hidden>
+                      Time Zone
+                    </option>
+                    {timezones.map((tz) => (
+                      <option key={tz} value={tz} className="text-[#0F172A]">
+                        {tz}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Actions Row */}
+            <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-6">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-[2px] bg-[#E2E8F0] rounded-full" />
+                <div className="w-5 h-[2px] bg-[#E2E8F0] rounded-full" />
+                <div className="w-8 h-[3px] bg-[#000000] rounded-full" />
+                <span className="text-[12px] text-[#64748B] font-normal ml-1">
+                  Setup nearly complete
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold rounded-[4px] shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <span>Complete Setup</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <span className="w-2 h-2 bg-[#CBD5E1] rounded-full transition-all" />
+          <span className="w-2.5 h-2.5 bg-[#0F172A] rounded-full transition-all" />
+          <span className="w-2 h-2 bg-[#CBD5E1] rounded-full transition-all" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CompanyDetails;

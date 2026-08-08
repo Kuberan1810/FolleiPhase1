@@ -77,14 +77,13 @@ export const CompanyWebsite: React.FC = () => {
       handleAnalyze();
     } else {
       console.log('Proceeding to next step with website:', websiteUrl);
-      // Navigate to next onboarding page
-      navigate('/onboarding/connect-tools');
+      navigate('/onboarding/workspace');
     }
   };
 
   const handleSkip = () => {
     console.log('Skipping company website step');
-    navigate('/onboarding/connect-tools');
+    navigate('/onboarding/workspace');
   };
 
   return (
