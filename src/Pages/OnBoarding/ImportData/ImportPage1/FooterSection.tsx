@@ -13,7 +13,6 @@ const FooterSection: React.FC<FooterSectionProps> = ({
   onSkip,
   onContinue,
   isLoading = false,
-  isAnalyzed = false,
   continueText = "Continue",
   skipText = "Skip for now",
 }) => {
@@ -28,16 +27,12 @@ const FooterSection: React.FC<FooterSectionProps> = ({
         {skipText}
       </button>
 
-      {/* Continue button */}
+      {/* Continue button: black background with no border radius */}
       <button
         type="button"
         onClick={onContinue}
         disabled={isLoading}
-        className={`px-7 py-2.5 rounded-[8px] text-[14px] font-medium transition-all duration-200 cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 ${
-          isAnalyzed
-            ? "bg-[#004370] hover:bg-[#003357] active:scale-[0.98] text-white"
-            : "bg-[#64748B] hover:bg-[#475569] active:bg-[#334155] text-white"
-        }`}
+        className="px-8 py-2.5 rounded-none bg-black hover:bg-[#1A1A1A] active:bg-[#262626] text-white text-[14px] font-medium transition-colors duration-150 cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
       >
         {isLoading && (
           <svg

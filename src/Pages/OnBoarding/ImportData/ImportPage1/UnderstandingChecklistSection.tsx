@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Check, X, ChevronDown, ChevronUp } from "lucide-react";
 import type { UnderstandingCategory, ChecklistItem } from "./types";
 
@@ -17,6 +17,110 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
   subtitle = "Follei automatically analyzes your files and builds business context for your AI-powered sales workspace.",
   onItemClick,
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [thumbTop, setThumbTop] = useState(0);
+  const [thumbHeight, setThumbHeight] = useState(64);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartY = useRef(0);
+  const dragStartScrollTop = useRef(0);
+
+  // Sync thumb position with scroll
+  const handleScroll = useCallback(() => {
+    if (!scrollContainerRef.current || !trackRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+    const trackHeight = trackRef.current.clientHeight;
+
+    if (scrollHeight <= clientHeight) {
+      setThumbHeight(trackHeight);
+      setThumbTop(0);
+      return;
+    }
+
+    const calculatedThumbHeight = Math.max(
+      (clientHeight / scrollHeight) * trackHeight,
+      40
+    );
+    setThumbHeight(calculatedThumbHeight);
+
+    const maxScroll = scrollHeight - clientHeight;
+    const maxThumbTop = trackHeight - calculatedThumbHeight;
+    const currentThumbTop = (scrollTop / maxScroll) * maxThumbTop;
+    setThumbTop(currentThumbTop);
+  }, []);
+
+  // Update on resize or categories change
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("resize", handleScroll);
+    return () => window.removeEventListener("resize", handleScroll);
+  }, [categories, handleScroll]);
+
+  const scrollUp = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: -140, behavior: "smooth" });
+    }
+  };
+
+  const scrollDown = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: 140, behavior: "smooth" });
+    }
+  };
+
+  // Click on scroll track
+  const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!trackRef.current || !scrollContainerRef.current) return;
+    const rect = trackRef.current.getBoundingClientRect();
+    const clickY = e.clientY - rect.top;
+    const trackHeight = rect.height;
+    const { scrollHeight, clientHeight } = scrollContainerRef.current;
+    const maxScroll = scrollHeight - clientHeight;
+
+    const targetScroll = (clickY / trackHeight) * maxScroll;
+    scrollContainerRef.current.scrollTo({ top: targetScroll, behavior: "smooth" });
+  };
+
+  // Drag thumb
+  const handleThumbMouseDown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsDragging(true);
+    dragStartY.current = e.clientY;
+    if (scrollContainerRef.current) {
+      dragStartScrollTop.current = scrollContainerRef.current.scrollTop;
+    }
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !trackRef.current || !scrollContainerRef.current) return;
+      const deltaY = e.clientY - dragStartY.current;
+      const trackHeight = trackRef.current.clientHeight;
+      const { scrollHeight, clientHeight } = scrollContainerRef.current;
+      const maxScroll = scrollHeight - clientHeight;
+      const maxThumbTop = trackHeight - thumbHeight;
+
+      if (maxThumbTop > 0) {
+        const scrollDelta = (deltaY / maxThumbTop) * maxScroll;
+        scrollContainerRef.current.scrollTop = dragStartScrollTop.current + scrollDelta;
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, thumbHeight]);
+
   return (
     <div className="w-full">
       {/* Header Info */}
@@ -32,20 +136,20 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
       )}
 
       {/* Main Card Container */}
-      <div className="bg-white border border-[#E2E8F0] rounded-[24px] p-6 sm:p-7 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-        <div className="max-h-[540px] overflow-y-auto pr-2 space-y-6 onboarding-scroll">
-          {categories.map((category, catIdx) => (
+      <div className="bg-white border border-[#E2E8F0] rounded-[24px] shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden flex flex-row">
+        {/* Left: Scrollable Categories List */}
+        <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex-1 p-6 sm:p-7 max-h-[520px] overflow-y-auto no-scrollbar space-y-6"
+        >
+          {categories.map((category) => (
             <div key={category.id}>
               {/* Category Header */}
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase">
                   {category.title}
                 </h3>
-                {catIdx === 0 ? (
-                  <ChevronUp size={14} className="text-[#94A3B8]" />
-                ) : (
-                  <ChevronDown size={14} className="text-[#94A3B8]" />
-                )}
               </div>
 
               {/* Items List */}
@@ -135,6 +239,52 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Right: Custom Dedicated Scrollbar Rail */}
+        <div
+          className="w-[30px] shrink-0 select-none flex flex-col items-center justify-between py-3"
+          style={{
+            backgroundColor: "rgba(249, 250, 251, 0.8)",
+            borderLeft: "1px solid #F9FAFB",
+          }}
+        >
+          {/* Top Chevron */}
+          <button
+            type="button"
+            onClick={scrollUp}
+            className="text-[#94A3B8] hover:text-[#0F172A] p-0.5 transition-colors cursor-pointer"
+            aria-label="Scroll up"
+          >
+            <ChevronUp size={15} strokeWidth={2.4} />
+          </button>
+
+          {/* Scroll Track */}
+          <div
+            ref={trackRef}
+            onClick={handleTrackClick}
+            className="relative flex-1 w-full my-1 flex justify-center cursor-pointer"
+          >
+            {/* Scroll Thumb Pill */}
+            <div
+              onMouseDown={handleThumbMouseDown}
+              className="absolute w-[6px] rounded-full bg-[#94A3B8] hover:bg-[#64748B] transition-colors cursor-grab active:cursor-grabbing"
+              style={{
+                height: `${thumbHeight}px`,
+                transform: `translateY(${thumbTop}px)`,
+              }}
+            />
+          </div>
+
+          {/* Bottom Chevron */}
+          <button
+            type="button"
+            onClick={scrollDown}
+            className="text-[#94A3B8] hover:text-[#0F172A] p-0.5 transition-colors cursor-pointer"
+            aria-label="Scroll down"
+          >
+            <ChevronDown size={15} strokeWidth={2.4} />
+          </button>
         </div>
       </div>
     </div>
