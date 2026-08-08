@@ -119,7 +119,7 @@ const CompanyDetails: React.FC = () => {
                       key={size}
                       type="button"
                       onClick={() => setCompanySize(size)}
-                      className={`h-[56px] px-2 rounded-[4px] text-xs font-semibold transition-all cursor-pointer text-center flex items-center justify-center ${isSelected
+                      className={`h-[56px] px-2 text-xs font-semibold transition-all cursor-pointer text-center flex items-center justify-center ${isSelected
                         ? 'border-[#004370] bg-[#F0F7FF] text-[#004370] shadow-sm ring-1 ring-[#004370]'
                         : 'bg-[#F2F4F6] text-[#475569] hover:bg-gray-200/60'
                         }`}
@@ -179,18 +179,18 @@ const CompanyDetails: React.FC = () => {
 
             {/* Bottom Actions Row */}
             <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-6">
-              <div className="flex items-center gap-1.5">
+              {/* <div className="flex items-center gap-1.5">
                 <div className="w-5 h-[2px] bg-[#E2E8F0] rounded-full" />
                 <div className="w-5 h-[2px] bg-[#E2E8F0] rounded-full" />
                 <div className="w-8 h-[3px] bg-[#000000] rounded-full" />
                 <span className="text-[12px] text-[#64748B] font-normal ml-1">
                   Setup nearly complete
                 </span>
-              </div>
+              </div> */}
 
               <button
                 type="submit"
-                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold rounded-[4px] shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                className="ml-auto h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
               >
                 <span>Complete Setup</span>
                 <ArrowRight className="w-4 h-4" />
