@@ -93,6 +93,100 @@ input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+/* ---- Sync experience motion ---- */
+@keyframes follei-particle {
+  0% {
+    opacity: 0;
+    left: 0;
+    transform: scale(0.8);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    left: calc(100% - 24px);
+    transform: scale(0.8);
+  }
+}
+
+@keyframes follei-particle-v {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--flow-distance, 90px)) scale(0.8);
+  }
+}
+
+@keyframes follei-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes follei-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes follei-halo {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.06);
+  }
+}
+
+.flow-particle {
+  animation: follei-particle 2.4s linear infinite;
+}
+
+.flow-particle-v {
+  animation: follei-particle-v 2.4s linear infinite;
+}
+
+.rise-in {
+  animation: follei-rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pop-in {
+  animation: follei-pop 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.node-halo {
+  animation: follei-halo 2.8s ease-in-out infinite;
+}
+
 
 /* Scrollbar Hide Utilities */
 .scrollbar-hide::-webkit-scrollbar,

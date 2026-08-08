@@ -8,6 +8,8 @@ import CompanyDetails from "../Pages/OnBoarding/CompanyDetails";
 import DefineCustomer from "../Pages/OnBoarding/DefineCustomer";
 import ConnectTools from "../Pages/OnBoarding/ConnectTools";
 import FinalPage from "../Pages/OnBoarding/FinalPage";
+import Animation from "../Pages/OnBoarding/modal/ToolConnectModal";
+
 
 export default function AppRoutes() {
   return (
@@ -29,6 +31,8 @@ export default function AppRoutes() {
       <Route path="/onboarding/connect-tools" element={<ConnectTools />} />
       <Route path="/onboarding/import-data" element={<ImportData />} />
       <Route path="/onboarding/final" element={<FinalPage />} />
+      <Route path="/animation" element={<Animation />} />
+
 
       
     </Routes>
