@@ -41,6 +41,7 @@ const CompanyDetails: React.FC = () => {
   const navigate = useNavigate();
   const [website, setWebsite] = useState('');
   const [industry, setIndustry] = useState('');
+  const [customIndustry, setCustomIndustry] = useState('');
   const [companySize, setCompanySize] = useState('11-50');
   const [country, setCountry] = useState('');
   const [timezone, setTimezone] = useState('');
@@ -93,6 +94,16 @@ const CompanyDetails: React.FC = () => {
                 placeholder="Select Industry"
                 options={industries}
               />
+              {industry === 'Other' && (
+                <div className="mt-3">
+                  <Input
+                    type="text"
+                    value={customIndustry}
+                    onChange={(e) => setCustomIndustry(e.target.value)}
+                    placeholder="Specify your industry / sector"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Section 3: COMPANY SIZE */}

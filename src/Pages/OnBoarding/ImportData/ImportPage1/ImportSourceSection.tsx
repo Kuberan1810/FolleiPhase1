@@ -50,13 +50,7 @@ const ImportSourceSection: React.FC<ImportSourceSectionProps> = ({
       label: "Upload CSV",
       icon: <FileSpreadsheet size={16} strokeWidth={1.8} className="text-[#475569]" />,
       action: () => (onUploadCsvClick ? onUploadCsvClick() : onSelectSource?.("upload_csv")),
-    },
-    {
-      id: "connect_website",
-      label: "Connect Website",
-      icon: <Globe size={16} strokeWidth={1.8} className="text-[#475569]" />,
-      action: () => onSelectSource?.("connect_website"),
-    },
+    }
   ];
 
   return (
@@ -65,7 +59,7 @@ const ImportSourceSection: React.FC<ImportSourceSectionProps> = ({
         Or import from
       </p>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {sources.map((src) => (
           <button
             key={src.id}
