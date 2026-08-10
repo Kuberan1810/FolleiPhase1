@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Check, MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import googleIcon from '../../assets/icons/google.png';
 import freshsalesIcon from '../../assets/icons/freshsales.png';
@@ -106,10 +106,10 @@ const ConnectTools: React.FC = () => {
       <div className="w-full mx-auto">
         {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-[48px] font-semibold text-[#191C1E] tracking-tight">
+          <h1 className="text-[30px] font-bold text-[#111827] tracking-tight">
             Connect Your Tools
           </h1>
-          <p className="text-[18px] text-[#444748] mt-2 max-w-2xl leading-relaxed">
+          <p className="text-[15px] text-[#6B7280] mt-2 max-w-2xl leading-relaxed">
             Supercharge your workflow by connecting your favorite communication and CRM tools. Sync data seamlessly across your existing ecosystem.
           </p>
         </div>
@@ -122,7 +122,7 @@ const ConnectTools: React.FC = () => {
             return (
               <div
                 key={tool.id}
-                className="bg-white rounded-[8px] border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] hover:shadow-md transition-all"
+                className="bg-white rounded-[8px] border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10)] hover:shadow-md transition-all"
               >
                 <div>
                   {/* Top Bar: Icon */}
@@ -167,7 +167,7 @@ const ConnectTools: React.FC = () => {
           })}
 
           {/* 10th Card: See More / Other */}
-          <div className="bg-white rounded-xl border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all min-h-[190px]">
+          <div className="bg-white rounded-xl border border-gray-200/50 p-5 sm:p-6 flex flex-col justify-between items-center text-center shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10)] transition-all min-h-[190px]">
             <div className="my-auto flex flex-col items-center">
               <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-2">
                 <MoreHorizontal className="w-5 h-5" />
@@ -204,7 +204,6 @@ const ConnectTools: React.FC = () => {
             }`}
         >
           <span>Finish Setup</span>
-          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </div>
