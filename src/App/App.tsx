@@ -14,7 +14,18 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Toaster position={isMobile ? "bottom-center" : "top-right"} />
+      <Toaster 
+        position={isMobile ? "bottom-center" : "top-right"} 
+        toastOptions={{
+          style: {
+            fontSize: '13px',
+            padding: '10px 14px',
+            borderRadius: '12px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+            border: '1px solid #F1F5F9'
+          },
+        }}
+      />
 
       <AppRoutes />
 
