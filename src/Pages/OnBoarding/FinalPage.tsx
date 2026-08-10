@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Check, ArrowRight, Image } from 'lucide-react';
+import { Check, Image } from 'lucide-react';
 
 interface ChecklistItem {
   id: string;
@@ -72,7 +72,6 @@ const FinalPage: React.FC = () => {
             className="px-6 py-2.5 bg-[#000000] hover:bg-black text-white text-[14px] font-semibold shadow-sm transition-all cursor-pointer flex items-center gap-2"
           >
             <span>Go to Dashboard</span>
-            <ArrowRight className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
