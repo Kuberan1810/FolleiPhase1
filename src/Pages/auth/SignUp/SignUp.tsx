@@ -5,24 +5,51 @@ import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignUpForm from './Section/SignUpForm';
 import GoogleWorkspaceModal from '../modal/GoogleWorkspaceModal';
+import { useSignup } from '../../../hooks/auth/useSignup';
+import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const { startGoogleAuth, isStarting: isGoogleStarting } = useGoogleAuth();
 
-  const handleSignUp = (data: {
+  const { mutate: register, isPending } = useSignup({
+    onSuccess: () => {
+      navigate('/onboarding/company-website');
+    },
+  });
+
+  const handleSignUp = (formData: {
     firstName: string;
     lastName: string;
+    companyName: string;
     workEmail: string;
     password: string;
   }) => {
-    console.log('Signing up with:', data);
-    navigate('/onboarding/workspace');
-  };
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
-  const handleGoogleSignUp = () => {
-    console.log('Initiating Google sign up...');
-    navigate('/onboarding/workspace');
+    register({
+      email: formData.workEmail,
+      password: formData.password,
+      full_name: fullName,
+      tenant_name: formData.companyName,
+      business_email: formData.workEmail,
+      connect_gmail: false,
+      gmail_auto_reply_enabled: true,
+      gmail_campaign_enabled: true,
+      email_connections: [
+        {
+          provider: 'gmail',
+          email_address: formData.workEmail,
+          sender_name: fullName || 'Follei',
+          api_key: '',
+          app_password: '',
+          auto_reply_enabled: true,
+          allow_inbound_lead_creation: true,
+          campaign_enabled: true,
+        },
+      ],
+    });
   };
 
   return (
@@ -37,7 +64,8 @@ export const SignUp: React.FC = () => {
         {/* Card containing Sign Up Form */}
         <SignUpForm
           onSubmit={handleSignUp}
-          onGoogleSignUp={handleGoogleSignUp}
+          onGoogleSignUp={startGoogleAuth}
+          isLoading={isPending || isGoogleStarting}
         />
 
         {/* Footer Link to Sign In */}

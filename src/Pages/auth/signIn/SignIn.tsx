@@ -5,18 +5,15 @@ import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
 import GoogleWorkspaceModal from '../modal/GoogleWorkspaceModal';
+import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const { startGoogleAuth, isStarting } = useGoogleAuth();
 
   const handleSignIn = (data: { email: string; password: string; rememberMe: boolean }) => {
     console.log('Signing in with:', data);
-    navigate('/onboarding/workspace');
-  };
-
-  const handleGoogleSignIn = () => {
-    console.log('Initiating Google sign in...');
     navigate('/onboarding/workspace');
   };
 
@@ -37,8 +34,9 @@ export const SignIn: React.FC = () => {
         {/* Card containing Sign In Form & Social OAuth */}
         <SignInForm
           onSubmit={handleSignIn}
-          onGoogleSignIn={handleGoogleSignIn}
+          onGoogleSignIn={startGoogleAuth}
           onForgotPassword={handleForgotPassword}
+          isLoading={isStarting}
         />
 
         {/* Footer Link to Sign Up */}

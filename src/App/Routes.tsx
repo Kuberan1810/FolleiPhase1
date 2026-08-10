@@ -11,6 +11,8 @@ import FinalPage from "../Pages/OnBoarding/FinalPage";
 import Animation from "../Pages/OnBoarding/modal/ToolConnectModal";
 
 
+import AuthCallback from "../Pages/auth/Callback/AuthCallback";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -21,6 +23,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<SignIn />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
 
       {/* Onboarding Routes */}
       {/* <Route path="/onboarding" element={<Navigate to="/onboarding/company-website" replace />} /> */}

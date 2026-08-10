@@ -7,6 +7,7 @@ interface SignUpFormProps {
   onSubmit?: (data: {
     firstName: string;
     lastName: string;
+    companyName: string;
     workEmail: string;
     password: string;
   }) => void;
@@ -21,6 +22,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [workEmail, setWorkEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,6 +31,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
+    companyName?: string;
     workEmail?: string;
     password?: string;
     agreedToTerms?: string;
@@ -41,6 +44,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
     if (!firstName.trim()) newErrors.firstName = 'First Name is required';
     if (!lastName.trim()) newErrors.lastName = 'Last Name is required';
+    if (!companyName.trim()) newErrors.companyName = 'Company Name is required';
     if (!workEmail.trim()) {
       newErrors.workEmail = 'Work Email is required';
     } else if (!/\S+@\S+\.\S+/.test(workEmail)) {
@@ -56,7 +60,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
     setErrors({});
     if (onSubmit) {
-      onSubmit({ firstName, lastName, workEmail, password });
+      onSubmit({ firstName, lastName, companyName, workEmail, password });
     }
   };
 
@@ -86,6 +90,18 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             required
           />
         </div>
+
+        {/* Company Name Field */}
+        <Input
+          placeholder="Company Name"
+          value={companyName}
+          onChange={(e) => {
+            setCompanyName(e.target.value);
+            if (errors.companyName) setErrors((prev) => ({ ...prev, companyName: undefined }));
+          }}
+          error={errors.companyName}
+          required
+        />
 
         {/* Work Email Field */}
         <Input

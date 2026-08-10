@@ -117,10 +117,14 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         </div>
 
         {/* Google OAuth Button */}
-        <button className='flex items-center justify-center gap-2 border border-[#C4C7C7] rounded-lg px-4 py-3 w-full text-sm text-[#444748] bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none cursor-pointer'>
-
+        <button
+          type="button"
+          onClick={onGoogleSignIn}
+          disabled={isLoading}
+          className="flex items-center justify-center gap-2 border border-[#C4C7C7] rounded-lg px-4 py-3 w-full text-sm text-[#444748] bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <img src={Google} alt="Google" className="w-5 h-5" />
-          Continue with Google
+          <span>Continue with Google</span>
         </button>
       </form>
     </div>
