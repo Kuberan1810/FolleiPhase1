@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Rocket, Globe, TrendingUp, Megaphone, MoreHorizontal, ArrowRight } from 'lucide-react';
+import { Rocket, Globe, TrendingUp, Megaphone, MoreHorizontal } from 'lucide-react';
+import { Input } from '../auth/Components/Input';
 import GoogleWorkspaceModal from '../auth/modal/GoogleWorkspaceModal';
 import CompanyWebsiteModal from './modal/CompanyWebsiteModal';
 
@@ -23,6 +24,7 @@ const Workspace: React.FC = () => {
   const [workspaceName, setWorkspaceName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('founder');
+  const [customRole, setCustomRole] = useState<string>('');
   
   // Sequence: 'google' -> 'website' -> 'none' (reaches Workspace form)
   const [popupStep, setPopupStep] = useState<'google' | 'website' | 'none'>('google');
@@ -53,26 +55,20 @@ const Workspace: React.FC = () => {
         <div className="w-full bg-white rounded-[8px] border border-[#E2E8F0]/50 shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)] p-10">
           <form onSubmit={handleContinue} className="space-y-4">
             {/* Input 1: Workspace Name */}
-            <div>
-              <input
-                type="text"
-                value={workspaceName}
-                onChange={(e) => setWorkspaceName(e.target.value)}
-                placeholder="Workspace Name"
-                className="w-full px-4 py-3 bg-white border border-[#C4C7C7] rounded-[4px] text-[16px] text-[#0F172A] placeholder-[#444748] focus:outline-none focus:border-[#004370] focus:ring-1 focus:ring-[#004370] transition-all"
-              />
-            </div>
+            <Input
+              type="text"
+              value={workspaceName}
+              onChange={(e) => setWorkspaceName(e.target.value)}
+              placeholder="Workspace Name"
+            />
 
             {/* Input 2: Company Name */}
-            <div>
-              <input
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="Company Name"
-                className="w-full px-4 py-3 bg-white border border-[#C4C7C7] rounded-[4px] text-[16px] text-[#0F172A] placeholder-[#444748] focus:outline-none focus:border-[#004370] focus:ring-1 focus:ring-[#004370] transition-all"
-              />
-            </div>
+            <Input
+              type="text"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="Company Name"
+            />
 
             {/* Section: Your Role */}
             <div className="pt-2">
@@ -125,6 +121,17 @@ const Workspace: React.FC = () => {
                   );
                 })}
               </div>
+
+              {selectedRole === 'other' && (
+                <div className="mt-3">
+                  <Input
+                    type="text"
+                    value={customRole}
+                    onChange={(e) => setCustomRole(e.target.value)}
+                    placeholder="Specify your role"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Bottom HorizontalBorder Row */}
