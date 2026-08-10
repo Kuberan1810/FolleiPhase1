@@ -184,16 +184,18 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-between py-10 px-6 sm:px-10 lg:px-16">
-      <div className="max-w-[1460px] w-full mx-auto">
-        {/* Page Header */}
+    <div className="h-screen bg-[#F8FAFC] flex flex-col justify-between py-6 sm:py-8 px-6 sm:px-10 lg:px-16 overflow-hidden font-sans">
+      {/* Page Header (Fixed at top) */}
+      <div className="max-w-[1460px] w-full mx-auto shrink-0 mb-4 sm:mb-6">
         <PageHeaderSection
           title="Import Your Business Data"
           subtitle="Help Follei understand your business, products, customers, pricing, and sales process."
         />
+      </div>
 
-        {/* Two-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+      {/* Two-Column Scrollable Layout */}
+      <div className="max-w-[1460px] w-full mx-auto flex-1 overflow-y-auto pr-2 onboarding-scroll min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pb-6">
           {/* Left Column: Upload or Uploaded Card + Formats + Sources */}
           <div className="lg:col-span-7 flex flex-col">
             {files.length === 0 ? (
@@ -239,6 +241,7 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
               categories={categories}
               showTitle={stage !== "analyzed"}
               onItemClick={(item) => setSelectedModalItem(item)}
+              maxHeightClass={stage === "analyzed" ? "max-h-[260px]" : "max-h-[520px]"}
               title={
                 stage === "analyzing"
                   ? "Analyzing your business data..."
@@ -252,8 +255,10 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
             />
           </div>
         </div>
+      </div>
 
-        {/* Bottom Footer Section */}
+      {/* Bottom Footer Section (Fixed at bottom) */}
+      <div className="max-w-[1460px] w-full mx-auto shrink-0 bg-[#F8FAFC]">
         <FooterSection
           onSkip={handleSkip}
           onContinue={handleContinueClick}

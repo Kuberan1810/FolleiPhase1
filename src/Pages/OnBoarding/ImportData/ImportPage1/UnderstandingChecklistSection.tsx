@@ -8,6 +8,7 @@ interface UnderstandingChecklistSectionProps {
   title?: string;
   subtitle?: string;
   onItemClick?: (item: ChecklistItem) => void;
+  maxHeightClass?: string;
 }
 
 const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps> = ({
@@ -16,6 +17,7 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
   title = "What Follei will understand",
   subtitle = "Follei automatically analyzes your files and builds business context for your AI-powered sales workspace.",
   onItemClick,
+  maxHeightClass = "max-h-[520px]",
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -141,7 +143,7 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 p-6 sm:p-7 max-h-[520px] overflow-y-auto no-scrollbar space-y-6"
+          className={`flex-1 p-6 sm:p-7 ${maxHeightClass} overflow-y-auto no-scrollbar space-y-6`}
         >
           {categories.map((category) => (
             <div key={category.id}>

@@ -227,10 +227,14 @@ function StageRow({ label, state }: { label: string; state: "done" | "active" | 
 
 export function OutlookSyncModal({
   shouldFail = false,
+  toolName = "Outlook",
+  toolLogo,
   onContinue,
   onDisconnect,
 }: {
   shouldFail?: boolean;
+  toolName?: string;
+  toolLogo?: React.ReactNode;
   onContinue?: () => void;
   onDisconnect?: () => void;
 }) {
@@ -238,22 +242,30 @@ export function OutlookSyncModal({
   const [failing, setFailing] = useState(shouldFail);
   const { phase, progress, stage, revealed, found, aiDone } = useTimeline(failing, runKey);
 
+  const stages = [
+    `${toolName} connected`,
+    "Secure connection established",
+    "Reading business data",
+    "Understanding sales context",
+    "Preparing Follei workspace",
+  ];
+
   const heading =
     phase === "error"
       ? "Sync didn't finish"
       : phase === "done"
-        ? "Outlook is connected"
+        ? `${toolName} is connected`
         : phase === "ai"
           ? "Understanding your sales data..."
-          : "Connecting Outlook to Follei";
+          : `Connecting ${toolName} to Follei`;
 
   const sub =
     phase === "error"
-      ? "We couldn't finish syncing your Outlook data."
+      ? `We couldn't finish syncing your ${toolName} data.`
       : phase === "done"
         ? "Your sales activity is now available in Follei."
         : phase === "ai"
-          ? "Follei is turning your Outlook activity into useful sales context."
+          ? `Follei is turning your ${toolName} activity into useful sales context.`
           : "Follei is securely syncing your sales data and preparing your workspace.";
 
   return (
@@ -266,7 +278,7 @@ export function OutlookSyncModal({
       >
         {/* Header */}
         <div className="flex items-start gap-3.5 border-b border-gray-100 px-6 pb-5 pt-6 sm:px-8">
-          <span
+          {/* <span
             className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
               phase === "error"
                 ? "bg-red-50 text-red-600"
@@ -282,7 +294,7 @@ export function OutlookSyncModal({
             ) : (
               <Sparkles className="h-4.5 w-4.5" />
             )}
-          </span>
+          </span> */}
           <div className="min-w-0">
             <h2 className="text-lg font-bold tracking-tight text-[#191C1E] sm:text-xl">
               {heading}
@@ -308,8 +320,8 @@ export function OutlookSyncModal({
               <div className="rounded-2xl border border-gray-100 bg-[#F8FAFC] px-4 py-6 sm:px-8">
                 <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-between sm:gap-4">
                   <FlowNode
-                    logo={<OutlookLogo className="h-10 w-10" />}
-                    label="Outlook"
+                    logo={toolLogo || <OutlookLogo className="h-10 w-10" />}
+                    label={toolName}
                     sub="Your connected account"
                     active={phase !== "done"}
                   />
@@ -353,7 +365,7 @@ export function OutlookSyncModal({
               <div className="mt-7">
                 <div className="flex items-baseline justify-between">
                   <p className="text-sm font-semibold text-[#191C1E]">
-                    {phase === "done" ? "Sync complete" : "Syncing your Outlook data..."}
+                    {phase === "done" ? "Sync complete" : `Syncing your ${toolName} data...`}
                   </p>
                   <span className="text-sm font-bold tabular-nums text-[#2563EB]">{progress}%</span>
                 </div>
@@ -364,7 +376,7 @@ export function OutlookSyncModal({
                   />
                 </div>
                 <ul className="mt-5 space-y-3">
-                  {STAGES.map((s, i) => (
+                  {stages.map((s, i) => (
                     <StageRow
                       key={s}
                       label={s}
@@ -433,7 +445,7 @@ export function OutlookSyncModal({
                 <div className="rise-in mt-8 space-y-5">
                   <div>
                     <h3 className="text-base font-bold text-[#0F172A] tracking-tight">
-                      Your Outlook data is ready
+                      Your {toolName} data is ready
                     </h3>
                     <p className="mt-1 text-sm text-[#64748B] font-normal">
                       Follei successfully connected and analyzed your sales activity.
@@ -481,7 +493,7 @@ export function OutlookSyncModal({
                 onClick={onDisconnect}
                 className="inline-flex h-10 items-center justify-center rounded-lg border border-gray-200 px-4 text-sm font-semibold text-[#191C1E] transition-colors hover:bg-gray-50 cursor-pointer"
               >
-                Disconnect Outlook
+                Disconnect {toolName}
               </button>
               <button
                 type="button"
@@ -499,7 +511,7 @@ export function OutlookSyncModal({
               <button
                 type="button"
                 onClick={onContinue}
-                className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] px-8 text-sm font-semibold text-white transition-colors sm:w-auto sm:min-w-[200px] cursor-pointer shadow-sm"
+                className="inline-flex h-11 w-full items-center justify-center  bg-black hover:bg-[#1D4ED8] px-8 text-sm font-semibold text-white transition-colors sm:w-auto sm:min-w-[200px] cursor-pointer shadow-sm"
               >
                 Continue
               </button>

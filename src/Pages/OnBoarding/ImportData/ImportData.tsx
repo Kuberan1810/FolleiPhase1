@@ -20,7 +20,7 @@ const ImportData: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen overflow-hidden">
       {currentStep === 1 && (
         <MainImportPage1
           onNext={handleNextStep}

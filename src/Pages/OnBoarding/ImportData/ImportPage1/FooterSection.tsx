@@ -17,7 +17,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({
   skipText = "Skip for now",
 }) => {
   return (
-    <div className="w-full border-t border-[#E2E8F0] mt-12 pt-6 pb-8 flex items-center justify-between">
+    <div className="w-full border-t border-[#E2E8F0] mt-2 pt-4 pb-2 flex items-center justify-between">
       {/* Skip for now button */}
       <button
         type="button"

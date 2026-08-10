@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MoreHorizontal } from 'lucide-react';
+import { OutlookSyncModal } from './modal/ToolConnectModal';
 
 import googleIcon from '../../assets/icons/google.png';
 import freshsalesIcon from '../../assets/icons/freshsales.png';
@@ -87,12 +88,37 @@ const toolItems: ToolItem[] = [
 const ConnectTools: React.FC = () => {
   const navigate = useNavigate();
   const [connectedTools, setConnectedTools] = useState<Record<string, boolean>>({});
+  const [connectingTool, setConnectingTool] = useState<ToolItem | null>(null);
 
-  const toggleConnect = (id: string) => {
-    setConnectedTools((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+  const handleConnectClick = (tool: ToolItem) => {
+    if (connectedTools[tool.id]) {
+      setConnectedTools((prev) => ({
+        ...prev,
+        [tool.id]: false,
+      }));
+    } else {
+      setConnectingTool(tool);
+    }
+  };
+
+  const handleModalContinue = () => {
+    if (connectingTool) {
+      setConnectedTools((prev) => ({
+        ...prev,
+        [connectingTool.id]: true,
+      }));
+      setConnectingTool(null);
+    }
+  };
+
+  const handleModalDisconnect = () => {
+    if (connectingTool) {
+      setConnectedTools((prev) => ({
+        ...prev,
+        [connectingTool.id]: false,
+      }));
+      setConnectingTool(null);
+    }
   };
 
   const handleFinish = () => {
@@ -102,20 +128,29 @@ const ConnectTools: React.FC = () => {
   const hasConnectedTool = Object.values(connectedTools).some(Boolean);
 
   return (
-    <div className="min-h-screen bg-[#F7F9FB] flex flex-col justify-between p-6 sm:p-10 font-sans">
-      <div className="w-full mx-auto">
-        {/* Header Section */}
-        <div className="mb-8">
-          <h1 className="text-[30px] font-bold text-[#111827] tracking-tight">
-            Connect Your Tools
-          </h1>
-          <p className="text-[15px] text-[#6B7280] mt-2 max-w-2xl leading-relaxed">
-            Supercharge your workflow by connecting your favorite communication and CRM tools. Sync data seamlessly across your existing ecosystem.
-          </p>
-        </div>
+    <div className="h-screen bg-[#F7F9FB] flex flex-col justify-between p-6 sm:p-10 font-sans overflow-hidden">
+      {connectingTool && (
+        <OutlookSyncModal
+          toolName={connectingTool.name}
+          toolLogo={connectingTool.customIcon}
+          onContinue={handleModalContinue}
+          onDisconnect={handleModalDisconnect}
+        />
+      )}
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+      {/* Header Section (Fixed at top) */}
+      <div className="w-full mx-auto mb-6 shrink-0">
+        <h1 className="text-[30px] font-bold text-[#111827] tracking-tight">
+          Connect Your Tools
+        </h1>
+        <p className="text-[15px] text-[#6B7280] mt-2 max-w-2xl leading-relaxed">
+          Supercharge your workflow by connecting your favorite communication and CRM tools. Sync data seamlessly across your existing ecosystem.
+        </p>
+      </div>
+
+      {/* Tools Grid Container (Only this scrolls) */}
+      <div className="w-full mx-auto flex-1 overflow-y-auto pr-2 onboarding-scroll min-h-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 pb-6">
           {toolItems.map((tool) => {
             const isConnected = connectedTools[tool.id];
 
@@ -133,10 +168,10 @@ const ConnectTools: React.FC = () => {
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-[24px] font-semibold text-[#191C1E]">
+                  <h3 className="text-[20px] font-semibold text-[#191C1E]">
                     {tool.name}
                   </h3>
-                  <p className="text-[16px] text-[#444748] mt-1 leading-relaxed min-h-[24px]">
+                  <p className="text-[14px] text-[#444748] mt-1 leading-relaxed min-h-[24px]">
                     {tool.description}
                   </p>
                 </div>
@@ -145,9 +180,9 @@ const ConnectTools: React.FC = () => {
                 <div className="mt-5 pt-3">
                   <button
                     type="button"
-                    onClick={() => toggleConnect(tool.id)}
+                    onClick={() => handleConnectClick(tool)}
                     className={`w-full py-2.5 px-4 text-[14px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isConnected
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                      ? 'bg-[#D1FAE5] text-[#047C2E] border border-[#047C2E]/20 '
                       : 'bg-[#000000] text-white hover:bg-black shadow-sm'
                       }`}
                   >
@@ -185,7 +220,7 @@ const ConnectTools: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full mx-auto pt-4 border-t border-gray-200/80 flex items-center justify-between">
+      <div className="w-full mx-auto pt-4 mt-2 border-t border-gray-200/80 flex items-center justify-between shrink-0 bg-[#F7F9FB]">
         <button
           type="button"
           onClick={handleFinish}
