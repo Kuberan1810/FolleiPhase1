@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Input } from '../auth/Components/Input';
+import { Select } from '../auth/Components/Select';
 
 const companySizes = ['1-10', '11-50', '51-200', '201-500', '500+'];
 
@@ -73,12 +74,11 @@ const CompanyDetails: React.FC = () => {
               <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
                 BASIC INFO
               </label>
-              <input
+              <Input
                 type="text"
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
                 placeholder="Company Website"
-                className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] placeholder-[#444748] focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all"
               />
             </div>
 
@@ -87,23 +87,12 @@ const CompanyDetails: React.FC = () => {
               <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
                 INDUSTRY & SECTOR
               </label>
-              <div className="relative">
-                <select
-                  value={industry}
-                  onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer invalid:text-[#444748]"
-                >
-                  <option value="" disabled hidden>
-                    Select Industry
-                  </option>
-                  {industries.map((ind) => (
-                    <option key={ind} value={ind} className="text-[#0F172A]">
-                      {ind}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
+              <Select
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                placeholder="Select Industry"
+                options={industries}
+              />
             </div>
 
             {/* Section 3: COMPANY SIZE */}
@@ -119,9 +108,9 @@ const CompanyDetails: React.FC = () => {
                       key={size}
                       type="button"
                       onClick={() => setCompanySize(size)}
-                      className={`h-[56px] px-2 text-xs font-semibold transition-all cursor-pointer text-center flex items-center justify-center ${isSelected
-                        ? 'border-[#004370] bg-[#F0F7FF] text-[#004370] shadow-sm ring-1 ring-[#004370]'
-                        : 'bg-[#F2F4F6] text-[#475569] hover:bg-gray-200/60'
+                      className={`p-3.5 border rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer flex items-center justify-center ${isSelected
+                        ? 'border-black bg-black text-white shadow-sm'
+                        : 'border-[#C4C7C7] bg-white text-[#191C1E] hover:bg-gray-50'
                         }`}
                     >
                       {size}
@@ -138,42 +127,20 @@ const CompanyDetails: React.FC = () => {
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Country */}
-                <div className="relative">
-                  <select
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer"
-                  >
-                    <option value="" disabled hidden>
-                      Country
-                    </option>
-                    {countries.map((c) => (
-                      <option key={c} value={c} className="text-[#0F172A]">
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
+                <Select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="Country"
+                  options={countries}
+                />
 
                 {/* Time Zone */}
-                <div className="relative">
-                  <select
-                    value={timezone}
-                    onChange={(e) => setTimezone(e.target.value)}
-                    className="w-full h-[56px] px-4 bg-[#F2F4F6] rounded-[4px] text-[16px] text-[#0F172A] appearance-none focus:outline-none focus:ring-1 focus:ring-[#004370] transition-all cursor-pointer"
-                  >
-                    <option value="" disabled hidden>
-                      Time Zone
-                    </option>
-                    {timezones.map((tz) => (
-                      <option key={tz} value={tz} className="text-[#0F172A]">
-                        {tz}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-[#64748B] absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
+                <Select
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  placeholder="Time Zone"
+                  options={timezones}
+                />
               </div>
             </div>
 
@@ -193,7 +160,7 @@ const CompanyDetails: React.FC = () => {
                 className="ml-auto h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
               >
                 <span>Complete Setup</span>
-                <ArrowRight className="w-4 h-4" />
+               
               </button>
             </div>
           </form>

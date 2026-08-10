@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, User, Users, ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { Building2, User,Users,ArrowLeft, Check } from 'lucide-react';
 
 interface CustomerTypeOption {
     id: string;
@@ -34,6 +34,7 @@ const customerOptions: CustomerTypeOption[] = [
         subtitle: 'HYBRID MODEL',
         description: 'Sell to both businesses and individual customers.',
         icon: Users,
+        examples: ['Marketplaces', 'D2C + B2B', 'Freemium'],
     },
 ];
 
@@ -65,7 +66,7 @@ const DefineCustomer: React.FC = () => {
                 {/* Form & Cards */}
                 <form onSubmit={handleContinue} className="w-full flex flex-col items-center">
                     {/* Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 w-full mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 w-full mb-8 items-stretch">
                         {customerOptions.map((option) => {
                             const IconComponent = option.icon;
                             const isSelected = selectedType === option.id;
@@ -74,8 +75,8 @@ const DefineCustomer: React.FC = () => {
                                 <div
                                     key={option.id}
                                     onClick={() => setSelectedType(option.id)}
-                                    className={`bg-white rounded-[8px] p-5 sm:p-6 flex flex-col justify-between transition-all cursor-pointer relative ${isSelected
-                                            ? 'border-[#004370] bg-[#F0F7FF]/30 ring-1 ring-[#004370] shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)]'
+                                    className={`bg-white rounded-[8px] p-5 sm:p-6 flex flex-col justify-between transition-all cursor-pointer relative border h-full ${isSelected
+                                            ? 'border-[#004370] bg-[#F0F7FF]/30 shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)]'
                                             : 'border-[#E2E8F0] shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)] hover:border-gray-300'
                                         }`}
                                 >
@@ -92,8 +93,8 @@ const DefineCustomer: React.FC = () => {
                                             {/* Custom Radio Button */}
                                             <div
                                                 className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${isSelected
-                                                        ? 'bg-[#004370] text-white ring-2 ring-[#004370]/20'
-                                                        : 'border-2 border-[#EDEEF0] bg-white'
+                                                    ? 'bg-[#004370] text-white ring-2 ring-[#004370]/20'
+                                                    : 'border-2 border-[#EDEEF0] bg-white'
                                                     }`}
                                             >
                                                 {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
@@ -124,9 +125,9 @@ const DefineCustomer: React.FC = () => {
                                                 {option.examples.map((ex) => (
                                                     <span
                                                         key={ex}
-                                                        className={`px-2 py-0.5 text-[11px] font-medium rounded-md ${isSelected
-                                                                ? 'bg-white text-[#004370] border border-[#004370]/20'
-                                                                : 'bg-[#EDEEF0] text-[#444748]'
+                                                        className={`px-2 py-0.5 text-[11px] font-medium rounded-md border ${isSelected
+                                                            ? 'bg-white text-[#004370] border-[#004370]/20'
+                                                            : 'bg-[#EDEEF0] text-[#444748] border-transparent'
                                                             }`}
                                                     >
                                                         {ex}
@@ -156,7 +157,7 @@ const DefineCustomer: React.FC = () => {
                             className="h-[48px] px-6 bg-[#191C1E] hover:bg-[#191C1E]/90 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
                         >
                             <span>Continue</span>
-                            <ArrowRight className="w-4 h-4" />
+                        
                         </button>
                     </div>
                 </form>
