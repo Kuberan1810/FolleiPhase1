@@ -157,8 +157,16 @@ const UnderstandingChecklistSection: React.FC<UnderstandingChecklistSectionProps
                 {category.items.map((item) => (
                   <li
                     key={item.id}
-                    onClick={() => onItemClick?.(item)}
-                    className="flex items-center justify-between text-[13px] sm:text-[14px] -mx-2 px-2 py-1.5 rounded-lg hover:bg-[#F8FAFC] cursor-pointer transition-colors group"
+                    onClick={() => {
+                      if (item.status === "found" || item.status === "not_found") {
+                        onItemClick?.(item);
+                      }
+                    }}
+                    className={`flex items-center justify-between text-[13px] sm:text-[14px] -mx-2 px-2 py-1.5 rounded-lg transition-colors group ${
+                      item.status === "found" || item.status === "not_found"
+                        ? "hover:bg-[#F8FAFC] cursor-pointer"
+                        : "cursor-default"
+                    }`}
                   >
                     {/* Left: Icon Marker + Name */}
                     <div className="flex items-center gap-3 min-w-0">
