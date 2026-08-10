@@ -29,25 +29,25 @@ const ExtractedDetailsModal: React.FC<ExtractedDetailsModalProps> = ({
     >
       {/* Modal Container */}
       <div
-        className="bg-white rounded-[24px] max-w-[540px] w-full p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative animate-in fade-in zoom-in-95 duration-200"
+        className="bg-white rounded-[24px] max-w-[420px] w-full p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="w-8 h-8 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-slate-50 transition-colors absolute top-6 right-6 cursor-pointer"
+          className="w-7 h-7 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-slate-50 transition-colors absolute top-5 right-5 cursor-pointer"
           aria-label="Close dialog"
         >
-          <X size={16} />
+          <X size={14} />
         </button>
 
         {/* Header */}
-        <div className="pr-10 mb-5">
-          <h2 className="text-[22px] sm:text-[24px] font-bold text-[#0F172A] tracking-[-0.01em]">
+        <div className="pr-8 mb-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-[#0F172A] tracking-[-0.01em]">
             {item.name}
           </h2>
-          <p className="text-[13px] text-[#64748B] mt-1">
+          <p className="text-[12px] text-[#64748B] mt-1">
             {isNotFound
               ? "0 items found — this information was not detected in your uploaded files."
               : `${item.resultText || `${subItems.length} items found`} — extracted from your uploaded files.`}
