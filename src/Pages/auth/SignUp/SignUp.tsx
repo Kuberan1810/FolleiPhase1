@@ -17,13 +17,12 @@ export const SignUp: React.FC = () => {
     password: string;
   }) => {
     console.log('Signing up with:', data);
-    // Open Google Workspace modal after registration
-    setShowModal(true);
+    navigate('/onboarding/workspace');
   };
 
   const handleGoogleSignUp = () => {
     console.log('Initiating Google sign up...');
-    setShowModal(true);
+    navigate('/onboarding/workspace');
   };
 
   return (

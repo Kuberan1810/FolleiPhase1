@@ -112,8 +112,31 @@ export const CompanyWebsite: React.FC = () => {
                 setWebsiteUrl(e.target.value);
                 if (urlError) setUrlError('');
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && websiteUrl.trim() && !isAnalyzing) {
+                  e.preventDefault();
+                  handleAnalyze();
+                }
+              }}
               error={urlError}
               leftIcon={<Globe className="w-4 h-4 stroke-[1.75]" />}
+              rightElement={
+                <button
+                  type="button"
+                  onClick={handleAnalyze}
+                  disabled={!websiteUrl.trim() || isAnalyzing}
+                  className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium px-4 py-3 rounded-md text-xs transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-xs disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Analyzing...</span>
+                    </>
+                  ) : (
+                    <span>Analyze</span>
+                  )}
+                </button>
+              }
             />
             {!urlError && (
               <p className="mt-1.5 text-[13px] text-[#979797] font-normal">
@@ -177,7 +200,7 @@ export const CompanyWebsite: React.FC = () => {
           </div>
 
           {/* Bottom Actions Row */}
-          <div className="flex items-center justify-between ">
+          <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={handleSkip}
@@ -186,32 +209,14 @@ export const CompanyWebsite: React.FC = () => {
               Skip for now
             </button>
 
-            {hasAnalyzed ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3 px-8   text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-sm"
-              >
-                <span>Next</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleAnalyze}
-                disabled={isAnalyzing}
-                className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3 px-8  text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center gap-2 shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className='text-sm' >Analyzing...</span>
-                  </>
-                ) : (
-                  <span className='text-sm'>Analyze Website</span>
-                )}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleNext}
+              className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3 px-8 text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-sm"
+            >
+              <span>Next</span>
+             
+            </button>
           </div>
         </div>
       </div>

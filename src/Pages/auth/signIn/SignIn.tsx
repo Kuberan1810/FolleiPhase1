@@ -12,13 +12,12 @@ export const SignIn: React.FC = () => {
 
   const handleSignIn = (data: { email: string; password: string; rememberMe: boolean }) => {
     console.log('Signing in with:', data);
-    // Open Google Workspace modal after sign in
-    setShowModal(true);
+    navigate('/onboarding/workspace');
   };
 
   const handleGoogleSignIn = () => {
     console.log('Initiating Google sign in...');
-    setShowModal(true);
+    navigate('/onboarding/workspace');
   };
 
   const handleForgotPassword = () => {

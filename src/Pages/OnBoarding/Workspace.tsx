@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Rocket, Globe, TrendingUp, Megaphone, MoreHorizontal, ArrowRight } from 'lucide-react';
+import GoogleWorkspaceModal from '../auth/modal/GoogleWorkspaceModal';
+import CompanyWebsiteModal from './modal/CompanyWebsiteModal';
 
 interface RoleOption {
   id: string;
@@ -21,10 +23,13 @@ const Workspace: React.FC = () => {
   const [workspaceName, setWorkspaceName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('founder');
+  
+  // Sequence: 'google' -> 'website' -> 'none' (reaches Workspace form)
+  const [popupStep, setPopupStep] = useState<'google' | 'website' | 'none'>('google');
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
-    // Navigate to next onboarding step or submit data
+    // Navigate to next onboarding step
     navigate('/onboarding/company-details');
   };
 
@@ -142,6 +147,32 @@ const Workspace: React.FC = () => {
           <span className="w-2 h-2 bg-[#CBD5E1] rounded-full transition-all" />
         </div>
       </div>
+
+      {/* Popup 1: Connect Google Workspace Modal */}
+      <GoogleWorkspaceModal
+        isOpen={popupStep === 'google'}
+        onClose={() => setPopupStep('website')}
+        onContinueWithGoogle={() => {
+          console.log('Connecting Google Workspace...');
+          setPopupStep('website');
+        }}
+        onSkip={() => {
+          setPopupStep('website');
+        }}
+      />
+
+      {/* Popup 2: Connect Company Website Modal */}
+      <CompanyWebsiteModal
+        isOpen={popupStep === 'website'}
+        onClose={() => setPopupStep('none')}
+        onNext={() => {
+          console.log('Company Website analysis done, opening Workspace setup form...');
+          setPopupStep('none');
+        }}
+        onSkip={() => {
+          setPopupStep('none');
+        }}
+      />
     </div>
   );
 };

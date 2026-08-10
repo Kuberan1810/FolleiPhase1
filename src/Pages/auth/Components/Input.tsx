@@ -6,6 +6,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   error?: string;
   isPassword?: boolean;
   leftIcon?: React.ReactNode;
+  rightElement?: React.ReactNode;
   containerClassName?: string;
 }
 
@@ -14,6 +15,7 @@ export const Input: React.FC<InputProps> = ({
   error,
   isPassword = false,
   leftIcon,
+  rightElement,
   type = 'text',
   containerClassName = '',
   className = '',
@@ -41,10 +43,15 @@ export const Input: React.FC<InputProps> = ({
           className={`w-full p-3.5 border border-[#C4C7C7] rounded-lg text-sm text-[#191C1E] placeholder:text-gray-400 bg-white selection:bg-gray-200 selection:text-gray-900 transition-all duration-200 outline-none focus:border-black  focus:ring-black ${
             leftIcon ? 'pl-10' : ''
           } ${
-            isPassword ? 'pr-11' : ''
+            isPassword ? 'pr-11' : rightElement ? 'pr-32' : ''
           } ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
           {...props}
         />
+        {rightElement && (
+          <div className="absolute right-1.5 flex items-center justify-center">
+            {rightElement}
+          </div>
+        )}
         {isPassword && (
           <button
             type="button"
