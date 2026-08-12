@@ -1,7 +1,7 @@
 import React from "react";
 import { X, Check } from "lucide-react";
 import type { ChecklistItem } from "./types";
-import { MOCK_PRODUCT_SUBITEMS } from "./types";
+import { CategorySummaryList } from "./CategorySummaryList";
 
 interface ExtractedDetailsModalProps {
   isOpen: boolean;
@@ -16,10 +16,6 @@ const ExtractedDetailsModal: React.FC<ExtractedDetailsModalProps> = ({
 }) => {
   if (!isOpen || !item) return null;
 
-  const subItems = item.subItems && item.subItems.length > 0
-    ? item.subItems
-    : MOCK_PRODUCT_SUBITEMS;
-
   const isNotFound = item.status === "not_found";
 
   return (
@@ -29,68 +25,41 @@ const ExtractedDetailsModal: React.FC<ExtractedDetailsModalProps> = ({
     >
       {/* Modal Container */}
       <div
-        className="bg-white rounded-[24px] max-w-[540px] w-full p-6 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative animate-in fade-in zoom-in-95 duration-200"
+        className="bg-[#F8FAFC] rounded-[24px] max-w-[640px] w-full shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-8 h-8 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-slate-50 transition-colors absolute top-6 right-6 cursor-pointer"
-          aria-label="Close dialog"
-        >
-          <X size={16} />
-        </button>
-
-        {/* Header */}
-        <div className="pr-10 mb-5">
-          <h2 className="text-[22px] sm:text-[24px] font-bold text-[#0F172A] tracking-[-0.01em]">
-            {item.name}
-          </h2>
-          <p className="text-[13px] text-[#64748B] mt-1">
-            {isNotFound
-              ? "0 items found — this information was not detected in your uploaded files."
-              : `${item.resultText || `${subItems.length} items found`} — extracted from your uploaded files.`}
-          </p>
+        {/* Header - Fixed */}
+        <div className="bg-white px-6 sm:px-7 py-6 border-b border-gray-200 shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-8 h-8 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-slate-50 transition-colors absolute top-6 right-6 cursor-pointer"
+            aria-label="Close dialog"
+          >
+            <X size={16} />
+          </button>
+          
+          <div className="pr-10">
+            <h2 className="text-[22px] sm:text-[24px] font-bold text-[#0F172A] tracking-[-0.01em]">
+              Review: {item.name}
+            </h2>
+            <p className="text-[13px] text-[#64748B] mt-1">
+              {isNotFound
+                ? "This information was not detected in your uploaded files."
+                : `${item.resultText || `Facts found`} — extracted from your data sources.`}
+            </p>
+          </div>
         </div>
 
-        {/* Scrollable Sub-items Cards */}
-        <div className="max-h-[380px] overflow-y-auto pr-1 space-y-3 onboarding-scroll">
-          {subItems.map((sub) => {
-            const isSubNotFound = sub.status === "not_found" || isNotFound;
-
-            return (
-              <div
-                key={sub.id}
-                className={`border rounded-[16px] p-4 flex items-start gap-3.5 transition-all ${
-                  isSubNotFound
-                    ? "border-[#FEE2E2] bg-[#FFF5F5]"
-                    : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"
-                }`}
-              >
-                {/* Icon */}
-                {isSubNotFound ? (
-                  <div className="w-5 h-5 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0 mt-0.5">
-                    <X size={12} strokeWidth={3} />
-                  </div>
-                ) : (
-                  <div className="w-5 h-5 rounded-full bg-[#DCFCE7] text-[#16A34A] flex items-center justify-center shrink-0 mt-0.5">
-                    <Check size={12} strokeWidth={3} />
-                  </div>
-                )}
-
-                {/* Content */}
-                <div className="min-w-0 flex-1">
-                  <h4 className="text-[14px] font-semibold text-[#0F172A]">
-                    {sub.title}
-                  </h4>
-                  <p className="text-[12px] text-[#64748B] mt-0.5 leading-relaxed">
-                    {sub.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+        {/* Scrollable List Container */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-7 onboarding-scroll">
+          {!isNotFound ? (
+            <CategorySummaryList categoryKey={item.id} />
+          ) : (
+            <div className="text-center py-12 text-gray-500 text-sm">
+              No facts could be extracted for this category.
+            </div>
+          )}
         </div>
       </div>
     </div>

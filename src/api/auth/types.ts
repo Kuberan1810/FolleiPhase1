@@ -14,7 +14,7 @@ export interface RegisterPayload {
   password: string;
   full_name: string;
   tenant_name: string;
-  business_email: string;
+  business_email?: string;
   connect_gmail?: boolean;
   gmail_auto_reply_enabled?: boolean;
   gmail_campaign_enabled?: boolean;

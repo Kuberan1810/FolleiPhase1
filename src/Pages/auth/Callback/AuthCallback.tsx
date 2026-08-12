@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../../../api/auth/authApi';
 import { onboardingApi } from '../../../api/onboarding/onboardingApi';
 import { setAuthData } from '../../../lib/auth';
+import { useAuthSession } from '../../../providers/AuthSessionProvider';
 import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 import type { GoogleAuthExchangeResponse } from '../../../api/auth/googleTypes';
 import type { OnboardingStateResponse } from '../../../api/onboarding/types';
@@ -12,6 +13,7 @@ export const AuthCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
   const hasExchangedRef = useRef(false);
   const { startGoogleAuth, isStarting: isRetryingGoogle } = useGoogleAuth();
+  const { login } = useAuthSession();
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [errorTitle, setErrorTitle] = useState<string>('Sign-In Failed');
@@ -152,12 +154,14 @@ export const AuthCallback: React.FC = () => {
         const response = await authApi.exchangeGoogleCode(exchangeCode);
 
         // Store session tokens and user info in existing auth store
-        setAuthData({
+        const authData = {
           access_token: response.access_token,
           refresh_token: response.refresh_token,
           expires_in: response.expires_in,
           user: response.user,
-        });
+        };
+        setAuthData(authData);
+        login(authData);
 
         setExchangeData(response);
         setStatus('success');
@@ -175,17 +179,17 @@ export const AuthCallback: React.FC = () => {
         // Navigate after brief summary display
         setTimeout(() => {
           const isNewUser = response.account?.is_new_user;
-          const readyForAuto = onboardingState?.ready_for_autonomous_actions;
-          const canContinue = onboardingState?.can_continue;
+          const readyForAuto = onboardingState?.data?.ready_for_autonomous_actions;
+          const canContinue = onboardingState?.data?.can_continue;
 
           if (isNewUser) {
-            navigate('/onboarding/company-website');
+            navigate('/onboarding/workspace');
           } else if (readyForAuto) {
             navigate('/onboarding/final');
           } else if (canContinue !== false) {
             navigate('/onboarding/workspace');
           } else {
-            navigate('/onboarding/company-website');
+            navigate('/onboarding/workspace');
           }
         }, 2200);
 

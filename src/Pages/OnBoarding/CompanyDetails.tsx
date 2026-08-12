@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../auth/Components/Input';
 import { Select } from '../auth/Components/Select';
+import { onboardingApi } from '../../api/onboarding/onboardingApi';
+import toast from 'react-hot-toast';
 
-const companySizes = ['1-10', '11-50', '51-200', '201-500', '500+'];
+const companySizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
 
 const industries = [
-  'Software / SaaS',
-  'E-commerce & Retail',
+  'SaaS',
+  'E-commerce',
   'Financial Services',
-  'Healthcare & Life Sciences',
-  'Marketing & Advertising',
+  'Insurance',
+  'Healthcare',
   'Education',
-  'Consulting & Professional Services',
+  'Logistics & Transportation',
+  'Manufacturing',
+  'IT Services & Consulting',
+  'Telecommunications',
+  'Real Estate',
+  'Media & Entertainment',
   'Other',
 ];
 
@@ -39,16 +46,39 @@ const timezones = [
 
 const CompanyDetails: React.FC = () => {
   const navigate = useNavigate();
+  const [companyName, setCompanyName] = useState('');
   const [website, setWebsite] = useState('');
   const [industry, setIndustry] = useState('');
   const [customIndustry, setCustomIndustry] = useState('');
   const [companySize, setCompanySize] = useState('11-50');
   const [country, setCountry] = useState('');
   const [timezone, setTimezone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/onboarding/define-customer');
+    if (!companyName || !industry || !timezone) {
+      toast.error('Company Name, Industry, and Time Zone are required.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await onboardingApi.createCompanyProfile({
+        company_name: companyName,
+        website: website || undefined,
+        timezone: timezone,
+        country_region: country || undefined,
+        industry: industry,
+        industry_other: industry === 'Other' ? customIndustry : null,
+        company_size: companySize,
+      });
+      navigate('/onboarding/Bussiness-module');
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to save company details');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,12 +105,21 @@ const CompanyDetails: React.FC = () => {
               <label className="block text-[14px] font-medium uppercase tracking-wider text-[#191C1E] mb-3">
                 BASIC INFO
               </label>
-              <Input
-                type="text"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                placeholder="Company Website"
-              />
+              <div className="space-y-3">
+                <Input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  placeholder="Company Name"
+                  required
+                />
+                <Input
+                  type="text"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  placeholder="Company Website"
+                />
+              </div>
             </div>
 
             {/* Section 2: INDUSTRY & SECTOR */}
@@ -168,10 +207,10 @@ const CompanyDetails: React.FC = () => {
 
               <button
                 type="submit"
-                className="ml-auto h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="ml-auto h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <span>Complete Setup</span>
-               
+                <span>{isSubmitting ? 'Saving...' : 'Complete Setup'}</span>
               </button>
             </div>
           </form>

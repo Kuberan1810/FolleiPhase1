@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
+import axiosInstance from "../../../../lib/axios";
 import PageHeaderSection from "./PageHeaderSection";
 import FileUploadSection from "./FileUploadSection";
 import UploadedFilesCardSection from "./UploadedFilesCardSection";
@@ -10,7 +11,8 @@ import UnderstandingChecklistSection from "./UnderstandingChecklistSection";
 import FooterSection from "./FooterSection";
 import ExtractedDetailsModal from "./ExtractedDetailsModal";
 import MissingInfoModal from "./MissingInfoModal";
-import type { UploadedFile, UnderstandingCategory, AnalysisStage, ChecklistItem } from "./types";
+import { IngestionRunProgress } from "./IngestionRunProgress";
+import type { UploadedFile, UnderstandingCategory, AnalysisStage, ChecklistItem, ItemAnalysisStatus } from "./types";
 import { INITIAL_UNDERSTANDING_CATEGORIES } from "./types";
 
 interface MainImportPage1Props {
@@ -18,92 +20,62 @@ interface MainImportPage1Props {
   onSkip?: () => void;
 }
 
+import { useOnboardingState } from "../../../../providers/OnboardingStateProvider";
+
+// ... Inside the component
 const MainImportPage1: React.FC<MainImportPage1Props> = ({
   onNext,
   onSkip,
 }) => {
+  const { onboardingState } = useOnboardingState();
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [stage, setStage] = useState<AnalysisStage>("idle");
-  const [categories, setCategories] = useState<UnderstandingCategory[]>(INITIAL_UNDERSTANDING_CATEGORIES);
+  // const [categories, setCategories] = useState<UnderstandingCategory[]>(INITIAL_UNDERSTANDING_CATEGORIES);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedModalItem, setSelectedModalItem] = useState<ChecklistItem | null>(null);
   const [isMissingInfoModalOpen, setIsMissingInfoModalOpen] = useState(false);
 
-  const simulationIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const simulationIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Trigger analysis sequence whenever files transition into 'analyzing'
-  const startAnalysisSequence = () => {
-    if (simulationIntervalRef.current) {
-      clearInterval(simulationIntervalRef.current);
-    }
+  const categories: UnderstandingCategory[] = React.useMemo(() => {
+    if (!onboardingState?.category_summaries) return INITIAL_UNDERSTANDING_CATEGORIES;
 
-    setStage("analyzing");
+    const groupMap: Record<string, ChecklistItem[]> = {};
+    onboardingState.category_summaries.forEach(cs => {
+      const group = cs.category_group || "Other";
+      if (!groupMap[group]) groupMap[group] = [];
+      
+      let mappedStatus: ItemAnalysisStatus = "idle";
+      if (cs.status === 'in_progress') mappedStatus = "analyzing";
+      else if (cs.status === 'found' || cs.status === 'completed') {
+        mappedStatus = cs.count > 0 ? "found" : "not_found";
+      }
 
-    // Flatten all items with category pointers
-    const itemsSequence: { catIndex: number; itemIndex: number }[] = [];
-    INITIAL_UNDERSTANDING_CATEGORIES.forEach((cat, cIdx) => {
-      cat.items.forEach((_, iIdx) => {
-        itemsSequence.push({ catIndex: cIdx, itemIndex: iIdx });
+      groupMap[group].push({
+        id: cs.key,
+        name: cs.label,
+        status: mappedStatus,
+        resultText: cs.count > 0 ? `${cs.count} items found` : undefined,
+        // Optional sub-items can be fetched on demand now
       });
     });
 
-    let currentStep = 0;
-    const totalSteps = itemsSequence.length;
+    return Object.keys(groupMap).map((key, idx) => ({
+      id: `group-${idx}`,
+      title: key,
+      items: groupMap[key]
+    }));
+  }, [onboardingState?.category_summaries]);
 
-    simulationIntervalRef.current = setInterval(() => {
-      if (currentStep < totalSteps) {
-        const { catIndex, itemIndex } = itemsSequence[currentStep];
-
-        setCategories((prev) => {
-          const next = prev.map((cat, cIdx) => {
-            if (cIdx !== catIndex) return cat;
-            return {
-              ...cat,
-              items: cat.items.map((it, iIdx) => {
-                if (iIdx === itemIndex) {
-                  // Resolve based on item template (policies, followup, comm_prefs are not_found)
-                  const isNotFound = it.id === "policies" || it.id === "followup" || it.id === "comm_prefs";
-                  return {
-                    ...it,
-                    status: isNotFound ? "not_found" : "found",
-                  };
-                }
-                if (iIdx === itemIndex + 1) {
-                  return { ...it, status: "analyzing" };
-                }
-                return it;
-              }),
-            };
-          });
-          return next;
-        });
-
-        currentStep++;
-      } else {
-        if (simulationIntervalRef.current) {
-          clearInterval(simulationIntervalRef.current);
-          simulationIntervalRef.current = null;
-        }
-
-        // Mark all files as analyzed
-        setFiles((prev) =>
-          prev.map((f) => ({ ...f, status: "analyzed" }))
-        );
-        setStage("analyzed");
-        toast.success("Business knowledge extracted successfully!");
-      }
-    }, 120); // Smooth live progression
+  // Trigger analysis sequence whenever files transition into 'analyzing'
+  const startAnalysisSequence = () => {
+    // Rely on actual backend state now; polling will handle updates
+    toast("Ingestion started...");
   };
 
-  useEffect(() => {
-    return () => {
-      if (simulationIntervalRef.current) {
-        clearInterval(simulationIntervalRef.current);
-      }
-    };
-  }, []);
+  const [activeRunId, setActiveRunId] = useState<string | null>(null);
 
-  const handleFilesAdded = (newRawFiles: File[]) => {
+  const handleFilesAdded = async (newRawFiles: File[]) => {
     const newFiles: UploadedFile[] = newRawFiles.map((file) => ({
       id: `${file.name}-${file.lastModified}-${Math.random()}`,
       file,
@@ -115,8 +87,35 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
 
     const combined = [...files, ...newFiles];
     setFiles(combined);
-    toast.success(`Analyzing ${newFiles[0]?.name || "file"}...`);
-    startAnalysisSequence();
+    toast.success(`Uploading ${newFiles[0]?.name || "file"}...`);
+
+    // Actually upload the first file for integration
+    const fileToUpload = newRawFiles[0];
+    if (fileToUpload) {
+      try {
+        const formData = new FormData();
+        formData.append("file", fileToUpload);
+        
+        const response = await axiosInstance.post("/api/v1/knowledge/files/ingest", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        const runId = response.data?.data?.run?.id || response.data?.run?.id;
+
+        if (runId) {
+           setActiveRunId(runId);
+           setStage("analyzing");
+        } else {
+           startAnalysisSequence(); // fallback to simulation if no runId
+        }
+      } catch (err: any) {
+        toast.error("File upload failed");
+        startAnalysisSequence(); // Continue simulation anyway
+      }
+    } else {
+      startAnalysisSequence();
+    }
   };
 
   const handleRemoveFile = (fileId: string) => {
@@ -124,7 +123,6 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
     setFiles(updated);
     if (updated.length === 0) {
       setStage("idle");
-      setCategories(INITIAL_UNDERSTANDING_CATEGORIES);
     }
   };
 
@@ -183,6 +181,17 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
     }
   };
 
+  const missingItems = React.useMemo(() => {
+    if (!onboardingState?.category_summaries) return [];
+    return onboardingState.category_summaries
+      .filter(cs => cs.status === 'pending' || cs.status === 'failed' || (cs.status === 'completed' && cs.count === 0))
+      .map(cs => ({
+        id: cs.key,
+        name: cs.label,
+        category: cs.category_group || 'General'
+      }));
+  }, [onboardingState?.category_summaries]);
+
   return (
     <div className="h-screen bg-[#F8FAFC] flex flex-col justify-between py-6 sm:py-8 px-6 sm:px-10 lg:px-16 overflow-hidden font-sans">
       {/* Page Header (Fixed at top) */}
@@ -237,6 +246,25 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
               />
             )}
 
+            {activeRunId && stage === "analyzing" && (
+              <div className="mb-6">
+                <IngestionRunProgress
+                  runId={activeRunId}
+                  onComplete={() => {
+                    setStage("analyzed");
+                    setActiveRunId(null);
+                    setFiles(prev => prev.map(f => ({ ...f, status: "analyzed" })));
+                    toast.success("Business knowledge extracted successfully!");
+                  }}
+                  onError={(err) => {
+                    setStage("analyzed");
+                    setActiveRunId(null);
+                    setFiles(prev => prev.map(f => ({ ...f, status: "analyzed" })));
+                  }}
+                />
+              </div>
+            )}
+
             <UnderstandingChecklistSection
               categories={categories}
               showTitle={stage !== "analyzed"}
@@ -280,6 +308,9 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
         onClose={() => setIsMissingInfoModalOpen(false)}
         onUploadMore={handleUploadMore}
         onContinueAnyway={handleContinueAnyway}
+        missingCount={missingItems.length}
+        totalCount={onboardingState?.category_summaries?.length || 0}
+        missingItems={missingItems}
       />
     </div>
   );

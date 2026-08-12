@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Rocket, Globe, TrendingUp, Megaphone, MoreHorizontal } from 'lucide-react';
 import { Input } from '../auth/Components/Input';
-import GoogleWorkspaceModal from '../auth/modal/GoogleWorkspaceModal';
 import CompanyWebsiteModal from './modal/CompanyWebsiteModal';
+import { onboardingApi } from '../../api/onboarding/onboardingApi';
+import toast from 'react-hot-toast';
 
 interface RoleOption {
   id: string;
@@ -21,18 +22,45 @@ const roles: RoleOption[] = [
 
 const Workspace: React.FC = () => {
   const navigate = useNavigate();
-  const [workspaceName, setWorkspaceName] = useState('');
-  const [companyName, setCompanyName] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('founder');
   const [customRole, setCustomRole] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Sequence: 'google' -> 'website' -> 'none' (reaches Workspace form)
-  const [popupStep, setPopupStep] = useState<'google' | 'website' | 'none'>('google');
+  const [popupStep, setPopupStep] = useState<'google' | 'website' | 'none'>('website');
 
-  const handleContinue = (e: React.FormEvent) => {
+  const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Navigate to next onboarding step
-    navigate('/onboarding/company-details');
+    
+    if (!fullName) {
+      toast.error('Please enter your full name');
+      return;
+    }
+
+    const job_title = selectedRole === 'other' ? customRole : roles.find(r => r.id === selectedRole)?.label;
+
+    if (!job_title) {
+      toast.error('Please select or specify your role');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await onboardingApi.updateUserProfile({
+        full_name: fullName,
+        mobile_number: mobileNumber || undefined,
+        job_title: job_title,
+        terms_accepted: true,
+      });
+      // Navigate to next onboarding step
+      navigate('/onboarding/company-details');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update profile');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -47,27 +75,28 @@ const Workspace: React.FC = () => {
             Set up your workspace
           </h1>
           <p className="text-[14px] text-[#444748] mt-2 font-normal">
-            Tell us a bit about your team to customize your experience.
+            Tell us a bit about yourself to customize your experience.
           </p>
         </div>
 
         {/* Card Box */}
         <div className="w-full bg-white rounded-[8px] border border-[#E2E8F0]/50 shadow-[0_4px_6px_-4px_rgba(236,238,240,0.5),0_10px_15px_-3px_rgba(236,238,240,0.5)] p-10">
           <form onSubmit={handleContinue} className="space-y-4">
-            {/* Input 1: Workspace Name */}
+            {/* Input 1: Full Name */}
             <Input
               type="text"
-              value={workspaceName}
-              onChange={(e) => setWorkspaceName(e.target.value)}
-              placeholder="Workspace Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Full Name"
+              required
             />
 
-            {/* Input 2: Company Name */}
+            {/* Input 2: Mobile Number */}
             <Input
               type="text"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              placeholder="Company Name"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+              placeholder="Mobile Number (Optional)"
             />
 
             {/* Section: Your Role */}
@@ -138,10 +167,10 @@ const Workspace: React.FC = () => {
             <div className="flex justify-end border-t border-[#ECEEF0] pt-4 mt-6">
               <button
                 type="submit"
-                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="h-[48px] px-6 bg-[#000000] hover:bg-gray-900 text-white text-[14px] font-semibold shadow-[0_2px_4px_-2px_rgba(0,0,0,0.10),0_4px_6px_-1px_rgba(0,0,0,0.10)] transition-all cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <span>Continue</span>
-              
+                <span>{isSubmitting ? 'Saving...' : 'Continue'}</span>
               </button>
             </div>
           </form>
@@ -156,7 +185,7 @@ const Workspace: React.FC = () => {
       </div>
 
       {/* Popup 1: Connect Google Workspace Modal */}
-      <GoogleWorkspaceModal
+      {/* <GoogleWorkspaceModal
         isOpen={popupStep === 'google'}
         onClose={() => setPopupStep('website')}
         onContinueWithGoogle={() => {
@@ -166,9 +195,9 @@ const Workspace: React.FC = () => {
         onSkip={() => {
           setPopupStep('website');
         }}
-      />
+      /> */}
 
-      {/* Popup 2: Connect Company Website Modal */}
+      {/* Popup 2: Website Scan Progress Modal */}
       <CompanyWebsiteModal
         isOpen={popupStep === 'website'}
         onClose={() => setPopupStep('none')}

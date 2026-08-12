@@ -52,7 +52,7 @@ const FileUploadSection: React.FC<FileUploadSectionProps> = ({
       name: file.name,
       size: file.size,
       type: file.type || file.name.split(".").pop() || "unknown",
-      progress: 100,
+      status: "analyzing",
     }));
 
     onFilesChange([...files, ...validFiles]);

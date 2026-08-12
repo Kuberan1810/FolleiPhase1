@@ -1,4 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
+import { AuthSessionProvider } from "../providers/AuthSessionProvider";
+import { OnboardingStateProvider } from "../providers/OnboardingStateProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../lib/queryClient";
 import AppRoutes from "./Routes";
@@ -30,7 +32,11 @@ function App() {
           }}
         />
 
-        <AppRoutes />
+        <AuthSessionProvider>
+          <OnboardingStateProvider>
+            <AppRoutes />
+          </OnboardingStateProvider>
+        </AuthSessionProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

@@ -53,9 +53,6 @@ export const GoogleWorkspaceModal: React.FC<GoogleWorkspaceModalProps> = ({
         </div>
 
         {/* Title & Subtitle */}
-        <h2 className="text-2xl font-semibold text-[#191C1E] text-center mt-4 tracking-tight">
-          Connect your Google Workspace
-        </h2>
         <p className="text-sm text-[#444748] text-center mt-2 px-1 leading-relaxed max-w-sm">
           Connect your business Google account to securely sync the information Follei needs to power your sales workspace.
         </p>

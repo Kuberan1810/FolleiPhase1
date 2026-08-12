@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../lib/axios';
+import toast from 'react-hot-toast';
 import { MoreHorizontal } from 'lucide-react';
 import { OutlookSyncModal } from './modal/ToolConnectModal';
 
@@ -90,16 +92,76 @@ const ConnectTools: React.FC = () => {
   const [connectedTools, setConnectedTools] = useState<Record<string, boolean>>({});
   const [connectingTool, setConnectingTool] = useState<ToolItem | null>(null);
 
-  const handleConnectClick = (tool: ToolItem) => {
+  const handleConnectClick = async (tool: ToolItem) => {
     if (connectedTools[tool.id]) {
       setConnectedTools((prev) => ({
         ...prev,
         [tool.id]: false,
       }));
     } else {
-      setConnectingTool(tool);
+      if (tool.id === 'google-workspace') {
+        try {
+          const response = await axiosInstance.post('/api/v1/integrations/google-workspace/oauth/start', {
+            resources: ["gmail", "drive", "calendar", "contacts"]
+          });
+          const authUrl = response.data?.data?.authorization_url || response.data?.auth_url;
+          if (authUrl) {
+            const width = 600;
+            const height = 760;
+            const left = window.screen.width / 2 - width / 2;
+            const top = window.screen.height / 2 - height / 2;
+            const popup = window.open(
+              authUrl,
+              'follei-google-workspace',
+              `popup,width=${width},height=${height},left=${left},top=${top}`
+            );
+            if (!popup) {
+              toast.error('Please allow popups to connect Google Workspace');
+            }
+          }
+        } catch (error) {
+          toast.error('Failed to start Google Workspace connection');
+        }
+      } else {
+        setConnectingTool(tool);
+      }
     }
   };
+
+  useEffect(() => {
+    const fetchConnections = async () => {
+      try {
+        const response = await axiosInstance.get('/api/v1/integrations/google-workspace/connections');
+        const connections = response.data?.data?.connections || [];
+        if (connections.length > 0 && connections.some((c: any) => c.status === 'active')) {
+          setConnectedTools((prev) => ({
+            ...prev,
+            'google-workspace': true,
+          }));
+        }
+      } catch (err) {
+        console.error('Failed to fetch google workspace connections', err);
+      }
+    };
+    fetchConnections();
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      // Basic security check - origin could be verified if known
+      if (event.data?.type === 'follei:integration-connected' && event.data?.provider === 'google_workspace') {
+        setConnectedTools((prev) => ({
+          ...prev,
+          'google-workspace': true,
+        }));
+        toast.success('Google Workspace connected!');
+      } else if (event.data?.type === 'follei:integration-error') {
+        toast.error(event.data?.message || 'Connection could not be completed');
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   const handleModalContinue = () => {
     if (connectingTool) {

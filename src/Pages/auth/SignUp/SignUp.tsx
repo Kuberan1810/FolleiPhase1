@@ -13,11 +13,7 @@ export const SignUp: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { startGoogleAuth, isStarting: isGoogleStarting } = useGoogleAuth();
 
-  const { mutate: register, isPending } = useSignup({
-    onSuccess: () => {
-      navigate('/onboarding/company-website');
-    },
-  });
+  const { mutate: register, isPending } = useSignup();
 
   const handleSignUp = (formData: {
     firstName: string;
@@ -33,22 +29,6 @@ export const SignUp: React.FC = () => {
       password: formData.password,
       full_name: fullName,
       tenant_name: formData.companyName,
-      business_email: formData.workEmail,
-      connect_gmail: false,
-      gmail_auto_reply_enabled: true,
-      gmail_campaign_enabled: true,
-      email_connections: [
-        {
-          provider: 'gmail',
-          email_address: formData.workEmail,
-          sender_name: fullName || 'Follei',
-          api_key: '',
-          app_password: '',
-          auto_reply_enabled: true,
-          allow_inbound_lead_creation: true,
-          campaign_enabled: true,
-        },
-      ],
     });
   };
 
@@ -77,7 +57,7 @@ export const SignUp: React.FC = () => {
       </div>
 
       {/* Connect Google Workspace Modal on Sign Up success */}
-      <GoogleWorkspaceModal
+      {/* <GoogleWorkspaceModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onContinueWithGoogle={() => {
@@ -89,7 +69,7 @@ export const SignUp: React.FC = () => {
           setShowModal(false);
           navigate('/onboarding/company-website');
         }}
-      />
+      /> */}
     </div>
   );
 };

@@ -1,28 +1,25 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { onboardingApi } from '../../api/onboarding/onboardingApi';
 import { clearAuthData, isAuthenticated } from '../../lib/auth';
-import type { OnboardingStateResponse } from '../../api/onboarding/types';
+import type { OnboardingStateData } from '../../api/onboarding/types';
 
 interface UseOnboardingStateOptions {
   customEndpoint?: string;
-  initialPollIntervalMs?: number;
-  maxPollIntervalMs?: number;
+  pollIntervalMs?: number;
   enabled?: boolean;
 }
 
 export const useOnboardingState = ({
   customEndpoint,
-  initialPollIntervalMs = 2000,
-  maxPollIntervalMs = 5000,
+  pollIntervalMs = 2500,
   enabled = true,
 }: UseOnboardingStateOptions = {}) => {
-  const [data, setData] = useState<OnboardingStateResponse | null>(null);
+  const [data, setData] = useState<OnboardingStateData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
   const isFetchingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const currentIntervalRef = useRef(initialPollIntervalMs);
 
   const fetchState = useCallback(async () => {
     if (isFetchingRef.current || !isAuthenticated()) return;
@@ -30,23 +27,20 @@ export const useOnboardingState = ({
 
     try {
       const result = await onboardingApi.getOnboardingState(customEndpoint);
-      setData(result);
+      
+      if (!result.success) {
+        throw new Error('Onboarding state fetch returned success: false');
+      }
+
+      setData(result.data);
       setError(null);
       setIsLoading(false);
 
-      // Check if ingestion is still processing
-      const isInProgress =
-        result.ingestion_status === 'queued' ||
-        result.ingestion_status === 'processing' ||
-        result.sources?.some((s) => s.status === 'queued' || s.status === 'processing');
+      // Check if ingestion is still processing based on active runs
+      const runsActive = result.data.progress?.runs_active || 0;
 
-      if (isInProgress) {
-        // Backoff interval up to maxPollIntervalMs
-        currentIntervalRef.current = Math.min(
-          currentIntervalRef.current + 1000,
-          maxPollIntervalMs
-        );
-        timerRef.current = setTimeout(fetchState, currentIntervalRef.current);
+      if (runsActive > 0) {
+        timerRef.current = setTimeout(fetchState, pollIntervalMs);
       }
     } catch (err: unknown) {
       setIsLoading(false);
@@ -57,14 +51,13 @@ export const useOnboardingState = ({
         setError(new Error('Session expired. Please sign in again.'));
       } else {
         setError(err instanceof Error ? err : new Error('Failed to load onboarding state'));
-        // Bounded retry on network errors
-        currentIntervalRef.current = maxPollIntervalMs;
-        timerRef.current = setTimeout(fetchState, currentIntervalRef.current);
+        // bounded retry on network errors
+        timerRef.current = setTimeout(fetchState, 5000);
       }
     } finally {
       isFetchingRef.current = false;
     }
-  }, [customEndpoint, maxPollIntervalMs]);
+  }, [customEndpoint, pollIntervalMs]);
 
   useEffect(() => {
     if (!enabled || !isAuthenticated()) {

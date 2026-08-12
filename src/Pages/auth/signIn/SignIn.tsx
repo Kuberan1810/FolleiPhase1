@@ -6,15 +6,17 @@ import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
 import GoogleWorkspaceModal from '../modal/GoogleWorkspaceModal';
 import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
+import { useLogin } from '../../../hooks/auth/useLogin';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { startGoogleAuth, isStarting } = useGoogleAuth();
 
-  const handleSignIn = (data: { email: string; password: string; rememberMe: boolean }) => {
-    console.log('Signing in with:', data);
-    navigate('/onboarding/workspace');
+  const { login, isLoading: isLoginLoading } = useLogin();
+
+  const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
+    await login(data);
   };
 
   const handleForgotPassword = () => {
@@ -36,7 +38,7 @@ export const SignIn: React.FC = () => {
           onSubmit={handleSignIn}
           onGoogleSignIn={startGoogleAuth}
           onForgotPassword={handleForgotPassword}
-          isLoading={isStarting}
+          isLoading={isStarting || isLoginLoading}
         />
 
         {/* Footer Link to Sign Up */}
@@ -48,7 +50,7 @@ export const SignIn: React.FC = () => {
       </div>
 
       {/* Connect Google Workspace Modal on Sign In success */}
-      <GoogleWorkspaceModal
+      {/* <GoogleWorkspaceModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onContinueWithGoogle={() => {
@@ -60,7 +62,7 @@ export const SignIn: React.FC = () => {
           setShowModal(false);
           navigate('/onboarding/company-website');
         }}
-      />
+      /> */}
     </div>
   );
 };

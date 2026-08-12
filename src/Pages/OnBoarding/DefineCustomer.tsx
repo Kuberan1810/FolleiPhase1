@@ -145,7 +145,7 @@ const DefineCustomer: React.FC = () => {
                     <div className="w-full flex items-center justify-between border-t border-[#EDEEF0] pt-4 mt-2">
                         <button
                             type="button"
-                            onClick={() => navigate('/onboarding/company-details')}
+                            onClick={() => navigate('/onboarding/Bussiness-module')}
                             className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#444748] hover:text-[#191C1E] transition-colors cursor-pointer px-4 py-2.5 hover:bg-[#EDEEF0]/70"
                         >
                             <ArrowLeft className="w-3.5 h-3.5" />

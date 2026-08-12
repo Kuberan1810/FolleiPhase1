@@ -4,7 +4,6 @@ import {
   Building2,
   CalendarDays,
   Check,
-  CircleAlert,
   Clock,
   Handshake,
   Lock,
@@ -18,14 +17,6 @@ import {
 import { OutlookLogo, FolleiLogo } from "./logo";
 
 type Phase = "sync" | "ai" | "done" | "error";
-
-const STAGES = [
-  "Outlook connected",
-  "Secure connection established",
-  "Reading business data",
-  "Understanding sales context",
-  "Preparing Follei workspace",
-];
 
 type Category = { label: string; count: number; icon: LucideIcon };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Database, FileSpreadsheet, Globe } from "lucide-react";
+import { Database, FileSpreadsheet } from "lucide-react";
 
 interface ImportSourceSectionProps {
   onSelectSource?: (sourceId: string) => void;

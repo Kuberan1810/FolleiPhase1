@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Globe, Lock, Check, Minus, ArrowRight, Loader2 } from 'lucide-react';
+import { Globe, Lock, Check, Minus, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../auth/Components/Input';
-import { Lock1 } from 'iconsax-react';
+import axiosInstance from '../../lib/axios';
+import toast from 'react-hot-toast';
 
 export interface IdentifyItem {
   id: string;
@@ -26,6 +27,8 @@ const DEFAULT_ITEMS: Omit<IdentifyItem, 'status'>[] = [
 export const CompanyWebsite: React.FC = () => {
   const navigate = useNavigate();
   const [websiteUrl, setWebsiteUrl] = useState('');
+  const [maxPages, setMaxPages] = useState('10');
+  const [category, setCategory] = useState('product');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
   const [urlError, setUrlError] = useState('');
@@ -48,10 +51,23 @@ export const CompanyWebsite: React.FC = () => {
     // Set all items to analyzing state
     setItems((prev) => prev.map((item) => ({ ...item, status: 'analyzing' })));
 
+    try {
+      await axiosInstance.post('/api/v1/knowledge/websites/ingest', {
+        url: websiteUrl,
+        max_pages: parseInt(maxPages) || 10,
+        category: category || 'company-website',
+        engine: 'auto',
+        crawl_consent: true
+      });
+    } catch (err) {
+      toast.error('Failed to submit website for ingestion');
+      // Continue anyway for the sake of the UI animation
+    }
+
     // Simulate step-by-step progressive AI website analysis
     for (let i = 0; i < DEFAULT_ITEMS.length; i++) {
       await new Promise((resolve) => setTimeout(resolve, 180));
-      
+
       setItems((prev) =>
         prev.map((item, idx) => {
           if (idx === i) {
@@ -88,10 +104,10 @@ export const CompanyWebsite: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-4 sm:p-6 font-inter">
-      <div className="w-full max-w-[480px]">
+      <div className="w-full max-w-[480px] ">
         {/* Main Card */}
-        <div className="bg-white rounded-2xl border border-[#C4C7C7]/30  p-7 sm:p-8 w-full">
-          
+        <div className="bg-white rounded-2xl border border-[#C4C7C7]/30  p-7 sm:p-8 w-full mb-8">
+
           {/* Header Title & Subtitle */}
           <div className="mb-6">
             <h1 className="text-xl sm:text-[22px] font-semibold text-[#191C1E] tracking-tight">
@@ -133,11 +149,33 @@ export const CompanyWebsite: React.FC = () => {
                       <span>Analyzing...</span>
                     </>
                   ) : (
-                    <span>Analyze</span>
+                    <span className="text-[12px] font-medium tracking-wide">Connect</span>
                   )}
                 </button>
               }
+              disabled={isAnalyzing}
             />
+          </div>
+
+          <div className='mb-8'>
+            {/* Additional Inputs for max_pages and category */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <Input
+                label="Max Pages to Crawl"
+                type="number"
+                placeholder="10"
+                value={maxPages}
+                onChange={(e) => setMaxPages(e.target.value)}
+                disabled={isAnalyzing}
+              />
+              <Input
+                label="Content Category"
+                placeholder="e.g. product"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                disabled={isAnalyzing}
+              />
+            </div>
             {!urlError && (
               <p className="mt-1.5 text-[13px] text-[#979797] font-normal">
                 Enter your company website URL
@@ -178,49 +216,52 @@ export const CompanyWebsite: React.FC = () => {
 
                   {/* Label Text */}
                   <span
-                    className={`text-[13px] transition-colors ${
-                      item.status === 'found'
-                        ? 'text-[#979797] font-normal'
-                        : item.status === 'not_found'
+                    className={`text-[13px] transition-colors ${item.status === 'found'
+                      ? 'text-[#979797] font-normal'
+                      : item.status === 'not_found'
                         ? 'text-[#979797] font-normal'
                         : 'text-[#979797] font-normal'
-                    }`}
+                      }`}
                   >
                     {item.label}
                   </span>
                 </div>
               ))}
             </div>
-          </div>
 
+          </div>
           {/* Privacy Disclaimer */}
-          <div className="flex items-center gap-2 text-[12px] text-[#979797] font-normal mb-8">
+          <div className="flex items-center gap-2 text-[12px] text-[#979797] font-normal">
             <Lock size={14} color='#979797' className=" shrink-0" />
             <span>We only analyze publicly available information from your website</span>
           </div>
+        </div>
 
-          {/* Bottom Actions Row */}
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={handleSkip}
-              className="text-xs text-[#444748] hover:text-black font-semibold transition-colors cursor-pointer focus:outline-none"
-            >
-              Skip for now
-            </button>
 
-            <button
-              type="button"
-              onClick={handleNext}
-              className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3 px-8 text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-sm"
-            >
-              <span>Next</span>
-             
-            </button>
-          </div>
+
+
+        {/* Bottom Actions Row */}
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={handleSkip}
+            className="text-xs text-[#444748] hover:text-black font-semibold transition-colors cursor-pointer focus:outline-none"
+          >
+            Skip for now
+          </button>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3 px-8 text-xs sm:text-sm transition-all duration-200 cursor-pointer flex items-center gap-1.5 shadow-sm"
+          >
+            <span>Next</span>
+
+          </button>
         </div>
       </div>
     </div>
+
   );
 };
 

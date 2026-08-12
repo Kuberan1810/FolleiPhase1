@@ -72,8 +72,13 @@
     }
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 body {
     font-family: "Inter", sans-serif;
+    overflow-y: scroll;
 }
 
 /* Custom Light Gray Text Selection */
