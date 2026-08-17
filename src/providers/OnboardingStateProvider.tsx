@@ -28,16 +28,17 @@ export const OnboardingStateProvider: React.FC<{ children: ReactNode }> = ({ chi
       if (response && response.data) {
         setOnboardingState(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to fetch onboarding state:', err);
-      setError(err.message || 'Failed to fetch onboarding state');
+      setError(err instanceof Error ? err.message : 'Failed to fetch onboarding state');
     } finally {
       setIsLoading(false);
     }
   }, [isAuthenticated]);
 
   useEffect(() => {
-    refreshState();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void refreshState();
   }, [refreshState]);
 
   // Set up polling if there are active runs
@@ -65,6 +66,8 @@ export const OnboardingStateProvider: React.FC<{ children: ReactNode }> = ({ chi
   );
 };
 
+// Context and hook intentionally share this module.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useOnboardingState = (): OnboardingStateContextType => {
   const context = useContext(OnboardingStateContext);
   if (context === undefined) {

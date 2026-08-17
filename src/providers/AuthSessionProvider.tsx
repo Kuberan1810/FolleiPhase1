@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { getAccessToken, getUserInfo, clearAuthData, type AuthTokens } from '../lib/auth';
+import { getAccessToken, getUserInfo, clearAuthData, type AuthTokens, type AuthUser } from '../lib/auth';
 
 interface AuthSessionContextType {
   isAuthenticated: boolean;
-  user: any | null;
+  user: AuthUser | null;
   login: (data: AuthTokens) => void;
   logout: () => void;
 }
@@ -12,7 +12,7 @@ const AuthSessionContext = createContext<AuthSessionContextType | undefined>(und
 
 export const AuthSessionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!getAccessToken());
-  const [user, setUser] = useState<any | null>(getUserInfo());
+  const [user, setUser] = useState<AuthUser | null>(getUserInfo());
 
   const login = (data: AuthTokens) => {
     setIsAuthenticated(true);
@@ -44,6 +44,8 @@ export const AuthSessionProvider: React.FC<{ children: ReactNode }> = ({ childre
   );
 };
 
+// Context and hook intentionally share this module.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuthSession = (): AuthSessionContextType => {
   const context = useContext(AuthSessionContext);
   if (context === undefined) {

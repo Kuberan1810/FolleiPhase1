@@ -75,7 +75,7 @@ const FinalPage: React.FC = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/onboarding/import-data')}
+            onClick={() => navigate('/leads/import')}
             className="px-6 py-2.5 bg-[#E6E8EA] hover:bg-[#CBD5E1] text-[#191C1E] text-[14px] font-semibold transition-all cursor-pointer"
           >
             Import Your First Lead

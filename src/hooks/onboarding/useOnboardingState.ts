@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { onboardingApi } from '../../api/onboarding/onboardingApi';
 import { clearAuthData, isAuthenticated } from '../../lib/auth';
 import type { OnboardingStateData } from '../../api/onboarding/types';
@@ -10,76 +10,46 @@ interface UseOnboardingStateOptions {
 }
 
 export const useOnboardingState = ({
-  customEndpoint,
   pollIntervalMs = 2500,
   enabled = true,
 }: UseOnboardingStateOptions = {}) => {
   const [data, setData] = useState<OnboardingStateData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const isFetchingRef = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const fetchState = useCallback(async () => {
-    if (isFetchingRef.current || !isAuthenticated()) return;
-    isFetchingRef.current = true;
-
+    if (!isAuthenticated()) return;
     try {
-      const result = await onboardingApi.getOnboardingState(customEndpoint);
-      
-      if (!result.success) {
-        throw new Error('Onboarding state fetch returned success: false');
-      }
-
+      const result = await onboardingApi.getOnboardingState();
+      if (!result.success) throw new Error('Onboarding state fetch returned success: false');
       setData(result.data);
       setError(null);
-      setIsLoading(false);
-
-      // Check if ingestion is still processing based on active runs
-      const runsActive = result.data.progress?.runs_active || 0;
-
-      if (runsActive > 0) {
-        timerRef.current = setTimeout(fetchState, pollIntervalMs);
-      }
-    } catch (err: unknown) {
-      setIsLoading(false);
-      const is401 = (err as { response?: { status?: number } })?.response?.status === 401;
-
+    } catch (caught: unknown) {
+      const is401 = (caught as { response?: { status?: number } })?.response?.status === 401;
       if (is401) {
         clearAuthData();
         setError(new Error('Session expired. Please sign in again.'));
       } else {
-        setError(err instanceof Error ? err : new Error('Failed to load onboarding state'));
-        // bounded retry on network errors
-        timerRef.current = setTimeout(fetchState, 5000);
+        setError(caught instanceof Error ? caught : new Error('Failed to load onboarding state'));
       }
     } finally {
-      isFetchingRef.current = false;
+      setIsLoading(false);
     }
-  }, [customEndpoint, pollIntervalMs]);
+  }, []);
 
   useEffect(() => {
-    if (!enabled || !isAuthenticated()) {
-      setIsLoading(false);
-      return;
-    }
-
-    fetchState();
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
+    if (!enabled || !isAuthenticated()) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchState();
   }, [enabled, fetchState]);
 
-  return {
-    data,
-    isLoading,
-    error,
-    refetch: fetchState,
-  };
+  useEffect(() => {
+    if (!enabled || !data?.progress?.runs_active) return;
+    const timer = window.setTimeout(() => void fetchState(), pollIntervalMs);
+    return () => window.clearTimeout(timer);
+  }, [data?.progress?.runs_active, enabled, fetchState, pollIntervalMs]);
+
+  return { data, isLoading, error, refetch: fetchState };
 };
 
 export default useOnboardingState;

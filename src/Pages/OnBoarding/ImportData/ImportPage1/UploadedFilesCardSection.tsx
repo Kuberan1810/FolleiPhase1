@@ -208,6 +208,10 @@ const UploadedFilesCardSection: React.FC<UploadedFilesCardSectionProps> = ({
                     </svg>
                     <span>Analyzing</span>
                   </div>
+                ) : file.status === "error" ? (
+                  <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-red-50 text-red-600 text-[12px] font-medium">
+                    <span>Failed</span>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#DCFCE7] text-[#16A34A] text-[12px] font-medium">
                     <Check size={14} strokeWidth={2.5} />

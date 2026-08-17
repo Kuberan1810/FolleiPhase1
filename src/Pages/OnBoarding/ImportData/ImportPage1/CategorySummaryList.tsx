@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { onboardingApi } from '../../../../api/onboarding/onboardingApi';
-import type { CategoryItem, CategorySummary } from '../../../../api/onboarding/types';
+import type { CategoryItem } from '../../../../api/onboarding/types';
 import { FactReviewCard } from './FactReviewCard';
 import { Loader2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -21,13 +21,13 @@ export const CategorySummaryList: React.FC<CategorySummaryListProps> = ({ catego
     setIsLoading(true);
     setError(null);
     try {
-      const response = await onboardingApi.getCategoryItems(`/api/v1/onboarding/categories/${categoryKey}/items`, targetPage, 10);
+      const response = await onboardingApi.getCategoryItems(categoryKey, targetPage, 10);
       setItems(response.data.items);
       setTotalPages(response.data.pagination.pages);
       setPage(response.data.pagination.page);
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Failed to load facts.');
+    } catch (error: unknown) {
+      console.error(error);
+      setError(error instanceof Error ? error.message : 'Failed to load facts.');
       toast.error('Failed to load extracted facts');
     } finally {
       setIsLoading(false);
@@ -35,7 +35,10 @@ export const CategorySummaryList: React.FC<CategorySummaryListProps> = ({ catego
   };
 
   useEffect(() => {
+    // The category key is an external navigation input; load its records once it changes.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchItems(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
 
   if (isLoading && items.length === 0) {

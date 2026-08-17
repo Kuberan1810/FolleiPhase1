@@ -1,56 +1,27 @@
-import { useState, useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { authApi } from '../../api/auth/authApi';
+import { integrationsApi } from '../../api/integrations/integrationsApi';
 
+/** Starts the authenticated Google Workspace/Gmail connection flow. */
 export const useGoogleAuth = () => {
   const [isStarting, setIsStarting] = useState(false);
-  const startingGoogleRef = useRef(false);
+  const startingRef = useRef(false);
 
   const startGoogleAuth = useCallback(async () => {
-    if (startingGoogleRef.current) return;
-    startingGoogleRef.current = true;
+    if (startingRef.current) return;
+    startingRef.current = true;
     setIsStarting(true);
-
     try {
-      const response = await authApi.startGoogleAuth();
-
-      const authData = response.data;
-      if (!authData) {
-        throw new Error('Invalid response received from authentication server');
-      }
-
-      if (authData.flow !== 'account_auth') {
-        throw new Error(`Unexpected auth flow: ${authData.flow}`);
-      }
-
-      if (authData.requires_bearer !== false) {
-        throw new Error('Public Google auth flow requires unauthenticated access');
-      }
-
-      const authorizationUrl = authData.authorization_url;
-
-      if (
-        typeof authorizationUrl !== 'string' ||
-        !authorizationUrl.startsWith('https://accounts.google.com/')
-      ) {
-        throw new Error('Backend returned an invalid Google authorization URL');
-      }
-
-      // Perform immediate full-page navigation using the brand-new URL from this exact response
-      window.location.replace(authorizationUrl);
-    } catch (err: unknown) {
-      startingGoogleRef.current = false;
+      const authorizationUrl = await integrationsApi.startGoogleWorkspace();
+      window.location.assign(authorizationUrl);
+    } catch (error) {
+      startingRef.current = false;
       setIsStarting(false);
-      const message = err instanceof Error ? err.message : 'Google sign-in could not be started';
-      toast.error(message);
-      console.error('Google Auth Start Error:', err);
+      toast.error(error instanceof Error ? error.message : 'Google Workspace connection could not start');
     }
   }, []);
 
-  return {
-    startGoogleAuth,
-    isStarting,
-  };
+  return { startGoogleAuth, isStarting };
 };
 
 export default useGoogleAuth;

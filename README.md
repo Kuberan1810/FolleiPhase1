@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Follei Phase 1 Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React/Vite frontend for the Follei tenant onboarding and Insurance lead-to-application slice.
 
-Currently, two official plugins are available:
+## Integrated backend flows
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Tenant registration, login, JWT refresh, and current-user hydration
+- Tenant user profile and company profile
+- Mandatory frontend industry selection (`Insurance` is temporarily translated to the backend's `Financial Services` value)
+- Company document upload with indexing-job polling
+- Authorized company website ingestion
+- Extracted-fact review and human approval/rejection
+- Authenticated Google Workspace/Gmail OAuth start and callback
+- HubSpot private-app connection and contact/company/deal sync
+- Lead-file upload, preview summary, and explicit commit
+- Onboarding completion
 
-## React Compiler
+Unsupported CRM and messaging cards are displayed as **Coming soon** and do not create fake connected state.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Environment
 
-## Expanding the ESLint configuration
+Copy `.env.example` to `.env.local`:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env.local
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Default local values:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```dotenv
+VITE_API_BASE_URL=http://localhost:8000
+VITE_GOOGLE_OAUTH_START_PATH=/api/email-connections/gmail/oauth/start
+VITE_GOOGLE_CONNECTIONS_PATH=/api/email-connections
 ```
+
+For the current Gmail OAuth backend, set this backend value so Google returns to the frontend:
+
+```dotenv
+GMAIL_OAUTH_SUCCESS_URL=http://localhost:5173/integrations/google/callback
+```
+
+The Google Cloud OAuth client's authorized backend redirect URI remains the backend callback, normally:
+
+```text
+http://127.0.0.1:8000/api/email-connections/gmail/oauth/callback
+```
+
+If the expanded Google Workspace API is deployed, set the two frontend path variables to its OAuth-start and connection-list routes. The frontend accepts either a raw `{authorization_url}` response or a `{data:{authorization_url}}` envelope and immediately opens the returned Google URL in the current browser tab.
+
+## Lightweight validation
+
+The frontend is safe to validate without starting PostgreSQL, Kafka, Qdrant, FerretDB, MinIO, or the backend:
+
+```bash
+npm install
+npm run build
+npm run lint
+```
+
+To test live API behavior later, start the backend separately and then run:
+
+```bash
+npm run dev
+```
+
+## Current backend limitations reflected in the UI
+
+- Google account sign-up/sign-in is not exposed by the current backend, so authentication uses email/password. Google Workspace is connected after authentication.
+- The current Google endpoint provides Gmail communication OAuth. Drive, Calendar, and Contacts require the expanded Workspace migration.
+- HubSpot uses a private-app access token; HubSpot OAuth is not implemented yet.
+- Manual lead-to-customer conversion and invoice entry do not yet have completed backend APIs.
+- Claims, renewals, binding, issuance, and underwriting decisions are outside this frontend slice.

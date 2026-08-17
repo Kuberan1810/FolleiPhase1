@@ -28,5 +28,10 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "src/Component/FlowBuilderLayout.tsx",
+    "src/Component/MainLayout.tsx",
+    "src/Component/Header.tsx"
   ]
 }

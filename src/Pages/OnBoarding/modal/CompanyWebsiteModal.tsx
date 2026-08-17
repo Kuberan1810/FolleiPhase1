@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Globe, Lock, Check, Minus, Loader2 } from 'lucide-react';
 import { Input } from '../../auth/Components/Input';
-import axiosInstance from '../../../lib/axios';
+import { knowledgeApi } from '../../../api/knowledge/knowledgeApi';
 import toast from 'react-hot-toast';
 
 export interface IdentifyItem {
@@ -60,14 +60,12 @@ export const CompanyWebsiteModal: React.FC<CompanyWebsiteModalProps> = ({
     setItems((prev) => prev.map((item) => ({ ...item, status: 'analyzing' })));
 
     try {
-      await axiosInstance.post('/api/v1/knowledge/websites/ingest', {
-        url: websiteUrl,
-        engine: 'auto',
-        crawl_consent: true
-      });
-    } catch (err) {
+      await knowledgeApi.ingestWebsite(websiteUrl, 10, 'general');
+    } catch {
       toast.error('Failed to submit website for ingestion');
-      // Continue anyway for the sake of the UI animation
+      setItems((prev) => prev.map((item) => ({ ...item, status: 'idle' })));
+      setIsAnalyzing(false);
+      return;
     }
 
     // Simulate step-by-step progressive AI website analysis

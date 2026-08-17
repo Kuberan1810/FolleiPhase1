@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import axiosInstance from "../../../../lib/axios";
+import { knowledgeApi } from "../../../../api/knowledge/knowledgeApi";
 import PageHeaderSection from "./PageHeaderSection";
 import FileUploadSection from "./FileUploadSection";
 import UploadedFilesCardSection from "./UploadedFilesCardSection";
@@ -11,7 +11,6 @@ import UnderstandingChecklistSection from "./UnderstandingChecklistSection";
 import FooterSection from "./FooterSection";
 import ExtractedDetailsModal from "./ExtractedDetailsModal";
 import MissingInfoModal from "./MissingInfoModal";
-import { IngestionRunProgress } from "./IngestionRunProgress";
 import type { UploadedFile, UnderstandingCategory, AnalysisStage, ChecklistItem, ItemAnalysisStatus } from "./types";
 import { INITIAL_UNDERSTANDING_CATEGORIES } from "./types";
 
@@ -27,7 +26,7 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
   onNext,
   onSkip,
 }) => {
-  const { onboardingState } = useOnboardingState();
+  const { onboardingState, refreshState } = useOnboardingState();
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [stage, setStage] = useState<AnalysisStage>("idle");
   // const [categories, setCategories] = useState<UnderstandingCategory[]>(INITIAL_UNDERSTANDING_CATEGORIES);
@@ -35,13 +34,14 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
   const [selectedModalItem, setSelectedModalItem] = useState<ChecklistItem | null>(null);
   const [isMissingInfoModalOpen, setIsMissingInfoModalOpen] = useState(false);
 
-  const simulationIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const processingRef = useRef(true);
 
+  const categorySummaries = onboardingState?.category_summaries;
   const categories: UnderstandingCategory[] = React.useMemo(() => {
-    if (!onboardingState?.category_summaries) return INITIAL_UNDERSTANDING_CATEGORIES;
+    if (!categorySummaries) return INITIAL_UNDERSTANDING_CATEGORIES;
 
     const groupMap: Record<string, ChecklistItem[]> = {};
-    onboardingState.category_summaries.forEach(cs => {
+    categorySummaries.forEach(cs => {
       const group = cs.category_group || "Other";
       if (!groupMap[group]) groupMap[group] = [];
       
@@ -65,15 +65,31 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
       title: key,
       items: groupMap[key]
     }));
-  }, [onboardingState?.category_summaries]);
+  }, [categorySummaries]);
 
-  // Trigger analysis sequence whenever files transition into 'analyzing'
-  const startAnalysisSequence = () => {
-    // Rely on actual backend state now; polling will handle updates
-    toast("Ingestion started...");
+  const [activeJobIds, setActiveJobIds] = useState<string[]>([]);
+
+  useEffect(() => () => {
+    processingRef.current = false;
+  }, []);
+
+  const pollJobs = async (jobIds: string[]) => {
+    for (let attempt = 0; attempt < 120 && processingRef.current; attempt += 1) {
+      const jobs = await Promise.all(jobIds.map((jobId) => knowledgeApi.getJob(jobId)));
+      const failed = jobs.find((job) => ['failed', 'dead_lettered'].includes(job.status));
+      if (failed) throw new Error(failed.last_error || 'Knowledge extraction failed');
+      if (jobs.every((job) => ['completed', 'indexed'].includes(job.status) || job.disposition === 'indexed')) {
+        setStage('analyzed');
+        setActiveJobIds([]);
+        setFiles((previous) => previous.map((file) => ({ ...file, status: 'analyzed' })));
+        await refreshState();
+        toast.success('Business knowledge extracted successfully!');
+        return;
+      }
+      await new Promise((resolve) => window.setTimeout(resolve, 2500));
+    }
+    if (processingRef.current) throw new Error('Processing is taking longer than expected. You can return later.');
   };
-
-  const [activeRunId, setActiveRunId] = useState<string | null>(null);
 
   const handleFilesAdded = async (newRawFiles: File[]) => {
     const newFiles: UploadedFile[] = newRawFiles.map((file) => ({
@@ -89,32 +105,21 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
     setFiles(combined);
     toast.success(`Uploading ${newFiles[0]?.name || "file"}...`);
 
-    // Actually upload the first file for integration
-    const fileToUpload = newRawFiles[0];
-    if (fileToUpload) {
-      try {
-        const formData = new FormData();
-        formData.append("file", fileToUpload);
-        
-        const response = await axiosInstance.post("/api/v1/knowledge/files/ingest", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        const runId = response.data?.data?.run?.id || response.data?.run?.id;
-
-        if (runId) {
-           setActiveRunId(runId);
-           setStage("analyzing");
-        } else {
-           startAnalysisSequence(); // fallback to simulation if no runId
-        }
-      } catch (err: any) {
-        toast.error("File upload failed");
-        startAnalysisSequence(); // Continue simulation anyway
-      }
-    } else {
-      startAnalysisSequence();
+    try {
+      const uploads = await Promise.all(newRawFiles.map((file) => knowledgeApi.uploadDocument(file, 'general')));
+      const jobIds = uploads.map((upload) => upload.job_id);
+      setActiveJobIds(jobIds);
+      setStage('analyzing');
+      void pollJobs(jobIds).catch((error) => {
+        setActiveJobIds([]);
+        setStage('idle');
+        setFiles((previous) => previous.map((file) => ({ ...file, status: 'error' })));
+        toast.error(error instanceof Error ? error.message : 'File processing failed');
+      });
+    } catch (error) {
+      setStage('idle');
+      setFiles((previous) => previous.map((file) => ({ ...file, status: 'error' })));
+      toast.error(error instanceof Error ? error.message : 'File upload failed');
     }
   };
 
@@ -182,15 +187,15 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
   };
 
   const missingItems = React.useMemo(() => {
-    if (!onboardingState?.category_summaries) return [];
-    return onboardingState.category_summaries
+    if (!categorySummaries) return [];
+    return categorySummaries
       .filter(cs => cs.status === 'pending' || cs.status === 'failed' || (cs.status === 'completed' && cs.count === 0))
       .map(cs => ({
         id: cs.key,
         name: cs.label,
         category: cs.category_group || 'General'
       }));
-  }, [onboardingState?.category_summaries]);
+  }, [categorySummaries]);
 
   return (
     <div className="h-screen bg-[#F8FAFC] flex flex-col justify-between py-6 sm:py-8 px-6 sm:px-10 lg:px-16 overflow-hidden font-sans">
@@ -246,22 +251,9 @@ const MainImportPage1: React.FC<MainImportPage1Props> = ({
               />
             )}
 
-            {activeRunId && stage === "analyzing" && (
-              <div className="mb-6">
-                <IngestionRunProgress
-                  runId={activeRunId}
-                  onComplete={() => {
-                    setStage("analyzed");
-                    setActiveRunId(null);
-                    setFiles(prev => prev.map(f => ({ ...f, status: "analyzed" })));
-                    toast.success("Business knowledge extracted successfully!");
-                  }}
-                  onError={(err) => {
-                    setStage("analyzed");
-                    setActiveRunId(null);
-                    setFiles(prev => prev.map(f => ({ ...f, status: "analyzed" })));
-                  }}
-                />
+            {activeJobIds.length > 0 && stage === "analyzing" && (
+              <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900">
+                Processing {activeJobIds.length} document{activeJobIds.length === 1 ? '' : 's'} securely. This page will update when indexing is complete.
               </div>
             )}
 

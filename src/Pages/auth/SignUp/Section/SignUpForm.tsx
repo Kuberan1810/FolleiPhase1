@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from '../../Components/Input';
 import { Checkbox } from '../../signIn/Section/Checkbox';
-import Google from '../../../../assets/auth/google-logo.svg';
 
 interface SignUpFormProps {
   onSubmit?: (data: {
@@ -183,25 +182,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
           )}
         </button>
 
-        {/* Divider */}
-        <div className="relative my-6 flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200/80"></div>
-          </div>
-          <span className="relative bg-white px-3 text-sm text-[#444748] font-normal">
-            or
-          </span>
-        </div>
-
-        {/* Google Sign Up Button */}
-        <button
-          type="button"
-          onClick={onGoogleSignUp}
-          className="flex items-center justify-center gap-2 border border-[#C4C7C7] rounded-lg px-4 py-3 w-full text-sm text-[#444748] bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none cursor-pointer"
-        >
-          <img src={Google} alt="Google" className="w-5 h-5" />
-          <span>Continue with Google</span>
-        </button>
+        {onGoogleSignUp && null}
       </form>
     </div>
   );

@@ -1,14 +1,12 @@
-// import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuthSession } from '../providers/AuthSessionProvider';
 
-// // Replace this with your actual auth context/store
-// const useAuth = () => {
-//   const token = localStorage.getItem("token");
-//   return { isAuthenticated: !!token };
-// };
+const ProtectedRoute = () => {
+  const { isAuthenticated } = useAuthSession();
+  const location = useLocation();
+  return isAuthenticated
+    ? <Outlet />
+    : <Navigate to="/login" replace state={{ from: location.pathname }} />;
+};
 
-// const ProtectedRoute = () => {
-//   const { isAuthenticated } = useAuth();
-//   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
-// };
-
-// export default ProtectedRoute;
+export default ProtectedRoute;

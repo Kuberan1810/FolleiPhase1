@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import { MoreHorizontal } from 'lucide-react';
-import { OutlookSyncModal } from './modal/ToolConnectModal';
+import { integrationsApi } from '../../api/integrations/integrationsApi';
+import { onboardingApi } from '../../api/onboarding/onboardingApi';
 
 import googleIcon from '../../assets/icons/google.png';
 import freshsalesIcon from '../../assets/icons/freshsales.png';
@@ -90,114 +90,117 @@ const toolItems: ToolItem[] = [
 const ConnectTools: React.FC = () => {
   const navigate = useNavigate();
   const [connectedTools, setConnectedTools] = useState<Record<string, boolean>>({});
-  const [connectingTool, setConnectingTool] = useState<ToolItem | null>(null);
+  const [hubSpotToken, setHubSpotToken] = useState('');
+  const [showHubSpotModal, setShowHubSpotModal] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleConnectClick = async (tool: ToolItem) => {
-    if (connectedTools[tool.id]) {
-      setConnectedTools((prev) => ({
-        ...prev,
-        [tool.id]: false,
-      }));
-    } else {
-      if (tool.id === 'google-workspace') {
-        try {
-          const response = await axiosInstance.post('/api/v1/integrations/google-workspace/oauth/start', {
-            resources: ["gmail", "drive", "calendar", "contacts"]
-          });
-          const authUrl = response.data?.data?.authorization_url || response.data?.auth_url;
-          if (authUrl) {
-            const width = 600;
-            const height = 760;
-            const left = window.screen.width / 2 - width / 2;
-            const top = window.screen.height / 2 - height / 2;
-            const popup = window.open(
-              authUrl,
-              'follei-google-workspace',
-              `popup,width=${width},height=${height},left=${left},top=${top}`
-            );
-            if (!popup) {
-              toast.error('Please allow popups to connect Google Workspace');
-            }
-          }
-        } catch (error) {
-          toast.error('Failed to start Google Workspace connection');
-        }
-      } else {
-        setConnectingTool(tool);
+    if (tool.id === 'google-workspace') {
+      if (connectedTools[tool.id]) {
+        toast('Google Workspace is already connected');
+        return;
       }
+      try {
+        const authorizationUrl = await integrationsApi.startGoogleWorkspace();
+        window.location.assign(authorizationUrl);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Failed to start Google Workspace connection');
+      }
+      return;
     }
+    if (tool.id === 'hubspot') {
+      setShowHubSpotModal(true);
+      return;
+    }
+    toast(`${tool.name} is not supported by the current backend yet`);
   };
 
   useEffect(() => {
     const fetchConnections = async () => {
-      try {
-        const response = await axiosInstance.get('/api/v1/integrations/google-workspace/connections');
-        const connections = response.data?.data?.connections || [];
-        if (connections.length > 0 && connections.some((c: any) => c.status === 'active')) {
+      const [googleResult, crmResult] = await Promise.allSettled([
+        integrationsApi.listGoogleConnections(),
+        integrationsApi.listCrmConnections(),
+      ]);
+      if (googleResult.status === 'fulfilled') {
+        const googleConnections = googleResult.value;
+        if (googleConnections.some((connection) =>
+          connection.oauth_connected || connection.status === 'active' || connection.status === 'configured')) {
           setConnectedTools((prev) => ({
             ...prev,
             'google-workspace': true,
           }));
         }
-      } catch (err) {
-        console.error('Failed to fetch google workspace connections', err);
+      } else {
+        console.warn('Could not load Google Workspace connection state', googleResult.reason);
+      }
+      if (crmResult.status === 'fulfilled') {
+        const crmConnections = crmResult.value;
+        if (crmConnections.some((connection) => connection.provider === 'hubspot' && connection.status === 'active')) {
+          setConnectedTools((prev) => ({ ...prev, hubspot: true }));
+        }
+      } else {
+        console.warn('Could not load CRM connection state', crmResult.reason);
       }
     };
     fetchConnections();
   }, []);
 
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // Basic security check - origin could be verified if known
-      if (event.data?.type === 'follei:integration-connected' && event.data?.provider === 'google_workspace') {
-        setConnectedTools((prev) => ({
-          ...prev,
-          'google-workspace': true,
-        }));
-        toast.success('Google Workspace connected!');
-      } else if (event.data?.type === 'follei:integration-error') {
-        toast.error(event.data?.message || 'Connection could not be completed');
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  const handleModalContinue = () => {
-    if (connectingTool) {
-      setConnectedTools((prev) => ({
-        ...prev,
-        [connectingTool.id]: true,
-      }));
-      setConnectingTool(null);
+  const connectHubSpot = async () => {
+    if (hubSpotToken.trim().length < 10) {
+      toast.error('Enter a valid HubSpot private-app access token');
+      return;
+    }
+    setIsConnecting(true);
+    try {
+      await integrationsApi.connectHubSpot(hubSpotToken.trim());
+      const result = await integrationsApi.syncHubSpot();
+      setConnectedTools((previous) => ({ ...previous, hubspot: true }));
+      setHubSpotToken('');
+      setShowHubSpotModal(false);
+      toast.success(`HubSpot connected and synced ${Object.values(result.object_counts).reduce((a, b) => a + b, 0)} records`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'HubSpot connection failed');
+    } finally {
+      setIsConnecting(false);
     }
   };
 
-  const handleModalDisconnect = () => {
-    if (connectingTool) {
-      setConnectedTools((prev) => ({
-        ...prev,
-        [connectingTool.id]: false,
-      }));
-      setConnectingTool(null);
+  const handleFinish = async () => {
+    try {
+      await onboardingApi.complete();
+      navigate('/onboarding/final');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Could not complete onboarding');
     }
-  };
-
-  const handleFinish = () => {
-    navigate('/onboarding/final');
   };
 
   const hasConnectedTool = Object.values(connectedTools).some(Boolean);
 
   return (
     <div className="h-screen bg-[#F7F9FB] flex flex-col justify-between p-6 sm:p-10 font-sans overflow-hidden">
-      {connectingTool && (
-        <OutlookSyncModal
-          toolName={connectingTool.name}
-          toolLogo={connectingTool.customIcon}
-          onContinue={handleModalContinue}
-          onDisconnect={handleModalDisconnect}
-        />
+      {showHubSpotModal && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-white rounded-xl p-6 shadow-2xl">
+            <h2 className="text-xl font-semibold text-slate-900">Connect HubSpot</h2>
+            <p className="text-sm text-slate-500 mt-2">
+              Enter a HubSpot private-app access token. Follei encrypts it and imports contacts, companies, and deals.
+            </p>
+            <input
+              type="password"
+              value={hubSpotToken}
+              onChange={(event) => setHubSpotToken(event.target.value)}
+              placeholder="pat-..."
+              autoComplete="off"
+              className="mt-5 w-full border border-slate-300 rounded-lg px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-slate-900"
+            />
+            <div className="flex justify-end gap-3 mt-5">
+              <button type="button" onClick={() => setShowHubSpotModal(false)} className="px-4 py-2 text-sm border rounded-lg" disabled={isConnecting}>Cancel</button>
+              <button type="button" onClick={connectHubSpot} className="px-4 py-2 text-sm bg-black text-white rounded-lg disabled:opacity-50" disabled={isConnecting}>
+                {isConnecting ? 'Connecting…' : 'Connect and sync'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Header Section (Fixed at top) */}
@@ -215,6 +218,7 @@ const ConnectTools: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 pb-6">
           {toolItems.map((tool) => {
             const isConnected = connectedTools[tool.id];
+            const isSupported = tool.id === 'google-workspace' || tool.id === 'hubspot';
 
             return (
               <div
@@ -243,9 +247,10 @@ const ConnectTools: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleConnectClick(tool)}
+                    disabled={!isSupported}
                     className={`w-full py-2.5 px-4 text-[14px] font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${isConnected
                       ? 'bg-[#D1FAE5] text-[#047C2E] border border-[#047C2E]/20 '
-                      : 'bg-[#000000] text-white hover:bg-black shadow-sm'
+                      : isSupported ? 'bg-[#000000] text-white hover:bg-black shadow-sm' : 'bg-slate-100 text-slate-400 cursor-not-allowed'
                       }`}
                   >
                     {isConnected ? (
@@ -254,7 +259,7 @@ const ConnectTools: React.FC = () => {
                       </>
                     ) : (
                       <>
-                        <span>Connect</span>
+                        <span>{isSupported ? 'Connect' : 'Coming soon'}</span>
                       </>
                     )}
                   </button>

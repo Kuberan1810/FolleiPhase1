@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Rocket, Globe, TrendingUp, Megaphone, MoreHorizontal } from 'lucide-react';
 import { Input } from '../auth/Components/Input';
-import CompanyWebsiteModal from './modal/CompanyWebsiteModal';
 import { onboardingApi } from '../../api/onboarding/onboardingApi';
 import toast from 'react-hot-toast';
 
@@ -28,8 +27,6 @@ const Workspace: React.FC = () => {
   const [customRole, setCustomRole] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Sequence: 'google' -> 'website' -> 'none' (reaches Workspace form)
-  const [popupStep, setPopupStep] = useState<'google' | 'website' | 'none'>('website');
 
   const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,8 +53,8 @@ const Workspace: React.FC = () => {
       });
       // Navigate to next onboarding step
       navigate('/onboarding/company-details');
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile');
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : 'Failed to update profile');
     } finally {
       setIsSubmitting(false);
     }
@@ -184,31 +181,6 @@ const Workspace: React.FC = () => {
         </div>
       </div>
 
-      {/* Popup 1: Connect Google Workspace Modal */}
-      {/* <GoogleWorkspaceModal
-        isOpen={popupStep === 'google'}
-        onClose={() => setPopupStep('website')}
-        onContinueWithGoogle={() => {
-          console.log('Connecting Google Workspace...');
-          setPopupStep('website');
-        }}
-        onSkip={() => {
-          setPopupStep('website');
-        }}
-      /> */}
-
-      {/* Popup 2: Website Scan Progress Modal */}
-      <CompanyWebsiteModal
-        isOpen={popupStep === 'website'}
-        onClose={() => setPopupStep('none')}
-        onNext={() => {
-          console.log('Company Website analysis done, opening Workspace setup form...');
-          setPopupStep('none');
-        }}
-        onSkip={() => {
-          setPopupStep('none');
-        }}
-      />
     </div>
   );
 };

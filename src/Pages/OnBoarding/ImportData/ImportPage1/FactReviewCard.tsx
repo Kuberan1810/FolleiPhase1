@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DynamicFactPayloadViewer } from './DynamicFactPayloadViewer';
 import type { CategoryItem } from '../../../../api/onboarding/types';
 import { onboardingApi } from '../../../../api/onboarding/onboardingApi';
-import { Check, X, Edit2, ExternalLink, MessageSquare } from 'lucide-react';
+import { Check, X, ExternalLink, MessageSquare } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface FactReviewCardProps {
@@ -18,13 +18,10 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
   const handleApprove = async () => {
     setIsSubmitting(true);
     try {
-      await onboardingApi.reviewCategoryItem(item.id, {
-        status: 'approved',
-        payload: item.payload,
-      });
+      await onboardingApi.reviewCategoryItem(item.id);
       toast.success('Fact approved');
       onStatusChange();
-    } catch (err) {
+    } catch {
       toast.error('Failed to approve fact');
     } finally {
       setIsSubmitting(false);
@@ -44,7 +41,7 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
       toast.success('Fact rejected');
       setIsRejecting(false);
       onStatusChange();
-    } catch (err) {
+    } catch {
       toast.error('Failed to reject fact');
     } finally {
       setIsSubmitting(false);
@@ -70,7 +67,7 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
             )}
           </div>
           <h4 className="text-[15px] font-bold text-gray-900 mt-1">
-            {item.payload.name || item.payload.title || item.fact_type.replace(/_/g, ' ')}
+            {String(item.payload.name || item.payload.title || item.fact_type.replace(/_/g, ' '))}
           </h4>
         </div>
 

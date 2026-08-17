@@ -35,13 +35,13 @@ const countries = [
 ];
 
 const timezones = [
-  'UTC -08:00 (PST)',
-  'UTC -05:00 (EST)',
-  'UTC +00:00 (GMT)',
-  'UTC +01:00 (CET)',
-  'UTC +05:30 (IST)',
-  'UTC +08:00 (SGT)',
-  'UTC +10:00 (AEST)',
+  'America/Los_Angeles',
+  'America/New_York',
+  'Europe/London',
+  'Europe/Berlin',
+  'Asia/Kolkata',
+  'Asia/Singapore',
+  'Australia/Sydney',
 ];
 
 const CompanyDetails: React.FC = () => {
@@ -69,13 +69,15 @@ const CompanyDetails: React.FC = () => {
         website: website || undefined,
         timezone: timezone,
         country_region: country || undefined,
-        industry: industry,
+        // The current backend activates the Insurance pack from Financial
+        // Services. Keep the UI label until the backend enum accepts Insurance.
+        industry: industry === 'Insurance' ? 'Financial Services' : industry,
         industry_other: industry === 'Other' ? customIndustry : null,
         company_size: companySize,
       });
       navigate('/onboarding/Bussiness-module');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to save company details');
+    } catch (error: unknown) {
+      toast.error(error instanceof Error ? error.message : 'Failed to save company details');
     } finally {
       setIsSubmitting(false);
     }

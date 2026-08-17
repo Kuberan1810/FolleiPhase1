@@ -80,9 +80,10 @@ export interface StandardEnvelopeMeta {
 }
 
 export interface OnboardingStateResponse {
+  success: boolean;
   data: OnboardingStateData;
   meta: StandardEnvelopeMeta;
-  errors: any[];
+  errors: unknown[];
 }
 
 /**

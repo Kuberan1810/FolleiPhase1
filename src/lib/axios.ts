@@ -9,10 +9,21 @@ export interface EnvelopeMeta {
   accepted?: boolean;
 }
 
-export interface StandardEnvelope<T = any> {
+export interface StandardEnvelope<T = unknown> {
   data: T;
   meta?: EnvelopeMeta;
-  errors?: any[];
+  errors?: unknown[];
+}
+
+interface FastApiValidationError {
+  loc?: Array<string | number>;
+  msg?: string;
+}
+
+interface ApiErrorPayload {
+  detail?: string | FastApiValidationError[];
+  message?: string;
+  code?: string;
 }
 
 export class ApiError extends Error {
@@ -52,10 +63,6 @@ export const axiosInstance: AxiosInstance = axios.create({
 const PUBLIC_PATHS = [
   '/api/v1/auth/login',
   '/api/v1/auth/register',
-  '/api/v1/auth/otp/request',
-  '/api/v1/auth/otp/verify',
-  '/api/v1/auth/google/start',
-  '/api/v1/auth/google/exchange'
 ];
 
 axiosInstance.interceptors.request.use(
@@ -86,7 +93,7 @@ axiosInstance.interceptors.response.use(
     // For this integration, we'll return the response as is and let the caller handle .data
     return response;
   },
-  async (error: AxiosError<any>) => {
+  async (error: AxiosError<ApiErrorPayload>) => {
     const status = error.response?.status || 500;
 
     const data = error.response?.data;
@@ -104,7 +111,7 @@ axiosInstance.interceptors.response.use(
         // Validation errors (422)
         message = 'Validation error';
         fieldErrors = {};
-        data.detail.forEach((err: any) => {
+        data.detail.forEach((err) => {
           const fieldName = err.loc?.[err.loc.length - 1] || 'unknown';
           if (!fieldErrors![fieldName]) fieldErrors![fieldName] = [];
           fieldErrors![fieldName].push(err.msg);
@@ -139,7 +146,7 @@ axiosInstance.interceptors.response.use(
           });
 
           if (response.ok) {
-            const result = await response.json();
+            const result = (await response.json()) as { access_token?: string; expires_in?: number };
             
             if (result.access_token) {
               setAuthData({

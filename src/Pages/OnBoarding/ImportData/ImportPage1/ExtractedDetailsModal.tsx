@@ -1,5 +1,5 @@
 import React from "react";
-import { X, Check } from "lucide-react";
+import { X } from "lucide-react";
 import type { ChecklistItem } from "./types";
 import { CategorySummaryList } from "./CategorySummaryList";
 

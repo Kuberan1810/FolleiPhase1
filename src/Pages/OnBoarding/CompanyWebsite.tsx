@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Globe, Lock, Check, Minus, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../auth/Components/Input';
-import axiosInstance from '../../lib/axios';
+import { knowledgeApi, type KnowledgeCategory } from '../../api/knowledge/knowledgeApi';
 import toast from 'react-hot-toast';
 
 export interface IdentifyItem {
@@ -28,7 +28,7 @@ export const CompanyWebsite: React.FC = () => {
   const navigate = useNavigate();
   const [websiteUrl, setWebsiteUrl] = useState('');
   const [maxPages, setMaxPages] = useState('10');
-  const [category, setCategory] = useState('product');
+  const [category, setCategory] = useState<KnowledgeCategory>('general');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
   const [urlError, setUrlError] = useState('');
@@ -52,16 +52,12 @@ export const CompanyWebsite: React.FC = () => {
     setItems((prev) => prev.map((item) => ({ ...item, status: 'analyzing' })));
 
     try {
-      await axiosInstance.post('/api/v1/knowledge/websites/ingest', {
-        url: websiteUrl,
-        max_pages: parseInt(maxPages) || 10,
-        category: category || 'company-website',
-        engine: 'auto',
-        crawl_consent: true
-      });
-    } catch (err) {
+      await knowledgeApi.ingestWebsite(websiteUrl, parseInt(maxPages) || 10, category);
+    } catch {
       toast.error('Failed to submit website for ingestion');
-      // Continue anyway for the sake of the UI animation
+      setItems((prev) => prev.map((item) => ({ ...item, status: 'idle' })));
+      setIsAnalyzing(false);
+      return;
     }
 
     // Simulate step-by-step progressive AI website analysis
@@ -172,7 +168,7 @@ export const CompanyWebsite: React.FC = () => {
                 label="Content Category"
                 placeholder="e.g. product"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value as KnowledgeCategory)}
                 disabled={isAnalyzing}
               />
             </div>

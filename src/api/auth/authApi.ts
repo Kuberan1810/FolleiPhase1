@@ -1,9 +1,16 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
 import type { RegisterPayload, RegisterResponse } from './types';
-import type { GoogleAuthStartResponse, GoogleAuthExchangeResponse } from './googleTypes';
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
+export interface LoginResponse extends RegisterResponse {
+  user: {
+    id: string;
+    email: string;
+    full_name: string;
+    tenant_id: string;
+    roles: string[];
+  };
+}
 
 export const authApi = {
   /**
@@ -17,67 +24,10 @@ export const authApi = {
     );
     return response.data;
   },
-
-  /**
-   * Public Google Auth Start flow (unauthenticated)
-   * POST /api/v1/auth/google/start
-   */
-  startGoogleAuth: async (): Promise<GoogleAuthStartResponse> => {
-    const response = await fetch(
-      `${API_BASE_URL}/api/v1/auth/google/start`,
-      {
-        method: "POST",
-        cache: "no-store",
-        credentials: "omit"
-      }
-    );
-
-    let payload: unknown;
-
-    try {
-      payload = await response.json();
-    } catch {
-      throw new Error(`Google authentication returned HTTP ${response.status}`);
-    }
-
-    if (!response.ok) {
-      const detail =
-        typeof payload === "object" &&
-        payload !== null &&
-        "detail" in payload &&
-        typeof payload.detail === "string"
-          ? payload.detail
-          : "Could not start Google authentication";
-
-      throw new Error(detail);
-    }
-
-    return payload as GoogleAuthStartResponse;
-  },
-
-  /**
-   * Exchange Google one-time code for Follei JWT (unauthenticated)
-   * POST /api/v1/auth/google/exchange
-   */
-  exchangeGoogleCode: async (exchangeCode: string): Promise<GoogleAuthExchangeResponse> => {
-    const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.AUTH.GOOGLE_EXCHANGE}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-store',
-      },
-      body: JSON.stringify({ exchange_code: exchangeCode }),
-      cache: 'no-store',
-    });
-
-    const payload = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      throw new Error(payload?.detail || payload?.message || 'Failed to exchange authentication code');
-    }
-
-    return payload;
-  },
+  login: async (email: string, password: string): Promise<LoginResponse> =>
+    (await apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, { email, password })).data,
+  me: async (): Promise<LoginResponse['user']> =>
+    (await apiClient.get<LoginResponse['user']>(API_ENDPOINTS.AUTH.ME)).data,
 };
 
 export default authApi;

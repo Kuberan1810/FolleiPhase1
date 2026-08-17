@@ -15,6 +15,7 @@ vi.mock('../../lib/auth', () => ({
 }));
 
 describe('useOnboardingState', () => {
+  const mockedGetState = vi.mocked(onboardingApi.getOnboardingState);
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -25,12 +26,12 @@ describe('useOnboardingState', () => {
 
   it('polls exactly every 2.5s when runs_active > 0', async () => {
     // Mock response with runs_active = 1
-    (onboardingApi.getOnboardingState as any).mockResolvedValue({
+    mockedGetState.mockResolvedValue({
       success: true,
       data: {
         progress: { runs_active: 1 },
       },
-    });
+    } as Awaited<ReturnType<typeof onboardingApi.getOnboardingState>>);
 
     renderHook(() => useOnboardingState({ pollIntervalMs: 2500 }));
 
@@ -50,12 +51,12 @@ describe('useOnboardingState', () => {
   });
 
   it('stops polling when runs_active reaches 0', async () => {
-    (onboardingApi.getOnboardingState as any).mockResolvedValue({
+    mockedGetState.mockResolvedValue({
       success: true,
       data: {
         progress: { runs_active: 0 },
       },
-    });
+    } as Awaited<ReturnType<typeof onboardingApi.getOnboardingState>>);
 
     renderHook(() => useOnboardingState({ pollIntervalMs: 2500 }));
 
@@ -63,7 +64,7 @@ describe('useOnboardingState', () => {
       await vi.advanceTimersByTimeAsync(0);
     });
 
-    const callCountAfterInitial = (onboardingApi.getOnboardingState as any).mock.calls.length;
+    const callCountAfterInitial = mockedGetState.mock.calls.length;
 
     // Advance by 2.5 seconds
     await act(async () => {

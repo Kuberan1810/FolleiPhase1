@@ -3,10 +3,11 @@ import type { UseMutationOptions } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
 import { authApi } from '../../api/auth/authApi';
 import type { RegisterPayload, RegisterResponse, ApiErrorResponse } from '../../api/auth/types';
 import { setAuthData } from '../../lib/auth';
+import type { AuthTokens } from '../../lib/auth';
+import { useAuthSession } from '../../providers/AuthSessionProvider';
 
 export type UseSignupOptions = Omit<
   UseMutationOptions<RegisterResponse, AxiosError<ApiErrorResponse>, RegisterPayload>,
@@ -15,26 +16,22 @@ export type UseSignupOptions = Omit<
 
 export const useSignup = (options?: UseSignupOptions) => {
   const navigate = useNavigate();
+  const { login } = useAuthSession();
   return useMutation<RegisterResponse, AxiosError<ApiErrorResponse>, RegisterPayload>({
     mutationFn: (payload: RegisterPayload) => authApi.register(payload),
     onSuccess: async (data, variables, onMutateResult, context) => {
-      // Store session & tokens in sessionStorage
-      setAuthData(data);
-      toast.success('Registration successful! Welcome to Follei.');
-      
+      let sessionData: AuthTokens = data;
+      setAuthData(sessionData);
       try {
-        const stateResponse = await axiosInstance.get('/api/v1/onboarding/state');
-        const step = stateResponse.data?.data?.step;
-        if (step === 'knowledge_review') {
-          navigate('/onboarding/knowledge-review');
-        } else if (step === 'profile') {
-           navigate('/onboarding/company-details');
-        } else {
-           navigate('/onboarding/workspace');
-        }
-      } catch (err) {
-        navigate('/onboarding/workspace');
+        const user = await authApi.me();
+        sessionData = { ...data, user };
+        setAuthData(sessionData);
+      } catch {
+        // Registration tokens remain valid even if the profile hydration call fails.
       }
+      login(sessionData);
+      toast.success('Registration successful! Welcome to Follei.');
+      navigate('/onboarding/workspace');
 
       if (options?.onSuccess) {
         options.onSuccess(data, variables, onMutateResult, context);

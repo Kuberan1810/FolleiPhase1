@@ -27,7 +27,7 @@ export interface UploadedFile {
   name: string;
   size: number;
   type: string;
-  status: "analyzing" | "analyzed";
+  status: "analyzing" | "analyzed" | "error";
 }
 
 export type AnalysisStage = "idle" | "analyzing" | "analyzed";

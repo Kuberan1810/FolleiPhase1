@@ -1,3 +1,11 @@
+export interface AuthUser {
+  id?: string;
+  email?: string;
+  full_name?: string;
+  tenant_id?: string;
+  roles?: string[];
+}
+
 export interface AuthTokens {
   access_token: string;
   token_type?: string;
@@ -5,13 +13,7 @@ export interface AuthTokens {
   expires_in?: number;
   user_id?: string;
   tenant_id?: string;
-  user?: {
-    id?: string;
-    email?: string;
-    full_name?: string;
-    tenant_id?: string;
-    roles?: string[];
-  };
+  user?: AuthUser;
 }
 
 const ACCESS_TOKEN_KEY = 'follei_access_token';
@@ -37,7 +39,7 @@ export const getTenantId = (): string | null => {
   return sessionStorage.getItem(TENANT_ID_KEY);
 };
 
-export const getUserInfo = (): any | null => {
+export const getUserInfo = (): AuthUser | null => {
   const info = sessionStorage.getItem(USER_INFO_KEY);
   return info ? JSON.parse(info) : null;
 };

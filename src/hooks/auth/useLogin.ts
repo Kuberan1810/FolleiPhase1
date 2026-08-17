@@ -1,30 +1,27 @@
 import { useState } from 'react';
-import axiosInstance, { ApiError } from '../../lib/axios';
+import { ApiError } from '../../lib/axios';
 import { setAuthData } from '../../lib/auth';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { authApi } from '../../api/auth/authApi';
+import { onboardingApi } from '../../api/onboarding/onboardingApi';
+import { useAuthSession } from '../../providers/AuthSessionProvider';
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login: setSession } = useAuthSession();
 
-  const login = async (data: any) => {
+  const login = async (data: { email: string; password: string }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axiosInstance.post('/api/v1/auth/login', {
-        email: data.email,
-        password: data.password,
-      });
-
-      // 1. Store session
-      setAuthData(response.data);
-
-      // 2. Fetch onboarding state
-      // We will do a simple fetch here, though we'll also have a polling hook later
-      const stateResponse = await axiosInstance.get('/api/v1/onboarding/state');
-      const step = stateResponse.data?.data?.step;
+      const response = await authApi.login(data.email, data.password);
+      setAuthData(response);
+      setSession(response);
+      const stateResponse = await onboardingApi.getOnboardingState();
+      const step = stateResponse.data.step;
 
       toast.success('Signed in successfully');
 
@@ -32,10 +29,12 @@ export const useLogin = () => {
       if (step) {
         // Map backend step to frontend route
         // This mapping will be expanded based on the backend state model
-        if (step === 'knowledge_review') {
-          navigate('/onboarding/knowledge-review');
-        } else if (step === 'profile') {
+        if (step === 'profile') {
            navigate('/onboarding/company-details');
+        } else if (step === 'knowledge_review') {
+           navigate('/onboarding/import-data');
+        } else if (step === 'ready') {
+           navigate('/onboarding/final');
         } else {
            navigate('/onboarding/workspace');
         }
@@ -43,7 +42,7 @@ export const useLogin = () => {
         navigate('/onboarding/workspace');
       }
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err instanceof ApiError) {
         if (err.status === 401) {
           toast.error('Invalid email or password');
