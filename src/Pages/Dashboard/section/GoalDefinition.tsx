@@ -154,12 +154,12 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
           /* Confirmation Flow */
           <div className="flex flex-col gap-6 animate-fade-slide">
             {isSaving ? (
-              <div className="rounded-2xl border border-[#E6E6E4] bg-white p-6 shadow-xs flex flex-col items-center justify-center text-center py-10">
-                <div className="flex size-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 mb-3">
-                  <Check className="size-5" />
+              <div className="rounded-2xl border border-[#E6E6E4] bg-white p-6 shadow-xs">
+                <div className="flex size-8 items-center justify-center rounded-full bg-black text-white mb-4">
+                  <Check className="size-4" strokeWidth={3} />
                 </div>
-                <h3 className="text-[17px] font-semibold text-[#16171A] mb-1">Goal saved</h3>
-                <p className="text-[14px] text-[#717378]">
+                <h3 className="text-[16px] font-semibold text-[#16171A] mb-2">Goal saved</h3>
+                <p className="text-[13px] text-[#717378]">
                   Your ultimate goal and interpretation are saved. Taking you to Project 1...
                 </p>
               </div>

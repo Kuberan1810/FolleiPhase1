@@ -72,7 +72,7 @@ export const Dashboard: React.FC = () => {
       {/* Reusable Left Sidebar */}
       <Sidebar
         user={user}
-        projects={isWorkspaceReady ? ['Project One', 'Project Two'] : []}
+        projects={isProjectReady ? ['Project 1'] : []}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
       />
