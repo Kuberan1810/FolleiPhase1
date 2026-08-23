@@ -20,6 +20,7 @@ export const useDashboardState = () => {
   const [isImportingLeads, setIsImportingLeads] = useState<boolean>(false);
   const [isComplete, setIsComplete] = useState<boolean>(false);
   const [isWorkspaceReady, setIsWorkspaceReady] = useState<boolean>(false);
+  const [isProjectReady, setIsProjectReady] = useState<boolean>(false);
 
   // Suggestions & Step Configuration
   const suggestions: PromptSuggestion[] = isWorkspaceReady ? READY_PROMPT_SUGGESTIONS : PROMPT_SUGGESTIONS;
@@ -280,6 +281,8 @@ export const useDashboardState = () => {
     isImportingLeads,
     isComplete,
     isWorkspaceReady,
+    isProjectReady,
+    setIsProjectReady,
     handleCompleteSync,
     handleCancelSync,
     handleSelectSuggestion,
