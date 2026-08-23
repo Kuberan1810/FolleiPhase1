@@ -50,13 +50,13 @@ export default function SaasSearch() {
 
   const filtered = query.trim()
     ? docs
-        .filter(
-          (d) =>
-            d.title.toLowerCase().includes(query.toLowerCase()) ||
-            d.category.toLowerCase().includes(query.toLowerCase()) ||
-            d.desc.toLowerCase().includes(query.toLowerCase())
-        )
-        .slice(0, 6)
+      .filter(
+        (d) =>
+          d.title.toLowerCase().includes(query.toLowerCase()) ||
+          d.category.toLowerCase().includes(query.toLowerCase()) ||
+          d.desc.toLowerCase().includes(query.toLowerCase())
+      )
+      .slice(0, 6)
     : [];
 
   useEffect(() => {
@@ -80,9 +80,8 @@ export default function SaasSearch() {
       {/* Input */}
       <div className="relative">
         <Search
-          className={`absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors ${
-            open && query ? "text-[#004370]" : "text-[#6B7280]"
-          }`}
+          className={`absolute left-3.5 top-1/2 -translate-y-1/2 transition-colors ${open && query ? "text-[#004370]" : "text-[#6B7280]"
+            }`}
           size={16}
           strokeWidth={2}
         />
@@ -99,11 +98,10 @@ export default function SaasSearch() {
           }}
           onFocus={() => { if (query.trim()) setOpen(true); }}
           onKeyDown={handleKey}
-          className={`w-full pl-10 pr-9 py-2.5 rounded-xl text-[14px] font-semibold text-[#004370] placeholder:text-[#6B7280] placeholder:font-medium transition-all outline-none shadow-[#EDF3FD] shadow-xs ${
-            open && query
-              ? "bg-white border-[1.5px] border-[#004370] focus:outline-none focus:ring-1"
-              : "bg-[#F7F9FF] border-[1.5px] border-[#EDF3FD] focus:bg-white focus:border-[#004370] focus:outline-none focus:ring-1"
-          }`}
+          className={`w-full pl-10 pr-9 py-2.5 rounded-xl text-[14px] font-semibold text-[#004370] placeholder:text-[#6B7280] placeholder:font-medium transition-all outline-none shadow-[#EDF3FD] shadow-xs ${open && query
+            ? "bg-white border-[1.5px] border-[#004370] focus:outline-none focus:ring-1"
+            : "bg-[#F7F9FF] border-[1.5px] border-[#EDF3FD] focus:bg-white focus:border-[#004370] focus:outline-none focus:ring-1"
+            }`}
         />
         {query && (
           <button
@@ -119,7 +117,7 @@ export default function SaasSearch() {
       {open && query.trim() && (
         <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white border border-gray-200 rounded-xl z-50 p-1.5 shadow-sm">
           {filtered.length === 0 ? (
-            <p className="text-center text-xs text-gray-400 py-4">No results found</p>
+            <p className="text-center text-xs text-[#717378] py-4">No results found</p>
           ) : (
             <ul>
               {filtered.map((item, i) => {
@@ -129,18 +127,17 @@ export default function SaasSearch() {
                     key={i}
                     onMouseEnter={() => setActiveIndex(i)}
                     onMouseLeave={() => setActiveIndex(-1)}
-                    className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer transition-colors ${
-                      activeIndex === i ? "bg-gray-50" : ""
-                    }`}
+                    className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer transition-colors ${activeIndex === i ? "bg-gray-50" : ""
+                      }`}
                   >
                     <div className="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0 text-blue-700">
                       <Icon size={13} strokeWidth={2} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[13px] font-medium text-gray-900 truncate">
+                      <p className="text-[13px] font-medium text-[#16171A] truncate">
                         {highlight(item.title, query)}
                       </p>
-                      <p className="text-[11px] text-gray-400 truncate">
+                      <p className="text-[11px] text-[#717378] truncate">
                         {item.category} · {item.desc}
                       </p>
                     </div>
@@ -157,7 +154,7 @@ export default function SaasSearch() {
               <button
                 key={f}
                 onClick={() => { setQuery(f); setActiveIndex(-1); }}
-                className="text-[11px] font-medium text-gray-400 bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-md transition-colors cursor-pointer"
+                className="text-[11px] font-medium text-[#717378] bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-md transition-colors cursor-pointer"
               >
                 {f}
               </button>

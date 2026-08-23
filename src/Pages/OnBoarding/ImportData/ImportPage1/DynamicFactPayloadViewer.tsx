@@ -7,11 +7,11 @@ interface DynamicFactPayloadViewerProps {
 
 export const DynamicFactPayloadViewer: React.FC<DynamicFactPayloadViewerProps> = ({ factType, payload }) => {
   // Render fields beautifully instead of just JSON stringify
-  
+
   const entries = Object.entries(payload).filter(([_, v]) => v !== undefined && v !== null);
 
   if (entries.length === 0) {
-    return <span className="text-gray-400 italic">No details available</span>;
+    return <span className="text-[#717378] italic">No details available</span>;
   }
 
   return (
@@ -32,7 +32,7 @@ export const DynamicFactPayloadViewer: React.FC<DynamicFactPayloadViewerProps> =
         return (
           <div key={key} className={`${isLongText ? 'sm:col-span-2' : ''}`}>
             <dt className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 mb-0.5">{displayLabel}</dt>
-            <dd className="text-sm text-gray-900 break-words">{displayValue}</dd>
+            <dd className="text-sm text-[#16171A] break-words">{displayValue}</dd>
           </div>
         );
       })}

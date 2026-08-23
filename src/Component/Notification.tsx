@@ -198,7 +198,7 @@ const Notification = ({ open, onClose }: Props) => {
                             </div>
                         ))}
                         {filteredNotifications.length === 0 && (
-                            <div className="flex flex-col items-center justify-center py-12 text-center text-gray-400">
+                            <div className="flex flex-col items-center justify-center py-12 text-center text-[#717378]">
                                 <p className="text-sm">No notifications in this category</p>
                             </div>
                         )}

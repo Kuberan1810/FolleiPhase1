@@ -186,7 +186,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         {/* Divider */}
         <div className="relative my-6 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200/80"></div>
+            <div className="w-full border-t border-[#E6E6E4]"></div>
           </div>
           <span className="relative bg-white px-3 text-sm text-[#444748] font-normal">
             or

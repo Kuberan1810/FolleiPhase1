@@ -31,22 +31,21 @@ export const Input: React.FC<InputProps> = ({
       <div className="relative flex items-center">
         <input
           type={inputType}
-          className={`w-full p-3.5 border border-[#C4C7C7] rounded-lg text-sm text-[#444748] placeholder:text-gray-400 bg-white selection:bg-gray-200 selection:text-gray-900 transition-all duration-200 outline-none focus:border-gray-900 focus:ring-gray-900 ${
-            isPassword ? 'pr-11' : ''
-          } ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
+          className={`w-full p-3.5 border border-[#C4C7C7] rounded-lg text-sm text-[#444748] placeholder:text-[#717378] bg-white selection:bg-gray-200 selection:text-[#16171A] transition-all duration-200 outline-none focus:border-gray-900 focus:ring-gray-900 ${isPassword ? 'pr-11' : ''
+            } ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
           {...props}
         />
         {isPassword && (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3.5 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer focus:outline-none"
+            className="absolute right-3.5 text-[#717378] hover:text-gray-600 transition-colors cursor-pointer focus:outline-none"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
-              <EyeOff size={18}  />
+              <EyeOff size={18} />
             ) : (
-              <Eye size={18}  />
+              <Eye size={18} />
             )}
           </button>
         )}

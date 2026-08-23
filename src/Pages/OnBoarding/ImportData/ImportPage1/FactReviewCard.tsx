@@ -56,7 +56,7 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
 
   return (
     <div className={`border rounded-[12px] p-4 bg-white transition-all ${isApproved ? 'border-green-200 bg-green-50/30' : isRejected ? 'border-red-200 bg-red-50/30' : 'border-gray-200 shadow-sm'}`}>
-      
+
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -69,7 +69,7 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
               </span>
             )}
           </div>
-          <h4 className="text-[15px] font-bold text-gray-900 mt-1">
+          <h4 className="text-[15px] font-bold text-[#16171A] mt-1">
             {item.payload.name || item.payload.title || item.fact_type.replace(/_/g, ' ')}
           </h4>
         </div>
@@ -112,11 +112,11 @@ export const FactReviewCard: React.FC<FactReviewCardProps> = ({ item, onStatusCh
 
       {item.citation && (
         <div className="mt-3 pt-3 border-t border-gray-100 flex items-start gap-2 text-xs text-gray-500">
-          <ExternalLink className="w-3.5 h-3.5 shrink-0 mt-0.5 text-gray-400" />
+          <ExternalLink className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#717378]" />
           <div>
             <span className="font-medium text-gray-700">Source:</span> {item.citation.source}
             {item.citation.heading_path && (
-              <span className="ml-1 text-gray-400">({item.citation.heading_path.join(' > ')})</span>
+              <span className="ml-1 text-[#717378]">({item.citation.heading_path.join(' > ')})</span>
             )}
           </div>
         </div>

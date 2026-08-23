@@ -87,7 +87,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           <button
             type="button"
             onClick={onForgotPassword}
-            className="text-[#444748] hover:text-gray-900 transition-colors cursor-pointer focus:outline-none"
+            className="text-[#444748] hover:text-[#16171A] transition-colors cursor-pointer focus:outline-none"
           >
             Forgot Password?!
           </button>
@@ -109,7 +109,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         {/* Divider */}
         <div className="relative my-6 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200/80"></div>
+            <div className="w-full border-t border-[#E6E6E4]"></div>
           </div>
           <span className="relative bg-white px-3 text-sm text-[#444748] font-normal">
             or

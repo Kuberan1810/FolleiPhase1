@@ -269,7 +269,7 @@ const ConnectTools: React.FC = () => {
               <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-2">
                 <MoreHorizontal className="w-5 h-5" />
               </div>
-              <span className="text-xs font-medium text-gray-400">More Integrations</span>
+              <span className="text-xs font-medium text-[#717378]">More Integrations</span>
             </div>
 
             <button
@@ -282,7 +282,7 @@ const ConnectTools: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full mx-auto pt-4 mt-2 border-t border-gray-200/80 flex items-center justify-between shrink-0 bg-[#F7F9FB]">
+      <div className="w-full mx-auto pt-4 mt-2 border-t border-[#E6E6E4] flex items-center justify-between shrink-0 bg-[#F7F9FB]">
         <button
           type="button"
           onClick={handleFinish}

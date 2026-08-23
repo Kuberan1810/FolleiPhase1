@@ -27,7 +27,7 @@ export const IngestionRunProgress: React.FC<IngestionRunProgressProps> = ({ runI
 
     setStatus('connecting');
     const token = sessionStorage.getItem('follei_access_token');
-    
+
     // Create EventSource with token in URL if backend supports it, 
     // or standard if backend uses cookie. Assuming standard EventSource for now.
     // Ideally this endpoint should support auth token either via cookie or query param
@@ -75,7 +75,7 @@ export const IngestionRunProgress: React.FC<IngestionRunProgressProps> = ({ runI
     <div className="w-full bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-[#16171A] flex items-center gap-2">
             {status === 'processing' || status === 'connecting' ? (
               <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
             ) : status === 'completed' ? (
@@ -98,18 +98,18 @@ export const IngestionRunProgress: React.FC<IngestionRunProgressProps> = ({ runI
 
       <div className="bg-gray-50 border border-gray-100 rounded-md p-3 max-h-48 overflow-y-auto space-y-2">
         {events.length === 0 && status === 'connecting' && (
-          <p className="text-xs text-gray-400 italic">Connecting to live stream...</p>
+          <p className="text-xs text-[#717378] italic">Connecting to live stream...</p>
         )}
         {events.length === 0 && status === 'processing' && (
-          <p className="text-xs text-gray-400 italic">Waiting for events...</p>
+          <p className="text-xs text-[#717378] italic">Waiting for events...</p>
         )}
         {events.map((ev, i) => (
           <div key={i} className="flex gap-2 items-start text-xs">
-            <span className="text-gray-400 shrink-0 mt-0.5">
+            <span className="text-[#717378] shrink-0 mt-0.5">
               {ev.timestamp ? new Date(ev.timestamp).toLocaleTimeString() : '-'}
             </span>
             <div className={`flex-1 ${ev.level === 'error' ? 'text-red-600 font-medium' : ev.level === 'warning' ? 'text-yellow-600' : 'text-gray-700'}`}>
-              <span className="font-semibold text-gray-900 mr-2">[{ev.stage}]</span>
+              <span className="font-semibold text-[#16171A] mr-2">[{ev.stage}]</span>
               {ev.message}
             </div>
           </div>
