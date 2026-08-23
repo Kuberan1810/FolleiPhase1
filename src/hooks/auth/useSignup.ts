@@ -3,7 +3,6 @@ import type { UseMutationOptions } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
 import { authApi } from '../../api/auth/authApi';
 import type { RegisterPayload, RegisterResponse, ApiErrorResponse } from '../../api/auth/types';
 import { setAuthData } from '../../lib/auth';
@@ -21,20 +20,7 @@ export const useSignup = (options?: UseSignupOptions) => {
       // Store session & tokens in sessionStorage
       setAuthData(data);
       toast.success('Registration successful! Welcome to Follei.');
-      
-      try {
-        const stateResponse = await axiosInstance.get('/api/v1/onboarding/state');
-        const step = stateResponse.data?.data?.step;
-        if (step === 'knowledge_review') {
-          navigate('/onboarding/knowledge-review');
-        } else if (step === 'profile') {
-           navigate('/onboarding/company-details');
-        } else {
-           navigate('/onboarding/workspace');
-        }
-      } catch (err) {
-        navigate('/onboarding/workspace');
-      }
+      navigate('/dashboard');
 
       if (options?.onSuccess) {
         options.onSuccess(data, variables, onMutateResult, context);

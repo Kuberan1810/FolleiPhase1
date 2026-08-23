@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../../../api/auth/authApi';
-import { onboardingApi } from '../../../api/onboarding/onboardingApi';
 import { setAuthData } from '../../../lib/auth';
 import { useAuthSession } from '../../../providers/AuthSessionProvider';
 import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 import type { GoogleAuthExchangeResponse } from '../../../api/auth/googleTypes';
-import type { OnboardingStateResponse } from '../../../api/onboarding/types';
 
 export const AuthCallback: React.FC = () => {
   const navigate = useNavigate();
@@ -166,32 +164,10 @@ export const AuthCallback: React.FC = () => {
         setExchangeData(response);
         setStatus('success');
 
-        // Fetch onboarding state using authenticated client
-        let onboardingState: OnboardingStateResponse | null = null;
-        try {
-          onboardingState = await onboardingApi.getOnboardingState(
-            response.ingestion?.state_endpoint
-          );
-        } catch (onboardingErr) {
-          console.warn('Initial onboarding state fetch warning:', onboardingErr);
-        }
-
-        // Navigate after brief summary display
+        // Navigate directly to dashboard after brief summary display
         setTimeout(() => {
-          const isNewUser = response.account?.is_new_user;
-          const readyForAuto = onboardingState?.data?.ready_for_autonomous_actions;
-          const canContinue = onboardingState?.data?.can_continue;
-
-          if (isNewUser) {
-            navigate('/onboarding/workspace');
-          } else if (readyForAuto) {
-            navigate('/onboarding/final');
-          } else if (canContinue !== false) {
-            navigate('/onboarding/workspace');
-          } else {
-            navigate('/onboarding/workspace');
-          }
-        }, 2200);
+          navigate('/dashboard');
+        }, 1500);
 
       } catch (err: unknown) {
         setStatus('error');

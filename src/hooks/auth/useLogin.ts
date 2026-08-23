@@ -9,7 +9,7 @@ export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const login = async (data: any) => {
+  const login = async (data: { email: string; password: string; rememberMe?: boolean }) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -21,29 +21,12 @@ export const useLogin = () => {
       // 1. Store session
       setAuthData(response.data);
 
-      // 2. Fetch onboarding state
-      // We will do a simple fetch here, though we'll also have a polling hook later
-      const stateResponse = await axiosInstance.get('/api/v1/onboarding/state');
-      const step = stateResponse.data?.data?.step;
-
       toast.success('Signed in successfully');
 
-      // 3. Resume the correct step
-      if (step) {
-        // Map backend step to frontend route
-        // This mapping will be expanded based on the backend state model
-        if (step === 'knowledge_review') {
-          navigate('/onboarding/knowledge-review');
-        } else if (step === 'profile') {
-           navigate('/onboarding/company-details');
-        } else {
-           navigate('/onboarding/workspace');
-        }
-      } else {
-        navigate('/onboarding/workspace');
-      }
+      // 2. Navigate directly to dashboard
+      navigate('/dashboard');
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err instanceof ApiError) {
         if (err.status === 401) {
           toast.error('Invalid email or password');

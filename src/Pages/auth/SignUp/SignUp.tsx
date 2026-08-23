@@ -1,18 +1,13 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignUpForm from './Section/SignUpForm';
-import GoogleWorkspaceModal from '../modal/GoogleWorkspaceModal';
 import { useSignup } from '../../../hooks/auth/useSignup';
 import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 
 export const SignUp: React.FC = () => {
-  const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const { startGoogleAuth, isStarting: isGoogleStarting } = useGoogleAuth();
-
   const { mutate: register, isPending } = useSignup();
 
   const handleSignUp = (formData: {

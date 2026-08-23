@@ -35,7 +35,7 @@ export const useOTP = () => {
       // Always navigate to the verification screen after a successful request
       navigate('/auth/verify-otp', { state: { email } });
       return true;
-    } catch (err: any) {
+    } catch {
       toast.error('Failed to request OTP. Please try again later.');
       return false;
     } finally {
@@ -56,24 +56,10 @@ export const useOTP = () => {
       setAuthData(response.data);
       setLastSubmittedCode(code);
       toast.success('Signed in successfully');
-
-      // Fetch onboarding state
-      try {
-        const stateResponse = await axiosInstance.get('/api/v1/onboarding/state');
-        const step = stateResponse.data?.data?.step;
-        if (step === 'knowledge_review') {
-          navigate('/onboarding/knowledge-review');
-        } else if (step === 'profile') {
-           navigate('/onboarding/company-details');
-        } else {
-           navigate('/onboarding/workspace');
-        }
-      } catch (err) {
-        navigate('/onboarding/workspace');
-      }
+      navigate('/dashboard');
       return true;
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (err instanceof ApiError) {
         if (err.status === 401) {
           toast.error('Invalid or expired code.');

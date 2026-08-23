@@ -1,18 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
-import GoogleWorkspaceModal from '../modal/GoogleWorkspaceModal';
 import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 import { useLogin } from '../../../hooks/auth/useLogin';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const { startGoogleAuth, isStarting } = useGoogleAuth();
-
   const { login, isLoading: isLoginLoading } = useLogin();
 
   const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
