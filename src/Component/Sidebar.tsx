@@ -14,7 +14,7 @@ import {
   X
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import type { UserProfile } from '../Pages/Dashboard/types';
+import type { UserProfile } from '../Pages/DashboardSetup/types';
 
 interface SidebarProps {
   user?: UserProfile;
@@ -53,10 +53,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   
   const getActiveNav = () => {
     if (activeItem) return activeItem;
-    if (currentPath === '/main-dashboard') return 'dashboard';
+    if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
     if (currentPath.startsWith('/meet')) return 'meetings';
-    if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/dashboard' || currentPath === '/') return 'home';
+    if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/') return 'home';
     return 'home';
   };
 
@@ -143,7 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
                       <button
                         type="button"
-                        onClick={() => navTo('/main-dashboard')}
+                        onClick={() => navTo('/dashboard')}
 
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'dashboard'

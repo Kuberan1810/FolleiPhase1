@@ -1,0 +1,2 @@
+// dashboard.api.ts
+export {};

@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "../Pages/auth/signIn/SignIn";
 import SignUp from "../Pages/auth/SignUp/SignUp";
-import DashboardSetup from "../Pages/Dashboard/DashboardSetup";
+import DashboardSetup from "../Pages/DashboardSetup/DashboardSetup";
+import Home from "../Pages/home/Home";
 import Dashboard from "../Pages/Dashboard/Dashboard";
-import MainDashboard from "../Pages/MainDashboard/MainDashboard";
 import MeetingPage from "../Pages/meeting/meeting";
-import Leads from "../Pages/leads/leads";
+import LeadsPage from "../Pages/leads/leads";
 
 export default function AppRoutes() {
   return (
@@ -18,15 +18,15 @@ export default function AppRoutes() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
 
-      {/* Dashboard Routes */}
+      {/* App Routes */}
       <Route path="/dashboard-setup" element={<DashboardSetup />} />
-      <Route path="/home" element={<Dashboard />} />
-      {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-      <Route path="/main-dashboard" element={<MainDashboard />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/main-dashboard" element={<Navigate to="/dashboard" replace />} />
 
       <Route path="/meeting" element={<MeetingPage />} />
       <Route path="/meetings" element={<MeetingPage />} />
-      <Route path="/leads" element={<Leads />} />
+      <Route path="/leads" element={<LeadsPage />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />

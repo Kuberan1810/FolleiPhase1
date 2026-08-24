@@ -257,8 +257,8 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   <h3 className="text-[17px] font-medium text-[#16171A] mb-2.5">
                     Here's what I understand
                   </h3>
-                      <p className="text-[14px] text-[#737373] leading-relaxed">
-                        Got it. Your ultimate goal is to boost Student Engagement. In practice, that means you want to deepen engagement so people stay active and involved over time. Follei will focus on spotting drop-off moments early, timing nudges well, and tailoring communication to each segment so more of your effort lands where it counts. You can refine this later — everything in your workspace will be shaped around it.
+                  <p className="text-[14px] text-[#737373] leading-relaxed">
+                    Got it. Your ultimate goal is to boost Student Engagement. In practice, that means you want to deepen engagement so people stay active and involved over time. Follei will focus on spotting drop-off moments early, timing nudges well, and tailoring communication to each segment so more of your effort lands where it counts. You can refine this later — everything in your workspace will be shaped around it.
                   </p>
                 </div>
 
@@ -267,14 +267,14 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    className="rounded-full bg-[#16171A] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors  cursor-pointer"
+                    className="rounded-full bg-[#16171A] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors cursor-pointer"
                   >
                     Confirm goal
                   </button>
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="rounded-full border border-[#E6E6E4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#16171A] hover:bg-gray-50 transition-colors s cursor-pointer"
+                    className="rounded-full border border-[#E6E6E4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#16171A] hover:bg-gray-50 transition-colors cursor-pointer"
                   >
                     Edit goal
                   </button>

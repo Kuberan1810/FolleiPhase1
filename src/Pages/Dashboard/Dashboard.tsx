@@ -1,75 +1,381 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Menu, ArrowRight } from 'lucide-react';
+import { 
+  Users, 
+  Flame, 
+  CheckCircle2, 
+  Calendar, 
+  ChevronDown, 
+  TrendingUp, 
+  Zap, 
+  Sparkles, 
+  ArrowRight,
+  Menu
+} from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
-import { GoalDefinition } from './section/GoalDefinition';
-import { DEFAULT_USER } from './data';
+import toast from 'react-hot-toast';
+
+interface TopMetric {
+  label: string;
+  value: string;
+  change: string;
+  icon: React.ReactNode;
+  iconColor: string;
+}
 
 export const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
-  const [user] = useState(DEFAULT_USER);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isProjectReady, setIsProjectReady] = useState(false);
+  const [timeRange, setTimeRange] = useState('This Week');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const topMetrics: TopMetric[] = [
+    {
+      label: 'TOTAL LEADS',
+      value: '1,248',
+      change: '+12 this week',
+      icon: <Users className="size-3.5 text-[#2563EB]" />,
+      iconColor: '#2563EB',
+    },
+    {
+      label: 'HOT LEADS',
+      value: '42',
+      change: '+6 today',
+      icon: <Flame className="size-3.5 text-[#EA580C]" />,
+      iconColor: '#EA580C',
+    },
+    {
+      label: 'CONVERTED',
+      value: '86',
+      change: '+5 this week',
+      icon: <CheckCircle2 className="size-3.5 text-[#16A34A]" />,
+      iconColor: '#16A34A',
+    },
+    {
+      label: 'MEETINGS BOOKED',
+      value: '24',
+      change: '4 today',
+      icon: <Calendar className="size-3.5 text-[#F59E0B]" />,
+      iconColor: '#F59E0B',
+    },
+  ];
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
-      {/* Reusable Left Sidebar */}
+    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] font-sans antialiased overflow-hidden">
+      {/* Left Sidebar */}
       <Sidebar
-        user={user}
-        projects={isProjectReady ? ['Project 1'] : []}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="home"
+        activeItem="dashboard"
       />
 
-      {/* Main Center Area */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-screen overflow-y-auto min-w-0 bg-[#FDFDFC]">
         {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
+        <div className="flex items-center justify-between border-b border-[#EBEBE8] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
           <button
             type="button"
             aria-label="Open navigation"
             onClick={() => setIsMobileSidebarOpen(true)}
             className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
           >
-            <Menu className="size-4" aria-hidden="true" />
+            <Menu className="size-4" />
           </button>
-          <span className="text-[13px] font-semibold tracking-tight text-[#16171A]">
+          <span className="text-[14px] font-semibold tracking-tight text-[#16171A]">
             Follei
           </span>
           <div className="size-8" />
         </div>
 
-        {/* Content based on Project state */}
-        {isProjectReady ? (
-          <div className="min-w-0 flex-1">
-            <div className="mx-auto flex w-full max-w-4xl flex-col items-start gap-6 px-6 py-14 md:py-20 animate-fade-slide">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">Project 1</h1>
-                <p className="text-[15px] text-[#717378]">
-                  Your workspace is being shaped around your ultimate goal.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => navigate('/main-dashboard')}
-                className="inline-flex items-center gap-2 rounded-full bg-[#16171A] hover:bg-black text-white px-6 py-2.5 text-[14px] font-medium transition-all shadow-sm cursor-pointer"
-              >
-                <span>Go to workspace</span>
-                <ArrowRight className="size-4" />
-              </button>
+        {/* Dashboard Main Container - Full Width */}
+        <main className="w-full font-['Manrope'] px-6 py-6 lg:px-10 lg:py-8">
+          {/* Header Greeting */}
+          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
+                Good afternoon, Pragya
+              </h1>
+              <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
+                Your AI is actively working on your sales pipeline.
+              </p>
             </div>
           </div>
-        ) : (
-          <GoalDefinition
-            userName={user.name}
-            onProjectReady={() => setIsProjectReady(true)}
-          />
-        )}
-      </main>
+
+          {/* Top Metrics Row (Figma specs: Fill 100% width, border-t & border-b: 1px #E2E8F0, py: 19px) */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-[#E2E8F0] divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0] py-[19px] mb-8">
+            {topMetrics.map((metric, index) => (
+              <div 
+                key={index} 
+                className={`flex flex-col justify-between ${
+                  index === 0 ? 'pr-6 py-2 sm:py-0' : 
+                  index === topMetrics.length - 1 ? 'pl-6 py-2 sm:py-0' : 
+                  'px-6 py-2 sm:py-0'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  {metric.icon}
+                  <span className="font-['Manrope'] font-semibold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#64748B]">
+                    {metric.label}
+                  </span>
+                </div>
+                <div className="font-['Manrope'] font-semibold text-[30px] leading-[36px] tracking-[0px] text-[#1E293B]">
+                  {metric.value}
+                </div>
+                <div className="font-['Manrope'] font-normal text-[12px] leading-[16px] tracking-[0px] text-[#64748B] mt-1">
+                  {metric.change}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Main Grid Layout (Left: Sales Health, Right: AI Attention & Top Campaign) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Card: Sales Health (7 cols) */}
+            <div className="lg:col-span-7 bg-white rounded-[16px] border border-[#F3F4F6] p-[24px] flex flex-col justify-between">
+              <div className="flex flex-col gap-[20px]">
+                {/* Header & Filter */}
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="font-['Manrope'] font-semibold text-[18px] text-[#1E293B]">
+                      Sales Health
+                    </h2>
+                    <p className="font-['Manrope'] font-normal text-[14px] text-[#64748B] mt-0.5">
+                      How your sales pipeline is performing
+                    </p>
+                  </div>
+
+                  {/* Dropdown Filter */}
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="flex items-center gap-1.5 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-1.5 text-[13px] font-medium text-[#475569] hover:bg-gray-100 transition-colors cursor-pointer"
+                    >
+                      <span>{timeRange}</span>
+                      <ChevronDown className="size-3.5 text-[#64748B]" />
+                    </button>
+
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-1.5 w-36 bg-white border border-[#E2E8F0] rounded-xl z-20 py-1 text-[13px]">
+                        {['Today', 'This Week', 'This Month', 'This Quarter'].map((item) => (
+                          <button
+                            key={item}
+                            onClick={() => {
+                              setTimeRange(item);
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-3.5 py-1.5 hover:bg-[#F8FAFC] cursor-pointer transition-colors ${
+                              timeRange === item ? 'font-semibold text-[#1E293B]' : 'text-[#64748B]'
+                            }`}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Semicircular Gauge */}
+                <div className="flex flex-col items-center justify-center my-4">
+                  <div className="relative w-[240px] h-[140px] flex items-center justify-center">
+                    <svg viewBox="0 0 240 140" className="w-full h-full overflow-visible">
+                      {/* Background Arch (180 deg) */}
+                      <path
+                        d="M 25 130 A 95 95 0 0 1 215 130"
+                        fill="none"
+                        stroke="#E2E8F0"
+                        strokeWidth="20.48"
+                        strokeLinecap="round"
+                      />
+
+                      {/* Active Progress Arch (78%) */}
+                      <path
+                        d="M 25 130 A 95 95 0 0 1 215 130"
+                        fill="none"
+                        stroke="#6A6A6A"
+                        strokeWidth="20.48"
+                        strokeLinecap="round"
+                        strokeDasharray="298.45"
+                        strokeDashoffset="65.66"
+                      />
+                    </svg>
+
+                    {/* Value in center of gauge */}
+                    <div className="absolute top-[64px] inset-x-0 flex flex-col items-center justify-center pointer-events-none">
+                      <div className="flex items-baseline justify-center">
+                        <span className="font-['Manrope'] font-bold text-[44px] leading-[44px] text-[#111827] tracking-[0px]">
+                          78
+                        </span>
+                        <span className="font-['Manrope'] font-semibold text-[22px] leading-[33px] text-[#6B7280] tracking-[0px] ml-0.5">
+                          /100
+                        </span>
+                      </div>
+                      <span className="font-['Manrope'] font-semibold text-[15px] leading-[20px] text-[#16A34A] mt-1.5 text-center">
+                        Healthy
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metric Breakdown Rows */}
+                <div className="space-y-3.5 pt-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                      <TrendingUp className="size-4 text-[#94A3B8]" />
+                      <span>Pipeline Growth</span>
+                    </div>
+                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                      ↑ 14.2%
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                      <Users className="size-4 text-[#94A3B8]" />
+                      <span>Lead-to-Meeting Rate</span>
+                    </div>
+                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                      ↑ 8.6%
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                      <Zap className="size-4 text-[#94A3B8]" />
+                      <span>Leads Going Cold</span>
+                    </div>
+                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                      ↓ 3.2%
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Footer Section */}
+              <div className="border-t border-[#F1F5F9] pt-4 mt-6 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <div className="font-['Manrope'] font-semibold text-[11px] uppercase tracking-[0.6px] text-[#64748B]">
+                    BIGGEST IMPROVEMENT
+                  </div>
+                  <div className="font-['Manrope'] font-semibold text-[16px] leading-[24px] tracking-[0px] text-[#111827] mt-0.5">
+                    Hot leads increased by 24% this week
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => toast.success('Viewing latest sales insights')}
+                  className="font-['Manrope'] font-medium text-[15px] leading-[22.5px] text-[#8B5CF6] hover:text-[#7C3AED] flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <span>View Sales Insights</span>
+                  <ArrowRight className="size-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: 2 Cards (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              {/* Card 1: AI Needs Your Attention */}
+              <div className="bg-white rounded-[16px] border border-[#F3F4F6] p-[24px]">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
+                    AI Needs Your Attention
+                  </h3>
+                  <div className="flex size-[28px] items-center justify-center rounded-full bg-[#F15B5B]/20 shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[13px] font-bold text-[#F15B5B]">
+                    7
+                  </div>
+                </div>
+
+                <p className="font-['Manrope'] font-normal text-[15px] leading-[24.38px] text-[#9CA3AF] mt-2.5 mb-4">
+                  7 leads are showing strong buying signals. Review the most important conversations.
+                </p>
+
+                {/* Avatar Stack */}
+                <div className="flex items-center mb-5">
+                  {[
+                    { initials: 'IN', bg: 'bg-[#F8FAFC]', text: 'text-[#334155]' },
+                    { initials: 'HM', bg: 'bg-[#FEF3C7]', text: 'text-[#92400E]' },
+                    { initials: 'GM', bg: 'bg-[#FFEDD5]', text: 'text-[#9A3412]' },
+                    { initials: 'AP', bg: 'bg-[#FEF9C3]', text: 'text-[#854D0E]' },
+                    { initials: '+3', bg: 'bg-[#E2F4FF]', text: 'text-[#0369A1]' },
+                  ].map((av, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex size-[40px] items-center justify-center rounded-full border-2 border-[#DBDEEE] font-['Manrope'] text-[13px] font-semibold ${av.bg} ${av.text} ${
+                        idx > 0 ? '-ml-2.5' : ''
+                      }`}
+                    >
+                      {av.initials}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Olive CTA Button */}
+                <button
+                  type="button"
+                  onClick={() => toast.success('Opening leads to review')}
+                  className="w-full py-3 px-4 bg-[#7A9601] hover:bg-[#6C8501] active:scale-[0.99] text-white font-['Manrope'] font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
+                >
+                  <span>Review Now</span>
+                  <ArrowRight className="size-4" />
+                </button>
+              </div>
+
+              {/* Card 2: Top Performing Campaign */}
+              <div className="bg-white rounded-[16px] border border-[#F3F4F6] p-[24px]">
+                {/* Header */}
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="size-4 text-[#9333EA]" />
+                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
+                    Top Performing Campaign
+                  </h3>
+                </div>
+
+                {/* Campaign Name & Active Badge */}
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="font-['Manrope'] font-normal text-[14px] text-[#64748B]">
+                    Product Demo Campaign
+                  </span>
+                  <span className="bg-[#DCFCE7] text-[#16A34A] text-[11px] font-semibold px-2 py-0.5 rounded-md">
+                    Active
+                  </span>
+                </div>
+
+                {/* Stats 4-columns */}
+                <div className="grid grid-cols-4 gap-2 text-left mb-5">
+                  <div>
+                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Sent</div>
+                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">1.2K</div>
+                  </div>
+                  <div>
+                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Opened</div>
+                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">68%</div>
+                  </div>
+                  <div>
+                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Replied</div>
+                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">24%</div>
+                  </div>
+                  <div>
+                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Meetings</div>
+                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">18</div>
+                  </div>
+                </div>
+
+                {/* View Campaign Report CTA Button */}
+                <button
+                  type="button"
+                  onClick={() => toast.success('Loading campaign report')}
+                  className="w-full h-[48.5px] px-4 bg-[#0D0D0D]/5 hover:bg-[#0D0D0D]/10 border border-[#0D0D0D]/5 text-[#222222] font-['Manrope'] font-medium text-[15px] leading-[22.5px] tracking-[0px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                >
+                  <span>View campaign report</span>
+                  <ArrowRight className="size-4 text-[#222222]" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard;

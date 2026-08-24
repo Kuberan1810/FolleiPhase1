@@ -1,0 +1,2 @@
+// setup.api.ts
+export {};
