@@ -1,14 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignUpForm from './Section/SignUpForm';
-import { useSignup } from '../../../hooks/auth/useSignup';
-import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
+import toast from 'react-hot-toast';
 
 export const SignUp: React.FC = () => {
-  const { startGoogleAuth, isStarting: isGoogleStarting } = useGoogleAuth();
-  const { mutate: register, isPending } = useSignup();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = (formData: {
     firstName: string;
@@ -17,14 +17,21 @@ export const SignUp: React.FC = () => {
     workEmail: string;
     password: string;
   }) => {
-    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      toast.success(`Account created for ${formData.firstName}!`);
+      navigate('/dashboard');
+    }, 600);
+  };
 
-    register({
-      email: formData.workEmail,
-      password: formData.password,
-      full_name: fullName,
-      tenant_name: formData.companyName,
-    });
+  const handleGoogleSignUp = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      toast.success('Signed up with Google');
+      navigate('/dashboard');
+    }, 600);
   };
 
   return (
@@ -39,8 +46,8 @@ export const SignUp: React.FC = () => {
         {/* Card containing Sign Up Form */}
         <SignUpForm
           onSubmit={handleSignUp}
-          onGoogleSignUp={startGoogleAuth}
-          isLoading={isPending || isGoogleStarting}
+          onGoogleSignUp={handleGoogleSignUp}
+          isLoading={isLoading}
         />
 
         {/* Footer Link to Sign In */}
@@ -50,23 +57,9 @@ export const SignUp: React.FC = () => {
           linkPath="/login"
         />
       </div>
-
-      {/* Connect Google Workspace Modal on Sign Up success */}
-      {/* <GoogleWorkspaceModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onContinueWithGoogle={() => {
-          console.log('Connecting Google Workspace...');
-          setShowModal(false);
-          navigate('/onboarding/company-website');
-        }}
-        onSkip={() => {
-          setShowModal(false);
-          navigate('/onboarding/company-website');
-        }}
-      /> */}
     </div>
   );
 };
 
 export default SignUp;
+

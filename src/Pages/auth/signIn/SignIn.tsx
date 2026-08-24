@@ -1,24 +1,35 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
-import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
-import { useLogin } from '../../../hooks/auth/useLogin';
+import toast from 'react-hot-toast';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const { startGoogleAuth, isStarting } = useGoogleAuth();
-  const { login, isLoading: isLoginLoading } = useLogin();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
-    await login(data);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      toast.success(`Welcome back, ${data.email}!`);
+      navigate('/dashboard');
+    }, 600);
+  };
+
+  const handleGoogleSignIn = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      toast.success('Signed in with Google');
+      navigate('/dashboard');
+    }, 600);
   };
 
   const handleForgotPassword = () => {
-    console.log('Navigating to forgot password...');
-    navigate('/forgot-password');
+    toast('Forgot password link sent to your email');
   };
 
   return (
@@ -33,9 +44,9 @@ export const SignIn: React.FC = () => {
         {/* Card containing Sign In Form & Social OAuth */}
         <SignInForm
           onSubmit={handleSignIn}
-          onGoogleSignIn={startGoogleAuth}
+          onGoogleSignIn={handleGoogleSignIn}
           onForgotPassword={handleForgotPassword}
-          isLoading={isStarting || isLoginLoading}
+          isLoading={isLoading}
         />
 
         {/* Footer Link to Sign Up */}
@@ -45,23 +56,9 @@ export const SignIn: React.FC = () => {
           linkPath="/signup"
         />
       </div>
-
-      {/* Connect Google Workspace Modal on Sign In success */}
-      {/* <GoogleWorkspaceModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onContinueWithGoogle={() => {
-          console.log('Connecting Google Workspace...');
-          setShowModal(false);
-          navigate('/onboarding/company-website');
-        }}
-        onSkip={() => {
-          setShowModal(false);
-          navigate('/onboarding/company-website');
-        }}
-      /> */}
     </div>
   );
 };
 
 export default SignIn;
+

@@ -1,21 +1,20 @@
 import { Search, X } from 'lucide-react';
-import { NotificationBing, InfoCircle, Setting } from "iconsax-react"
+import { NotificationBing, InfoCircle, Setting } from "iconsax-react";
 import profileImg from '../assets/image.png';
 import SaasSearch from './Search';
 import { useNavigate, Link } from 'react-router-dom';
-import FolleiLogo from "../assets/logo/follei-dark.svg"
+import FolleiLogo from "../assets/logo/follei-dark.svg";
 import { useState } from 'react';
-import { useSalesContext } from '../Context/SalesContext';
 import Notification from './Notification';
-import BoundToggleSwitch from './BoundToggleSwitch';
 
 const Header: React.FC = () => {
-    const { salesMode } = useSalesContext();
+    const [salesMode, setSalesMode] = useState<'presales' | 'postsales'>('presales');
     const navigate = useNavigate();
     const [showMobileSearch, setShowMobileSearch] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
 
     const handleToggle = (type: 'presales' | 'postsales') => {
+        setSalesMode(type);
         navigate(`/${type}/dashboard`);
     };
 
@@ -49,8 +48,29 @@ const Header: React.FC = () => {
 
             <div className='flex lg:gap-20 md:gap-16 sm:gap-10 gap-5'>
                 {/* Desktop Toggle */}
-                <div className='hidden sm:flex'>
-                    <BoundToggleSwitch salesMode={salesMode} onToggle={handleToggle} />
+                <div className='hidden sm:flex items-center bg-[#F1F5F9] p-1 rounded-full border border-[#E2E8F0]'>
+                    <button
+                        type="button"
+                        onClick={() => handleToggle('presales')}
+                        className={`px-3 py-1 text-xs font-medium rounded-full transition-all cursor-pointer ${
+                            salesMode === 'presales'
+                                ? 'bg-white text-[#0F172A] shadow-xs'
+                                : 'text-[#64748B] hover:text-[#0F172A]'
+                        }`}
+                    >
+                        Pre-Sales
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => handleToggle('postsales')}
+                        className={`px-3 py-1 text-xs font-medium rounded-full transition-all cursor-pointer ${
+                            salesMode === 'postsales'
+                                ? 'bg-white text-[#0F172A] shadow-xs'
+                                : 'text-[#64748B] hover:text-[#0F172A]'
+                        }`}
+                    >
+                        Post-Sales
+                    </button>
                 </div>
 
                 <div className="flex items-center gap-3 lg:gap-6">
