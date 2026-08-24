@@ -3,6 +3,8 @@ import SignIn from "../Pages/auth/signIn/SignIn";
 import SignUp from "../Pages/auth/SignUp/SignUp";
 import AuthCallback from "../Pages/auth/Callback/AuthCallback";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import MeetingPage from "../Pages/meeting/meeting";
+import Leads from "../Pages/leads/leads";
 
 export default function AppRoutes() {
   return (
@@ -19,7 +21,12 @@ export default function AppRoutes() {
       {/* Dashboard Route */}
       <Route path="/dashboard" element={<Dashboard />} />
 
-     
+      {/* Meeting Routes */}
+      <Route path="/meeting" element={<MeetingPage />} />
+      <Route path="/meetings" element={<MeetingPage />} />
+
+      {/* Leads Route */}
+      <Route path="/leads" element={<Leads />} />
     </Routes>
   );
 }

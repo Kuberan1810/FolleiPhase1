@@ -59,11 +59,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             type="button"
             onClick={() => setActiveNav('home')}
-            className={`flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
-              activeNav === 'home'
+            className={`flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${activeNav === 'home'
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
-            }`}
+              }`}
           >
             <Home className="size-4 text-[#2C2E31]" />
             <span>Home</span>
@@ -127,11 +126,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               setActiveNav('ask-follei');
               onAskFollei?.();
             }}
-            className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-              activeNav === 'ask-follei'
+            className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'ask-follei'
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
-            }`}
+              }`}
           >
             <Sparkles className="size-4 text-[#0D9488]" />
             <span>Ask Follei</span>
@@ -151,11 +149,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             setActiveNav('settings');
             onOpenSettings?.();
           }}
-          className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-            activeNav === 'settings'
+          className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'settings'
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
-          }`}
+            }`}
         >
           <Settings className="size-4 text-[#717378]" />
           <span>Settings</span>
