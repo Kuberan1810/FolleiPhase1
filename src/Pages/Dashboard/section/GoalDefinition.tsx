@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { ArrowUp, X, Check, Loader2, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowUp, X, Check, Loader2, Plus, FileText } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const ALL_GOALS = [
   'Increase Student Enrollment',
@@ -20,9 +21,20 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      const scrollH = textareaRef.current.scrollHeight;
+      textareaRef.current.style.height = `${Math.min(Math.max(scrollH, 28), 160)}px`;
+    }
+  }, [inputValue]);
 
   const toggleGoal = (goal: string) => {
     if (selectedGoals.includes(goal)) {
@@ -32,9 +44,24 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAttachedFile(file);
+      toast.success(`Attached: ${file.name}`);
+    }
+  };
+
+  const removeAttachedFile = () => {
+    setAttachedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (selectedGoals.length === 0 && !inputValue.trim()) return;
+    if (selectedGoals.length === 0 && !inputValue.trim() && !attachedFile) return;
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
@@ -54,11 +81,11 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   };
 
   const hasSelections = selectedGoals.length > 0;
-  const canSubmit = hasSelections || inputValue.trim().length > 0;
+  const canSubmit = hasSelections || inputValue.trim().length > 0 || attachedFile !== null;
 
   return (
     <div className="min-w-0 flex-1">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-14 md:py-20">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-6 py-14 md:py-20">
         {/* Header Greeting */}
         <header className="flex flex-col gap-2">
           <p className="text-[14px] text-[#717378]">Good morning, {userName}</p>
@@ -75,55 +102,103 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             {/* Input Form / Container */}
             <form
               onSubmit={handleSubmit}
-              className="flex flex-wrap items-center gap-2 rounded-[22px] border border-[#D7D7D4] bg-white p-3.5 shadow-xs transition-shadow duration-200 focus-within:border-gray-400 focus-within:shadow-md"
+              className="group relative flex w-full min-h-[88px] flex-col justify-center rounded-[28px] border border-[#E5E7EB] bg-white p-4 md:px-7 md:py-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-200 hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
             >
-              <Sparkles className="size-4 shrink-0 text-[#0D9488] ml-1" aria-hidden="true" />
-              
-              {selectedGoals.map((goal) => (
-                <span
-                  key={goal}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#16171A] text-white px-3 py-1 text-[13px] font-medium"
-                >
-                  {goal}
-                  <button
-                    type="button"
-                    onClick={() => toggleGoal(goal)}
-                    disabled={isSubmitting}
-                    className="hover:text-gray-300 focus:outline-none cursor-pointer"
-                  >
-                    <X className="size-3.5" />
-                  </button>
-                </span>
-              ))}
-
+              {/* Hidden File Input for document upload */}
               <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleSubmit(e);
-                }}
-                placeholder={hasSelections ? '' : 'What is your ultimate goal?'}
-                disabled={isSubmitting}
-                className="min-w-[150px] flex-1 bg-transparent px-2 text-[14px] text-[#16171A] outline-none placeholder:text-[#717378]"
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.json"
+                className="hidden"
               />
 
-              <button
-                type="submit"
-                aria-label="Submit Goal"
-                disabled={!canSubmit || isSubmitting}
-                className={`flex size-8 shrink-0 items-center justify-center rounded-xl transition-all duration-150 cursor-pointer ${
-                  canSubmit && !isSubmitting
-                    ? 'bg-gray-900 text-white hover:bg-black'
-                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? (
-                  <Loader2 className="size-4 animate-spin text-gray-500" />
-                ) : (
-                  <ArrowUp className="size-4" />
-                )}
-              </button>
+              {/* Selected Goals & Attached File Row */}
+              {(selectedGoals.length > 0 || attachedFile) && (
+                <div className="flex flex-wrap items-center gap-2 mb-2.5">
+                  {selectedGoals.map((goal) => (
+                    <span
+                      key={goal}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[#16171A] text-white px-3.5 py-1 text-[13px] font-medium shadow-2xs"
+                    >
+                      {goal}
+                      <button
+                        type="button"
+                        onClick={() => toggleGoal(goal)}
+                        disabled={isSubmitting}
+                        className="hover:text-gray-300 focus:outline-none cursor-pointer"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </span>
+                  ))}
+
+                  {attachedFile && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3.5 py-1 text-[12.5px] font-medium shadow-2xs">
+                      <FileText className="size-3.5 text-[#64748B]" />
+                      <span className="max-w-[180px] truncate">{attachedFile.name}</span>
+                      <button
+                        type="button"
+                        onClick={removeAttachedFile}
+                        disabled={isSubmitting}
+                        className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Input Controls Row: Plus (Upload) -> Input -> Submit Arrow (All Vertically Centered) */}
+              <div className="flex items-center gap-3 w-full">
+                {/* Plus / Document Upload Button */}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isSubmitting}
+                  title="Upload document or file"
+                  aria-label="Upload document"
+                  className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
+                >
+                  <Plus className="size-5 stroke-[2.2]" />
+                </button>
+
+                {/* Auto-expanding Textarea (Vertically centered on 1 line, expands downwards as text fills) */}
+                <textarea
+                  ref={textareaRef}
+                  rows={1}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSubmit(e);
+                    }
+                  }}
+                  placeholder={hasSelections ? 'Add more context or upload data...' : 'What is your ultimate goal?'}
+                  disabled={isSubmitting}
+                  className="min-w-0 flex-1 resize-none bg-transparent text-[16.5px] leading-[26px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
+                />
+
+                {/* Submit Arrow Button */}
+                <button
+                  type="submit"
+                  aria-label="Submit Goal"
+                  disabled={!canSubmit || isSubmitting}
+                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                    canSubmit && !isSubmitting
+                      ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
+                      : 'bg-[#F3F4F6] text-[#6B7280]'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="size-4 animate-spin text-white" />
+                  ) : (
+                    <ArrowUp className="size-5 stroke-[2.2]" />
+                  )}
+                </button>
+              </div>
             </form>
 
             {/* Loading Indicator */}
@@ -166,8 +241,8 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             ) : (
               <div className="flex flex-col gap-6">
                 {/* Goal summary box */}
-                <div className="rounded-2xl border border-[#E6E6E4] bg-white p-5 shadow-xs">
-                  <span className="text-[11px] font-bold tracking-wider text-[#717378] uppercase block mb-2">
+                <div className="rounded-[28px] border border-[#E6E6E4] bg-white p-5 ">
+                  <span className="text-[11px] font-medium tracking-wider text-[#717378] uppercase block mb-2">
                     YOUR GOAL
                   </span>
                   <p className="text-[15px] font-medium text-[#16171A]">
@@ -179,17 +254,11 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 
                 {/* Understanding explanation */}
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-[16px] font-semibold text-[#16171A]">
+                  <h3 className="text-[17px] font-medium text-[#16171A] mb-2.5">
                     Here's what I understand
                   </h3>
-                  <p className="text-[14px] text-[#55575C] leading-relaxed">
-                    Got it. Your ultimate goal is to{' '}
-                    <span className="font-medium text-[#16171A]">
-                      {selectedGoals.length > 0
-                        ? selectedGoals.join(', ').toLowerCase()
-                        : inputValue.toLowerCase()}
-                    </span>
-                    . In practice, that means you want to grow enrollment by turning more enquiries into confirmed admissions. Follei will focus on identifying high-intent prospects, improving follow-up timing, personalizing outreach, and re-engaging inactive leads so more of your effort lands where it counts. You can refine this later — everything in your workspace will be shaped around it.
+                      <p className="text-[14px] text-[#737373] leading-relaxed">
+                        Got it. Your ultimate goal is to boost Student Engagement. In practice, that means you want to deepen engagement so people stay active and involved over time. Follei will focus on spotting drop-off moments early, timing nudges well, and tailoring communication to each segment so more of your effort lands where it counts. You can refine this later — everything in your workspace will be shaped around it.
                   </p>
                 </div>
 
@@ -198,14 +267,14 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    className="rounded-full bg-[#16171A] px-5 py-2 text-[14px] font-medium text-white hover:bg-black transition-colors shadow-2xs cursor-pointer"
+                    className="rounded-full bg-[#16171A] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors  cursor-pointer"
                   >
                     Confirm goal
                   </button>
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="rounded-full border border-[#E6E6E4] bg-white px-5 py-2 text-[14px] font-medium text-[#16171A] hover:bg-gray-50 transition-colors shadow-2xs cursor-pointer"
+                    className="rounded-full border border-[#E6E6E4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#16171A] hover:bg-gray-50 transition-colors s cursor-pointer"
                   >
                     Edit goal
                   </button>

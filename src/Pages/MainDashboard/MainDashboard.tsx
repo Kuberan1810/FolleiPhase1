@@ -58,25 +58,17 @@ export const MainDashboard: React.FC = () => {
     },
   ];
 
-  const avatars = [
-    { initials: 'IN', bg: 'bg-[#E0F2FE]', text: 'text-[#0284C7]' },
-    { initials: 'HM', bg: 'bg-[#F3E8FF]', text: 'text-[#9333EA]' },
-    { initials: 'GM', bg: 'bg-[#FFEDD5]', text: 'text-[#EA580C]' },
-    { initials: 'AP', bg: 'bg-[#CCFBF1]', text: 'text-[#0D9488]' },
-    { initials: '+3', bg: 'bg-[#DBEAFE]', text: 'text-[#2563EB]' },
-  ];
-
   return (
-    <div className="flex h-screen w-full bg-white text-[#16171A] font-sans antialiased overflow-hidden">
+    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] font-sans antialiased overflow-hidden">
       {/* Left Sidebar */}
       <Sidebar
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="home"
+        activeItem="dashboard"
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-y-auto min-w-0 bg-[#FFFFFF]">
+      <div className="flex-1 flex flex-col h-screen overflow-y-auto min-w-0 bg-[#FDFDFC]">
         {/* Mobile Header Bar */}
         <div className="flex items-center justify-between border-b border-[#EBEBE8] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
           <button
@@ -96,14 +88,18 @@ export const MainDashboard: React.FC = () => {
         {/* Dashboard Main Container - Full Width */}
         <main className="w-full font-['Manrope'] px-6 py-6 lg:px-10 lg:py-8">
           {/* Header Greeting */}
-          <div className="mb-6">
-            <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
-              Good afternoon, Pragya
-            </h1>
-            <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
-              Your AI is actively working on your sales pipeline.
-            </p>
+          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
+                Good afternoon, Pragya
+              </h1>
+              <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
+                Your AI is actively working on your sales pipeline.
+              </p>
+            </div>
           </div>
+
+        
 
           {/* Top Metrics Row (Figma specs: Fill 100% width, border-t & border-b: 1px #E2E8F0, py: 19px) */}
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-[#E2E8F0] divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0] py-[19px] mb-8">

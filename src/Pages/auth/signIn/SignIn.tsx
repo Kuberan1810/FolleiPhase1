@@ -15,7 +15,7 @@ export const SignIn: React.FC = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast.success(`Welcome back, ${data.email}!`);
-      navigate('/dashboard');
+      navigate('/dashboard-setup');
     }, 600);
   };
 
@@ -24,7 +24,7 @@ export const SignIn: React.FC = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast.success('Signed in with Google');
-      navigate('/dashboard');
+      navigate('/dashboard-setup');
     }, 600);
   };
 

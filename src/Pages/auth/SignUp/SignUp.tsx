@@ -21,7 +21,7 @@ export const SignUp: React.FC = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast.success(`Account created for ${formData.firstName}!`);
-      navigate('/dashboard');
+      navigate('/dashboard-setup');
     }, 600);
   };
 
@@ -30,7 +30,7 @@ export const SignUp: React.FC = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast.success('Signed up with Google');
-      navigate('/dashboard');
+      navigate('/dashboard-setup');
     }, 600);
   };
 

@@ -1,71 +1,15 @@
-import React from 'react';
-import { Menu, Sparkles, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Menu, ArrowRight } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
-import {
-  DashboardGreeting,
-  DashboardPromptSection,
-  DashboardEmptyState,
-  DashboardWorkspaceSection,
-} from './section';
 import { GoalDefinition } from './section/GoalDefinition';
-import { SetupWidget } from './setupwidgets';
-import { useDashboardState } from './hooks';
-import { OutlookSyncModal } from './modal/ToolConnectModal';
-import hubspotLogo from '../../assets/icons/hubspot.png';
-import salesforceLogo from '../../assets/icons/salesforce.png';
-import zohoLogo from '../../assets/icons/zoho.png';
-import googleLogo from '../../assets/icons/google.png';
-import outlookLogo from '../../assets/icons/outlook.png';
-
-const getToolLogo = (toolName: string) => {
-  const name = toolName.toLowerCase();
-  if (name.includes('hubspot')) return <img src={hubspotLogo} alt="HubSpot" className="h-10 w-10 object-contain" />;
-  if (name.includes('salesforce')) return <img src={salesforceLogo} alt="Salesforce" className="h-10 w-10 object-contain" />;
-  if (name.includes('zoho')) return <img src={zohoLogo} alt="Zoho" className="h-10 w-10 object-contain" />;
-  if (name.includes('google')) return <img src={googleLogo} alt="Google" className="h-10 w-10 object-contain" />;
-  if (name.includes('microsoft') || name.includes('outlook') || name.includes('365')) return <img src={outlookLogo} alt="Outlook" className="h-10 w-10 object-contain" />;
-  return null;
-};
+import { DEFAULT_USER } from './data';
 
 export const Dashboard: React.FC = () => {
-  const {
-    user,
-    promptText,
-    setPromptText,
-    miniPromptText,
-    setMiniPromptText,
-    steps,
-    currentStepId,
-    currentStepIndex,
-    totalSteps,
-    currentConfig,
-    selectedOptionId,
-    workspaceItems,
-    suggestions,
-    isMobileSidebarOpen,
-    setIsMobileSidebarOpen,
-    isMobileSetupOpen,
-    setIsMobileSetupOpen,
-    isSubmitting,
-    activeSyncTool,
-    isImportingBusinessData,
-    isImportingLeads,
-    isComplete,
-    isWorkspaceReady,
-    handleCompleteSync,
-    handleCancelSync,
-    handleSelectSuggestion,
-    handleSelectOption,
-    handleStepClick,
-    handlePromptSubmit,
-    handleMiniPromptSubmit,
-    handleStartUsing,
-    isProjectReady,
-    setIsProjectReady,
-  } = useDashboardState();
-
-  const isImporting = isImportingBusinessData || isImportingLeads;
-  const loadingText = isImportingBusinessData ? 'Importing business data...' : 'Importing leads...';
+  const navigate = useNavigate();
+  const [user] = useState(DEFAULT_USER);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isProjectReady, setIsProjectReady] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
@@ -75,10 +19,11 @@ export const Dashboard: React.FC = () => {
         projects={isProjectReady ? ['Project 1'] : []}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
+        activeItem="home"
       />
 
-      {/* Main Center & Right Content Area */}
-      <main className="min-w-0 flex-1">
+      {/* Main Center Area */}
+      <main className="min-w-0 flex-1 flex flex-col min-h-screen">
         {/* Mobile Header Bar */}
         <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
           <button
@@ -92,140 +37,34 @@ export const Dashboard: React.FC = () => {
           <span className="text-[13px] font-semibold tracking-tight text-[#16171A]">
             Follei
           </span>
-          <button
-            type="button"
-            aria-label="Open Follei setup"
-            onClick={() => setIsMobileSetupOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-[#0D9488] hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Sparkles className="size-4 text-[#0D9488]" aria-hidden="true" />
-          </button>
+          <div className="size-8" />
         </div>
 
-        {/* Content based on state */}
+        {/* Content based on Project state */}
         {isProjectReady ? (
           <div className="min-w-0 flex-1">
-            <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-6 py-14 md:py-20 animate-fade-slide">
-              <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">Project 1</h1>
-              <p className="text-[15px] text-[#717378]">
-                Your workspace is being shaped around your ultimate goal.
-              </p>
+            <div className="mx-auto flex w-full max-w-4xl flex-col items-start gap-6 px-6 py-14 md:py-20 animate-fade-slide">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">Project 1</h1>
+                <p className="text-[15px] text-[#717378]">
+                  Your workspace is being shaped around your ultimate goal.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => navigate('/main-dashboard')}
+                className="inline-flex items-center gap-2 rounded-full bg-[#16171A] hover:bg-black text-white px-6 py-2.5 text-[14px] font-medium transition-all shadow-sm cursor-pointer"
+              >
+                <span>Go to workspace</span>
+                <ArrowRight className="size-4" />
+              </button>
             </div>
           </div>
-        ) : isWorkspaceReady ? (
-          <GoalDefinition userName={user.name} onProjectReady={() => setIsProjectReady(true)} />
         ) : (
-          <div className="flex justify-center gap-8 pb-28 xl:pb-0">
-            {/* Central Prompt & Greeting Area */}
-            <div className="min-w-0 flex-1">
-              <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-14 md:py-20">
-                {/* Header Greeting */}
-                <DashboardGreeting userName={user.name} isWorkspaceReady={isWorkspaceReady} />
-
-                {/* Prompt Section */}
-                <DashboardPromptSection
-                  inputValue={promptText}
-                  onInputChange={setPromptText}
-                  onSubmit={handlePromptSubmit}
-                  suggestions={suggestions}
-                  onSelectSuggestion={handleSelectSuggestion}
-                  isSubmitting={isSubmitting}
-                  isWorkspaceReady={isWorkspaceReady}
-                  placeholder={currentConfig.inputPlaceholder}
-                />
-
-                {/* Workspace Context Cards or Empty State */}
-                {workspaceItems.length > 0 ? (
-                  <DashboardWorkspaceSection items={workspaceItems} />
-                ) : (
-                  <DashboardEmptyState />
-                )}
-              </div>
-            </div>
-
-            {/* Right Setup Assistant Card (Sticky on Large Screens) */}
-            <div className="hidden lg:block shrink-0 py-14 pr-8">
-              <div className="sticky top-14 w-80">
-                <SetupWidget
-                  currentStepIndex={currentStepIndex}
-                  totalSteps={totalSteps}
-                  bannerTitle={currentConfig.bannerTitle}
-                  bannerSubtitle={currentConfig.bannerSubtitle}
-                  steps={steps}
-                  currentStepId={currentStepId}
-                  onStepClick={handleStepClick}
-                  question={currentConfig.question}
-                  description={currentConfig.description}
-                  options={currentConfig.options}
-                  selectedOptionId={selectedOptionId}
-                  onSelectOption={handleSelectOption}
-                  miniInputValue={miniPromptText}
-                  onMiniInputChange={setMiniPromptText}
-                  onMiniInputSubmit={handleMiniPromptSubmit}
-                  placeholder={currentConfig.inputPlaceholder}
-                  isLoading={isImporting}
-                  loadingText={loadingText}
-                  isComplete={isComplete}
-                  isWorkspaceReady={isWorkspaceReady}
-                  onStartUsing={handleStartUsing}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile Setup Assistant Drawer */}
-        {isMobileSetupOpen && (
-          <div className="fixed inset-0 z-50 flex justify-end lg:hidden">
-            <div
-              className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
-              onClick={() => setIsMobileSetupOpen(false)}
-            />
-            <div className="relative z-10 w-full max-w-sm bg-white p-4 h-full overflow-y-auto shadow-2xl animate-in slide-in-from-right duration-200">
-              <div className="flex items-center justify-between pb-3 mb-2 border-b border-gray-100">
-                <span className="font-semibold text-sm text-[#16171A]">Setup Assistant</span>
-                <button
-                  type="button"
-                  onClick={() => setIsMobileSetupOpen(false)}
-                  className="flex size-7 items-center justify-center rounded-lg text-[#717378] hover:bg-gray-100 hover:text-gray-700"
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
-              <SetupWidget
-                currentStepIndex={currentStepIndex}
-                totalSteps={totalSteps}
-                bannerTitle={currentConfig.bannerTitle}
-                bannerSubtitle={currentConfig.bannerSubtitle}
-                steps={steps}
-                currentStepId={currentStepId}
-                onStepClick={handleStepClick}
-                question={currentConfig.question}
-                description={currentConfig.description}
-                options={currentConfig.options}
-                selectedOptionId={selectedOptionId}
-                onSelectOption={handleSelectOption}
-                miniInputValue={miniPromptText}
-                onMiniInputChange={setMiniPromptText}
-                onMiniInputSubmit={handleMiniPromptSubmit}
-                placeholder={currentConfig.inputPlaceholder}
-                isLoading={isImporting}
-                loadingText={loadingText}
-                isComplete={isComplete}
-                isWorkspaceReady={isWorkspaceReady}
-                onStartUsing={handleStartUsing}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Data Sync Flow Modal */}
-        {activeSyncTool && (
-          <OutlookSyncModal
-            toolName={activeSyncTool}
-            toolLogo={getToolLogo(activeSyncTool)}
-            onContinue={handleCompleteSync}
-            onDisconnect={handleCancelSync}
+          <GoalDefinition
+            userName={user.name}
+            onProjectReady={() => setIsProjectReady(true)}
           />
         )}
       </main>
@@ -233,4 +72,4 @@ export const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard;

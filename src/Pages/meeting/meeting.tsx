@@ -27,6 +27,7 @@ export const MeetingPage: React.FC = () => {
       <Sidebar
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
+        activeItem="meetings"
       />
 
       {/* Main Content */}

@@ -49,14 +49,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const displayProjects = projects.length > 0 ? projects : ['Project 1'];
   
   const currentPath = location.pathname;
-  const activeNav = activeItem || (
-    currentPath.includes('dashboard') || currentPath === '/' ? 'home' :
-    currentPath.includes('leads') ? 'leads' :
-    currentPath.includes('meeting') ? 'meetings' :
-    currentPath.includes('dashboard') ? 'dashboard' :
-    'home'
-  );
+  
+  const getActiveNav = () => {
+    if (activeItem) return activeItem;
+    if (currentPath === '/main-dashboard') return 'dashboard';
+    if (currentPath.startsWith('/lead')) return 'leads';
+    if (currentPath.startsWith('/meet')) return 'meetings';
+    if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/dashboard' || currentPath === '/') return 'home';
+    return 'home';
+  };
 
+  const activeNav = getActiveNav();
 
   const navTo = (path: string) => {
     navigate(path);
@@ -69,7 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col gap-4">
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 pt-1 pb-1">
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navTo('/main-dashboard')}>
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navTo('/home')}>
             <div className="flex size-7 items-center justify-center rounded-full bg-[#16171A] text-white font-bold text-[13px] tracking-wider shadow-xs">
               F
             </div>
@@ -93,16 +96,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Home Link */}
           <button
             type="button"
-
-            onClick={() => navTo('/dashboard')}
+            onClick={() => navTo('/home')}
             className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
               activeNav === 'home'
-
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
-              }`}
+            }`}
           >
-            <Home className="size-4 text-[#2C2E31]" />
+            <Home className={`size-4 ${activeNav === 'home' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
             <span>Home</span>
           </button>
 
@@ -139,47 +140,52 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <button
                         type="button"
                         onClick={() => navTo('/main-dashboard')}
-                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'dashboard'
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                         }`}
                       >
-                        <LayoutDashboard className="size-3.5 text-[#717378]" />
+                        <LayoutDashboard className={`size-3.5 ${activeNav === 'dashboard' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Dashboard</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => navTo('/leads')}
-                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'leads'
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                         }`}
                       >
-                        <Users className="size-3.5 text-[#717378]" />
+                        <Users className={`size-3.5 ${activeNav === 'leads' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Leads</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => navTo('/meeting')}
-                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'meetings'
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                         }`}
                       >
-                        <Calendar className="size-3.5 text-[#717378]" />
+                        <Calendar className={`size-3.5 ${activeNav === 'meetings' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Meetings</span>
                       </button>
 
                       <button
                         type="button"
-                        className="flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] text-[#717378] hover:text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer font-normal"
+                        onClick={() => navTo('/main-dashboard')}
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          activeNav === 'campaigns'
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                        }`}
                       >
-                        <Megaphone className="size-3.5 text-[#717378]" />
+                        <Megaphone className={`size-3.5 ${activeNav === 'campaigns' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Campaigns</span>
                       </button>
                     </div>
