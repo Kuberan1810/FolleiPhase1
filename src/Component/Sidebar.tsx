@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
-import { Home, ChevronDown, ChevronRight, Plus, Sparkles, Settings, SquareDashed, X } from 'lucide-react';
+import { 
+  Home, 
+  ChevronDown, 
+  ChevronRight, 
+  Plus, 
+  Sparkles, 
+  Settings, 
+  Folder, 
+  LayoutDashboard, 
+  Users, 
+  Calendar, 
+  Megaphone, 
+  X 
+} from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { UserProfile } from '../Pages/Dashboard/types';
 
 interface SidebarProps {
@@ -10,32 +24,53 @@ interface SidebarProps {
   onNewProject?: () => void;
   onAskFollei?: () => void;
   onOpenSettings?: () => void;
+  activeItem?: string;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   user = {
-    name: 'Aditya Rao',
-    email: 'aditya@northwind.io',
-    initials: 'AR',
+    name: 'Aditya',
+    email: 'Free plan',
+    initials: 'A',
   },
-  projects = [],
+  projects = ['Project 1'],
   isOpen = false,
   onClose,
   onNewProject,
   onAskFollei,
   onOpenSettings,
+  activeItem,
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
-  const [activeNav, setActiveNav] = useState<'home' | 'ask-follei' | 'settings'>('home');
+  const [isProject1Open, setIsProject1Open] = useState(true);
+  
+  const displayProjects = projects.length > 0 ? projects : ['Project 1'];
+  
+  const currentPath = location.pathname;
+  const activeNav = activeItem || (
+    currentPath.includes('main-dashboard') || currentPath === '/' ? 'home' :
+    currentPath.includes('leads') ? 'leads' :
+    currentPath.includes('meeting') ? 'meetings' :
+    currentPath.includes('dashboard') ? 'dashboard' :
+    'home'
+  );
+
+
+  const navTo = (path: string) => {
+    navigate(path);
+    if (onClose) onClose();
+  };
 
   const content = (
     <div className="flex h-full w-60 flex-col justify-between border-r border-[#EBEBE8] bg-[#F9F9F7] px-3.5 py-4 font-sans select-none">
       {/* Top Header & Navigation */}
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4">
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 pt-1 pb-1">
-          <div className="flex items-center gap-2.5">
-            <div className="flex size-7 items-center justify-center rounded-full bg-[#16171A] text-white font-bold text-[12px] tracking-wider shadow-xs">
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navTo('/main-dashboard')}>
+            <div className="flex size-7 items-center justify-center rounded-full bg-[#16171A] text-white font-bold text-[13px] tracking-wider shadow-xs">
               F
             </div>
             <span className="text-[15px] font-semibold tracking-tight text-[#16171A]">
@@ -54,12 +89,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Navigation Links */}
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           {/* Home Link */}
           <button
             type="button"
-            onClick={() => setActiveNav('home')}
-            className={`flex w-full items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
+            onClick={() => navTo('/main-dashboard')}
+            className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
               activeNav === 'home'
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
@@ -69,46 +104,91 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span>Home</span>
           </button>
 
-          {/* Projects Collapsible Section */}
-          <div className="flex flex-col gap-1 pt-1">
+          {/* Projects Section */}
+          <div className="flex flex-col gap-0.5 pt-1">
             <button
               type="button"
               onClick={() => setIsProjectsOpen((prev) => !prev)}
-              className="flex items-center gap-2 px-3 py-1.5 text-[13.5px] font-medium text-[#16171A] hover:bg-black/5 rounded-xl transition-colors cursor-pointer"
+              className="flex items-center gap-2 px-3 py-1.5 text-[13.5px] font-medium text-[#16171A] hover:bg-black/5 rounded-xl transition-colors cursor-pointer text-left"
             >
-              {isProjectsOpen ? (
-                <ChevronDown className="size-3.5 text-[#717378]" />
-              ) : (
-                <ChevronRight className="size-3.5 text-[#717378]" />
-              )}
+              <Folder className="size-4 text-[#717378]" />
               <span>Projects</span>
             </button>
 
             {isProjectsOpen && (
-              <div className="flex flex-col gap-0.5 pl-6 pr-1">
-                {projects.length > 0 ? (
-                  projects.map((proj) => (
-                    <button
-                      key={proj}
-                      type="button"
-                      className="flex items-center px-2 py-1.5 text-[13px] text-[#717378] hover:text-[#16171A] rounded-lg transition-colors cursor-pointer text-left font-normal"
-                    >
-                      <span>{proj}</span>
-                    </button>
-                  ))
-                ) : (
-                  /* Empty State item */
-                  <div className="flex items-center gap-2 px-2 py-1.5 text-[12.5px] text-[#8C8E93]">
-                    <SquareDashed className="size-3.5 text-[#B5B6BA] stroke-[1.5]" />
-                    <span>No projects yet</span>
-                  </div>
-                )}
+              <div className="flex flex-col gap-0.5 pl-4 pr-1 mt-0.5">
+                {/* Project 1 Collapsible */}
+                <div className="flex flex-col">
+                  <button
+                    type="button"
+                    onClick={() => setIsProject1Open((prev) => !prev)}
+                    className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
+                  >
+                    {isProject1Open ? (
+                      <ChevronDown className="size-3 text-[#717378]" />
+                    ) : (
+                      <ChevronRight className="size-3 text-[#717378]" />
+                    )}
+                    <span>{displayProjects[0] || 'Project 1'}</span>
+                  </button>
+
+                  {isProject1Open && (
+                    <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
+                      <button
+                        type="button"
+                        onClick={() => navTo('/dashboard')}
+                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          activeNav === 'dashboard'
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                        }`}
+                      >
+                        <LayoutDashboard className="size-3.5 text-[#717378]" />
+                        <span>Dashboard</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => navTo('/leads')}
+                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          activeNav === 'leads'
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                        }`}
+                      >
+                        <Users className="size-3.5 text-[#717378]" />
+                        <span>Leads</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => navTo('/meeting')}
+                        className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          activeNav === 'meetings'
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                        }`}
+                      >
+                        <Calendar className="size-3.5 text-[#717378]" />
+                        <span>Meetings</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className="flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] text-[#717378] hover:text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer font-normal"
+                      >
+                        <Megaphone className="size-3.5 text-[#717378]" />
+                        <span>Campaigns</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
 
                 {/* + New Project Action */}
                 <button
                   type="button"
                   onClick={onNewProject}
-                  className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer"
+                  className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
                 >
                   <Plus className="size-3.5 text-[#717378]" />
                   <span>New Project</span>
@@ -124,16 +204,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             type="button"
             onClick={() => {
-              setActiveNav('ask-follei');
               onAskFollei?.();
             }}
-            className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
               activeNav === 'ask-follei'
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
             }`}
           >
-            <Sparkles className="size-4 text-[#0D9488]" />
+            <Sparkles className="size-4 text-[#717378]" />
             <span>Ask Follei</span>
           </button>
         </div>
@@ -141,17 +220,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Bottom Settings & User Profile */}
       <div className="flex flex-col gap-2">
-        {/* Divider line */}
-        <div className="border-t border-[#EBEBE8] mb-1" />
-
         {/* Settings button */}
         <button
           type="button"
           onClick={() => {
-            setActiveNav('settings');
             onOpenSettings?.();
           }}
-          className={`flex items-center gap-2.5 rounded-[14px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
+          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
             activeNav === 'settings'
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
@@ -161,17 +236,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span>Settings</span>
         </button>
 
-        {/* User Card */}
-        <div className="flex items-center gap-3 rounded-xl px-2 py-1.5 hover:bg-black/5 transition-colors cursor-pointer">
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#CCFBEF] text-[11px] font-semibold text-[#0D9488]">
-            {user.initials || 'AR'}
+        {/* User Card Pill */}
+        <div className="flex items-center gap-3 rounded-2xl border border-[#EBEBE8] bg-[#F4F4F0]/60 p-2.5 hover:bg-[#EFEFEA] transition-colors cursor-pointer">
+          <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
+            {user.initials || user.name.charAt(0) || 'A'}
           </div>
           <div className="flex min-w-0 flex-1 flex-col">
-            <span className="truncate text-[12.5px] font-semibold text-[#16171A]">
+            <span className="truncate text-[13px] font-semibold text-[#16171A] leading-tight">
               {user.name}
             </span>
-            <span className="truncate text-[11px] text-[#717378]">
-              {user.email}
+            <span className="truncate text-[11px] text-[#717378] leading-tight mt-0.5">
+              {user.email === 'Free plan' ? 'Free plan' : (user.email || 'Free plan')}
             </span>
           </div>
         </div>
@@ -203,3 +278,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
+

@@ -5,6 +5,7 @@
 
 @theme {
     --font-inter: "Inter", sans-serif;
+    --font-manrope: "Manrope", sans-serif;
     --animate-spin-slow: spin 4s linear infinite;
     --animate-spin-reverse: spin-reverse 6s linear infinite;
     --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
