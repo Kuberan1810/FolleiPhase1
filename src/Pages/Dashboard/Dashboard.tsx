@@ -7,6 +7,7 @@ import {
   DashboardEmptyState,
   DashboardWorkspaceSection,
 } from './section';
+import { GoalDefinition } from './section/GoalDefinition';
 import { SetupWidget } from './setupwidgets';
 import { useDashboardState } from './hooks';
 import { OutlookSyncModal } from './modal/ToolConnectModal';
@@ -59,6 +60,8 @@ export const Dashboard: React.FC = () => {
     handlePromptSubmit,
     handleMiniPromptSubmit,
     handleStartUsing,
+    isProjectReady,
+    setIsProjectReady,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
@@ -69,7 +72,7 @@ export const Dashboard: React.FC = () => {
       {/* Reusable Left Sidebar */}
       <Sidebar
         user={user}
-        projects={isWorkspaceReady ? ['Project One', 'Project Two'] : []}
+        projects={isProjectReady ? ['Project 1'] : []}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
       />
@@ -99,64 +102,77 @@ export const Dashboard: React.FC = () => {
           </button>
         </div>
 
-        {/* Center Canvas with Max Width + Right Sticky Setup Widget */}
-        <div className="flex justify-center gap-8 pb-28 xl:pb-0">
-          {/* Central Prompt & Greeting Area */}
+        {/* Content based on state */}
+        {isProjectReady ? (
           <div className="min-w-0 flex-1">
-            <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-14 md:py-20">
-              {/* Header Greeting */}
-              <DashboardGreeting userName={user.name} isWorkspaceReady={isWorkspaceReady} />
-
-              {/* Prompt Section */}
-              <DashboardPromptSection
-                inputValue={promptText}
-                onInputChange={setPromptText}
-                onSubmit={handlePromptSubmit}
-                suggestions={suggestions}
-                onSelectSuggestion={handleSelectSuggestion}
-                isSubmitting={isSubmitting}
-                isWorkspaceReady={isWorkspaceReady}
-                placeholder={isWorkspaceReady ? 'Which leads need my attention today?' : currentConfig.inputPlaceholder}
-              />
-
-              {/* Workspace Context Cards or Empty State */}
-              {workspaceItems.length > 0 ? (
-                <DashboardWorkspaceSection items={workspaceItems} />
-              ) : (
-                <DashboardEmptyState />
-              )}
+            <div className="mx-auto flex w-full max-w-2xl flex-col gap-3 px-6 py-14 md:py-20 animate-fade-slide">
+              <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">Project 1</h1>
+              <p className="text-[15px] text-[#717378]">
+                Your workspace is being shaped around your ultimate goal.
+              </p>
             </div>
           </div>
+        ) : isWorkspaceReady ? (
+          <GoalDefinition userName={user.name} onProjectReady={() => setIsProjectReady(true)} />
+        ) : (
+          <div className="flex justify-center gap-8 pb-28 xl:pb-0">
+            {/* Central Prompt & Greeting Area */}
+            <div className="min-w-0 flex-1">
+              <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-14 md:py-20">
+                {/* Header Greeting */}
+                <DashboardGreeting userName={user.name} isWorkspaceReady={isWorkspaceReady} />
 
-          {/* Right Setup Assistant Card (Sticky on Large Screens) */}
-          <div className="hidden lg:block shrink-0 py-14 pr-8">
-            <div className="sticky top-14 w-80">
-              <SetupWidget
-                currentStepIndex={currentStepIndex}
-                totalSteps={totalSteps}
-                bannerTitle={currentConfig.bannerTitle}
-                bannerSubtitle={currentConfig.bannerSubtitle}
-                steps={steps}
-                currentStepId={currentStepId}
-                onStepClick={handleStepClick}
-                question={currentConfig.question}
-                description={currentConfig.description}
-                options={currentConfig.options}
-                selectedOptionId={selectedOptionId}
-                onSelectOption={handleSelectOption}
-                miniInputValue={miniPromptText}
-                onMiniInputChange={setMiniPromptText}
-                onMiniInputSubmit={handleMiniPromptSubmit}
-                placeholder={currentConfig.inputPlaceholder}
-                isLoading={isImporting}
-                loadingText={loadingText}
-                isComplete={isComplete}
-                isWorkspaceReady={isWorkspaceReady}
-                onStartUsing={handleStartUsing}
-              />
+                {/* Prompt Section */}
+                <DashboardPromptSection
+                  inputValue={promptText}
+                  onInputChange={setPromptText}
+                  onSubmit={handlePromptSubmit}
+                  suggestions={suggestions}
+                  onSelectSuggestion={handleSelectSuggestion}
+                  isSubmitting={isSubmitting}
+                  isWorkspaceReady={isWorkspaceReady}
+                  placeholder={currentConfig.inputPlaceholder}
+                />
+
+                {/* Workspace Context Cards or Empty State */}
+                {workspaceItems.length > 0 ? (
+                  <DashboardWorkspaceSection items={workspaceItems} />
+                ) : (
+                  <DashboardEmptyState />
+                )}
+              </div>
+            </div>
+
+            {/* Right Setup Assistant Card (Sticky on Large Screens) */}
+            <div className="hidden lg:block shrink-0 py-14 pr-8">
+              <div className="sticky top-14 w-80">
+                <SetupWidget
+                  currentStepIndex={currentStepIndex}
+                  totalSteps={totalSteps}
+                  bannerTitle={currentConfig.bannerTitle}
+                  bannerSubtitle={currentConfig.bannerSubtitle}
+                  steps={steps}
+                  currentStepId={currentStepId}
+                  onStepClick={handleStepClick}
+                  question={currentConfig.question}
+                  description={currentConfig.description}
+                  options={currentConfig.options}
+                  selectedOptionId={selectedOptionId}
+                  onSelectOption={handleSelectOption}
+                  miniInputValue={miniPromptText}
+                  onMiniInputChange={setMiniPromptText}
+                  onMiniInputSubmit={handleMiniPromptSubmit}
+                  placeholder={currentConfig.inputPlaceholder}
+                  isLoading={isImporting}
+                  loadingText={loadingText}
+                  isComplete={isComplete}
+                  isWorkspaceReady={isWorkspaceReady}
+                  onStartUsing={handleStartUsing}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Mobile Setup Assistant Drawer */}
         {isMobileSetupOpen && (
