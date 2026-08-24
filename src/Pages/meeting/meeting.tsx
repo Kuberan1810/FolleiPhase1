@@ -22,15 +22,16 @@ export const MeetingPage: React.FC = () => {
   } = useMeetings();
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
+    <div className="flex min-h-screen bg-[#F8F9FA] text-[#16171A] antialiased">
       {/* Left Sidebar */}
       <Sidebar
+        activeItem="meetings"
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Main Content */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen">
+      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#F8F9FA]">
         {/* Mobile Header Bar */}
         <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
           <button
