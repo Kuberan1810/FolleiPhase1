@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   
   const currentPath = location.pathname;
   const activeNav = activeItem || (
-    currentPath.includes('main-dashboard') || currentPath === '/' ? 'home' :
+    currentPath.includes('dashboard') || currentPath === '/' ? 'home' :
     currentPath.includes('leads') ? 'leads' :
     currentPath.includes('meeting') ? 'meetings' :
     currentPath.includes('dashboard') ? 'dashboard' :
@@ -93,12 +93,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Home Link */}
           <button
             type="button"
-            onClick={() => navTo('/main-dashboard')}
+
+            onClick={() => navTo('/dashboard')}
             className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
               activeNav === 'home'
+
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
-            }`}
+              }`}
           >
             <Home className="size-4 text-[#2C2E31]" />
             <span>Home</span>
@@ -136,7 +138,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
                       <button
                         type="button"
-                        onClick={() => navTo('/dashboard')}
+                        onClick={() => navTo('/main-dashboard')}
                         className={`flex items-center gap-2.5 px-2 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'dashboard'
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
@@ -206,11 +208,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => {
               onAskFollei?.();
             }}
+
             className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
               activeNav === 'ask-follei'
+
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
-            }`}
+              }`}
           >
             <Sparkles className="size-4 text-[#717378]" />
             <span>Ask Follei</span>
@@ -226,11 +230,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => {
             onOpenSettings?.();
           }}
+
           className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
             activeNav === 'settings'
+
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
-          }`}
+            }`}
         >
           <Settings className="size-4 text-[#717378]" />
           <span>Settings</span>
