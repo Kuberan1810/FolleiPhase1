@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  Home, 
-  ChevronDown, 
-  ChevronRight, 
-  Plus, 
-  Sparkles, 
-  Settings, 
-  Folder, 
-  LayoutDashboard, 
-  Users, 
-  Calendar, 
-  Megaphone, 
-  X 
+import {
+  Home,
+  ChevronDown,
+  ChevronRight,
+  Plus,
+  Sparkles,
+  Settings,
+  Folder,
+  LayoutDashboard,
+  Users,
+  Calendar,
+  Megaphone,
+  X
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { UserProfile } from '../Pages/Dashboard/types';
@@ -45,10 +45,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isProject1Open, setIsProject1Open] = useState(true);
-  
+
   const displayProjects = projects.length > 0 ? projects : ['Project 1'];
-  
+
   const currentPath = location.pathname;
+
   
   const getActiveNav = () => {
     if (activeItem) return activeItem;
@@ -58,6 +59,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/dashboard' || currentPath === '/') return 'home';
     return 'home';
   };
+
 
   const activeNav = getActiveNav();
 
@@ -96,9 +98,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Home Link */}
           <button
             type="button"
+
             onClick={() => navTo('/home')}
             className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
               activeNav === 'home'
+
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
             }`}
@@ -140,11 +144,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <button
                         type="button"
                         onClick={() => navTo('/main-dashboard')}
+
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'dashboard'
+
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
+                          }`}
                       >
                         <LayoutDashboard className={`size-3.5 ${activeNav === 'dashboard' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Dashboard</span>
@@ -153,11 +159,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <button
                         type="button"
                         onClick={() => navTo('/leads')}
+
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'leads'
+
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
+                          }`}
                       >
                         <Users className={`size-3.5 ${activeNav === 'leads' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Leads</span>
@@ -166,11 +174,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       <button
                         type="button"
                         onClick={() => navTo('/meeting')}
+
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'meetings'
+
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                             : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
+                          }`}
                       >
                         <Calendar className={`size-3.5 ${activeNav === 'meetings' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Meetings</span>
@@ -215,8 +225,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onAskFollei?.();
             }}
 
-            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-              activeNav === 'ask-follei'
+            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'ask-follei'
 
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
@@ -237,8 +246,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onOpenSettings?.();
           }}
 
-          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-            activeNav === 'settings'
+          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'settings'
 
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
