@@ -10,6 +10,8 @@ interface SetupWidgetProps {
   totalSteps?: number;
   bannerTitle?: string;
   bannerSubtitle?: string;
+  companyName?: string;
+  onCompanyNameChange?: (val: string) => void;
   steps: SetupStep[];
   currentStepId?: string;
   onStepClick?: (stepId: string) => void;
@@ -36,6 +38,8 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
   totalSteps = 6,
   bannerTitle = "Your workspace isn't set up yet.",
   bannerSubtitle = "Let's get it ready together.",
+  companyName = 'Tech panda',
+  onCompanyNameChange,
   steps,
   currentStepId,
   onStepClick,
@@ -79,6 +83,20 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
         >
           <p className="font-normal">{bannerTitle}</p>
           {bannerSubtitle ? <p className="mt-1 text-[#717378]">{bannerSubtitle}</p> : null}
+        </div>
+
+        {/* Your Company name Input Field */}
+        <div className="flex flex-col gap-2 pt-0.5">
+          <label className="text-[14px] font-semibold text-[#16171A]">
+            Your Company name
+          </label>
+          <input
+            type="text"
+            value={companyName}
+            onChange={(e) => onCompanyNameChange?.(e.target.value)}
+            placeholder="Tech panda"
+            className="w-full rounded-[14px] border border-[#CBD5E1] bg-white px-3.5 py-2.5 text-[14px] text-[#16171A] placeholder-[#9CA3AF] focus:border-[#0D9488] focus:outline-none transition-colors"
+          />
         </div>
 
         {/* Step Checklist */}
