@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Lead } from '../types';
 
 interface LeadRowProps {
@@ -6,6 +7,12 @@ interface LeadRowProps {
 }
 
 export const LeadRow: React.FC<LeadRowProps> = ({ lead }) => {
+  const navigate = useNavigate();
+
+  const handleRowClick = () => {
+    navigate(`/leads/${lead.id}`);
+  };
+
   const getStatusBadge = () => {
     switch (lead.status) {
       case 'New Inquiry':
@@ -79,7 +86,10 @@ export const LeadRow: React.FC<LeadRowProps> = ({ lead }) => {
   const isPeachAvatar = lead.status === 'Contacted' || lead.name.includes('Mia');
 
   return (
-    <tr className="border-b border-[#F0F0EC] last:border-b-0 hover:bg-[#FAFAF9] transition-colors">
+    <tr
+      onClick={handleRowClick}
+      className="border-b border-[#F0F0EC] last:border-b-0 hover:bg-[#F9FAFB] cursor-pointer transition-colors"
+    >
       {/* Index # */}
       <td className="px-6 py-4 whitespace-nowrap text-[14px] text-[#45464C]">
         {lead.leadNumber}
@@ -89,7 +99,7 @@ export const LeadRow: React.FC<LeadRowProps> = ({ lead }) => {
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-3.5">
           <div
-            className="flex size-9 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold tracking-wider"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold tracking-wider transition-transform group-hover:scale-105"
             style={{
               backgroundColor:
                 lead.avatarBg || (isPeachAvatar ? '#F9DEBF' : '#DCE2F3'),
@@ -100,10 +110,10 @@ export const LeadRow: React.FC<LeadRowProps> = ({ lead }) => {
             {initials}
           </div>
           <div className="flex flex-col">
-            <span className="text-[14px] text-[#111827]">
+            <span className="text-[14px] font-medium text-[#111827] hover:text-[#6B8323] transition-colors">
               {lead.name}
             </span>
-            <span className="text-[14px] text-[#6B7280] mt-0.5">
+            <span className="text-[13px] text-[#6B7280] mt-0.5">
               {lead.email}
             </span>
           </div>
@@ -123,3 +133,4 @@ export const LeadRow: React.FC<LeadRowProps> = ({ lead }) => {
   );
 };
 export default LeadRow;
+
