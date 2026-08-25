@@ -6,6 +6,7 @@ import Home from "../Pages/home/Home";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import MeetingPage from "../Pages/meeting/meeting";
 import LeadsPage from "../Pages/leads/leads";
+import CampaignsPage from "../Pages/campaigns/Campaigns";
 
 export default function AppRoutes() {
   return (
@@ -27,6 +28,8 @@ export default function AppRoutes() {
       <Route path="/meeting" element={<MeetingPage />} />
       <Route path="/meetings" element={<MeetingPage />} />
       <Route path="/leads" element={<LeadsPage />} />
+      <Route path="/campaigns" element={<CampaignsPage />} />
+      <Route path="/campaign" element={<CampaignsPage />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />

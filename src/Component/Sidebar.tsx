@@ -56,6 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
     if (currentPath.startsWith('/meet')) return 'meetings';
+    if (currentPath.startsWith('/campaign')) return 'campaigns';
     if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/') return 'home';
     return 'home';
   };
@@ -188,7 +189,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                       <button
                         type="button"
-                        onClick={() => navTo('/main-dashboard')}
+                        onClick={() => navTo('/campaigns')}
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'campaigns'
                             ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
