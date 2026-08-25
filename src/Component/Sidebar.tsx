@@ -206,7 +206,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 {/* + New Project Action */}
                 <button
                   type="button"
-                  onClick={onNewProject}
+                  onClick={() => {
+                    if (onNewProject) {
+                      onNewProject();
+                    } else {
+                      navTo('/home');
+                    }
+                  }}
                   className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
                 >
                   <Plus className="size-3.5 text-[#717378]" />

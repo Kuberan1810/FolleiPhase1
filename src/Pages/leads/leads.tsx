@@ -26,7 +26,7 @@ export const LeadsPage: React.FC = () => {
   } = useLeads();
 
   return (
-    <div className="flex min-h-screen bg-[#F8F9FA] text-[#16171A] antialiased">
+    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased overflow-hidden">
       {/* Left Sidebar */}
       <Sidebar
         activeItem="leads"
@@ -35,22 +35,21 @@ export const LeadsPage: React.FC = () => {
       />
 
       {/* Main Content */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC] ">
-     
-
-
+      <main className="min-w-0 flex-1 flex flex-col h-screen overflow-hidden bg-[#FDFDFC]">
         {/* Leads Content Section */}
-        <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 w-full">
+        <div className="flex-1 px-4 sm:px-8 py-6 lg:py-8 w-full flex flex-col min-h-0 overflow-hidden">
           {/* Header (Title, Subtitle, Search, Filter Dropdown, Add Lead) */}
-          <LeadsHeader
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            filters={filters}
-            onApplyFilters={handleApplyFilters}
-            onResetFilters={handleResetFilters}
-            activeFilterCount={activeFilterCount}
-            onOpenAddModal={() => setIsAddModalOpen(true)}
-          />
+          <div className="shrink-0">
+            <LeadsHeader
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              filters={filters}
+              onApplyFilters={handleApplyFilters}
+              onResetFilters={handleResetFilters}
+              activeFilterCount={activeFilterCount}
+              onOpenAddModal={() => setIsAddModalOpen(true)}
+            />
+          </div>
 
           {/* Leads Table */}
           <LeadsTable

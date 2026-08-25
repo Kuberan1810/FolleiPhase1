@@ -1,11 +1,10 @@
 import React from 'react';
-import { Plus } from 'lucide-react';
 
 interface MeetingsHeaderProps {
   onScheduleMeeting?: () => void;
 }
 
-export const MeetingsHeader: React.FC<MeetingsHeaderProps> = ({ onScheduleMeeting }) => {
+export const MeetingsHeader: React.FC<MeetingsHeaderProps> = () => {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2 pb-1">
       <div>
@@ -16,7 +15,7 @@ export const MeetingsHeader: React.FC<MeetingsHeaderProps> = ({ onScheduleMeetin
           Stay on top of your upcoming sales conversations.
         </p>
       </div>
-
+{/* 
       <button
         type="button"
         onClick={onScheduleMeeting}
@@ -24,7 +23,7 @@ export const MeetingsHeader: React.FC<MeetingsHeaderProps> = ({ onScheduleMeetin
       >
         <Plus className="size-4 stroke-[2.2]" />
         <span>Schedule Meeting</span>
-      </button>
+      </button> */}
     </div>
   );
 };

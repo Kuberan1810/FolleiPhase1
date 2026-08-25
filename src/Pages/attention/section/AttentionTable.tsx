@@ -17,66 +17,73 @@ export const AttentionTable: React.FC<AttentionTableProps> = ({
   endRange = 5,
 }) => {
   return (
-    <div className="mt-5 overflow-hidden rounded-[12px] border border-[#E5E7EB] bg-white shadow-xs">
-      <div className="overflow-x-auto">
+    <div className="mt-5 flex-1 flex flex-col min-h-0 overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-2xs">
+      {/* Scrollable Table Area: Only inner rows list scrolls */}
+      <div className="flex-1 overflow-x-auto overflow-y-auto min-h-0">
         <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-[#F0F0EC] bg-transparent">
+          <thead className="sticky top-0 z-10 bg-[#F8F9FA]">
+            <tr className="border-b border-[#E5E7EB]">
               <th
                 scope="col"
-                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold"
+                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 #
               </th>
               <th
                 scope="col"
-                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 Lead
               </th>
               <th
                 scope="col"
-                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 Contact
               </th>
               <th
                 scope="col"
-                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 Intent
               </th>
             </tr>
           </thead>
 
-          <tbody>
-            {leads.map((lead) => (
-              <AttentionRow key={lead.id} lead={lead} />
-            ))}
+          <tbody className="divide-y divide-[#F0F0EC]">
+            {leads.length > 0 ? (
+              leads.map((lead) => (
+                <AttentionRow key={lead.id} lead={lead} />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="py-12 text-center text-[13.5px] text-[#6B7280]">
+                  No leads found matching your search.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination Footer */}
-      <div className="flex items-center justify-end gap-6 border-t border-[#F0F0EC] bg-white px-6 py-4">
+      {/* Pagination Footer: Locked at bottom */}
+      <div className="shrink-0 flex items-center justify-end gap-6 border-t border-[#E5E7EB] bg-[#F8F9FA]/60 px-6 py-3.5">
         <span className="text-[13px] text-[#6B7280]">
-          {startRange}-{endRange} of {totalCount}
+          {startRange}–{endRange} of {totalCount}
         </span>
 
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            className="text-[13px] font-normal text-[#6B7280] hover:text-[#111827] cursor-pointer transition-colors"
-          >
-            Previous
-          </button>
-          <button
-            type="button"
-            className="text-[13px] font-semibold text-[#111827] hover:underline cursor-pointer transition-colors"
-          >
-            Next
-          </button>
-        </div>
+        <button
+          type="button"
+          className="text-[13px] font-medium text-[#9CA3AF] cursor-default"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          className="text-[13px] font-medium text-[#111827] hover:underline cursor-pointer transition-colors"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

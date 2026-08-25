@@ -24,15 +24,16 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
   const endRange = Math.min(currentPage * pageSize, totalCount);
 
   return (
-    <div className="mt-5 overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-2xs">
-      <div className="overflow-x-auto">
+    <div className="mt-5 flex-1 flex flex-col min-h-0 overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-2xs">
+      {/* Scrollable Table Content (Only rows list scroll) */}
+      <div className="flex-1 overflow-x-auto overflow-y-auto min-h-0">
         <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-[#E5E7EB] bg-[#F8F9FA]/50">
+          <thead className="sticky top-0 z-10 bg-[#F8F9FA]">
+            <tr className="border-b border-[#E5E7EB]">
               {/* # */}
               <th
                 scope="col"
-                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280]"
+                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 #
               </th>
@@ -40,7 +41,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               {/* Lead */}
               <th
                 scope="col"
-                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280]"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 Lead
               </th>
@@ -48,7 +49,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               {/* Date */}
               <th
                 scope="col"
-                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280]"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 <div className="inline-flex items-center gap-1 cursor-pointer select-none hover:text-[#111827]">
                   <span>Date</span>
@@ -59,14 +60,14 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
               {/* Status */}
               <th
                 scope="col"
-                className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280]"
+                className="px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
                 Status
               </th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-[#F0F0EC]">
             {leads.length > 0 ? (
               leads.map((lead) => <LeadRow key={lead.id} lead={lead} />)
             ) : (
@@ -90,8 +91,8 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
         </table>
       </div>
 
-      {/* Table Pagination Footer */}
-      <div className="flex items-center justify-end gap-6 border-t border-[#E5E7EB] bg-[#F8F9FA]/50 px-6 py-3.5">
+      {/* Table Pagination Footer (Fixed at the bottom of the table, never scrolls away) */}
+      <div className="shrink-0 flex items-center justify-end gap-6 border-t border-[#E5E7EB] bg-[#F8F9FA]/60 px-6 py-3.5">
         <span className="text-[13px] text-[#6B7280]">
           {startRange}–{endRange} of {totalCount}
         </span>
@@ -100,10 +101,11 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
           type="button"
           disabled={currentPage <= 1}
           onClick={() => onPageChange(currentPage - 1)}
-          className={`text-[13px] font-medium transition-colors ${currentPage <= 1
-            ? 'text-[#9CA3AF] cursor-default'
-            : 'text-[#111827] hover:underline cursor-pointer'
-            }`}
+          className={`text-[13px] font-medium transition-colors ${
+            currentPage <= 1
+              ? 'text-[#9CA3AF] cursor-default'
+              : 'text-[#111827] hover:underline cursor-pointer'
+          }`}
         >
           Previous
         </button>
@@ -111,10 +113,11 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
           type="button"
           disabled={currentPage >= totalPages}
           onClick={() => onPageChange(currentPage + 1)}
-          className={`text-[13px] font-medium transition-colors ${currentPage >= totalPages
-            ? 'text-[#9CA3AF] cursor-default'
-            : 'text-[#111827] hover:underline cursor-pointer'
-            }`}
+          className={`text-[13px] font-medium transition-colors ${
+            currentPage >= totalPages
+              ? 'text-[#9CA3AF] cursor-default'
+              : 'text-[#111827] hover:underline cursor-pointer'
+          }`}
         >
           Next
         </button>

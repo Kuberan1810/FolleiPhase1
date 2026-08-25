@@ -10,19 +10,19 @@ export const AttentionRow: React.FC<AttentionRowProps> = ({ lead }) => {
     switch (lead.intent) {
       case 'HOT':
         return (
-          <span className="inline-flex items-center justify-center rounded-full bg-[#EFF6FF] px-3.5 py-0.5 text-[11px] font-bold text-[#2563EB] tracking-wider uppercase">
+          <span className="inline-flex items-center justify-center rounded-full bg-[#EFF6FF] px-3.5 py-0.5 text-[11px] font-medium text-[#2563EB] tracking-wider uppercase">
             HOT
           </span>
         );
       case 'WARM':
         return (
-          <span className="inline-flex items-center justify-center rounded-full bg-[#FFF7ED] px-3.5 py-0.5 text-[11px] font-bold text-[#EA580C] tracking-wider uppercase">
+          <span className="inline-flex items-center justify-center rounded-full bg-[#FFF7ED] px-3.5 py-0.5 text-[11px] font-medium text-[#EA580C] tracking-wider uppercase">
             WARM
           </span>
         );
       case 'COLD':
         return (
-          <span className="inline-flex items-center justify-center rounded-full bg-[#EFF6FF] px-3.5 py-0.5 text-[11px] font-bold text-[#2563EB] tracking-wider uppercase">
+          <span className="inline-flex items-center justify-center rounded-full bg-[#EFF6FF] px-3.5 py-0.5 text-[11px] font-medium text-[#2563EB] tracking-wider uppercase">
             COLD
           </span>
         );

@@ -24,7 +24,7 @@ export const AttentionPage: React.FC = () => {
   }, [searchQuery]);
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
+    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased overflow-hidden">
       {/* Left Sidebar */}
       <Sidebar
         activeItem="dashboard"
@@ -33,9 +33,9 @@ export const AttentionPage: React.FC = () => {
       />
 
       {/* Main Center Area */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC]">
+      <main className="min-w-0 flex-1 flex flex-col h-screen overflow-hidden bg-[#FDFDFC]">
         {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
+        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
           <button
             type="button"
             aria-label="Open navigation"
@@ -51,12 +51,14 @@ export const AttentionPage: React.FC = () => {
         </div>
 
         {/* Content Section */}
-        <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 max-w-7xl w-full">
+        <div className="flex-1 px-4 sm:px-8 py-6 lg:py-8 w-full flex flex-col min-h-0 overflow-hidden">
           {/* Header */}
-          <AttentionHeader
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-          />
+          <div className="shrink-0">
+            <AttentionHeader
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />
+          </div>
 
           {/* Table */}
           <AttentionTable

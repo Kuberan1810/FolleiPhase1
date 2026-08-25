@@ -10,10 +10,12 @@ import {
   Zap, 
   Sparkles, 
   ArrowRight,
-  Menu
+  Menu,
+  Loader2
 } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
 import toast from 'react-hot-toast';
+import { AiFollowupModal, DisconnectModal } from './modal';
 
 interface TopMetric {
   label: string;
@@ -28,6 +30,37 @@ export const Dashboard: React.FC = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [timeRange, setTimeRange] = useState('This Week');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // AI Follow-up Automation State
+  const [isFolleiActivated, setIsFolleiActivated] = useState(false);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
+  const [channels, setChannels] = useState({ call: false, whatsapp: false });
+
+  const handleStartFolleiClick = () => {
+    setIsLoadingModal(true);
+    setTimeout(() => {
+      setIsLoadingModal(false);
+      setIsAiModalOpen(true);
+    }, 450);
+  };
+
+  const handleModalConfirm = (selectedChannels: { call: boolean; whatsapp: boolean }) => {
+    setChannels(selectedChannels);
+    setIsAiModalOpen(false);
+    if (selectedChannels.call || selectedChannels.whatsapp) {
+      setIsFolleiActivated(true);
+    } else {
+      setIsFolleiActivated(false);
+    }
+  };
+
+  const handleDisconnect = () => {
+    setIsFolleiActivated(false);
+    setChannels({ call: false, whatsapp: false });
+    setIsDisconnectModalOpen(false);
+  };
 
   const topMetrics: TopMetric[] = [
     {
@@ -61,7 +94,7 @@ export const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] font-sans antialiased overflow-hidden">
+    <div className="flex min-h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased">
       {/* Left Sidebar */}
       <Sidebar
         isOpen={isMobileSidebarOpen}
@@ -70,7 +103,7 @@ export const Dashboard: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-y-auto min-w-0 bg-[#FDFDFC]">
+      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC]">
         {/* Mobile Header Bar */}
         <div className="flex items-center justify-between border-b border-[#EBEBE8] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
           <button
@@ -88,9 +121,9 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Dashboard Main Container - Full Width */}
-        <main className="w-full px-6 py-6 lg:px-10 lg:py-8">
-          {/* Header Greeting */}
-          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="w-full px-6 py-6 lg:px-10 lg:py-8">
+          {/* Header Greeting & Start Follei / Activated Action */}
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
                 Good afternoon, Pragya
@@ -99,7 +132,47 @@ export const Dashboard: React.FC = () => {
                 Your AI is actively working on your sales pipeline.
               </p>
             </div>
+
+            {/* Right End: Start Follei or Follei Activated Pill */}
+            <div className="shrink-0 flex items-center">
+              {isFolleiActivated ? (
+                <button
+                  type="button"
+                  onClick={() => setIsDisconnectModalOpen(true)}
+                  title="Click to disconnect Follei"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#F4F4F0] border border-[#E2E8D8] px-4 py-2 text-[14px] font-medium text-[#1E293B] shadow-2xs hover:bg-[#EBEBE6] transition-all cursor-pointer"
+                >
+                  <span className="size-2 rounded-full bg-[#7A9601]" />
+                  <span>Follei Activated</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleStartFolleiClick}
+                  disabled={isLoadingModal}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#525252] hover:bg-[#3D3D3D] active:scale-[0.98] px-5 py-2 text-[14px] font-medium text-white shadow-2xs transition-all cursor-pointer disabled:opacity-80"
+                >
+                  {isLoadingModal && <Loader2 className="size-4 animate-spin text-white" />}
+                  <span>Start Follei</span>
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* AI Follow-up Automation Modal */}
+          <AiFollowupModal
+            isOpen={isAiModalOpen}
+            onClose={() => setIsAiModalOpen(false)}
+            onConfirm={handleModalConfirm}
+            initialChannels={channels}
+          />
+
+          {/* Disconnect Alert Modal */}
+          <DisconnectModal
+            isOpen={isDisconnectModalOpen}
+            onClose={() => setIsDisconnectModalOpen(false)}
+            onConfirmDisconnect={handleDisconnect}
+          />
 
           {/* Top Metrics Row (Figma specs: Fill 100% width, border-t & border-b: 1px #E2E8F0, py: 19px) */}
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-[#E2E8F0] divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0] py-[19px] mb-8">
@@ -374,8 +447,8 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
