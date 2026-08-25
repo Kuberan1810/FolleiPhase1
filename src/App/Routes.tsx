@@ -6,6 +6,7 @@ import Home from "../Pages/home/Home";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import MeetingPage from "../Pages/meeting/meeting";
 import LeadsPage from "../Pages/leads/leads";
+import CallLabPage from "../Pages/callLab/CallLabPage";
 
 export default function AppRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function AppRoutes() {
       <Route path="/meeting" element={<MeetingPage />} />
       <Route path="/meetings" element={<MeetingPage />} />
       <Route path="/leads" element={<LeadsPage />} />
+      <Route path="/call-lab" element={<CallLabPage />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />

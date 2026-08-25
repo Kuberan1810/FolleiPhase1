@@ -11,6 +11,7 @@ import {
   Users,
   Calendar,
   Megaphone,
+  Phone,
   X
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -56,6 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
     if (currentPath.startsWith('/meet')) return 'meetings';
+    if (currentPath.startsWith('/call-lab')) return 'call-lab';
     if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/') return 'home';
     return 'home';
   };
@@ -184,6 +186,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       >
                         <Calendar className={`size-3.5 ${activeNav === 'meetings' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                         <span>Meetings</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => navTo('/call-lab')}
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          activeNav === 'call-lab'
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                          }`}
+                      >
+                        <Phone className={`size-3.5 ${activeNav === 'call-lab' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                        <span>Call Lab</span>
                       </button>
 
                       <button
