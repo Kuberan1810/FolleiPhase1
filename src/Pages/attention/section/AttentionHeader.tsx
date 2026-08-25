@@ -1,5 +1,6 @@
 import React from 'react';
-import { Search, Filter, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Filter, ChevronDown, ArrowLeft } from 'lucide-react';
 
 interface AttentionHeaderProps {
   searchQuery?: string;
@@ -12,16 +13,30 @@ export const AttentionHeader: React.FC<AttentionHeaderProps> = ({
   onSearchChange,
   onFilterClick,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2 pb-1">
-      {/* Title & Subtitle */}
-      <div>
-        <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
-          AI Needs Your Attention
-        </h1>
-        <p className="font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
-          Follei identified customers that may need your attention.
-        </p>
+      {/* Title & Subtitle with Back Button */}
+      <div className="flex items-center gap-3.5">
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          title="Back to dashboard"
+          aria-label="Back to dashboard"
+          className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-[#E5E7EB] bg-white text-[#475569] hover:bg-gray-50 hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
+        >
+          <ArrowLeft className="size-4 stroke-[2.2]" />
+        </button>
+
+        <div>
+          <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
+            AI Needs Your Attention
+          </h1>
+          <p className="font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-0.5">
+            Follei identified customers that may need your attention.
+          </p>
+        </div>
       </div>
 
       {/* Right Controls: Search & Filter */}

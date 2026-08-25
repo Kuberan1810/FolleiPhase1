@@ -8,6 +8,7 @@ import MeetingPage from "../Pages/meeting/meeting";
 import LeadsPage from "../Pages/leads/leads";
 import CampaignsPage from "../Pages/campaigns/Campaigns";
 import AttentionPage from "../Pages/attention/Attention";
+import LeadsProfilePage from "../Pages/leads/leadsProfile/LeadsProfilePage";
 
 export default function AppRoutes() {
   return (
@@ -33,6 +34,9 @@ export default function AppRoutes() {
       <Route path="/campaign" element={<CampaignsPage />} />
       <Route path="/attention" element={<AttentionPage />} />
       <Route path="/ai-attention" element={<AttentionPage />} />
+      <Route path="/leads/:id" element={<LeadsProfilePage />} />
+      <Route path="/leads/profile/:id" element={<LeadsProfilePage />} />
+
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />
