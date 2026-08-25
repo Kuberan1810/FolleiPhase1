@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local API base URL and any deploy-time overrides.
+.env
+.env.local

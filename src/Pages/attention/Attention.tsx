@@ -5,23 +5,51 @@ import {
   AttentionHeader,
   AttentionTable,
 } from './section';
-import { initialMockAttentionLeads } from './data/mockAttentionLeads';
+import { useActiveWorkspace } from '../../hooks/useWorkspace';
+import { useAttentionLeads } from '../../hooks/useLeads';
+import type { AttentionLead } from './types';
 
 export const AttentionPage: React.FC = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const { workspaceId } = useActiveWorkspace();
+  const { leads: apiLeads } = useAttentionLeads(workspaceId);
+
+  // The endpoint already returns them hottest and longest-silent first, so
+  // this only reshapes the wire format for the table.
+  const attentionLeads: AttentionLead[] = useMemo(
+    () =>
+      apiLeads.map((lead) => {
+        const display = lead.name || lead.email || 'Unnamed lead';
+        const parts = display.trim().split(/\s+/).filter(Boolean);
+        return {
+          id: lead.id,
+          leadNumber: lead.row_index + 1,
+          name: display,
+          email: lead.email || '',
+          phone: lead.phone || '',
+          initials:
+            parts.length >= 2
+              ? (parts[0][0] + parts[1][0]).toUpperCase()
+              : display.slice(0, 2).toUpperCase(),
+          intent: (lead.temperature ?? 'COLD') as AttentionLead['intent'],
+        };
+      }),
+    [apiLeads],
+  );
+
   const filteredLeads = useMemo(() => {
-    if (!searchQuery.trim()) return initialMockAttentionLeads;
+    if (!searchQuery.trim()) return attentionLeads;
     const q = searchQuery.toLowerCase();
-    return initialMockAttentionLeads.filter(
+    return attentionLeads.filter(
       (lead) =>
         lead.name.toLowerCase().includes(q) ||
         lead.email.toLowerCase().includes(q) ||
         lead.phone.toLowerCase().includes(q) ||
         lead.intent.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, attentionLeads]);
 
   return (
     <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased overflow-hidden">

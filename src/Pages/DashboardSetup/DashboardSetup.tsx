@@ -71,6 +71,8 @@ export const DashboardSetup: React.FC = () => {
     handlePromptSubmit,
     handleMiniPromptSubmit,
     handleSkipStep,
+    awaitingCustomAnswer,
+    customAnswerQuestion,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
@@ -158,9 +160,9 @@ export const DashboardSetup: React.FC = () => {
                 steps={steps}
                 currentStepId={currentStepId}
                 onStepClick={handleStepClick}
-                question={currentConfig.question}
+                question={customAnswerQuestion || currentConfig.question}
                 description={currentConfig.description}
-                options={currentConfig.options}
+                options={awaitingCustomAnswer ? [] : currentConfig.options}
                 selectedOptionId={selectedOptionId}
                 onSelectOption={handleSelectOption}
                 miniInputValue={miniPromptText}
@@ -206,9 +208,9 @@ export const DashboardSetup: React.FC = () => {
                 steps={steps}
                 currentStepId={currentStepId}
                 onStepClick={handleStepClick}
-                question={currentConfig.question}
+                question={customAnswerQuestion || currentConfig.question}
                 description={currentConfig.description}
-                options={currentConfig.options}
+                options={awaitingCustomAnswer ? [] : currentConfig.options}
                 selectedOptionId={selectedOptionId}
                 onSelectOption={handleSelectOption}
                 miniInputValue={miniPromptText}

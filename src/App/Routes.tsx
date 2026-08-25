@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "../Pages/auth/signIn/SignIn";
 import SignUp from "../Pages/auth/SignUp/SignUp";
+import AuthCallback from '../Pages/auth/callback/AuthCallback';
 import DashboardSetup from "../Pages/DashboardSetup/DashboardSetup";
 import Home from "../Pages/home/Home";
 import Dashboard from "../Pages/Dashboard/Dashboard";
@@ -20,6 +21,8 @@ export default function AppRoutes() {
       <Route path="/login" element={<SignIn />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      {/* Google redirects the browser here after the backend verifies identity. */}
+      <Route path="/auth/callback" element={<AuthCallback />} />
 
       {/* App Routes */}
       <Route path="/dashboard-setup" element={<DashboardSetup />} />
