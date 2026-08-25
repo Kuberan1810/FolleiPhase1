@@ -11,6 +11,7 @@ import {
 import { SetupWidget } from './setupwidgets';
 import { useDashboardState } from './hooks';
 import { OutlookSyncModal } from './modal/ToolConnectModal';
+import { UploadBusinessDataModal, UploadLeadsModal } from './modal/UploadBusinessDataModal';
 import telecrmLogo from '../../assets/icons/telecrm.png';
 import hubspotLogo from '../../assets/icons/hubspot.png';
 import salesforceLogo from '../../assets/icons/salesforce.png';
@@ -33,6 +34,8 @@ export const DashboardSetup: React.FC = () => {
   const navigate = useNavigate();
   const {
     user,
+    companyName,
+    setCompanyName,
     promptText,
     setPromptText,
     miniPromptText,
@@ -51,6 +54,12 @@ export const DashboardSetup: React.FC = () => {
     setIsMobileSetupOpen,
     isSubmitting,
     activeSyncTool,
+    isUploadBusinessDataModalOpen,
+    setIsUploadBusinessDataModalOpen,
+    handleUploadBusinessDataDone,
+    isUploadLeadsModalOpen,
+    setIsUploadLeadsModalOpen,
+    handleUploadLeadsDone,
     isImportingBusinessData,
     isImportingLeads,
     isComplete,
@@ -144,6 +153,8 @@ export const DashboardSetup: React.FC = () => {
                 totalSteps={totalSteps}
                 bannerTitle={currentConfig.bannerTitle}
                 bannerSubtitle={currentConfig.bannerSubtitle}
+                companyName={companyName}
+                onCompanyNameChange={setCompanyName}
                 steps={steps}
                 currentStepId={currentStepId}
                 onStepClick={handleStepClick}
@@ -190,6 +201,8 @@ export const DashboardSetup: React.FC = () => {
                 totalSteps={totalSteps}
                 bannerTitle={currentConfig.bannerTitle}
                 bannerSubtitle={currentConfig.bannerSubtitle}
+                companyName={companyName}
+                onCompanyNameChange={setCompanyName}
                 steps={steps}
                 currentStepId={currentStepId}
                 onStepClick={handleStepClick}
@@ -222,6 +235,20 @@ export const DashboardSetup: React.FC = () => {
             onDisconnect={handleCancelSync}
           />
         )}
+
+        {/* Upload Business Data Modal */}
+        <UploadBusinessDataModal
+          isOpen={isUploadBusinessDataModalOpen}
+          onClose={() => setIsUploadBusinessDataModalOpen(false)}
+          onDone={handleUploadBusinessDataDone}
+        />
+
+        {/* Upload Leads Modal */}
+        <UploadLeadsModal
+          isOpen={isUploadLeadsModalOpen}
+          onClose={() => setIsUploadLeadsModalOpen(false)}
+          onDone={handleUploadLeadsDone}
+        />
       </main>
     </div>
   );

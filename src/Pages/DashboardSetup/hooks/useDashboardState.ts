@@ -4,6 +4,7 @@ import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP
 
 export const useDashboardState = () => {
   const [user] = useState<UserProfile>(DEFAULT_USER);
+  const [companyName, setCompanyName] = useState<string>('Tech panda');
   const [promptText, setPromptText] = useState<string>('');
   const [miniPromptText, setMiniPromptText] = useState<string>('');
   const [steps, setSteps] = useState<SetupStep[]>(INITIAL_SETUP_STEPS);
@@ -15,6 +16,8 @@ export const useDashboardState = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [activeSyncTool, setActiveSyncTool] = useState<string | null>(null);
   const [activeSyncStep, setActiveSyncStep] = useState<string | null>(null);
+  const [isUploadBusinessDataModalOpen, setIsUploadBusinessDataModalOpen] = useState<boolean>(false);
+  const [isUploadLeadsModalOpen, setIsUploadLeadsModalOpen] = useState<boolean>(false);
 
   const [isImportingBusinessData, setIsImportingBusinessData] = useState<boolean>(false);
   const [isImportingLeads, setIsImportingLeads] = useState<boolean>(false);
@@ -101,12 +104,12 @@ export const useDashboardState = () => {
           prev.map((item) =>
             item.type === 'data'
               ? {
-                  ...item,
-                  status: undefined,
-                  value: '24 files',
-                  subtitle: '12 products · 8 services · 5 pricing plans',
-                  isLoading: false,
-                }
+                ...item,
+                status: undefined,
+                value: '24 files',
+                subtitle: '12 products · 8 services · 5 pricing plans',
+                isLoading: false,
+              }
               : item
           )
         );
@@ -121,12 +124,12 @@ export const useDashboardState = () => {
           prev.map((item) =>
             item.type === 'customer'
               ? {
-                  ...item,
-                  status: undefined,
-                  value: '248 leads',
-                  subtitle: '32 high-intent',
-                  isLoading: false,
-                }
+                ...item,
+                status: undefined,
+                value: '248 leads',
+                subtitle: '32 high-intent',
+                isLoading: false,
+              }
               : item
           )
         );
@@ -181,7 +184,38 @@ export const useDashboardState = () => {
       return;
     }
 
+    if (currentStepId === 'business-data' && optionId === 'upload-business-data') {
+      setIsUploadBusinessDataModalOpen(true);
+      return;
+    }
+
+    if (currentStepId === 'leads') {
+      if (optionId === 'import-leads') {
+        setIsUploadLeadsModalOpen(true);
+        return;
+      }
+      if (optionId === 'connect-crm') {
+        setActiveSyncTool('HubSpot');
+        setActiveSyncStep('leads');
+        return;
+      }
+    }
+
     advanceStep(optionLabel, currentStepId);
+  };
+
+  const handleUploadBusinessDataDone = (files: File[]) => {
+    const fileCount = files.length;
+    const fileLabel = `${fileCount} ${fileCount === 1 ? 'file' : 'files'}`;
+    advanceStep(fileLabel, 'business-data');
+    setIsUploadBusinessDataModalOpen(false);
+  };
+
+  const handleUploadLeadsDone = (files: File[]) => {
+    const fileCount = files.length;
+    const fileLabel = `${fileCount} ${fileCount === 1 ? 'file' : 'files'}`;
+    advanceStep(fileLabel, 'leads');
+    setIsUploadLeadsModalOpen(false);
   };
 
   const handleCompleteSync = () => {
@@ -291,6 +325,8 @@ export const useDashboardState = () => {
 
   return {
     user,
+    companyName,
+    setCompanyName,
     promptText,
     setPromptText,
     miniPromptText,
@@ -309,6 +345,12 @@ export const useDashboardState = () => {
     setIsMobileSetupOpen,
     isSubmitting,
     activeSyncTool,
+    isUploadBusinessDataModalOpen,
+    setIsUploadBusinessDataModalOpen,
+    handleUploadBusinessDataDone,
+    isUploadLeadsModalOpen,
+    setIsUploadLeadsModalOpen,
+    handleUploadLeadsDone,
     isImportingBusinessData,
     isImportingLeads,
     isComplete,
