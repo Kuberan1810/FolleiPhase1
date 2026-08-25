@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Users, 
   Flame, 
@@ -23,6 +24,7 @@ interface TopMetric {
 }
 
 export const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [timeRange, setTimeRange] = useState('This Week');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -312,7 +314,7 @@ export const Dashboard: React.FC = () => {
                 {/* Olive CTA Button */}
                 <button
                   type="button"
-                  onClick={() => toast.success('Opening leads to review')}
+                  onClick={() => navigate('/attention')}
                   className="w-full py-3 px-4 bg-[#7A9601] hover:bg-[#6C8501] active:scale-[0.99] text-white font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   <span>Review Now</span>
