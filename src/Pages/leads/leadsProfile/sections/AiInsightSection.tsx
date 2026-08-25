@@ -1,5 +1,4 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
 import type { AiInsightInfo } from '../../types';
 
 interface AiInsightSectionProps {

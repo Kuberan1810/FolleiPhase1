@@ -1,5 +1,4 @@
 import React from 'react';
-import { FileText } from 'lucide-react';
 import type { LeadAttachment } from '../../types';
 
 interface AttachmentsSectionProps {
