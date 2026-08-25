@@ -4,7 +4,7 @@
 
 import api from '../../lib/axios';
 
-export type DocumentStatus = 'PENDING' | 'PROCESSING' | 'PROCESSED' | 'FAILED';
+export type DocumentStatus = 'UPLOADED' | 'PROCESSING' | 'PROCESSED' | 'FAILED';
 
 export interface WorkspaceDocument {
   id: string;
@@ -19,7 +19,7 @@ export interface WorkspaceDocument {
 /**
  * Upload one business document. The backend stores it, then kicks off
  * parsing + chunking + embedding as a background task -- so a 201 here means
- * "accepted", NOT "ingested". The returned status will be PENDING/PROCESSING;
+ * "accepted", NOT "ingested". The returned status will be UPLOADED/PROCESSING;
  * poll listDocuments to see it reach PROCESSED or FAILED.
  */
 export const uploadDocument = async (
@@ -52,12 +52,33 @@ export const waitForIngestion = async (
   const deadline = Date.now() + timeoutMs;
   let documents = await listDocuments(workspaceId);
   while (Date.now() < deadline) {
-    const pending = documents.filter((d) => d.status === 'PENDING' || d.status === 'PROCESSING');
+    const pending = documents.filter((d) => d.status === 'UPLOADED' || d.status === 'PROCESSING');
     if (pending.length === 0) return documents;
     await new Promise((resolve) => setTimeout(resolve, intervalMs));
     documents = await listDocuments(workspaceId);
   }
   return documents;
+};
+
+/** Re-run ingestion from the file already stored on the server. Needed after
+ *  an embedding-model change (existing vectors stop being comparable) and to
+ *  retry a document that failed for a transient reason. */
+export const reingestDocument = async (
+  workspaceId: string,
+  documentId: string,
+): Promise<WorkspaceDocument> => {
+  const { data } = await api.post<WorkspaceDocument>(
+    `/api/workspaces/${workspaceId}/documents/${documentId}/reingest`,
+  );
+  return data;
+};
+
+/** Re-ingest every document holding no usable chunks. */
+export const reingestAllDocuments = async (workspaceId: string): Promise<WorkspaceDocument[]> => {
+  const { data } = await api.post<WorkspaceDocument[]>(
+    `/api/workspaces/${workspaceId}/documents/reingest`,
+  );
+  return data;
 };
 
 export interface GoalSuggestions {
