@@ -14,6 +14,7 @@ interface SetupStepContentProps {
   placeholder?: string;
   isLoading?: boolean;
   loadingText?: string;
+  onSkip?: () => void;
 }
 
 export const SetupStepContent: React.FC<SetupStepContentProps> = ({
@@ -27,6 +28,7 @@ export const SetupStepContent: React.FC<SetupStepContentProps> = ({
   placeholder = 'Tell Follei about your business...',
   isLoading = false,
   loadingText = 'Importing business data...',
+  onSkip,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,9 +47,20 @@ export const SetupStepContent: React.FC<SetupStepContentProps> = ({
       ) : (
         <>
           {question && (
-            <p className="text-[14px] font-semibold tracking-tight text-[#16171A]">
-              {question}
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-[14px] font-semibold tracking-tight text-[#16171A]">
+                {question}
+              </p>
+              {onSkip && (
+                <button
+                  type="button"
+                  onClick={onSkip}
+                  className="text-[12.5px] font-medium text-[#717378] hover:text-[#16171A] transition-colors cursor-pointer"
+                >
+                  Skip
+                </button>
+              )}
+            </div>
           )}
 
           {description && (

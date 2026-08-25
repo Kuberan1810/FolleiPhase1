@@ -28,10 +28,10 @@ export const LeadsHeader: React.FC<LeadsHeaderProps> = ({
     <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between pt-2 pb-1">
       {/* Title & Subtitle */}
       <div>
-        <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
+        <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
           Leads
         </h1>
-        <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
+        <p className="font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
           Manage and follow up with your sales leads.
         </p>
       </div>

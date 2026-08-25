@@ -503,7 +503,7 @@ export function OutlookSyncModal({
               <button
                 type="button"
                 onClick={onContinue}
-                className="inline-flex h-11 w-full items-center justify-center  bg-black hover:bg-[#333] px-8 text-sm font-semibold text-white transition-colors sm:w-auto sm:min-w-[200px] cursor-pointer shadow-sm"
+                  className="inline-flex h-11 w-full items-center justify-center  bg-[#7A9601] hover:bg-[#96b50b] px-8 text-sm font-semibold text-white transition-colors sm:w-auto sm:min-w-[200px] cursor-pointer shadow-sm"
               >
                 Continue
               </button>

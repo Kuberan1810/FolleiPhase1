@@ -27,6 +27,7 @@ interface SetupWidgetProps {
   isComplete?: boolean;
   isWorkspaceReady?: boolean;
   onStartUsing?: () => void;
+  onSkip?: () => void;
 }
 
 export const SetupWidget: React.FC<SetupWidgetProps> = ({
@@ -52,6 +53,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
   isComplete = false,
   isWorkspaceReady = false,
   onStartUsing,
+  onSkip,
 }) => {
   return (
     <aside className="rounded-[22px] border border-[#E6E6E4] bg-white shadow-lg">
@@ -92,7 +94,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
             <button
               type="button"
               onClick={onStartUsing}
-              className="w-full h-11 bg-[#1D1E21] hover:bg-black text-white font-medium rounded-full text-[13.5px] transition-colors cursor-pointer shadow-sm flex items-center justify-center animate-fade-slide mt-1"
+              className="w-full h-11 bg-[#7A9601] hover:bg-[#9ab90c] text-white font-medium rounded-full text-[13.5px] transition-colors cursor-pointer shadow-sm flex items-center justify-center animate-fade-slide mt-1"
             >
               Start using Follei
             </button>
@@ -111,6 +113,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
             placeholder={placeholder}
             isLoading={isLoading}
             loadingText={loadingText}
+            onSkip={onSkip}
           />
         )}
       </div>

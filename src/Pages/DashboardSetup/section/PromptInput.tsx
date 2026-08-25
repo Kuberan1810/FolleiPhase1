@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Plus, ArrowUp, FileText, X } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface PromptInputProps {
   value: string;
@@ -33,7 +32,6 @@ export const PromptInput: React.FC<PromptInputProps> = ({
     const file = e.target.files?.[0];
     if (file) {
       setAttachedFile(file);
-      toast.success(`Attached: ${file.name}`);
     }
   };
 

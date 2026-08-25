@@ -55,7 +55,7 @@ export const STEP_CONFIGS: Record<string, SetupStepConfig> = {
     bannerSubtitle: "",
     question: "Do you already use a CRM?",
     options: [
-      { id: 'hubspot', label: 'HubSpot' },
+      { id: 'telecrm', label: 'TeleCRM' },
       { id: 'salesforce', label: 'Salesforce' },
       { id: 'zoho', label: 'Zoho' },
       { id: 'pipedrive', label: 'Pipedrive' },

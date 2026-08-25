@@ -118,7 +118,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-3.5 px-4  text-sm transition-all duration-200 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full bg-[#7A9601] hover:bg-[#87a404] active:bg-[#add10b] text-white font-medium py-3.5 px-4  text-sm transition-all duration-200 cursor-pointer shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isLoading ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -45,7 +45,7 @@ const BtnCom: React.FC<BtnComProps> = ({
         'relative inline-flex items-center justify-center cursor-pointer',
         'py-3.5 px-3 gap-2',                       // H:48px | P:12px | Gap:8px
         'rounded-[8px]',                          // Corner radius: 8
-        'font-manrope font-bold text-[16px]', // Typography
+        'font-bold text-[16px]', // Typography
         'whitespace-nowrap select-none',
         'transition-all duration-150 ease-out',
         'active:scale-[0.97]',

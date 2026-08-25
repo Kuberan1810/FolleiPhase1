@@ -86,14 +86,14 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Dashboard Main Container - Full Width */}
-        <main className="w-full font-['Manrope'] px-6 py-6 lg:px-10 lg:py-8">
+        <main className="w-full px-6 py-6 lg:px-10 lg:py-8">
           {/* Header Greeting */}
           <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
+              <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
                 Good afternoon, Pragya
               </h1>
-              <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
+              <p className="font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
                 Your AI is actively working on your sales pipeline.
               </p>
             </div>
@@ -112,14 +112,14 @@ export const Dashboard: React.FC = () => {
               >
                 <div className="flex items-center gap-1.5 mb-1.5">
                   {metric.icon}
-                  <span className="font-['Manrope'] font-semibold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#64748B]">
+                  <span className="font-semibold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#64748B]">
                     {metric.label}
                   </span>
                 </div>
-                <div className="font-['Manrope'] font-semibold text-[30px] leading-[36px] tracking-[0px] text-[#1E293B]">
+                <div className="font-semibold text-[30px] leading-[36px] tracking-[0px] text-[#1E293B]">
                   {metric.value}
                 </div>
-                <div className="font-['Manrope'] font-normal text-[12px] leading-[16px] tracking-[0px] text-[#64748B] mt-1">
+                <div className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#64748B] mt-1">
                   {metric.change}
                 </div>
               </div>
@@ -134,10 +134,10 @@ export const Dashboard: React.FC = () => {
                 {/* Header & Filter */}
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="font-['Manrope'] font-semibold text-[18px] text-[#1E293B]">
+                    <h2 className="font-semibold text-[18px] text-[#1E293B]">
                       Sales Health
                     </h2>
-                    <p className="font-['Manrope'] font-normal text-[14px] text-[#64748B] mt-0.5">
+                    <p className="font-normal text-[14px] text-[#64748B] mt-0.5">
                       How your sales pipeline is performing
                     </p>
                   </div>
@@ -191,7 +191,7 @@ export const Dashboard: React.FC = () => {
                       <path
                         d="M 25 130 A 95 95 0 0 1 215 130"
                         fill="none"
-                        stroke="#6A6A6A"
+                        stroke="#9B87F5"
                         strokeWidth="20.48"
                         strokeLinecap="round"
                         strokeDasharray="298.45"
@@ -202,14 +202,14 @@ export const Dashboard: React.FC = () => {
                     {/* Value in center of gauge */}
                     <div className="absolute top-[64px] inset-x-0 flex flex-col items-center justify-center pointer-events-none">
                       <div className="flex items-baseline justify-center">
-                        <span className="font-['Manrope'] font-bold text-[44px] leading-[44px] text-[#111827] tracking-[0px]">
+                        <span className="font-bold text-[44px] leading-[44px] text-[#111827] tracking-[0px]">
                           78
                         </span>
-                        <span className="font-['Manrope'] font-semibold text-[22px] leading-[33px] text-[#6B7280] tracking-[0px] ml-0.5">
+                        <span className="font-semibold text-[22px] leading-[33px] text-[#6B7280] tracking-[0px] ml-0.5">
                           /100
                         </span>
                       </div>
-                      <span className="font-['Manrope'] font-semibold text-[15px] leading-[20px] text-[#16A34A] mt-1.5 text-center">
+                      <span className="font-semibold text-[15px] leading-[20px] text-[#16A34A] mt-1.5 text-center">
                         Healthy
                       </span>
                     </div>
@@ -219,31 +219,31 @@ export const Dashboard: React.FC = () => {
                 {/* Metric Breakdown Rows */}
                 <div className="space-y-3.5 pt-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                    <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <TrendingUp className="size-4 text-[#94A3B8]" />
                       <span>Pipeline Growth</span>
                     </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                    <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
                       ↑ 14.2%
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                    <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <Users className="size-4 text-[#94A3B8]" />
                       <span>Lead-to-Meeting Rate</span>
                     </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                    <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
                       ↑ 8.6%
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
+                    <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <Zap className="size-4 text-[#94A3B8]" />
                       <span>Leads Going Cold</span>
                     </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
+                    <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
                       ↓ 3.2%
                     </span>
                   </div>
@@ -253,10 +253,10 @@ export const Dashboard: React.FC = () => {
               {/* Bottom Footer Section */}
               <div className="border-t border-[#F1F5F9] pt-4 mt-6 flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <div className="font-['Manrope'] font-semibold text-[11px] uppercase tracking-[0.6px] text-[#64748B]">
+                  <div className="font-semibold text-[11px] uppercase tracking-[0.6px] text-[#64748B]">
                     BIGGEST IMPROVEMENT
                   </div>
-                  <div className="font-['Manrope'] font-semibold text-[16px] leading-[24px] tracking-[0px] text-[#111827] mt-0.5">
+                  <div className="font-semibold text-[16px] leading-[24px] tracking-[0px] text-[#111827] mt-0.5">
                     Hot leads increased by 24% this week
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export const Dashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toast.success('Viewing latest sales insights')}
-                  className="font-['Manrope'] font-medium text-[15px] leading-[22.5px] text-[#8B5CF6] hover:text-[#7C3AED] flex items-center gap-1 cursor-pointer transition-colors"
+                  className="font-medium text-[15px] leading-[22.5px] text-[#8B5CF6] hover:text-[#7C3AED] flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <span>View Sales Insights</span>
                   <ArrowRight className="size-4" />
@@ -277,7 +277,7 @@ export const Dashboard: React.FC = () => {
               {/* Card 1: AI Needs Your Attention */}
               <div className="bg-white rounded-[16px] border border-[#F3F4F6] p-[24px]">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
+                  <h3 className="font-semibold text-[16px] text-[#1E293B]">
                     AI Needs Your Attention
                   </h3>
                   <div className="flex size-[28px] items-center justify-center rounded-full bg-[#F15B5B]/20 shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[13px] font-bold text-[#F15B5B]">
@@ -285,7 +285,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <p className="font-['Manrope'] font-normal text-[15px] leading-[24.38px] text-[#9CA3AF] mt-2.5 mb-4">
+                <p className="font-normal text-[15px] leading-[24.38px] text-[#9CA3AF] mt-2.5 mb-4">
                   7 leads are showing strong buying signals. Review the most important conversations.
                 </p>
 
@@ -300,7 +300,7 @@ export const Dashboard: React.FC = () => {
                   ].map((av, idx) => (
                     <div
                       key={idx}
-                      className={`flex size-[40px] items-center justify-center rounded-full border-2 border-[#DBDEEE] font-['Manrope'] text-[13px] font-semibold ${av.bg} ${av.text} ${
+                      className={`flex size-[40px] items-center justify-center rounded-full border-2 border-[#DBDEEE] text-[13px] font-semibold ${av.bg} ${av.text} ${
                         idx > 0 ? '-ml-2.5' : ''
                       }`}
                     >
@@ -313,7 +313,7 @@ export const Dashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toast.success('Opening leads to review')}
-                  className="w-full py-3 px-4 bg-[#7A9601] hover:bg-[#6C8501] active:scale-[0.99] text-white font-['Manrope'] font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full py-3 px-4 bg-[#7A9601] hover:bg-[#6C8501] active:scale-[0.99] text-white font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
                 >
                   <span>Review Now</span>
                   <ArrowRight className="size-4" />
@@ -325,14 +325,14 @@ export const Dashboard: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-center gap-2 mb-3">
                   <Sparkles className="size-4 text-[#9333EA]" />
-                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
+                  <h3 className="font-semibold text-[16px] text-[#1E293B]">
                     Top Performing Campaign
                   </h3>
                 </div>
 
                 {/* Campaign Name & Active Badge */}
                 <div className="flex items-center gap-2 mb-5">
-                  <span className="font-['Manrope'] font-normal text-[14px] text-[#64748B]">
+                  <span className="font-normal text-[14px] text-[#64748B]">
                     Product Demo Campaign
                   </span>
                   <span className="bg-[#DCFCE7] text-[#16A34A] text-[11px] font-semibold px-2 py-0.5 rounded-md">
@@ -343,20 +343,20 @@ export const Dashboard: React.FC = () => {
                 {/* Stats 4-columns */}
                 <div className="grid grid-cols-4 gap-2 text-left mb-5">
                   <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Sent</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">1.2K</div>
+                    <div className="text-[12px] text-[#64748B]">Sent</div>
+                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">1.2K</div>
                   </div>
                   <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Opened</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">68%</div>
+                    <div className="text-[12px] text-[#64748B]">Opened</div>
+                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">68%</div>
                   </div>
                   <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Replied</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">24%</div>
+                    <div className="text-[12px] text-[#64748B]">Replied</div>
+                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">24%</div>
                   </div>
                   <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Meetings</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">18</div>
+                    <div className="text-[12px] text-[#64748B]">Meetings</div>
+                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">18</div>
                   </div>
                 </div>
 
@@ -364,7 +364,7 @@ export const Dashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toast.success('Loading campaign report')}
-                  className="w-full h-[48.5px] px-4 bg-[#0D0D0D]/5 hover:bg-[#0D0D0D]/10 border border-[#0D0D0D]/5 text-[#222222] font-['Manrope'] font-medium text-[15px] leading-[22.5px] tracking-[0px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors"
+                  className="w-full h-[48.5px] px-4 bg-[#0D0D0D]/5 hover:bg-[#0D0D0D]/10 border border-[#0D0D0D]/5 text-[#222222] font-medium text-[15px] leading-[22.5px] tracking-[0px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors"
                 >
                   <span>View campaign report</span>
                   <ArrowRight className="size-4 text-[#222222]" />

@@ -11,6 +11,7 @@ import {
 import { SetupWidget } from './setupwidgets';
 import { useDashboardState } from './hooks';
 import { OutlookSyncModal } from './modal/ToolConnectModal';
+import telecrmLogo from '../../assets/icons/telecrm.png';
 import hubspotLogo from '../../assets/icons/hubspot.png';
 import salesforceLogo from '../../assets/icons/salesforce.png';
 import zohoLogo from '../../assets/icons/zoho.png';
@@ -19,6 +20,7 @@ import outlookLogo from '../../assets/icons/outlook.png';
 
 const getToolLogo = (toolName: string) => {
   const name = toolName.toLowerCase();
+  if (name.includes('telecrm')) return <img src={telecrmLogo} alt="TeleCRM" className="h-10 w-10 object-contain" />;
   if (name.includes('hubspot')) return <img src={hubspotLogo} alt="HubSpot" className="h-10 w-10 object-contain" />;
   if (name.includes('salesforce')) return <img src={salesforceLogo} alt="Salesforce" className="h-10 w-10 object-contain" />;
   if (name.includes('zoho')) return <img src={zohoLogo} alt="Zoho" className="h-10 w-10 object-contain" />;
@@ -59,6 +61,7 @@ export const DashboardSetup: React.FC = () => {
     handleStepClick,
     handlePromptSubmit,
     handleMiniPromptSubmit,
+    handleSkipStep,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
@@ -121,7 +124,7 @@ export const DashboardSetup: React.FC = () => {
                 onSelectSuggestion={handleSelectSuggestion}
                 isSubmitting={isSubmitting}
                 isWorkspaceReady={false}
-                placeholder={currentConfig.inputPlaceholder}
+                placeholder="Tell Follei about your business..."
               />
 
               {/* Workspace Context Cards or Empty State */}
@@ -158,6 +161,7 @@ export const DashboardSetup: React.FC = () => {
                 isComplete={isComplete}
                 isWorkspaceReady={false}
                 onStartUsing={onStartUsingFollei}
+                onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
               />
             </div>
           </div>
@@ -203,6 +207,7 @@ export const DashboardSetup: React.FC = () => {
                 isComplete={isComplete}
                 isWorkspaceReady={false}
                 onStartUsing={onStartUsingFollei}
+                onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
               />
             </div>
           </div>

@@ -1,7 +1,7 @@
 export interface SetupStep {
   id: string;
   label: string;
-  status: 'active' | 'completed' | 'pending';
+  status: 'active' | 'completed' | 'pending' | 'skipped';
 }
 
 export interface UserProfile {

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowUp, X, Check, Loader2, Plus, FileText } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 const ALL_GOALS = [
   'Increase Student Enrollment',
@@ -48,7 +47,6 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     const file = e.target.files?.[0];
     if (file) {
       setAttachedFile(file);
-      toast.success(`Attached: ${file.name}`);
     }
   };
 
@@ -80,19 +78,40 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }, 1500);
   };
 
+  const [compactPrompt, setCompactPrompt] = useState('');
+  const [compactFile, setCompactFile] = useState<File | null>(null);
+  const compactFileInputRef = useRef<HTMLInputElement>(null);
+  const compactTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (compactTextareaRef.current) {
+      compactTextareaRef.current.style.height = 'auto';
+      const scrollH = compactTextareaRef.current.scrollHeight;
+      compactTextareaRef.current.style.height = `${Math.min(Math.max(scrollH, 24), 120)}px`;
+    }
+  }, [compactPrompt]);
+
+  const handleCompactSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!compactPrompt.trim() && !compactFile) return;
+    setCompactPrompt('');
+    setCompactFile(null);
+  };
+
   const hasSelections = selectedGoals.length > 0;
   const canSubmit = hasSelections || inputValue.trim().length > 0 || attachedFile !== null;
 
   return (
-    <div className="min-w-0 flex-1">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-6 py-14 md:py-20">
+    <div className="flex-1 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-screen justify-between">
+      {/* Scrollable Center Content */}
+      <div className="w-full max-w-5xl mx-auto px-6 pt-12 md:pt-16 pb-8 flex flex-col gap-8 flex-1">
         {/* Header Greeting */}
-        <header className="flex flex-col gap-2">
+        <header className="flex flex-col gap-1.5">
           <p className="text-[14px] text-[#717378]">Good morning, {userName}</p>
           <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">
             Let's define your ultimate goal.
           </h1>
-          <p className="text-[15px] text-[#717378]">
+          <p className="text-[14.5px] text-[#717378]">
             Tell Follei what you ultimately want to achieve, and I'll use it to shape your workspace.
           </p>
         </header>
@@ -178,7 +197,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   }}
                   placeholder={hasSelections ? 'Add more context or upload data...' : 'What is your ultimate goal?'}
                   disabled={isSubmitting}
-                  className="min-w-0 flex-1 resize-none bg-transparent text-[16.5px] leading-[26px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
+                  className="min-w-0 flex-1 resize-none bg-transparent text-[16px] leading-[26px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
                 />
 
                 {/* Submit Arrow Button */}
@@ -267,7 +286,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    className="rounded-full bg-[#16171A] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors cursor-pointer"
+                    className="rounded-full bg-[#7A9601] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors cursor-pointer"
                   >
                     Confirm goal
                   </button>
@@ -284,6 +303,86 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
           </div>
         )}
       </div>
+
+      {/* Claude / GPT Style Bottom-Docked Chatbot Prompt Bar */}
+      {isConfirmed && !isSaving && (
+        <div className="sticky bottom-0 z-30 w-full bg-gradient-to-t from-[#FDFDFC] via-[#FDFDFC]/95 to-transparent pt-6 pb-6">
+          <div className="max-w-4xl mx-auto w-full">
+            <form
+              onSubmit={handleCompactSubmit}
+              className="group relative flex flex-col justify-center rounded-[26px] border border-[#E5E7EB] bg-white px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-200"
+            >
+              <input
+                type="file"
+                ref={compactFileInputRef}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setCompactFile(file);
+                  }
+                }}
+                accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.json"
+                className="hidden"
+              />
+
+              {compactFile && (
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-0.5 text-[12px] font-medium shadow-2xs mb-2 self-start">
+                  <FileText className="size-3 text-[#64748B]" />
+                  <span className="max-w-[180px] truncate">{compactFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => setCompactFile(null)}
+                    className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2.5 w-full">
+                {/* Plus Button */}
+                <button
+                  type="button"
+                  onClick={() => compactFileInputRef.current?.click()}
+                  title="Upload document or file"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
+                >
+                  <Plus className="size-4 stroke-[2.2]" />
+                </button>
+
+                {/* Textarea */}
+                <textarea
+                  ref={compactTextareaRef}
+                  rows={1}
+                  value={compactPrompt}
+                  onChange={(e) => setCompactPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleCompactSubmit();
+                    }
+                  }}
+                  placeholder="Tell Follei about your business or refine goal..."
+                  className="min-w-0 flex-1 resize-none bg-transparent text-[14.5px] leading-[22px] text-[#16171A] outline-none placeholder:text-[#94A3B8] py-1 max-h-[120px] overflow-y-auto"
+                />
+
+                {/* Send Button */}
+                <button
+                  type="submit"
+                  aria-label="Send to Follei"
+                  disabled={!compactPrompt.trim() && !compactFile}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#111827] text-white hover:bg-black disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all shadow-xs"
+                >
+                  <ArrowUp className="size-4 stroke-[2.2]" />
+                </button>
+              </div>
+            </form>
+            <p className="text-center text-[12px] text-[#94A3B8] mt-2 font-normal">
+              Follei shapes your workspace based on your business context and goals.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

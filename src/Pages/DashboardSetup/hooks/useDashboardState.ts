@@ -149,7 +149,7 @@ export const useDashboardState = () => {
             return { ...step, status: 'active' };
           }
           if (idx <= newMax && idx !== currentIndex + 1) {
-            return { ...step, status: 'completed' };
+            return { ...step, status: step.status === 'skipped' ? 'skipped' : 'completed' };
           }
           return { ...step, status: 'pending' };
         })
@@ -161,7 +161,7 @@ export const useDashboardState = () => {
     } else {
       // Last step completed
       setSteps((prevSteps) =>
-        prevSteps.map((step) => ({ ...step, status: 'completed' }))
+        prevSteps.map((step) => ({ ...step, status: step.status === 'skipped' ? 'skipped' : 'completed' }))
       );
       setIsComplete(true);
     }
@@ -217,7 +217,7 @@ export const useDashboardState = () => {
           return { ...step, status: 'active' };
         }
         if (idx <= maxReachedIndex) {
-          return { ...step, status: 'completed' };
+          return { ...step, status: step.status === 'skipped' ? 'skipped' : 'completed' };
         }
         return { ...step, status: 'pending' };
       })
@@ -250,6 +250,38 @@ export const useDashboardState = () => {
       setMiniPromptText('');
       advanceStep(submittedVal, currentStepId);
     }, 300);
+  };
+
+  const handleSkipStep = () => {
+    if (currentStepId === 'customer-type') {
+      const currentIndex = steps.findIndex((s) => s.id === 'customer-type');
+      if (currentIndex >= 0 && currentIndex < steps.length - 1) {
+        const nextStep = steps[currentIndex + 1];
+        const newMax = Math.max(maxReachedIndex, currentIndex + 1);
+        setMaxReachedIndex(newMax);
+
+        setSteps((prevSteps) =>
+          prevSteps.map((step, idx) => {
+            if (step.id === 'customer-type') {
+              return { ...step, status: 'skipped' };
+            }
+            if (idx === currentIndex + 1) {
+              return { ...step, status: 'active' };
+            }
+            if (idx <= newMax && idx !== currentIndex + 1) {
+              return { ...step, status: step.status === 'skipped' ? 'skipped' : 'completed' };
+            }
+            return { ...step, status: 'pending' };
+          })
+        );
+
+        setCurrentStepId(nextStep.id);
+        setSelectedOptionId(null);
+        setMiniPromptText('');
+      }
+    } else {
+      advanceStep('Skipped', currentStepId);
+    }
   };
 
   const handleStartUsing = () => {
@@ -290,6 +322,7 @@ export const useDashboardState = () => {
     handleStepClick,
     handlePromptSubmit,
     handleMiniPromptSubmit,
+    handleSkipStep,
     handleStartUsing,
   };
 };

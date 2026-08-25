@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Menu, Search, Bell } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
 import {
   LeadsHeader,
@@ -41,7 +40,7 @@ export const LeadsPage: React.FC = () => {
 
 
         {/* Leads Content Section */}
-        <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 w-full font-['Manrope']">
+        <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 w-full">
           {/* Header (Title, Subtitle, Search, Filter Dropdown, Add Lead) */}
           <LeadsHeader
             searchQuery={searchQuery}

@@ -18,7 +18,8 @@ export const SetupStepList: React.FC<SetupStepListProps> = ({
       {steps.map((step) => {
         const isActive = currentStepId ? step.id === currentStepId : step.status === 'active';
         const isCompleted = step.status === 'completed';
-        const isClickable = isCompleted || isActive;
+        const isSkipped = step.status === 'skipped';
+        const isClickable = isCompleted || isSkipped || isActive;
 
         return (
           <li
@@ -33,7 +34,7 @@ export const SetupStepList: React.FC<SetupStepListProps> = ({
             } ${
               isActive
                 ? 'font-medium text-[#16171A]'
-                : isCompleted
+                : isCompleted || isSkipped
                 ? 'text-[#2C2E31]'
                 : 'text-[#717378]'
             }`}
@@ -41,6 +42,8 @@ export const SetupStepList: React.FC<SetupStepListProps> = ({
             <span className="flex size-3.5 items-center justify-center">
               {isCompleted ? (
                 <Check className="size-3.5 text-[#0D9488] stroke-[2.5]" aria-hidden="true" />
+              ) : isSkipped ? (
+                <span className="size-2 rounded-full border border-[#D7D7D4]" />
               ) : isActive ? (
                 <span className="size-2 rounded-full bg-[#0D9488]" />
               ) : (
