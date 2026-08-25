@@ -6,11 +6,12 @@ export type LeadStatus =
   | 'Proposal'
   | 'Negotiation'
   | 'Converted'
-  | 'Not Converted';
+  | 'Not Converted'
+  | 'Imported';
 
 export type LeadScore = 'Hot' | 'Warm' | 'Cold';
 
-export type LeadSource = 'Website' | 'Import' | 'Ads' | 'Referral';
+export type LeadSource = string;
 
 export type DatePreset = 'Today' | 'Last 7 days' | 'Last 30 days' | 'No communication';
 

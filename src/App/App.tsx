@@ -1,4 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
+import { AuthSessionProvider } from "../providers/AuthSessionProvider";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../lib/queryClient";
 import AppRoutes from "./Routes";
 import { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
@@ -13,10 +16,10 @@ function App() {
   }, []);
 
   return (
-    
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Toaster
-          position={isMobile ? "bottom-center" : "top-right"}
+        <Toaster 
+          position={isMobile ? "bottom-center" : "top-right"} 
           toastOptions={{
             style: {
               fontSize: '13px',
@@ -28,14 +31,13 @@ function App() {
           }}
         />
 
-
-
-        <AppRoutes />
-
-
+        <AuthSessionProvider>
+          <AppRoutes />
+        </AuthSessionProvider>
       </BrowserRouter>
- 
+    </QueryClientProvider>
   );
 }
 
 export default App;
+

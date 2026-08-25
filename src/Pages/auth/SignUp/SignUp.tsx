@@ -1,14 +1,14 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignUpForm from './Section/SignUpForm';
-import toast from 'react-hot-toast';
+import { useSignup } from '../../../hooks/auth/useSignup';
+import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
 
 export const SignUp: React.FC = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { startGoogleAuth, isStarting: isGoogleStarting } = useGoogleAuth();
+  const { mutate: register, isPending } = useSignup();
 
   const handleSignUp = (formData: {
     firstName: string;
@@ -17,21 +17,14 @@ export const SignUp: React.FC = () => {
     workEmail: string;
     password: string;
   }) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success(`Account created for ${formData.firstName}!`);
-      navigate('/dashboard-setup');
-    }, 600);
-  };
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+    sessionStorage.setItem('follei_pending_business_name', formData.companyName.trim());
 
-  const handleGoogleSignUp = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success('Signed up with Google');
-      navigate('/dashboard-setup');
-    }, 600);
+    register({
+      email: formData.workEmail,
+      password: formData.password,
+      full_name: fullName,
+    });
   };
 
   return (
@@ -46,8 +39,8 @@ export const SignUp: React.FC = () => {
         {/* Card containing Sign Up Form */}
         <SignUpForm
           onSubmit={handleSignUp}
-          onGoogleSignUp={handleGoogleSignUp}
-          isLoading={isLoading}
+          onGoogleSignUp={startGoogleAuth}
+          isLoading={isPending || isGoogleStarting}
         />
 
         {/* Footer Link to Sign In */}

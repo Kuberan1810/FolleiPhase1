@@ -1,35 +1,24 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
-import toast from 'react-hot-toast';
+import { useGoogleAuth } from '../../../hooks/auth/useGoogleAuth';
+import { useLogin } from '../../../hooks/auth/useLogin';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { startGoogleAuth, isStarting } = useGoogleAuth();
+  const { login, isLoading: isLoginLoading } = useLogin();
 
   const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success(`Welcome back, ${data.email}!`);
-      navigate('/dashboard-setup');
-    }, 600);
-  };
-
-  const handleGoogleSignIn = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success('Signed in with Google');
-      navigate('/dashboard-setup');
-    }, 600);
+    await login(data);
   };
 
   const handleForgotPassword = () => {
-    toast('Forgot password link sent to your email');
+    console.log('Navigating to forgot password...');
+    navigate('/forgot-password');
   };
 
   return (
@@ -44,9 +33,9 @@ export const SignIn: React.FC = () => {
         {/* Card containing Sign In Form & Social OAuth */}
         <SignInForm
           onSubmit={handleSignIn}
-          onGoogleSignIn={handleGoogleSignIn}
+          onGoogleSignIn={startGoogleAuth}
           onForgotPassword={handleForgotPassword}
-          isLoading={isLoading}
+          isLoading={isStarting || isLoginLoading}
         />
 
         {/* Footer Link to Sign Up */}

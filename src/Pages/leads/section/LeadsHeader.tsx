@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, ChevronDown, SortDesc } from 'lucide-react';
+import { Search, Upload, ChevronDown, SortDesc } from 'lucide-react';
 import { LeadsFilterModal } from './LeadsFilterModal';
 import type { LeadFilterState } from '../types';
 
@@ -10,7 +10,7 @@ interface LeadsHeaderProps {
   onApplyFilters: (filters: LeadFilterState) => void;
   onResetFilters: () => void;
   activeFilterCount: number;
-  onOpenAddModal: () => void;
+  onImportCsv: () => void;
 }
 
 export const LeadsHeader: React.FC<LeadsHeaderProps> = ({
@@ -20,7 +20,7 @@ export const LeadsHeader: React.FC<LeadsHeaderProps> = ({
   onApplyFilters,
   onResetFilters,
   activeFilterCount,
-  onOpenAddModal,
+  onImportCsv,
 }) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
@@ -81,14 +81,14 @@ export const LeadsHeader: React.FC<LeadsHeaderProps> = ({
           />
         </div>
 
-        {/* Add Lead Button */}
+        {/* CSV Import Button */}
         <button
           type="button"
-          onClick={onOpenAddModal}
+          onClick={onImportCsv}
           className="inline-flex items-center justify-center gap-1.5 rounded-[8px] bg-[#7A9601] hover:bg-[#597818] active:bg-[#4E6914] px-4 py-2 text-[13.5px] font-medium text-white shadow-xs transition-colors cursor-pointer shrink-0"
         >
-          <Plus className="size-4 stroke-[2.4]" />
-          <span>Add Lead</span>
+          <Upload className="size-4 stroke-[2.4]" />
+          <span>Import CSV</span>
         </button>
       </div>
     </div>

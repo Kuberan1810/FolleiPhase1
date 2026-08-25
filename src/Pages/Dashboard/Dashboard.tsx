@@ -1,381 +1,429 @@
-import React, { useState } from 'react';
-import { 
-  Users, 
-  Flame, 
-  CheckCircle2, 
-  Calendar, 
-  ChevronDown, 
-  TrendingUp, 
-  Zap, 
-  Sparkles, 
-  ArrowRight,
-  Menu
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ArrowUp,
+  Building2,
+  Check,
+  FileText,
+  Languages,
+  Loader2,
+  Menu,
+  RefreshCw,
+  Sparkles,
+  Upload,
+  Users,
+  X,
 } from 'lucide-react';
-import Sidebar from '../../Component/Sidebar';
 import toast from 'react-hot-toast';
+import Sidebar from '../../Component/Sidebar';
+import CallLab from './CallLab';
+import { getUserInfo } from '../../lib/auth';
+import {
+  folleiApi,
+  type Business,
+  type DocumentRecord,
+  type GapQuestion,
+  type GoalTurn,
+  type Language,
+  type Lead,
+  type RequirementsDraft,
+  type SalesPackage,
+  type Workspace,
+} from '../../api/follei';
 
-interface TopMetric {
-  label: string;
-  value: string;
-  change: string;
-  icon: React.ReactNode;
-  iconColor: string;
+const CATEGORY_OPTIONS = ['Software', 'Services', 'Retail', 'Manufacturing', 'Consulting', 'Other'];
+const CUSTOMER_OPTIONS = ['Businesses', 'Consumers', 'Both'];
+const CRM_OPTIONS = ['HubSpot', 'Salesforce', 'Zoho', 'Pipedrive', 'Other', 'No CRM'];
+
+function initials(name: string) {
+  return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || 'F';
 }
 
-export const Dashboard: React.FC = () => {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [timeRange, setTimeRange] = useState('This Week');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+function Panel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return <section className={`border border-[#E5E7E3] bg-white ${className}`}>{children}</section>;
+}
 
-  const topMetrics: TopMetric[] = [
-    {
-      label: 'TOTAL LEADS',
-      value: '1,248',
-      change: '+12 this week',
-      icon: <Users className="size-3.5 text-[#2563EB]" />,
-      iconColor: '#2563EB',
-    },
-    {
-      label: 'HOT LEADS',
-      value: '42',
-      change: '+6 today',
-      icon: <Flame className="size-3.5 text-[#EA580C]" />,
-      iconColor: '#EA580C',
-    },
-    {
-      label: 'CONVERTED',
-      value: '86',
-      change: '+5 this week',
-      icon: <CheckCircle2 className="size-3.5 text-[#16A34A]" />,
-      iconColor: '#16A34A',
-    },
-    {
-      label: 'MEETINGS BOOKED',
-      value: '24',
-      change: '4 today',
-      icon: <Calendar className="size-3.5 text-[#F59E0B]" />,
-      iconColor: '#F59E0B',
-    },
-  ];
+function StatusPill({ children, tone = 'neutral' }: { children: React.ReactNode; tone?: 'neutral' | 'green' | 'amber' }) {
+  const colors = tone === 'green'
+    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+    : tone === 'amber'
+      ? 'bg-amber-50 text-amber-700 border-amber-200'
+      : 'bg-[#F5F5F2] text-[#61636A] border-[#E5E7E3]';
+  return <span className={`inline-flex items-center border px-2 py-1 text-[11px] font-medium ${colors}`}>{children}</span>;
+}
+
+export default function Dashboard() {
+  const authUser = getUserInfo() as { full_name?: string; email?: string } | null;
+  const userName = authUser?.full_name || 'Follei user';
+  const [mobileNav, setMobileNav] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [business, setBusiness] = useState<Business | null>(null);
+  const [workspace, setWorkspace] = useState<Workspace | null>(null);
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [goalTurns, setGoalTurns] = useState<GoalTurn[]>([]);
+  const [goalSuggestions, setGoalSuggestions] = useState<string[]>([]);
+  const [suggestionsLoadedFor, setSuggestionsLoadedFor] = useState<string | null>(null);
+  const [requirements, setRequirements] = useState<RequirementsDraft | null>(null);
+  const [questions, setQuestions] = useState<GapQuestion[]>([]);
+  const [salesPackage, setSalesPackage] = useState<SalesPackage | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
+  const generationInFlight = useRef(false);
+
+  const [businessName, setBusinessName] = useState(
+    () => sessionStorage.getItem('follei_pending_business_name') || '',
+  );
+  const [category, setCategory] = useState('');
+  const [customerType, setCustomerType] = useState('');
+  const [crmProvider, setCrmProvider] = useState('No CRM');
+  const [goalInput, setGoalInput] = useState('');
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [revisionFeedback, setRevisionFeedback] = useState('');
+  const [goalStartedWorkspace, setGoalStartedWorkspace] = useState(
+    () => sessionStorage.getItem('follei_goal_started_workspace'),
+  );
+
+  const loadWorkspaceData = useCallback(async (currentWorkspace: Workspace) => {
+    const [docs, leadRows, turns, draft, gapRows, packageRow] = await Promise.all([
+      folleiApi.listDocuments(currentWorkspace.id),
+      folleiApi.listLeads(currentWorkspace.id),
+      folleiApi.getGoalHistory(currentWorkspace.id),
+      folleiApi.getRequirements(currentWorkspace.id),
+      folleiApi.listGapQuestions(currentWorkspace.id),
+      folleiApi.getSalesPackage(currentWorkspace.id),
+    ]);
+    setDocuments(docs);
+    setLeads(leadRows);
+    setGoalTurns(turns);
+    setRequirements(draft);
+    setQuestions(gapRows);
+    setSalesPackage(packageRow);
+  }, []);
+
+  const bootstrap = useCallback(async () => {
+    setError(null);
+    try {
+      const businesses = await folleiApi.listBusinesses();
+      const firstBusiness = businesses[0] || null;
+      setBusiness(firstBusiness);
+      if (!firstBusiness) return;
+      const workspaces = await folleiApi.listWorkspaces(firstBusiness.id);
+      const firstWorkspace = workspaces[0] || null;
+      setWorkspace(firstWorkspace);
+      if (firstWorkspace) await loadWorkspaceData(firstWorkspace);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not load your Follei workspace.');
+    } finally {
+      setLoading(false);
+    }
+  }, [loadWorkspaceData]);
+
+  useEffect(() => { void bootstrap(); }, [bootstrap]);
+
+  const documentsActive = documents.some((document) =>
+    document.status === 'UPLOADED' || document.status === 'PROCESSING',
+  );
+  useEffect(() => {
+    if (!workspace || !documentsActive) return;
+    const timer = window.setInterval(async () => {
+      try { setDocuments(await folleiApi.listDocuments(workspace.id)); } catch { /* next poll retries */ }
+    }, 2000);
+    return () => window.clearInterval(timer);
+  }, [workspace, documentsActive]);
+
+  useEffect(() => {
+    if (!workspace?.goal_text || salesPackage || documentsActive || generationInFlight.current) return;
+
+    const continueGeneration = async () => {
+      generationInFlight.current = true;
+      setBusy('requirements');
+      try {
+        if (!requirements && workspace.stage === 'GOAL_SET') {
+          setRequirements(await folleiApi.generateRequirements(workspace.id));
+          setWorkspace(await folleiApi.getWorkspace(workspace.id));
+          return;
+        }
+
+        if (requirements && workspace.stage === 'REQUIREMENTS_DRAFTED') {
+          const gapRows = await folleiApi.generateGapQuestions(workspace.id);
+          setQuestions(gapRows);
+          setWorkspace(await folleiApi.getWorkspace(workspace.id));
+          if (gapRows.length === 0) {
+            setSalesPackage(await folleiApi.generateSalesPackage(workspace.id));
+            setWorkspace(await folleiApi.getWorkspace(workspace.id));
+          }
+          return;
+        }
+
+        if (requirements && workspace.stage === 'GAP_FILLING' && !questions.some((row) => row.status === 'PENDING')) {
+          setSalesPackage(await folleiApi.generateSalesPackage(workspace.id));
+          setWorkspace(await folleiApi.getWorkspace(workspace.id));
+        }
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Could not prepare campaign requirements.');
+      } finally {
+        generationInFlight.current = false;
+        setBusy(null);
+      }
+    };
+    void continueGeneration();
+  }, [workspace, requirements, questions, salesPackage, documentsActive]);
+
+  const setupReady = documents.some((document) => document.status === 'PROCESSED') && leads.length > 0;
+  const projectStarted = Boolean(
+    workspace && (workspace.stage !== 'DRAFT' || (setupReady && goalStartedWorkspace === workspace.id)),
+  );
+  const pendingQuestions = questions.filter((question) => question.status === 'PENDING');
+
+  useEffect(() => {
+    if (!workspace || !projectStarted || workspace.goal_text || suggestionsLoadedFor === workspace.id) return;
+    setSuggestionsLoadedFor(workspace.id);
+    folleiApi.getGoalSuggestions(workspace.id)
+      .then(({ suggestions }) => setGoalSuggestions(suggestions))
+      .catch(() => setGoalSuggestions([
+        `Grow ${business?.category || 'Business'} Sales`,
+        'Convert More Qualified Leads',
+        'Re-engage Inactive Leads',
+      ]));
+  }, [workspace, projectStarted, suggestionsLoadedFor, business?.category]);
+
+  const setupSteps = useMemo(() => [
+    { label: 'Business profile', done: Boolean(business) },
+    { label: 'Project 1', done: Boolean(workspace) },
+    { label: 'Business files', done: documents.some((document) => document.status === 'PROCESSED') },
+    { label: 'Leads', done: leads.length > 0 },
+    { label: 'Ultimate goal', done: Boolean(workspace?.goal_text) },
+    { label: 'Verify sales package', done: workspace?.stage === 'VERIFIED' },
+  ], [business, workspace, documents, leads]);
+
+  const createBusinessAndProject = async () => {
+    if (!businessName.trim() || !category || !customerType) {
+      toast.error('Add the business name, category, and customer type.');
+      return;
+    }
+    setBusy('business');
+    try {
+      const createdBusiness = await folleiApi.createBusiness({
+        name: businessName.trim(),
+        category,
+        customer_type: customerType,
+        crm_provider: crmProvider === 'No CRM' ? null : crmProvider,
+      });
+      const createdWorkspace = await folleiApi.createWorkspace(createdBusiness.id);
+      sessionStorage.removeItem('follei_pending_business_name');
+      setBusiness(createdBusiness);
+      setWorkspace(createdWorkspace);
+      toast.success('Project 1 is ready for your data.');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Could not create your business.');
+    } finally { setBusy(null); }
+  };
+
+  const uploadDocuments = async (files: FileList | null) => {
+    if (!workspace || !files?.length) return;
+    setBusy('documents');
+    try {
+      for (const file of Array.from(files)) {
+        await folleiApi.uploadDocument(workspace.id, file, (percent) =>
+          setUploadProgress((current) => ({ ...current, [file.name]: percent })),
+        );
+      }
+      setDocuments(await folleiApi.listDocuments(workspace.id));
+      toast.success('Business files uploaded. Follei is processing them.');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Document upload failed.');
+    } finally { setBusy(null); }
+  };
+
+  const uploadLeadCsv = async (file: File | undefined) => {
+    if (!workspace || !file) return;
+    setBusy('leads');
+    try {
+      const result = await folleiApi.uploadLeads(workspace.id, file, (percent) =>
+        setUploadProgress((current) => ({ ...current, [file.name]: percent })),
+      );
+      setLeads(await folleiApi.listLeads(workspace.id));
+      toast.success(`${result.imported} leads imported without dropping source columns.`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Lead import failed.');
+    } finally { setBusy(null); }
+  };
+
+  const sendGoal = async () => {
+    if (!workspace || !goalInput.trim()) return;
+    const message = goalInput.trim();
+    setGoalInput('');
+    setGoalTurns((current) => [...current, { role: 'USER', message }]);
+    setBusy('goal');
+    try {
+      const reply = await folleiApi.sendGoalMessage(workspace.id, message);
+      setGoalTurns((current) => [...current, { role: 'ASSISTANT', message: reply.reply }]);
+      if (reply.goal_finalized) setWorkspace(await folleiApi.getWorkspace(workspace.id));
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Follei could not respond.');
+    } finally { setBusy(null); }
+  };
+
+  const submitAnswer = async (question: GapQuestion) => {
+    if (!workspace || !answers[question.id]?.trim()) return;
+    setBusy(`question-${question.id}`);
+    try {
+      const answered = await folleiApi.answerGapQuestion(workspace.id, question.id, answers[question.id].trim());
+      setQuestions((current) => current.map((row) => row.id === answered.id ? answered : row));
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Could not save the answer.');
+    } finally { setBusy(null); }
+  };
+
+  const revisePackage = async () => {
+    if (!workspace || !salesPackage || !revisionFeedback.trim()) return;
+    setBusy('revision');
+    try {
+      setSalesPackage(await folleiApi.reviseSalesPackage(workspace.id, salesPackage.id, revisionFeedback.trim()));
+      setRevisionFeedback('');
+      toast.success('A revised package is ready.');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Could not revise the package.');
+    } finally { setBusy(null); }
+  };
+
+  const approvePackage = async () => {
+    if (!workspace || !salesPackage) return;
+    setBusy('verify');
+    try {
+      setSalesPackage(await folleiApi.verifySalesPackage(workspace.id, salesPackage.id));
+      setWorkspace(await folleiApi.getWorkspace(workspace.id));
+      toast.success('Sales package approved. Project 1 is ready for go live.');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Could not approve the package.');
+    } finally { setBusy(null); }
+  };
+
+  if (loading) return <div className="flex min-h-screen items-center justify-center bg-[#FDFDFC]"><Loader2 className="size-6 animate-spin text-[#0D9488]" /></div>;
+
+  const sidebarUser = { name: userName, email: authUser?.email || '', initials: initials(userName) };
 
   return (
-    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] font-sans antialiased overflow-hidden">
-      {/* Left Sidebar */}
-      <Sidebar
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="dashboard"
-      />
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-y-auto min-w-0 bg-[#FDFDFC]">
-        {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#EBEBE8] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
-          <button
-            type="button"
-            aria-label="Open navigation"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Menu className="size-4" />
-          </button>
-          <span className="text-[14px] font-semibold tracking-tight text-[#16171A]">
-            Follei
-          </span>
-          <div className="size-8" />
-        </div>
-
-        {/* Dashboard Main Container - Full Width */}
-        <main className="w-full font-['Manrope'] px-6 py-6 lg:px-10 lg:py-8">
-          {/* Header Greeting */}
-          <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="flex min-h-screen bg-[#FDFDFC] text-[#17181B]">
+      <Sidebar user={sidebarUser} projects={workspace ? [workspace.name] : []} isOpen={mobileNav} onClose={() => setMobileNav(false)} />
+      <main className="min-w-0 flex-1">
+        <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-[#E5E7E3] bg-[#FDFDFC]/95 px-4 backdrop-blur lg:px-8">
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={() => setMobileNav(true)} className="flex size-8 items-center justify-center border border-[#E5E7E3] lg:hidden" aria-label="Open navigation"><Menu className="size-4" /></button>
             <div>
-              <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
-                Good afternoon, Pragya
-              </h1>
-              <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
-                Your AI is actively working on your sales pipeline.
-              </p>
+              <p className="text-[13px] font-semibold">{workspace?.name || 'Set up Follei'}</p>
+              <p className="text-[11px] text-[#777980]">{workspace ? workspace.stage.replaceAll('_', ' ').toLowerCase() : 'Business profile'}</p>
             </div>
           </div>
+          {workspace && <StatusPill tone={workspace.stage === 'VERIFIED' ? 'green' : 'neutral'}>{workspace.stage === 'VERIFIED' ? 'Ready' : workspace.language}</StatusPill>}
+        </header>
 
-          {/* Top Metrics Row (Figma specs: Fill 100% width, border-t & border-b: 1px #E2E8F0, py: 19px) */}
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-[#E2E8F0] divide-y sm:divide-y-0 sm:divide-x divide-[#E2E8F0] py-[19px] mb-8">
-            {topMetrics.map((metric, index) => (
-              <div 
-                key={index} 
-                className={`flex flex-col justify-between ${
-                  index === 0 ? 'pr-6 py-2 sm:py-0' : 
-                  index === topMetrics.length - 1 ? 'pl-6 py-2 sm:py-0' : 
-                  'px-6 py-2 sm:py-0'
-                }`}
-              >
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  {metric.icon}
-                  <span className="font-['Manrope'] font-semibold text-[12px] leading-[16px] tracking-[0.6px] uppercase text-[#64748B]">
-                    {metric.label}
-                  </span>
-                </div>
-                <div className="font-['Manrope'] font-semibold text-[30px] leading-[36px] tracking-[0px] text-[#1E293B]">
-                  {metric.value}
-                </div>
-                <div className="font-['Manrope'] font-normal text-[12px] leading-[16px] tracking-[0px] text-[#64748B] mt-1">
-                  {metric.change}
-                </div>
-              </div>
-            ))}
+        {error && (
+          <div className="mx-auto mt-8 flex max-w-3xl items-center justify-between border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <span>{error}</span><button type="button" onClick={() => void bootstrap()} title="Retry"><RefreshCw className="size-4" /></button>
           </div>
+        )}
 
-          {/* Main Grid Layout (Left: Sales Health, Right: AI Attention & Top Campaign) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Card: Sales Health (7 cols) */}
-            <div className="lg:col-span-7 bg-white rounded-[16px] border border-[#F3F4F6] p-[24px] flex flex-col justify-between">
-              <div className="flex flex-col gap-[20px]">
-                {/* Header & Filter */}
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="font-['Manrope'] font-semibold text-[18px] text-[#1E293B]">
-                      Sales Health
-                    </h2>
-                    <p className="font-['Manrope'] font-normal text-[14px] text-[#64748B] mt-0.5">
-                      How your sales pipeline is performing
-                    </p>
+        <div className={`mx-auto grid gap-8 px-5 py-8 lg:px-8 lg:py-12 ${projectStarted ? 'max-w-5xl' : 'max-w-6xl lg:grid-cols-[minmax(0,1fr)_280px]'}`}>
+          <div className="min-w-0">
+            {!business && (
+              <div className="max-w-2xl">
+                <p className="text-sm text-[#6D6F73]">Good morning, {userName.split(' ')[0]}</p>
+                <h1 className="mt-3 text-3xl font-semibold">Let's set up your workspace.</h1>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-[#676970]">I'll help you get everything ready, one step at a time.</p>
+                <Panel className="mt-8 p-5 sm:p-6">
+                  <h2 className="text-base font-semibold">What are you working on?</h2>
+                  <p className="mt-1 text-xs text-[#777980]">Tell Follei the essentials about your business.</p>
+                  <label className="block text-xs font-medium text-[#676970]">Business name</label>
+                  <input value={businessName} onChange={(event) => setBusinessName(event.target.value)} className="mt-2 h-11 w-full border border-[#DCDDD9] px-3 text-sm outline-none focus:border-[#0D9488]" placeholder="Acme Learning" />
+                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                    <div><p className="text-xs font-medium text-[#676970]">Category</p><div className="mt-2 flex flex-wrap gap-2">{CATEGORY_OPTIONS.map((item) => <button key={item} type="button" onClick={() => setCategory(item)} className={`border px-3 py-2 text-xs ${category === item ? 'border-[#0D9488] bg-emerald-50 text-[#087A70]' : 'border-[#DCDDD9]'}`}>{item}</button>)}</div></div>
+                    <div><p className="text-xs font-medium text-[#676970]">Customer type</p><div className="mt-2 flex flex-wrap gap-2">{CUSTOMER_OPTIONS.map((item) => <button key={item} type="button" onClick={() => setCustomerType(item)} className={`border px-3 py-2 text-xs ${customerType === item ? 'border-[#0D9488] bg-emerald-50 text-[#087A70]' : 'border-[#DCDDD9]'}`}>{item}</button>)}</div></div>
                   </div>
+                  <div className="mt-5"><label className="text-xs font-medium text-[#676970]">CRM preference</label><select value={crmProvider} onChange={(event) => setCrmProvider(event.target.value)} className="mt-2 h-11 w-full border border-[#DCDDD9] bg-white px-3 text-sm outline-none"><option>No CRM</option>{CRM_OPTIONS.filter((item) => item !== 'No CRM').map((item) => <option key={item}>{item}</option>)}</select><p className="mt-2 text-xs text-[#8A8C91]">Recorded as a preference only. No connector is started.</p></div>
+                  <button type="button" onClick={() => void createBusinessAndProject()} disabled={busy === 'business'} className="mt-6 flex h-11 w-full items-center justify-center gap-2 bg-[#1C1D20] text-sm font-medium text-white disabled:opacity-50">{busy === 'business' && <Loader2 className="size-4 animate-spin" />}Create Project 1</button>
+                </Panel>
+              </div>
+            )}
 
-                  {/* Dropdown Filter */}
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="flex items-center gap-1.5 rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-1.5 text-[13px] font-medium text-[#475569] hover:bg-gray-100 transition-colors cursor-pointer"
-                    >
-                      <span>{timeRange}</span>
-                      <ChevronDown className="size-3.5 text-[#64748B]" />
-                    </button>
+            {business && workspace && !projectStarted && (
+              <div>
+                <p className="mb-3 text-xs font-semibold uppercase text-[#0D9488]">Project 1 setup</p>
+                <h1 className="text-3xl font-semibold">Ground Follei in your real data.</h1>
+                <p className="mt-3 text-sm leading-6 text-[#676970]">Upload business documents and one lead CSV. Files stay inside this project.</p>
+                <div className="mt-8 grid gap-5 md:grid-cols-2">
+                  <Panel className="p-5">
+                    <div className="flex items-center gap-3"><FileText className="size-5 text-[#0D9488]" /><div><h2 className="text-sm font-semibold">Business files</h2><p className="text-xs text-[#777980]">Products, pricing, services, FAQs</p></div></div>
+                    <label className="mt-5 flex min-h-28 cursor-pointer flex-col items-center justify-center border border-dashed border-[#C9CBC6] bg-[#FAFAF8] text-center hover:border-[#0D9488]"><Upload className="mb-2 size-5 text-[#777980]" /><span className="text-xs font-medium">Choose files</span><input type="file" multiple className="hidden" accept=".pdf,.docx,.xlsx,.csv,.md,.txt" onChange={(event) => void uploadDocuments(event.target.files)} /></label>
+                    <div className="mt-4 space-y-2">{documents.map((document) => <div key={document.id} className="flex items-center justify-between gap-3 text-xs"><span className="truncate">{document.filename}</span><StatusPill tone={document.status === 'PROCESSED' ? 'green' : document.status === 'FAILED' ? 'amber' : 'neutral'}>{document.status}</StatusPill></div>)}{Object.entries(uploadProgress).map(([name, value]) => value < 100 && <div key={name} className="text-xs text-[#777980]">{name} · {value}%</div>)}</div>
+                  </Panel>
+                  <Panel className="p-5">
+                    <div className="flex items-center gap-3"><Users className="size-5 text-[#0D9488]" /><div><h2 className="text-sm font-semibold">Lead CSV</h2><p className="text-xs text-[#777980]">Every original column is preserved</p></div></div>
+                    <label className="mt-5 flex min-h-28 cursor-pointer flex-col items-center justify-center border border-dashed border-[#C9CBC6] bg-[#FAFAF8] text-center hover:border-[#0D9488]"><Upload className="mb-2 size-5 text-[#777980]" /><span className="text-xs font-medium">Choose CSV</span><input type="file" className="hidden" accept=".csv,text/csv" onChange={(event) => void uploadLeadCsv(event.target.files?.[0])} /></label>
+                    <p className="mt-4 text-xs text-[#777980]">{leads.length ? `${leads.length} leads imported` : 'No leads imported yet'}</p>
+                  </Panel>
+                </div>
+                <button type="button" disabled={!setupReady || documentsActive} onClick={() => { sessionStorage.setItem('follei_goal_started_workspace', workspace.id); setGoalStartedWorkspace(workspace.id); }} className="mt-6 h-11 bg-[#1C1D20] px-6 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-35">Continue to ultimate goal</button>
+              </div>
+            )}
 
-                    {isDropdownOpen && (
-                      <div className="absolute right-0 mt-1.5 w-36 bg-white border border-[#E2E8F0] rounded-xl z-20 py-1 text-[13px]">
-                        {['Today', 'This Week', 'This Month', 'This Quarter'].map((item) => (
-                          <button
-                            key={item}
-                            onClick={() => {
-                              setTimeRange(item);
-                              setIsDropdownOpen(false);
-                            }}
-                            className={`w-full text-left px-3.5 py-1.5 hover:bg-[#F8FAFC] cursor-pointer transition-colors ${
-                              timeRange === item ? 'font-semibold text-[#1E293B]' : 'text-[#64748B]'
-                            }`}
-                          >
-                            {item}
-                          </button>
-                        ))}
+            {business && workspace && projectStarted && !salesPackage && (
+              <div className="mx-auto max-w-3xl pt-3 lg:pt-8">
+                <p className="text-sm text-[#6D6F73]">Good morning, {userName.split(' ')[0]}</p>
+                <h1 className="mt-3 text-3xl font-semibold">Let's define your ultimate goal.</h1>
+                <p className="mt-3 text-base leading-6 text-[#676970]">Tell Follei what you ultimately want to achieve, and I'll use it to shape your workspace.</p>
+                {!workspace.goal_text ? (
+                  <div className="mt-10">
+                    {goalTurns.length > 0 && (
+                      <div className="mb-6 max-h-72 space-y-3 overflow-y-auto">
+                        {goalTurns.map((turn, index) => <div key={`${turn.role}-${index}`} className={`flex ${turn.role === 'USER' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[82%] rounded-lg px-4 py-3 text-sm leading-6 ${turn.role === 'USER' ? 'bg-[#17181B] text-white' : 'bg-[#F3F3F0] text-[#303238]'}`}>{turn.message}</div></div>)}
                       </div>
                     )}
-                  </div>
-                </div>
-
-                {/* Semicircular Gauge */}
-                <div className="flex flex-col items-center justify-center my-4">
-                  <div className="relative w-[240px] h-[140px] flex items-center justify-center">
-                    <svg viewBox="0 0 240 140" className="w-full h-full overflow-visible">
-                      {/* Background Arch (180 deg) */}
-                      <path
-                        d="M 25 130 A 95 95 0 0 1 215 130"
-                        fill="none"
-                        stroke="#E2E8F0"
-                        strokeWidth="20.48"
-                        strokeLinecap="round"
-                      />
-
-                      {/* Active Progress Arch (78%) */}
-                      <path
-                        d="M 25 130 A 95 95 0 0 1 215 130"
-                        fill="none"
-                        stroke="#6A6A6A"
-                        strokeWidth="20.48"
-                        strokeLinecap="round"
-                        strokeDasharray="298.45"
-                        strokeDashoffset="65.66"
-                      />
-                    </svg>
-
-                    {/* Value in center of gauge */}
-                    <div className="absolute top-[64px] inset-x-0 flex flex-col items-center justify-center pointer-events-none">
-                      <div className="flex items-baseline justify-center">
-                        <span className="font-['Manrope'] font-bold text-[44px] leading-[44px] text-[#111827] tracking-[0px]">
-                          78
-                        </span>
-                        <span className="font-['Manrope'] font-semibold text-[22px] leading-[33px] text-[#6B7280] tracking-[0px] ml-0.5">
-                          /100
-                        </span>
-                      </div>
-                      <span className="font-['Manrope'] font-semibold text-[15px] leading-[20px] text-[#16A34A] mt-1.5 text-center">
-                        Healthy
-                      </span>
+                    <form onSubmit={(event) => { event.preventDefault(); void sendGoal(); }} className="flex min-h-24 items-center gap-3 rounded-[24px] border border-[#DDDEDA] bg-white px-5 py-4 shadow-sm focus-within:border-[#A6A8A3]">
+                      <textarea value={goalInput} onChange={(event) => setGoalInput(event.target.value)} className="min-h-14 min-w-0 flex-1 resize-none bg-transparent py-2 text-base outline-none" placeholder="What is your ultimate goal?" aria-label="What is your ultimate goal?" />
+                      <button type="submit" disabled={!goalInput.trim() || busy === 'goal'} className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#17181B] text-white disabled:opacity-30" aria-label="Submit goal">{busy === 'goal' ? <Loader2 className="size-4 animate-spin" /> : <ArrowUp className="size-4" />}</button>
+                    </form>
+                    <div className="mt-5 flex min-h-10 flex-wrap gap-2">
+                      {goalSuggestions.map((suggestion) => <button key={suggestion} type="button" onClick={() => setGoalInput(suggestion)} className={`rounded-full border px-4 py-2 text-sm transition-colors ${goalInput === suggestion ? 'border-[#17181B] bg-[#17181B] text-white' : 'border-[#DDDEDA] bg-white text-[#686A6F] hover:border-[#A6A8A3] hover:text-[#17181B]'}`}>{suggestion}</button>)}
+                      {!goalSuggestions.length && <span className="flex items-center gap-2 text-sm text-[#85878B]"><Loader2 className="size-3.5 animate-spin" />Building suggestions from your documents...</span>}
                     </div>
                   </div>
-                </div>
-
-                {/* Metric Breakdown Rows */}
-                <div className="space-y-3.5 pt-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
-                      <TrendingUp className="size-4 text-[#94A3B8]" />
-                      <span>Pipeline Growth</span>
-                    </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↑ 14.2%
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
-                      <Users className="size-4 text-[#94A3B8]" />
-                      <span>Lead-to-Meeting Rate</span>
-                    </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↑ 8.6%
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 font-['Manrope'] font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
-                      <Zap className="size-4 text-[#94A3B8]" />
-                      <span>Leads Going Cold</span>
-                    </div>
-                    <span className="font-['Manrope'] font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↓ 3.2%
-                    </span>
-                  </div>
-                </div>
+                ) : (
+                  <Panel className="mt-8 p-5 sm:p-6">
+                    <div className="flex items-start gap-3"><Check className="mt-0.5 size-5 text-emerald-600" /><div><p className="text-xs font-semibold uppercase text-[#777980]">Captured goal</p><p className="mt-2 text-sm leading-6">{workspace.goal_text}</p></div></div>
+                    {busy === 'requirements' && <div className="mt-6 flex items-center gap-2 border-t border-[#E5E7E3] pt-5 text-sm text-[#676970]"><Loader2 className="size-4 animate-spin text-[#0D9488]" />Drafting requirements and checking for genuine gaps…</div>}
+                  </Panel>
+                )}
+                {requirements && <Panel className="mt-5 p-5"><h2 className="text-sm font-semibold">Requirements draft</h2><div className="mt-4 grid gap-4 sm:grid-cols-3">{[['Success', requirements.success_definition], ['Target', requirements.target_segment], ['Offer', requirements.offer_summary]].map(([label, value]) => <div key={label}><p className="text-[11px] font-semibold uppercase text-[#777980]">{label}</p><p className="mt-1 text-sm leading-5">{value}</p></div>)}</div></Panel>}
+                {pendingQuestions.map((question, index) => <Panel key={question.id} className="mt-5 p-5"><p className="text-[11px] font-semibold uppercase text-[#0D9488]">Gap question {index + 1} of {pendingQuestions.length}</p><h2 className="mt-2 text-sm font-semibold">{question.question_text}</h2><div className="mt-4 flex gap-2"><input value={answers[question.id] || ''} onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))} className="h-10 min-w-0 flex-1 border border-[#DCDDD9] px-3 text-sm outline-none focus:border-[#0D9488]" placeholder="Your answer" /><button type="button" onClick={() => void submitAnswer(question)} disabled={!answers[question.id]?.trim() || busy === `question-${question.id}`} className="bg-[#1C1D20] px-4 text-xs font-medium text-white disabled:opacity-35">Answer</button></div></Panel>)}
               </div>
+            )}
 
-              {/* Bottom Footer Section */}
-              <div className="border-t border-[#F1F5F9] pt-4 mt-6 flex items-center justify-between flex-wrap gap-2">
-                <div>
-                  <div className="font-['Manrope'] font-semibold text-[11px] uppercase tracking-[0.6px] text-[#64748B]">
-                    BIGGEST IMPROVEMENT
-                  </div>
-                  <div className="font-['Manrope'] font-semibold text-[16px] leading-[24px] tracking-[0px] text-[#111827] mt-0.5">
-                    Hot leads increased by 24% this week
-                  </div>
+            {business && workspace && salesPackage && (
+              <div>
+                <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="mb-3 text-xs font-semibold uppercase text-[#0D9488]">Sales package</p><h1 className="text-3xl font-semibold">Review before Follei goes live.</h1><p className="mt-3 text-sm text-[#676970]">Pitch is the angle. Script is the progressive conversation.</p></div><div className="flex items-center gap-2"><Languages className="size-4 text-[#777980]" /><select value={workspace.language} onChange={async (event) => setWorkspace(await folleiApi.updateLanguage(workspace.id, event.target.value as Language))} className="h-9 border border-[#DCDDD9] bg-white px-3 text-xs"><option value="TAMIL">Tamil</option><option value="HINDI">Hindi</option><option value="ENGLISH">English</option></select></div></div>
+                {salesPackage.verified && <div className="mt-6 flex items-center gap-3 border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-800"><Check className="size-5" /><div><p className="font-semibold">Project 1 is verified and ready.</p><p className="mt-0.5 text-xs">Test the approved strategy in the realtime Call Lab below.</p></div></div>}
+                <div className="mt-6 grid gap-5 md:grid-cols-2">
+                  <Panel className="p-5"><p className="text-[11px] font-semibold uppercase text-[#777980]">Sales requirement</p><p className="mt-3 text-sm leading-6">{salesPackage.sales_requirement}</p></Panel>
+                  <Panel className="p-5"><p className="text-[11px] font-semibold uppercase text-[#777980]">Sales pitch</p><p className="mt-3 text-sm leading-6">{salesPackage.sales_pitch}</p></Panel>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => toast.success('Viewing latest sales insights')}
-                  className="font-['Manrope'] font-medium text-[15px] leading-[22.5px] text-[#8B5CF6] hover:text-[#7C3AED] flex items-center gap-1 cursor-pointer transition-colors"
-                >
-                  <span>View Sales Insights</span>
-                  <ArrowRight className="size-4" />
-                </button>
+                <Panel className="mt-5 p-5"><h2 className="text-sm font-semibold">Sales strategy</h2><p className="mt-3 text-xs font-semibold uppercase text-[#777980]">Sequencing</p><p className="mt-1 text-sm leading-6">{salesPackage.sales_strategy.sequencing}</p><div className="mt-5 grid gap-4 md:grid-cols-2">{salesPackage.sales_strategy.segments?.map((segment) => <div key={segment.name} className="border-l-2 border-[#0D9488] pl-3"><p className="text-sm font-semibold">{segment.name}</p><p className="mt-1 text-xs leading-5 text-[#676970]">{segment.angle}</p></div>)}</div></Panel>
+                <Panel className="mt-5 p-5"><h2 className="text-sm font-semibold">Call script</h2><p className="mt-4 text-[11px] font-semibold uppercase text-[#777980]">Opening</p><p className="mt-1 text-sm leading-6">{salesPackage.call_script.opening}</p><p className="mt-5 text-[11px] font-semibold uppercase text-[#777980]">Key points</p><ul className="mt-2 space-y-2">{salesPackage.call_script.key_points?.map((point) => <li key={point} className="flex gap-2 text-sm leading-5"><Check className="mt-0.5 size-4 shrink-0 text-[#0D9488]" />{point}</li>)}</ul><div className="mt-5 grid gap-4 md:grid-cols-3">{[['Interested', salesPackage.call_script.if_interested], ['Hesitant', salesPackage.call_script.if_hesitant], ['Not interested', salesPackage.call_script.if_not_interested]].map(([label, value]) => <div key={label} className="bg-[#F6F6F3] p-3"><p className="text-[11px] font-semibold uppercase text-[#777980]">{label}</p><p className="mt-2 text-xs leading-5">{value}</p></div>)}</div></Panel>
+                {!salesPackage.verified && <Panel className="mt-5 p-5"><h2 className="text-sm font-semibold">Request a change</h2><textarea value={revisionFeedback} onChange={(event) => setRevisionFeedback(event.target.value)} className="mt-3 min-h-24 w-full resize-y border border-[#DCDDD9] p-3 text-sm outline-none focus:border-[#0D9488]" placeholder="Make the pitch shorter, emphasize the guarantee…" /><div className="mt-3 flex flex-wrap justify-end gap-2"><button type="button" onClick={() => void revisePackage()} disabled={!revisionFeedback.trim() || busy === 'revision'} className="flex h-10 items-center gap-2 border border-[#DCDDD9] px-4 text-xs font-medium disabled:opacity-35">{busy === 'revision' && <Loader2 className="size-3.5 animate-spin" />}Generate revision</button><button type="button" onClick={() => void approvePackage()} disabled={busy === 'verify'} className="flex h-10 items-center gap-2 bg-[#1C1D20] px-5 text-xs font-medium text-white disabled:opacity-50">{busy === 'verify' && <Loader2 className="size-3.5 animate-spin" />}Approve package</button></div></Panel>}
+                {salesPackage.verified && <CallLab workspace={workspace} leads={leads} />}
               </div>
-            </div>
-
-            {/* Right Column: 2 Cards (5 cols) */}
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              {/* Card 1: AI Needs Your Attention */}
-              <div className="bg-white rounded-[16px] border border-[#F3F4F6] p-[24px]">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
-                    AI Needs Your Attention
-                  </h3>
-                  <div className="flex size-[28px] items-center justify-center rounded-full bg-[#F15B5B]/20 shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[13px] font-bold text-[#F15B5B]">
-                    7
-                  </div>
-                </div>
-
-                <p className="font-['Manrope'] font-normal text-[15px] leading-[24.38px] text-[#9CA3AF] mt-2.5 mb-4">
-                  7 leads are showing strong buying signals. Review the most important conversations.
-                </p>
-
-                {/* Avatar Stack */}
-                <div className="flex items-center mb-5">
-                  {[
-                    { initials: 'IN', bg: 'bg-[#F8FAFC]', text: 'text-[#334155]' },
-                    { initials: 'HM', bg: 'bg-[#FEF3C7]', text: 'text-[#92400E]' },
-                    { initials: 'GM', bg: 'bg-[#FFEDD5]', text: 'text-[#9A3412]' },
-                    { initials: 'AP', bg: 'bg-[#FEF9C3]', text: 'text-[#854D0E]' },
-                    { initials: '+3', bg: 'bg-[#E2F4FF]', text: 'text-[#0369A1]' },
-                  ].map((av, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex size-[40px] items-center justify-center rounded-full border-2 border-[#DBDEEE] font-['Manrope'] text-[13px] font-semibold ${av.bg} ${av.text} ${
-                        idx > 0 ? '-ml-2.5' : ''
-                      }`}
-                    >
-                      {av.initials}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Olive CTA Button */}
-                <button
-                  type="button"
-                  onClick={() => toast.success('Opening leads to review')}
-                  className="w-full py-3 px-4 bg-[#7A9601] hover:bg-[#6C8501] active:scale-[0.99] text-white font-['Manrope'] font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
-                >
-                  <span>Review Now</span>
-                  <ArrowRight className="size-4" />
-                </button>
-              </div>
-
-              {/* Card 2: Top Performing Campaign */}
-              <div className="bg-white rounded-[16px] border border-[#F3F4F6] p-[24px]">
-                {/* Header */}
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="size-4 text-[#9333EA]" />
-                  <h3 className="font-['Manrope'] font-semibold text-[16px] text-[#1E293B]">
-                    Top Performing Campaign
-                  </h3>
-                </div>
-
-                {/* Campaign Name & Active Badge */}
-                <div className="flex items-center gap-2 mb-5">
-                  <span className="font-['Manrope'] font-normal text-[14px] text-[#64748B]">
-                    Product Demo Campaign
-                  </span>
-                  <span className="bg-[#DCFCE7] text-[#16A34A] text-[11px] font-semibold px-2 py-0.5 rounded-md">
-                    Active
-                  </span>
-                </div>
-
-                {/* Stats 4-columns */}
-                <div className="grid grid-cols-4 gap-2 text-left mb-5">
-                  <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Sent</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">1.2K</div>
-                  </div>
-                  <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Opened</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">68%</div>
-                  </div>
-                  <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Replied</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">24%</div>
-                  </div>
-                  <div>
-                    <div className="font-['Manrope'] text-[12px] text-[#64748B]">Meetings</div>
-                    <div className="font-['Manrope'] text-[16px] font-bold text-[#1E293B] mt-0.5">18</div>
-                  </div>
-                </div>
-
-                {/* View Campaign Report CTA Button */}
-                <button
-                  type="button"
-                  onClick={() => toast.success('Loading campaign report')}
-                  className="w-full h-[48.5px] px-4 bg-[#0D0D0D]/5 hover:bg-[#0D0D0D]/10 border border-[#0D0D0D]/5 text-[#222222] font-['Manrope'] font-medium text-[15px] leading-[22.5px] tracking-[0px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>View campaign report</span>
-                  <ArrowRight className="size-4 text-[#222222]" />
-                </button>
-              </div>
-            </div>
+            )}
           </div>
-        </main>
-      </div>
+
+          {!projectStarted && <aside className="h-fit border border-[#E5E7E3] bg-white p-4 lg:sticky lg:top-24">
+            <div className="flex items-center gap-2"><Sparkles className="size-4 text-[#0D9488]" /><h2 className="text-sm font-semibold">Follei setup</h2></div>
+            <div className="mt-5 space-y-3">{setupSteps.map((step, index) => <div key={step.label} className="flex items-center gap-3"><span className={`flex size-5 shrink-0 items-center justify-center border text-[10px] ${step.done ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-[#DCDDD9] text-[#8A8C91]'}`}>{step.done ? <Check className="size-3" /> : index + 1}</span><span className={`text-xs ${step.done ? 'text-[#676970]' : 'font-medium'}`}>{step.label}</span></div>)}</div>
+            {business && <div className="mt-5 border-t border-[#E5E7E3] pt-4"><div className="flex items-center gap-2"><Building2 className="size-4 text-[#777980]" /><div><p className="text-xs font-medium">{business.name}</p><p className="text-[11px] text-[#8A8C91]">{business.category} · {business.customer_type}</p></div></div></div>}
+          </aside>}
+        </div>
+      </main>
+      {mobileNav && <button type="button" className="fixed right-3 top-3 z-[60] lg:hidden" onClick={() => setMobileNav(false)} aria-label="Close navigation"><X className="size-5" /></button>}
     </div>
   );
-};
-
-export default Dashboard;
+}

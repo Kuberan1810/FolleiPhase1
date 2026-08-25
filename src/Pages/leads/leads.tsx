@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Menu, Search, Bell } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Loader2, RefreshCw } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
 import {
   LeadsHeader,
@@ -23,8 +23,12 @@ export const LeadsPage: React.FC = () => {
     activeFilterCount,
     handleApplyFilters,
     handleResetFilters,
-    setIsAddModalOpen,
+    importLeadCsv,
+    loading,
+    error,
+    retry,
   } = useLeads();
+  const csvInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex min-h-screen bg-[#F8F9FA] text-[#16171A] antialiased">
@@ -37,7 +41,17 @@ export const LeadsPage: React.FC = () => {
 
       {/* Main Content */}
       <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC] ">
-     
+        <input
+          ref={csvInputRef}
+          type="file"
+          accept=".csv,text/csv"
+          className="hidden"
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (file) void importLeadCsv(file);
+            event.target.value = '';
+          }}
+        />
 
 
         {/* Leads Content Section */}
@@ -50,18 +64,21 @@ export const LeadsPage: React.FC = () => {
             onApplyFilters={handleApplyFilters}
             onResetFilters={handleResetFilters}
             activeFilterCount={activeFilterCount}
-            onOpenAddModal={() => setIsAddModalOpen(true)}
+            onImportCsv={() => csvInputRef.current?.click()}
           />
 
+          {error && <div className="mt-5 flex items-center justify-between border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"><span>{error}</span><button type="button" onClick={() => void retry()} title="Retry"><RefreshCw className="size-4" /></button></div>}
+          {loading && <div className="mt-8 flex items-center justify-center gap-2 text-sm text-[#64748B]"><Loader2 className="size-4 animate-spin" />Loading workspace leads…</div>}
+
           {/* Leads Table */}
-          <LeadsTable
+          {!loading && <LeadsTable
             leads={leads}
             currentPage={currentPage}
             totalPages={totalPages}
             totalCount={totalCount}
             pageSize={pageSize}
             onPageChange={setCurrentPage}
-          />
+          />}
         </div>
       </main>
 
@@ -71,4 +88,3 @@ export const LeadsPage: React.FC = () => {
 };
 
 export default LeadsPage;
-

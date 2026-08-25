@@ -3,14 +3,9 @@ import {
   Home,
   ChevronDown,
   ChevronRight,
-  Plus,
-  Sparkles,
-  Settings,
   Folder,
   LayoutDashboard,
   Users,
-  Calendar,
-  Megaphone,
   Phone,
   X
 } from 'lucide-react';
@@ -22,9 +17,6 @@ interface SidebarProps {
   projects?: string[];
   isOpen?: boolean;
   onClose?: () => void;
-  onNewProject?: () => void;
-  onAskFollei?: () => void;
-  onOpenSettings?: () => void;
   activeItem?: string;
 }
 
@@ -37,9 +29,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   projects = ['Project 1'],
   isOpen = false,
   onClose,
-  onNewProject,
-  onAskFollei,
-  onOpenSettings,
   activeItem,
 }) => {
   const navigate = useNavigate();
@@ -56,7 +45,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (activeItem) return activeItem;
     if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
-    if (currentPath.startsWith('/meet')) return 'meetings';
     if (currentPath.startsWith('/call-lab')) return 'call-lab';
     if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/') return 'home';
     return 'home';
@@ -76,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col gap-4">
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 pt-1 pb-1">
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navTo('/home')}>
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navTo('/dashboard')}>
             <div className="flex size-7 items-center justify-center rounded-full bg-[#16171A] text-white font-bold text-[13px] tracking-wider shadow-xs">
               F
             </div>
@@ -101,15 +89,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             type="button"
 
-            onClick={() => navTo('/home')}
+            onClick={() => navTo('/dashboard')}
             className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
-              activeNav === 'home'
+              activeNav === 'dashboard'
 
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
             }`}
           >
-            <Home className={`size-4 ${activeNav === 'home' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+            <Home className={`size-4 ${activeNav === 'dashboard' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
             <span>Home</span>
           </button>
 
@@ -175,21 +163,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                       <button
                         type="button"
-                        onClick={() => navTo('/meeting')}
-
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'meetings'
-
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                          }`}
-                      >
-                        <Calendar className={`size-3.5 ${activeNav === 'meetings' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Meetings</span>
-                      </button>
-
-                      <button
-                        type="button"
                         onClick={() => navTo('/call-lab')}
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
                           activeNav === 'call-lab'
@@ -201,76 +174,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <span>Call Lab</span>
                       </button>
 
-                      <button
-                        type="button"
-                        onClick={() => navTo('/main-dashboard')}
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'campaigns'
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
-                      >
-                        <Megaphone className={`size-3.5 ${activeNav === 'campaigns' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Campaigns</span>
-                      </button>
                     </div>
                   )}
                 </div>
 
-                {/* + New Project Action */}
-                <button
-                  type="button"
-                  onClick={onNewProject}
-                  className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
-                >
-                  <Plus className="size-3.5 text-[#717378]" />
-                  <span>New Project</span>
-                </button>
               </div>
             )}
           </div>
 
-          {/* Divider line */}
-          <div className="border-t border-[#EBEBE8] my-1.5" />
-
-          {/* Ask Follei Action */}
-          <button
-            type="button"
-            onClick={() => {
-              onAskFollei?.();
-            }}
-
-            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'ask-follei'
-
-                ? 'bg-[#EFEFE9] text-[#16171A]'
-                : 'text-[#16171A] hover:bg-black/5'
-              }`}
-          >
-            <Sparkles className="size-4 text-[#717378]" />
-            <span>Ask Follei</span>
-          </button>
         </div>
       </div>
 
       {/* Bottom Settings & User Profile */}
       <div className="flex flex-col gap-2">
-        {/* Settings button */}
-        <button
-          type="button"
-          onClick={() => {
-            onOpenSettings?.();
-          }}
-
-          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'settings'
-
-              ? 'bg-[#EFEFE9] text-[#16171A]'
-              : 'text-[#16171A] hover:bg-black/5'
-            }`}
-        >
-          <Settings className="size-4 text-[#717378]" />
-          <span>Settings</span>
-        </button>
-
         {/* User Card Pill */}
         <div className="flex items-center gap-3 rounded-2xl border border-[#EBEBE8] bg-[#F4F4F0]/60 p-2.5 hover:bg-[#EFEFEA] transition-colors cursor-pointer">
           <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
@@ -313,4 +229,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
-
