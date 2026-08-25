@@ -76,7 +76,7 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
     setActiveStepIndex(0);
     setIsAnalysisComplete(false);
 
-    const timers: NodeJS.Timeout[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
     // Animate through each analysis step progressively
     analysisSteps.forEach((_, idx) => {
