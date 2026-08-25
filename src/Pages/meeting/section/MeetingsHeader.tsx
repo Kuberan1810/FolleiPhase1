@@ -9,10 +9,10 @@ export const MeetingsHeader: React.FC<MeetingsHeaderProps> = ({ onScheduleMeetin
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2 pb-1">
       <div>
-        <h1 className="text-[48px] tracking-tight text-[#111827]">
+        <h1 className="font-['Manrope'] font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
           Meetings
         </h1>
-        <p className="text-[16px] text-[#6B7280] mt-1">
+        <p className="font-['Manrope'] font-normal text-[14px] leading-[20px] tracking-[0px] text-[#64748B] mt-1">
           Stay on top of your upcoming sales conversations.
         </p>
       </div>
