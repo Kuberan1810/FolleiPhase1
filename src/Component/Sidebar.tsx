@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { UserProfile } from '../Pages/DashboardSetup/types';
+import { getStoredUser } from '../lib/auth';
+import { useWorkspaces } from '../hooks/useWorkspace';
 
 interface SidebarProps {
   user?: UserProfile;
@@ -28,12 +30,8 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
-  user = {
-    name: 'Aditya',
-    email: 'Free plan',
-    initials: 'A',
-  },
-  projects = ['Project 1'],
+  user,
+  projects,
   isOpen = false,
   onClose,
   onNewProject,
@@ -45,8 +43,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isProject1Open, setIsProject1Open] = useState(true);
+  const storedUser = getStoredUser();
+  const { workspaces } = useWorkspaces();
+  const resolvedUser: UserProfile = user ?? {
+    name: storedUser?.full_name || storedUser?.email || 'Follei user',
+    email: storedUser?.email || 'Free plan',
+    initials: (storedUser?.full_name || storedUser?.email || 'F')
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toUpperCase(),
+  };
 
-  const displayProjects = projects.length > 0 ? projects : ['Project 1'];
+  const displayProjects = projects?.length
+    ? projects
+    : workspaces.length
+      ? workspaces.map((workspace) => workspace.name)
+      : ['Project 1'];
 
   const currentPath = location.pathname;
 
@@ -266,14 +281,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* User Card Pill */}
         <div className="flex items-center gap-3 rounded-2xl border border-[#EBEBE8] bg-[#F4F4F0]/60 p-2.5 hover:bg-[#EFEFEA] transition-colors cursor-pointer">
           <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
-            {user.initials || user.name.charAt(0) || 'A'}
+            {resolvedUser.initials || resolvedUser.name.charAt(0) || 'F'}
           </div>
           <div className="flex min-w-0 flex-1 flex-col">
             <span className="truncate text-[13px] font-semibold text-[#16171A] leading-tight">
-              {user.name}
+              {resolvedUser.name}
             </span>
             <span className="truncate text-[11px] text-[#717378] leading-tight mt-0.5">
-              {user.email === 'Free plan' ? 'Free plan' : (user.email || 'Free plan')}
+              {resolvedUser.email === 'Free plan' ? 'Free plan' : (resolvedUser.email || 'Free plan')}
             </span>
           </div>
         </div>
@@ -305,4 +320,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
-

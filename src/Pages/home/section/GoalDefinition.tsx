@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowUp, X, Check, Loader2, Plus, FileText } from 'lucide-react';
+import { useGoalConversation } from '../../../hooks/useGoalConversation';
+import { useSalesPackageFlow } from '../../../hooks/useSalesPackageFlow';
+import SalesPackageReview from './SalesPackageReview';
 
+// Fallback only. Real suggestions come from the workspace's own documents;
+// these show when ingestion has not produced anything yet.
 const ALL_GOALS = [
   'Increase Student Enrollment',
   'Boost Student Engagement',
@@ -11,13 +16,20 @@ const ALL_GOALS = [
 
 interface GoalDefinitionProps {
   userName?: string;
+  workspaceId: string | undefined;
   onProjectReady: () => void;
 }
 
 export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   userName = 'Aditya',
+  workspaceId,
   onProjectReady,
 }) => {
+  const goal = useGoalConversation(workspaceId);
+  const pkg = useSalesPackageFlow(workspaceId);
+  // Suggestions are generated from this workspace's documents; fall back to
+  // the generic list only when there are none.
+  const goalOptions = goal.suggestions.length ? goal.suggestions : ALL_GOALS;
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
@@ -57,25 +69,39 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (selectedGoals.length === 0 && !inputValue.trim() && !attachedFile) return;
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    // Selected chips and free text are one statement of intent, so they go as
+    // a single message rather than several turns.
+    const message = [selectedGoals.join(', '), inputValue.trim()].filter(Boolean).join('. ');
+    const result = await goal.send(message);
+    setIsSubmitting(false);
+    if (!result) return;
+    // Only move to the confirmation step once the backend says the goal is
+    // actually settled. Requirements generation rejects a workspace with no
+    // goal_text, so confirming early would fail on the next call.
+    if (result.goal_finalized) {
       setIsConfirmed(true);
-    }, 1500);
+    } else {
+      // Still clarifying: keep the composer open and clear what was sent.
+      setSelectedGoals([]);
+      setInputValue('');
+    }
   };
 
   const handleEdit = () => {
     setIsConfirmed(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      onProjectReady();
-    }, 1500);
+    // Phase 4 onward runs itself from here: requirements, then gap questions,
+    // then the package. The workspace is "ready" as soon as that starts.
+    await pkg.start();
+    setIsSaving(false);
+    onProjectReady();
   };
 
   const [compactPrompt, setCompactPrompt] = useState('');
@@ -91,11 +117,20 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }
   }, [compactPrompt]);
 
-  const handleCompactSubmit = (e?: React.FormEvent) => {
+  const handleCompactSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!compactPrompt.trim() && !compactFile) return;
+    const text = compactPrompt.trim();
+    if (!text && !compactFile) return;
     setCompactPrompt('');
     setCompactFile(null);
+    // Once a package exists this is Phase 7 -- an objection or change request
+    // against what Follei plans to say. Before that it is still the goal
+    // conversation.
+    if (pkg.salesPackage && pkg.stage !== 'verified') {
+      await pkg.requestRevision(text);
+    } else {
+      await goal.send(text);
+    }
   };
 
   const hasSelections = selectedGoals.length > 0;
@@ -220,6 +255,18 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               </div>
             </form>
 
+            {/* Follei's clarifying reply, shown while the goal is not settled */}
+            {!isSubmitting && goal.understanding && (
+              <div className="rounded-[22px] border border-[#E6E6E4] bg-white px-5 py-4">
+                <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#717378]">
+                  FOLLEI
+                </span>
+                <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#16171A]">
+                  {goal.understanding}
+                </p>
+              </div>
+            )}
+
             {/* Loading Indicator */}
             {isSubmitting && (
               <div className="flex items-center gap-2 text-[13px] text-[#717378] animate-pulse pl-1">
@@ -231,7 +278,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             {/* Suggested Goals (Chips) */}
             {!isSubmitting && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {ALL_GOALS.filter((g) => !selectedGoals.includes(g)).map((goal) => (
+                {goalOptions.filter((g) => !selectedGoals.includes(g)).map((goal) => (
                   <button
                     key={goal}
                     type="button"
@@ -265,21 +312,32 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                     YOUR GOAL
                   </span>
                   <p className="text-[15px] font-medium text-[#16171A]">
-                    {selectedGoals.length > 0
-                      ? selectedGoals.join(', ')
-                      : inputValue}
+                    {goal.goalText || (selectedGoals.length > 0 ? selectedGoals.join(', ') : inputValue)}
                   </p>
                 </div>
 
-                {/* Understanding explanation */}
+                {/* What the model actually understood, not a canned line */}
                 <div className="flex flex-col gap-2">
                   <h3 className="text-[17px] font-medium text-[#16171A] mb-2.5">
                     Here's what I understand
                   </h3>
-                  <p className="text-[14px] text-[#737373] leading-relaxed">
-                    Got it. Your ultimate goal is to boost Student Engagement. In practice, that means you want to deepen engagement so people stay active and involved over time. Follei will focus on spotting drop-off moments early, timing nudges well, and tailoring communication to each segment so more of your effort lands where it counts. You can refine this later — everything in your workspace will be shaped around it.
+                  <p className="text-[14px] text-[#737373] leading-relaxed whitespace-pre-wrap">
+                    {goal.understanding || 'Working out what that means for your workspace...'}
                   </p>
                 </div>
+
+                {/* Phases 4-7 run here once the goal is confirmed */}
+                {pkg.stage !== 'idle' && (
+                  <SalesPackageReview
+                    stage={pkg.stage}
+                    requirements={pkg.requirements}
+                    gapQuestions={pkg.gapQuestions}
+                    salesPackage={pkg.salesPackage}
+                    isWorking={pkg.isWorking}
+                    onAnswer={pkg.answerQuestion}
+                    onApprove={pkg.approve}
+                  />
+                )}
 
                 {/* Actions */}
                 <div className="flex items-center gap-3 pt-2">

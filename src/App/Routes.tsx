@@ -10,6 +10,7 @@ import LeadsPage from "../Pages/leads/leads";
 import CampaignsPage from "../Pages/campaigns/Campaigns";
 import AttentionPage from "../Pages/attention/Attention";
 import LeadsProfilePage from "../Pages/leads/leadsProfile/LeadsProfilePage";
+import ProtectedRoute from './ProtectedRoute';
 
 export default function AppRoutes() {
   return (
@@ -25,20 +26,22 @@ export default function AppRoutes() {
       <Route path="/auth/callback" element={<AuthCallback />} />
 
       {/* App Routes */}
-      <Route path="/dashboard-setup" element={<DashboardSetup />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/main-dashboard" element={<Navigate to="/dashboard" replace />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard-setup" element={<DashboardSetup />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/main-dashboard" element={<Navigate to="/dashboard" replace />} />
 
-      <Route path="/meeting" element={<MeetingPage />} />
-      <Route path="/meetings" element={<MeetingPage />} />
-      <Route path="/leads" element={<LeadsPage />} />
-      <Route path="/campaigns" element={<CampaignsPage />} />
-      <Route path="/campaign" element={<CampaignsPage />} />
-      <Route path="/attention" element={<AttentionPage />} />
-      <Route path="/ai-attention" element={<AttentionPage />} />
-      <Route path="/leads/:id" element={<LeadsProfilePage />} />
-      <Route path="/leads/profile/:id" element={<LeadsProfilePage />} />
+        <Route path="/meeting" element={<MeetingPage />} />
+        <Route path="/meetings" element={<MeetingPage />} />
+        <Route path="/leads" element={<LeadsPage />} />
+        <Route path="/campaigns" element={<CampaignsPage />} />
+        <Route path="/campaign" element={<CampaignsPage />} />
+        <Route path="/attention" element={<AttentionPage />} />
+        <Route path="/ai-attention" element={<AttentionPage />} />
+        <Route path="/leads/:id" element={<LeadsProfilePage />} />
+        <Route path="/leads/profile/:id" element={<LeadsProfilePage />} />
+      </Route>
 
 
       {/* Fallback */}
@@ -46,4 +49,3 @@ export default function AppRoutes() {
     </Routes>
   );
 }
-

@@ -90,50 +90,134 @@ export const getGoalSuggestions = async (workspaceId: string): Promise<GoalSugge
   return data;
 };
 
-export const sendGoalMessage = async (workspaceId: string, message: string) => {
-  const { data } = await api.post(`/api/workspaces/${workspaceId}/goal/messages`, { message });
-  return data;
-};
+export interface GoalMessageResult {
+  reply: string;
+  goal_finalized: boolean;
+  goal_text: string | null;
+}
 
-export const listGoalMessages = async (workspaceId: string) => {
-  const { data } = await api.get(`/api/workspaces/${workspaceId}/goal/messages`);
-  return data;
-};
-
-export const generateRequirements = async (workspaceId: string) => {
-  const { data } = await api.post(`/api/workspaces/${workspaceId}/requirements/generate`);
-  return data;
-};
-
-export const getRequirements = async (workspaceId: string) => {
-  const { data } = await api.get(`/api/workspaces/${workspaceId}/requirements`);
-  return data;
-};
-
-export const generateGapQuestions = async (workspaceId: string) => {
-  const { data } = await api.post(`/api/workspaces/${workspaceId}/gap-questions/generate`);
-  return data;
-};
-
-export const listGapQuestions = async (workspaceId: string) => {
-  const { data } = await api.get(`/api/workspaces/${workspaceId}/gap-questions`);
-  return data;
-};
-
-export const answerGapQuestion = async (workspaceId: string, questionId: string, answer: string) => {
-  const { data } = await api.post(
-    `/api/workspaces/${workspaceId}/gap-questions/${questionId}/answer`,
-    { answer },
+export const sendGoalMessage = async (
+  workspaceId: string,
+  message: string,
+): Promise<GoalMessageResult> => {
+  const { data } = await api.post<GoalMessageResult>(
+    `/api/workspaces/${workspaceId}/goal/messages`,
+    { message },
   );
   return data;
 };
 
-export const generateSalesPackage = async (workspaceId: string) => {
-  const { data } = await api.post(`/api/workspaces/${workspaceId}/sales-package/generate`);
+export interface GoalTurn {
+  role: 'USER' | 'ASSISTANT';
+  message: string;
+}
+
+export const listGoalMessages = async (workspaceId: string): Promise<GoalTurn[]> => {
+  const { data } = await api.get<GoalTurn[]>(`/api/workspaces/${workspaceId}/goal/messages`);
   return data;
 };
 
-export const getSalesPackage = async (workspaceId: string) => {
-  const { data } = await api.get(`/api/workspaces/${workspaceId}/sales-package`);
+export interface RequirementsDraft {
+  id: string;
+  success_definition: string;
+  target_segment: string;
+  offer_summary: string;
+  created_at: string;
+}
+
+export const generateRequirements = async (workspaceId: string): Promise<RequirementsDraft> => {
+  const { data } = await api.post<RequirementsDraft>(`/api/workspaces/${workspaceId}/requirements/generate`);
+  return data;
+};
+
+export const getRequirements = async (workspaceId: string): Promise<RequirementsDraft | null> => {
+  const { data } = await api.get<RequirementsDraft | null>(`/api/workspaces/${workspaceId}/requirements`);
+  return data;
+};
+
+export interface GapQuestion {
+  id: string;
+  question_text: string;
+  status: 'PENDING' | 'ANSWERED';
+  answer_text: string | null;
+}
+
+export const generateGapQuestions = async (workspaceId: string): Promise<GapQuestion[]> => {
+  const { data } = await api.post<GapQuestion[]>(`/api/workspaces/${workspaceId}/gap-questions/generate`);
+  return data;
+};
+
+export const listGapQuestions = async (workspaceId: string): Promise<GapQuestion[]> => {
+  const { data } = await api.get<GapQuestion[]>(`/api/workspaces/${workspaceId}/gap-questions`);
+  return data;
+};
+
+export const answerGapQuestion = async (
+  workspaceId: string,
+  questionId: string,
+  answer: string,
+): Promise<GapQuestion> => {
+  const { data } = await api.post<GapQuestion>(
+    `/api/workspaces/${workspaceId}/gap-questions/${questionId}/answer`,
+    { answer_text: answer },
+  );
+  return data;
+};
+
+export interface SalesStrategy {
+  segments?: Array<{ name: string; angle: string }>;
+  objections?: Array<{ objection: string; response: string }>;
+  sequencing?: string;
+}
+
+export interface CallScript {
+  opening?: string;
+  key_points?: string[];
+  discovery_questions?: string[];
+  if_interested?: string;
+  if_hesitant?: string;
+  if_not_interested?: string;
+  closing?: string;
+}
+
+export interface SalesPackage {
+  id: string;
+  sales_requirement: string;
+  sales_pitch: string;
+  sales_strategy: SalesStrategy;
+  call_script: CallScript;
+  verified: boolean;
+  created_at: string;
+}
+
+export const generateSalesPackage = async (workspaceId: string): Promise<SalesPackage> => {
+  const { data } = await api.post<SalesPackage>(`/api/workspaces/${workspaceId}/sales-package/generate`);
+  return data;
+};
+
+export const getSalesPackage = async (workspaceId: string): Promise<SalesPackage | null> => {
+  const { data } = await api.get<SalesPackage | null>(`/api/workspaces/${workspaceId}/sales-package`);
+  return data;
+};
+
+export const reviseSalesPackage = async (
+  workspaceId: string,
+  packageId: string,
+  feedback: string,
+): Promise<SalesPackage> => {
+  const { data } = await api.post<SalesPackage>(
+    `/api/workspaces/${workspaceId}/sales-package/${packageId}/revise`,
+    { feedback },
+  );
+  return data;
+};
+
+export const verifySalesPackage = async (
+  workspaceId: string,
+  packageId: string,
+): Promise<SalesPackage> => {
+  const { data } = await api.post<SalesPackage>(
+    `/api/workspaces/${workspaceId}/sales-package/${packageId}/verify`,
+  );
   return data;
 };

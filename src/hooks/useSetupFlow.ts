@@ -7,17 +7,20 @@
  * (after the CRM step), and every later step uploads into that workspace.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { errorMessage } from '../lib/axios';
 import {
   createBusiness,
   createWorkspace,
+  listBusinesses,
+  listWorkspaces,
   type Business,
   type Workspace,
 } from '../api/dashboard/dashboard.api';
-import { uploadDocument, type WorkspaceDocument } from '../api/setup/setup.api';
-import { importLeadsCsv } from '../api/leads/leads.api';
+import { listDocuments, uploadDocument, type WorkspaceDocument } from '../api/setup/setup.api';
+import { importLeadsCsv, listLeads } from '../api/leads/leads.api';
+import { setActiveWorkspaceId } from './useWorkspace';
 
 export interface SetupFlowState {
   businessCategory: string;
@@ -44,11 +47,50 @@ export const useSetupFlow = (companyName: string) => {
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
   const [isUploadingDocuments, setIsUploadingDocuments] = useState(false);
   const [isImportingLeads, setIsImportingLeads] = useState(false);
+  const [isBootstrapping, setIsBootstrapping] = useState(true);
 
   // The steps run from a state machine that can fire twice on a fast double
   // click. A ref guards creation because state updates are async and would
   // let a second call through before `business` is set.
   const creatingRef = useRef(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const restore = async () => {
+      try {
+        const businesses = await listBusinesses();
+        const business = businesses[0];
+        if (!business) return;
+        const workspaces = await listWorkspaces();
+        const workspace = workspaces.find((row) => row.business_id === business.id) ?? workspaces[0];
+        if (!workspace) {
+          if (!cancelled) setState((current) => ({ ...current, business }));
+          return;
+        }
+        const [documents, leads] = await Promise.all([
+          listDocuments(workspace.id),
+          listLeads(workspace.id),
+        ]);
+        if (cancelled) return;
+        setActiveWorkspaceId(workspace.id);
+        setState({
+          businessCategory: business.category,
+          customerType: business.customer_type,
+          crmProvider: business.crm_provider,
+          business,
+          workspace,
+          documents,
+          leadCount: leads.length,
+        });
+      } catch (error) {
+        if (!cancelled) toast.error(errorMessage(error, 'Could not restore your setup progress'));
+      } finally {
+        if (!cancelled) setIsBootstrapping(false);
+      }
+    };
+    void restore();
+    return () => { cancelled = true; };
+  }, []);
 
   const setBusinessCategory = useCallback(
     (category: string) => setState((s) => ({ ...s, businessCategory: category })),
@@ -91,6 +133,7 @@ export const useSetupFlow = (companyName: string) => {
           name: companyName || 'My workspace',
         });
         setState((s) => ({ ...s, business, workspace }));
+        setActiveWorkspaceId(workspace.id);
         return workspace;
       } catch (error) {
         toast.error(errorMessage(error, 'Could not create your workspace'));
@@ -168,6 +211,7 @@ export const useSetupFlow = (companyName: string) => {
     isCreatingWorkspace,
     isUploadingDocuments,
     isImportingLeads,
+    isBootstrapping,
     setBusinessCategory,
     setCustomerType,
     setCrmProvider,

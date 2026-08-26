@@ -3,18 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, ArrowRight } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
 import { GoalDefinition } from './section/GoalDefinition';
+import { useActiveWorkspace } from '../../hooks/useWorkspace';
+import { getStoredUser } from '../../lib/auth';
 
-const DEFAULT_USER = {
-  name: 'Aditya',
-  email: 'Free plan',
-  initials: 'A',
+/** The signed-in user, from the session the auth flow stored. The previous
+ *  hardcoded default greeted every account by the same name. */
+const currentUser = () => {
+  const stored = getStoredUser();
+  const name = stored?.full_name?.trim() || stored?.email?.split('@')[0] || 'there';
+  const parts = name.split(/\s+/).filter(Boolean);
+  return {
+    name: parts[0] || name,
+    email: stored?.email || 'Free plan',
+    initials: (parts.length >= 2 ? parts[0][0] + parts[1][0] : name.slice(0, 2)).toUpperCase(),
+  };
 };
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [user] = useState(DEFAULT_USER);
+  const [user] = useState(currentUser);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isProjectReady, setIsProjectReady] = useState(false);
+  const { workspaceId } = useActiveWorkspace();
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
@@ -69,6 +79,7 @@ export const Home: React.FC = () => {
         ) : (
           <GoalDefinition
             userName={user.name}
+            workspaceId={workspaceId}
             onProjectReady={() => setIsProjectReady(true)}
           />
         )}

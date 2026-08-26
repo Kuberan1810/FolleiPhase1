@@ -3,9 +3,19 @@ import { useSetupFlow } from '../../../hooks/useSetupFlow';
 import { useDocuments } from '../../../hooks/useDocuments';
 import type { SetupStep, PromptSuggestion, UserProfile, WorkspaceContextItem } from '../types';
 import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP_CONFIGS, DEFAULT_USER } from '../data';
+import { getStoredUser } from '../../../lib/auth';
 
 export const useDashboardState = () => {
-  const [user] = useState<UserProfile>(DEFAULT_USER);
+  const [user] = useState<UserProfile>(() => {
+    const stored = getStoredUser();
+    if (!stored) return DEFAULT_USER;
+    const name = stored.full_name || stored.email;
+    return {
+      name,
+      email: stored.email,
+      initials: name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase(),
+    };
+  });
   const [companyName, setCompanyName] = useState<string>(
     () => localStorage.getItem('follei.company_name') || 'My business',
   );
@@ -48,6 +58,56 @@ export const useDashboardState = () => {
   const setup = useSetupFlow(companyName);
   // Live ingestion status, polled from the server rather than faked with a timer.
   const ingestion = useDocuments(setup.workspace?.id);
+
+  useEffect(() => {
+    if (setup.isBootstrapping || !setup.business || !setup.workspace) return;
+    // Captured after the guard: the setWorkspaceItems callback runs later,
+    // so the narrowing on setup.business does not survive into it.
+    const business = setup.business;
+
+    setCompanyName(business.name);
+    setBusinessType(business.category);
+    setCustomerType(business.customer_type);
+
+    const hasDocuments = setup.documents.length > 0 || ingestion.documents.length > 0;
+    const hasLeads = setup.leadCount > 0;
+    const nextIndex = hasLeads ? 5 : hasDocuments ? 4 : 3;
+    const nextStepId = INITIAL_SETUP_STEPS[nextIndex].id;
+    setMaxReachedIndex(nextIndex);
+    setCurrentStepId(nextStepId);
+    setIsComplete(hasLeads);
+    setSteps((current) => current.map((step, index) => ({
+      ...step,
+      status: index < nextIndex ? 'completed' : index === nextIndex ? 'active' : 'pending',
+    })));
+    setWorkspaceItems((current) => {
+      const retainedData = current.filter((item) => item.type === 'data');
+      return [
+        {
+          id: 'business-context',
+          type: 'business',
+          title: 'BUSINESS CONTEXT',
+          status: 'Ready',
+          value: `${business.category} · ${business.customer_type}`,
+        },
+        {
+          id: 'crm-context',
+          type: 'crm',
+          title: 'CRM',
+          status: business.crm_provider ? 'Preference saved' : 'None',
+          value: business.crm_provider || 'No CRM',
+        },
+        ...retainedData,
+        ...(hasLeads ? [{
+          id: 'customer-context',
+          type: 'customer' as const,
+          title: 'LEADS',
+          value: `${setup.leadCount} lead${setup.leadCount === 1 ? '' : 's'}`,
+          isLoading: false,
+        }] : []),
+      ];
+    });
+  }, [setup.isBootstrapping, setup.business, setup.workspace, setup.documents.length, setup.leadCount, ingestion.documents.length]);
 
   // The BUSINESS DATA card mirrors real ingestion state: each file's name and
   // status come from the server, so "Processing" means a task is genuinely
