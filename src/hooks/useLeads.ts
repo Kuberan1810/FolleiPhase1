@@ -104,7 +104,19 @@ export const useLeadMutations = (workspaceId: string | undefined) => {
     mutationFn: (file: File) => importLeadsCsv(workspaceId!, file),
     onSuccess: (result) => {
       invalidate();
-      toast.success(`Imported ${result.imported} lead${result.imported === 1 ? '' : 's'}`);
+      const skipped = result.skipped_duplicates;
+      if (result.imported === 0 && skipped > 0) {
+        // Every row already existed. Reporting this as a success reading
+        // "Imported 0 leads" looks like a failure.
+        toast(`Already imported — all ${skipped} lead${skipped === 1 ? '' : 's'} are in this project`, {
+          icon: 'ℹ️',
+        });
+        return;
+      }
+      toast.success(
+        `Imported ${result.imported} lead${result.imported === 1 ? '' : 's'}` +
+          (skipped ? ` · skipped ${skipped} already here` : ''),
+      );
     },
     onError: (error) => toast.error(errorMessage(error, 'Could not import the CSV')),
   });

@@ -20,7 +20,7 @@ import {
 } from '../api/dashboard/dashboard.api';
 import { listDocuments, uploadDocument, type WorkspaceDocument } from '../api/setup/setup.api';
 import { importLeadsCsv, listLeads } from '../api/leads/leads.api';
-import { setActiveWorkspaceId } from './useWorkspace';
+import { getActiveWorkspaceId, setActiveWorkspaceId } from './useWorkspace';
 
 export interface SetupFlowState {
   businessCategory: string;
@@ -62,7 +62,14 @@ export const useSetupFlow = (companyName: string) => {
         const business = businesses[0];
         if (!business) return;
         const workspaces = await listWorkspaces();
-        const workspace = workspaces.find((row) => row.business_id === business.id) ?? workspaces[0];
+        // Honour the active workspace first. Creating a second project and
+        // landing on setup would otherwise restore the first workspace and
+        // silently configure the wrong project.
+        const activeId = getActiveWorkspaceId();
+        const workspace =
+          workspaces.find((row) => row.id === activeId) ??
+          workspaces.find((row) => row.business_id === business.id) ??
+          workspaces[0];
         if (!workspace) {
           if (!cancelled) setState((current) => ({ ...current, business }));
           return;

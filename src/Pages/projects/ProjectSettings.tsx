@@ -66,10 +66,22 @@ export const ProjectSettings: React.FC = () => {
     setIsImportingLeads(true);
     try {
       let imported = 0;
+      let skipped = 0;
       for (const file of Array.from(files)) {
-        imported += (await importLeadsCsv(workspaceId, file)).imported;
+        const result = await importLeadsCsv(workspaceId, file);
+        imported += result.imported;
+        skipped += result.skipped_duplicates;
       }
-      toast.success(`Imported ${imported} lead${imported === 1 ? '' : 's'}`);
+      if (imported === 0 && skipped > 0) {
+        toast(`Already imported — all ${skipped} lead${skipped === 1 ? '' : 's'} are in this project`, {
+          icon: 'ℹ️',
+        });
+      } else {
+        toast.success(
+          `Imported ${imported} lead${imported === 1 ? '' : 's'}` +
+            (skipped ? ` · skipped ${skipped} already here` : ''),
+        );
+      }
       void refetchLeads();
     } catch (error) {
       toast.error(errorMessage(error, 'Could not import leads'));

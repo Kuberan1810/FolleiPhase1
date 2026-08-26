@@ -267,13 +267,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onNewProject();
                       return;
                     }
-                    // Previously this just navigated to /home, which looked
-                    // like a no-op. Create the workspace, make it active, and
-                    // land on its goal step.
+                    // Create the workspace, make it active, and start it at
+                    // onboarding -- a new project has no business data, leads or
+                    // goal yet, so dropping the user on /home would skip the
+                    // steps that produce them.
                     createProject.mutate(undefined, {
                       onSuccess: (workspace) => {
                         setActiveWorkspaceId(workspace.id);
-                        navTo('/home');
+                        navTo('/dashboard-setup');
                       },
                     });
                   }}

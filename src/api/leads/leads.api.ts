@@ -164,7 +164,7 @@ export const listAttentionLeads = async (workspaceId: string, limit = 50): Promi
 export const importLeadsCsv = async (
   workspaceId: string,
   file: File,
-): Promise<{ imported: number; reference_numbers: string[] }> => {
+): Promise<{ imported: number; reference_numbers: string[]; skipped_duplicates: number }> => {
   const form = new FormData();
   form.append('file', file);
   const { data } = await api.post(`/api/workspaces/${workspaceId}/leads/csv`, form, {
