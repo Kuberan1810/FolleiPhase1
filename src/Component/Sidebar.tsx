@@ -16,7 +16,8 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import type { UserProfile } from '../Pages/DashboardSetup/types';
 import { getStoredUser } from '../lib/auth';
-import { useWorkspaces } from '../hooks/useWorkspace';
+import { setActiveWorkspaceId } from '../hooks/useWorkspace';
+import { useProjects } from '../hooks/useProjects';
 
 interface SidebarProps {
   user?: UserProfile;
@@ -44,7 +45,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isProject1Open, setIsProject1Open] = useState(true);
   const storedUser = getStoredUser();
-  const { workspaces } = useWorkspaces();
+  const { projects: workspaces, create: createProject, rename: renameProject } = useProjects();
+  // Inline rename, ChatGPT style: click the name, type, Enter to save.
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [draftName, setDraftName] = useState('');
   const resolvedUser: UserProfile = user ?? {
     name: storedUser?.full_name || storedUser?.email || 'Follei user',
     email: storedUser?.email || 'Free plan',
@@ -57,11 +61,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       .toUpperCase(),
   };
 
-  const displayProjects = projects?.length
-    ? projects
-    : workspaces.length
-      ? workspaces.map((workspace) => workspace.name)
-      : ['Project 1'];
+  // Real workspaces so each row carries its id -- needed to rename it and to
+  // switch the active project. `projects` (names only) stays supported for
+  // callers that still pass it.
+  const projectRows = workspaces.length
+    ? workspaces
+    : (projects ?? []).map((name, index) => ({ id: `local-${index}`, name }) as { id: string; name: string });
 
   const currentPath = location.pathname;
 
@@ -142,18 +147,41 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex flex-col gap-0.5 pl-4 pr-1 mt-0.5">
                 {/* Project 1 Collapsible */}
                 <div className="flex flex-col">
-                  <button
-                    type="button"
-                    onClick={() => setIsProject1Open((prev) => !prev)}
-                    className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
-                  >
-                    {isProject1Open ? (
-                      <ChevronDown className="size-3 text-[#717378]" />
-                    ) : (
-                      <ChevronRight className="size-3 text-[#717378]" />
-                    )}
-                    <span>{displayProjects[0] || 'Project 1'}</span>
-                  </button>
+                  {renamingId === (projectRows[0]?.id ?? '') ? (
+                    <input
+                      autoFocus
+                      value={draftName}
+                      onChange={(e) => setDraftName(e.target.value)}
+                      onBlur={() => setRenamingId(null)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && draftName.trim() && projectRows[0]) {
+                          renameProject.mutate({ workspaceId: projectRows[0].id, name: draftName.trim() });
+                          setRenamingId(null);
+                        }
+                        if (e.key === 'Escape') setRenamingId(null);
+                      }}
+                      className="mx-2 my-1 rounded-md border border-[#D1D5DB] px-2 py-1 text-[13px] text-[#16171A] outline-none focus:border-[#94A3B8]"
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setIsProject1Open((prev) => !prev)}
+                      onDoubleClick={() => {
+                        if (!projectRows[0] || projectRows[0].id.startsWith('local-')) return;
+                        setDraftName(projectRows[0].name);
+                        setRenamingId(projectRows[0].id);
+                      }}
+                      title="Double-click to rename"
+                      className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
+                    >
+                      {isProject1Open ? (
+                        <ChevronDown className="size-3 text-[#717378]" />
+                      ) : (
+                        <ChevronRight className="size-3 text-[#717378]" />
+                      )}
+                      <span>{projectRows[0]?.name || 'New project'}</span>
+                    </button>
+                  )}
 
                   {isProject1Open && (
                     <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
@@ -224,10 +252,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => {
                     if (onNewProject) {
                       onNewProject();
-                    } else {
-                      navTo('/home');
+                      return;
                     }
+                    // Previously this just navigated to /home, which looked
+                    // like a no-op. Create the workspace, make it active, and
+                    // land on its goal step.
+                    createProject.mutate(undefined, {
+                      onSuccess: (workspace) => {
+                        setActiveWorkspaceId(workspace.id);
+                        navTo('/home');
+                      },
+                    });
                   }}
+                  disabled={createProject.isPending}
                   className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
                 >
                   <Plus className="size-3.5 text-[#717378]" />

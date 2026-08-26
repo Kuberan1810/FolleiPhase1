@@ -11,6 +11,7 @@ import CampaignsPage from "../Pages/campaigns/Campaigns";
 import AttentionPage from "../Pages/attention/Attention";
 import LeadsProfilePage from "../Pages/leads/leadsProfile/LeadsProfilePage";
 import ProtectedRoute from './ProtectedRoute';
+import ProjectSettings from '../Pages/projects/ProjectSettings';
 
 export default function AppRoutes() {
   return (
@@ -29,6 +30,8 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard-setup" element={<DashboardSetup />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/project" element={<ProjectSettings />} />
+        <Route path="/projects" element={<ProjectSettings />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/main-dashboard" element={<Navigate to="/dashboard" replace />} />
 

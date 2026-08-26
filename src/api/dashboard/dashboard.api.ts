@@ -51,6 +51,13 @@ export const createWorkspace = async (payload: {
   return data;
 };
 
+/** Rename a workspace. The name is generated from the goal, so the user has
+ *  to be able to override one they did not choose. */
+export const renameWorkspace = async (workspaceId: string, name: string): Promise<Workspace> => {
+  const { data } = await api.patch<Workspace>(`/api/workspaces/${workspaceId}`, { name });
+  return data;
+};
+
 export const updateWorkspaceLanguage = async (
   workspaceId: string,
   language: Language,

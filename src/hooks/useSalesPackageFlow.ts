@@ -1,10 +1,10 @@
 /**
- * Phases 4-7: requirements draft -> gap questions -> sales package -> verify.
+ * Phases 4-7: requirements draft -> gap questions -> sales package -> approve.
  *
- * A pipeline, not four screens the user has to drive. Once the goal is
- * finalized, each stage starts the next on its own; the only place a human is
- * genuinely needed is answering the gap questions, which the backend caps at
- * one or two on purpose.
+ * This is a pipeline, not four screens the user has to find. Confirming the
+ * goal starts it, and each stage triggers the next; the only place a human is
+ * needed is answering the gap questions (capped at one or two by design) and
+ * approving the result.
  */
 
 import { useCallback, useEffect, useState } from 'react';
@@ -34,14 +34,16 @@ export type PackageStage =
   | 'review'
   | 'verified';
 
+/** What the user is told while each stage runs. Kept beside the stage union
+ *  so a new stage cannot be added without a label. */
 export const STAGE_LABELS: Record<PackageStage, string> = {
   idle: '',
-  requirements: 'Working out what a win looks like...',
-  'gap-questions': 'Checking what else Follei needs to know...',
-  'awaiting-answers': 'A couple of questions before Follei can pitch',
+  requirements: 'Drafting what success looks like...',
+  'gap-questions': 'Working out what else Follei needs to know...',
+  'awaiting-answers': 'A couple of questions before Follei can write your pitch',
   package: 'Writing your pitch, strategy and call script...',
-  review: 'Review what Follei will say',
-  verified: 'Approved — Follei is ready to call',
+  review: 'Review your sales package',
+  verified: 'Approved — Follei is ready to start calling',
 };
 
 export const useSalesPackageFlow = (workspaceId: string | undefined) => {
@@ -51,8 +53,8 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
   const [salesPackage, setSalesPackage] = useState<SalesPackage | null>(null);
   const [isWorking, setIsWorking] = useState(false);
 
-  // Resume where a previous session stopped instead of regenerating, which
-  // would cost several model calls and produce a different pitch.
+  // Resume where a previous session stopped instead of restarting the
+  // pipeline every time the page mounts.
   useEffect(() => {
     if (!workspaceId) return;
     let cancelled = false;
@@ -63,13 +65,15 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
         listGapQuestions(workspaceId).catch(() => [] as GapQuestion[]),
       ]);
       if (cancelled) return;
-      if (draft) setRequirements(draft);
-      if (questions.length) setGapQuestions(questions);
       if (pkg) {
         setSalesPackage(pkg);
         setStage(pkg.verified ? 'verified' : 'review');
-      } else if (questions.some((q) => q.status !== 'ANSWERED')) {
-        setStage('awaiting-answers');
+      } else if (questions.length) {
+        setGapQuestions(questions);
+        setStage(questions.some((q) => q.status !== 'ANSWERED') ? 'awaiting-answers' : 'gap-questions');
+      } else if (draft) {
+        setRequirements(draft);
+        setStage('gap-questions');
       }
     })();
     return () => {
@@ -82,8 +86,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     setIsWorking(true);
     setStage('package');
     try {
-      const pkg = await generateSalesPackage(workspaceId);
-      setSalesPackage(pkg);
+      setSalesPackage(await generateSalesPackage(workspaceId));
       setStage('review');
     } catch (error) {
       toast.error(errorMessage(error, 'Could not generate your sales package'));
@@ -93,7 +96,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     }
   }, [workspaceId]);
 
-  /** Phase 4 -> 5, kicked off once the goal is finalized. */
+  /** Runs straight after the goal is confirmed. */
   const start = useCallback(async () => {
     if (!workspaceId) return;
     setIsWorking(true);
@@ -104,8 +107,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
       const questions = await generateGapQuestions(workspaceId);
       setGapQuestions(questions);
       if (questions.length === 0) {
-        // Nothing genuinely missing: skip straight to the package rather than
-        // inventing a question to justify the step.
+        // Nothing genuinely missing, so don't invent a question to ask.
         await generatePackage();
       } else {
         setStage('awaiting-answers');
@@ -136,7 +138,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     [workspaceId, gapQuestions, generatePackage],
   );
 
-  /** Phase 7: an objection or change request, rather than approving as-is. */
+  /** Phase 7: ask for a change rather than accepting as-is. */
   const requestRevision = useCallback(
     async (feedback: string) => {
       if (!workspaceId || !salesPackage) return;
@@ -159,7 +161,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     try {
       setSalesPackage(await verifySalesPackage(workspaceId, salesPackage.id));
       setStage('verified');
-      toast.success('Approved — Follei is ready to start calling');
+      toast.success('Approved -- Follei is ready to start calling');
     } catch (error) {
       toast.error(errorMessage(error, 'Could not approve the sales package'));
     } finally {
