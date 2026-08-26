@@ -12,13 +12,14 @@ import { errorMessage } from '../lib/axios';
 import { queryKeys } from '../lib/queryClient';
 import {
   createWorkspace,
+  deleteWorkspace,
   listBusinesses,
   listWorkspaces,
   renameWorkspace,
   type Workspace,
 } from '../api/dashboard/dashboard.api';
 import { isAuthenticated } from '../lib/auth';
-import { setActiveWorkspaceId } from './useWorkspace';
+import { getActiveWorkspaceId, setActiveWorkspaceId } from './useWorkspace';
 
 export const useProjects = () => {
   const client = useQueryClient();
@@ -57,6 +58,18 @@ export const useProjects = () => {
     onError: (error) => toast.error(errorMessage(error, 'Could not rename the project')),
   });
 
+  const remove = useMutation({
+    mutationFn: (workspaceId: string) => deleteWorkspace(workspaceId),
+    onSuccess: (_data, workspaceId) => {
+      // Clear the active pin if it pointed at the deleted project, or every
+      // page would keep asking for a workspace that no longer exists.
+      if (getActiveWorkspaceId() === workspaceId) localStorage.removeItem('follei.active_workspace');
+      client.invalidateQueries({ queryKey: queryKeys.workspaces });
+      toast.success('Project deleted');
+    },
+    onError: (error) => toast.error(errorMessage(error, 'Could not delete the project')),
+  });
+
   const projects: Workspace[] = query.data ?? [];
-  return { projects, isLoading: query.isLoading, create, rename };
+  return { projects, isLoading: query.isLoading, create, rename, remove };
 };

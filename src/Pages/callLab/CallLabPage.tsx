@@ -13,7 +13,19 @@ import {
   type LeadTemperature,
 } from '../../api/calllab/calllab.api';
 
-type TranscriptLine = { id: number; role: 'lead' | 'follei'; text: string; spokenText?: string };
+type TranscriptLine = {
+  id: number;
+  role: 'lead' | 'follei';
+  text: string;
+  spokenText?: string;
+  /** Server-stamped, so both sides share one clock. */
+  at?: string;
+};
+
+/** Local wall-clock time, to the second -- turn latency is measured in
+ *  seconds, so minute precision would hide exactly what we want to see. */
+const clockTime = (iso?: string): string =>
+  iso ? new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
 
 const STATE_LABELS: Record<CallConnectionState, string> = {
   idle: 'Ready to connect',
@@ -202,7 +214,12 @@ export const CallLabPage: React.FC = () => {
           setPartial('');
           setTranscript((current) => [
             ...current,
-            { id: ++lineIdRef.current, role: 'lead', text: String(message.text) },
+            {
+              id: ++lineIdRef.current,
+              role: 'lead',
+              text: String(message.text),
+              at: message.at as string | undefined,
+            },
           ]);
         } else if (message.type === 'assistant.response') {
           // A new reply clears the interrupt latch; without this the guard
@@ -216,6 +233,7 @@ export const CallLabPage: React.FC = () => {
               role: 'follei',
               text: String(message.canonical_text),
               spokenText: String(message.spoken_text),
+              at: message.at as string | undefined,
             },
           ]);
           setTemperature((message.lead_temperature as LeadTemperature | null) || null);
@@ -332,8 +350,9 @@ export const CallLabPage: React.FC = () => {
           )}
           {transcript.map((line) => (
             <div key={line.id} className={line.role === 'follei' ? 'text-[#16171A]' : 'text-[#2C2E31]'}>
-              <span className="mb-0.5 block text-[11px] font-medium uppercase tracking-wider text-[#717378]">
-                {line.role === 'follei' ? 'Follei' : 'You'}
+              <span className="mb-0.5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-[#717378]">
+                <span>{line.role === 'follei' ? 'Follei' : 'You'}</span>
+                {line.at && <span className="font-normal normal-case tabular-nums">{clockTime(line.at)}</span>}
               </span>
               <p className="text-[14px] leading-relaxed">{line.text}</p>
               {line.spokenText && line.spokenText !== line.text && (

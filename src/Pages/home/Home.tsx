@@ -25,10 +25,16 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useState(currentUser);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isProjectReady, setIsProjectReady] = useState(false);
+  // Local only for the moment the goal is confirmed in this session. The
+  // real answer lives on the workspace: without deriving it, navigating away
+  // and back dropped the user at the goal form again with the pipeline
+  // already running behind it.
+  const [justConfirmed, setJustConfirmed] = useState(false);
   const { workspaceId, workspace } = useActiveWorkspace();
   // Confirming the goal starts Phases 4-7; this owns that pipeline.
   const flow = useSalesPackageFlow(workspaceId);
+  // A workspace with a goal has passed this step, whatever this tab knows.
+  const isProjectReady = justConfirmed || Boolean(workspace?.goal_text);
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
@@ -101,7 +107,7 @@ export const Home: React.FC = () => {
             userName={user.name}
             workspaceId={workspaceId}
             onProjectReady={() => {
-              setIsProjectReady(true);
+              setJustConfirmed(true);
               // Confirming the goal is what kicks off requirements ->
               // gap questions -> sales package.
               void flow.start();

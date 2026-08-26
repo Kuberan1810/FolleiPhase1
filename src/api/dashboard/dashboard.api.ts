@@ -58,6 +58,11 @@ export const renameWorkspace = async (workspaceId: string, name: string): Promis
   return data;
 };
 
+/** Delete a workspace and everything in it. Not recoverable. */
+export const deleteWorkspace = async (workspaceId: string): Promise<void> => {
+  await api.delete(`/api/workspaces/${workspaceId}`);
+};
+
 export const updateWorkspaceLanguage = async (
   workspaceId: string,
   language: Language,

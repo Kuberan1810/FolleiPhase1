@@ -11,6 +11,7 @@ import {
   Users,
   Calendar,
   Megaphone,
+  Trash2,
   X
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -45,7 +46,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
   const [isProject1Open, setIsProject1Open] = useState(true);
   const storedUser = getStoredUser();
-  const { projects: workspaces, create: createProject, rename: renameProject } = useProjects();
+  const {
+    projects: workspaces,
+    create: createProject,
+    rename: renameProject,
+    remove: removeProject,
+  } = useProjects();
   // Inline rename, ChatGPT style: click the name, type, Enter to save.
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [draftName, setDraftName] = useState('');
@@ -172,14 +178,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         setRenamingId(projectRows[0].id);
                       }}
                       title="Double-click to rename"
-                      className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
+                      className="group flex flex-1 items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
                     >
                       {isProject1Open ? (
                         <ChevronDown className="size-3 text-[#717378]" />
                       ) : (
                         <ChevronRight className="size-3 text-[#717378]" />
                       )}
-                      <span>{projectRows[0]?.name || 'New project'}</span>
+                      <span className="flex-1 truncate text-left">
+                        {projectRows[0]?.name || 'New project'}
+                      </span>
+                      {projectRows[0] && !projectRows[0].id.startsWith('local-') && (
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          aria-label="Delete project"
+                          title="Delete project"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            const name = projectRows[0].name;
+                            // Deleting takes the leads, documents, goal and
+                            // pitch with it and cannot be undone.
+                            if (!window.confirm(`Delete "${name}" and everything in it? This cannot be undone.`)) return;
+                            removeProject.mutate(projectRows[0].id);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') event.currentTarget.click();
+                          }}
+                          className="opacity-0 transition-opacity group-hover:opacity-100"
+                        >
+                          <Trash2 className="size-3.5 text-[#717378] hover:text-red-600" />
+                        </span>
+                      )}
                     </button>
                   )}
 
