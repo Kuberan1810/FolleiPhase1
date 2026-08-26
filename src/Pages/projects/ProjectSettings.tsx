@@ -7,6 +7,8 @@ import { useProjects } from '../../hooks/useProjects';
 import { useDocuments } from '../../hooks/useDocuments';
 import { useBusinessAnalysis } from '../../hooks/useBusinessAnalysis';
 import { uploadDocument } from '../../api/setup/setup.api';
+import { importLeadsCsv } from '../../api/leads/leads.api';
+import { useLeads } from '../../hooks/useLeads';
 import { listBusinesses, type Business } from '../../api/dashboard/dashboard.api';
 import { errorMessage } from '../../lib/axios';
 import BusinessAnalysisCard from '../DashboardSetup/setupwidgets/BusinessAnalysisCard';
@@ -39,6 +41,8 @@ export const ProjectSettings: React.FC = () => {
   const [draftName, setDraftName] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isImportingLeads, setIsImportingLeads] = useState(false);
+  const { leads, refetch: refetchLeads } = useLeads(workspaceId);
 
   React.useEffect(() => {
     listBusinesses().then((rows) => setBusiness(rows[0] ?? null)).catch(() => setBusiness(null));
@@ -54,6 +58,23 @@ export const ProjectSettings: React.FC = () => {
       toast.error(errorMessage(error, 'Could not upload'));
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handleLeadCsv = async (files: FileList | null) => {
+    if (!files?.length || !workspaceId) return;
+    setIsImportingLeads(true);
+    try {
+      let imported = 0;
+      for (const file of Array.from(files)) {
+        imported += (await importLeadsCsv(workspaceId, file)).imported;
+      }
+      toast.success(`Imported ${imported} lead${imported === 1 ? '' : 's'}`);
+      void refetchLeads();
+    } catch (error) {
+      toast.error(errorMessage(error, 'Could not import leads'));
+    } finally {
+      setIsImportingLeads(false);
     }
   };
 
@@ -164,6 +185,22 @@ export const ProjectSettings: React.FC = () => {
               processedCount={ingestion.processed.length}
               totalCount={ingestion.documents.length}
             />
+          </section>
+
+          <section className="flex flex-col gap-4 rounded-2xl border border-[#E6E6E4] bg-white p-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[15px] font-medium">Leads</h2>
+              <label className="flex cursor-pointer items-center gap-1.5 rounded-full border border-[#E6E6E4] px-3 py-1.5 text-[12.5px] hover:bg-gray-50">
+                {isImportingLeads ? <Loader2 className="size-3.5 animate-spin" /> : <Upload className="size-3.5" />}
+                <span>Import CSV</span>
+                <input type="file" accept=".csv" multiple className="hidden" onChange={(e) => handleLeadCsv(e.target.files)} />
+              </label>
+            </div>
+            <p className="text-[13px] text-[#717378]">
+              {leads.length
+                ? `${leads.length} lead${leads.length === 1 ? '' : 's'} in this project.`
+                : 'No leads yet. Import a CSV to get started.'}
+            </p>
           </section>
         </div>
       </main>

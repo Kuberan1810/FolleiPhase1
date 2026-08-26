@@ -24,6 +24,16 @@ const STAGE_ORDER = [
   'VERIFIED',
 ];
 
+/** Where each stage is actually completed. The panel should send the user
+ *  here -- and should get out of the way when they are already there. */
+export const STAGE_ROUTE: Record<string, string> = {
+  DRAFT: '/dashboard-setup',
+  GOAL_SET: '/home',
+  REQUIREMENTS_DRAFTED: '/home',
+  GAP_FILLING: '/home',
+  PACKAGE_GENERATED: '/home',
+};
+
 export const useSetupProgress = () => {
   const { workspaceId, isLoading: workspaceLoading } = useActiveWorkspace();
 
@@ -31,6 +41,10 @@ export const useSetupProgress = () => {
     queryKey: queryKeys.workspace(workspaceId ?? ''),
     queryFn: () => getWorkspace(workspaceId!),
     enabled: Boolean(workspaceId),
+    // The stage advances server-side as the pipeline runs, so a cached copy
+    // goes stale quickly. The flow invalidates this too; this is the backstop
+    // for transitions that happen outside it.
+    staleTime: 0,
   });
 
   const workspace: Workspace | undefined = query.data;
@@ -41,6 +55,7 @@ export const useSetupProgress = () => {
     workspace,
     workspaceId,
     stage,
+    route: STAGE_ROUTE[stage] ?? '/home',
     stageIndex: Math.max(0, STAGE_ORDER.indexOf(stage)),
     totalStages: STAGE_ORDER.length,
     isComplete,

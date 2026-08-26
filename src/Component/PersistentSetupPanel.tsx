@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
 import { useSetupProgress } from '../hooks/useSetupProgress';
 
@@ -21,9 +21,13 @@ const STEP_LABELS: Record<string, string> = {
  */
 export const PersistentSetupPanel: React.FC = () => {
   const navigate = useNavigate();
-  const { shouldShowSetup, stage, stageIndex, totalStages } = useSetupProgress();
+  const location = useLocation();
+  const { shouldShowSetup, stage, stageIndex, totalStages, route } = useSetupProgress();
 
   if (!shouldShowSetup) return null;
+  // Already on the page that handles this stage: the panel would just be a
+  // button that reloads the screen the user is looking at.
+  if (location.pathname === route) return null;
 
   const label = STEP_LABELS[stage] ?? 'Finish setting up your workspace';
 
@@ -51,7 +55,7 @@ export const PersistentSetupPanel: React.FC = () => {
 
       <button
         type="button"
-        onClick={() => navigate(stage === 'DRAFT' ? '/dashboard-setup' : '/home')}
+        onClick={() => navigate(route)}
         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-black"
       >
         <span>Continue setup</span>

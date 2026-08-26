@@ -47,12 +47,24 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }
   }, [inputValue]);
 
+  /**
+   * A suggestion is a starting sentence, not a tag. Clicking one writes it
+   * into the input so the user can see, edit and extend the exact text that
+   * will be sent -- previously chips and the textarea were two separate
+   * inputs, and it was not obvious which one the submit button used.
+   */
+  const appendSuggestion = (goal: string) => {
+    setInputValue((current) => {
+      const trimmed = current.trim();
+      if (!trimmed) return goal;
+      if (trimmed.toLowerCase().includes(goal.toLowerCase())) return current;
+      return `${trimmed.replace(/[.\s]+$/, '')}. ${goal}`;
+    });
+    textareaRef.current?.focus();
+  };
+
   const toggleGoal = (goal: string) => {
-    if (selectedGoals.includes(goal)) {
-      setSelectedGoals(selectedGoals.filter((g) => g !== goal));
-    } else {
-      setSelectedGoals([...selectedGoals, goal]);
-    }
+    setSelectedGoals((current) => current.filter((g) => g !== goal));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -278,11 +290,11 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             {/* Suggested Goals (Chips) */}
             {!isSubmitting && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {goalOptions.filter((g) => !selectedGoals.includes(g)).map((goal) => (
+                {goalOptions.map((goal) => (
                   <button
                     key={goal}
                     type="button"
-                    onClick={() => toggleGoal(goal)}
+                    onClick={() => appendSuggestion(goal)}
                     className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
                   >
                     {goal}

@@ -8,8 +8,10 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { errorMessage } from '../lib/axios';
+import { queryKeys } from '../lib/queryClient';
 import {
   answerGapQuestion,
   generateGapQuestions,
@@ -52,6 +54,17 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
   const [gapQuestions, setGapQuestions] = useState<GapQuestion[]>([]);
   const [salesPackage, setSalesPackage] = useState<SalesPackage | null>(null);
   const [isWorking, setIsWorking] = useState(false);
+  const client = useQueryClient();
+
+  // Every stage transition changes workspace.stage on the server. Without
+  // this the setup panel keeps rendering the stage the workspace was at when
+  // the page loaded -- showing "Draft your requirements" long after the
+  // package was approved.
+  const refreshWorkspace = useCallback(() => {
+    if (!workspaceId) return;
+    client.invalidateQueries({ queryKey: queryKeys.workspace(workspaceId) });
+    client.invalidateQueries({ queryKey: queryKeys.workspaces });
+  }, [client, workspaceId]);
 
   // Resume where a previous session stopped instead of restarting the
   // pipeline every time the page mounts.
@@ -88,13 +101,14 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     try {
       setSalesPackage(await generateSalesPackage(workspaceId));
       setStage('review');
+      refreshWorkspace();
     } catch (error) {
       toast.error(errorMessage(error, 'Could not generate your sales package'));
       setStage('awaiting-answers');
     } finally {
       setIsWorking(false);
     }
-  }, [workspaceId]);
+  }, [workspaceId, refreshWorkspace]);
 
   /** Runs straight after the goal is confirmed. */
   const start = useCallback(async () => {
@@ -104,6 +118,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     try {
       setRequirements(await generateRequirements(workspaceId));
       setStage('gap-questions');
+      refreshWorkspace();
       const questions = await generateGapQuestions(workspaceId);
       setGapQuestions(questions);
       if (questions.length === 0) {
@@ -118,7 +133,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     } finally {
       setIsWorking(false);
     }
-  }, [workspaceId, generatePackage]);
+  }, [workspaceId, generatePackage, refreshWorkspace]);
 
   const answerQuestion = useCallback(
     async (questionId: string, answer: string) => {
@@ -128,6 +143,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
         const updated = await answerGapQuestion(workspaceId, questionId, answer);
         const next = gapQuestions.map((q) => (q.id === questionId ? updated : q));
         setGapQuestions(next);
+        refreshWorkspace();
         if (next.every((q) => q.status === 'ANSWERED')) await generatePackage();
       } catch (error) {
         toast.error(errorMessage(error, 'Could not save that answer'));
@@ -135,7 +151,7 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
         setIsWorking(false);
       }
     },
-    [workspaceId, gapQuestions, generatePackage],
+    [workspaceId, gapQuestions, generatePackage, refreshWorkspace],
   );
 
   /** Phase 7: ask for a change rather than accepting as-is. */
@@ -161,13 +177,14 @@ export const useSalesPackageFlow = (workspaceId: string | undefined) => {
     try {
       setSalesPackage(await verifySalesPackage(workspaceId, salesPackage.id));
       setStage('verified');
+      refreshWorkspace();
       toast.success('Approved -- Follei is ready to start calling');
     } catch (error) {
       toast.error(errorMessage(error, 'Could not approve the sales package'));
     } finally {
       setIsWorking(false);
     }
-  }, [workspaceId, salesPackage]);
+  }, [workspaceId, salesPackage, refreshWorkspace]);
 
   return {
     stage,

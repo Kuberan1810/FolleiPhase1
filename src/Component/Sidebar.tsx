@@ -187,6 +187,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
                       <button
                         type="button"
+                        onClick={() => navTo('/project')}
+                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                          currentPath.startsWith('/project')
+                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                        }`}
+                      >
+                        <Settings className={`size-3.5 ${currentPath.startsWith('/project') ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                        <span>Setup</span>
+                      </button>
+
+                      <button
+                        type="button"
                         onClick={() => navTo('/dashboard')}
 
                         className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
