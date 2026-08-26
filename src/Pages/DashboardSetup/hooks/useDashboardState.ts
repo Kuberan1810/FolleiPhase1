@@ -148,7 +148,11 @@ export const useDashboardState = () => {
       }
       return [...prev, next];
     });
-  }, [ingestion.documents, ingestion.processed, ingestion.failed, ingestion.processing]);
+    // Depend only on `documents`, which react-query keeps referentially
+    // stable. `processed`/`failed`/`processing` are derived with .filter() and
+    // are a new array on every render, so listing them re-ran this effect
+    // forever -- it calls setWorkspaceItems, which renders again.
+  }, [ingestion.documents]);
 
 
   const [maxReachedIndex, setMaxReachedIndex] = useState<number>(0);

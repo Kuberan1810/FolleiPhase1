@@ -16,6 +16,9 @@ export default defineConfig({
       '/api': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: false,
+        // Call Lab talks over a WebSocket at /api/.../call-lab/ws. Without
+        // this the upgrade request is proxied as plain HTTP and fails.
+        ws: true,
       },
     },
   },

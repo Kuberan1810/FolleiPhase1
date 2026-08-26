@@ -12,6 +12,7 @@ import AttentionPage from "../Pages/attention/Attention";
 import LeadsProfilePage from "../Pages/leads/leadsProfile/LeadsProfilePage";
 import ProtectedRoute from './ProtectedRoute';
 import ProjectSettings from '../Pages/projects/ProjectSettings';
+import CallLabPage from '../Pages/callLab/CallLabPage';
 
 export default function AppRoutes() {
   return (
@@ -30,6 +31,8 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard-setup" element={<DashboardSetup />} />
         <Route path="/home" element={<Home />} />
+        {/* Test surface, deliberately not linked from the sidebar. */}
+        <Route path="/calllab" element={<CallLabPage />} />
         <Route path="/project" element={<ProjectSettings />} />
         <Route path="/projects" element={<ProjectSettings />} />
         <Route path="/dashboard" element={<Dashboard />} />

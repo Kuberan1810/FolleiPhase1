@@ -6,6 +6,7 @@
  * stops once everything has settled, so an idle workspace costs nothing.
  */
 
+import { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { errorMessage } from '../lib/axios';
@@ -29,7 +30,19 @@ export const useDocuments = (workspaceId: string | undefined) => {
   });
 
   const client = useQueryClient();
-  const documents = query.data ?? [];
+  const documents = useMemo(() => query.data ?? [], [query.data]);
+
+  // Memoised because these are the natural things to put in an effect's
+  // dependency list, and a fresh .filter() array on every render turns such
+  // an effect into an infinite loop.
+  const buckets = useMemo(
+    () => ({
+      processing: documents.filter((d) => IN_FLIGHT.has(d.status)),
+      processed: documents.filter((d) => d.status === 'PROCESSED'),
+      failed: documents.filter((d) => d.status === 'FAILED'),
+    }),
+    [documents],
+  );
 
   const retryAll = useMutation({
     mutationFn: () => reingestAllDocuments(workspaceId!),
@@ -43,9 +56,7 @@ export const useDocuments = (workspaceId: string | undefined) => {
   return {
     retryAll,
     documents,
-    processing: documents.filter((d) => IN_FLIGHT.has(d.status)),
-    processed: documents.filter((d) => d.status === 'PROCESSED'),
-    failed: documents.filter((d) => d.status === 'FAILED'),
+    ...buckets,
     isIngesting: documents.some((d) => IN_FLIGHT.has(d.status)),
     isLoading: query.isLoading,
   };
