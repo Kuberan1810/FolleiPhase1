@@ -2,6 +2,8 @@ import React from 'react';
 import { Sparkles } from 'lucide-react';
 import SetupStepList from './SetupStepList';
 import SetupStepContent from './SetupStepContent';
+import BusinessAnalysisCard from './BusinessAnalysisCard';
+import type { BusinessAnalysis } from '../../../api/setup/setup.api';
 import type { SetupStep, BusinessCategoryOption } from '../types';
 
 interface SetupWidgetProps {
@@ -26,6 +28,11 @@ interface SetupWidgetProps {
   placeholder?: string;
   isLoading?: boolean;
   loadingText?: string;
+  /** Phase 1: what Follei understood from the uploaded documents. */
+  analysis?: BusinessAnalysis | null;
+  isAnalysing?: boolean;
+  documentsProcessed?: number;
+  documentsTotal?: number;
   isComplete?: boolean;
   isWorkspaceReady?: boolean;
   onStartUsing?: () => void;
@@ -54,6 +61,10 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
   placeholder = 'Tell Follei about your business...',
   isLoading = false,
   loadingText = 'Importing business data...',
+  analysis = null,
+  isAnalysing = false,
+  documentsProcessed = 0,
+  documentsTotal = 0,
   isComplete = false,
   isWorkspaceReady = false,
   onStartUsing,
@@ -133,6 +144,19 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
             loadingText={loadingText}
             onSkip={onSkip}
           />
+        )}
+
+        {/* Shown from the moment documents exist, so the panel reports what
+            Follei read rather than only how many files arrived. */}
+        {documentsTotal > 0 && (
+          <div className="mt-3">
+            <BusinessAnalysisCard
+              analysis={analysis}
+              isAnalysing={isAnalysing}
+              processedCount={documentsProcessed}
+              totalCount={documentsTotal}
+            />
+          </div>
         )}
       </div>
     </aside>

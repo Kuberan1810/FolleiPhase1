@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSetupFlow } from '../../../hooks/useSetupFlow';
 import { useDocuments } from '../../../hooks/useDocuments';
+import { useBusinessAnalysis } from '../../../hooks/useBusinessAnalysis';
 import type { SetupStep, PromptSuggestion, UserProfile, WorkspaceContextItem } from '../types';
 import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP_CONFIGS, DEFAULT_USER } from '../data';
 import { getStoredUser } from '../../../lib/auth';
@@ -58,6 +59,12 @@ export const useDashboardState = () => {
   const setup = useSetupFlow(companyName);
   // Live ingestion status, polled from the server rather than faked with a timer.
   const ingestion = useDocuments(setup.workspace?.id);
+  // Only ask for the analysis once something has finished ingesting -- before
+  // that it would return null and spend a model call for nothing.
+  const { analysis, isAnalysing } = useBusinessAnalysis(
+    setup.workspace?.id,
+    ingestion.processed.length > 0 && !ingestion.isIngesting,
+  );
 
   useEffect(() => {
     if (setup.isBootstrapping || !setup.business || !setup.workspace) return;
@@ -485,6 +492,8 @@ export const useDashboardState = () => {
           : null,
     workspace: setup.workspace,
     ingestion,
+    analysis,
+    isAnalysing,
     business: setup.business,
     documents: setup.documents,
     isCreatingWorkspace: setup.isCreatingWorkspace,

@@ -21,9 +21,10 @@ export const useDocuments = (workspaceId: string | undefined) => {
     enabled: Boolean(workspaceId),
     refetchInterval: (q) => {
       const docs = (q.state.data ?? []) as WorkspaceDocument[];
-      // Poll only while work is outstanding. Embedding is slow on a CPU-only
-      // host, so 4s is often enough to see a change without hammering the API.
-      return docs.some((d) => IN_FLIGHT.has(d.status)) ? 4_000 : false;
+      // Poll only while work is outstanding. Ingestion now finishes in a few
+      // seconds, so a 4s gap was adding most of the wait the user actually
+      // felt -- the work was done and the UI just had not asked yet.
+      return docs.some((d) => IN_FLIGHT.has(d.status)) ? 1_200 : false;
     },
   });
 

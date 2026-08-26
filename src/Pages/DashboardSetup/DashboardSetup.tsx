@@ -73,6 +73,9 @@ export const DashboardSetup: React.FC = () => {
     handleSkipStep,
     awaitingCustomAnswer,
     customAnswerQuestion,
+    ingestion,
+    analysis,
+    isAnalysing,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
@@ -171,6 +174,10 @@ export const DashboardSetup: React.FC = () => {
                 placeholder={currentConfig.inputPlaceholder}
                 isLoading={isImporting}
                 loadingText={loadingText}
+                analysis={analysis}
+                isAnalysing={isAnalysing}
+                documentsProcessed={ingestion.processed.length}
+                documentsTotal={ingestion.documents.length}
                 isComplete={isComplete}
                 isWorkspaceReady={false}
                 onStartUsing={onStartUsingFollei}
@@ -219,6 +226,10 @@ export const DashboardSetup: React.FC = () => {
                 placeholder={currentConfig.inputPlaceholder}
                 isLoading={isImporting}
                 loadingText={loadingText}
+                analysis={analysis}
+                isAnalysing={isAnalysing}
+                documentsProcessed={ingestion.processed.length}
+                documentsTotal={ingestion.documents.length}
                 isComplete={isComplete}
                 isWorkspaceReady={false}
                 onStartUsing={onStartUsingFollei}

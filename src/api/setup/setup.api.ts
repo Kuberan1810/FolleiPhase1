@@ -81,6 +81,26 @@ export const reingestAllDocuments = async (workspaceId: string): Promise<Workspa
   return data;
 };
 
+/** What Follei understood from the uploaded documents (Phase 1). Null when
+ *  nothing has been ingested yet. */
+export interface BusinessAnalysis {
+  summary: string;
+  what_they_sell: string[];
+  who_they_sell_to: string;
+  pricing: string[];
+  differentiators: string[];
+  gaps: string[];
+}
+
+export const getBusinessAnalysis = async (
+  workspaceId: string,
+): Promise<BusinessAnalysis | null> => {
+  const { data } = await api.get<BusinessAnalysis | null>(
+    `/api/workspaces/${workspaceId}/documents/analysis`,
+  );
+  return data;
+};
+
 export interface GoalSuggestions {
   suggestions: string[];
 }
