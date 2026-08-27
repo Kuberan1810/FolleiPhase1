@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSetupFlow } from '../../../hooks/useSetupFlow';
+import { useDocuments } from '../../../hooks/useDocuments';
+import { useBusinessAnalysis } from '../../../hooks/useBusinessAnalysis';
 import type { SetupStep, PromptSuggestion, UserProfile, WorkspaceContextItem } from '../types';
 import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP_CONFIGS, DEFAULT_USER } from '../data';
+import { getStoredUser } from '../../../lib/auth';
 
 export const useDashboardState = () => {
-  const [user] = useState<UserProfile>(DEFAULT_USER);
-  const [companyName, setCompanyName] = useState<string>('Tech panda');
+  const [user] = useState<UserProfile>(() => {
+    const stored = getStoredUser();
+    if (!stored) return DEFAULT_USER;
+    const name = stored.full_name || stored.email;
+    return {
+      name,
+      email: stored.email,
+      initials: name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase(),
+    };
+  });
+  const [companyName, setCompanyName] = useState<string>(
+    () => localStorage.getItem('follei.company_name') || 'My business',
+  );
   const [promptText, setPromptText] = useState<string>('');
   const [miniPromptText, setMiniPromptText] = useState<string>('');
   const [steps, setSteps] = useState<SetupStep[]>(INITIAL_SETUP_STEPS);
@@ -37,10 +52,112 @@ export const useDashboardState = () => {
 
   const [businessType, setBusinessType] = useState<string>('');
   const [customerType, setCustomerType] = useState<string>('');
+  // Picking "Other" must not advance the step -- the flow asks what the
+  // business actually does and stores that free-text answer as the category.
+  const [awaitingCustomAnswer, setAwaitingCustomAnswer] = useState<string | null>(null);
+
+  const setup = useSetupFlow(companyName);
+  // Live ingestion status, polled from the server rather than faked with a timer.
+  const ingestion = useDocuments(setup.workspace?.id);
+  // Only ask for the analysis once something has finished ingesting -- before
+  // that it would return null and spend a model call for nothing.
+  const { analysis, isAnalysing } = useBusinessAnalysis(
+    setup.workspace?.id,
+    ingestion.processed.length > 0 && !ingestion.isIngesting,
+  );
+
+  useEffect(() => {
+    if (setup.isBootstrapping || !setup.business || !setup.workspace) return;
+    // Captured after the guard: the setWorkspaceItems callback runs later,
+    // so the narrowing on setup.business does not survive into it.
+    const business = setup.business;
+
+    setCompanyName(business.name);
+    setBusinessType(business.category);
+    setCustomerType(business.customer_type);
+
+    const hasDocuments = setup.documents.length > 0 || ingestion.documents.length > 0;
+    const hasLeads = setup.leadCount > 0;
+    const nextIndex = hasLeads ? 5 : hasDocuments ? 4 : 3;
+    const nextStepId = INITIAL_SETUP_STEPS[nextIndex].id;
+    setMaxReachedIndex(nextIndex);
+    setCurrentStepId(nextStepId);
+    setIsComplete(hasLeads);
+    setSteps((current) => current.map((step, index) => ({
+      ...step,
+      status: index < nextIndex ? 'completed' : index === nextIndex ? 'active' : 'pending',
+    })));
+    setWorkspaceItems((current) => {
+      const retainedData = current.filter((item) => item.type === 'data');
+      return [
+        {
+          id: 'business-context',
+          type: 'business',
+          title: 'BUSINESS CONTEXT',
+          status: 'Ready',
+          value: `${business.category} · ${business.customer_type}`,
+        },
+        {
+          id: 'crm-context',
+          type: 'crm',
+          title: 'CRM',
+          status: business.crm_provider ? 'Preference saved' : 'None',
+          value: business.crm_provider || 'No CRM',
+        },
+        ...retainedData,
+        ...(hasLeads ? [{
+          id: 'customer-context',
+          type: 'customer' as const,
+          title: 'LEADS',
+          value: `${setup.leadCount} lead${setup.leadCount === 1 ? '' : 's'}`,
+          isLoading: false,
+        }] : []),
+      ];
+    });
+  }, [setup.isBootstrapping, setup.business, setup.workspace, setup.documents.length, setup.leadCount, ingestion.documents.length]);
+
+  // The BUSINESS DATA card mirrors real ingestion state: each file's name and
+  // status come from the server, so "Processing" means a task is genuinely
+  // running rather than a timer being run down.
+  useEffect(() => {
+    if (!ingestion.documents.length) return;
+    const { processed, failed, processing } = ingestion;
+    setWorkspaceItems((prev) => {
+      const next: WorkspaceContextItem = {
+        id: 'data-context',
+        type: 'data',
+        title: 'BUSINESS DATA',
+        status: processing.length
+          ? `Reading ${processing.length} of ${ingestion.documents.length}`
+          : failed.length
+            ? 'Needs attention'
+            : 'Ready',
+        value: `${processed.length} of ${ingestion.documents.length} ready`,
+        subtitle: processing.length
+          ? processing.map((d) => d.filename).join(', ').slice(0, 80)
+          : failed.length
+            ? `${failed[0].filename}: ${failed[0].failure_reason || 'failed'}`
+            : ingestion.documents.map((d) => d.filename).join(', ').slice(0, 80),
+        isLoading: processing.length > 0,
+      };
+      const index = prev.findIndex((item) => item.type === 'data');
+      if (index >= 0) {
+        const copy = [...prev];
+        copy[index] = next;
+        return copy;
+      }
+      return [...prev, next];
+    });
+    // Depend only on `documents`, which react-query keeps referentially
+    // stable. `processed`/`failed`/`processing` are derived with .filter() and
+    // are a new array on every render, so listing them re-ran this effect
+    // forever -- it calls setWorkspaceItems, which renders again.
+  }, [ingestion.documents]);
+
 
   const [maxReachedIndex, setMaxReachedIndex] = useState<number>(0);
 
-  const advanceStep = (stepValue: string, stepId: string) => {
+  const advanceStep = (stepValue: string, stepId: string, pendingFiles?: File[]) => {
     // 1. Add / Update Workspace context item based on current step
     let contextTitle = 'BUSINESS CONTEXT';
     let contextType = 'business';
@@ -51,13 +168,20 @@ export const useDashboardState = () => {
 
     if (stepId === 'business') {
       setBusinessType(stepValue);
+      setup.setBusinessCategory(stepValue);
       displayValue = customerType ? `${stepValue} · ${customerType}` : stepValue;
     } else if (stepId === 'customer-type') {
       setCustomerType(stepValue);
+      setup.setCustomerType(stepValue);
       contextType = 'business';
       contextTitle = 'BUSINESS CONTEXT';
       displayValue = businessType ? `${businessType} · ${stepValue}` : `Software · ${stepValue}`;
     } else if (stepId === 'crm') {
+      // Everything the business record needs is known now, so create it and
+      // its workspace -- documents and leads below both upload into it.
+      const provider = stepValue === 'No CRM' ? null : stepValue;
+      setup.setCrmProvider(provider);
+      void setup.ensureWorkspace({ crmProvider: provider });
       contextTitle = 'CRM';
       contextType = 'crm';
       displayValue = stepValue;
@@ -97,28 +221,18 @@ export const useDashboardState = () => {
     });
 
     // Handle importing delay for Step 4 ("Business Data")
-    if (stepId === 'business-data') {
-      setTimeout(() => {
-        setIsImportingBusinessData(false);
-        setWorkspaceItems((prev) =>
-          prev.map((item) =>
-            item.type === 'data'
-              ? {
-                ...item,
-                status: undefined,
-                value: '24 files',
-                subtitle: '12 products · 8 services · 5 pricing plans',
-                isLoading: false,
-              }
-              : item
-          )
-        );
-      }, 2500);
+    if (stepId === 'business-data' && pendingFiles?.length) {
+      // Returns as soon as the files are accepted. The panel below reflects
+      // real ingestion status from useDocuments, so the step never blocks on
+      // embedding -- which can take minutes on a CPU-only host.
+      void setup.uploadBusinessData(pendingFiles).then(() => setIsImportingBusinessData(false));
+    } else if (stepId === 'business-data') {
+      setIsImportingBusinessData(false);
     }
 
     // Handle importing delay for Step 5 ("Leads")
-    if (stepId === 'leads') {
-      setTimeout(() => {
+    if (stepId === 'leads' && pendingFiles?.length) {
+      void setup.uploadLeads(pendingFiles).then((imported) => {
         setIsImportingLeads(false);
         setWorkspaceItems((prev) =>
           prev.map((item) =>
@@ -126,17 +240,18 @@ export const useDashboardState = () => {
               ? {
                 ...item,
                 status: undefined,
-                value: '248 leads',
-                subtitle: '32 high-intent',
+                value: `${imported ?? 0} lead${imported === 1 ? '' : 's'}`,
+                subtitle: undefined,
                 isLoading: false,
               }
               : item
           )
         );
-        // Mark all steps as complete
         setSteps((prev) => prev.map((s) => ({ ...s, status: 'completed' })));
         setIsComplete(true);
-      }, 2500);
+      });
+    } else if (stepId === 'leads') {
+      setIsImportingLeads(false);
     }
 
     // 2. Mark current step as completed & advance to next step
@@ -174,6 +289,13 @@ export const useDashboardState = () => {
     const option = currentConfig.options.find((o) => o.id === optionId);
     const optionLabel = option ? option.label : optionId;
 
+    // "Other" carries no information. Hold the step open and ask what the
+    // business actually does, then store that answer as the real value.
+    if (optionId === 'other') {
+      setAwaitingCustomAnswer(currentStepId);
+      return;
+    }
+
     if (currentStepId === 'crm') {
       if (optionId === 'no-crm') {
         advanceStep('No CRM', 'crm');
@@ -207,14 +329,14 @@ export const useDashboardState = () => {
   const handleUploadBusinessDataDone = (files: File[]) => {
     const fileCount = files.length;
     const fileLabel = `${fileCount} ${fileCount === 1 ? 'file' : 'files'}`;
-    advanceStep(fileLabel, 'business-data');
+    advanceStep(fileLabel, 'business-data', files);
     setIsUploadBusinessDataModalOpen(false);
   };
 
   const handleUploadLeadsDone = (files: File[]) => {
     const fileCount = files.length;
     const fileLabel = `${fileCount} ${fileCount === 1 ? 'file' : 'files'}`;
-    advanceStep(fileLabel, 'leads');
+    advanceStep(fileLabel, 'leads', files);
     setIsUploadLeadsModalOpen(false);
   };
 
@@ -279,11 +401,12 @@ export const useDashboardState = () => {
     setIsSubmitting(true);
     const submittedVal = miniPromptText.trim();
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setMiniPromptText('');
-      advanceStep(submittedVal, currentStepId);
-    }, 300);
+    // Typed free text is the answer whether the step was waiting on "Other"
+    // or the user simply typed instead of picking a pill.
+    setIsSubmitting(false);
+    setMiniPromptText('');
+    setAwaitingCustomAnswer(null);
+    advanceStep(submittedVal, currentStepId);
   };
 
   const handleSkipStep = () => {
@@ -364,6 +487,20 @@ export const useDashboardState = () => {
     handleStepClick,
     handlePromptSubmit,
     handleMiniPromptSubmit,
+    awaitingCustomAnswer,
+    customAnswerQuestion:
+      awaitingCustomAnswer === 'business'
+        ? 'What kind of business do you run?'
+        : awaitingCustomAnswer === 'crm'
+          ? 'Which CRM do you use?'
+          : null,
+    workspace: setup.workspace,
+    ingestion,
+    analysis,
+    isAnalysing,
+    business: setup.business,
+    documents: setup.documents,
+    isCreatingWorkspace: setup.isCreatingWorkspace,
     handleSkipStep,
     handleStartUsing,
   };

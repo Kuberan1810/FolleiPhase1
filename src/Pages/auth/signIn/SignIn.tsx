@@ -5,6 +5,8 @@ import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignInForm from './Section/SignInForm';
 import toast from 'react-hot-toast';
+import { getGoogleAuthorizationUrl, login } from '../../../api/auth/auth.api';
+import { errorMessage } from '../../../lib/axios';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -12,20 +14,29 @@ export const SignIn: React.FC = () => {
 
   const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success(`Welcome back, ${data.email}!`);
+    try {
+      const tokens = await login({ email: data.email, password: data.password });
+      toast.success(`Welcome back, ${tokens.user.full_name || tokens.user.email}`);
       navigate('/dashboard-setup');
-    }, 600);
+    } catch (error) {
+      toast.error(errorMessage(error, 'Could not sign you in'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      // The backend mints the anti-CSRF state, so the authorize URL has to
+      // come from it rather than being built here.
+      const authorizationUrl = await getGoogleAuthorizationUrl();
+      // Full navigation, not react-router: the next stop is Google's domain.
+      window.location.assign(authorizationUrl);
+    } catch (error) {
       setIsLoading(false);
-      toast.success('Signed in with Google');
-      navigate('/dashboard-setup');
-    }, 600);
+      toast.error(errorMessage(error, 'Google sign-in is unavailable'));
+    }
   };
 
   const handleForgotPassword = () => {

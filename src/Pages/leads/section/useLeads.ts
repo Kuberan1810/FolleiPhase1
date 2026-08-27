@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { type Lead, type LeadFilterState } from '../types';
-import { initialMockLeads } from '../data/mockLeads';
+import { useActiveWorkspace } from '../../../hooks/useWorkspace';
+import { useLeads as useLeadsQuery, useLeadMutations } from '../../../hooks/useLeads';
 
 const INITIAL_FILTERS: LeadFilterState = {
   aiSearch: '',
@@ -12,7 +13,10 @@ const INITIAL_FILTERS: LeadFilterState = {
 };
 
 export const useLeads = () => {
-  const [leads, setLeads] = useState<Lead[]>(initialMockLeads);
+  const { workspaceId } = useActiveWorkspace();
+  const { leads: remoteLeads, isLoading, error, refetch } = useLeadsQuery(workspaceId);
+  const mutations = useLeadMutations(workspaceId);
+  const leads: Lead[] = remoteLeads;
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<LeadFilterState>(INITIAL_FILTERS);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,15 +94,33 @@ export const useLeads = () => {
     return filteredLeads.slice(startIndex, startIndex + pageSize);
   }, [filteredLeads, currentPage, pageSize]);
 
-  // Handle Add Lead
+  // Persist through the API; the mutation invalidates the list, so the new
+  // lead arrives back with its real id and reference number rather than a
+  // locally invented one.
   const handleAddLead = (newLead: Omit<Lead, 'id' | 'leadNumber'>) => {
-    const created: Lead = {
-      ...newLead,
-      id: Date.now().toString(),
-      leadNumber: leads.length + 1,
-    };
-    setLeads((prev) => [created, ...prev]);
+    mutations.create.mutate({
+      name: newLead.name,
+      email: newLead.email || null,
+      source: newLead.source ?? null,
+      status: newLead.status,
+      score: newLead.score ?? null,
+    });
   };
+
+  const handleUpdateLead = (leadId: string, changes: Partial<Lead>) =>
+    mutations.update.mutate({
+      leadId,
+      payload: {
+        ...(changes.name !== undefined && { name: changes.name }),
+        ...(changes.email !== undefined && { email: changes.email }),
+        ...(changes.status !== undefined && { status: changes.status }),
+        ...(changes.score !== undefined && { score: changes.score ?? null }),
+      },
+    });
+
+  const handleDeleteLead = (leadId: string) => mutations.remove.mutate(leadId);
+
+  const handleImportCsv = (file: File) => mutations.importCsv.mutate(file);
 
   // Filter setters
   const handleApplyFilters = (newFilters: LeadFilterState) => {
@@ -127,6 +149,14 @@ export const useLeads = () => {
     isAddModalOpen,
     setIsAddModalOpen,
     handleAddLead,
+    handleUpdateLead,
+    handleDeleteLead,
+    handleImportCsv,
+    isLoading,
+    error,
+    refetch,
+    workspaceId,
+    isSaving: mutations.create.isPending || mutations.update.isPending || mutations.remove.isPending,
   };
 };
 export default useLeads;

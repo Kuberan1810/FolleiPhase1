@@ -5,12 +5,14 @@ import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
 import SignUpForm from './Section/SignUpForm';
 import toast from 'react-hot-toast';
+import { getGoogleAuthorizationUrl, register } from '../../../api/auth/auth.api';
+import { errorMessage } from '../../../lib/axios';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignUp = (formData: {
+  const handleSignUp = async (formData: {
     firstName: string;
     lastName: string;
     companyName: string;
@@ -18,20 +20,32 @@ export const SignUp: React.FC = () => {
     password: string;
   }) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success(`Account created for ${formData.firstName}!`);
+    try {
+      await register({
+        email: formData.workEmail,
+        password: formData.password,
+        full_name: `${formData.firstName} ${formData.lastName}`.trim(),
+      });
+      // The company name is not part of the account -- it becomes the
+      // business record during setup, so carry it into that step.
+      if (formData.companyName) localStorage.setItem('follei.company_name', formData.companyName);
+      toast.success(`Account created for ${formData.firstName}`);
       navigate('/dashboard-setup');
-    }, 600);
+    } catch (error) {
+      toast.error(errorMessage(error, 'Could not create your account'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignUp = () => {
+  const handleGoogleSignUp = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      window.location.assign(await getGoogleAuthorizationUrl());
+    } catch (error) {
       setIsLoading(false);
-      toast.success('Signed up with Google');
-      navigate('/dashboard-setup');
-    }, 600);
+      toast.error(errorMessage(error, 'Google sign-up is unavailable'));
+    }
   };
 
   return (
