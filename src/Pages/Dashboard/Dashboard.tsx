@@ -1,4 +1,12 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { errorMessage } from '../../lib/axios';
+import { useActiveWorkspace } from '../../hooks/useWorkspace';
+import {
+  previewCampaign,
+  startCampaign,
+  type CampaignPreview,
+} from '../../api/campaign/campaign.api';
 import { useNavigate } from 'react-router-dom';
 import { 
   Users, 
@@ -14,7 +22,6 @@ import {
   Loader2
 } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
-import toast from 'react-hot-toast';
 import { AiFollowupModal, DisconnectModal } from './modal';
 
 interface TopMetric {
@@ -37,22 +44,63 @@ export const Dashboard: React.FC = () => {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
   const [channels, setChannels] = useState({ call: false, whatsapp: false });
+  const [preview, setPreview] = useState<CampaignPreview | null>(null);
+  const { workspaceId } = useActiveWorkspace();
 
-  const handleStartFolleiClick = () => {
+  // Preview before the modal. A campaign dials real people and spends real
+  // telephony credit, so the user should see who is about to be called and
+  // whether calling is even configured before confirming anything.
+  const handleStartFolleiClick = async () => {
+    if (!workspaceId) {
+      toast.error('Select a project first');
+      return;
+    }
     setIsLoadingModal(true);
-    setTimeout(() => {
-      setIsLoadingModal(false);
+    try {
+      const result = await previewCampaign(workspaceId);
+      setPreview(result);
+      if (result.would_call === 0) {
+        toast('No leads with a phone number to call yet', { icon: 'ℹ️' });
+        return;
+      }
+      if (!result.telephony_ready) {
+        toast.error(result.reason || 'Calling is not configured');
+        return;
+      }
       setIsAiModalOpen(true);
-    }, 450);
+    } catch (error) {
+      toast.error(errorMessage(error, 'Could not start Follei'));
+    } finally {
+      setIsLoadingModal(false);
+    }
   };
 
-  const handleModalConfirm = (selectedChannels: { call: boolean; whatsapp: boolean }) => {
+  const handleModalConfirm = async (selectedChannels: { call: boolean; whatsapp: boolean }) => {
     setChannels(selectedChannels);
     setIsAiModalOpen(false);
-    if (selectedChannels.call || selectedChannels.whatsapp) {
-      setIsFolleiActivated(true);
-    } else {
+    if (!selectedChannels.call && !selectedChannels.whatsapp) {
       setIsFolleiActivated(false);
+      return;
+    }
+    if (!selectedChannels.call || !workspaceId) {
+      // Only the call channel is wired to anything today.
+      setIsFolleiActivated(true);
+      return;
+    }
+    // This is the point of no return: it dials.
+    const count = preview?.would_call ?? 0;
+    if (!window.confirm(`Start calling ${count} lead${count === 1 ? '' : 's'} now? Calls cannot be unmade.`)) {
+      return;
+    }
+    try {
+      const result = await startCampaign(workspaceId);
+      setIsFolleiActivated(true);
+      toast.success(`Calling ${result.placed} lead${result.placed === 1 ? '' : 's'}`);
+      if (result.failed.length) {
+        toast.error(`${result.failed.length} could not be dialled`);
+      }
+    } catch (error) {
+      toast.error(errorMessage(error, 'Could not start calling'));
     }
   };
 
