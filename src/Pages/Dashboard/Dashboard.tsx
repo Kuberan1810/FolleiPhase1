@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { errorMessage } from '../../lib/axios';
 import { useActiveWorkspace } from '../../hooks/useWorkspace';
+import { useDashboardStats } from '../../hooks/useDashboardStats';
 import {
   previewCampaign,
   startCampaign,
@@ -46,6 +47,7 @@ export const Dashboard: React.FC = () => {
   const [channels, setChannels] = useState({ call: false, whatsapp: false });
   const [preview, setPreview] = useState<CampaignPreview | null>(null);
   const { workspaceId } = useActiveWorkspace();
+  const { stats } = useDashboardStats();
 
   // Preview before the modal. A campaign dials real people and spends real
   // telephony credit, so the user should see who is about to be called and
@@ -110,32 +112,42 @@ export const Dashboard: React.FC = () => {
     setIsDisconnectModalOpen(false);
   };
 
+  // Real counts from the workspace. A metric with no backing data shows a
+  // dash rather than a number -- an invented figure on a dashboard is worse
+  // than an obvious gap, because it gets believed.
+  const fmt = (n: number) => n.toLocaleString();
+  const delta = (change: number | null, unit: string) =>
+    change === null ? '—' : `${change >= 0 ? '+' : ''}${change} ${unit}`;
+
   const topMetrics: TopMetric[] = [
     {
       label: 'TOTAL LEADS',
-      value: '1,248',
-      change: '+12 this week',
+      value: stats ? fmt(stats.total_leads.value) : '—',
+      change: stats ? delta(stats.total_leads.change, 'this week') : '',
       icon: <Users className="size-3.5 text-[#2563EB]" />,
       iconColor: '#2563EB',
     },
     {
       label: 'HOT LEADS',
-      value: '42',
-      change: '+6 today',
+      value: stats ? fmt(stats.hot_leads.value) : '—',
+      change: stats ? delta(stats.hot_leads.change, 'today') : '',
       icon: <Flame className="size-3.5 text-[#EA580C]" />,
       iconColor: '#EA580C',
     },
     {
       label: 'CONVERTED',
-      value: '86',
-      change: '+5 this week',
+      value: stats ? fmt(stats.converted.value) : '—',
+      change: stats ? delta(stats.converted.change, 'this week') : '',
       icon: <CheckCircle2 className="size-3.5 text-[#16A34A]" />,
       iconColor: '#16A34A',
     },
     {
-      label: 'MEETINGS BOOKED',
-      value: '24',
-      change: '4 today',
+      label: 'CALLS MADE',
+      value: stats ? fmt(stats.calls_made) : '—',
+      change:
+        stats && stats.leads_called_share !== null
+          ? `${Math.round(stats.leads_called_share * 100)}% of leads reached`
+          : '',
       icon: <Calendar className="size-3.5 text-[#F59E0B]" />,
       iconColor: '#F59E0B',
     },
@@ -249,7 +261,7 @@ export const Dashboard: React.FC = () => {
             ))}
           </div>
 
-          {/* Main Grid Layout (Left: Sales Health, Right: AI Attention & Top Campaign) */}
+          {/* Main Grid Layout (Left: Call Coverage, Right: AI Attention & Top Campaign) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left Card: Sales Health (7 cols) */}
             <div className="lg:col-span-7 bg-white rounded-[16px] border border-[#F3F4F6] p-[24px] flex flex-col justify-between">
@@ -261,7 +273,7 @@ export const Dashboard: React.FC = () => {
                       Sales Health
                     </h2>
                     <p className="font-normal text-[14px] text-[#64748B] mt-0.5">
-                      How your sales pipeline is performing
+                      How much of your lead list Follei has reached
                     </p>
                   </div>
 
@@ -326,14 +338,18 @@ export const Dashboard: React.FC = () => {
                     <div className="absolute top-[64px] inset-x-0 flex flex-col items-center justify-center pointer-events-none">
                       <div className="flex items-baseline justify-center">
                         <span className="font-bold text-[44px] leading-[44px] text-[#111827] tracking-[0px]">
-                          78
+                          {stats && stats.leads_called_share !== null
+                            ? Math.round(stats.leads_called_share * 100)
+                            : '—'}
                         </span>
                         <span className="font-semibold text-[22px] leading-[33px] text-[#6B7280] tracking-[0px] ml-0.5">
-                          /100
+                          %
                         </span>
                       </div>
                       <span className="font-semibold text-[15px] leading-[20px] text-[#16A34A] mt-1.5 text-center">
-                        Healthy
+                        {stats && stats.leads_called_share !== null
+                          ? 'of leads reached'
+                          : 'No calls yet'}
                       </span>
                     </div>
                   </div>
@@ -344,30 +360,32 @@ export const Dashboard: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <TrendingUp className="size-4 text-[#94A3B8]" />
-                      <span>Pipeline Growth</span>
+                      <span>New leads this week</span>
                     </div>
                     <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↑ 14.2%
+                      {stats?.total_leads.change ?? '—'}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <Users className="size-4 text-[#94A3B8]" />
-                      <span>Lead-to-Meeting Rate</span>
+                      <span>Leads reached</span>
                     </div>
                     <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↑ 8.6%
+                      {stats && stats.leads_called_share !== null
+                        ? `${Math.round(stats.leads_called_share * 100)}%`
+                        : '—'}
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5 font-normal text-[15px] leading-[22.5px] text-[#6B7280]">
                       <Zap className="size-4 text-[#94A3B8]" />
-                      <span>Leads Going Cold</span>
+                      <span>Calls made</span>
                     </div>
                     <span className="font-semibold text-[15px] leading-[22.5px] tracking-[0px] text-[#10B981]">
-                      ↓ 3.2%
+                      {stats?.calls_made ?? '—'}
                     </span>
                   </div>
                 </div>
@@ -377,10 +395,12 @@ export const Dashboard: React.FC = () => {
               <div className="border-t border-[#F1F5F9] pt-4 mt-6 flex items-center justify-between flex-wrap gap-2">
                 <div>
                   <div className="font-semibold text-[11px] uppercase tracking-[0.6px] text-[#64748B]">
-                    BIGGEST IMPROVEMENT
+                    COVERAGE
                   </div>
                   <div className="font-semibold text-[16px] leading-[24px] tracking-[0px] text-[#111827] mt-0.5">
-                    Hot leads increased by 24% this week
+                    {stats
+                      ? `${stats.hot_leads.value} hot of ${stats.total_leads.value} leads`
+                      : 'No lead data yet'}
                   </div>
                 </div>
 
@@ -404,12 +424,14 @@ export const Dashboard: React.FC = () => {
                     AI Needs Your Attention
                   </h3>
                   <div className="flex size-[28px] items-center justify-center rounded-full bg-[#F15B5B]/20 shadow-[0_0_10px_rgba(239,68,68,0.3)] text-[13px] font-bold text-[#F15B5B]">
-                    7
+                    {stats?.needs_attention ?? 0}
                   </div>
                 </div>
 
                 <p className="font-normal text-[15px] leading-[24.38px] text-[#9CA3AF] mt-2.5 mb-4">
-                  7 leads are showing strong buying signals. Review the most important conversations.
+                  {stats?.needs_attention
+                    ? `${stats.needs_attention} lead${stats.needs_attention === 1 ? '' : 's'} showing buying signals. Review the most important conversations.`
+                    : 'No leads need attention yet. They appear here once a call has read their intent.'}
                 </p>
 
                 {/* Avatar Stack */}
@@ -453,45 +475,13 @@ export const Dashboard: React.FC = () => {
                   </h3>
                 </div>
 
-                {/* Campaign Name & Active Badge */}
-                <div className="flex items-center gap-2 mb-5">
-                  <span className="font-normal text-[14px] text-[#64748B]">
-                    Product Demo Campaign
-                  </span>
-                  <span className="bg-[#DCFCE7] text-[#16A34A] text-[11px] font-semibold px-2 py-0.5 rounded-md">
-                    Active
-                  </span>
-                </div>
-
-                {/* Stats 4-columns */}
-                <div className="grid grid-cols-4 gap-2 text-left mb-5">
-                  <div>
-                    <div className="text-[12px] text-[#64748B]">Sent</div>
-                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">1.2K</div>
-                  </div>
-                  <div>
-                    <div className="text-[12px] text-[#64748B]">Opened</div>
-                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">68%</div>
-                  </div>
-                  <div>
-                    <div className="text-[12px] text-[#64748B]">Replied</div>
-                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">24%</div>
-                  </div>
-                  <div>
-                    <div className="text-[12px] text-[#64748B]">Meetings</div>
-                    <div className="text-[16px] font-bold text-[#1E293B] mt-0.5">18</div>
-                  </div>
-                </div>
-
-                {/* View Campaign Report CTA Button */}
-                <button
-                  type="button"
-                  onClick={() => toast.success('Loading campaign report')}
-                  className="w-full h-[48.5px] px-4 bg-[#0D0D0D]/5 hover:bg-[#0D0D0D]/10 border border-[#0D0D0D]/5 text-[#222222] font-medium text-[15px] leading-[22.5px] tracking-[0px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>View campaign report</span>
-                  <ArrowRight className="size-4 text-[#222222]" />
-                </button>
+                {/* Campaigns have no backend yet. Showing invented send and
+                    open rates here would be the most misleading thing on the
+                    page, because they look like measured results. */}
+                <p className="text-[13px] leading-relaxed text-[#64748B]">
+                  Campaigns aren't set up yet. Once Follei starts calling, campaign
+                  performance will appear here.
+                </p>
               </div>
             </div>
           </div>
