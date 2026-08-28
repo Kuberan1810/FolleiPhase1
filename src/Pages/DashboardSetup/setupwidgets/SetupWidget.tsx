@@ -45,7 +45,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
   totalSteps = 6,
   bannerTitle = "Your workspace isn't set up yet.",
   bannerSubtitle = "Let's get it ready together.",
-  companyName = 'Tech panda',
+  companyName = 'Your Company name',
   onCompanyNameChange,
   steps,
   currentStepId,
@@ -105,7 +105,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
             type="text"
             value={companyName}
             onChange={(e) => onCompanyNameChange?.(e.target.value)}
-            placeholder="Tech panda"
+            placeholder="Your Company name"
             className="w-full rounded-[14px] border border-[#CBD5E1] bg-white px-3.5 py-2.5 text-[14px] text-[#16171A] placeholder-[#9CA3AF] focus:border-[#0D9488] focus:outline-none transition-colors"
           />
         </div>

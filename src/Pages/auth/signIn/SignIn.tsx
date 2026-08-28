@@ -11,15 +11,19 @@ import { errorMessage } from '../../../lib/axios';
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
     setIsLoading(true);
+    setApiError(null);
     try {
       const tokens = await login({ email: data.email, password: data.password });
       toast.success(`Welcome back, ${tokens.user.full_name || tokens.user.email}`);
       navigate('/dashboard-setup');
     } catch (error) {
-      toast.error(errorMessage(error, 'Could not sign you in'));
+      const msg = errorMessage(error, 'Could not sign you in');
+      setApiError(msg);
+      // toast.error(msg);
     } finally {
       setIsLoading(false);
     }
@@ -27,6 +31,7 @@ export const SignIn: React.FC = () => {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+    setApiError(null);
     try {
       // The backend mints the anti-CSRF state, so the authorize URL has to
       // come from it rather than being built here.
@@ -35,7 +40,9 @@ export const SignIn: React.FC = () => {
       window.location.assign(authorizationUrl);
     } catch (error) {
       setIsLoading(false);
-      toast.error(errorMessage(error, 'Google sign-in is unavailable'));
+      const msg = errorMessage(error, 'Google sign-in is unavailable');
+      setApiError(msg);
+      // toast.error(msg);
     }
   };
 
@@ -58,6 +65,8 @@ export const SignIn: React.FC = () => {
           onGoogleSignIn={handleGoogleSignIn}
           onForgotPassword={handleForgotPassword}
           isLoading={isLoading}
+          apiError={apiError}
+          onClearApiError={() => setApiError(null)}
         />
 
         {/* Footer Link to Sign Up */}

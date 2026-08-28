@@ -12,6 +12,7 @@ import { useLeads } from '../../hooks/useLeads';
 import { listBusinesses, type Business } from '../../api/dashboard/dashboard.api';
 import { errorMessage } from '../../lib/axios';
 import BusinessAnalysisCard from '../DashboardSetup/setupwidgets/BusinessAnalysisCard';
+import { getFileFormatIcon } from '../../Component/fileFormatIcons';
 
 const Field: React.FC<{ label: string; value?: string | null }> = ({ label, value }) => (
   <div className="flex flex-col gap-1">
@@ -79,7 +80,7 @@ export const ProjectSettings: React.FC = () => {
       } else {
         toast.success(
           `Imported ${imported} lead${imported === 1 ? '' : 's'}` +
-            (skipped ? ` · skipped ${skipped} already here` : ''),
+          (skipped ? ` · skipped ${skipped} already here` : ''),
         );
       }
       void refetchLeads();
@@ -92,7 +93,7 @@ export const ProjectSettings: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
-      <Sidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} activeItem="home" />
+      <Sidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} activeItem="setup" />
 
       <main className="min-w-0 flex-1">
         <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden">
@@ -163,8 +164,13 @@ export const ProjectSettings: React.FC = () => {
             ) : (
               <ul className="flex flex-col gap-1.5">
                 {ingestion.documents.map((doc) => (
-                  <li key={doc.id} className="flex items-center justify-between text-[13px]">
-                    <span className="truncate text-[#2C2E31]">{doc.filename}</span>
+                  <li key={doc.id} className="flex items-center justify-between text-[13px] py-1 border-b border-gray-100 last:border-0">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="flex size-6 shrink-0 items-center justify-center">
+                        {getFileFormatIcon(doc.filename, 'size-5 object-contain')}
+                      </div>
+                      <span className="truncate text-[#2C2E31] font-medium">{doc.filename}</span>
+                    </div>
                     <span
                       className={
                         doc.status === 'PROCESSED'

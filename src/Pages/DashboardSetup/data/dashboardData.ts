@@ -22,10 +22,11 @@ export const STEP_CONFIGS: Record<string, SetupStepConfig> = {
     stepNumber: 1,
     bannerTitle: "Your workspace isn't set up yet.",
     bannerSubtitle: "Let's get it ready together.",
-    question: "What do you do?",
+    question: "What type of business do you have?",
     options: [
       { id: 'software', label: 'Software' },
       { id: 'services', label: 'Services' },
+      { id: 'education', label: 'Education' },
       { id: 'retail', label: 'Retail' },
       { id: 'manufacturing', label: 'Manufacturing' },
       { id: 'consulting', label: 'Consulting' },

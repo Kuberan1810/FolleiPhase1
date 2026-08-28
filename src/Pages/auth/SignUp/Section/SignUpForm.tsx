@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AlertCircle, X } from 'lucide-react';
 import { Input } from '../../Components/Input';
 import { Checkbox } from '../../signIn/Section/Checkbox';
 
@@ -33,12 +34,16 @@ interface SignUpFormProps {
   }) => void;
   onGoogleSignUp?: () => void;
   isLoading?: boolean;
+  apiError?: string | null;
+  onClearApiError?: () => void;
 }
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({
   onSubmit,
   onGoogleSignUp,
   isLoading = false,
+  apiError,
+  onClearApiError,
 }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -86,6 +91,24 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
 
   return (
     <div className="bg-white rounded-lg border border-[#C4C7C7]/30 p-8 sm:p-8 w-full">
+      {/* Inline API / Server Error Alert */}
+      {apiError && (
+        <div className="mb-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50/90 p-3.5 text-xs text-red-800 transition-all duration-200">
+          <AlertCircle className="size-4 shrink-0 text-red-600 mt-0.5" />
+          <div className="flex-1 leading-relaxed font-medium">{apiError}</div>
+          {onClearApiError && (
+            <button
+              type="button"
+              onClick={onClearApiError}
+              className="text-red-400 hover:text-red-700 transition-colors cursor-pointer focus:outline-none p-0.5"
+              aria-label="Dismiss error"
+            >
+              <X className="size-3.5" />
+            </button>
+          )}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Fields Row */}
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -95,6 +118,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             onChange={(e) => {
               setFirstName(e.target.value);
               if (errors.firstName) setErrors((prev) => ({ ...prev, firstName: undefined }));
+              if (onClearApiError) onClearApiError();
             }}
             error={errors.firstName}
             required
@@ -105,6 +129,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             onChange={(e) => {
               setLastName(e.target.value);
               if (errors.lastName) setErrors((prev) => ({ ...prev, lastName: undefined }));
+              if (onClearApiError) onClearApiError();
             }}
             error={errors.lastName}
             required
@@ -118,6 +143,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
           onChange={(e) => {
             setCompanyName(e.target.value);
             if (errors.companyName) setErrors((prev) => ({ ...prev, companyName: undefined }));
+            if (onClearApiError) onClearApiError();
           }}
           error={errors.companyName}
           required
@@ -131,6 +157,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
           onChange={(e) => {
             setWorkEmail(e.target.value);
             if (errors.workEmail) setErrors((prev) => ({ ...prev, workEmail: undefined }));
+            if (onClearApiError) onClearApiError();
           }}
           error={errors.workEmail}
           required
@@ -145,6 +172,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             onChange={(e) => {
               setPassword(e.target.value);
               if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+              if (onClearApiError) onClearApiError();
             }}
             error={errors.password}
             required
@@ -161,6 +189,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
               if (errors.agreedToTerms) {
                 setErrors((prev) => ({ ...prev, agreedToTerms: undefined }));
               }
+              if (onClearApiError) onClearApiError();
             }}
             label={
               <span className="text-xs text-[#444748] font-normal leading-relaxed">

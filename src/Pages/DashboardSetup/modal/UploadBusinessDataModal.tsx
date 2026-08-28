@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, UploadCloud, FileText, Check, Loader2 } from 'lucide-react';
+import { X, UploadCloud, Check, Loader2 } from 'lucide-react';
+import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 
 export interface AnalysisStep {
   id: string;
@@ -156,9 +157,8 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 sm:p-6 font-sans select-none overflow-y-auto animate-in fade-in duration-200">
       {/* Container holding the popups */}
       <div
-        className={`flex flex-col lg:flex-row items-stretch justify-center gap-6 w-full transition-all duration-300 ${
-          hasFiles ? 'max-w-[1040px]' : 'max-w-[540px]'
-        }`}
+        className={`flex flex-col lg:flex-row items-center justify-center gap-6 w-full transition-all duration-300 ${hasFiles ? 'max-w-[1040px]' : 'max-w-[540px]'
+          }`}
       >
         {/* POPUP 1 (Left Card): Upload Screen */}
         <div
@@ -203,11 +203,10 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`my-5 flex min-h-[175px] cursor-pointer flex-col items-center justify-center rounded-[20px] border-2 border-dashed p-5 text-center transition-all ${
-                isDragging
+              className={`my-5 flex min-h-[175px] cursor-pointer flex-col items-center justify-center rounded-[20px] border-2 border-dashed p-5 text-center transition-all ${isDragging
                   ? 'border-[#7A9601] bg-[#7A9601]/5 scale-[0.99]'
                   : 'border-[#CBD5E1] bg-white hover:bg-[#F9FAFB]'
-              }`}
+                }`}
             >
               {/* Green Upload Cloud Icon */}
               <div className="flex size-12 items-center justify-center rounded-full bg-[#7A9601] text-white shadow-xs mb-3">
@@ -239,8 +238,8 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
                       className="flex items-center justify-between gap-3 rounded-2xl border border-gray-200/80 bg-white p-3 shadow-2xs"
                     >
                       <div className="flex min-w-0 items-center gap-3">
-                        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-500">
-                          <FileText className="size-5 text-gray-500 stroke-[1.8]" />
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#F8F9FA] border border-gray-100 p-1 shadow-2xs">
+                          {getFileFormatIcon(file.name, 'size-6 object-contain')}
                         </div>
                         <div className="flex flex-col min-w-0">
                           <span className="truncate text-[13.5px] font-medium text-[#111827] leading-tight">
@@ -299,11 +298,10 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
               type="button"
               disabled={!isAnalysisComplete || !hasFiles}
               onClick={handleDone}
-              className={`px-6 py-2.5 text-[14px] font-semibold rounded-xl shadow-xs transition-all ${
-                isAnalysisComplete && hasFiles
+              className={`px-6 py-2.5 text-[14px] font-semibold rounded-xl shadow-xs transition-all ${isAnalysisComplete && hasFiles
                   ? 'bg-[#A3B84A] hover:bg-[#8EA338] active:bg-[#7B8F2B] text-white cursor-pointer'
                   : 'bg-[#CBD5E1] text-gray-400 cursor-not-allowed opacity-60'
-              }`}
+                }`}
             >
               Done
             </button>
@@ -315,7 +313,7 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
           <div
             role="dialog"
             aria-modal="true"
-            className="relative flex-1 max-w-[470px] rounded-[24px] bg-white p-7 sm:p-8 shadow-2xl border border-gray-100 flex flex-col justify-between animate-in fade-in zoom-in-95 duration-300"
+            className="relative flex-1 max-w-[470px] rounded-[24px] bg-white p-7 sm:p-8 shadow-2xl border border-gray-100 flex flex-col justify-between animate-in fade-in zoom-in-95 duration-300 h-fit"
           >
             {/* Top Right Close Button */}
             <button
@@ -333,7 +331,7 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
                 <h2 className="text-[20px] font-bold tracking-tight text-[#16171A] pr-6">
                   {analysisTitle}
                 </h2>
-                <p className="mt-1.5 text-[13.5px] text-[#64748B] font-normal leading-relaxed">
+                <p className="mt-1.5 text-[13.5px] text-[#64748B] font-normal leading-relaxed ">
                   {analysisSubtitle}
                 </p>
               </div>
@@ -347,7 +345,7 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
                   return (
                     <div
                       key={step.id}
-                      className="flex items-center justify-between transition-all"
+                      className="flex items-center justify-between transition-all gap-4"
                     >
                       {/* Left Icon & Label */}
                       <div className="flex items-center gap-3">
@@ -385,9 +383,8 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
 
                         {/* Step Name matching typography spec: Inter 400 14px 20px #1F2937 */}
                         <span
-                          className={`font-normal text-[14px] leading-[20px] tracking-[0px] ${
-                            isCompleted || isCurrent ? 'text-[#1F2937]' : 'text-[#9CA3AF]'
-                          }`}
+                          className={`font-normal text-[14px] leading-[20px] tracking-[0px] whitespace-nowrap ${isCompleted || isCurrent ? 'text-[#1F2937]' : 'text-[#9CA3AF]'
+                            }`}
                         >
                           {step.label}
                         </span>
@@ -397,16 +394,16 @@ export const UploadDataModal: React.FC<UploadDataModalProps> = ({
                       <div>
                         {isCompleted ? (
                           /* Completed result matching spec: Inter 400 12px 16px #9CA3AF */
-                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#9CA3AF]">
+                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#9CA3AF] whitespace-nowrap">
                             {step.result}
                           </span>
                         ) : isCurrent ? (
                           /* Analyzing text matching spec: Inter 400 12px 16px #6099F7 */
-                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#6099F7]">
+                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#6099F7] whitespace-nowrap">
                             Analyzing
                           </span>
                         ) : (
-                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#9CA3AF]/60">
+                          <span className="font-normal text-[12px] leading-[16px] tracking-[0px] text-[#9CA3AF]/60 whitespace-nowrap">
                             Analyzing
                           </span>
                         )}

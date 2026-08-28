@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Home,
   ChevronDown,
@@ -12,12 +12,17 @@ import {
   Calendar,
   Megaphone,
   Trash2,
-  X
+  X,
+  LogOut,
+  SlidersHorizontal,
+  User,
+  HelpCircle,
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import type { UserProfile } from '../Pages/DashboardSetup/types';
-import { getStoredUser } from '../lib/auth';
-import { setActiveWorkspaceId } from '../hooks/useWorkspace';
+import { getStoredUser, clearSession } from '../lib/auth';
+import { getActiveWorkspaceId, setActiveWorkspaceId } from '../hooks/useWorkspace';
 import { useProjects } from '../hooks/useProjects';
 
 interface SidebarProps {
@@ -33,7 +38,6 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({
   user,
-  projects,
   isOpen = false,
   onClose,
   onNewProject,
@@ -44,17 +48,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const [isProjectsOpen, setIsProjectsOpen] = useState(true);
-  const [isProject1Open, setIsProject1Open] = useState(true);
+  const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const storedUser = getStoredUser();
+
   const {
     projects: workspaces,
     create: createProject,
     rename: renameProject,
     remove: removeProject,
   } = useProjects();
-  // Inline rename, ChatGPT style: click the name, type, Enter to save.
+
+  // Inline rename: click/double-click the name, type, Enter to save.
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [draftName, setDraftName] = useState('');
+
   const resolvedUser: UserProfile = user ?? {
     name: storedUser?.full_name || storedUser?.email || 'Follei user',
     email: storedUser?.email || 'Free plan',
@@ -67,26 +77,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
       .toUpperCase(),
   };
 
-  // Real workspaces so each row carries its id -- needed to rename it and to
-  // switch the active project. `projects` (names only) stays supported for
-  // callers that still pass it.
-  const projectRows = workspaces.length
-    ? workspaces
-    : (projects ?? []).map((name, index) => ({ id: `local-${index}`, name }) as { id: string; name: string });
-
   const currentPath = location.pathname;
 
-  
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
+
   const getActiveNav = () => {
     if (activeItem) return activeItem;
+    if (currentPath === '/dashboard-setup' || currentPath === '/project' || currentPath === '/projects') return 'setup';
     if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
     if (currentPath.startsWith('/meet')) return 'meetings';
     if (currentPath.startsWith('/campaign')) return 'campaigns';
-    if (currentPath === '/home' || currentPath === '/dashboard-setup' || currentPath === '/') return 'home';
+    if (currentPath === '/home' || currentPath === '/') return 'home';
     return 'home';
   };
-
 
   const activeNav = getActiveNav();
 
@@ -95,8 +113,52 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (onClose) onClose();
   };
 
+  const isProjectExpanded = (projectId: string, index: number) => {
+    if (expandedProjects[projectId] !== undefined) {
+      return expandedProjects[projectId];
+    }
+    const activeId = getActiveWorkspaceId();
+    if (activeId) {
+      return projectId === activeId;
+    }
+    return index === 0;
+  };
+
+  const toggleProjectExpanded = (projectId: string, index: number) => {
+    setExpandedProjects((prev) => ({
+      ...prev,
+      [projectId]: !isProjectExpanded(projectId, index),
+    }));
+  };
+
+  const handleNewProject = () => {
+    if (onNewProject) {
+      onNewProject();
+      return;
+    }
+    createProject.mutate(undefined, {
+      onSuccess: (workspace) => {
+        setActiveWorkspaceId(workspace.id);
+        navTo('/dashboard-setup');
+      },
+      onError: () => {
+        navTo('/dashboard-setup');
+      },
+    });
+  };
+
+  const handleConfirmLogout = () => {
+    clearSession();
+    setIsLogoutModalOpen(false);
+    setIsUserMenuOpen(false);
+    toast.success('Logged out successfully');
+    navigate('/login');
+  };
+
+  const hasProjects = workspaces && workspaces.length > 0;
+
   const content = (
-    <div className="flex h-full w-60 flex-col justify-between border-r border-[#EBEBE8] bg-[#F9F9F7] px-3.5 py-4 font-sans select-none">
+    <div className="flex h-full w-60 flex-col justify-between border-r border-[#EBEBE8] bg-[#F9F9F7] px-3.5 py-4 font-sans select-none relative">
       {/* Top Header & Navigation */}
       <div className="flex flex-col gap-4">
         {/* Brand Logo Header */}
@@ -125,11 +187,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Home Link */}
           <button
             type="button"
-
             onClick={() => navTo('/home')}
             className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
               activeNav === 'home'
-
                 ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                 : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
             }`}
@@ -151,163 +211,172 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             {isProjectsOpen && (
               <div className="flex flex-col gap-0.5 pl-4 pr-1 mt-0.5">
-                {/* Project 1 Collapsible */}
-                <div className="flex flex-col">
-                  {renamingId === (projectRows[0]?.id ?? '') ? (
-                    <input
-                      autoFocus
-                      value={draftName}
-                      onChange={(e) => setDraftName(e.target.value)}
-                      onBlur={() => setRenamingId(null)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && draftName.trim() && projectRows[0]) {
-                          renameProject.mutate({ workspaceId: projectRows[0].id, name: draftName.trim() });
-                          setRenamingId(null);
-                        }
-                        if (e.key === 'Escape') setRenamingId(null);
-                      }}
-                      className="mx-2 my-1 rounded-md border border-[#D1D5DB] px-2 py-1 text-[13px] text-[#16171A] outline-none focus:border-[#94A3B8]"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setIsProject1Open((prev) => !prev)}
-                      onDoubleClick={() => {
-                        if (!projectRows[0] || projectRows[0].id.startsWith('local-')) return;
-                        setDraftName(projectRows[0].name);
-                        setRenamingId(projectRows[0].id);
-                      }}
-                      title="Double-click to rename"
-                      className="group flex flex-1 items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
-                    >
-                      {isProject1Open ? (
-                        <ChevronDown className="size-3 text-[#717378]" />
-                      ) : (
-                        <ChevronRight className="size-3 text-[#717378]" />
-                      )}
-                      <span className="flex-1 truncate text-left">
-                        {projectRows[0]?.name || 'New project'}
-                      </span>
-                      {projectRows[0] && !projectRows[0].id.startsWith('local-') && (
-                        <span
-                          role="button"
-                          tabIndex={0}
-                          aria-label="Delete project"
-                          title="Delete project"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            const name = projectRows[0].name;
-                            // Deleting takes the leads, documents, goal and
-                            // pitch with it and cannot be undone.
-                            if (!window.confirm(`Delete "${name}" and everything in it? This cannot be undone.`)) return;
-                            removeProject.mutate(projectRows[0].id);
-                          }}
-                          onKeyDown={(event) => {
-                            if (event.key === 'Enter') event.currentTarget.click();
-                          }}
-                          className="opacity-0 transition-opacity group-hover:opacity-100"
-                        >
-                          <Trash2 className="size-3.5 text-[#717378] hover:text-red-600" />
-                        </span>
-                      )}
-                    </button>
-                  )}
+                {hasProjects ? (
+                  workspaces.map((project, index) => {
+                    const isExpanded = isProjectExpanded(project.id, index);
+                    const isProjectActive = getActiveWorkspaceId() === project.id || workspaces.length === 1;
 
-                  {isProject1Open && (
-                    <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
-                      <button
-                        type="button"
-                        onClick={() => navTo('/project')}
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          currentPath.startsWith('/project')
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
-                      >
-                        <Settings className={`size-3.5 ${currentPath.startsWith('/project') ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Setup</span>
-                      </button>
+                    return (
+                      <div key={project.id} className="flex flex-col">
+                        {renamingId === project.id ? (
+                          <input
+                            autoFocus
+                            value={draftName}
+                            onChange={(e) => setDraftName(e.target.value)}
+                            onBlur={() => setRenamingId(null)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && draftName.trim()) {
+                                renameProject.mutate({ workspaceId: project.id, name: draftName.trim() });
+                                setRenamingId(null);
+                              }
+                              if (e.key === 'Escape') setRenamingId(null);
+                            }}
+                            className="mx-2 my-1 rounded-md border border-[#D1D5DB] px-2 py-1 text-[13px] text-[#16171A] outline-none focus:border-[#94A3B8]"
+                          />
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => toggleProjectExpanded(project.id, index)}
+                            onDoubleClick={() => {
+                              setDraftName(project.name);
+                              setRenamingId(project.id);
+                            }}
+                            title="Double-click to rename"
+                            className="group flex flex-1 items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer w-full text-left"
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="size-3 text-[#717378] shrink-0" />
+                            ) : (
+                              <ChevronRight className="size-3 text-[#717378] shrink-0" />
+                            )}
+                            <span className="flex-1 truncate text-left">
+                              {project.name || 'Untitled project'}
+                            </span>
+                            <span
+                              role="button"
+                              tabIndex={0}
+                              aria-label="Delete project"
+                              title="Delete project"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                const name = project.name;
+                                if (!window.confirm(`Delete "${name}" and everything in it? This cannot be undone.`)) return;
+                                removeProject.mutate(project.id);
+                              }}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                  event.stopPropagation();
+                                  event.currentTarget.click();
+                                }
+                              }}
+                              className="opacity-0 transition-opacity group-hover:opacity-100 p-0.5"
+                            >
+                              <Trash2 className="size-3.5 text-[#717378] hover:text-red-600" />
+                            </span>
+                          </button>
+                        )}
 
-                      <button
-                        type="button"
-                        onClick={() => navTo('/dashboard')}
+                        {isExpanded && (
+                          <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
+                            {/* Setup */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/dashboard-setup');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                (activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <Settings className={`size-3.5 ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Setup</span>
+                            </button>
 
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'dashboard'
+                            {/* Dashboard */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/dashboard');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                (activeNav === 'dashboard' || currentPath === '/dashboard' || currentPath === '/main-dashboard') && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <LayoutDashboard className={`size-3.5 ${(activeNav === 'dashboard' || currentPath === '/dashboard' || currentPath === '/main-dashboard') && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Dashboard</span>
+                            </button>
 
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                          }`}
-                      >
-                        <LayoutDashboard className={`size-3.5 ${activeNav === 'dashboard' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Dashboard</span>
-                      </button>
+                            {/* Leads */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/leads');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                (activeNav === 'leads' || currentPath.startsWith('/lead')) && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <Users className={`size-3.5 ${(activeNav === 'leads' || currentPath.startsWith('/lead')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Leads</span>
+                            </button>
 
-                      <button
-                        type="button"
-                        onClick={() => navTo('/leads')}
+                            {/* Meetings */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/meeting');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                (activeNav === 'meetings' || currentPath.startsWith('/meet')) && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <Calendar className={`size-3.5 ${(activeNav === 'meetings' || currentPath.startsWith('/meet')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Meetings</span>
+                            </button>
 
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'leads'
-
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                          }`}
-                      >
-                        <Users className={`size-3.5 ${activeNav === 'leads' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Leads</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => navTo('/meeting')}
-
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'meetings'
-
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                          }`}
-                      >
-                        <Calendar className={`size-3.5 ${activeNav === 'meetings' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Meetings</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => navTo('/campaigns')}
-                        className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                          activeNav === 'campaigns'
-                            ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                            : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                        }`}
-                      >
-                        <Megaphone className={`size-3.5 ${activeNav === 'campaigns' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                        <span>Campaigns</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
+                            {/* Campaigns */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/campaigns');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                (activeNav === 'campaigns' || currentPath.startsWith('/campaign')) && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <Megaphone className={`size-3.5 ${(activeNav === 'campaigns' || currentPath.startsWith('/campaign')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Campaigns</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="px-2 py-1.5 text-[13px] text-[#9CA3AF] font-normal select-none">
+                    No project
+                  </div>
+                )}
 
                 {/* + New Project Action */}
                 <button
                   type="button"
-                  onClick={() => {
-                    if (onNewProject) {
-                      onNewProject();
-                      return;
-                    }
-                    // Create the workspace, make it active, and start it at
-                    // onboarding -- a new project has no business data, leads or
-                    // goal yet, so dropping the user on /home would skip the
-                    // steps that produce them.
-                    createProject.mutate(undefined, {
-                      onSuccess: (workspace) => {
-                        setActiveWorkspaceId(workspace.id);
-                        navTo('/dashboard-setup');
-                      },
-                    });
-                  }}
+                  onClick={handleNewProject}
                   disabled={createProject.isPending}
                   className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
                 >
@@ -327,12 +396,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => {
               onAskFollei?.();
             }}
-
-            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'ask-follei'
-
+            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
+              activeNav === 'ask-follei'
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
-              }`}
+            }`}
           >
             <Sparkles className="size-4 text-[#717378]" />
             <span>Ask Follei</span>
@@ -341,26 +409,141 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Settings & User Profile */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 relative" ref={userMenuRef}>
+        {/* User Popover / Dropdown Menu */}
+        {isUserMenuOpen && (
+          <div className="absolute bottom-[calc(100%+8px)] left-0 w-full rounded-2xl border border-[#EBEBE8] bg-white p-1.5 shadow-xl z-50 animate-in fade-in slide-in-from-bottom-2 duration-150 font-sans">
+            {/* Top User Row */}
+            <div
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                onOpenSettings?.();
+              }}
+              className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
+                {resolvedUser.initials || resolvedUser.name.charAt(0) || 'F'}
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col">
+                <span className="truncate text-[13px] font-semibold text-[#16171A] leading-tight">
+                  {resolvedUser.name}
+                </span>
+                <span className="truncate text-[11px] text-[#717378] leading-tight mt-0.5">
+                  {resolvedUser.email === 'Free plan' ? 'Free plan' : (resolvedUser.email || 'Free plan')}
+                </span>
+              </div>
+              <ChevronRight className="size-3.5 text-[#717378] shrink-0" />
+            </div>
+
+            <div className="border-t border-[#EBEBE8] my-1" />
+
+            {/* Menu Items */}
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                toast('Pro plans coming soon!', { icon: '✨' });
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <Sparkles className="size-4 text-[#717378]" />
+              <span>Upgrade plan</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                toast('Personalization settings coming soon', { icon: '⚙️' });
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <SlidersHorizontal className="size-4 text-[#717378]" />
+              <span>Personalization</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                if (onOpenSettings) onOpenSettings();
+                else navTo('/project');
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <User className="size-4 text-[#717378]" />
+              <span>Profile</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                if (onOpenSettings) onOpenSettings();
+                else navTo('/project');
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <Settings className="size-4 text-[#717378]" />
+              <span>Settings</span>
+            </button>
+
+            <div className="border-t border-[#EBEBE8] my-1" />
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                toast('Need help? Contact support@follei.com', { icon: '💡' });
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+            >
+              <HelpCircle className="size-4 text-[#717378]" />
+              <span className="flex-1 text-left">Help</span>
+              <ChevronRight className="size-3.5 text-[#717378]" />
+            </button>
+
+            {/* Logout Trigger Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setIsUserMenuOpen(false);
+                setIsLogoutModalOpen(true);
+              }}
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#DC2626] hover:bg-red-50 transition-colors cursor-pointer"
+            >
+              <LogOut className="size-4 text-[#DC2626]" />
+              <span>Log out</span>
+            </button>
+          </div>
+        )}
+
         {/* Settings button */}
-        <button
+        {/* <button
           type="button"
           onClick={() => {
             onOpenSettings?.();
           }}
-
-          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${activeNav === 'settings'
-
+          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
+            activeNav === 'settings'
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
-            }`}
+          }`}
         >
           <Settings className="size-4 text-[#717378]" />
           <span>Settings</span>
-        </button>
+        </button> */}
 
-        {/* User Card Pill */}
-        <div className="flex items-center gap-3 rounded-2xl border border-[#EBEBE8] bg-[#F4F4F0]/60 p-2.5 hover:bg-[#EFEFEA] transition-colors cursor-pointer">
+        {/* User Card Pill (Click to toggle menu) */}
+        <button
+          type="button"
+          onClick={() => setIsUserMenuOpen((prev) => !prev)}
+          className={`flex w-full items-center gap-3 rounded-2xl border p-2.5 transition-all cursor-pointer text-left ${
+            isUserMenuOpen
+              ? 'border-[#16171A]/20 bg-[#EFEFEA] shadow-xs'
+              : 'border-[#EBEBE8] bg-[#F4F4F0]/60 hover:bg-[#EFEFEA]'
+          }`}
+        >
           <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
             {resolvedUser.initials || resolvedUser.name.charAt(0) || 'F'}
           </div>
@@ -372,8 +555,59 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {resolvedUser.email === 'Free plan' ? 'Free plan' : (resolvedUser.email || 'Free plan')}
             </span>
           </div>
-        </div>
+          <ChevronRight className={`size-3.5 text-[#717378] transition-transform duration-200 ${isUserMenuOpen ? '-rotate-90' : ''}`} />
+        </button>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
+            onClick={() => setIsLogoutModalOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-[360px] rounded-[24px] bg-white border border-[#EBEBE8] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex flex-col items-center text-center">
+              <h3 className="text-[18px] font-semibold text-[#16171A] tracking-tight mb-5">
+                Are you sure you want to log out?
+              </h3>
+
+              {/* User Card Box */}
+              <div className="w-full flex items-center gap-3 rounded-2xl border border-[#EBEBE8] bg-[#F9F9F7] p-3 mb-6 text-left">
+                <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[13px] font-semibold text-[#16171A]">
+                  {resolvedUser.initials || resolvedUser.name.charAt(0) || 'F'}
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="truncate text-[13.5px] font-semibold text-[#16171A] leading-tight">
+                    {resolvedUser.name}
+                  </span>
+                  <span className="truncate text-[12px] text-[#717378] leading-tight mt-0.5">
+                    {resolvedUser.email}
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="w-full flex flex-col gap-2.5">
+                <button
+                  type="button"
+                  onClick={handleConfirmLogout}
+                  className="w-full rounded-full bg-[#16171A] hover:bg-black text-white font-medium py-3 text-[14px] transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                >
+                  Log out
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsLogoutModalOpen(false)}
+                  className="w-full rounded-full border border-[#EBEBE8] bg-[#F4F4F0] hover:bg-[#EAEAE5] text-[#16171A] font-medium py-3 text-[14px] transition-all cursor-pointer active:scale-[0.98]"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 

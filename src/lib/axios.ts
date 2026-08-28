@@ -47,6 +47,29 @@ export const errorMessage = (error: unknown, fallback = 'Something went wrong'):
       return field ? `${field}: ${first.msg}` : first.msg;
     }
   }
+  const message = error.response?.data?.message;
+  if (typeof message === 'string') return message;
+
+  const status = error.response?.status;
+  if (status === 502 || status === 503) {
+    return 'Backend server is unreachable (502 Bad Gateway). Please make sure the backend server is running.';
+  }
+  if (status === 504) {
+    return 'Server gateway timed out (504). Please try again in a moment.';
+  }
+  if (status === 500) {
+    return 'Internal server error (500). Please try again later.';
+  }
+  if (status === 401) {
+    return 'Invalid email or password. Please check your credentials.';
+  }
+  if (status === 403) {
+    return 'Access forbidden. You do not have permission.';
+  }
+  if (status === 409) {
+    return 'An account with this email already exists.';
+  }
+
   if (error.code === 'ECONNABORTED') return 'The request timed out. The server may still be working.';
   if (!error.response) return 'Could not reach the server. Is the backend running?';
   return error.message || fallback;

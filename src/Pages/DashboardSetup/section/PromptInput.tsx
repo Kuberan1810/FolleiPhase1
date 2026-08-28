@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Plus, ArrowUp, FileText, X } from 'lucide-react';
+import { Plus, ArrowUp, X } from 'lucide-react';
+import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 
 interface PromptInputProps {
   value: string;
@@ -76,8 +77,10 @@ export const PromptInput: React.FC<PromptInputProps> = ({
 
       {/* Attached File Preview Badge */}
       {attachedFile && (
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-0.5 text-[12px] font-medium shadow-2xs mb-2 self-start">
-          <FileText className="size-3 text-[#64748B]" />
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
+          <div className="flex size-4 shrink-0 items-center justify-center">
+            {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
+          </div>
           <span className="max-w-[180px] truncate">{attachedFile.name}</span>
           <button
             type="button"

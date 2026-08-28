@@ -45,7 +45,7 @@ export const SetupStepList: React.FC<SetupStepListProps> = ({
               ) : isSkipped ? (
                 <span className="size-2 rounded-full border border-[#D7D7D4]" />
               ) : isActive ? (
-                <span className="size-2 rounded-full bg-[#0D9488]" />
+                <span className="size-2 rounded-full bg-[#16171A]" />
               ) : (
                 <span className="size-2 rounded-full border border-[#D7D7D4]" />
               )}

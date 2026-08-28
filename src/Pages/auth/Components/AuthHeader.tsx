@@ -14,9 +14,9 @@ export const AuthHeader: React.FC<AuthHeaderProps> = ({
       <h1 className="text-3xl sm:text-[32px] font-semibold text-[#191C1E] tracking-tight">
         {title}
       </h1>
-      <p className="mt-2 text-sm text-[#444748] font-normal">
+      {/* <p className="mt-2 text-sm text-[#444748] font-normal">
         {subtitle}
-      </p>
+      </p> */}
     </div>
   );
 };

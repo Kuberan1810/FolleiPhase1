@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowUp, X, Check, Loader2, Plus, FileText } from 'lucide-react';
+import { ArrowUp, X, Check, Loader2, Plus } from 'lucide-react';
+import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 import { useGoalConversation } from '../../../hooks/useGoalConversation';
 import { useSalesPackageFlow } from '../../../hooks/useSalesPackageFlow';
 import SalesPackageReview from './SalesPackageReview';
@@ -201,7 +202,9 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 
                   {attachedFile && (
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3.5 py-1 text-[12.5px] font-medium shadow-2xs">
-                      <FileText className="size-3.5 text-[#64748B]" />
+                      <div className="flex size-4 shrink-0 items-center justify-center">
+                        {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
+                      </div>
                       <span className="max-w-[180px] truncate">{attachedFile.name}</span>
                       <button
                         type="button"
@@ -252,11 +255,10 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   type="submit"
                   aria-label="Submit Goal"
                   disabled={!canSubmit || isSubmitting}
-                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
-                    canSubmit && !isSubmitting
+                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${canSubmit && !isSubmitting
                       ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
                       : 'bg-[#F3F4F6] text-[#6B7280]'
-                  }`}
+                    }`}
                 >
                   {isSubmitting ? (
                     <Loader2 className="size-4 animate-spin text-white" />
@@ -396,8 +398,10 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               />
 
               {compactFile && (
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-0.5 text-[12px] font-medium shadow-2xs mb-2 self-start">
-                  <FileText className="size-3 text-[#64748B]" />
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
+                  <div className="flex size-4 shrink-0 items-center justify-center">
+                    {getFileFormatIcon(compactFile.name, 'size-3.5 object-contain')}
+                  </div>
                   <span className="max-w-[180px] truncate">{compactFile.name}</span>
                   <button
                     type="button"

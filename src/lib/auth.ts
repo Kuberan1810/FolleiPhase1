@@ -24,7 +24,10 @@ export interface TokenPair {
   user: AuthUser;
 }
 
-export const getAccessToken = (): string | null => localStorage.getItem(ACCESS_TOKEN_KEY);
+export const getAccessToken = (): string | null =>
+  localStorage.getItem(ACCESS_TOKEN_KEY) ||
+  localStorage.getItem('token') ||
+  localStorage.getItem('access_token');
 export const getRefreshToken = (): string | null => localStorage.getItem(REFRESH_TOKEN_KEY);
 
 export const getStoredUser = (): AuthUser | null => {
@@ -50,6 +53,10 @@ export const clearSession = (): void => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  localStorage.removeItem('token');
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('follei.active_workspace');
+  localStorage.removeItem('follei.company_name');
 };
 
 export const isAuthenticated = (): boolean => Boolean(getAccessToken());

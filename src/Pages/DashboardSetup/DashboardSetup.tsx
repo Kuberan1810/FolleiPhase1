@@ -90,10 +90,9 @@ export const DashboardSetup: React.FC = () => {
       {/* Reusable Left Sidebar */}
       <Sidebar
         user={user}
-        projects={[]}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="home"
+        activeItem="setup"
       />
 
       {/* Main Center & Right Content Area */}

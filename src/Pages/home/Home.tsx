@@ -41,7 +41,6 @@ export const Home: React.FC = () => {
       {/* Reusable Left Sidebar */}
       <Sidebar
         user={user}
-        projects={workspace ? [workspace.name] : []}
         isOpen={isMobileSidebarOpen}
         onClose={() => setIsMobileSidebarOpen(false)}
         activeItem="home"

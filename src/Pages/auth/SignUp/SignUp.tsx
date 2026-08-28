@@ -11,6 +11,7 @@ import { errorMessage } from '../../../lib/axios';
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSignUp = async (formData: {
     firstName: string;
@@ -20,6 +21,7 @@ export const SignUp: React.FC = () => {
     password: string;
   }) => {
     setIsLoading(true);
+    setApiError(null);
     try {
       await register({
         email: formData.workEmail,
@@ -32,7 +34,9 @@ export const SignUp: React.FC = () => {
       toast.success(`Account created for ${formData.firstName}`);
       navigate('/dashboard-setup');
     } catch (error) {
-      toast.error(errorMessage(error, 'Could not create your account'));
+      const msg = errorMessage(error, 'Could not create your account');
+      setApiError(msg);
+      // toast.error(msg);
     } finally {
       setIsLoading(false);
     }
@@ -40,16 +44,19 @@ export const SignUp: React.FC = () => {
 
   const handleGoogleSignUp = async () => {
     setIsLoading(true);
+    setApiError(null);
     try {
       window.location.assign(await getGoogleAuthorizationUrl());
     } catch (error) {
       setIsLoading(false);
-      toast.error(errorMessage(error, 'Google sign-up is unavailable'));
+      const msg = errorMessage(error, 'Google sign-up is unavailable');
+      setApiError(msg);
+      // toast.error(msg);
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-4 sm:p-6 font-inter">
+    <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-4 md:p-16 font-inter">
       <div className="w-full max-w-[420px] flex flex-col items-center">
         {/* Header Title & Subtitle */}
         <AuthHeader
@@ -62,6 +69,8 @@ export const SignUp: React.FC = () => {
           onSubmit={handleSignUp}
           onGoogleSignUp={handleGoogleSignUp}
           isLoading={isLoading}
+          apiError={apiError}
+          onClearApiError={() => setApiError(null)}
         />
 
         {/* Footer Link to Sign In */}

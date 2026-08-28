@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { AlertCircle, X } from 'lucide-react';
 import { Input } from '../../Components/Input';
 import { Checkbox } from './Checkbox';
 
@@ -29,6 +30,8 @@ interface SignInFormProps {
   onGoogleSignIn?: () => void;
   onForgotPassword?: () => void;
   isLoading?: boolean;
+  apiError?: string | null;
+  onClearApiError?: () => void;
 }
 
 export const SignInForm: React.FC<SignInFormProps> = ({
@@ -36,6 +39,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   onGoogleSignIn,
   onForgotPassword,
   isLoading = false,
+  apiError,
+  onClearApiError,
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,7 +74,25 @@ export const SignInForm: React.FC<SignInFormProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-[#C4C7C7]/30  p-8 sm:p-8 w-full">
+    <div className="bg-white rounded-lg border border-[#C4C7C7]/30 p-8 sm:p-8 w-full">
+      {/* Inline API / Server Error Alert */}
+      {apiError && (
+        <div className="mb-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50/90 p-3.5 text-xs text-red-800 transition-all duration-200">
+          <AlertCircle className="size-4 shrink-0 text-red-600 mt-0.5" />
+          <div className="flex-1 leading-relaxed font-medium">{apiError}</div>
+          {onClearApiError && (
+            <button
+              type="button"
+              onClick={onClearApiError}
+              className="text-red-400 hover:text-red-700 transition-colors cursor-pointer focus:outline-none p-0.5"
+              aria-label="Dismiss error"
+            >
+              <X className="size-3.5" />
+            </button>
+          )}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Input */}
         <Input
@@ -79,6 +102,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           onChange={(e) => {
             setEmail(e.target.value);
             if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+            if (onClearApiError) onClearApiError();
           }}
           error={errors.email}
           required
@@ -92,6 +116,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           onChange={(e) => {
             setPassword(e.target.value);
             if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+            if (onClearApiError) onClearApiError();
           }}
           error={errors.password}
           required
