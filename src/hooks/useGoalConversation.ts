@@ -25,25 +25,30 @@ export const useGoalConversation = (workspaceId: string | undefined) => {
 
   useEffect(() => {
     if (!workspaceId) {
-      setIsLoading(false);
       return;
     }
+    setIsLoading(true);
     let cancelled = false;
     (async () => {
       // Suggestions are generated from the workspace's own documents, so they
       // are only meaningful once ingestion has produced something.
-      const [history, suggested] = await Promise.all([
-        listGoalMessages(workspaceId).catch(() => [] as GoalTurn[]),
-        getGoalSuggestions(workspaceId)
-          .then((r) => r.suggestions)
-          .catch(() => [] as string[]),
-      ]);
-      if (cancelled) return;
-      setTurns(history);
-      setSuggestions(suggested);
-      const lastAssistant = [...history].reverse().find((t) => t.role === 'ASSISTANT');
-      if (lastAssistant) setUnderstanding(lastAssistant.message);
-      setIsLoading(false);
+      try {
+        const [history, suggested] = await Promise.all([
+          listGoalMessages(workspaceId).catch(() => [] as GoalTurn[]),
+          getGoalSuggestions(workspaceId)
+            .then((r) => r.suggestions)
+            .catch(() => [] as string[]),
+        ]);
+        if (cancelled) return;
+        setTurns(history);
+        setSuggestions(suggested);
+        const lastAssistant = [...history].reverse().find((t) => t.role === 'ASSISTANT');
+        if (lastAssistant) setUnderstanding(lastAssistant.message);
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
     })();
     return () => {
       cancelled = true;

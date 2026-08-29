@@ -501,6 +501,7 @@ export const useDashboardState = () => {
     business: setup.business,
     documents: setup.documents,
     isCreatingWorkspace: setup.isCreatingWorkspace,
+    isBootstrapping: setup.isBootstrapping,
     handleSkipStep,
     handleStartUsing,
   };

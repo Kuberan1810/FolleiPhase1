@@ -5,16 +5,6 @@ import { useGoalConversation } from '../../../hooks/useGoalConversation';
 import { useSalesPackageFlow } from '../../../hooks/useSalesPackageFlow';
 import SalesPackageReview from './SalesPackageReview';
 
-// Fallback only. Real suggestions come from the workspace's own documents;
-// these show when ingestion has not produced anything yet.
-const ALL_GOALS = [
-  'Increase Student Enrollment',
-  'Boost Student Engagement',
-  'Increase Placement Success',
-  'Convert more enquiries into admissions',
-  'Re-engage inactive leads',
-];
-
 interface GoalDefinitionProps {
   userName?: string;
   workspaceId: string | undefined;
@@ -28,9 +18,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 }) => {
   const goal = useGoalConversation(workspaceId);
   const pkg = useSalesPackageFlow(workspaceId);
-  // Suggestions are generated from this workspace's documents; fall back to
-  // the generic list only when there are none.
-  const goalOptions = goal.suggestions.length ? goal.suggestions : ALL_GOALS;
+  const goalOptions = goal.suggestions;
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
@@ -289,20 +277,32 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               </div>
             )}
 
-            {/* Suggested Goals (Chips) */}
+            {/* Suggested Goals (Chips) / Skeleton Loading */}
             {!isSubmitting && (
-              <div className="flex flex-wrap gap-2 pt-1">
-                {goalOptions.map((goal) => (
-                  <button
-                    key={goal}
-                    type="button"
-                    onClick={() => appendSuggestion(goal)}
-                    className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
-                  >
-                    {goal}
-                  </button>
-                ))}
-              </div>
+              goal.isLoading ? (
+                <div className="flex flex-wrap items-center gap-2 pt-1 animate-pulse" aria-label="Loading goal suggestions">
+                  <div className="h-[34px] w-64 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                  <div className="h-[34px] w-48 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                  <div className="h-[34px] w-72 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                  <div className="h-[34px] w-56 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                  <div className="h-[34px] w-44 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                </div>
+              ) : (
+                goalOptions.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1 animate-fade-slide">
+                    {goalOptions.map((goalItem) => (
+                      <button
+                        key={goalItem}
+                        type="button"
+                        onClick={() => appendSuggestion(goalItem)}
+                        className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
+                      >
+                        {goalItem}
+                      </button>
+                    ))}
+                  </div>
+                )
+              )
             )}
           </div>
         ) : (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { useSetupProgress } from '../hooks/useSetupProgress';
 
 const STEP_LABELS: Record<string, string> = {
@@ -59,10 +59,10 @@ export const PersistentSetupPanel: React.FC = () => {
       <button
         type="button"
         onClick={() => navigate(route)}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-black"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-black cursor-pointer"
       >
         <span>Continue setup</span>
-        <ArrowRight className="size-3.5" />
+        {/* <ArrowRight className="size-3.5" /> */}
       </button>
     </div>
   );

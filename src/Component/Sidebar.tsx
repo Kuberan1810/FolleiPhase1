@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Home,
   ChevronDown,
@@ -56,6 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const {
     projects: workspaces,
+    isLoading: isWorkspacesLoading,
     create: createProject,
     rename: renameProject,
     remove: removeProject,
@@ -211,7 +213,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             {isProjectsOpen && (
               <div className="flex flex-col gap-0.5 pl-4 pr-1 mt-0.5">
-                {hasProjects ? (
+                {isWorkspacesLoading ? (
+                  <div className="flex flex-col gap-2 py-1.5 animate-pulse" aria-label="Loading workspaces">
+                    <div className="flex items-center gap-2 px-2 py-1">
+                      <div className="size-3 rounded-full bg-[#E5E7EB]" />
+                      <div className="h-3.5 w-28 rounded-md bg-[#E5E7EB]" />
+                    </div>
+                    <div className="flex flex-col gap-2 pl-5">
+                      <div className="h-3 w-20 rounded bg-[#F1F3F5]" />
+                      <div className="h-3 w-24 rounded bg-[#F1F3F5]" />
+                      <div className="h-3 w-16 rounded bg-[#F1F3F5]" />
+                    </div>
+                  </div>
+                ) : hasProjects ? (
                   workspaces.map((project, index) => {
                     const isExpanded = isProjectExpanded(project.id, index);
                     const isProjectActive = getActiveWorkspaceId() === project.id || workspaces.length === 1;
@@ -249,7 +263,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             ) : (
                               <ChevronRight className="size-3 text-[#717378] shrink-0" />
                             )}
-                            <span className="flex-1 truncate text-left">
+                            <span className="flex-1 truncate text-left capitalize">
                               {project.name || 'Untitled project'}
                             </span>
                             <span
@@ -278,22 +292,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                         {isExpanded && (
                           <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
-                            {/* Setup */}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/dashboard-setup');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                (activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive
-                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                              }`}
-                            >
-                              <Settings className={`size-3.5 ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                              <span>Setup</span>
-                            </button>
+                           
 
                             {/* Dashboard */}
                             <button
@@ -361,6 +360,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             >
                               <Megaphone className={`size-3.5 ${(activeNav === 'campaigns' || currentPath.startsWith('/campaign')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Campaigns</span>
+                            </button>
+
+                            {/* Setup */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/dashboard-setup');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                                }`}
+                            >
+                              <Settings className={`size-3.5 ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Setup</span>
                             </button>
                           </div>
                         )}
@@ -558,12 +573,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <ChevronRight className={`size-3.5 text-[#717378] transition-transform duration-200 ${isUserMenuOpen ? '-rotate-90' : ''}`} />
         </button>
       </div>
+    </div>
+  );
 
-      {/* Logout Confirmation Modal */}
-      {isLogoutModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex h-screen shrink-0 sticky top-0">
+        {content}
+      </aside>
+
+      {/* Mobile Drawer Backdrop & Sidebar */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex lg:hidden">
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
+            className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
+            onClick={onClose}
+          />
+          <div className="relative z-10 h-full shadow-2xl animate-in slide-in-from-left duration-200">
+            {content}
+          </div>
+        </div>
+      )}
+
+      {/* Logout Confirmation Modal rendered into document.body to stay above all elements */}
+      {isLogoutModalOpen && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
             onClick={() => setIsLogoutModalOpen(false)}
           />
           <div className="relative z-10 w-full max-w-[360px] rounded-[24px] bg-white border border-[#EBEBE8] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
@@ -606,29 +643,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-
-  return (
-    <>
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex h-screen shrink-0 sticky top-0">
-        {content}
-      </aside>
-
-      {/* Mobile Drawer Backdrop & Sidebar */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex lg:hidden">
-          <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
-            onClick={onClose}
-          />
-          <div className="relative z-10 h-full shadow-2xl animate-in slide-in-from-left duration-200">
-            {content}
-          </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

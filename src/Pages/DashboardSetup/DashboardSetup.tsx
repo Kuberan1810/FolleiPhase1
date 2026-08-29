@@ -76,6 +76,7 @@ export const DashboardSetup: React.FC = () => {
     ingestion,
     analysis,
     isAnalysing,
+    isBootstrapping,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
@@ -140,8 +141,34 @@ export const DashboardSetup: React.FC = () => {
                 placeholder="Tell Follei about your business..."
               />
 
-              {/* Workspace Context Cards or Empty State */}
-              {workspaceItems.length > 0 ? (
+              {/* Workspace Context Cards or Empty State / Skeleton Loading */}
+              {isBootstrapping ? (
+                <div className="flex flex-col gap-3 animate-fade-slide">
+                  <div className="h-3.5 w-24 rounded-full bg-[#E5E7EB] animate-pulse" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="h-[96px] rounded-[20px] border border-[#E6E6E4] bg-white p-4 animate-pulse flex flex-col justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="size-3.5 rounded-full bg-[#E5E7EB]" />
+                        <div className="h-3 w-20 rounded bg-[#E5E7EB]" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="h-3.5 w-28 rounded bg-[#E5E7EB]" />
+                        <div className="h-3 w-40 rounded bg-[#F1F3F5]" />
+                      </div>
+                    </div>
+                    <div className="h-[96px] rounded-[20px] border border-[#E6E6E4] bg-white p-4 animate-pulse flex flex-col justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="size-3.5 rounded-full bg-[#E5E7EB]" />
+                        <div className="h-3 w-20 rounded bg-[#E5E7EB]" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="h-3.5 w-24 rounded bg-[#E5E7EB]" />
+                        <div className="h-3 w-36 rounded bg-[#F1F3F5]" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : workspaceItems.length > 0 ? (
                 <DashboardWorkspaceSection items={workspaceItems} />
               ) : (
                 <DashboardEmptyState />
