@@ -189,15 +189,31 @@ export const useDashboardState = () => {
     } else if (stepId === 'business-data') {
       contextTitle = 'BUSINESS DATA';
       contextType = 'data';
-      statusValue = 'Importing...';
-      isItemLoading = true;
-      setIsImportingBusinessData(true);
+      const isLater = stepValue === "I'll do this later" || stepValue === 'later' || stepValue === 'Skipped';
+      if (isLater) {
+        statusValue = 'None';
+        displayValue = 'No data';
+        isItemLoading = false;
+        setIsImportingBusinessData(false);
+      } else {
+        statusValue = 'Importing...';
+        isItemLoading = true;
+        setIsImportingBusinessData(true);
+      }
     } else if (stepId === 'leads') {
       contextTitle = 'LEADS';
       contextType = 'customer';
-      statusValue = 'Importing...';
-      isItemLoading = true;
-      setIsImportingLeads(true);
+      const isLater = stepValue === "I'll add them later" || stepValue === 'later' || stepValue === 'Skipped';
+      if (isLater) {
+        statusValue = 'None';
+        displayValue = 'No data';
+        isItemLoading = false;
+        setIsImportingLeads(false);
+      } else {
+        statusValue = 'Importing...';
+        isItemLoading = true;
+        setIsImportingLeads(true);
+      }
     }
 
     setWorkspaceItems((prev) => {
@@ -252,6 +268,8 @@ export const useDashboardState = () => {
       });
     } else if (stepId === 'leads') {
       setIsImportingLeads(false);
+      setSteps((prev) => prev.map((s) => ({ ...s, status: 'completed' })));
+      setIsComplete(true);
     }
 
     // 2. Mark current step as completed & advance to next step
