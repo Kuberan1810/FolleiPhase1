@@ -11,6 +11,16 @@ interface GoalDefinitionProps {
   onProjectReady: () => void;
 }
 
+const WORKING_DESCRIPTIONS = [
+  'Understanding your goal...',
+  'Analyzing your business context...',
+  'Identifying target customer segments...',
+  'Aligning offerings and value proposition...',
+  'Structuring workspace requirements...',
+  'Tailoring sales workflows...',
+  'Finalizing goal recommendations...',
+];
+
 export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   userName = 'Aditya',
   workspaceId,
@@ -23,10 +33,22 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      setLoadingTextIndex(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setLoadingTextIndex((prev) => (prev + 1) % WORKING_DESCRIPTIONS.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [isSubmitting]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -269,23 +291,28 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               </div>
             )}
 
-            {/* Loading Indicator */}
+            {/* Loading Indicator with Multi-step Working Descriptions */}
             {isSubmitting && (
-              <div className="flex items-center gap-2 text-[13px] text-[#717378] animate-pulse pl-1">
-                <Loader2 className="size-4 animate-spin text-[#0D9488]" />
-                <span>Understanding your goal...</span>
+              <div className="flex items-center gap-2 text-[13px] text-[#717378] pl-1" role="status">
+                <Loader2 className="size-4 animate-spin text-[#0D9488] shrink-0" />
+                <span
+                  key={loadingTextIndex}
+                  className="animate-fade-slide inline-block"
+                >
+                  {WORKING_DESCRIPTIONS[loadingTextIndex]}
+                </span>
               </div>
             )}
 
             {/* Suggested Goals (Chips) / Skeleton Loading */}
             {!isSubmitting && (
               goal.isLoading ? (
-                <div className="flex flex-wrap items-center gap-2 pt-1 animate-pulse" aria-label="Loading goal suggestions">
-                  <div className="h-[34px] w-64 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                  <div className="h-[34px] w-48 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                  <div className="h-[34px] w-72 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                  <div className="h-[34px] w-56 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                  <div className="h-[34px] w-44 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="flex flex-wrap items-center gap-2 pt-1" aria-label="Loading goal suggestions">
+                  <div className="h-[34px] w-64 rounded-full skeleton-silver-shimmer" />
+                  <div className="h-[34px] w-48 rounded-full skeleton-silver-shimmer" />
+                  <div className="h-[34px] w-72 rounded-full skeleton-silver-shimmer" />
+                  <div className="h-[34px] w-56 rounded-full skeleton-silver-shimmer" />
+                  <div className="h-[34px] w-44 rounded-full skeleton-silver-shimmer" />
                 </div>
               ) : (
                 goalOptions.length > 0 && (

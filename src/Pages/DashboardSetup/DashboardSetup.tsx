@@ -144,26 +144,26 @@ export const DashboardSetup: React.FC = () => {
               {/* Workspace Context Cards or Empty State / Skeleton Loading */}
               {isBootstrapping ? (
                 <div className="flex flex-col gap-3 animate-fade-slide">
-                  <div className="h-3.5 w-24 rounded-full bg-[#E5E7EB] animate-pulse" />
+                  <div className="h-3.5 w-24 rounded-full skeleton-silver-shimmer" />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="h-[96px] rounded-[20px] border border-[#E6E6E4] bg-white p-4 animate-pulse flex flex-col justify-between">
+                    <div className="h-[96px] rounded-[20px] skeleton-silver-shimmer p-4 flex flex-col justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="size-3.5 rounded-full bg-[#E5E7EB]" />
-                        <div className="h-3 w-20 rounded bg-[#E5E7EB]" />
+                        <div className="size-3.5 rounded-full bg-[#DFE2E6]" />
+                        <div className="h-3 w-20 rounded bg-[#DFE2E6]" />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <div className="h-3.5 w-28 rounded bg-[#E5E7EB]" />
-                        <div className="h-3 w-40 rounded bg-[#F1F3F5]" />
+                        <div className="h-3.5 w-28 rounded bg-[#DFE2E6]" />
+                        <div className="h-3 w-40 rounded bg-[#E8EAEF]" />
                       </div>
                     </div>
-                    <div className="h-[96px] rounded-[20px] border border-[#E6E6E4] bg-white p-4 animate-pulse flex flex-col justify-between">
+                    <div className="h-[96px] rounded-[20px] skeleton-silver-shimmer p-4 flex flex-col justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="size-3.5 rounded-full bg-[#E5E7EB]" />
-                        <div className="h-3 w-20 rounded bg-[#E5E7EB]" />
+                        <div className="size-3.5 rounded-full bg-[#DFE2E6]" />
+                        <div className="h-3 w-20 rounded bg-[#DFE2E6]" />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <div className="h-3.5 w-24 rounded bg-[#E5E7EB]" />
-                        <div className="h-3 w-36 rounded bg-[#F1F3F5]" />
+                        <div className="h-3.5 w-24 rounded bg-[#DFE2E6]" />
+                        <div className="h-3 w-36 rounded bg-[#E8EAEF]" />
                       </div>
                     </div>
                   </div>

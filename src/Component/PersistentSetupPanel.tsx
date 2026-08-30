@@ -25,9 +25,8 @@ export const PersistentSetupPanel: React.FC = () => {
   const { shouldShowSetup, stage, stageIndex, totalStages, route } = useSetupProgress();
 
   if (!shouldShowSetup) return null;
-  // Call Lab is a standalone test surface, not part of the product flow, and
-  // the panel overlaps its controls.
-  if (location.pathname.startsWith('/calllab')) return null;
+  // Only show on the home screen (/home), never on the setup page or test surfaces
+  if (location.pathname !== '/home') return null;
   // Already on the page that handles this stage: the panel would just be a
   // button that reloads the screen the user is looking at.
   if (location.pathname === route) return null;

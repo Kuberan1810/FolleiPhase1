@@ -14,8 +14,8 @@ export default defineConfig({
     // macOS, where uvicorn's default IPv4 bind is not listening.
     proxy: {
       '/api': {
-        target: 'http://103.91.187.93',
-        changeOrigin: false,
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
         // Call Lab talks over a WebSocket at /api/.../call-lab/ws. Without
         // this the upgrade request is proxied as plain HTTP and fails.
         ws: true,
