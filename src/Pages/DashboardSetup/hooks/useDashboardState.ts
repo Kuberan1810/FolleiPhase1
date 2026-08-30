@@ -76,7 +76,8 @@ export const useDashboardState = () => {
     setBusinessType(business.category);
     setCustomerType(business.customer_type);
 
-    const hasDocuments = setup.documents.length > 0 || ingestion.documents.length > 0;
+    const allDocs = ingestion.documents.length > 0 ? ingestion.documents : setup.documents;
+    const hasDocuments = allDocs.length > 0;
     const hasLeads = setup.leadCount > 0;
     const nextIndex = hasLeads ? 5 : hasDocuments ? 4 : 3;
     const nextStepId = INITIAL_SETUP_STEPS[nextIndex].id;
@@ -87,9 +88,11 @@ export const useDashboardState = () => {
       ...step,
       status: index < nextIndex ? 'completed' : index === nextIndex ? 'active' : 'pending',
     })));
-    setWorkspaceItems((current) => {
-      const retainedData = current.filter((item) => item.type === 'data');
-      return [
+    setWorkspaceItems(() => {
+      const isProcessing = allDocs.some((d) => d.status === 'UPLOADED' || d.status === 'PROCESSING');
+      const isFailed = allDocs.length > 0 && allDocs.every((d) => d.status === 'FAILED');
+
+      const items: WorkspaceContextItem[] = [
         {
           id: 'business-context',
           type: 'business',
@@ -104,15 +107,64 @@ export const useDashboardState = () => {
           status: business.crm_provider ? 'Preference saved' : 'None',
           value: business.crm_provider || 'No CRM',
         },
-        ...retainedData,
-        ...(hasLeads ? [{
-          id: 'customer-context',
-          type: 'customer' as const,
-          title: 'LEADS',
-          value: `${setup.leadCount} lead${setup.leadCount === 1 ? '' : 's'}`,
-          isLoading: false,
-        }] : []),
       ];
+
+      // Only show BUSINESS DATA card if documents exist OR if user reached/passed step 4 (skipped or finished)
+      if (hasDocuments) {
+        items.push({
+          id: 'data-context',
+          type: 'data',
+          title: 'BUSINESS DATA',
+          status: isFailed ? 'Needs attention' : isProcessing ? `Reading ${allDocs.length} of ${allDocs.length}` : 'Ready',
+          value: `${allDocs.length} ${allDocs.length === 1 ? 'file' : 'files'} uploaded`,
+          subtitle: allDocs.map((d) => d.filename).join(', ').slice(0, 80),
+          isLoading: isProcessing,
+          isEmpty: false,
+          actionLabel: 'Add more files',
+        });
+      } else if (nextIndex >= 4) {
+        // User passed step 4 without uploading -> indicate skipped/missing
+        items.push({
+          id: 'data-context',
+          type: 'data',
+          title: 'BUSINESS DATA',
+          status: 'No files uploaded yet',
+          value: 'Add business documentation (PDF, DOCX, TXT)',
+          subtitle: 'Help Follei understand your products and offerings',
+          isLoading: false,
+          isEmpty: true,
+          actionLabel: 'Upload Business Data',
+        });
+      }
+
+      // Only show LEADS card if leads exist OR if user reached/passed step 5 (skipped or finished)
+      if (hasLeads) {
+        items.push({
+          id: 'customer-context',
+          type: 'customer',
+          title: 'LEADS',
+          status: 'Ready',
+          value: `${setup.leadCount} lead${setup.leadCount === 1 ? '' : 's'} imported`,
+          isLoading: false,
+          isEmpty: false,
+          actionLabel: 'Import more leads',
+        });
+      } else if (nextIndex >= 5) {
+        // User passed step 5 without importing -> indicate skipped/missing
+        items.push({
+          id: 'customer-context',
+          type: 'customer',
+          title: 'LEADS',
+          status: 'No leads imported yet',
+          value: 'Import contact list via CSV',
+          subtitle: '',
+          isLoading: false,
+          isEmpty: true,
+          actionLabel: 'Import Leads CSV',
+        });
+      }
+
+      return items;
     });
   }, [setup.isBootstrapping, setup.business, setup.workspace, setup.documents.length, setup.leadCount, ingestion.documents.length]);
 
@@ -123,22 +175,24 @@ export const useDashboardState = () => {
     if (!ingestion.documents.length) return;
     const { processed, failed, processing } = ingestion;
     setWorkspaceItems((prev) => {
+      const isProcessing = processing.length > 0;
+      const isFailed = failed.length > 0 && processed.length === 0;
       const next: WorkspaceContextItem = {
         id: 'data-context',
         type: 'data',
         title: 'BUSINESS DATA',
-        status: processing.length
+        status: isProcessing
           ? `Reading ${processing.length} of ${ingestion.documents.length}`
-          : failed.length
+          : isFailed
             ? 'Needs attention'
             : 'Ready',
-        value: `${processed.length} of ${ingestion.documents.length} ready`,
-        subtitle: processing.length
+        value: `${ingestion.documents.length} ${ingestion.documents.length === 1 ? 'file' : 'files'}`,
+        subtitle: isProcessing
           ? processing.map((d) => d.filename).join(', ').slice(0, 80)
           : failed.length
             ? `${failed[0].filename}: ${failed[0].failure_reason || 'failed'}`
             : ingestion.documents.map((d) => d.filename).join(', ').slice(0, 80),
-        isLoading: processing.length > 0,
+        isLoading: isProcessing,
       };
       const index = prev.findIndex((item) => item.type === 'data');
       if (index >= 0) {
@@ -148,11 +202,7 @@ export const useDashboardState = () => {
       }
       return [...prev, next];
     });
-    // Depend only on `documents`, which react-query keeps referentially
-    // stable. `processed`/`failed`/`processing` are derived with .filter() and
-    // are a new array on every render, so listing them re-ran this effect
-    // forever -- it calls setWorkspaceItems, which renders again.
-  }, [ingestion.documents]);
+  }, [ingestion.documents, ingestion.processed.length, ingestion.processing.length, ingestion.failed.length]);
 
 
   const [maxReachedIndex, setMaxReachedIndex] = useState<number>(0);
@@ -163,7 +213,7 @@ export const useDashboardState = () => {
     let contextType = 'business';
     let statusValue = 'Ready';
     let displayValue = stepValue;
-    const subtitleValue: string | undefined = undefined;
+    let subtitleValue: string | undefined = undefined;
     let isItemLoading = false;
 
     if (stepId === 'business') {
@@ -191,8 +241,9 @@ export const useDashboardState = () => {
       contextType = 'data';
       const isLater = stepValue === "I'll do this later" || stepValue === 'later' || stepValue === 'Skipped';
       if (isLater) {
-        statusValue = 'None';
-        displayValue = 'No data';
+        statusValue = 'No files uploaded yet';
+        displayValue = 'Add business documentation (PDF, DOCX, TXT)';
+        subtitleValue = 'Help Follei understand your products and offerings';
         isItemLoading = false;
         setIsImportingBusinessData(false);
       } else {
@@ -205,8 +256,9 @@ export const useDashboardState = () => {
       contextType = 'customer';
       const isLater = stepValue === "I'll add them later" || stepValue === 'later' || stepValue === 'Skipped';
       if (isLater) {
-        statusValue = 'None';
-        displayValue = 'No data';
+        statusValue = 'No leads imported yet';
+        displayValue = 'Import contact list via CSV';
+        subtitleValue = '';
         isItemLoading = false;
         setIsImportingLeads(false);
       } else {
@@ -215,6 +267,17 @@ export const useDashboardState = () => {
         setIsImportingLeads(true);
       }
     }
+
+    const isItemEmpty =
+      (stepId === 'business-data' && (stepValue === "I'll do this later" || stepValue === 'later' || stepValue === 'Skipped')) ||
+      (stepId === 'leads' && (stepValue === "I'll add them later" || stepValue === 'later' || stepValue === 'Skipped'));
+
+    const actionLabel =
+      stepId === 'business-data'
+        ? (isItemEmpty ? 'Upload Business Data' : 'Add more files')
+        : stepId === 'leads'
+        ? (isItemEmpty ? 'Import Leads CSV' : 'Import more leads')
+        : undefined;
 
     setWorkspaceItems((prev) => {
       const existsIndex = prev.findIndex((item) => item.type === contextType);
@@ -226,6 +289,8 @@ export const useDashboardState = () => {
         value: displayValue,
         subtitle: subtitleValue,
         isLoading: isItemLoading,
+        isEmpty: isItemEmpty,
+        actionLabel,
       };
 
       if (existsIndex >= 0) {
@@ -241,7 +306,39 @@ export const useDashboardState = () => {
       // Returns as soon as the files are accepted. The panel below reflects
       // real ingestion status from useDocuments, so the step never blocks on
       // embedding -- which can take minutes on a CPU-only host.
-      void setup.uploadBusinessData(pendingFiles).then(() => setIsImportingBusinessData(false));
+      void setup.uploadBusinessData(pendingFiles).then((uploaded) => {
+        setIsImportingBusinessData(false);
+        if (uploaded && uploaded.length > 0) {
+          const isStillProcessing = uploaded.some((d) => d.status === 'UPLOADED' || d.status === 'PROCESSING');
+          const isFailed = uploaded.every((d) => d.status === 'FAILED');
+          setWorkspaceItems((prev) =>
+            prev.map((item) =>
+              item.type === 'data'
+                ? {
+                    ...item,
+                    status: isFailed ? 'Needs attention' : isStillProcessing ? `Reading ${uploaded.length} of ${uploaded.length}` : 'Ready',
+                    value: `${uploaded.length} ${uploaded.length === 1 ? 'file' : 'files'}`,
+                    subtitle: uploaded.map((d) => d.filename).join(', ').slice(0, 80),
+                    isLoading: isStillProcessing,
+                  }
+                : item
+            )
+          );
+        }
+      }).catch(() => {
+        setIsImportingBusinessData(false);
+        setWorkspaceItems((prev) =>
+          prev.map((item) =>
+            item.type === 'data'
+              ? {
+                  ...item,
+                  status: 'Upload failed',
+                  isLoading: false,
+                }
+              : item
+          )
+        );
+      });
     } else if (stepId === 'business-data') {
       setIsImportingBusinessData(false);
     }
@@ -255,7 +352,7 @@ export const useDashboardState = () => {
             item.type === 'customer'
               ? {
                 ...item,
-                status: undefined,
+                status: 'Ready',
                 value: `${imported ?? 0} lead${imported === 1 ? '' : 's'}`,
                 subtitle: undefined,
                 isLoading: false,
@@ -265,6 +362,19 @@ export const useDashboardState = () => {
         );
         setSteps((prev) => prev.map((s) => ({ ...s, status: 'completed' })));
         setIsComplete(true);
+      }).catch(() => {
+        setIsImportingLeads(false);
+        setWorkspaceItems((prev) =>
+          prev.map((item) =>
+            item.type === 'customer'
+              ? {
+                  ...item,
+                  status: 'Upload failed',
+                  isLoading: false,
+                }
+              : item
+          )
+        );
       });
     } else if (stepId === 'leads') {
       setIsImportingLeads(false);

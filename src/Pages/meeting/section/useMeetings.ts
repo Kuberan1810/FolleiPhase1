@@ -1,9 +1,12 @@
 import { useState, useMemo } from 'react';
 import { type Meeting, type MeetingStatus } from '../types';
-import { initialMockMeetings } from '../data/mockMeetings';
+import { useActiveWorkspace } from '../../../hooks/useWorkspace';
+import { useLeads } from '../../../hooks/useLeads';
 
 export const useMeetings = () => {
-  const [meetings, setMeetings] = useState<Meeting[]>(initialMockMeetings);
+  const { workspaceId } = useActiveWorkspace();
+  const { leads, isLoading } = useLeads(workspaceId);
+  const [customMeetings, setCustomMeetings] = useState<Meeting[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'All' | MeetingStatus>('All');
   const [dateFilter, setDateFilter] = useState<'all' | 'today' | 'upcoming' | 'completed'>('all');
@@ -11,8 +14,31 @@ export const useMeetings = () => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
 
+  // Derive meetings in real-time from active workspace leads
+  const derivedMeetings = useMemo(() => {
+    const demoLeads = leads.filter(
+      (l) => l.status === 'Demo Scheduled' || l.status === 'Proposal' || l.status === 'Negotiation'
+    );
+
+    const fromLeads: Meeting[] = demoLeads.map((lead) => ({
+      id: lead.id,
+      date: lead.lastInteraction || lead.date || 'Upcoming',
+      time: '10:30 AM',
+      lead: {
+        name: lead.name,
+        email: lead.email,
+        initials: lead.initials,
+        bgColor: '#F8FAFC',
+        textColor: '#1E293B',
+      },
+      status: lead.status === 'Demo Scheduled' ? 'Upcoming' : 'Completed',
+    }));
+
+    return [...customMeetings, ...fromLeads];
+  }, [leads, customMeetings]);
+
   const filteredMeetings = useMemo(() => {
-    return meetings.filter((meeting) => {
+    return derivedMeetings.filter((meeting) => {
       // Search matching (lead name or date/time)
       const matchesSearch =
         searchQuery.trim() === '' ||
@@ -30,29 +56,27 @@ export const useMeetings = () => {
         matchesDate = meeting.status === 'Upcoming';
       } else if (dateFilter === 'completed') {
         matchesDate = meeting.status === 'Completed';
-      } else if (dateFilter === 'today') {
-        matchesDate = meeting.date.includes('24 Aug');
       }
 
       return matchesSearch && matchesStatus && matchesDate;
     });
-  }, [meetings, searchQuery, statusFilter, dateFilter]);
+  }, [derivedMeetings, searchQuery, statusFilter, dateFilter]);
 
   const handleAddMeeting = (newMeeting: Omit<Meeting, 'id'>) => {
     const meetingWithId: Meeting = {
       ...newMeeting,
       id: Date.now().toString(),
     };
-    setMeetings((prev) => [meetingWithId, ...prev]);
+    setCustomMeetings((prev) => [meetingWithId, ...prev]);
     setIsScheduleModalOpen(false);
   };
 
   const handleDeleteMeeting = (id: string) => {
-    setMeetings((prev) => prev.filter((m) => m.id !== id));
+    setCustomMeetings((prev) => prev.filter((m) => m.id !== id));
   };
 
   const handleToggleStatus = (id: string) => {
-    setMeetings((prev) =>
+    setCustomMeetings((prev) =>
       prev.map((m) => {
         if (m.id === id) {
           return {
@@ -72,8 +96,9 @@ export const useMeetings = () => {
   };
 
   return {
-    meetings,
+    meetings: derivedMeetings,
     filteredMeetings,
+    isLoading,
     searchQuery,
     setSearchQuery,
     statusFilter,

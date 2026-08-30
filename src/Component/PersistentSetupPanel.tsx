@@ -5,63 +5,71 @@ import { useSetupProgress } from '../hooks/useSetupProgress';
 
 const STEP_LABELS: Record<string, string> = {
   DRAFT: 'Add your business data and leads',
-  GOAL_SET: 'Draft your requirements',
-  REQUIREMENTS_DRAFTED: 'Answer a couple of questions',
-  GAP_FILLING: 'Answer a couple of questions',
+  GOAL_SET: 'Define your ultimate goal',
+  REQUIREMENTS_DRAFTED: 'Draft your requirements',
+  GAP_FILLING: 'Answer a couple of clarifying questions',
   PACKAGE_GENERATED: 'Review and approve your sales package',
 };
 
 /**
  * Setup follows the user across the app.
  *
- * The panel used to live only on /dashboard-setup, so it vanished the moment
- * the user opened Leads or Dashboard -- and there was no way back to an
- * unfinished setup. Setup belongs to the workspace, so this renders wherever
- * the user is until the workspace reaches VERIFIED.
+ * It renders on non-setup pages (Dashboard, Leads, Campaigns, Meetings, etc.)
+ * until the workspace reaches VERIFIED, so the user can easily return to finish setup.
+ * On /home and /dashboard-setup (where setup is actively happening), the panel is hidden.
  */
 export const PersistentSetupPanel: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { shouldShowSetup, stage, stageIndex, totalStages, route } = useSetupProgress();
+  const { shouldShowSetup, stageIndex, totalStages, stageLabel, missingItem, route } = useSetupProgress();
 
   if (!shouldShowSetup) return null;
-  // Only show on the home screen (/home), never on the setup page or test surfaces
-  if (location.pathname !== '/home') return null;
-  // Already on the page that handles this stage: the panel would just be a
-  // button that reloads the screen the user is looking at.
-  if (location.pathname === route) return null;
-
-  const label = STEP_LABELS[stage] ?? 'Finish setting up your workspace';
+  // If the user is already on /dashboard-setup, hide floating panel to avoid duplication
+  if (location.pathname === '/dashboard-setup') return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 w-[320px] rounded-2xl border border-[#E6E6E4] bg-white p-4 shadow-[0_8px_30px_rgba(0,0,0,0.10)]">
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-[11px] font-medium uppercase tracking-wider text-[#717378]">
+    <div className="fixed bottom-5 right-5 z-40 w-[330px] rounded-[22px] border border-[#E6E6E4] bg-white p-4.5 shadow-[0_12px_36px_rgba(0,0,0,0.12)] animate-fade-slide flex flex-col gap-2.5">
+      {/* Header: Title + Step Counter */}
+      <div className="flex items-center justify-between">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-[#717378]">
           Follei Setup
         </span>
-        <span className="text-[11px] text-[#717378]">
+        <span className="text-[11px] font-semibold text-[#16171A]">
           {stageIndex + 1} of {totalStages}
         </span>
       </div>
 
-      <div className="mb-3 flex gap-1">
+      {/* 6 Segmented Progress Bars */}
+      <div className="flex gap-1.5 py-0.5">
         {Array.from({ length: totalStages }).map((_, index) => (
           <span
             key={index}
-            className={`h-1 flex-1 rounded-full ${index <= stageIndex ? 'bg-[#7A9601]' : 'bg-[#EBEBE8]'}`}
+            className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
+              index <= stageIndex ? 'bg-[#7A9601]' : 'bg-[#EBEBE8]'
+            }`}
           />
         ))}
       </div>
 
-      <p className="mb-3 text-[13px] font-medium text-[#16171A]">{label}</p>
+      {/* Stage Description & Missing Item Tag */}
+      <div className="flex flex-col  w-fit gap-1 my-0.5">
+        <p className="text-[13.5px] font-medium text-[#16171A] leading-snug">
+          {stageLabel}
+        </p>
+        {missingItem && (
+          <span className="w-fit inline-flex items-center gap-1 shrink-0 rounded-full bg-amber-50 border border-amber-200/80 px-2 py-0.5 text-[10.5px] font-medium text-amber-700">
+            ⚠️ {missingItem}
+          </span>
+        )}
+      </div>
 
+      {/* Continue Setup CTA Button */}
       <button
         type="button"
         onClick={() => navigate(route)}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-black cursor-pointer"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-black cursor-pointer shadow-2xs active:scale-[0.99]"
       >
         <span>Continue setup</span>
-        {/* <ArrowRight className="size-3.5" /> */}
       </button>
     </div>
   );

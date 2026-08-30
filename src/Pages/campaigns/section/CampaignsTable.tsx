@@ -1,15 +1,45 @@
 import React from 'react';
+import { Megaphone } from 'lucide-react';
 import type { Campaign } from '../types';
 import { CampaignRow } from './CampaignRow';
-import { initialMockCampaigns } from '../data/mockCampaigns';
+import { useActiveWorkspace } from '../../../hooks/useWorkspace';
+import { useLeads } from '../../../hooks/useLeads';
 
 interface CampaignsTableProps {
   campaigns?: Campaign[];
 }
 
 export const CampaignsTable: React.FC<CampaignsTableProps> = ({
-  campaigns = initialMockCampaigns,
+  campaigns,
 }) => {
+  const { workspace } = useActiveWorkspace();
+  const { leads } = useLeads(workspace?.id);
+
+  const activeCampaigns: Campaign[] = campaigns ?? (workspace ? [
+    {
+      id: workspace.id,
+      name: `${workspace.name || 'Sales'} Voice Outreach`,
+      channels: ['Call'],
+      audienceCount: leads.length,
+      audienceLabel: `${leads.length} Leads`,
+      status: workspace.stage === 'VERIFIED' ? 'Active' : 'Draft',
+    },
+  ] : []);
+
+  if (activeCampaigns.length === 0 || (!workspace && (!campaigns || campaigns.length === 0))) {
+    return (
+      <div className="mt-4 flex flex-col items-center justify-center rounded-[16px] border border-[#E5E7EB] bg-white p-12 text-center shadow-xs">
+        <div className="flex size-12 items-center justify-center rounded-full bg-[#F1F3F5] text-[#717378] mb-3.5">
+          <Megaphone className="size-6 text-[#717378]" />
+        </div>
+        <h3 className="text-[15px] font-semibold text-[#16171A]">No campaigns launched yet</h3>
+        <p className="text-[13.5px] text-[#717378] max-w-sm mt-1">
+          Complete your sales package and click "Start Follei" to launch automated voice calling campaigns.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-4 overflow-hidden rounded-[12px] border border-[#E5E7EB] bg-white shadow-xs">
       <div className="overflow-x-auto">
@@ -44,7 +74,7 @@ export const CampaignsTable: React.FC<CampaignsTableProps> = ({
           </thead>
 
           <tbody>
-            {campaigns.map((campaign) => (
+            {activeCampaigns.map((campaign) => (
               <CampaignRow key={campaign.id} campaign={campaign} />
             ))}
           </tbody>

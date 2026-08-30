@@ -25,6 +25,7 @@ import type { UserProfile } from '../Pages/DashboardSetup/types';
 import { getStoredUser, clearSession } from '../lib/auth';
 import { getActiveWorkspaceId, setActiveWorkspaceId } from '../hooks/useWorkspace';
 import { useProjects } from '../hooks/useProjects';
+import ConfirmDialog from './ConfirmDialog';
 
 interface SidebarProps {
   user?: UserProfile;
@@ -44,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNewProject,
   onAskFollei,
   onOpenSettings,
-  activeItem,
+  activeItem = 'home',
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [expandedProjects, setExpandedProjects] = useState<Record<string, boolean>>({});
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<{ id: string; name: string } | null>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const storedUser = getStoredUser();
 
@@ -250,7 +252,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         ) : (
                           <button
                             type="button"
-                            onClick={() => toggleProjectExpanded(project.id, index)}
+                            onClick={() => {
+                              setActiveWorkspaceId(project.id);
+                              toggleProjectExpanded(project.id, index);
+                              navTo('/home');
+                            }}
                             onDoubleClick={() => {
                               setDraftName(project.name);
                               setRenamingId(project.id);
@@ -273,9 +279,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               title="Delete project"
                               onClick={(event) => {
                                 event.stopPropagation();
-                                const name = project.name;
-                                if (!window.confirm(`Delete "${name}" and everything in it? This cannot be undone.`)) return;
-                                removeProject.mutate(project.id);
+                                setProjectToDelete({ id: project.id, name: project.name || 'Untitled project' });
                               }}
                               onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
@@ -644,6 +648,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           </div>
         </div>,
+        document.body
+      )}
+
+      {/* Custom Delete Confirmation Modal */}
+      {createPortal(
+        <ConfirmDialog
+          isOpen={Boolean(projectToDelete)}
+          onClose={() => setProjectToDelete(null)}
+          onConfirm={() => {
+            if (projectToDelete) {
+              removeProject.mutate(projectToDelete.id, {
+                onSuccess: () => {
+                  navigate('/dashboard-setup');
+                },
+              });
+              setProjectToDelete(null);
+            }
+          }}
+          title="Delete project?"
+          itemName={projectToDelete?.name || 'this project'}
+          description="All goals, requirements, documents, and sales packages in this project will be permanently removed."
+          confirmText="Delete"
+          cancelText="Cancel"
+          variant="danger"
+          isLoading={removeProject.isPending}
+        />,
         document.body
       )}
     </>

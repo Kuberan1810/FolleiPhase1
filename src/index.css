@@ -9,9 +9,50 @@
     --animate-spin-slow: spin 4s linear infinite;
     --animate-spin-reverse: spin-reverse 6s linear infinite;
     --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
-    --animate-breathe: breathe 2.4s ease-in-out infinite;
+    --animate-breathe: breathe 2s ease-in-out infinite;
+    --animate-blink: blink 1.3s ease-in-out infinite;
+    --animate-shimmer-sweep: shimmer-sweep 1.8s ease-in-out infinite;
+    --animate-text-shimmer: text-shimmer 2.2s linear infinite;
     --animate-float: float 3s ease-in-out infinite;
     --animate-shine: shine 3s infinite;
+}
+@keyframes shimmer-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(200%);
+    }
+}
+@keyframes text-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(0.92);
+    }
+}
+@keyframes breathe {
+    0%,
+    100% {
+        opacity: 0.45;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.06);
+    }
 }
 @keyframes spin-reverse {
     from {
@@ -34,20 +75,6 @@
     50% {
         transform: scale(1.15);
         opacity: 0;
-    }
-}
-
-@keyframes breathe {
-
-    0%,
-    100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
     }
 }
 

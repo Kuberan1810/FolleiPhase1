@@ -169,7 +169,20 @@ export const DashboardSetup: React.FC = () => {
                   </div>
                 </div>
               ) : workspaceItems.length > 0 ? (
-                <DashboardWorkspaceSection items={workspaceItems} />
+                <DashboardWorkspaceSection
+                  items={workspaceItems}
+                  onItemAction={(type) => {
+                    if (type === 'data') {
+                      setIsUploadBusinessDataModalOpen(true);
+                    } else if (type === 'customer') {
+                      setIsUploadLeadsModalOpen(true);
+                    } else if (type === 'crm') {
+                      handleStepClick('crm');
+                    } else if (type === 'business') {
+                      handleStepClick('business');
+                    }
+                  }}
+                />
               ) : (
                 <DashboardEmptyState />
               )}

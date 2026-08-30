@@ -4,15 +4,18 @@ import type { UpcomingMeetingInfo } from '../../types';
 
 interface UpcomingMeetingSectionProps {
   meeting?: UpcomingMeetingInfo;
+  upcomingMeeting?: UpcomingMeetingInfo;
 }
 
 export const UpcomingMeetingSection: React.FC<UpcomingMeetingSectionProps> = ({
-  meeting = {
+  meeting,
+  upcomingMeeting,
+}) => {
+  const currentMeeting = upcomingMeeting || meeting || {
     title: 'Course Counselling',
     time: 'Tomorrow · 3:00 PM',
     status: 'Confirmed',
-  },
-}) => {
+  };
   return (
     <div className="rounded-[15px] bg-white p-5 sm:p-6 border border-[#E5E7EB]">
       {/* Header */}
@@ -31,10 +34,10 @@ export const UpcomingMeetingSection: React.FC<UpcomingMeetingSectionProps> = ({
 
         <div className="flex flex-col">
           <h4 className="text-[20px] font-semibold text-[#1B1B24]">
-            {meeting.title}
+            {currentMeeting.title}
           </h4>
           <span className="text-[14px] text-[#545F73] mt-0.5">
-            {meeting.time}
+            {currentMeeting.time}
           </span>
         </div>
       </div>
@@ -42,7 +45,7 @@ export const UpcomingMeetingSection: React.FC<UpcomingMeetingSectionProps> = ({
       {/* Status Footer */}
       <div className="mt-5 flex items-center gap-2 text-[12px] font-semibold text-[#1B1B24]">
         <span className="size-2 rounded-full bg-[#0A7C34]" />
-        <span>Status: {meeting.status}</span>
+        <span>Status: {currentMeeting.status}</span>
       </div>
     </div>
   );

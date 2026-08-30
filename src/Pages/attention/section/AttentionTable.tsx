@@ -11,11 +11,14 @@ interface AttentionTableProps {
 }
 
 export const AttentionTable: React.FC<AttentionTableProps> = ({
-  leads = initialMockAttentionLeads,
-  totalCount = 1248,
-  startRange = 1,
-  endRange = 5,
+  leads = [],
+  totalCount,
+  startRange,
+  endRange,
 }) => {
+  const actualTotal = totalCount ?? leads.length;
+  const actualStart = startRange ?? (leads.length > 0 ? 1 : 0);
+  const actualEnd = endRange ?? leads.length;
   return (
     <div className="mt-5 flex-1 flex flex-col min-h-0 overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white shadow-2xs">
       {/* Scrollable Table Area: Only inner rows list scrolls */}
@@ -69,7 +72,7 @@ export const AttentionTable: React.FC<AttentionTableProps> = ({
       {/* Pagination Footer: Locked at bottom */}
       <div className="shrink-0 flex items-center justify-end gap-6 border-t border-[#E5E7EB] bg-[#F8F9FA]/60 px-6 py-3.5">
         <span className="text-[13px] text-[#6B7280]">
-          {startRange}–{endRange} of {totalCount}
+          {actualStart}–{actualEnd} of {actualTotal}
         </span>
 
         <button

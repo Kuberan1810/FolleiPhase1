@@ -1,9 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowUp, X, Check, Loader2, Plus } from 'lucide-react';
+import {
+  ArrowUp,
+  X,
+  Check,
+  Loader2,
+  Plus,
+  Sparkles,
+  Copy,
+  CheckCheck,
+  ArrowRight,
+  Lightbulb,
+  Edit3,
+  Bot,
+  User,
+} from 'lucide-react';
 import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 import { useGoalConversation } from '../../../hooks/useGoalConversation';
 import { useSalesPackageFlow } from '../../../hooks/useSalesPackageFlow';
 import SalesPackageReview from './SalesPackageReview';
+import FolleiLogo from "../../../assets/logo/folleinew.svg"
+import { Edit } from 'iconsax-react';
 
 interface GoalDefinitionProps {
   userName?: string;
@@ -22,23 +38,29 @@ const WORKING_DESCRIPTIONS = [
 ];
 
 export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
-  userName = 'Aditya',
+  userName = 'kuberan',
   workspaceId,
   onProjectReady,
 }) => {
   const goal = useGoalConversation(workspaceId);
   const pkg = useSalesPackageFlow(workspaceId);
   const goalOptions = goal.suggestions;
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+
   const [inputValue, setInputValue] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chatBottomRef = useRef<HTMLDivElement>(null);
 
+  const isSubmitting = goal.isSending;
+  const hasConversation = goal.turns.length > 0;
+
+  // Rotate thinking messages
   useEffect(() => {
     if (!isSubmitting) {
       setLoadingTextIndex(0);
@@ -46,10 +68,18 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
     }
     const interval = setInterval(() => {
       setLoadingTextIndex((prev) => (prev + 1) % WORKING_DESCRIPTIONS.length);
-    }, 2200);
+    }, 2000);
     return () => clearInterval(interval);
   }, [isSubmitting]);
 
+  // Auto-scroll chat to bottom on new messages
+  useEffect(() => {
+    if (hasConversation) {
+      chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [goal.turns.length, isSubmitting, hasConversation]);
+
+  // Auto-expand textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -59,23 +89,24 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   }, [inputValue]);
 
   /**
-   * A suggestion is a starting sentence, not a tag. Clicking one writes it
-   * into the input so the user can see, edit and extend the exact text that
-   * will be sent -- previously chips and the textarea were two separate
-   * inputs, and it was not obvious which one the submit button used.
+   * Append/set suggestion directly into prompt input and focus cursor
    */
-  const appendSuggestion = (goal: string) => {
+  const handleSuggestionClick = (suggestionText: string) => {
     setInputValue((current) => {
       const trimmed = current.trim();
-      if (!trimmed) return goal;
-      if (trimmed.toLowerCase().includes(goal.toLowerCase())) return current;
-      return `${trimmed.replace(/[.\s]+$/, '')}. ${goal}`;
+      if (!trimmed) return suggestionText;
+      if (trimmed.toLowerCase().includes(suggestionText.toLowerCase())) return current;
+      return `${trimmed.replace(/[.\s]+$/, '')}. ${suggestionText}`;
     });
-    textareaRef.current?.focus();
-  };
-
-  const toggleGoal = (goal: string) => {
-    setSelectedGoals((current) => current.filter((g) => g !== goal));
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.setSelectionRange(
+          textareaRef.current.value.length,
+          textareaRef.current.value.length,
+        );
+      }
+    }, 50);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,94 +125,61 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (selectedGoals.length === 0 && !inputValue.trim() && !attachedFile) return;
-    setIsSubmitting(true);
-    // Selected chips and free text are one statement of intent, so they go as
-    // a single message rather than several turns.
-    const message = [selectedGoals.join(', '), inputValue.trim()].filter(Boolean).join('. ');
-    const result = await goal.send(message);
-    setIsSubmitting(false);
+    const textToSend = inputValue.trim();
+    if (!textToSend && !attachedFile) return;
+
+    setInputValue('');
+    setAttachedFile(null);
+
+    const result = await goal.send(textToSend);
     if (!result) return;
-    // Only move to the confirmation step once the backend says the goal is
-    // actually settled. Requirements generation rejects a workspace with no
-    // goal_text, so confirming early would fail on the next call.
+
     if (result.goal_finalized) {
       setIsConfirmed(true);
-    } else {
-      // Still clarifying: keep the composer open and clear what was sent.
-      setSelectedGoals([]);
-      setInputValue('');
     }
+  };
+
+  const handleCopyMessage = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   const handleEdit = () => {
     setIsConfirmed(false);
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 100);
   };
 
-  const handleConfirm = async () => {
-    setIsSaving(true);
-    // Phase 4 onward runs itself from here: requirements, then gap questions,
-    // then the package. The workspace is "ready" as soon as that starts.
-    await pkg.start();
-    setIsSaving(false);
+  const handleConfirm = () => {
     onProjectReady();
   };
 
-  const [compactPrompt, setCompactPrompt] = useState('');
-  const [compactFile, setCompactFile] = useState<File | null>(null);
-  const compactFileInputRef = useRef<HTMLInputElement>(null);
-  const compactTextareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (compactTextareaRef.current) {
-      compactTextareaRef.current.style.height = 'auto';
-      const scrollH = compactTextareaRef.current.scrollHeight;
-      compactTextareaRef.current.style.height = `${Math.min(Math.max(scrollH, 24), 120)}px`;
-    }
-  }, [compactPrompt]);
-
-  const handleCompactSubmit = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const text = compactPrompt.trim();
-    if (!text && !compactFile) return;
-    setCompactPrompt('');
-    setCompactFile(null);
-    // Once a package exists this is Phase 7 -- an objection or change request
-    // against what Follei plans to say. Before that it is still the goal
-    // conversation.
-    if (pkg.salesPackage && pkg.stage !== 'verified') {
-      await pkg.requestRevision(text);
-    } else {
-      await goal.send(text);
-    }
-  };
-
-  const hasSelections = selectedGoals.length > 0;
-  const canSubmit = hasSelections || inputValue.trim().length > 0 || attachedFile !== null;
+  const canSubmit = inputValue.trim().length > 0 || attachedFile !== null;
 
   return (
-    <div className="flex-1 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-screen justify-between">
-      {/* Scrollable Center Content */}
-      <div className="w-full max-w-5xl mx-auto px-6 pt-12 md:pt-16 pb-8 flex flex-col gap-8 flex-1">
-        {/* Header Greeting */}
-        <header className="flex flex-col gap-1.5">
-          <p className="text-[14px] text-[#717378]">Good morning, {userName}</p>
-          <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">
-            Let's define your ultimate goal.
-          </h1>
-          <p className="text-[14.5px] text-[#717378]">
-            Tell Follei what you ultimately want to achieve, and I'll use it to shape your workspace.
-          </p>
-        </header>
+    <div className="flex-1 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-screen justify-between bg-[#FDFDFC]">
+      {/* 1. INITIAL SCREEN: Shown before any message is sent (Clean top offset layout with skeleton shimmer) */}
+      {!hasConversation && !isConfirmed ? (
+        <div className="w-full max-w-5xl mx-auto px-6 pt-12 md:pt-16 pb-12 flex flex-col gap-8 flex-1 animate-fade-slide">
+          {/* Header Greeting */}
+          <header className="flex flex-col gap-1.5">
+            <p className="text-[14px] text-[#717378]">Good morning, {userName}</p>
+            <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">
+              Let's define your ultimate goal.
+            </h1>
+            <p className="text-[14.5px] text-[#717378]">
+              Tell Follei what you ultimately want to achieve, and I'll use it to shape your workspace.
+            </p>
+          </header>
 
-        {!isConfirmed ? (
           <div className="flex flex-col gap-6">
-            {/* Input Form / Container */}
+            {/* Input Form Box */}
             <form
               onSubmit={handleSubmit}
               className="group relative flex w-full min-h-[88px] flex-col justify-center rounded-[28px] border border-[#E5E7EB] bg-white p-4 md:px-7 md:py-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-200 hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
             >
-              {/* Hidden File Input for document upload */}
               <input
                 type="file"
                 ref={fileInputRef}
@@ -190,48 +188,24 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                 className="hidden"
               />
 
-              {/* Selected Goals & Attached File Row */}
-              {(selectedGoals.length > 0 || attachedFile) && (
-                <div className="flex flex-wrap items-center gap-2 mb-2.5">
-                  {selectedGoals.map((goal) => (
-                    <span
-                      key={goal}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[#16171A] text-white px-3.5 py-1 text-[13px] font-medium shadow-2xs"
-                    >
-                      {goal}
-                      <button
-                        type="button"
-                        onClick={() => toggleGoal(goal)}
-                        disabled={isSubmitting}
-                        className="hover:text-gray-300 focus:outline-none cursor-pointer"
-                      >
-                        <X className="size-3.5" />
-                      </button>
-                    </span>
-                  ))}
-
-                  {attachedFile && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3.5 py-1 text-[12.5px] font-medium shadow-2xs">
-                      <div className="flex size-4 shrink-0 items-center justify-center">
-                        {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
-                      </div>
-                      <span className="max-w-[180px] truncate">{attachedFile.name}</span>
-                      <button
-                        type="button"
-                        onClick={removeAttachedFile}
-                        disabled={isSubmitting}
-                        className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
-                      >
-                        <X className="size-3.5" />
-                      </button>
-                    </span>
-                  )}
+              {attachedFile && (
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3.5 py-1 text-[12.5px] font-medium shadow-2xs mb-2.5 self-start">
+                  <div className="flex size-4 shrink-0 items-center justify-center">
+                    {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
+                  </div>
+                  <span className="max-w-[180px] truncate">{attachedFile.name}</span>
+                  <button
+                    type="button"
+                    onClick={removeAttachedFile}
+                    disabled={isSubmitting}
+                    className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                  >
+                    <X className="size-3.5" />
+                  </button>
                 </div>
               )}
 
-              {/* Input Controls Row: Plus (Upload) -> Input -> Submit Arrow (All Vertically Centered) */}
               <div className="flex items-center gap-3 w-full">
-                {/* Plus / Document Upload Button */}
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -243,7 +217,6 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   <Plus className="size-5 stroke-[2.2]" />
                 </button>
 
-                {/* Auto-expanding Textarea (Vertically centered on 1 line, expands downwards as text fills) */}
                 <textarea
                   ref={textareaRef}
                   rows={1}
@@ -255,20 +228,20 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                       handleSubmit(e);
                     }
                   }}
-                  placeholder={hasSelections ? 'Add more context or upload data...' : 'What is your ultimate goal?'}
+                  placeholder="What is your ultimate goal?"
                   disabled={isSubmitting}
                   className="min-w-0 flex-1 resize-none bg-transparent text-[16px] leading-[26px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
                 />
 
-                {/* Submit Arrow Button */}
                 <button
                   type="submit"
                   aria-label="Submit Goal"
                   disabled={!canSubmit || isSubmitting}
-                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${canSubmit && !isSubmitting
+                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                    canSubmit && !isSubmitting
                       ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
                       : 'bg-[#F3F4F6] text-[#6B7280]'
-                    }`}
+                  }`}
                 >
                   {isSubmitting ? (
                     <Loader2 className="size-4 animate-spin text-white" />
@@ -279,209 +252,312 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               </div>
             </form>
 
-            {/* Follei's clarifying reply, shown while the goal is not settled */}
-            {!isSubmitting && goal.understanding && (
-              <div className="rounded-[22px] border border-[#E6E6E4] bg-white px-5 py-4">
-                <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#717378]">
-                  FOLLEI
-                </span>
-                <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#16171A]">
-                  {goal.understanding}
-                </p>
+            {/* Skeleton Shimmer Loading or Suggestion Chips Ribbon */}
+            {goal.isLoading ? (
+              <div className="flex flex-wrap items-center gap-2 pt-1 animate-pulse" aria-label="Loading goal suggestions">
+                <div className="h-[34px] w-64 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="h-[34px] w-48 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="h-[34px] w-72 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="h-[34px] w-56 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="h-[34px] w-44 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
               </div>
-            )}
-
-            {/* Loading Indicator with Multi-step Working Descriptions */}
-            {isSubmitting && (
-              <div className="flex items-center gap-2 text-[13px] text-[#717378] pl-1" role="status">
-                <Loader2 className="size-4 animate-spin text-[#0D9488] shrink-0" />
-                <span
-                  key={loadingTextIndex}
-                  className="animate-fade-slide inline-block"
-                >
-                  {WORKING_DESCRIPTIONS[loadingTextIndex]}
-                </span>
-              </div>
-            )}
-
-            {/* Suggested Goals (Chips) / Skeleton Loading */}
-            {!isSubmitting && (
-              goal.isLoading ? (
-                <div className="flex flex-wrap items-center gap-2 pt-1" aria-label="Loading goal suggestions">
-                  <div className="h-[34px] w-64 rounded-full skeleton-silver-shimmer" />
-                  <div className="h-[34px] w-48 rounded-full skeleton-silver-shimmer" />
-                  <div className="h-[34px] w-72 rounded-full skeleton-silver-shimmer" />
-                  <div className="h-[34px] w-56 rounded-full skeleton-silver-shimmer" />
-                  <div className="h-[34px] w-44 rounded-full skeleton-silver-shimmer" />
+            ) : (
+              goalOptions.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1 animate-fade-slide">
+                  {goalOptions.map((goalItem, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleSuggestionClick(goalItem)}
+                      className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
+                    >
+                      {goalItem}
+                    </button>
+                  ))}
                 </div>
-              ) : (
-                goalOptions.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-1 animate-fade-slide">
-                    {goalOptions.map((goalItem) => (
-                      <button
-                        key={goalItem}
-                        type="button"
-                        onClick={() => appendSuggestion(goalItem)}
-                        className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
-                      >
-                        {goalItem}
-                      </button>
-                    ))}
-                  </div>
-                )
               )
             )}
           </div>
-        ) : (
-          /* Confirmation Flow */
-          <div className="flex flex-col gap-6 animate-fade-slide">
-            {isSaving ? (
-              <div className="rounded-2xl border border-[#E6E6E4] bg-white p-6 shadow-xs">
-                <div className="flex size-8 items-center justify-center rounded-full bg-black text-white mb-4">
-                  <Check className="size-4" strokeWidth={3} />
+        </div>
+      ) : (
+        /* 2. GPT / CLAUDE STYLE CONVERSATION STREAM (Once prompt is sent or during active interaction) */
+        <div className="flex-1 flex flex-col justify-between">
+          <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 pt-10 md:pt-14 pb-36 flex flex-col gap-8 flex-1">
+            {/* Chat Transcript Thread */}
+            <div className="flex flex-col gap-5">
+              {goal.turns.map((turn, idx) => {
+                const isUser = turn.role === 'USER';
+
+                return (
+                  <div
+                    key={idx}
+                    className={`flex gap-3 animate-fade-slide ${
+                      isUser ? 'justify-end' : 'justify-start'
+                    }`}
+                  >
+                    {/* Follei Avatar */}
+                    {!isUser && (
+                      <div className="flex size-8  shrink-0 items-center justify-center rounded-full  text-white shadow-xs mt-1">
+                        <img src={FolleiLogo} alt="" className=''/>
+                      </div>
+                    )}
+
+                    {/* Chat Bubble Card */}
+                    <div
+                      className={`group relative max-w-[85%] sm:max-w-[80%] rounded-[22px] px-5 py-3.5 shadow-2xs transition-all ${
+                        isUser
+                          ? 'bg-[#16171A] text-white rounded-tr-xs'
+                          : 'bg-white border border-[#E6E6E4] text-[#16171A] rounded-tl-xs hover:border-[#D1D5DB]'
+                      }`}
+                    >
+                      {!isUser && (
+                        <div className="flex items-center justify-between gap-3 mb-1.5 pb-1 border-b border-gray-100">
+                          <span className="text-[11px] font-semibold tracking-wider text-[#0D9488] uppercase flex items-center gap-1">
+                            Follei AI
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyMessage(turn.message, idx)}
+                            className="opacity-0 group-hover:opacity-100 text-[#94A3B8] hover:text-[#16171A] transition-opacity cursor-pointer p-0.5"
+                            title="Copy reply"
+                          >
+                            {copiedIndex === idx ? (
+                              <CheckCheck className="size-3.5 text-[#0D9488]" />
+                            ) : (
+                              <Copy className="size-3.5" />
+                            )}
+                          </button>
+                        </div>
+                      )}
+
+                      <p className="whitespace-pre-wrap text-[14.5px] leading-relaxed font-normal">
+                        {turn.message}
+                      </p>
+                    </div>
+
+                    {/* User Avatar */}
+                    {isUser && (
+                      <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] shadow-2xs mt-1 font-semibold text-[11px]">
+                        {userName.slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Live Thinking Status Pill with Skeleton Shimmer Shade Effect */}
+              {isSubmitting && (
+                <div className="flex gap-3 justify-start animate-fade-slide">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full mt-1 p-1">
+                    <img
+                      src={FolleiLogo}
+                      alt="Follei AI"
+                      className="size-full object-contain animate-blink"
+                    />
+                  </div>
+                  
+                  {/* Thinking Pill with Skeleton Shimmer Shade Wave */}
+                  <div className="relative overflow-hidden rounded-[22px] rounded-tl-xs bg-white/50 border border-[#E6E6E4] px-5 py-3 shadow-xs flex items-center gap-3">
+                    {/* Skeleton Light Shade Beam moving across */}
+                    <div className="absolute inset-0 -translate-x-full animate-shimmer-sweep bg-gradient-to-r from-transparent via-[#EAEAEA]/80 to-transparent pointer-events-none" />
+
+                    <Loader2 className="size-4 animate-spin text-[#16171A] shrink-0 relative z-10" />
+                    
+                    {/* Shimmer Text */}
+                    <span className="text-[13.5px] font-medium bg-gradient-to-r from-[#16171A] via-[#717378] to-[#16171A] bg-[length:200%_auto] animate-text-shimmer bg-clip-text text-transparent relative z-10">
+                      {WORKING_DESCRIPTIONS[loadingTextIndex]}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-[16px] font-semibold text-[#16171A] mb-2">Goal saved</h3>
-                <p className="text-[13px] text-[#717378]">
-                  Your ultimate goal and interpretation are saved. Taking you to Project 1...
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-6">
-                {/* Goal summary box */}
-                <div className="rounded-[28px] border border-[#E6E6E4] bg-white p-5 ">
-                  <span className="text-[11px] font-medium tracking-wider text-[#717378] uppercase block mb-2">
-                    YOUR GOAL
-                  </span>
-                  <p className="text-[15px] font-medium text-[#16171A]">
-                    {goal.goalText || (selectedGoals.length > 0 ? selectedGoals.join(', ') : inputValue)}
-                  </p>
+              )}
+
+              <div ref={chatBottomRef} />
+            </div>
+
+            {/* Settled / Verified Goal State (When Goal is Finalized) */}
+            {(goal.isFinalized || isConfirmed) && !isSaving && (
+                <div className="rounded-[26px] border border-[#E6E6E4] bg-[#fff] p-6 shadow-xs flex flex-col gap-4 animate-fade-slide">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex p-1 items-center justify-center rounded-full bg-[#0D9488] text-white">
+                      <Check className="size-4 stroke-[3]" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#0D9488]">
+                        Goal Settled & Verified
+                      </span>
+                      <h3 className="text-[16px] font-semibold text-[#16171A]">
+                        {goal.goalText || 'Your Ultimate Goal'}
+                      </h3>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleEdit}
+                    className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#717378] hover:text-[#16171A] transition-colors cursor-pointer"
+                  >
+                      <Edit className="size-3.5" color='#717378' />
+                    <span>Refine</span>
+                  </button>
                 </div>
 
-                {/* What the model actually understood, not a canned line */}
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-[17px] font-medium text-[#16171A] mb-2.5">
-                    Here's what I understand
-                  </h3>
-                  <p className="text-[14px] text-[#737373] leading-relaxed whitespace-pre-wrap">
-                    {goal.understanding || 'Working out what that means for your workspace...'}
-                  </p>
-                </div>
-
-                {/* Phases 4-7 run here once the goal is confirmed */}
-                {pkg.stage !== 'idle' && (
-                  <SalesPackageReview
-                    stage={pkg.stage}
-                    requirements={pkg.requirements}
-                    gapQuestions={pkg.gapQuestions}
-                    salesPackage={pkg.salesPackage}
-                    isWorking={pkg.isWorking}
-                    onAnswer={pkg.answerQuestion}
-                    onApprove={pkg.approve}
-                  />
+                {goal.understanding && (
+                  <div className="rounded-2xl bg-white border border-[#E6E6E4] p-4 text-[13.5px] text-[#47484B] leading-relaxed">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#717378] block mb-1">
+                      How Follei will execute this:
+                    </span>
+                    {goal.understanding}
+                  </div>
                 )}
 
-                {/* Actions */}
-                <div className="flex items-center gap-3 pt-2">
+                {/* Confirm Goal & Advance to Pipeline Button */}
+                <div className="flex flex-wrap items-center gap-3 pt-2">
                   <button
                     type="button"
                     onClick={handleConfirm}
-                    className="rounded-full bg-[#7A9601] px-5 py-2.5 text-[14px] font-medium text-white hover:bg-black transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#16171A] hover:bg-black text-white px-6 py-2.5 text-[14px] font-medium transition-all shadow-sm cursor-pointer hover:scale-[1.01] duration-300"
                   >
-                    Confirm goal
+                    <span>Confirm Goal & Build Sales Package</span>
+                    {/* <ArrowRight className="size-4 text-[#fff]" /> */}
                   </button>
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="rounded-full border border-[#E6E6E4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#16171A] hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="rounded-full border border-[#E6E6E4] bg-white hover:bg-gray-50 px-5 py-2.5 text-[14px] font-medium text-[#16171A] transition-colors cursor-pointer"
                   >
-                    Edit goal
+                    Add more details
                   </button>
                 </div>
               </div>
             )}
-          </div>
-        )}
-      </div>
 
-      {/* Claude / GPT Style Bottom-Docked Chatbot Prompt Bar */}
-      {isConfirmed && !isSaving && (
-        <div className="sticky bottom-0 z-30 w-full bg-gradient-to-t from-[#FDFDFC] via-[#FDFDFC]/95 to-transparent pt-6 pb-6">
-          <div className="max-w-4xl mx-auto w-full">
-            <form
-              onSubmit={handleCompactSubmit}
-              className="group relative flex flex-col justify-center rounded-[26px] border border-[#E5E7EB] bg-white px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-200"
-            >
-              <input
-                type="file"
-                ref={compactFileInputRef}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setCompactFile(file);
-                  }
-                }}
-                accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.json"
-                className="hidden"
-              />
-
-              {compactFile && (
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
-                  <div className="flex size-4 shrink-0 items-center justify-center">
-                    {getFileFormatIcon(compactFile.name, 'size-3.5 object-contain')}
-                  </div>
-                  <span className="max-w-[180px] truncate">{compactFile.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => setCompactFile(null)}
-                    className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
-                  >
-                    <X className="size-3" />
-                  </button>
-                </div>
-              )}
-
-              <div className="flex items-center gap-2.5 w-full">
-                {/* Plus Button */}
-                <button
-                  type="button"
-                  onClick={() => compactFileInputRef.current?.click()}
-                  title="Upload document or file"
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
-                >
-                  <Plus className="size-4 stroke-[2.2]" />
-                </button>
-
-                {/* Textarea */}
-                <textarea
-                  ref={compactTextareaRef}
-                  rows={1}
-                  value={compactPrompt}
-                  onChange={(e) => setCompactPrompt(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleCompactSubmit();
-                    }
-                  }}
-                  placeholder="Tell Follei about your business or refine goal..."
-                  className="min-w-0 flex-1 resize-none bg-transparent text-[14.5px] leading-[22px] text-[#16171A] outline-none placeholder:text-[#94A3B8] py-1 max-h-[120px] overflow-y-auto"
+            {/* Phases 4-7 SalesPackageReview studio if active */}
+            {isConfirmed && pkg.stage !== 'idle' && (
+              <div className="animate-fade-slide mt-2">
+                <SalesPackageReview
+                  stage={pkg.stage}
+                  requirements={pkg.requirements}
+                  gapQuestions={pkg.gapQuestions}
+                  salesPackage={pkg.salesPackage}
+                  isWorking={pkg.isWorking}
+                  onAnswer={pkg.answerQuestion}
+                  onApprove={pkg.approve}
+                  onRequestRevision={pkg.requestRevision}
                 />
-
-                {/* Send Button */}
-                <button
-                  type="submit"
-                  aria-label="Send to Follei"
-                  disabled={!compactPrompt.trim() && !compactFile}
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#111827] text-white hover:bg-black disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer transition-all shadow-xs"
-                >
-                  <ArrowUp className="size-4 stroke-[2.2]" />
-                </button>
               </div>
-            </form>
-            <p className="text-center text-[12px] text-[#94A3B8] mt-2 font-normal">
-              Follei shapes your workspace based on your business context and goals.
-            </p>
+            )}
           </div>
+
+          {/* Bottom Fixed GPT / Claude Style Prompt Composer Bar */}
+          {!isConfirmed && (
+            <div className="sticky bottom-0 z-30 w-full bg-gradient-to-t from-[#FDFDFC] via-[#FDFDFC]/95 to-transparent pt-4 pb-6 px-4 sm:px-6">
+              <div className="max-w-4xl mx-auto w-full flex flex-col gap-3">
+                {/* Dynamic Suggestion Chips Ribbon above composer - Commented out for clean chat conversation */}
+                {/* {!isSubmitting && goalOptions.length > 0 && (
+                  <div className="flex flex-col gap-1.5 animate-fade-slide">
+                    <div className="flex items-center gap-1.5 text-[11.5px] font-medium text-[#717378]">
+                      <Lightbulb className="size-3 text-amber-500" />
+                      <span>Suggested refinements based on your business data:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {goalOptions.map((goalItem, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleSuggestionClick(goalItem)}
+                          className="group inline-flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-all duration-150 hover:border-[#0D9488] hover:bg-[#F4FBF7] hover:text-[#0D9488] cursor-pointer shadow-2xs hover:shadow-xs active:scale-98"
+                        >
+                          <Plus className="size-3 text-[#94A3B8] group-hover:text-[#0D9488] transition-colors" />
+                          <span>{goalItem}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )} */}
+
+                {/* Main Form Composer */}
+                <form
+                  onSubmit={handleSubmit}
+                  className="group relative flex flex-col justify-center rounded-[26px] border border-[#E5E7EB] bg-white p-3 sm:px-5 sm:py-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-200"
+                >
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.json"
+                    className="hidden"
+                  />
+
+                  {attachedFile && (
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
+                      <div className="flex size-4 shrink-0 items-center justify-center">
+                        {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
+                      </div>
+                      <span className="max-w-[200px] truncate">{attachedFile.name}</span>
+                      <button
+                        type="button"
+                        onClick={removeAttachedFile}
+                        disabled={isSubmitting}
+                        className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-2.5 w-full">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isSubmitting}
+                      title="Attach file to message"
+                      aria-label="Upload document"
+                      className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs active:scale-95"
+                    >
+                      <Plus className="size-4.5 stroke-[2.2]" />
+                    </button>
+
+                    <textarea
+                      ref={textareaRef}
+                      rows={1}
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSubmit(e);
+                        }
+                      }}
+                      placeholder="Reply to Follei or add more manual details..."
+                      disabled={isSubmitting}
+                      className="min-w-0 flex-1 resize-none bg-transparent text-[15px] leading-[24px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
+                    />
+
+                    <button
+                      type="submit"
+                      aria-label="Send message"
+                      disabled={!canSubmit || isSubmitting}
+                      className={`flex size-9 md:size-10 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                        canSubmit && !isSubmitting
+                          ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
+                          : 'bg-[#F3F4F6] text-[#94A3B8] cursor-not-allowed opacity-60'
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className="size-4 animate-spin text-white" />
+                      ) : (
+                        <ArrowUp className="size-4.5 stroke-[2.4]" />
+                      )}
+                    </button>
+                  </div>
+                </form>
+
+                <p className="text-center text-[12px] text-[#94A3B8] font-normal">
+                  Type your reply to Follei AI to refine and confirm your goal.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

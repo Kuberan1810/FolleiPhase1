@@ -8,8 +8,10 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { errorMessage } from '../lib/axios';
+import { queryKeys } from '../lib/queryClient';
 import {
   createBusiness,
   createWorkspace,
@@ -43,6 +45,7 @@ const INITIAL: SetupFlowState = {
 };
 
 export const useSetupFlow = (companyName: string) => {
+  const queryClient = useQueryClient();
   const [state, setState] = useState<SetupFlowState>(INITIAL);
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
   const [isUploadingDocuments, setIsUploadingDocuments] = useState(false);
@@ -80,6 +83,8 @@ export const useSetupFlow = (companyName: string) => {
         ]);
         if (cancelled) return;
         setActiveWorkspaceId(workspace.id);
+        queryClient.setQueryData(queryKeys.documents(workspace.id), documents);
+        queryClient.setQueryData(queryKeys.leads(workspace.id), leads);
         setState({
           businessCategory: business.category,
           customerType: business.customer_type,
@@ -97,7 +102,7 @@ export const useSetupFlow = (companyName: string) => {
     };
     void restore();
     return () => { cancelled = true; };
-  }, []);
+  }, [queryClient]);
 
   const setBusinessCategory = useCallback(
     (category: string) => setState((s) => ({ ...s, businessCategory: category })),
@@ -171,6 +176,8 @@ export const useSetupFlow = (companyName: string) => {
           uploaded.push(await uploadDocument(workspace.id, file));
         }
         setState((s) => ({ ...s, documents: uploaded }));
+        queryClient.setQueryData(queryKeys.documents(workspace.id), uploaded);
+        queryClient.invalidateQueries({ queryKey: queryKeys.documents(workspace.id) });
         toast.success(
           `Uploaded ${uploaded.length} document${uploaded.length === 1 ? '' : 's'} -- Follei is reading them`,
         );
@@ -186,7 +193,7 @@ export const useSetupFlow = (companyName: string) => {
         setIsUploadingDocuments(false);
       }
     },
-    [ensureWorkspace],
+    [ensureWorkspace, queryClient],
   );
 
   const uploadLeads = useCallback(
@@ -201,6 +208,7 @@ export const useSetupFlow = (companyName: string) => {
           imported += result.imported;
         }
         setState((s) => ({ ...s, leadCount: s.leadCount + imported }));
+        queryClient.invalidateQueries({ queryKey: queryKeys.leads(workspace.id) });
         toast.success(`Imported ${imported} lead${imported === 1 ? '' : 's'}`);
         return imported;
       } catch (error) {
@@ -210,7 +218,7 @@ export const useSetupFlow = (companyName: string) => {
         setIsImportingLeads(false);
       }
     },
-    [ensureWorkspace],
+    [ensureWorkspace, queryClient],
   );
 
   return {

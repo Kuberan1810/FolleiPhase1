@@ -41,4 +41,7 @@ export interface WorkspaceContextItem {
   value?: string;
   subtitle?: string;
   isLoading?: boolean;
+  isEmpty?: boolean;
+  actionLabel?: string;
+  onAction?: () => void;
 }

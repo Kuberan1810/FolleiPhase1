@@ -35,7 +35,7 @@ export const LeadsTable: React.FC<LeadsTableProps> = ({
                 scope="col"
                 className="w-16 px-6 py-3.5 text-[12px] uppercase tracking-wider text-[#6B7280] font-semibold bg-[#F8F9FA]"
               >
-                #
+                S.no
               </th>
 
               {/* Lead */}

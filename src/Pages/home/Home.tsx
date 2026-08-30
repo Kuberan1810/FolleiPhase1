@@ -8,8 +8,7 @@ import { useSalesPackageFlow } from '../../hooks/useSalesPackageFlow';
 import SalesPackageReview from './section/SalesPackageReview';
 import { getStoredUser } from '../../lib/auth';
 
-/** The signed-in user, from the session the auth flow stored. The previous
- *  hardcoded default greeted every account by the same name. */
+/** The signed-in user, from the session the auth flow stored. */
 const currentUser = () => {
   const stored = getStoredUser();
   const name = stored?.full_name?.trim() || stored?.email?.split('@')[0] || 'there';
@@ -25,16 +24,9 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [user] = useState(currentUser);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  // Local only for the moment the goal is confirmed in this session. The
-  // real answer lives on the workspace: without deriving it, navigating away
-  // and back dropped the user at the goal form again with the pipeline
-  // already running behind it.
-  const [justConfirmed, setJustConfirmed] = useState(false);
+  const [isReviewingPackage, setIsReviewingPackage] = useState(false);
   const { workspaceId, workspace } = useActiveWorkspace();
-  // Confirming the goal starts Phases 4-7; this owns that pipeline.
   const flow = useSalesPackageFlow(workspaceId);
-  // A workspace with a goal has passed this step, whatever this tab knows.
-  const isProjectReady = justConfirmed || Boolean(workspace?.goal_text);
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
@@ -64,12 +56,12 @@ export const Home: React.FC = () => {
           <div className="size-8" />
         </div>
 
-        {/* Content based on Project state */}
-        {isProjectReady ? (
-          <div className="min-w-0 flex-1">
-            <div className="mx-auto flex w-full max-w-4xl flex-col items-start gap-6 px-6 py-14 md:py-20 animate-fade-slide">
+        {/* Home Screen: Always displays the clean Prompt & Goal Chat UI */}
+        {isReviewingPackage ? (
+          <div key={workspaceId} className="min-w-0 flex-1">
+            <div className="mx-auto flex w-full max-w-5xl flex-col items-start gap-6 px-6 py-10 md:py-14 animate-fade-slide">
               <div className="flex flex-col gap-2">
-                <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">
+                <h1 className="text-[28px] sm:text-[32px] font-semibold text-[#16171A] tracking-tight">
                   {workspace?.name || 'Your project'}
                 </h1>
                 <p className="text-[15px] text-[#717378]">
@@ -77,8 +69,7 @@ export const Home: React.FC = () => {
                 </p>
               </div>
 
-              {/* Phases 4-7 run here, in the same place the goal was set,
-                  rather than on a separate screen the user has to find. */}
+              {/* Phases 4-7: Sales Package Review Studio */}
               <SalesPackageReview
                 stage={flow.stage}
                 requirements={flow.requirements}
@@ -87,6 +78,7 @@ export const Home: React.FC = () => {
                 isWorking={flow.isWorking}
                 onAnswer={flow.answerQuestion}
                 onApprove={flow.approve}
+                onRequestRevision={flow.requestRevision}
               />
 
               {flow.stage === 'verified' && (
@@ -103,12 +95,11 @@ export const Home: React.FC = () => {
           </div>
         ) : (
           <GoalDefinition
+            key={workspaceId}
             userName={user.name}
             workspaceId={workspaceId}
             onProjectReady={() => {
-              setJustConfirmed(true);
-              // Confirming the goal is what kicks off requirements ->
-              // gap questions -> sales package.
+              setIsReviewingPackage(true);
               void flow.start();
             }}
           />

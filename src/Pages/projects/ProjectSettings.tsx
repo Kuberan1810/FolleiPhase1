@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Menu, Check, Loader2, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Sidebar from '../../Component/Sidebar';
@@ -11,6 +12,7 @@ import { importLeadsCsv } from '../../api/leads/leads.api';
 import { useLeads } from '../../hooks/useLeads';
 import { listBusinesses, type Business } from '../../api/dashboard/dashboard.api';
 import { errorMessage } from '../../lib/axios';
+import { queryKeys } from '../../lib/queryClient';
 import BusinessAnalysisCard from '../DashboardSetup/setupwidgets/BusinessAnalysisCard';
 import { getFileFormatIcon } from '../../Component/fileFormatIcons';
 
@@ -29,6 +31,7 @@ const Field: React.FC<{ label: string; value?: string | null }> = ({ label, valu
  * so once setup finished there was no way to see or change them.
  */
 export const ProjectSettings: React.FC = () => {
+  const queryClient = useQueryClient();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { workspace, workspaceId } = useActiveWorkspace();
   const { rename } = useProjects();
@@ -54,6 +57,7 @@ export const ProjectSettings: React.FC = () => {
     setIsUploading(true);
     try {
       for (const file of Array.from(files)) await uploadDocument(workspaceId, file);
+      queryClient.invalidateQueries({ queryKey: queryKeys.documents(workspaceId) });
       toast.success(`Uploaded ${files.length} document${files.length === 1 ? '' : 's'}`);
     } catch (error) {
       toast.error(errorMessage(error, 'Could not upload'));

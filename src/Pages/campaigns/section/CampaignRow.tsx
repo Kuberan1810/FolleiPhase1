@@ -24,14 +24,16 @@ const ChatBubbleIcon: React.FC<{ className?: string }> = ({ className = 'size-4'
 );
 
 export const CampaignRow: React.FC<CampaignRowProps> = ({ campaign }) => {
+  const channels = Array.isArray(campaign.channels) ? campaign.channels : ['Call'];
+
   // Channel icons renderer
   const renderChannelIcons = () => {
     return (
       <div className="flex items-center gap-1.5 text-[#64748B]">
-        {campaign.channels.includes('WhatsApp') && (
+        {channels.includes('WhatsApp') && (
           <ChatBubbleIcon className="size-4 text-[#64748B]" />
         )}
-        {campaign.channels.includes('Call') && (
+        {channels.includes('Call') && (
           <Phone className="size-3.5 text-[#64748B] stroke-[1.8]" />
         )}
       </div>
@@ -39,7 +41,7 @@ export const CampaignRow: React.FC<CampaignRowProps> = ({ campaign }) => {
   };
 
   // Channel formatted string label (e.g. "WhatsApp + Call")
-  const channelText = campaign.channels.join(' + ');
+  const channelText = channels.join(' + ');
 
   // Status badge styling
   const getStatusBadge = () => {
