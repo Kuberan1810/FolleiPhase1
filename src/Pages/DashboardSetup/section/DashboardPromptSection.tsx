@@ -49,14 +49,14 @@ export const DashboardPromptSection: React.FC<DashboardPromptSectionProps> = ({
         <div className="flex items-center gap-3 pt-1 animate-fade-slide">
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-2 text-[13px]  font-medium text-[#16171A] hover:bg-gray-50 shadow-2xs cursor-pointer transition-colors"
+            className="flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-2 text-[13px] font-medium text-[#16171A] hover:bg-gray-50 cursor-pointer transition-colors"
           >
             <Upload className="size-3.5 text-[#717378]" />
             <span>Upload Data</span>
           </button>
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-2 text-[13px]  font-medium text-[#16171A] hover:bg-gray-50 shadow-2xs cursor-pointer transition-colors"
+            className="flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-2 text-[13px] font-medium text-[#16171A] hover:bg-gray-50 cursor-pointer transition-colors"
           >
             <Users className="size-3.5 text-[#717378]" />
             <span>Add Leads</span>

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Plus, ArrowUp, X } from 'lucide-react';
+import { Sparkles, ArrowUp, X, Plus } from 'lucide-react';
 import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 
 interface PromptInputProps {
@@ -8,6 +8,7 @@ interface PromptInputProps {
   onSubmit: (e?: React.FormEvent) => void;
   placeholder?: string;
   disabled?: boolean;
+  showSparkles?: boolean;
 }
 
 export const PromptInput: React.FC<PromptInputProps> = ({
@@ -16,6 +17,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
   onSubmit,
   placeholder = 'Tell Follei about your business...',
   disabled = false,
+  showSparkles = true,
 }) => {
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -64,7 +66,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center rounded-[22px] border border-[#D7D7D4] bg-white px-4 py-3 shadow-xs transition-shadow duration-200 focus-within:border-gray-400 focus-within:shadow-md min-h-[70px]"
+      className="flex flex-col justify-center rounded-[24px] border border-[#E6E6E4] bg-white px-4 py-3 min-h-[64px]"
     >
       {/* Hidden File Input */}
       <input
@@ -77,7 +79,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
 
       {/* Attached File Preview Badge */}
       {attachedFile && (
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium mb-2 self-start">
           <div className="flex size-4 shrink-0 items-center justify-center">
             {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
           </div>
@@ -93,19 +95,25 @@ export const PromptInput: React.FC<PromptInputProps> = ({
         </div>
       )}
 
-      {/* Input Controls Row: Plus -> Textarea -> Submit Arrow */}
-      <div className="flex items-center gap-2.5 w-full">
-        {/* Plus / Upload Button */}
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={disabled}
-          title="Upload document"
-          aria-label="Upload document"
-          className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
-        >
-          <Plus className="size-4 stroke-[2.2]" />
-        </button>
+      {/* Input Controls Row: Sparkles -> Textarea -> Submit Arrow */}
+      <div className="flex items-center gap-3 w-full">
+        {/* Left Icon (Sparkles by default as in screenshot) */}
+        {showSparkles ? (
+          <div className="flex size-7 shrink-0 items-center justify-center text-[#0D9488]">
+            <Sparkles className="size-4.5 text-[#0D9488]" />
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={disabled}
+            title="Upload document"
+            aria-label="Upload document"
+            className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
+          >
+            <Plus className="size-4 stroke-[2.2]" />
+          </button>
+        )}
 
         {/* Auto-expanding Textarea */}
         <textarea
@@ -119,14 +127,14 @@ export const PromptInput: React.FC<PromptInputProps> = ({
           className="min-w-0 flex-1 resize-none bg-transparent text-[14px] leading-[22px] text-[#16171A] outline-none placeholder:text-[#717378] py-0.5 max-h-[140px] overflow-y-auto"
         />
 
-        {/* Send Arrow Button */}
+        {/* Send Arrow Button (Circular pill) */}
         <button
           type="submit"
           aria-label="Send to Follei"
           disabled={!hasContent || disabled}
-          className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-gray-900 text-white transition-opacity duration-150 hover:bg-black disabled:opacity-25 disabled:cursor-not-allowed cursor-pointer"
+          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#CBD5E1] hover:bg-[#94A3B8] text-white transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         >
-          <ArrowUp className="size-4" aria-hidden="true" />
+          <ArrowUp className="size-4 stroke-[2.5]" aria-hidden="true" />
         </button>
       </div>
     </form>
@@ -134,7 +142,3 @@ export const PromptInput: React.FC<PromptInputProps> = ({
 };
 
 export default PromptInput;
-
-
-
-

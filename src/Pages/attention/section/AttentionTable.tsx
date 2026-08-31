@@ -1,7 +1,6 @@
 import React from 'react';
 import type { AttentionLead } from '../types';
 import { AttentionRow } from './AttentionRow';
-import { initialMockAttentionLeads } from '../data/mockAttentionLeads';
 
 interface AttentionTableProps {
   leads?: AttentionLead[];
