@@ -12,6 +12,7 @@ export type CallConnectionState =
   | 'error';
 
 export type LeadTemperature = 'HOT' | 'WARM' | 'COLD';
+export type SpeechProviderId = 'ELEVENLABS' | 'FOLLEI';
 
 export interface VoiceOption {
   id: string;
@@ -21,8 +22,22 @@ export interface VoiceOption {
   accent: string;
 }
 
+export interface SpeechProviderOption {
+  id: SpeechProviderId;
+  name: string;
+  available: boolean;
+  reason?: string | null;
+  voices: VoiceOption[];
+  default_voice_id: string | null;
+  stt_model: string;
+  tts_model: string;
+  output_sample_rate: number;
+}
+
 export interface CallLabConfig {
   available: boolean;
+  providers: SpeechProviderOption[];
+  default_provider: SpeechProviderId;
   voices: VoiceOption[];
   default_voice_id: string | null;
   stt_model: string;
@@ -45,6 +60,7 @@ export interface CallSession {
   lead_id: string | null;
   status: string;
   language: string;
+  speech_provider: SpeechProviderId;
   voice_id: string;
   voice_name: string;
   lead_temperature: LeadTemperature | null;
@@ -63,7 +79,12 @@ export const getCallLabConfig = async (workspaceId: string): Promise<CallLabConf
 
 export const createCallSession = async (
   workspaceId: string,
-  payload: { lead_id?: string | null; language?: string | null; voice_id?: string | null } = {},
+  payload: {
+    lead_id?: string | null;
+    language?: string | null;
+    speech_provider?: SpeechProviderId | null;
+    voice_id?: string | null;
+  } = {},
 ): Promise<CallSession> => {
   const { data } = await api.post<CallSession>(`/api/workspaces/${workspaceId}/call-sessions`, payload);
   return data;

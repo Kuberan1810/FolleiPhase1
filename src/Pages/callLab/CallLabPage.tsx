@@ -11,6 +11,7 @@ import {
   type CallConnectionState,
   type CallLabConfig,
   type LeadTemperature,
+  type SpeechProviderId,
 } from '../../api/calllab/calllab.api';
 
 type TranscriptLine = {
@@ -18,6 +19,7 @@ type TranscriptLine = {
   role: 'lead' | 'follei';
   text: string;
   spokenText?: string;
+  audioReady?: boolean;
   /** Server-stamped, so both sides share one clock. */
   at?: string;
 };
@@ -59,7 +61,9 @@ export const CallLabPage: React.FC = () => {
   const [transcript, setTranscript] = useState<TranscriptLine[]>([]);
   const [partial, setPartial] = useState('');
   const [temperature, setTemperature] = useState<LeadTemperature | null>(null);
+  const [selectedProviderId, setSelectedProviderId] = useState<SpeechProviderId>('ELEVENLABS');
   const [selectedVoiceId, setSelectedVoiceId] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState<'TAMIL' | 'ENGLISH' | 'HINDI'>('TAMIL');
 
   const socketRef = useRef<WebSocket | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -71,6 +75,12 @@ export const CallLabPage: React.FC = () => {
   const interruptedRef = useRef(false);
   const loudBlocksRef = useRef(0);
   const lineIdRef = useRef(0);
+  const currentAudioLineRef = useRef<number | null>(null);
+  const audioChunksRef = useRef(new Map<number, ArrayBuffer[]>());
+  const replayingRef = useRef(false);
+  const replayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const listeningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [replayingLineId, setReplayingLineId] = useState<number | null>(null);
 
   const changeState = (next: CallConnectionState) => {
     stateRef.current = next;
@@ -82,10 +92,25 @@ export const CallLabPage: React.FC = () => {
     getCallLabConfig(workspaceId)
       .then((next) => {
         setConfig(next);
-        setSelectedVoiceId(next.default_voice_id || next.voices[0]?.id || '');
+        const providerId = next.default_provider || 'ELEVENLABS';
+        const provider = next.providers?.find((option) => option.id === providerId);
+        setSelectedProviderId(providerId);
+        setSelectedVoiceId(
+          provider?.default_voice_id || provider?.voices[0]?.id || next.default_voice_id || next.voices[0]?.id || '',
+        );
       })
       .catch((error) => toast.error(errorMessage(error, 'Could not load voice configuration')));
   }, [workspaceId]);
+
+  const selectedProvider = config?.providers?.find((provider) => provider.id === selectedProviderId);
+  const selectedVoices = selectedProvider?.voices || config?.voices || [];
+
+  const chooseProvider = (providerId: SpeechProviderId) => {
+    const provider = config?.providers?.find((option) => option.id === providerId);
+    setSelectedProviderId(providerId);
+    setSelectedVoiceId(provider?.default_voice_id || provider?.voices[0]?.id || '');
+    if (providerId === 'FOLLEI') setSelectedLanguage('TAMIL');
+  };
 
   const stopPlayback = () => {
     playbackRef.current.forEach((source) => {
@@ -97,6 +122,9 @@ export const CallLabPage: React.FC = () => {
     });
     playbackRef.current.clear();
     playbackTimeRef.current = contextRef.current?.currentTime || 0;
+    replayingRef.current = false;
+    setReplayingLineId(null);
+    if (replayTimerRef.current) clearTimeout(replayTimerRef.current);
   };
 
   /** PCM streams: each chunk is scheduled as it arrives, gap-free, so audio
@@ -104,9 +132,17 @@ export const CallLabPage: React.FC = () => {
   const playPcm = (payload: ArrayBuffer) => {
     const context = contextRef.current;
     if (!context || payload.byteLength < 2 || interruptedRef.current) return;
+    const lineId = currentAudioLineRef.current;
+    if (lineId !== null) {
+      audioChunksRef.current.get(lineId)?.push(payload.slice(0));
+    }
     const view = new DataView(payload);
     const sampleCount = Math.floor(payload.byteLength / 2);
-    const audioBuffer = context.createBuffer(1, sampleCount, config?.output_sample_rate || 24000);
+    const audioBuffer = context.createBuffer(
+      1,
+      sampleCount,
+      selectedProvider?.output_sample_rate || config?.output_sample_rate || 24000,
+    );
     const channel = audioBuffer.getChannelData(0);
     for (let index = 0; index < sampleCount; index += 1) {
       channel[index] = view.getInt16(index * 2, true) / 32768;
@@ -119,6 +155,44 @@ export const CallLabPage: React.FC = () => {
     playbackTimeRef.current = startAt + audioBuffer.duration;
     playbackRef.current.add(source);
     source.onended = () => playbackRef.current.delete(source);
+  };
+
+  const replayAudio = async (lineId: number) => {
+    const chunks = audioChunksRef.current.get(lineId);
+    if (!chunks?.length) return;
+    stopPlayback();
+    let context = contextRef.current;
+    if (!context || context.state === 'closed') {
+      context = new AudioContext();
+      contextRef.current = context;
+    }
+    if (context.state === 'suspended') await context.resume();
+    replayingRef.current = true;
+    setReplayingLineId(lineId);
+    const rate = selectedProvider?.output_sample_rate || config?.output_sample_rate || 24000;
+    let duration = 0;
+    for (const payload of chunks) {
+      const view = new DataView(payload);
+      const sampleCount = Math.floor(payload.byteLength / 2);
+      const audioBuffer = context.createBuffer(1, sampleCount, rate);
+      const channel = audioBuffer.getChannelData(0);
+      for (let index = 0; index < sampleCount; index += 1) {
+        channel[index] = view.getInt16(index * 2, true) / 32768;
+      }
+      const source = context.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(context.destination);
+      const startAt = Math.max(context.currentTime + 0.025, playbackTimeRef.current);
+      source.start(startAt);
+      playbackTimeRef.current = startAt + audioBuffer.duration;
+      duration += audioBuffer.duration;
+      playbackRef.current.add(source);
+      source.onended = () => playbackRef.current.delete(source);
+    }
+    replayTimerRef.current = setTimeout(() => {
+      replayingRef.current = false;
+      setReplayingLineId(null);
+    }, duration * 1000 + 100);
   };
 
   const endSession = () => {
@@ -153,7 +227,11 @@ export const CallLabPage: React.FC = () => {
     if (!workspaceId || !config) return;
     changeState('connecting');
     try {
-      const session = await createCallSession(workspaceId, { voice_id: selectedVoiceId || null });
+      const session = await createCallSession(workspaceId, {
+        speech_provider: selectedProviderId,
+        voice_id: selectedVoiceId || null,
+        language: selectedLanguage,
+      });
       const ticket = await createRealtimeTicket(workspaceId, session.id);
 
       const media = await navigator.mediaDevices.getUserMedia({
@@ -188,7 +266,13 @@ export const CallLabPage: React.FC = () => {
 
           worklet.port.onmessage = ({ data }: MessageEvent<{ type: string; buffer: ArrayBuffer; rms: number }>) => {
             if (data.type !== 'audio' || socket.readyState !== WebSocket.OPEN) return;
+            if (replayingRef.current) return;
             if (stateRef.current === 'speaking') {
+              // IndicF5 generates the whole reply before streaming it. On
+              // speakers, its own voice can leak into the mic and look like a
+              // barge-in, cutting the sentence in half. The pilot prioritizes
+              // complete playback; the End button remains immediately usable.
+              if (selectedProviderId === 'FOLLEI') return;
               if (interruptedRef.current) return;
               if (data.rms <= BARGE_IN_RMS) {
                 loudBlocksRef.current = 0;
@@ -207,10 +291,22 @@ export const CallLabPage: React.FC = () => {
           workletRef.current = worklet;
           socket.send(JSON.stringify({ type: 'client.ready' }));
         } else if (message.type === 'state') {
-          changeState(message.state as CallConnectionState);
+          const nextState = message.state as CallConnectionState;
+          if (
+            nextState === 'listening' &&
+            stateRef.current === 'speaking' &&
+            playbackTimeRef.current > context.currentTime
+          ) {
+            if (listeningTimerRef.current) clearTimeout(listeningTimerRef.current);
+            const remainingMs = (playbackTimeRef.current - context.currentTime) * 1000 + 75;
+            listeningTimerRef.current = setTimeout(() => changeState('listening'), remainingMs);
+          } else {
+            changeState(nextState);
+          }
         } else if (message.type === 'transcript.partial') {
           setPartial(String(message.text || ''));
         } else if (message.type === 'transcript.final') {
+          currentAudioLineRef.current = null;
           setPartial('');
           setTranscript((current) => [
             ...current,
@@ -226,10 +322,13 @@ export const CallLabPage: React.FC = () => {
           // set by a barge-in would suppress the next reply too.
           interruptedRef.current = false;
           loudBlocksRef.current = 0;
+          const lineId = ++lineIdRef.current;
+          currentAudioLineRef.current = lineId;
+          audioChunksRef.current.set(lineId, []);
           setTranscript((current) => [
             ...current,
             {
-              id: ++lineIdRef.current,
+              id: lineId,
               role: 'follei',
               text: String(message.canonical_text),
               spokenText: String(message.spoken_text),
@@ -237,6 +336,14 @@ export const CallLabPage: React.FC = () => {
             },
           ]);
           setTemperature((message.lead_temperature as LeadTemperature | null) || null);
+        } else if (message.type === 'audio.end') {
+          const lineId = currentAudioLineRef.current;
+          if (lineId !== null && (audioChunksRef.current.get(lineId)?.length || 0) > 0) {
+            setTranscript((current) =>
+              current.map((line) => (line.id === lineId ? { ...line, audioReady: true } : line)),
+            );
+          }
+          currentAudioLineRef.current = null;
         } else if (message.type === 'assistant.interrupted') {
           stopPlayback();
         } else if (message.type === 'error') {
@@ -296,14 +403,31 @@ export const CallLabPage: React.FC = () => {
           />
           <span className="text-[13px] font-medium">{STATE_LABELS[state]}</span>
 
-          {config && config.voices.length > 0 && (
+          {config && config.providers?.length > 0 && (
+            <select
+              value={selectedProviderId}
+              onChange={(event) => chooseProvider(event.target.value as SpeechProviderId)}
+              disabled={active}
+              aria-label="Speech provider"
+              className="ml-auto rounded-lg border border-[#E6E6E4] px-2 py-1 text-[12.5px]"
+            >
+              {config.providers.map((provider) => (
+                <option key={provider.id} value={provider.id} disabled={!provider.available}>
+                  {provider.name}{provider.available ? '' : ' — unavailable'}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {selectedVoices.length > 0 && (
             <select
               value={selectedVoiceId}
               onChange={(e) => setSelectedVoiceId(e.target.value)}
               disabled={active}
-              className="ml-auto rounded-lg border border-[#E6E6E4] px-2 py-1 text-[12.5px]"
+              aria-label="Voice"
+              className="rounded-lg border border-[#E6E6E4] px-2 py-1 text-[12.5px]"
             >
-              {config.voices.map((voice) => (
+              {selectedVoices.map((voice) => (
                 <option key={voice.id} value={voice.id}>
                   {voice.name}
                 </option>
@@ -311,11 +435,29 @@ export const CallLabPage: React.FC = () => {
             </select>
           )}
 
+          <select
+            value={selectedLanguage}
+            onChange={(event) =>
+              setSelectedLanguage(event.target.value as 'TAMIL' | 'ENGLISH' | 'HINDI')
+            }
+            disabled={active}
+            aria-label="Call language"
+            className="rounded-lg border border-[#E6E6E4] px-2 py-1 text-[12.5px]"
+          >
+            <option value="TAMIL">Tamil</option>
+            <option value="ENGLISH" disabled={selectedProviderId === 'FOLLEI'}>English</option>
+            <option value="HINDI" disabled={selectedProviderId === 'FOLLEI'}>Hindi</option>
+          </select>
+
+          {selectedProvider && !selectedProvider.available && selectedProvider.reason && (
+            <span className="w-full text-[12px] text-amber-700">{selectedProvider.reason}</span>
+          )}
+
           {!active ? (
             <button
               type="button"
               onClick={() => void connect()}
-              disabled={!config?.available || !workspaceId}
+              disabled={!selectedProvider?.available || !workspaceId}
               className="flex h-10 items-center gap-2 rounded-full bg-[#17181B] px-5 text-[13px] font-medium text-white disabled:cursor-not-allowed disabled:opacity-35"
             >
               <Phone className="size-4" />
@@ -353,6 +495,17 @@ export const CallLabPage: React.FC = () => {
               <span className="mb-0.5 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-[#717378]">
                 <span>{line.role === 'follei' ? 'Follei' : 'You'}</span>
                 {line.at && <span className="font-normal normal-case tabular-nums">{clockTime(line.at)}</span>}
+                {line.role === 'follei' && line.audioReady && (
+                  <button
+                    type="button"
+                    onClick={() => void replayAudio(line.id)}
+                    aria-label="Replay Follei audio"
+                    title="Replay this generated voice"
+                    className="inline-flex size-7 items-center justify-center rounded-full text-[#0D9488] hover:bg-emerald-50"
+                  >
+                    <Volume2 className={`size-3.5 ${replayingLineId === line.id ? 'animate-pulse' : ''}`} />
+                  </button>
+                )}
               </span>
               <p className="text-[14px] leading-relaxed">{line.text}</p>
               {line.spokenText && line.spokenText !== line.text && (
