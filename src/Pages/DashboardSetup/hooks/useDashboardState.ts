@@ -6,6 +6,8 @@ import type { SetupStep, PromptSuggestion, UserProfile, WorkspaceContextItem } f
 import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP_CONFIGS, DEFAULT_USER } from '../data';
 import { getStoredUser } from '../../../lib/auth';
 
+import { setupMemoryStore } from '../data/setupMemoryStore';
+
 export const useDashboardState = () => {
   const [user] = useState<UserProfile>(() => {
     const stored = getStoredUser();
@@ -22,10 +24,10 @@ export const useDashboardState = () => {
   );
   const [promptText, setPromptText] = useState<string>('');
   const [miniPromptText, setMiniPromptText] = useState<string>('');
-  const [steps, setSteps] = useState<SetupStep[]>(INITIAL_SETUP_STEPS);
-  const [currentStepId, setCurrentStepId] = useState<string>('business');
+  const [steps, setSteps] = useState<SetupStep[]>(() => setupMemoryStore.steps || INITIAL_SETUP_STEPS);
+  const [currentStepId, setCurrentStepId] = useState<string>(() => setupMemoryStore.currentStepId || 'business');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [workspaceItems, setWorkspaceItems] = useState<WorkspaceContextItem[]>([]);
+  const [workspaceItems, setWorkspaceItems] = useState<WorkspaceContextItem[]>(() => setupMemoryStore.workspaceItems || []);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isMobileSetupOpen, setIsMobileSetupOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -36,9 +38,13 @@ export const useDashboardState = () => {
 
   const [isImportingBusinessData, setIsImportingBusinessData] = useState<boolean>(false);
   const [isImportingLeads, setIsImportingLeads] = useState<boolean>(false);
-  const [isComplete, setIsComplete] = useState<boolean>(false);
-  const [isWorkspaceReady, setIsWorkspaceReady] = useState<boolean>(false);
+  const [isComplete, setIsComplete] = useState<boolean>(() => setupMemoryStore.isComplete || false);
+  const [isWorkspaceReady, setIsWorkspaceReady] = useState<boolean>(() => setupMemoryStore.isWorkspaceReady || false);
   const [isProjectReady, setIsProjectReady] = useState<boolean>(false);
+
+  const [businessType, setBusinessType] = useState<string>(() => setupMemoryStore.businessType || '');
+  const [customerType, setCustomerType] = useState<string>(() => setupMemoryStore.customerType || '');
+  const [maxReachedIndex, setMaxReachedIndex] = useState<number>(() => setupMemoryStore.maxReachedIndex || 0);
 
   // Suggestions & Step Configuration
   const suggestions: PromptSuggestion[] = isWorkspaceReady ? READY_PROMPT_SUGGESTIONS : PROMPT_SUGGESTIONS;
@@ -50,8 +56,31 @@ export const useDashboardState = () => {
     setPromptText(text);
   };
 
-  const [businessType, setBusinessType] = useState<string>('');
-  const [customerType, setCustomerType] = useState<string>('');
+  // Sync to in-memory store so navigating between pages keeps progress
+  useEffect(() => {
+    setupMemoryStore.steps = steps;
+  }, [steps]);
+  useEffect(() => {
+    setupMemoryStore.currentStepId = currentStepId;
+  }, [currentStepId]);
+  useEffect(() => {
+    setupMemoryStore.workspaceItems = workspaceItems;
+  }, [workspaceItems]);
+  useEffect(() => {
+    setupMemoryStore.isComplete = isComplete;
+  }, [isComplete]);
+  useEffect(() => {
+    setupMemoryStore.isWorkspaceReady = isWorkspaceReady;
+  }, [isWorkspaceReady]);
+  useEffect(() => {
+    setupMemoryStore.maxReachedIndex = maxReachedIndex;
+  }, [maxReachedIndex]);
+  useEffect(() => {
+    setupMemoryStore.businessType = businessType;
+  }, [businessType]);
+  useEffect(() => {
+    setupMemoryStore.customerType = customerType;
+  }, [customerType]);
   // Picking "Other" must not advance the step -- the flow asks what the
   // business actually does and stores that free-text answer as the category.
   const [awaitingCustomAnswer, setAwaitingCustomAnswer] = useState<string | null>(null);
@@ -205,7 +234,6 @@ export const useDashboardState = () => {
   }, [ingestion.documents, ingestion.processed.length, ingestion.processing.length, ingestion.failed.length]);
 
 
-  const [maxReachedIndex, setMaxReachedIndex] = useState<number>(0);
 
   const advanceStep = (stepValue: string, stepId: string, pendingFiles?: File[]) => {
     // 1. Add / Update Workspace context item based on current step

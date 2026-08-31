@@ -5,14 +5,8 @@ import {
   Check,
   Loader2,
   Plus,
-  Sparkles,
   Copy,
   CheckCheck,
-  ArrowRight,
-  Lightbulb,
-  Edit3,
-  Bot,
-  User,
 } from 'lucide-react';
 import { getFileFormatIcon } from '../../../Component/fileFormatIcons';
 import { useGoalConversation } from '../../../hooks/useGoalConversation';
@@ -49,7 +43,6 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
@@ -375,7 +368,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             </div>
 
             {/* Settled / Verified Goal State (When Goal is Finalized) */}
-            {(goal.isFinalized || isConfirmed) && !isSaving && (
+            {(goal.isFinalized || isConfirmed) && (
                 <div className="rounded-[26px] border border-[#E6E6E4] bg-[#fff] p-6 shadow-xs flex flex-col gap-4 animate-fade-slide">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-2.5">

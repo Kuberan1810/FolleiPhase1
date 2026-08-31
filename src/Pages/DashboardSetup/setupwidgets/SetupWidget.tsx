@@ -71,7 +71,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
   onSkip,
 }) => {
   return (
-    <aside className="rounded-[22px] border border-[#E6E6E4] bg-white shadow-lg">
+    <aside className="rounded-[22px] border border-[#E6E6E4] bg-white">
       {/* Header */}
       <header className="flex items-center justify-between border-b border-gray-100 px-4 h-[50px]">
         <div className="flex items-center gap-2">
@@ -123,7 +123,7 @@ export const SetupWidget: React.FC<SetupWidgetProps> = ({
             <button
               type="button"
               onClick={onStartUsing}
-              className="w-full h-11 bg-[#7A9601] hover:bg-[#9ab90c] text-white font-medium rounded-full text-[13.5px] transition-colors cursor-pointer shadow-sm flex items-center justify-center animate-fade-slide mt-1"
+              className="w-full h-11 bg-[#7A9601] hover:bg-[#9ab90c] text-white font-medium rounded-full text-[13.5px] transition-colors cursor-pointer flex items-center justify-center animate-fade-slide mt-1"
             >
               Start using Follei
             </button>

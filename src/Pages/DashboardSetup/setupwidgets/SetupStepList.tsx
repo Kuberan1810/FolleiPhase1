@@ -19,7 +19,6 @@ export const SetupStepList: React.FC<SetupStepListProps> = ({
         const isActive = currentStepId ? step.id === currentStepId : step.status === 'active';
         const isCompleted = step.status === 'completed';
         const isSkipped = step.status === 'skipped';
-        const isClickable = true;
 
         return (
           <li

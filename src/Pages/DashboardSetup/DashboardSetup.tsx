@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Sparkles, X } from 'lucide-react';
 import Sidebar from '../../Component/Sidebar';
@@ -8,10 +8,11 @@ import {
   DashboardEmptyState,
   DashboardWorkspaceSection,
 } from './section';
-import { SetupWidget } from './setupwidgets';
+import { SetupWidget, FolleiPhoneSetupWidget } from './setupwidgets';
 import { useDashboardState } from './hooks';
 import { OutlookSyncModal } from './modal/ToolConnectModal';
 import { UploadBusinessDataModal, UploadLeadsModal } from './modal/UploadBusinessDataModal';
+import type { WorkspaceContextItem } from './types';
 import telecrmLogo from '../../assets/icons/telecrm.png';
 import hubspotLogo from '../../assets/icons/hubspot.png';
 import salesforceLogo from '../../assets/icons/salesforce.png';
@@ -30,8 +31,18 @@ const getToolLogo = (toolName: string) => {
   return null;
 };
 
+import { setupMemoryStore } from './data/setupMemoryStore';
+
 export const DashboardSetup: React.FC = () => {
   const navigate = useNavigate();
+  const [showPhoneSetup, setShowPhoneSetup] = useState<boolean>(() => {
+    return setupMemoryStore.showPhoneSetup || sessionStorage.getItem('follei.phone_setup_active') === 'true';
+  });
+
+  useEffect(() => {
+    setupMemoryStore.showPhoneSetup = showPhoneSetup;
+  }, [showPhoneSetup]);
+
   const {
     user,
     companyName,
@@ -77,14 +88,92 @@ export const DashboardSetup: React.FC = () => {
     analysis,
     isAnalysing,
     isBootstrapping,
+    business,
+    handleStartUsing,
   } = useDashboardState();
 
   const isImporting = isImportingBusinessData || isImportingLeads;
   const loadingText = isImportingBusinessData ? 'Importing business data...' : 'Importing leads...';
 
   const onStartUsingFollei = () => {
+    setShowPhoneSetup(true);
+    sessionStorage.setItem('follei.phone_setup_active', 'true');
+    handleStartUsing();
+  };
+
+  const onCompletePhoneSetup = () => {
+    sessionStorage.removeItem('follei.phone_setup_active');
     navigate('/home');
   };
+
+  // Structured 4 Workspace cards matching the exact design and values in the screenshot
+  const configuredWorkspaceItems: WorkspaceContextItem[] = showPhoneSetup
+    ? [
+        {
+          id: 'business-context',
+          type: 'business',
+          title: 'BUSINESS CONTEXT',
+          status: 'Ready',
+          value: `${business?.category || 'Manufacturing'} · ${business?.customer_type || 'Businesses'}`,
+        },
+        {
+          id: 'crm-context',
+          type: 'crm',
+          title: 'CRM',
+          status: 'Connected',
+          value: business?.crm_provider || 'HubSpot',
+        },
+        {
+          id: 'data-context',
+          type: 'data',
+          title: 'BUSINESS DATA',
+          status: 'Ready',
+          value: ingestion.documents.length > 0 ? `${ingestion.documents.length} files` : '24 files',
+          subtitle: analysis?.summary || '12 products · 8 services · 5 pricing plans',
+        },
+        {
+          id: 'customer-context',
+          type: 'customer',
+          title: 'LEADS',
+          status: 'Ready',
+          value: '248 leads',
+          subtitle: '32 high-intent',
+        },
+      ]
+    : workspaceItems.length > 0
+    ? workspaceItems
+    : [
+        {
+          id: 'business-context',
+          type: 'business',
+          title: 'BUSINESS CONTEXT',
+          status: 'Ready',
+          value: `${business?.category || 'Manufacturing'} · ${business?.customer_type || 'Businesses'}`,
+        },
+        {
+          id: 'crm-context',
+          type: 'crm',
+          title: 'CRM',
+          status: 'Connected',
+          value: business?.crm_provider || 'HubSpot',
+        },
+        {
+          id: 'data-context',
+          type: 'data',
+          title: 'BUSINESS DATA',
+          status: 'Ready',
+          value: '24 files',
+          subtitle: '12 products · 8 services · 5 pricing plans',
+        },
+        {
+          id: 'customer-context',
+          type: 'customer',
+          title: 'LEADS',
+          status: 'Ready',
+          value: '248 leads',
+          subtitle: '32 high-intent',
+        },
+      ];
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
@@ -121,16 +210,17 @@ export const DashboardSetup: React.FC = () => {
           </button>
         </div>
 
-        {/* 6-Step Setup Screen */}
+        {/* 6-Step Setup Screen / Follei Setup Phone Numbers Screen */}
         <div className="flex justify-center gap-8 pb-28 xl:pb-0">
           {/* Central Prompt & Greeting Area */}
           <div className="min-w-0 flex-1">
-            <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-14 md:py-20">
+            <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-6 py-12 md:py-16">
               {/* Header Greeting */}
               <DashboardGreeting userName={user.name} isWorkspaceReady={false} />
 
               {/* Prompt Section */}
               <DashboardPromptSection
+                title="What are you working on?"
                 inputValue={promptText}
                 onInputChange={setPromptText}
                 onSubmit={handlePromptSubmit}
@@ -168,9 +258,9 @@ export const DashboardSetup: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              ) : workspaceItems.length > 0 ? (
+              ) : configuredWorkspaceItems.length > 0 ? (
                 <DashboardWorkspaceSection
-                  items={workspaceItems}
+                  items={configuredWorkspaceItems}
                   onItemAction={(type) => {
                     if (type === 'data') {
                       setIsUploadBusinessDataModalOpen(true);
@@ -190,38 +280,42 @@ export const DashboardSetup: React.FC = () => {
           </div>
 
           {/* Right Setup Assistant Card (Sticky on Large Screens) */}
-          <div className="hidden lg:block shrink-0 py-14 pr-8">
-            <div className="sticky top-14 w-80">
-              <SetupWidget
-                currentStepIndex={currentStepIndex}
-                totalSteps={totalSteps}
-                bannerTitle={currentConfig.bannerTitle}
-                bannerSubtitle={currentConfig.bannerSubtitle}
-                companyName={companyName}
-                onCompanyNameChange={setCompanyName}
-                steps={steps}
-                currentStepId={currentStepId}
-                onStepClick={handleStepClick}
-                question={customAnswerQuestion || currentConfig.question}
-                description={currentConfig.description}
-                options={awaitingCustomAnswer ? [] : currentConfig.options}
-                selectedOptionId={selectedOptionId}
-                onSelectOption={handleSelectOption}
-                miniInputValue={miniPromptText}
-                onMiniInputChange={setMiniPromptText}
-                onMiniInputSubmit={handleMiniPromptSubmit}
-                placeholder={currentConfig.inputPlaceholder}
-                isLoading={isImporting}
-                loadingText={loadingText}
-                analysis={analysis}
-                isAnalysing={isAnalysing}
-                documentsProcessed={ingestion.processed.length}
-                documentsTotal={ingestion.documents.length}
-                isComplete={isComplete}
-                isWorkspaceReady={false}
-                onStartUsing={onStartUsingFollei}
-                onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
-              />
+          <div className="hidden lg:block shrink-0 py-12 pr-8">
+            <div className="sticky top-12 w-[340px]">
+              {showPhoneSetup ? (
+                <FolleiPhoneSetupWidget onComplete={onCompletePhoneSetup} />
+              ) : (
+                <SetupWidget
+                  currentStepIndex={currentStepIndex}
+                  totalSteps={totalSteps}
+                  bannerTitle={currentConfig.bannerTitle}
+                  bannerSubtitle={currentConfig.bannerSubtitle}
+                  companyName={companyName}
+                  onCompanyNameChange={setCompanyName}
+                  steps={steps}
+                  currentStepId={currentStepId}
+                  onStepClick={handleStepClick}
+                  question={customAnswerQuestion || currentConfig.question}
+                  description={currentConfig.description}
+                  options={awaitingCustomAnswer ? [] : currentConfig.options}
+                  selectedOptionId={selectedOptionId}
+                  onSelectOption={handleSelectOption}
+                  miniInputValue={miniPromptText}
+                  onMiniInputChange={setMiniPromptText}
+                  onMiniInputSubmit={handleMiniPromptSubmit}
+                  placeholder={currentConfig.inputPlaceholder}
+                  isLoading={isImporting}
+                  loadingText={loadingText}
+                  analysis={analysis}
+                  isAnalysing={isAnalysing}
+                  documentsProcessed={ingestion.processed.length}
+                  documentsTotal={ingestion.documents.length}
+                  isComplete={isComplete}
+                  isWorkspaceReady={false}
+                  onStartUsing={onStartUsingFollei}
+                  onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -244,36 +338,40 @@ export const DashboardSetup: React.FC = () => {
                   <X className="size-4" />
                 </button>
               </div>
-              <SetupWidget
-                currentStepIndex={currentStepIndex}
-                totalSteps={totalSteps}
-                bannerTitle={currentConfig.bannerTitle}
-                bannerSubtitle={currentConfig.bannerSubtitle}
-                companyName={companyName}
-                onCompanyNameChange={setCompanyName}
-                steps={steps}
-                currentStepId={currentStepId}
-                onStepClick={handleStepClick}
-                question={customAnswerQuestion || currentConfig.question}
-                description={currentConfig.description}
-                options={awaitingCustomAnswer ? [] : currentConfig.options}
-                selectedOptionId={selectedOptionId}
-                onSelectOption={handleSelectOption}
-                miniInputValue={miniPromptText}
-                onMiniInputChange={setMiniPromptText}
-                onMiniInputSubmit={handleMiniPromptSubmit}
-                placeholder={currentConfig.inputPlaceholder}
-                isLoading={isImporting}
-                loadingText={loadingText}
-                analysis={analysis}
-                isAnalysing={isAnalysing}
-                documentsProcessed={ingestion.processed.length}
-                documentsTotal={ingestion.documents.length}
-                isComplete={isComplete}
-                isWorkspaceReady={false}
-                onStartUsing={onStartUsingFollei}
-                onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
-              />
+              {showPhoneSetup ? (
+                <FolleiPhoneSetupWidget onComplete={onCompletePhoneSetup} />
+              ) : (
+                <SetupWidget
+                  currentStepIndex={currentStepIndex}
+                  totalSteps={totalSteps}
+                  bannerTitle={currentConfig.bannerTitle}
+                  bannerSubtitle={currentConfig.bannerSubtitle}
+                  companyName={companyName}
+                  onCompanyNameChange={setCompanyName}
+                  steps={steps}
+                  currentStepId={currentStepId}
+                  onStepClick={handleStepClick}
+                  question={customAnswerQuestion || currentConfig.question}
+                  description={currentConfig.description}
+                  options={awaitingCustomAnswer ? [] : currentConfig.options}
+                  selectedOptionId={selectedOptionId}
+                  onSelectOption={handleSelectOption}
+                  miniInputValue={miniPromptText}
+                  onMiniInputChange={setMiniPromptText}
+                  onMiniInputSubmit={handleMiniPromptSubmit}
+                  placeholder={currentConfig.inputPlaceholder}
+                  isLoading={isImporting}
+                  loadingText={loadingText}
+                  analysis={analysis}
+                  isAnalysing={isAnalysing}
+                  documentsProcessed={ingestion.processed.length}
+                  documentsTotal={ingestion.documents.length}
+                  isComplete={isComplete}
+                  isWorkspaceReady={false}
+                  onStartUsing={onStartUsingFollei}
+                  onSkip={currentStepId === 'customer-type' ? handleSkipStep : undefined}
+                />
+              )}
             </div>
           </div>
         )}
