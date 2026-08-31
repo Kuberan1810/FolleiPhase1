@@ -54,25 +54,25 @@ export const DashboardWorkspaceSection: React.FC<DashboardWorkspaceSectionProps>
           return (
             <div
               key={item.id}
-              className={`animate-fade-slide flex flex-col justify-between w-full rounded-[22px] border p-4.5 shadow-2xs transition-all ${
+              className={`animate-fade-slide flex flex-col justify-between w-full rounded-[22px] border p-5 shadow-2xs transition-all ${
                 isItemLoading
                   ? 'border-[#A7F3D0]/60 bg-[#F4FBF7]'
                   : item.isEmpty
-                  ? 'border-dashed border-[#CBD5E1] bg-[#FAFAF9]'
+                  ? 'border-dashed border-[#CBD5E1] bg-white'
                   : 'border-[#E6E6E4] bg-white hover:border-[#CBD5E1]'
               }`}
             >
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {/* Context Header */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#717378] tracking-wider uppercase">
+                  <div className="flex items-center gap-2 text-[11.5px] font-semibold text-[#717378] tracking-wider uppercase">
                     {getIcon(item.type)}
                     <span>{item.title}</span>
                   </div>
 
                   {item.isEmpty && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200/80 px-2 py-0.5 text-[10.5px] font-medium text-amber-700">
-                      <AlertCircle className="size-3 text-amber-600" />
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFFDF5] border border-[#FDE68A] px-2.5 py-0.5 text-[11.5px] font-medium text-[#B45309]">
+                      <AlertCircle className="size-3.5 text-[#D97706]" strokeWidth={2.2} />
                       <span>Empty</span>
                     </span>
                   )}
@@ -81,22 +81,22 @@ export const DashboardWorkspaceSection: React.FC<DashboardWorkspaceSectionProps>
                 {/* Status indicator */}
                 {item.status && (
                   <div
-                    className={`flex items-center gap-1.5 text-[13px] font-medium ${
+                    className={`flex items-center gap-2 text-[13.5px] ${
                       isItemLoading
-                        ? 'text-[#0D9488]'
+                        ? 'text-[#0D9488] font-medium'
                         : item.isEmpty
-                        ? 'text-amber-700'
+                        ? 'text-[#C2410C] font-semibold'
                         : isAttention
-                        ? 'text-amber-600'
-                        : 'text-[#0D9488]'
+                        ? 'text-amber-600 font-medium'
+                        : 'text-[#0D9488] font-medium'
                     }`}
                   >
                     {isItemLoading ? (
                       <Loader2 className="size-3.5 animate-spin text-[#0D9488]" aria-hidden="true" />
                     ) : item.isEmpty ? (
-                      <span className="size-2 rounded-full bg-amber-500" />
+                      <span className="size-2 rounded-full bg-[#EA580C] shrink-0" />
                     ) : isAttention ? (
-                      <span className="size-2 rounded-full bg-amber-500" />
+                      <span className="size-2 rounded-full bg-amber-500 shrink-0" />
                     ) : (
                       <Check className="size-3.5 stroke-[2.5] pop-in" aria-hidden="true" />
                     )}
@@ -106,7 +106,7 @@ export const DashboardWorkspaceSection: React.FC<DashboardWorkspaceSectionProps>
 
                 {/* Configured Value */}
                 {item.value && (
-                  <p className="text-[13.5px] text-[#2C2E31] font-normal truncate transition-colors duration-200">
+                  <p className={`text-[13.5px] ${item.isEmpty ? 'text-[#475569]' : 'text-[#2C2E31] font-normal'} truncate transition-colors duration-200`}>
                     {item.value}
                   </p>
                 )}
@@ -121,22 +121,22 @@ export const DashboardWorkspaceSection: React.FC<DashboardWorkspaceSectionProps>
 
               {/* Action Button if Empty or Add More */}
               {item.actionLabel && (
-                <div className="pt-2.5 mt-2 border-t border-gray-100 flex items-center justify-between">
+                <div className={`pt-3.5 mt-2 flex items-center justify-between ${item.isEmpty ? '' : 'border-t border-gray-100'}`}>
                   <button
                     type="button"
                     onClick={() => {
                       if (item.onAction) item.onAction();
                       else if (onItemAction) onItemAction(item.type);
                     }}
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-all cursor-pointer active:scale-95 shadow-2xs ${
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-medium transition-all cursor-pointer active:scale-95 shadow-2xs ${
                       item.isEmpty
                         ? 'bg-[#16171A] hover:bg-black text-white'
                         : 'bg-[#F4F4F0] hover:bg-[#EBEBE8] text-[#16171A]'
                     }`}
                   >
-                    <UploadCloud className="size-3.5" />
+                    <UploadCloud className="size-4" />
                     <span>{item.actionLabel}</span>
-                    <ArrowUpRight className="size-3 opacity-60" />
+                    <ArrowUpRight className="size-3.5 opacity-70" />
                   </button>
                 </div>
               )}

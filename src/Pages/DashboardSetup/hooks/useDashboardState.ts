@@ -109,7 +109,7 @@ export const useDashboardState = () => {
         },
       ];
 
-      // Only show BUSINESS DATA card if documents exist OR if user reached/passed step 4 (skipped or finished)
+      // Show BUSINESS DATA card: Ready if uploaded, Empty card if missing
       if (hasDocuments) {
         items.push({
           id: 'data-context',
@@ -122,8 +122,8 @@ export const useDashboardState = () => {
           isEmpty: false,
           actionLabel: 'Add more files',
         });
-      } else if (nextIndex >= 4) {
-        // User passed step 4 without uploading -> indicate skipped/missing
+      } else {
+        // Workspace exists but documents not uploaded -> indicate empty state
         items.push({
           id: 'data-context',
           type: 'data',
@@ -137,7 +137,7 @@ export const useDashboardState = () => {
         });
       }
 
-      // Only show LEADS card if leads exist OR if user reached/passed step 5 (skipped or finished)
+      // Show LEADS card: Ready if imported, Empty card if missing
       if (hasLeads) {
         items.push({
           id: 'customer-context',
@@ -149,8 +149,8 @@ export const useDashboardState = () => {
           isEmpty: false,
           actionLabel: 'Import more leads',
         });
-      } else if (nextIndex >= 5) {
-        // User passed step 5 without importing -> indicate skipped/missing
+      } else {
+        // Workspace exists but leads not imported -> indicate empty state
         items.push({
           id: 'customer-context',
           type: 'customer',

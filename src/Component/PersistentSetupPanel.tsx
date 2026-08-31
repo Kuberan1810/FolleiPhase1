@@ -3,25 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { useSetupProgress } from '../hooks/useSetupProgress';
 
-const STEP_LABELS: Record<string, string> = {
-  DRAFT: 'Add your business data and leads',
-  GOAL_SET: 'Define your ultimate goal',
-  REQUIREMENTS_DRAFTED: 'Draft your requirements',
-  GAP_FILLING: 'Answer a couple of clarifying questions',
-  PACKAGE_GENERATED: 'Review and approve your sales package',
-};
-
-/**
- * Setup follows the user across the app.
- *
- * It renders on non-setup pages (Dashboard, Leads, Campaigns, Meetings, etc.)
- * until the workspace reaches VERIFIED, so the user can easily return to finish setup.
- * On /home and /dashboard-setup (where setup is actively happening), the panel is hidden.
- */
 export const PersistentSetupPanel: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { shouldShowSetup, stageIndex, totalStages, stageLabel, missingItem, route } = useSetupProgress();
+  const { shouldShowSetup, stageIndex, totalStages, stageLabel, missingItem, route, actionLabel } = useSetupProgress();
 
   if (!shouldShowSetup) return null;
   // If the user is already on /dashboard-setup, hide floating panel to avoid duplication
@@ -52,7 +37,7 @@ export const PersistentSetupPanel: React.FC = () => {
       </div>
 
       {/* Stage Description & Missing Item Tag */}
-      <div className="flex flex-col  w-fit gap-1 my-0.5">
+      <div className="flex flex-col w-fit gap-1 my-0.5">
         <p className="text-[13.5px] font-medium text-[#16171A] leading-snug">
           {stageLabel}
         </p>
@@ -69,7 +54,7 @@ export const PersistentSetupPanel: React.FC = () => {
         onClick={() => navigate(route)}
         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#16171A] px-4 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-black cursor-pointer shadow-2xs active:scale-[0.99]"
       >
-        <span>Continue setup</span>
+        <span>{actionLabel || 'Continue setup'}</span>
       </button>
     </div>
   );
