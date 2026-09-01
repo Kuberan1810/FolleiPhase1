@@ -74,6 +74,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
       newErrors.workEmail = 'Work Email is required';
     } else if (!/\S+@\S+\.\S+/.test(workEmail)) {
       newErrors.workEmail = 'Please enter a valid email address';
+    } else {
+      const domain = workEmail.trim().toLowerCase().split('@')[1] || '';
+      const personalDomains = ['gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.in', 'hotmail.com', 'outlook.com', 'icloud.com', 'aol.com', 'protonmail.com', 'live.com'];
+      if (personalDomains.includes(domain)) {
+        newErrors.workEmail = 'Please enter a valid company email';
+      }
     }
     if (!password) newErrors.password = 'Password is required';
     if (!agreedToTerms) newErrors.agreedToTerms = 'You must agree to the Terms of Service';

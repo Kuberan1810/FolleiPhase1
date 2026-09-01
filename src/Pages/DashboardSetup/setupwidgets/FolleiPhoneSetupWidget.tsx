@@ -2,6 +2,38 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Copy, Check, ChevronDown } from 'lucide-react';
 import { setupMemoryStore } from '../data/setupMemoryStore';
 
+const COUNTRY_CODES = [
+  { code: '+91', country: 'India', flag: '🇮🇳' },
+  { code: '+1', country: 'United States / Canada', flag: '🇺🇸' },
+  { code: '+44', country: 'United Kingdom', flag: '🇬🇧' },
+  { code: '+971', country: 'United Arab Emirates', flag: '🇦🇪' },
+  { code: '+966', country: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: '+65', country: 'Singapore', flag: '🇸🇬' },
+  { code: '+61', country: 'Australia', flag: '🇦🇺' },
+  { code: '+49', country: 'Germany', flag: '🇩🇪' },
+  { code: '+33', country: 'France', flag: '🇫🇷' },
+  { code: '+55', country: 'Brazil', flag: '🇧🇷' },
+  { code: '+60', country: 'Malaysia', flag: '🇲🇾' },
+  { code: '+62', country: 'Indonesia', flag: '🇮🇩' },
+  { code: '+92', country: 'Pakistan', flag: '🇵🇰' },
+  { code: '+880', country: 'Bangladesh', flag: '🇧🇩' },
+  { code: '+27', country: 'South Africa', flag: '🇿🇦' },
+  { code: '+234', country: 'Nigeria', flag: '🇳🇬' },
+  { code: '+52', country: 'Mexico', flag: '🇲🇽' },
+  { code: '+81', country: 'Japan', flag: '🇯🇵' },
+  { code: '+82', country: 'South Korea', flag: '🇰🇷' },
+  { code: '+34', country: 'Spain', flag: '🇪🇸' },
+  { code: '+39', country: 'Italy', flag: '🇮🇹' },
+  { code: '+31', country: 'Netherlands', flag: '🇳🇱' },
+  { code: '+41', country: 'Switzerland', flag: '🇨🇭' },
+  { code: '+64', country: 'New Zealand', flag: '🇳🇿' },
+  { code: '+63', country: 'Philippines', flag: '🇵🇭' },
+  { code: '+84', country: 'Vietnam', flag: '🇻🇳' },
+  { code: '+66', country: 'Thailand', flag: '🇹🇭' },
+  { code: '+20', country: 'Egypt', flag: '🇪🇬' },
+  { code: '+90', country: 'Turkey', flag: '🇹🇷' },
+];
+
 interface FolleiPhoneSetupWidgetProps {
   onComplete?: () => void;
   initialStep?: number;
@@ -17,13 +49,24 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
   // Step 2 (WhatsApp) States: 'input' | 'verify' | 'connected'
   const [step2SubStep, setStep2SubStep] = useState<'input' | 'verify' | 'connected'>(() => setupMemoryStore.step2SubStep || 'input');
   const [whatsAppNumber, setWhatsAppNumber] = useState<string>(() => setupMemoryStore.whatsAppNumber || '');
-  const [countryCode] = useState<string>('+91');
+  const [countryCode, setCountryCode] = useState<string>('+91');
   const [otp, setOtp] = useState<string[]>(() => setupMemoryStore.otp || ['', '', '', '', '', '']);
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Step 3 (Company Email) States: 'input' | 'check-inbox' | 'verified'
+const isPersonalEmail = (email: string) => {
+  const domain = email.trim().toLowerCase().split('@')[1] || '';
+  const personalDomains = [
+    'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.in',
+    'hotmail.com', 'outlook.com', 'icloud.com', 'aol.com',
+    'protonmail.com', 'live.com', 'ymail.com', 'msn.com'
+  ];
+  return personalDomains.includes(domain);
+};
+
+// Step 3 (Company Email) States: 'input' | 'check-inbox' | 'verified'
   const [step3SubStep, setStep3SubStep] = useState<'input' | 'check-inbox' | 'verified'>(() => setupMemoryStore.step3SubStep || 'input');
   const [workEmail, setWorkEmail] = useState<string>(() => setupMemoryStore.workEmail || '');
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   // Sync memory store
   useEffect(() => {
@@ -121,7 +164,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
 
   const handleSendVerification = (e: React.FormEvent) => {
     e.preventDefault();
-    if (whatsAppNumber.trim().length >= 4) {
+    if (whatsAppNumber.length === 10) {
       setStep2SubStep('verify');
       setupMemoryStore.step2SubStep = 'verify';
       setOtp(['', '', '', '', '', '']);
@@ -147,9 +190,29 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
     setupMemoryStore.step3SubStep = 'input';
   };
 
+  const handleWorkEmailChange = (val: string) => {
+    setWorkEmail(val);
+    const trimmed = val.trim().toLowerCase();
+    if (isPersonalEmail(trimmed)) {
+      setEmailError('Please enter a valid company email');
+    } else {
+      setEmailError(null);
+    }
+  };
+
   const handleSendEmailVerification = (e: React.FormEvent) => {
     e.preventDefault();
-    if (workEmail.trim().length > 3) {
+    const trimmed = workEmail.trim().toLowerCase();
+    if (isPersonalEmail(trimmed)) {
+      setEmailError('Please enter a valid company email');
+      return;
+    }
+    if (!trimmed.includes('@') || !trimmed.includes('.')) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+    if (trimmed.length > 3) {
+      setEmailError(null);
       setStep3SubStep('check-inbox');
       setupMemoryStore.step3SubStep = 'check-inbox';
     }
@@ -190,7 +253,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
             ? 'Check your inbox'
             : 'Company email'}
         </span>
-        <span className="text-[11.5px] font-semibold text-[#007A64] bg-[#E6F7F2] px-2.5 py-0.5 rounded-full">
+        <span className="text-[11.5px] font-semibold text-[#7A9601] bg-[#F4F8E6] px-2.5 py-0.5 rounded-full">
           {currentStep} of 3
         </span>
       </header>
@@ -234,7 +297,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
                     className="flex size-7 items-center justify-center rounded-lg text-[#717378] hover:bg-white hover:text-[#16171A] transition-colors cursor-pointer"
                   >
                     {copiedId === item.id ? (
-                      <Check className="size-3.5 text-[#00897B] stroke-[2.5]" />
+                      <Check className="size-3.5 text-[#7A9601] stroke-[2.5]" />
                     ) : (
                       <Copy className="size-3.5" />
                     )}
@@ -243,13 +306,13 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
               ))}
             </div>
 
-            <div className="rounded-[14px] bg-[#F0FDF4] border border-[#DCFCE7] p-3 text-[12px] leading-relaxed text-[#166534]">
+            <div className="rounded-[14px] bg-[#F8FAF0] border border-[#E5ECC8] p-3 text-[12px] leading-relaxed text-[#556900]">
               These numbers will be used with your Follei workspace. Ensure they are added to your authorized contacts.
             </div>
 
             {/* Step Progress Bar */}
             <div className="flex items-center gap-1.5 pt-1">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
             </div>
@@ -257,7 +320,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
             <button
               type="button"
               onClick={() => setCurrentStep(2)}
-              className="w-full py-2.5 rounded-[10px] bg-[#00897B] hover:bg-[#007A6D] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
+              className="w-full py-2.5 rounded-[10px] bg-[#7A9601] hover:bg-[#688001] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
             >
               Continue
             </button>
@@ -281,33 +344,48 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
                 WhatsApp number
               </label>
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 px-3 py-2 border border-[#CBD5E1] rounded-[10px] bg-white text-[14px] text-[#16171A] font-medium shrink-0 cursor-pointer">
+                <div className="relative flex items-center gap-1.5 px-3 py-2 border border-[#CBD5E1] rounded-[10px] bg-white text-[14px] text-[#16171A] font-medium shrink-0 hover:border-[#7A9601] transition-colors cursor-pointer">
                   <span>{countryCode}</span>
                   <ChevronDown className="size-3.5 text-[#717378]" />
+                  <select
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 text-[14px]"
+                    aria-label="Select country code"
+                  >
+                    {COUNTRY_CODES.map((item) => (
+                      <option key={`${item.code}-${item.country}`} value={item.code}>
+                        {item.flag} {item.code} ({item.country})
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <input
                   type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                 
                   value={whatsAppNumber}
-                  onChange={(e) => setWhatsAppNumber(e.target.value)}
-                  className="w-full px-3.5 py-2 border border-[#CBD5E1] rounded-[10px] bg-white text-[14px] text-[#16171A] focus:border-[#00897B] focus:outline-none transition-colors"
+                  onChange={(e) => setWhatsAppNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  className="w-full px-3.5 py-2 border border-[#CBD5E1] rounded-[10px] bg-white text-[14px] text-[#16171A] focus:border-[#7A9601] focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             {/* 3-segment progress indicator */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
             </div>
 
             <button
               type="submit"
-              disabled={!whatsAppNumber.trim()}
+              disabled={whatsAppNumber.length !== 10}
               className={`w-full py-2.5 rounded-[10px] font-semibold text-[13.5px] transition-colors flex items-center justify-center ${
-                whatsAppNumber.trim()
-                  ? 'bg-[#00897B] hover:bg-[#007A6D] text-white cursor-pointer'
-                  : 'bg-[#86C2BA] text-white cursor-not-allowed'
+                whatsAppNumber.length === 10
+                  ? 'bg-[#7A9601] hover:bg-[#688001] text-white cursor-pointer'
+                  : 'bg-[#7A9601] opacity-40 text-white cursor-not-allowed'
               }`}
             >
               Send verification
@@ -358,8 +436,8 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
 
             {/* 3-segment progress indicator */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
             </div>
 
@@ -370,8 +448,8 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
               disabled={!isOtpComplete}
               className={`w-full py-2.5 rounded-[10px] font-semibold text-[13.5px] transition-colors flex items-center justify-center ${
                 isOtpComplete
-                  ? 'bg-[#00897B] hover:bg-[#007A6D] text-white cursor-pointer'
-                  : 'bg-[#86C2BA] text-white cursor-not-allowed'
+                  ? 'bg-[#7A9601] hover:bg-[#688001] text-white cursor-pointer'
+                  : 'bg-[#7A9601] opacity-40 text-white cursor-not-allowed'
               }`}
             >
               Verify number
@@ -397,7 +475,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
         {currentStep === 2 && step2SubStep === 'connected' && (
           <div className="flex flex-col gap-4 animate-fade-slide">
             {/* Success Box */}
-            <div className="rounded-[12px] bg-[#F2FAF7] border border-[#99E2D0] px-4 py-3 flex items-center gap-2 text-[#007A64] font-semibold text-[13.5px]">
+            <div className="rounded-[12px] bg-[#F8FAF0] border border-[#D1E094] px-4 py-3 flex items-center gap-2 text-[#7A9601] font-semibold text-[13.5px]">
               <Check className="size-4 stroke-[2.5]" />
               <span>WhatsApp connected</span>
             </div>
@@ -409,15 +487,15 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
 
             {/* 3-segment progress indicator */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
             </div>
 
             <button
               type="button"
               onClick={handleContinueFromStep2}
-              className="w-full py-2.5 rounded-[10px] bg-[#00897B] hover:bg-[#007A6D] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
+              className="w-full py-2.5 rounded-[10px] bg-[#7A9601] hover:bg-[#688001] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
             >
               Continue
             </button>
@@ -442,26 +520,36 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
               </label>
               <input
                 type="email"
+                placeholder="name@company.com"
                 value={workEmail}
-                onChange={(e) => setWorkEmail(e.target.value)}
-                className="w-full px-3.5 py-2 border border-[#CBD5E1] rounded-[10px] bg-white text-[14px] text-[#16171A] focus:border-[#00897B] focus:outline-none transition-colors"
+                onChange={(e) => handleWorkEmailChange(e.target.value)}
+                className={`w-full px-3.5 py-2 border rounded-[10px] bg-white text-[14px] text-[#16171A] focus:outline-none transition-colors ${
+                  emailError
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-[#CBD5E1] focus:border-[#7A9601]'
+                }`}
               />
+              {emailError && (
+                <p className="text-[12px] font-medium text-red-500 mt-0.5">
+                  {emailError}
+                </p>
+              )}
             </div>
 
             {/* 3-segment progress indicator */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
               <div className="h-1 flex-1 rounded-full bg-[#E6E6E4]" />
             </div>
 
             <button
               type="submit"
-              disabled={!workEmail.trim()}
+              disabled={!workEmail.trim() || isPersonalEmail(workEmail) || Boolean(emailError)}
               className={`w-full py-2.5 rounded-[10px] font-semibold text-[13.5px] transition-colors flex items-center justify-center ${
-                workEmail.trim()
-                  ? 'bg-[#00897B] hover:bg-[#007A6D] text-white cursor-pointer'
-                  : 'bg-[#86C2BA] text-white cursor-not-allowed'
+                workEmail.trim() && !isPersonalEmail(workEmail) && !emailError
+                  ? 'bg-[#7A9601] hover:bg-[#688001] text-white cursor-pointer'
+                  : 'bg-[#7A9601] opacity-40 text-white cursor-not-allowed'
               }`}
             >
               Verify email
@@ -486,9 +574,9 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
 
             {/* 3-segment progress indicator (All 3 segments filled) */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
             </div>
 
             {/* Primary & Secondary Action Buttons */}
@@ -496,7 +584,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
               <button
                 type="button"
                 onClick={handleVerifiedEmailDone}
-                className="w-full py-2.5 rounded-[10px] bg-[#00897B] hover:bg-[#007A6D] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
+                className="w-full py-2.5 rounded-[10px] bg-[#7A9601] hover:bg-[#688001] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
               >
                 I've verified my email
               </button>
@@ -504,7 +592,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
               <button
                 type="button"
                 onClick={() => {}}
-                className="w-full py-2.5 rounded-[10px] bg-[#E2F7F2] hover:bg-[#D5F3ED] text-[#007A64] font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
+                className="w-full py-2.5 rounded-[10px] bg-[#F4F8E6] hover:bg-[#EAEFD4] text-[#7A9601] font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
               >
                 Resend email
               </button>
@@ -518,7 +606,7 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
         {currentStep === 3 && step3SubStep === 'verified' && (
           <div className="flex flex-col gap-4 animate-fade-slide">
             {/* Success Box */}
-            <div className="rounded-[12px] bg-[#F2FAF7] border border-[#99E2D0] px-4 py-3 flex items-center gap-2 text-[#007A64] font-semibold text-[13.5px]">
+            <div className="rounded-[12px] bg-[#F8FAF0] border border-[#D1E094] px-4 py-3 flex items-center gap-2 text-[#7A9601] font-semibold text-[13.5px]">
               <Check className="size-4 stroke-[2.5]" />
               <span>Email verified</span>
             </div>
@@ -530,15 +618,15 @@ export const FolleiPhoneSetupWidget: React.FC<FolleiPhoneSetupWidgetProps> = ({
 
             {/* 3-segment progress indicator (All 3 segments filled) */}
             <div className="flex items-center gap-1.5 pt-2">
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
-              <div className="h-1 flex-1 rounded-full bg-[#00897B]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
+              <div className="h-1 flex-1 rounded-full bg-[#7A9601]" />
             </div>
 
             <button
               type="button"
               onClick={onComplete}
-              className="w-full py-2.5 rounded-[10px] bg-[#00897B] hover:bg-[#007A6D] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
+              className="w-full py-2.5 rounded-[10px] bg-[#7A9601] hover:bg-[#688001] text-white font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center"
             >
               Finish Setup
             </button>
