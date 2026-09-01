@@ -2,31 +2,19 @@ import React from 'react';
 import { Megaphone } from 'lucide-react';
 import type { Campaign } from '../types';
 import { CampaignRow } from './CampaignRow';
-import { useActiveWorkspace } from '../../../hooks/useWorkspace';
-import { useLeads } from '../../../hooks/useLeads';
+import { useCampaigns } from '../useCampaigns';
 
 interface CampaignsTableProps {
   campaigns?: Campaign[];
 }
 
 export const CampaignsTable: React.FC<CampaignsTableProps> = ({
-  campaigns,
+  campaigns: propsCampaigns,
 }) => {
-  const { workspace } = useActiveWorkspace();
-  const { leads } = useLeads(workspace?.id);
+  const { campaigns } = useCampaigns();
+  const activeCampaigns = propsCampaigns ?? campaigns;
 
-  const activeCampaigns: Campaign[] = campaigns ?? (workspace ? [
-    {
-      id: workspace.id,
-      name: `${workspace.name || 'Sales'} Voice Outreach`,
-      channels: ['Call'],
-      audienceCount: leads.length,
-      audienceLabel: `${leads.length} Leads`,
-      status: workspace.stage === 'VERIFIED' ? 'Active' : 'Draft',
-    },
-  ] : []);
-
-  if (activeCampaigns.length === 0 || (!workspace && (!campaigns || campaigns.length === 0))) {
+  if (activeCampaigns.length === 0) {
     return (
       <div className="mt-4 flex flex-col items-center justify-center rounded-[16px] border border-[#E5E7EB] bg-white p-12 text-center shadow-xs">
         <div className="flex size-12 items-center justify-center rounded-full bg-[#F1F3F5] text-[#717378] mb-3.5">
@@ -34,7 +22,7 @@ export const CampaignsTable: React.FC<CampaignsTableProps> = ({
         </div>
         <h3 className="text-[15px] font-semibold text-[#16171A]">No campaigns launched yet</h3>
         <p className="text-[13.5px] text-[#717378] max-w-sm mt-1">
-          Complete your sales package and click "Start Follei" to launch automated voice calling campaigns.
+          Complete your sales package and click "Start Follei" or create a campaign to start outreach.
         </p>
       </div>
     );

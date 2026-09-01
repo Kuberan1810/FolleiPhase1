@@ -47,3 +47,27 @@ export const initialSetupSessionState: SetupSessionState = {
 export const setupMemoryStore: SetupSessionState = {
   ...initialSetupSessionState,
 };
+
+export const resetSetupMemoryStore = () => {
+  setupMemoryStore.currentStepId = 'business';
+  setupMemoryStore.steps = INITIAL_SETUP_STEPS;
+  setupMemoryStore.maxReachedIndex = 0;
+  setupMemoryStore.businessType = '';
+  setupMemoryStore.customerType = '';
+  setupMemoryStore.workspaceItems = [];
+  setupMemoryStore.isComplete = false;
+  setupMemoryStore.isWorkspaceReady = false;
+  setupMemoryStore.companyName = 'My business';
+
+  setupMemoryStore.showPhoneSetup = false;
+  setupMemoryStore.phoneSetupCurrentStep = 1;
+  setupMemoryStore.step2SubStep = 'input';
+  setupMemoryStore.whatsAppNumber = '';
+  setupMemoryStore.otp = ['', '', '', '', '', ''];
+  setupMemoryStore.step3SubStep = 'input';
+  setupMemoryStore.workEmail = '';
+
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem('follei.phone_setup_active');
+  }
+};

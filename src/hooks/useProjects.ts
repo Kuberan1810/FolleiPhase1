@@ -21,6 +21,8 @@ import {
 import { isAuthenticated } from '../lib/auth';
 import { getActiveWorkspaceId, setActiveWorkspaceId } from './useWorkspace';
 
+import { resetSetupMemoryStore } from '../Pages/DashboardSetup/data/setupMemoryStore';
+
 export const useProjects = () => {
   const client = useQueryClient();
 
@@ -63,8 +65,16 @@ export const useProjects = () => {
     onSuccess: (_data, workspaceId) => {
       // Clear the active pin if it pointed at the deleted project, or every
       // page would keep asking for a workspace that no longer exists.
-      if (getActiveWorkspaceId() === workspaceId) localStorage.removeItem('follei.active_workspace');
+      if (getActiveWorkspaceId() === workspaceId) {
+        localStorage.removeItem('follei.active_workspace');
+      }
+      localStorage.removeItem('follei.company_name');
+      sessionStorage.removeItem('follei.phone_setup_active');
+      resetSetupMemoryStore();
       client.invalidateQueries({ queryKey: queryKeys.workspaces });
+      client.invalidateQueries({ queryKey: queryKeys.documents(workspaceId) });
+      client.invalidateQueries({ queryKey: queryKeys.leads(workspaceId) });
+      client.invalidateQueries({ queryKey: queryKeys.workspace(workspaceId) });
       toast.success('Project deleted');
     },
     onError: (error) => toast.error(errorMessage(error, 'Could not delete the project')),

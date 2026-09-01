@@ -153,25 +153,31 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
 
   return (
     <div className="flex-1 flex flex-col min-h-[calc(100vh-60px)] lg:min-h-screen justify-between bg-[#FDFDFC]">
-      {/* 1. INITIAL SCREEN: Shown before any message is sent (Clean top offset layout with skeleton shimmer) */}
+      {/* 1. INITIAL SCREEN: Shown before any message is sent (Clean compact layout matching DashboardSetup) */}
       {!hasConversation && !isConfirmed ? (
-        <div className="w-full max-w-5xl mx-auto px-6 pt-12 md:pt-16 pb-12 flex flex-col gap-8 flex-1 animate-fade-slide">
+        <div className="w-full max-w-5xl mx-auto px-6 py-12 md:py-16 flex flex-col gap-8 flex-1 animate-fade-slide">
           {/* Header Greeting */}
-          <header className="flex flex-col gap-1.5">
-            <p className="text-[14px] text-[#717378]">Good morning, {userName}</p>
-            <h1 className="text-[28px] font-semibold text-[#16171A] tracking-tight">
-              Let's define your ultimate goal.
+          <header className="flex flex-col gap-1.5 animate-fade-slide">
+            <h1 className="text-[28px] font-bold text-[#16171A] tracking-tight">
+              Good morning, {userName}
             </h1>
-            <p className="text-[14.5px] text-[#717378]">
+            <p className="text-[15px] font-medium text-[#2C2E31]">
+              Let's define your ultimate goal.
+            </p>
+            <p className="text-[13.5px] text-[#717378]">
               Tell Follei what you ultimately want to achieve, and I'll use it to shape your workspace.
             </p>
           </header>
 
-          <div className="flex flex-col gap-6">
-            {/* Input Form Box */}
+          <div className="flex flex-col gap-4">
+            <h2 className="text-[18px] font-medium tracking-tight text-[#16171A]">
+              What is your ultimate goal?
+            </h2>
+
+            {/* Input Form Box - Compact version matching DashboardSetup */}
             <form
               onSubmit={handleSubmit}
-              className="group relative flex w-full min-h-[88px] flex-col justify-center rounded-[28px] border border-[#E5E7EB] bg-white p-4 md:px-7 md:py-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all duration-200 hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+              className="flex flex-col justify-center rounded-[24px] border border-[#E6E6E4] bg-white px-4 py-3 min-h-[64px] transition-shadow focus-within:border-gray-400 focus-within:shadow-xs"
             >
               <input
                 type="file"
@@ -182,32 +188,32 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
               />
 
               {attachedFile && (
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3.5 py-1 text-[12.5px] font-medium shadow-2xs mb-2.5 self-start">
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium mb-2 self-start animate-fade-slide">
                   <div className="flex size-4 shrink-0 items-center justify-center">
                     {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
                   </div>
-                  <span className="max-w-[180px] truncate">{attachedFile.name}</span>
+                  <span className="max-w-[200px] truncate">{attachedFile.name}</span>
                   <button
                     type="button"
                     onClick={removeAttachedFile}
                     disabled={isSubmitting}
-                    className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                    className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8] ml-0.5"
                   >
-                    <X className="size-3.5" />
+                    <X className="size-3" />
                   </button>
                 </div>
               )}
 
-              <div className="flex items-center gap-3 w-full">
+              <div className="flex items-center gap-2.5 w-full">
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isSubmitting}
                   title="Upload document or file"
                   aria-label="Upload document"
-                  className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs"
+                  className="flex size-7.5 shrink-0 items-center justify-center rounded-full bg-[#F4F4F0] text-[#4B5563] hover:bg-[#EBEBE8] hover:text-[#111827] transition-all cursor-pointer shadow-2xs active:scale-95"
                 >
-                  <Plus className="size-5 stroke-[2.2]" />
+                  <Plus className="size-4 stroke-[2.2]" />
                 </button>
 
                 <textarea
@@ -221,25 +227,25 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                       handleSubmit(e);
                     }
                   }}
-                  placeholder="What is your ultimate goal?"
+                  placeholder="Tell Follei about your goal..."
                   disabled={isSubmitting}
-                  className="min-w-0 flex-1 resize-none bg-transparent text-[16px] leading-[26px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
+                  className="min-w-0 flex-1 resize-none bg-transparent text-[14px] leading-[22px] text-[#16171A] outline-none placeholder:text-[#717378] py-0.5 max-h-[140px] overflow-y-auto"
                 />
 
                 <button
                   type="submit"
                   aria-label="Submit Goal"
                   disabled={!canSubmit || isSubmitting}
-                  className={`flex size-10 md:size-11 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                  className={`flex size-8 shrink-0 items-center justify-center rounded-full transition-all duration-200 ${
                     canSubmit && !isSubmitting
-                      ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
-                      : 'bg-[#F3F4F6] text-[#6B7280]'
+                      ? 'bg-[#16171A] hover:bg-black text-white cursor-pointer active:scale-95 shadow-xs'
+                      : 'bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed'
                   }`}
                 >
                   {isSubmitting ? (
-                    <Loader2 className="size-4 animate-spin text-white" />
+                    <Loader2 className="size-3.5 animate-spin text-white" />
                   ) : (
-                    <ArrowUp className="size-5 stroke-[2.2]" />
+                    <ArrowUp className="size-4 stroke-[2.5]" />
                   )}
                 </button>
               </div>
@@ -248,11 +254,9 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
             {/* Skeleton Shimmer Loading or Suggestion Chips Ribbon */}
             {goal.isLoading ? (
               <div className="flex flex-wrap items-center gap-2 pt-1 animate-pulse" aria-label="Loading goal suggestions">
-                <div className="h-[34px] w-64 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                <div className="h-[34px] w-48 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                <div className="h-[34px] w-72 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                <div className="h-[34px] w-56 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
-                <div className="h-[34px] w-44 rounded-full bg-[#EAEAEA] border border-[#E0E0E0]/60" />
+                <div className="h-[32px] w-56 rounded-full bg-[#EAEAEA]" />
+                <div className="h-[32px] w-40 rounded-full bg-[#EAEAEA]" />
+                <div className="h-[32px] w-64 rounded-full bg-[#EAEAEA]" />
               </div>
             ) : (
               goalOptions.length > 0 && (
@@ -262,7 +266,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                       key={idx}
                       type="button"
                       onClick={() => handleSuggestionClick(goalItem)}
-                      className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-colors duration-150 hover:border-gray-400 hover:text-[#16171A] hover:bg-gray-50 cursor-pointer shadow-2xs"
+                      className="rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[12.5px] text-[#2C2E31] transition-colors duration-150 hover:border-[#CBD5E1] hover:bg-[#F8F8F6] hover:text-[#16171A] cursor-pointer shadow-2xs"
                     >
                       {goalItem}
                     </button>
@@ -444,34 +448,11 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
           {/* Bottom Fixed GPT / Claude Style Prompt Composer Bar */}
           {!isConfirmed && (
             <div className="sticky bottom-0 z-30 w-full bg-gradient-to-t from-[#FDFDFC] via-[#FDFDFC]/95 to-transparent pt-4 pb-6 px-4 sm:px-6">
-              <div className="max-w-4xl mx-auto w-full flex flex-col gap-3">
-                {/* Dynamic Suggestion Chips Ribbon above composer - Commented out for clean chat conversation */}
-                {/* {!isSubmitting && goalOptions.length > 0 && (
-                  <div className="flex flex-col gap-1.5 animate-fade-slide">
-                    <div className="flex items-center gap-1.5 text-[11.5px] font-medium text-[#717378]">
-                      <Lightbulb className="size-3 text-amber-500" />
-                      <span>Suggested refinements based on your business data:</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {goalOptions.map((goalItem, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => handleSuggestionClick(goalItem)}
-                          className="group inline-flex items-center gap-1.5 rounded-full border border-[#E6E6E4] bg-white px-3.5 py-1.5 text-[13px] text-[#47484B] transition-all duration-150 hover:border-[#0D9488] hover:bg-[#F4FBF7] hover:text-[#0D9488] cursor-pointer shadow-2xs hover:shadow-xs active:scale-98"
-                        >
-                          <Plus className="size-3 text-[#94A3B8] group-hover:text-[#0D9488] transition-colors" />
-                          <span>{goalItem}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )} */}
-
+              <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
                 {/* Main Form Composer */}
                 <form
                   onSubmit={handleSubmit}
-                  className="group relative flex flex-col justify-center rounded-[26px] border border-[#E5E7EB] bg-white p-3 sm:px-5 sm:py-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:border-[#D1D5DB] focus-within:border-[#94A3B8] focus-within:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-200"
+                  className="flex flex-col justify-center rounded-[24px] border border-[#E6E6E4] bg-white px-4 py-3 min-h-[64px] transition-shadow focus-within:border-gray-400 focus-within:shadow-xs shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
                 >
                   <input
                     type="file"
@@ -482,7 +463,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                   />
 
                   {attachedFile && (
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start">
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] text-[#1E293B] px-3 py-1 text-[12px] font-medium shadow-2xs mb-2 self-start animate-fade-slide">
                       <div className="flex size-4 shrink-0 items-center justify-center">
                         {getFileFormatIcon(attachedFile.name, 'size-3.5 object-contain')}
                       </div>
@@ -491,7 +472,7 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                         type="button"
                         onClick={removeAttachedFile}
                         disabled={isSubmitting}
-                        className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8]"
+                        className="hover:text-red-600 focus:outline-none cursor-pointer text-[#94A3B8] ml-0.5"
                       >
                         <X className="size-3" />
                       </button>
@@ -505,9 +486,9 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                       disabled={isSubmitting}
                       title="Attach file to message"
                       aria-label="Upload document"
-                      className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#F3F4F6] text-[#4B5563] hover:bg-[#E5E7EB] hover:text-[#111827] transition-all cursor-pointer shadow-2xs active:scale-95"
+                      className="flex size-7.5 shrink-0 items-center justify-center rounded-full bg-[#F4F4F0] text-[#4B5563] hover:bg-[#EBEBE8] hover:text-[#111827] transition-all cursor-pointer shadow-2xs active:scale-95"
                     >
-                      <Plus className="size-4.5 stroke-[2.2]" />
+                      <Plus className="size-4 stroke-[2.2]" />
                     </button>
 
                     <textarea
@@ -521,25 +502,25 @@ export const GoalDefinition: React.FC<GoalDefinitionProps> = ({
                           handleSubmit(e);
                         }
                       }}
-                      placeholder="Reply to Follei or add more manual details..."
+                      placeholder="Reply to Follei or add more details..."
                       disabled={isSubmitting}
-                      className="min-w-0 flex-1 resize-none bg-transparent text-[15px] leading-[24px] text-[#1E293B] outline-none placeholder:text-[#94A3B8] placeholder:font-normal py-1 max-h-[160px] overflow-y-auto"
+                      className="min-w-0 flex-1 resize-none bg-transparent text-[14px] leading-[22px] text-[#16171A] outline-none placeholder:text-[#717378] py-0.5 max-h-[140px] overflow-y-auto"
                     />
 
                     <button
                       type="submit"
                       aria-label="Send message"
                       disabled={!canSubmit || isSubmitting}
-                      className={`flex size-9 md:size-10 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
+                      className={`flex size-8 shrink-0 items-center justify-center rounded-full transition-all duration-200 cursor-pointer ${
                         canSubmit && !isSubmitting
-                          ? 'bg-[#111827] text-white hover:bg-black scale-100 shadow-xs'
-                          : 'bg-[#F3F4F6] text-[#94A3B8] cursor-not-allowed opacity-60'
+                          ? 'bg-[#16171A] hover:bg-black text-white active:scale-95 shadow-xs'
+                          : 'bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed'
                       }`}
                     >
                       {isSubmitting ? (
-                        <Loader2 className="size-4 animate-spin text-white" />
+                        <Loader2 className="size-3.5 animate-spin text-white" />
                       ) : (
-                        <ArrowUp className="size-4.5 stroke-[2.4]" />
+                        <ArrowUp className="size-4 stroke-[2.5]" />
                       )}
                     </button>
                   </div>

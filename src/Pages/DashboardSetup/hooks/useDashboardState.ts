@@ -6,8 +6,6 @@ import type { SetupStep, PromptSuggestion, UserProfile, WorkspaceContextItem } f
 import { INITIAL_SETUP_STEPS, PROMPT_SUGGESTIONS, READY_PROMPT_SUGGESTIONS, STEP_CONFIGS, DEFAULT_USER } from '../data';
 import { getStoredUser } from '../../../lib/auth';
 
-import { setupMemoryStore } from '../data/setupMemoryStore';
-
 export const useDashboardState = () => {
   const [user] = useState<UserProfile>(() => {
     const stored = getStoredUser();
@@ -24,10 +22,10 @@ export const useDashboardState = () => {
   );
   const [promptText, setPromptText] = useState<string>('');
   const [miniPromptText, setMiniPromptText] = useState<string>('');
-  const [steps, setSteps] = useState<SetupStep[]>(() => setupMemoryStore.steps || INITIAL_SETUP_STEPS);
-  const [currentStepId, setCurrentStepId] = useState<string>(() => setupMemoryStore.currentStepId || 'business');
+  const [steps, setSteps] = useState<SetupStep[]>(INITIAL_SETUP_STEPS);
+  const [currentStepId, setCurrentStepId] = useState<string>('business');
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-  const [workspaceItems, setWorkspaceItems] = useState<WorkspaceContextItem[]>(() => setupMemoryStore.workspaceItems || []);
+  const [workspaceItems, setWorkspaceItems] = useState<WorkspaceContextItem[]>([]);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isMobileSetupOpen, setIsMobileSetupOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -38,13 +36,9 @@ export const useDashboardState = () => {
 
   const [isImportingBusinessData, setIsImportingBusinessData] = useState<boolean>(false);
   const [isImportingLeads, setIsImportingLeads] = useState<boolean>(false);
-  const [isComplete, setIsComplete] = useState<boolean>(() => setupMemoryStore.isComplete || false);
-  const [isWorkspaceReady, setIsWorkspaceReady] = useState<boolean>(() => setupMemoryStore.isWorkspaceReady || false);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [isWorkspaceReady, setIsWorkspaceReady] = useState<boolean>(false);
   const [isProjectReady, setIsProjectReady] = useState<boolean>(false);
-
-  const [businessType, setBusinessType] = useState<string>(() => setupMemoryStore.businessType || '');
-  const [customerType, setCustomerType] = useState<string>(() => setupMemoryStore.customerType || '');
-  const [maxReachedIndex, setMaxReachedIndex] = useState<number>(() => setupMemoryStore.maxReachedIndex || 0);
 
   // Suggestions & Step Configuration
   const suggestions: PromptSuggestion[] = isWorkspaceReady ? READY_PROMPT_SUGGESTIONS : PROMPT_SUGGESTIONS;
@@ -56,31 +50,8 @@ export const useDashboardState = () => {
     setPromptText(text);
   };
 
-  // Sync to in-memory store so navigating between pages keeps progress
-  useEffect(() => {
-    setupMemoryStore.steps = steps;
-  }, [steps]);
-  useEffect(() => {
-    setupMemoryStore.currentStepId = currentStepId;
-  }, [currentStepId]);
-  useEffect(() => {
-    setupMemoryStore.workspaceItems = workspaceItems;
-  }, [workspaceItems]);
-  useEffect(() => {
-    setupMemoryStore.isComplete = isComplete;
-  }, [isComplete]);
-  useEffect(() => {
-    setupMemoryStore.isWorkspaceReady = isWorkspaceReady;
-  }, [isWorkspaceReady]);
-  useEffect(() => {
-    setupMemoryStore.maxReachedIndex = maxReachedIndex;
-  }, [maxReachedIndex]);
-  useEffect(() => {
-    setupMemoryStore.businessType = businessType;
-  }, [businessType]);
-  useEffect(() => {
-    setupMemoryStore.customerType = customerType;
-  }, [customerType]);
+  const [businessType, setBusinessType] = useState<string>('');
+  const [customerType, setCustomerType] = useState<string>('');
   // Picking "Other" must not advance the step -- the flow asks what the
   // business actually does and stores that free-text answer as the category.
   const [awaitingCustomAnswer, setAwaitingCustomAnswer] = useState<string | null>(null);
@@ -96,7 +67,16 @@ export const useDashboardState = () => {
   );
 
   useEffect(() => {
-    if (setup.isBootstrapping || !setup.business || !setup.workspace) return;
+    if (setup.isBootstrapping) return;
+    if (!setup.business || !setup.workspace) {
+      setSteps(INITIAL_SETUP_STEPS);
+      setCurrentStepId('business');
+      setMaxReachedIndex(0);
+      setWorkspaceItems([]);
+      setIsComplete(false);
+      setIsWorkspaceReady(false);
+      return;
+    }
     // Captured after the guard: the setWorkspaceItems callback runs later,
     // so the narrowing on setup.business does not survive into it.
     const business = setup.business;
@@ -138,7 +118,7 @@ export const useDashboardState = () => {
         },
       ];
 
-      // Show BUSINESS DATA card: Ready if uploaded, Empty card if missing
+      // Only show BUSINESS DATA card if documents exist
       if (hasDocuments) {
         items.push({
           id: 'data-context',
@@ -151,22 +131,9 @@ export const useDashboardState = () => {
           isEmpty: false,
           actionLabel: 'Add more files',
         });
-      } else {
-        // Workspace exists but documents not uploaded -> indicate empty state
-        items.push({
-          id: 'data-context',
-          type: 'data',
-          title: 'BUSINESS DATA',
-          status: 'No files uploaded yet',
-          value: 'Add business documentation (PDF, DOCX, TXT)',
-          subtitle: 'Help Follei understand your products and offerings',
-          isLoading: false,
-          isEmpty: true,
-          actionLabel: 'Upload Business Data',
-        });
       }
 
-      // Show LEADS card: Ready if imported, Empty card if missing
+      // Only show LEADS card if leads exist
       if (hasLeads) {
         items.push({
           id: 'customer-context',
@@ -177,19 +144,6 @@ export const useDashboardState = () => {
           isLoading: false,
           isEmpty: false,
           actionLabel: 'Import more leads',
-        });
-      } else {
-        // Workspace exists but leads not imported -> indicate empty state
-        items.push({
-          id: 'customer-context',
-          type: 'customer',
-          title: 'LEADS',
-          status: 'No leads imported yet',
-          value: 'Import contact list via CSV',
-          subtitle: '',
-          isLoading: false,
-          isEmpty: true,
-          actionLabel: 'Import Leads CSV',
         });
       }
 
@@ -234,6 +188,7 @@ export const useDashboardState = () => {
   }, [ingestion.documents, ingestion.processed.length, ingestion.processing.length, ingestion.failed.length]);
 
 
+  const [maxReachedIndex, setMaxReachedIndex] = useState<number>(0);
 
   const advanceStep = (stepValue: string, stepId: string, pendingFiles?: File[]) => {
     // 1. Add / Update Workspace context item based on current step
@@ -269,10 +224,6 @@ export const useDashboardState = () => {
       contextType = 'data';
       const isLater = stepValue === "I'll do this later" || stepValue === 'later' || stepValue === 'Skipped';
       if (isLater) {
-        statusValue = 'No files uploaded yet';
-        displayValue = 'Add business documentation (PDF, DOCX, TXT)';
-        subtitleValue = 'Help Follei understand your products and offerings';
-        isItemLoading = false;
         setIsImportingBusinessData(false);
       } else {
         statusValue = 'Importing...';
@@ -284,10 +235,6 @@ export const useDashboardState = () => {
       contextType = 'customer';
       const isLater = stepValue === "I'll add them later" || stepValue === 'later' || stepValue === 'Skipped';
       if (isLater) {
-        statusValue = 'No leads imported yet';
-        displayValue = 'Import contact list via CSV';
-        subtitleValue = '';
-        isItemLoading = false;
         setIsImportingLeads(false);
       } else {
         statusValue = 'Importing...';
@@ -296,38 +243,31 @@ export const useDashboardState = () => {
       }
     }
 
-    const isItemEmpty =
+    const isSkippedData =
       (stepId === 'business-data' && (stepValue === "I'll do this later" || stepValue === 'later' || stepValue === 'Skipped')) ||
       (stepId === 'leads' && (stepValue === "I'll add them later" || stepValue === 'later' || stepValue === 'Skipped'));
 
-    const actionLabel =
-      stepId === 'business-data'
-        ? (isItemEmpty ? 'Upload Business Data' : 'Add more files')
-        : stepId === 'leads'
-        ? (isItemEmpty ? 'Import Leads CSV' : 'Import more leads')
-        : undefined;
+    if (!isSkippedData) {
+      setWorkspaceItems((prev) => {
+        const existsIndex = prev.findIndex((item) => item.type === contextType);
+        const newItem: WorkspaceContextItem = {
+          id: `${contextType}-context`,
+          type: contextType,
+          title: contextTitle,
+          status: statusValue,
+          value: displayValue,
+          subtitle: subtitleValue,
+          isLoading: isItemLoading,
+        };
 
-    setWorkspaceItems((prev) => {
-      const existsIndex = prev.findIndex((item) => item.type === contextType);
-      const newItem: WorkspaceContextItem = {
-        id: `${contextType}-context`,
-        type: contextType,
-        title: contextTitle,
-        status: statusValue,
-        value: displayValue,
-        subtitle: subtitleValue,
-        isLoading: isItemLoading,
-        isEmpty: isItemEmpty,
-        actionLabel,
-      };
-
-      if (existsIndex >= 0) {
-        const copy = [...prev];
-        copy[existsIndex] = newItem;
-        return copy;
-      }
-      return [...prev, newItem];
-    });
+        if (existsIndex >= 0) {
+          const copy = [...prev];
+          copy[existsIndex] = newItem;
+          return copy;
+        }
+        return [...prev, newItem];
+      });
+    }
 
     // Handle importing delay for Step 4 ("Business Data")
     if (stepId === 'business-data' && pendingFiles?.length) {
@@ -536,18 +476,29 @@ export const useDashboardState = () => {
     );
   };
 
-  const handlePromptSubmit = (e?: React.FormEvent) => {
+  const handlePromptSubmit = (e?: React.FormEvent, file?: File | null) => {
     if (e) e.preventDefault();
-    if (!promptText.trim()) return;
+    const hasText = promptText.trim().length > 0;
+    if (!hasText && !file) return;
 
-    setIsSubmitting(true);
-    const submittedVal = promptText.trim();
+    if (file) {
+      if (file.name.toLowerCase().endsWith('.csv')) {
+        handleUploadLeadsDone([file]);
+      } else {
+        handleUploadBusinessDataDone([file]);
+      }
+    }
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setPromptText('');
-      advanceStep(submittedVal, currentStepId);
-    }, 300);
+    if (hasText) {
+      setIsSubmitting(true);
+      const submittedVal = promptText.trim();
+
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setPromptText('');
+        advanceStep(submittedVal, currentStepId);
+      }, 300);
+    }
   };
 
   const handleMiniPromptSubmit = (e?: React.FormEvent) => {

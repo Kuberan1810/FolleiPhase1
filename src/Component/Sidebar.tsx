@@ -26,6 +26,7 @@ import { getStoredUser, clearSession } from '../lib/auth';
 import { getActiveWorkspaceId, setActiveWorkspaceId } from '../hooks/useWorkspace';
 import { useProjects } from '../hooks/useProjects';
 import ConfirmDialog from './ConfirmDialog';
+import { resetSetupMemoryStore } from '../Pages/DashboardSetup/data/setupMemoryStore';
 
 interface SidebarProps {
   user?: UserProfile;
@@ -136,6 +137,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleNewProject = () => {
+    resetSetupMemoryStore();
     if (onNewProject) {
       onNewProject();
       return;

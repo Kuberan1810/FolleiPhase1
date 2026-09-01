@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
 export const CampaignsHeader: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col gap-4 pt-2 pb-1">
       {/* Top row: Title/Subtitle & + Create campaign button */}
@@ -17,6 +20,7 @@ export const CampaignsHeader: React.FC = () => {
 
         <button
           type="button"
+          onClick={() => navigate('/campaigns/create')}
           className="inline-flex items-center justify-center gap-1.5 rounded-[8px] bg-[#7A9601] hover:bg-[#597818] active:bg-[#4E6914] px-4 py-2 text-[14px] text-white shadow-xs transition-colors cursor-pointer shrink-0"
         >
           <Plus className="size-4 stroke-[2.2]" />

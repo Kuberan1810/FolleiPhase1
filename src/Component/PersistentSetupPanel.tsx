@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Check } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { useSetupProgress } from '../hooks/useSetupProgress';
 
 export const PersistentSetupPanel: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDismissed, setIsDismissed] = useState(false);
   const { shouldShowSetup, stageIndex, totalStages, stageLabel, missingItem, route, actionLabel } = useSetupProgress();
 
-  if (!shouldShowSetup) return null;
+  if (!shouldShowSetup || isDismissed) return null;
   // If the user is already on /dashboard-setup, hide floating panel to avoid duplication
   if (location.pathname === '/dashboard-setup') return null;
 
   return (
     <div className="fixed bottom-5 right-5 z-40 w-[330px] rounded-[22px] border border-[#E6E6E4] bg-white p-4.5 shadow-[0_12px_36px_rgba(0,0,0,0.12)] animate-fade-slide flex flex-col gap-2.5">
-      {/* Header: Title + Step Counter */}
+      {/* Header: Title + Step Counter + Close Button */}
       <div className="flex items-center justify-between">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-[#717378]">
           Follei Setup
         </span>
-        <span className="text-[11px] font-semibold text-[#16171A]">
-          {stageIndex + 1} of {totalStages}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-semibold text-[#16171A]">
+            {stageIndex + 1} of {totalStages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setIsDismissed(true)}
+            title="Close setup reminder"
+            aria-label="Close setup reminder"
+            className="flex size-5.5 items-center justify-center rounded-full text-[#9CA3AF] hover:text-[#16171A] hover:bg-black/5 transition-colors cursor-pointer"
+          >
+            <X className="size-3.5" strokeWidth={2.2} />
+          </button>
+        </div>
       </div>
 
       {/* 6 Segmented Progress Bars */}

@@ -63,7 +63,10 @@ export const useSetupFlow = (companyName: string) => {
       try {
         const businesses = await listBusinesses();
         const business = businesses[0];
-        if (!business) return;
+        if (!business) {
+          if (!cancelled) setState(INITIAL);
+          return;
+        }
         const workspaces = await listWorkspaces();
         // Honour the active workspace first. Creating a second project and
         // landing on setup would otherwise restore the first workspace and
@@ -74,7 +77,7 @@ export const useSetupFlow = (companyName: string) => {
           workspaces.find((row) => row.business_id === business.id) ??
           workspaces[0];
         if (!workspace) {
-          if (!cancelled) setState((current) => ({ ...current, business }));
+          if (!cancelled) setState(INITIAL);
           return;
         }
         const [documents, leads] = await Promise.all([

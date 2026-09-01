@@ -9,7 +9,8 @@ interface DashboardPromptSectionProps {
   placeholder?: string;
   inputValue: string;
   onInputChange: (value: string) => void;
-  onSubmit: (e?: React.FormEvent) => void;
+  onSubmit: (e?: React.FormEvent, file?: File | null) => void;
+  onUploadFile?: (file: File) => void;
   suggestions: PromptSuggestion[];
   onSelectSuggestion: (suggestionText: string) => void;
   isSubmitting?: boolean;
@@ -22,6 +23,7 @@ export const DashboardPromptSection: React.FC<DashboardPromptSectionProps> = ({
   inputValue,
   onInputChange,
   onSubmit,
+  onUploadFile,
   suggestions,
   onSelectSuggestion,
   isSubmitting = false,
@@ -36,6 +38,7 @@ export const DashboardPromptSection: React.FC<DashboardPromptSectionProps> = ({
         value={inputValue}
         onChange={onInputChange}
         onSubmit={onSubmit}
+        onUploadFile={onUploadFile}
         placeholder={placeholder}
         disabled={isSubmitting}
       />

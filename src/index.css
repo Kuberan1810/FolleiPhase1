@@ -16,6 +16,15 @@
     --animate-float: float 3s ease-in-out infinite;
     --animate-shine: shine 3s infinite;
 }
+
+/* Custom Scrollbar utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 @keyframes shimmer-sweep {
     0% {
         transform: translateX(-100%);

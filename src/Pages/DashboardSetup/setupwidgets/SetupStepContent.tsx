@@ -102,7 +102,11 @@ export const SetupStepContent: React.FC<SetupStepContentProps> = ({
                 type="submit"
                 aria-label="Send answer"
                 disabled={!miniInputValue.trim()}
-                className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#1D1E21] text-white transition-opacity duration-150 hover:bg-black disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                className={`flex size-7 shrink-0 items-center justify-center rounded-full transition-all duration-200 ${
+                  miniInputValue.trim()
+                    ? 'bg-[#16171A] hover:bg-black text-white cursor-pointer active:scale-95 shadow-xs'
+                    : 'bg-[#E5E7EB] text-[#9CA3AF] cursor-not-allowed'
+                }`}
               >
                 <ArrowUp className="size-3.5" aria-hidden="true" />
               </button>

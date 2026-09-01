@@ -39,10 +39,6 @@ export const DashboardSetup: React.FC = () => {
     return setupMemoryStore.showPhoneSetup || sessionStorage.getItem('follei.phone_setup_active') === 'true';
   });
 
-  useEffect(() => {
-    setupMemoryStore.showPhoneSetup = showPhoneSetup;
-  }, [showPhoneSetup]);
-
   const {
     user,
     companyName,
@@ -92,6 +88,17 @@ export const DashboardSetup: React.FC = () => {
     handleStartUsing,
   } = useDashboardState();
 
+  useEffect(() => {
+    setupMemoryStore.showPhoneSetup = showPhoneSetup;
+  }, [showPhoneSetup]);
+
+  useEffect(() => {
+    if (!isBootstrapping && !business) {
+      setShowPhoneSetup(false);
+      sessionStorage.removeItem('follei.phone_setup_active');
+    }
+  }, [isBootstrapping, business]);
+
   const isImporting = isImportingBusinessData || isImportingLeads;
   const loadingText = isImportingBusinessData ? 'Importing business data...' : 'Importing leads...';
 
@@ -106,74 +113,8 @@ export const DashboardSetup: React.FC = () => {
     navigate('/home');
   };
 
-  // Structured 4 Workspace cards matching the exact design and values in the screenshot
-  const configuredWorkspaceItems: WorkspaceContextItem[] = showPhoneSetup
-    ? [
-        {
-          id: 'business-context',
-          type: 'business',
-          title: 'BUSINESS CONTEXT',
-          status: 'Ready',
-          value: `${business?.category || 'Manufacturing'} · ${business?.customer_type || 'Businesses'}`,
-        },
-        {
-          id: 'crm-context',
-          type: 'crm',
-          title: 'CRM',
-          status: 'Connected',
-          value: business?.crm_provider || 'HubSpot',
-        },
-        {
-          id: 'data-context',
-          type: 'data',
-          title: 'BUSINESS DATA',
-          status: 'Ready',
-          value: ingestion.documents.length > 0 ? `${ingestion.documents.length} files` : '24 files',
-          subtitle: analysis?.summary || '12 products · 8 services · 5 pricing plans',
-        },
-        {
-          id: 'customer-context',
-          type: 'customer',
-          title: 'LEADS',
-          status: 'Ready',
-          value: '248 leads',
-          subtitle: '32 high-intent',
-        },
-      ]
-    : workspaceItems.length > 0
-    ? workspaceItems
-    : [
-        {
-          id: 'business-context',
-          type: 'business',
-          title: 'BUSINESS CONTEXT',
-          status: 'Ready',
-          value: `${business?.category || 'Manufacturing'} · ${business?.customer_type || 'Businesses'}`,
-        },
-        {
-          id: 'crm-context',
-          type: 'crm',
-          title: 'CRM',
-          status: 'Connected',
-          value: business?.crm_provider || 'HubSpot',
-        },
-        {
-          id: 'data-context',
-          type: 'data',
-          title: 'BUSINESS DATA',
-          status: 'Ready',
-          value: '24 files',
-          subtitle: '12 products · 8 services · 5 pricing plans',
-        },
-        {
-          id: 'customer-context',
-          type: 'customer',
-          title: 'LEADS',
-          status: 'Ready',
-          value: '248 leads',
-          subtitle: '32 high-intent',
-        },
-      ];
+  // Use real live workspace context items directly from setup hooks
+  const configuredWorkspaceItems: WorkspaceContextItem[] = workspaceItems;
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
