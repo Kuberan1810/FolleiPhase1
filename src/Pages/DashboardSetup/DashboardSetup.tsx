@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Sparkles, X } from 'lucide-react';
-import Sidebar from '../../Component/Sidebar';
+import { Sparkles, X } from 'lucide-react';
 import {
   DashboardGreeting,
   DashboardPromptSection,
@@ -117,39 +116,20 @@ export const DashboardSetup: React.FC = () => {
   const configuredWorkspaceItems: WorkspaceContextItem[] = workspaceItems;
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
-      {/* Reusable Left Sidebar */}
-      <Sidebar
-        user={user}
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="setup"
-      />
-
-      {/* Main Center & Right Content Area */}
-      <main className="min-w-0 flex-1">
-        {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
-          <button
-            type="button"
-            aria-label="Open navigation"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Menu className="size-4" aria-hidden="true" />
-          </button>
-          <span className="text-[13px] font-semibold tracking-tight text-[#16171A]">
-            Follei
-          </span>
-          <button
-            type="button"
-            aria-label="Open Follei setup"
-            onClick={() => setIsMobileSetupOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-[#0D9488] hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Sparkles className="size-4 text-[#0D9488]" aria-hidden="true" />
-          </button>
-        </div>
+    <div className="min-w-0 flex-1">
+      {/* Mobile Follei setup launcher button */}
+      <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-2.5 lg:hidden sticky top-0 z-20">
+        <span className="text-[13px] font-medium text-[#717378]">Project Setup</span>
+        <button
+          type="button"
+          aria-label="Open Follei setup"
+          onClick={() => setIsMobileSetupOpen(true)}
+          className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-[12px] font-medium text-[#0D9488] shadow-2xs cursor-pointer"
+        >
+          <Sparkles className="size-3 text-[#0D9488]" aria-hidden="true" />
+          <span>Setup Assistant</span>
+        </button>
+      </div>
 
         {/* 6-Step Setup Screen / Follei Setup Phone Numbers Screen */}
         <div className="flex justify-center gap-8 pb-28 xl:pb-0">
@@ -340,7 +320,6 @@ export const DashboardSetup: React.FC = () => {
           onClose={() => setIsUploadLeadsModalOpen(false)}
           onDone={handleUploadLeadsDone}
         />
-      </main>
     </div>
   );
 };

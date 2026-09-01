@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNewProject,
   onAskFollei,
   onOpenSettings,
-  activeItem = 'home',
+  activeItem,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -103,12 +103,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const getActiveNav = () => {
     if (activeItem) return activeItem;
     if (currentPath === '/dashboard-setup' || currentPath === '/project' || currentPath === '/projects') return 'setup';
-    if (currentPath === '/dashboard' || currentPath === '/main-dashboard') return 'dashboard';
+    if (currentPath === '/dashboard' || currentPath === '/main-dashboard' || currentPath.startsWith('/attention') || currentPath.startsWith('/ai-attention')) return 'dashboard';
     if (currentPath.startsWith('/lead')) return 'leads';
     if (currentPath.startsWith('/meet')) return 'meetings';
     if (currentPath.startsWith('/campaign')) return 'campaigns';
     if (currentPath === '/home' || currentPath === '/') return 'home';
-    return 'home';
+    return '';
   };
 
   const activeNav = getActiveNav();
@@ -190,22 +190,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Navigation Links */}
         <div className="flex flex-col gap-1">
-          {/* Home Link */}
-          <button
-            type="button"
-            onClick={() => navTo('/home')}
-            className={`flex w-full items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] transition-colors cursor-pointer ${
-              activeNav === 'home'
-                ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                : 'text-[#5C5E62] hover:bg-black/5 hover:text-[#16171A] font-normal'
-            }`}
-          >
-            <Home className={`size-4 ${activeNav === 'home' ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-            <span>Home</span>
-          </button>
-
           {/* Projects Section */}
-          <div className="flex flex-col gap-0.5 pt-1">
+          <div className="flex flex-col gap-0.5">
             <button
               type="button"
               onClick={() => setIsProjectsOpen((prev) => !prev)}
@@ -298,7 +284,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                         {isExpanded && (
                           <div className="flex flex-col gap-0.5 pl-5 pr-1 py-0.5">
-                           
+                            {/* Home */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveWorkspaceId(project.id);
+                                navTo('/home');
+                              }}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                activeNav === 'home' && isProjectActive
+                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
+                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
+                              }`}
+                            >
+                              <Home className={`size-3.5 ${activeNav === 'home' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Home</span>
+                            </button>
 
                             {/* Dashboard */}
                             <button
@@ -308,12 +309,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 navTo('/dashboard');
                               }}
                               className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                (activeNav === 'dashboard' || currentPath === '/dashboard' || currentPath === '/main-dashboard') && isProjectActive
+                                activeNav === 'dashboard' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <LayoutDashboard className={`size-3.5 ${(activeNav === 'dashboard' || currentPath === '/dashboard' || currentPath === '/main-dashboard') && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <LayoutDashboard className={`size-3.5 ${activeNav === 'dashboard' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Dashboard</span>
                             </button>
 
@@ -325,12 +326,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 navTo('/leads');
                               }}
                               className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                (activeNav === 'leads' || currentPath.startsWith('/lead')) && isProjectActive
+                                activeNav === 'leads' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <Users className={`size-3.5 ${(activeNav === 'leads' || currentPath.startsWith('/lead')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <Users className={`size-3.5 ${activeNav === 'leads' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Leads</span>
                             </button>
 
@@ -342,12 +343,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 navTo('/meeting');
                               }}
                               className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                (activeNav === 'meetings' || currentPath.startsWith('/meet')) && isProjectActive
+                                activeNav === 'meetings' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <Calendar className={`size-3.5 ${(activeNav === 'meetings' || currentPath.startsWith('/meet')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <Calendar className={`size-3.5 ${activeNav === 'meetings' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Meetings</span>
                             </button>
 
@@ -359,12 +360,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 navTo('/campaigns');
                               }}
                               className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                (activeNav === 'campaigns' || currentPath.startsWith('/campaign')) && isProjectActive
+                                activeNav === 'campaigns' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <Megaphone className={`size-3.5 ${(activeNav === 'campaigns' || currentPath.startsWith('/campaign')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <Megaphone className={`size-3.5 ${activeNav === 'campaigns' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Campaigns</span>
                             </button>
 
@@ -375,12 +376,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                 setActiveWorkspaceId(project.id);
                                 navTo('/dashboard-setup');
                               }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
+                                activeNav === 'setup' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                                }`}
+                              }`}
                             >
-                              <Settings className={`size-3.5 ${(activeNav === 'setup' || currentPath === '/dashboard-setup' || currentPath.startsWith('/project')) && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <Settings className={`size-3.5 ${activeNav === 'setup' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
                               <span>Setup</span>
                             </button>
                           </div>

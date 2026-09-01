@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Sparkles, X } from 'lucide-react';
-import Sidebar from '../../../Component/Sidebar';
-import { getStoredUser } from '../../../lib/auth';
 import { useActiveWorkspace } from '../../../hooks/useWorkspace';
 import {
   CampaignCreationHeader,
@@ -19,17 +17,6 @@ const SUGGESTIONS = [
   'Follow up with new leads',
   'Promote a service',
 ];
-
-const currentUser = () => {
-  const stored = getStoredUser();
-  const name = stored?.full_name?.trim() || stored?.email?.split('@')[0] || 'there';
-  const parts = name.split(/\s+/).filter(Boolean);
-  return {
-    name: parts[0] || name,
-    email: stored?.email || 'Free plan',
-    initials: (parts.length >= 2 ? parts[0][0] + parts[1][0] : name.slice(0, 2)).toUpperCase(),
-  };
-};
 
 const INITIAL_STATE: CampaignFormState = {
   campaignName: '',
@@ -50,8 +37,6 @@ const INITIAL_STATE: CampaignFormState = {
 
 export const CampaignCreation: React.FC = () => {
   const navigate = useNavigate();
-  const [user] = useState(currentUser);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isMobileWizardOpen, setIsMobileWizardOpen] = useState(false);
   const { workspaceId } = useActiveWorkspace();
 
@@ -203,42 +188,24 @@ export const CampaignCreation: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased font-sans">
-      {/* Left Reusable Sidebar */}
-      <Sidebar
-        user={user}
-        activeItem="campaigns"
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-      />
+    <div className="flex-1 flex flex-col min-h-screen">
+      {/* Mobile Wizard Header Toggle */}
+      <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-2.5 lg:hidden sticky top-0 z-20">
+        <span className="text-[13px] font-medium text-[#717378]">
+          Step {formState.currentStepIndex + 1} of 6
+        </span>
+        <button
+          type="button"
+          onClick={() => setIsMobileWizardOpen(true)}
+          className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-[12px] font-medium text-[#16171A] shadow-2xs cursor-pointer"
+        >
+          <Sparkles className="size-3 text-[#7A9601]" />
+          <span>Wizard ({formState.currentStepIndex + 1}/6)</span>
+        </button>
+      </div>
 
-      {/* Main Content Area */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC]">
-        {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30">
-          <button
-            type="button"
-            aria-label="Open navigation"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Menu className="size-4" aria-hidden="true" />
-          </button>
-          <span className="text-[14px] font-semibold tracking-tight text-[#16171A]">
-            Follei
-          </span>
-          <button
-            type="button"
-            onClick={() => setIsMobileWizardOpen(true)}
-            className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-[12px] font-medium text-[#16171A] shadow-2xs cursor-pointer"
-          >
-            <Sparkles className="size-3 text-[#7A9601]" />
-            <span>Wizard ({formState.currentStepIndex + 1}/6)</span>
-          </button>
-        </div>
-
-        {/* 2-Column Split: Left Centered Prompt Section + Right Sticky 6-Step Wizard */}
-        <div className="flex-1 flex flex-col lg:flex-row justify-between min-h-[calc(100vh-60px)] lg:min-h-screen">
+      {/* 2-Column Split: Left Centered Prompt Section + Right Sticky 6-Step Wizard */}
+      <div className="flex-1 flex flex-col lg:flex-row justify-between min-h-[calc(100vh-60px)] lg:min-h-screen">
           {/* Left Column: Lower-middle centered prompt area matching screenshot */}
           <div className="min-w-0 flex-1 flex flex-col justify-center items-center px-6 sm:px-12 py-10 lg:pt-32 lg:pb-16 animate-fade-slide">
             <div className="w-full max-w-xl flex flex-col items-center gap-5">
@@ -325,7 +292,6 @@ export const CampaignCreation: React.FC = () => {
             </div>
           </div>
         )}
-      </main>
     </div>
   );
 };

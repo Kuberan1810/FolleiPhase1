@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Menu, Check, Loader2, Upload } from 'lucide-react';
+import { Check, Loader2, Upload } from 'lucide-react';
 import toast from 'react-hot-toast';
-import Sidebar from '../../Component/Sidebar';
 import { useActiveWorkspace } from '../../hooks/useWorkspace';
 import { useProjects } from '../../hooks/useProjects';
 import { useDocuments } from '../../hooks/useDocuments';
@@ -32,7 +31,6 @@ const Field: React.FC<{ label: string; value?: string | null }> = ({ label, valu
  */
 export const ProjectSettings: React.FC = () => {
   const queryClient = useQueryClient();
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { workspace, workspaceId } = useActiveWorkspace();
   const { rename } = useProjects();
   const ingestion = useDocuments(workspaceId);
@@ -96,19 +94,7 @@ export const ProjectSettings: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#FDFDFC] text-[#16171A] antialiased">
-      <Sidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} activeItem="setup" />
-
-      <main className="min-w-0 flex-1">
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden">
-          <button type="button" onClick={() => setIsMobileSidebarOpen(true)} aria-label="Open navigation">
-            <Menu className="size-4" />
-          </button>
-          <span className="text-[13px] font-semibold">Project</span>
-          <div className="size-8" />
-        </div>
-
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 py-12">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-6 py-12">
           <div className="flex flex-col gap-2">
             {isEditingName ? (
               <input
@@ -225,8 +211,6 @@ export const ProjectSettings: React.FC = () => {
             </p>
           </section>
         </div>
-      </main>
-    </div>
   );
 };
 

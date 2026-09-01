@@ -20,10 +20,8 @@ import {
   Zap, 
   Sparkles, 
   ArrowRight,
-  Menu,
   Loader2
 } from 'lucide-react';
-import Sidebar from '../../Component/Sidebar';
 import { AiFollowupModal, DisconnectModal } from './modal';
 import ConfirmDialog from '../../Component/ConfirmDialog';
 
@@ -37,7 +35,6 @@ interface TopMetric {
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [timeRange, setTimeRange] = useState('This Week');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -187,37 +184,10 @@ export const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="flex min-h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased">
-      {/* Left Sidebar */}
-      <Sidebar
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-        activeItem="dashboard"
-      />
-
-      {/* Main Content Area */}
-      <main className="min-w-0 flex-1 flex flex-col min-h-screen bg-[#FDFDFC]">
-        {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#EBEBE8] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
-          <button
-            type="button"
-            aria-label="Open navigation"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
-          >
-            <Menu className="size-4" />
-          </button>
-          <span className="text-[14px] font-semibold tracking-tight text-[#16171A]">
-            Follei
-          </span>
-          <div className="size-8" />
-        </div>
-
-        {/* Dashboard Main Container - Full Width */}
-        <div className="w-full px-6 py-6 lg:px-10 lg:py-8">
-          {/* Header Greeting & Start Follei / Activated Action */}
-          <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
+    <div className="w-full px-6 py-6 lg:px-10 lg:py-8">
+      {/* Header Greeting & Start Follei / Activated Action */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
               <h1 className="font-medium text-[28px] leading-[35px] tracking-[0px] text-[#1E293B]">
                 Good afternoon, {userName}
               </h1>
@@ -541,7 +511,6 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
 
         {/* AI Followup Setup Modal */}
         <AiFollowupModal
@@ -570,7 +539,6 @@ export const Dashboard: React.FC = () => {
           variant="warning"
           isLoading={isStartingCampaign}
         />
-      </main>
     </div>
   );
 };

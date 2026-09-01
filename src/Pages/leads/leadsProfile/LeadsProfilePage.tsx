@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, Loader2 } from 'lucide-react';
-import Sidebar from '../../../Component/Sidebar';
 import { useActiveWorkspace } from '../../../hooks/useWorkspace';
 import { useLeads } from '../../../hooks/useLeads';
 import { getLead } from '../../../api/leads/leads.api';
@@ -32,7 +31,6 @@ const STATUS_MAP: Record<string, any> = {
 export const LeadsProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { workspaceId } = useActiveWorkspace();
   const { leads: allWorkspaceLeads, isLoading: isLeadsLoading } = useLeads(workspaceId);
 
@@ -144,97 +142,71 @@ export const LeadsProfilePage: React.FC = () => {
   const isLoading = isDetailLoading && isLeadsLoading;
 
   return (
-    <div className="flex h-screen w-full bg-[#FDFDFC] text-[#16171A] antialiased overflow-hidden font-sans">
-      {/* Left Sidebar */}
-      <Sidebar
-        activeItem="leads"
-        isOpen={isMobileSidebarOpen}
-        onClose={() => setIsMobileSidebarOpen(false)}
-      />
-
-      {/* Main Content Area */}
-      <main className="min-w-0 flex-1 flex flex-col h-screen overflow-y-auto bg-[#FDFDFC]">
-        {/* Mobile Header Bar */}
-        <div className="flex items-center justify-between border-b border-[#E6E6E4] bg-white px-4 py-3 lg:hidden sticky top-0 z-30 shrink-0">
+    <div className="min-w-0 flex-1 flex flex-col overflow-y-auto">
+      {isLoading ? (
+        <div className="flex flex-1 items-center justify-center py-20">
+          <Loader2 className="size-8 animate-spin text-[#717378]" />
+        </div>
+      ) : !leadData ? (
+        <div className="flex flex-1 flex-col items-center justify-center py-20 text-center">
+          <h3 className="text-[16px] font-semibold text-[#16171A]">Lead not found</h3>
           <button
             type="button"
-            aria-label="Back to leads"
             onClick={() => navigate('/leads')}
-            className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 cursor-pointer shadow-2xs"
+            className="mt-4 rounded-full bg-[#16171A] px-5 py-2 text-[13.5px] font-medium text-white hover:bg-black cursor-pointer"
           >
-            <ArrowLeft className="size-4" />
+            Back to Leads
           </button>
-          <span className="text-[14px] font-semibold tracking-tight text-[#16171A]">
-            Lead Profile
-          </span>
-          <div className="size-8" />
         </div>
-
-        {isLoading ? (
-          <div className="flex flex-1 items-center justify-center py-20">
-            <Loader2 className="size-8 animate-spin text-[#717378]" />
-          </div>
-        ) : !leadData ? (
-          <div className="flex flex-1 flex-col items-center justify-center py-20 text-center">
-            <h3 className="text-[16px] font-semibold text-[#16171A]">Lead not found</h3>
+      ) : (
+        <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 max-w-7xl w-full mx-auto">
+          {/* Top Navigation */}
+          <div className="mb-4">
             <button
               type="button"
               onClick={() => navigate('/leads')}
-              className="mt-4 rounded-full bg-[#16171A] px-5 py-2 text-[13.5px] font-medium text-white hover:bg-black cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#717378] hover:text-[#16171A] transition-colors cursor-pointer"
             >
-              Back to Leads
+              <ArrowLeft className="size-3.5" />
+              <span>Back to Leads</span>
             </button>
           </div>
-        ) : (
-          <div className="flex-1 px-4 sm:px-8 pb-12 py-6 lg:py-8 max-w-7xl w-full mx-auto">
-            {/* Top Navigation */}
-            <div className="mb-4">
-              <button
-                type="button"
-                onClick={() => navigate('/leads')}
-                className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#717378] hover:text-[#16171A] transition-colors cursor-pointer"
-              >
-                <ArrowLeft className="size-3.5" />
-                <span>Back to Leads</span>
-              </button>
+
+          {/* Profile Header */}
+          <LeadProfileHeader lead={leadData} />
+
+          {/* AI Insight Section */}
+          {leadData.aiInsight && (
+            <div className="mt-6">
+              <AiInsightSection aiInsight={leadData.aiInsight} />
+            </div>
+          )}
+
+          {/* Main Details Grid */}
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
+            {/* Left Column (8 cols) */}
+            <div className="flex flex-col gap-6 lg:col-span-8">
+              <ContactInfoSection lead={leadData} />
+              {leadData.courseInterest && (
+                <CourseInterestSection courseInterest={leadData.courseInterest} />
+              )}
+              {leadData.attachments && leadData.attachments.length > 0 && (
+                <AttachmentsSection attachments={leadData.attachments} />
+              )}
             </div>
 
-            {/* Profile Header */}
-            <LeadProfileHeader lead={leadData} />
-
-            {/* AI Insight Section */}
-            {leadData.aiInsight && (
-              <div className="mt-6">
-                <AiInsightSection aiInsight={leadData.aiInsight} />
-              </div>
-            )}
-
-            {/* Main Details Grid */}
-            <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
-              {/* Left Column (8 cols) */}
-              <div className="flex flex-col gap-6 lg:col-span-8">
-                <ContactInfoSection lead={leadData} />
-                {leadData.courseInterest && (
-                  <CourseInterestSection courseInterest={leadData.courseInterest} />
-                )}
-                {leadData.attachments && leadData.attachments.length > 0 && (
-                  <AttachmentsSection attachments={leadData.attachments} />
-                )}
-              </div>
-
-              {/* Right Column (4 cols) */}
-              <div className="flex flex-col gap-6 lg:col-span-4">
-                {leadData.upcomingMeeting && (
-                  <UpcomingMeetingSection upcomingMeeting={leadData.upcomingMeeting} />
-                )}
-                {leadData.recentActivities && (
-                  <RecentActivitySection activities={leadData.recentActivities} />
-                )}
-              </div>
+            {/* Right Column (4 cols) */}
+            <div className="flex flex-col gap-6 lg:col-span-4">
+              {leadData.upcomingMeeting && (
+                <UpcomingMeetingSection upcomingMeeting={leadData.upcomingMeeting} />
+              )}
+              {leadData.recentActivities && (
+                <RecentActivitySection activities={leadData.recentActivities} />
+              )}
             </div>
           </div>
-        )}
-      </main>
+        </div>
+      )}
     </div>
   );
 };
