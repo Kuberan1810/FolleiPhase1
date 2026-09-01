@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Users, 
   Flame, 
-  CheckCircle2, 
   Calendar, 
   ChevronDown, 
   TrendingUp, 

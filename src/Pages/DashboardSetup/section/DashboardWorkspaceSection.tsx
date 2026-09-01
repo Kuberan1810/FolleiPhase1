@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Check, Users, Database, Sparkles, Plug, Loader2, UploadCloud, AlertCircle, ArrowUpRight } from 'lucide-react';
+import { Building2, Check, Users, Database, Sparkles, Plug, Loader2, UploadCloud, ArrowUpRight } from 'lucide-react';
 import type { WorkspaceContextItem } from '../types';
 
 interface DashboardWorkspaceSectionProps {

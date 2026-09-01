@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Sparkles, X } from 'lucide-react';
-import { useActiveWorkspace } from '../../../hooks/useWorkspace';
+import { Sparkles, X } from 'lucide-react';
 import {
   CampaignCreationHeader,
   CampaignSuggestionChips,
@@ -38,7 +37,6 @@ const INITIAL_STATE: CampaignFormState = {
 export const CampaignCreation: React.FC = () => {
   const navigate = useNavigate();
   const [isMobileWizardOpen, setIsMobileWizardOpen] = useState(false);
-  const { workspaceId } = useActiveWorkspace();
 
   const [formState, setFormState] = useState<CampaignFormState>(INITIAL_STATE);
   const [isLaunched, setIsLaunched] = useState(false);

@@ -54,8 +54,6 @@ export const DashboardSetup: React.FC = () => {
     selectedOptionId,
     workspaceItems,
     suggestions,
-    isMobileSidebarOpen,
-    setIsMobileSidebarOpen,
     isMobileSetupOpen,
     setIsMobileSetupOpen,
     isSubmitting,
