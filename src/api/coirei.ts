@@ -182,8 +182,8 @@ export const coirei = {
 
   // leads spreadsheet
   addColumn: (id: string, body: Data) => api(`/companies/${id}/columns`, body),
-  addColumnFromPrompt: (id: string, prompt: string) =>
-    api<{ column: Data; job: Data | null }>(`/companies/${id}/columns/from-prompt`, { prompt, run: true }),
+  addColumnFromPrompt: (id: string, prompt: string, kind: 'lead' | 'competitor' = 'lead') =>
+    api<{ column: Data; job: Data | null }>(`/companies/${id}/columns/from-prompt`, { prompt, run: true, kind }),
   deleteColumn: (columnId: string) => api(`/columns/${columnId}`, undefined, 'DELETE'),
   runCells: (id: string, candidateIds: string[], columnIds: string[], rerun = false) =>
     api(`/companies/${id}/research-cells`, { candidate_ids: candidateIds, column_ids: columnIds, rerun }),

@@ -11,6 +11,14 @@ import ConfirmDialog from './ConfirmDialog';
 import { placeText } from './Place';
 import { coirei, type Data } from '../api/coirei';
 import { useProject } from '../Pages/project/ProjectShell';
+import LoadingTicker from './LoadingTicker';
+
+const LEAD_LOADING_MESSAGES = [
+  'Locating matching accounts…',
+  'Checking each account against your ICP…',
+  'Verifying key contacts…',
+  'Scoring fit and buying signals…',
+];
 
 export const hqText = (row: Data) => {
   const address = (row.data?.addresses || [])[0] || {};
@@ -30,7 +38,7 @@ export default function LeadsTable({
   subtitle,
   showOutreachActions = true,
 }: LeadsTableProps) {
-  const { projectId, snapshot, active, busy, perform, openEvidence } = useProject();
+  const { projectId, snapshot, active, stage, busy, perform, openEvidence } = useProject();
   const navigate = useNavigate();
 
   const [prompt, setPrompt] = useState('');
@@ -48,6 +56,9 @@ export default function LeadsTable({
   // discovering/analysing included) stays, so a row shows up as soon as it's
   // found and its cells fill in as its own analysis finishes.
   const rows = useMemo(() => allRows.filter((row) => !['filtered', 'unavailable'].includes(row.state)), [allRows]);
+  const analysedCount = useMemo(() => rows.filter((row) => row.state === 'analysed').length, [rows]);
+  const stillWorking = rows.length > 0 && analysedCount < rows.length;
+  const isAnalysing = rows.length > 0 && analysedCount === 0;
 
   const cellIndex = useMemo(() => {
     const map = new Map<string, Data>();
@@ -111,14 +122,17 @@ export default function LeadsTable({
               <h2 className="text-[16px] font-bold text-[#0F172A] tracking-tight">
                 {title || (embedded ? 'Qualified Leads & Accounts' : 'Leads')}
               </h2>
-              <span className="rounded-full bg-[#F1F5F9] px-2.5 py-0.5 text-[11px] font-semibold text-[#475569]">
-                {totalCount} accounts
-              </span>
-              {columns.length > 0 && (
+              {analysedCount > 0 && (
                 <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
+                  {analysedCount} of {totalCount} analysed
+                </span>
+              )}
+              {columns.length > 0 && (
+                <span className="rounded-full bg-[#F1F5F9] px-2.5 py-0.5 text-[11px] font-semibold text-[#475569]">
                   {columns.length} AI columns
                 </span>
               )}
+              {stillWorking && <LoadingTicker messages={LEAD_LOADING_MESSAGES} />}
             </div>
             <p className="mt-1 text-[12.5px] text-[#64748B]">
               {subtitle || 'High-intent accounts matched to your ICP with verified decision makers and research.'}
@@ -465,13 +479,15 @@ export default function LeadsTable({
                     </tr>
                   );
                 })
-              ) : rows.length > 0 && !rows.some((row) => row.state === 'analysed') ? (
+              ) : isAnalysing ? (
                 <tr>
-                  <td
-                    colSpan={6 + visibleColumns.length}
-                    className="px-6 py-12 text-center text-[#64748B] text-[13px]"
-                  >
-                    Ranking {rows.length} discovered accounts against your ICP — matches will appear here as they're analysed.
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16 text-center">
+                    <div className="flex flex-col items-center gap-2">
+                      <LoadingTicker messages={LEAD_LOADING_MESSAGES} size="lg" />
+                      <span className="text-[12px] text-[#94A3B8]">
+                        {rows.length} discovered so far — matches will appear here as they're analysed.
+                      </span>
+                    </div>
                   </td>
                 </tr>
               ) : rows.length > 0 ? (
@@ -481,6 +497,12 @@ export default function LeadsTable({
                     className="px-6 py-12 text-center text-[#64748B] text-[13px]"
                   >
                     No accounts match this filter.
+                  </td>
+                </tr>
+              ) : active || stage === 'leads' ? (
+                <tr>
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16 text-center">
+                    <LoadingTicker messages={LEAD_LOADING_MESSAGES} size="lg" />
                   </td>
                 </tr>
               ) : (

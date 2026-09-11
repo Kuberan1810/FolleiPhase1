@@ -8,11 +8,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { coirei, type Data } from '../api/coirei';
 import { useProject } from '../Pages/project/ProjectShell';
+import LoadingTicker from './LoadingTicker';
 
 /** A shimmering placeholder for a cell whose value hasn't landed yet. */
 function CellShimmer({ width = 'w-20' }: { width?: string }) {
   return <span className={`inline-block h-3.5 ${width} animate-pulse rounded-full bg-[#F1F5F9]`} />;
 }
+
+const COMPETITOR_LOADING_MESSAGES = [
+  'Locating your competitors…',
+  'Finding each competitor\'s headquarters…',
+  'Checking their location and market…',
+  'Comparing market overlap…',
+];
 
 /** A candidate's headquarters, from the address its own site declared. */
 export const hqOf = (row: Data) => {
@@ -31,13 +39,35 @@ export default function CompetitorsTable({
   title,
   subtitle,
 }: CompetitorsTableProps) {
-  const { projectId, snapshot, stage, busy, perform, openEvidence } = useProject();
+  const { projectId, snapshot, active, stage, busy, perform, openEvidence } = useProject();
   const navigate = useNavigate();
 
   const [urls, setUrls] = useState('');
   const [showAddUrlModal, setShowAddUrlModal] = useState(false);
+  const [columnPrompt, setColumnPrompt] = useState('');
+  const [showAddColumnModal, setShowAddColumnModal] = useState(false);
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'high_overlap' | 'direct'>('all');
+
+  // Columns are shared with the Leads sheet (a column has no kind of its own),
+  // so competitor-scoped ones show up here the same way lead columns do there.
+  const { columns, cells } = snapshot.sheet;
+  const cellIndex = useMemo(() => {
+    const map = new Map<string, Data>();
+    for (const cell of cells) map.set(`${cell.candidate_id}:${cell.column_id}`, cell);
+    return map;
+  }, [cells]);
+
+  const askForColumn = () => {
+    const text = columnPrompt.trim();
+    if (!text) return;
+    void perform(async () => {
+      const result = await coirei.addColumnFromPrompt(projectId, text, 'competitor');
+      setColumnPrompt('');
+      setShowAddColumnModal(false);
+      toast.success(`Added "${result.column.definition.name}" — researching competitors`);
+    });
+  };
   const [promptDismissed, setPromptDismissed] = useState(
     () => typeof window !== 'undefined' && localStorage.getItem(`coirei:leadsPrompt:${projectId}`) === 'dismissed',
   );
@@ -156,17 +186,12 @@ export default function CompetitorsTable({
               <h2 className="text-[16px] font-bold text-[#0F172A] tracking-tight">
                 {title || (embedded ? 'Competitor Landscape' : 'Competitors')}
               </h2>
-              <span className="rounded-full bg-[#F1F5F9] px-2.5 py-0.5 text-[11px] font-semibold text-[#475569]">
-                {totalCount} competitors
-              </span>
-              <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
-                {analysedSorted.length} analysed
-              </span>
-              {stillWorking && (
-                <span className="rounded-full bg-[#FFF7ED] px-2.5 py-0.5 text-[11px] font-semibold text-[#C2410C] animate-pulse">
-                  Ranking…
+              {analysedSorted.length > 0 && (
+                <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
+                  {analysedSorted.length} of {totalCount} analysed
                 </span>
               )}
+              {stillWorking && <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} />}
             </div>
             <p className="mt-1 text-[12.5px] text-[#64748B]">
               {subtitle || 'Ranked market overlap, key differentiators, pricing models & target audience comparison.'}
@@ -176,10 +201,17 @@ export default function CompetitorsTable({
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-2">
             <button
+              onClick={() => setShowAddColumnModal((v) => !v)}
+              className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#0F172A] shadow-sm transition-all hover:border-[#CBD5E1] hover:bg-[#F8FAFC] cursor-pointer"
+            >
+              + Add AI Column
+            </button>
+
+            <button
               onClick={() => setShowAddUrlModal((v) => !v)}
               className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#0F172A] shadow-sm transition-all hover:border-[#CBD5E1] hover:bg-[#F8FAFC] cursor-pointer"
             >
-              + Add Competitor
+              + Add Competitor URL
             </button>
 
             <button
@@ -199,6 +231,43 @@ export default function CompetitorsTable({
             )}
           </div>
         </div>
+
+        {/* Inline Add Research Column Accordion */}
+        {showAddColumnModal && (
+          <div className="mt-3.5 rounded-xl border border-[#D1FAE5] bg-[#ECFDF5]/60 p-3.5 transition-all">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[13px] font-semibold text-[#065F46]">Ask AI to research a new column for these competitors</span>
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                askForColumn();
+              }}
+              className="flex flex-wrap items-center gap-2.5"
+            >
+              <input
+                value={columnPrompt}
+                onChange={(e) => setColumnPrompt(e.target.value)}
+                placeholder="e.g. Get the careers page email of these companies"
+                className="flex-1 min-w-[280px] rounded-lg border border-[#A7F3D0] bg-white px-3.5 py-2 text-[13px] text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669]"
+              />
+              <button
+                type="submit"
+                disabled={busy || !columnPrompt.trim()}
+                className="rounded-lg bg-[#059669] px-4 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#047857] disabled:opacity-50"
+              >
+                {busy ? 'Researching…' : 'Research Column'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowAddColumnModal(false)}
+                className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-[12.5px] text-[#64748B] hover:bg-[#F8FAFC]"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        )}
 
         {/* Inline Add Competitor URL Form */}
         {showAddUrlModal && (
@@ -297,6 +366,9 @@ export default function CompetitorsTable({
                 <th className="min-w-[160px] px-4 py-3">Classification</th>
                 <th className="min-w-[260px] px-4 py-3">Positioning &amp; Offering</th>
                 <th className="min-w-[220px] px-4 py-3">Differentiators</th>
+                {columns.map((column) => (
+                  <th key={column.id} className="min-w-[180px] px-4 py-3">{column.definition.name}</th>
+                ))}
                 <th className="w-24 px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -403,6 +475,37 @@ export default function CompetitorsTable({
                         )}
                       </td>
 
+                      {/* Custom Research Columns */}
+                      {columns.map((column) => {
+                        const cell = cellIndex.get(`${row.id}:${column.id}`);
+                        return (
+                          <td key={column.id} className="min-w-[180px] px-4 py-3.5">
+                            {cell ? (
+                              <button
+                                onClick={() => openEvidence(cell.data)}
+                                className="cursor-pointer text-left text-[12.5px] text-[#0F172A] hover:underline"
+                              >
+                                {cell.state === 'running' ? (
+                                  <span className="text-[#0284C7] font-medium">Researching…</span>
+                                ) : (
+                                  cell.data?.display_value || cell.state
+                                )}
+                              </button>
+                            ) : analysed ? (
+                              <button
+                                disabled={busy || !!active}
+                                onClick={() => void perform(() => coirei.runCells(projectId, [row.id], [column.id], false))}
+                                className="inline-flex items-center rounded-md border border-[#E2E8F0] bg-white px-2 py-1 text-[11.5px] font-medium text-[#475569] hover:bg-[#F8FAFC]"
+                              >
+                                Research
+                              </button>
+                            ) : (
+                              <CellShimmer width="w-16" />
+                            )}
+                          </td>
+                        );
+                      })}
+
                       {/* Actions */}
                       <td className="px-4 py-3.5 text-right">
                         <div className="flex items-center justify-end gap-1.5">
@@ -423,13 +526,24 @@ export default function CompetitorsTable({
                 })
               ) : isAnalysing ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
-                    Ranking {all.length} discovered domains — the top {COMPETITOR_SLOTS} will appear here as they're analysed.
+                  <td colSpan={7 + columns.length} className="px-6 py-16 text-center">
+                    <div className="flex flex-col items-center gap-2">
+                      <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} size="lg" />
+                      <span className="text-[12px] text-[#94A3B8]">
+                        {all.length} discovered so far — the top {COMPETITOR_SLOTS} will appear here as they're analysed.
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ) : all.length === 0 && (active || stage === 'competitors') ? (
+                <tr>
+                  <td colSpan={7 + columns.length} className="px-6 py-16 text-center">
+                    <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} size="lg" />
                   </td>
                 </tr>
               ) : (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
+                  <td colSpan={7 + columns.length} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
                     No competitors found. Use &quot;+ Add Competitor&quot; or message coirei to analyze competitors.
                   </td>
                 </tr>
