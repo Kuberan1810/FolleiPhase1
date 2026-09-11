@@ -22,6 +22,7 @@ export interface Project {
   name: string;
   website: string;
   state: string;
+  created_at: string;
 }
 
 /** The signed-in account. Seeded from the cached user so a reload renders the
@@ -43,7 +44,7 @@ export function useProjects(enabled = true) {
     queryKey: keys.projects,
     queryFn: async (): Promise<Project[]> =>
       (await coirei.projects()).map((row) => ({
-        id: row.id, name: projectName(row), website: row.website, state: row.state,
+        id: row.id, name: projectName(row), website: row.website, state: row.state, created_at: row.created_at,
       })),
     enabled,
   });

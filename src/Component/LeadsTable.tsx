@@ -453,10 +453,15 @@ export default function LeadsTable({
                 })
               ) : isAnalysing ? (
                 <tr>
-                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16 text-center">
-                    <div className="flex flex-col items-center gap-2">
+                  {/* sticky + left-1/2 centers within the visible scrolled
+                      viewport of the table's own scroll container, not the
+                      full (much wider) unscrolled table -- plain text-center
+                      would render off-screen on anything narrower than the
+                      table's full content width (~1200px+). */}
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2 flex flex-col items-center gap-2">
                       <LoadingTicker messages={LEAD_LOADING_MESSAGES} size="lg" />
-                      <span className="text-[12px] text-[#94A3B8]">
+                      <span className="whitespace-nowrap text-[12px] text-[#94A3B8]">
                         {rows.length} discovered so far — matches will appear here as they're analysed.
                       </span>
                     </div>
@@ -464,26 +469,26 @@ export default function LeadsTable({
                 </tr>
               ) : rows.length > 0 ? (
                 <tr>
-                  <td
-                    colSpan={6 + visibleColumns.length}
-                    className="px-6 py-12 text-center text-[#64748B] text-[13px]"
-                  >
-                    No accounts match this filter.
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-12">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2 whitespace-nowrap text-[#64748B] text-[13px]">
+                      No accounts match this filter.
+                    </div>
                   </td>
                 </tr>
-              ) : active || stage === 'leads' ? (
+              ) : ['icp', 'leads'].includes(stage) ? (
                 <tr>
-                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16 text-center">
-                    <LoadingTicker messages={LEAD_LOADING_MESSAGES} size="lg" />
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-16">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2">
+                      <LoadingTicker messages={LEAD_LOADING_MESSAGES} size="lg" />
+                    </div>
                   </td>
                 </tr>
               ) : (
                 <tr>
-                  <td
-                    colSpan={6 + visibleColumns.length}
-                    className="px-6 py-12 text-center text-[#64748B] text-[13px]"
-                  >
-                    No leads found yet. Approve your ICP or ask coirei to discover matching leads.
+                  <td colSpan={6 + visibleColumns.length} className="px-6 py-12">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2 whitespace-nowrap text-[#64748B] text-[13px]">
+                      No leads found yet. Approve your ICP or ask coirei to discover matching leads.
+                    </div>
                   </td>
                 </tr>
               )}

@@ -22,7 +22,7 @@ import {
 import { X, PanelLeft } from 'lucide-react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { getStoredUser, clearSession } from '../lib/auth';
+import { getStoredUser, clearSession, isSignedIn } from '../lib/auth';
 import { useProjects } from '../hooks/useProjects';
 import { coirei } from '../api/coirei';
 import ConfirmDialog from './ConfirmDialog';
@@ -91,7 +91,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     isLoading: isWorkspacesLoading,
     rename: renameProject,
     remove: removeProject,
-  } = useProjects();
+  } = useProjects(isSignedIn());
   const getActiveWorkspaceId = () => projectId ?? null;
   const setActiveWorkspaceId = (_id: string) => {};
 
@@ -189,7 +189,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setIsLogoutModalOpen(false);
     setIsUserMenuOpen(false);
     toast.success('Logged out successfully');
-    navigate('/login');
+    // A full reload, not a client-side navigate: the whole authenticated
+    // component tree (sidebar, project queries, etc.) is still mounted for
+    // one more render right after clearSession() flips isSignedIn() to
+    // false, and several of them re-render/refetch/redirect in that same
+    // tick -- observed to cascade into a "Maximum update depth exceeded"
+    // loop that hangs the tab. A hard navigation guarantees a clean slate.
+    window.location.href = '/login';
   };
 
   const projectsList = workspaces || [];

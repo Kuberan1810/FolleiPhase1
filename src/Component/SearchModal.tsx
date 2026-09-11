@@ -11,6 +11,19 @@ interface SearchModalProps {
   onAskFollei?: () => void;
 }
 
+/** A real "X ago" from the project's actual created_at -- was previously a
+ * hardcoded "22h ago" for every single workspace, regardless of age. */
+function timeAgo(isoDate: string): string {
+  const seconds = Math.max(0, (Date.now() - new Date(isoDate).getTime()) / 1000);
+  const units: [number, string][] = [[60, 's'], [60, 'm'], [24, 'h'], [7, 'd'], [4.345, 'w'], [12, 'mo'], [Infinity, 'y']];
+  let value = seconds;
+  for (const [size, label] of units) {
+    if (value < size || size === Infinity) return `${Math.max(1, Math.floor(value))}${label} ago`;
+    value /= size;
+  }
+  return 'just now';
+}
+
 export const SearchModal: React.FC<SearchModalProps> = ({
   isOpen,
   onClose,
@@ -49,11 +62,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   if (!isOpen || typeof document === 'undefined') return null;
 
   // Build items list
-  const projectItems = (workspaces || []).map((p, idx) => ({
+  const projectItems = (workspaces || []).map((p) => ({
     id: p.id,
     type: 'project' as const,
     title: p.name || 'Untitled workspace',
-    time: idx === 0 ? '22h ago' : `${idx + 1}d ago`,
+    time: p.created_at ? timeAgo(p.created_at) : '',
     action: () => {
       navigate('/p/' + p.id);
       onClose();
@@ -65,7 +78,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
       id: 'untitled-workspace',
       type: 'project' as const,
       title: 'Untitled workspace',
-      time: '22h ago',
+      time: '',
       action: () => {
         if (onNewProject) onNewProject();
         else navigate('/');

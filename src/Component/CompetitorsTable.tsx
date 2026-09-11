@@ -498,25 +498,35 @@ export default function CompetitorsTable({
                 })
               ) : isAnalysing ? (
                 <tr>
-                  <td colSpan={7 + columns.length} className="px-6 py-16 text-center">
-                    <div className="flex flex-col items-center gap-2">
+                  {/* sticky + left-1/2 centers within the visible scrolled
+                      viewport of the table's own scroll container, not the
+                      full (much wider) unscrolled table -- a plain
+                      text-center here would render off-screen whenever the
+                      table is wider than the viewport, which is most of the
+                      time on anything narrower than ~1200px. */}
+                  <td colSpan={7 + columns.length} className="px-6 py-16">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2 flex flex-col items-center gap-2">
                       <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} size="lg" />
-                      <span className="text-[12px] text-[#94A3B8]">
+                      <span className="whitespace-nowrap text-[12px] text-[#94A3B8]">
                         {all.length} discovered so far — the top {COMPETITOR_SLOTS} will appear here as they're analysed.
                       </span>
                     </div>
                   </td>
                 </tr>
-              ) : all.length === 0 && (active || stage === 'competitors') ? (
+              ) : all.length === 0 && stage === 'competitors' ? (
                 <tr>
-                  <td colSpan={7 + columns.length} className="px-6 py-16 text-center">
-                    <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} size="lg" />
+                  <td colSpan={7 + columns.length} className="px-6 py-16">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2">
+                      <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} size="lg" />
+                    </div>
                   </td>
                 </tr>
               ) : (
                 <tr>
-                  <td colSpan={7 + columns.length} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
-                    No competitors found. Use &quot;+ Add Competitor&quot; or message coirei to analyze competitors.
+                  <td colSpan={7 + columns.length} className="px-6 py-12">
+                    <div className="sticky left-1/2 w-fit -translate-x-1/2 whitespace-nowrap text-[#64748B] text-[13px]">
+                      No competitors found. Use &quot;+ Add Competitor&quot; or message coirei to analyze competitors.
+                    </div>
                   </td>
                 </tr>
               )}
