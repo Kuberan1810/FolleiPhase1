@@ -42,8 +42,12 @@ export default function LeadsTable({
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 10;
 
-  const { rows, columns, cells, contacts } = snapshot.sheet;
+  const { rows: allRows, columns, cells, contacts } = snapshot.sheet;
   const visibleColumns = columns.filter((column) => !hidden.includes(column.id));
+  // Screened out or unreachable: never a real lead. Everything else (still
+  // discovering/analysing included) stays, so a row shows up as soon as it's
+  // found and its cells fill in as its own analysis finishes.
+  const rows = useMemo(() => allRows.filter((row) => !['filtered', 'unavailable'].includes(row.state)), [allRows]);
 
   const cellIndex = useMemo(() => {
     const map = new Map<string, Data>();
@@ -301,13 +305,21 @@ export default function LeadsTable({
                 pageRows.map((row) => {
                   const rowContacts = contacts.filter((c) => c.candidate_id === row.id);
                   const score = Math.round(row.score || 0);
+                  // Fit score, location and qualification all come out of the
+                  // same assessment call for this account -- shimmer as one
+                  // unit until it's actually analysed, rather than showing a
+                  // 0% score that just looks broken.
+                  const analysed = row.state === 'analysed';
+                  const signal = row.data?.qualification
+                    ? String(row.data.qualification).replace(/_/g, ' ')
+                    : row.data?.buying_signal || row.data?.industry || '';
 
                   return (
                     <tr
                       key={row.id}
                       className="transition-colors duration-150 hover:bg-[#F8FAFC]/80"
                     >
-                      {/* Company */}
+                      {/* Company -- known the moment it's discovered */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-3">
                           <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#EEF2F6] to-[#E2E8F0] font-bold text-[#334155] shadow-xs text-[13px]">
@@ -334,17 +346,25 @@ export default function LeadsTable({
 
                       {/* Location */}
                       <td className="px-4 py-3.5">
-                        <span className="text-[12.5px] text-[#475569] truncate block">{hqText(row) || '—'}</span>
+                        {analysed ? (
+                          <span className="text-[12.5px] text-[#475569] truncate block">{hqText(row) || '—'}</span>
+                        ) : (
+                          <span className="inline-block h-3.5 w-24 animate-pulse rounded-full bg-[#F1F5F9]" />
+                        )}
                       </td>
 
                       {/* Fit Score */}
                       <td className="px-4 py-3.5">
-                        <button
-                          onClick={() => openEvidence(row.data)}
-                          className="cursor-pointer font-normal text-[#0F172A] text-[13px] hover:text-[#059669] hover:underline"
-                        >
-                          {score}% Fit
-                        </button>
+                        {analysed ? (
+                          <button
+                            onClick={() => openEvidence(row.data)}
+                            className="cursor-pointer font-normal text-[#0F172A] text-[13px] hover:text-[#059669] hover:underline"
+                          >
+                            {score}% Fit
+                          </button>
+                        ) : (
+                          <span className="inline-block h-3.5 w-16 animate-pulse rounded-full bg-[#F1F5F9]" />
+                        )}
                       </td>
 
                       {/* Key Contact */}
@@ -370,11 +390,20 @@ export default function LeadsTable({
                         )}
                       </td>
 
-                      {/* Industry / Signals */}
+                      {/* Industry / Signals -- the account's real qualification
+                          against your ICP, not a fixed "High Match" label */}
                       <td className="px-4 py-3.5">
-                        <span className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[11.5px] font-medium text-[#334155]">
-                          High Match
-                        </span>
+                        {analysed ? (
+                          signal ? (
+                            <span className="inline-flex items-center rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[11.5px] font-medium text-[#334155]">
+                              {signal}
+                            </span>
+                          ) : (
+                            <span className="text-[#94A3B8] text-[12px]">—</span>
+                          )
+                        ) : (
+                          <span className="inline-block h-3.5 w-20 animate-pulse rounded-full bg-[#F1F5F9]" />
+                        )}
                       </td>
 
                       {/* Custom Research Columns */}
@@ -436,6 +465,24 @@ export default function LeadsTable({
                     </tr>
                   );
                 })
+              ) : rows.length > 0 && !rows.some((row) => row.state === 'analysed') ? (
+                <tr>
+                  <td
+                    colSpan={6 + visibleColumns.length}
+                    className="px-6 py-12 text-center text-[#64748B] text-[13px]"
+                  >
+                    Ranking {rows.length} discovered accounts against your ICP — matches will appear here as they're analysed.
+                  </td>
+                </tr>
+              ) : rows.length > 0 ? (
+                <tr>
+                  <td
+                    colSpan={6 + visibleColumns.length}
+                    className="px-6 py-12 text-center text-[#64748B] text-[13px]"
+                  >
+                    No accounts match this filter.
+                  </td>
+                </tr>
               ) : (
                 <tr>
                   <td

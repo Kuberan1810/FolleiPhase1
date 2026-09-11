@@ -4,6 +4,7 @@
  * Matches exact design: PRODUCT serif heading, narrative overview,
  * Use cases pills, and 3-column Market & Company Profile grid.
  */
+import { useNavigate } from 'react-router-dom';
 import type { Snapshot, Data } from '../api/coirei';
 import { coirei } from '../api/coirei';
 import { useProject } from '../Pages/project/ProjectShell';
@@ -21,6 +22,7 @@ export default function CompanyAnalysisCard({
 }: CompanyAnalysisCardProps) {
   const { projectId, snapshot: ctxSnapshot, active, busy, perform, openEvidence } = useProject();
   const snapshot = propSnapshot || ctxSnapshot;
+  const navigate = useNavigate();
 
   const profile = snapshot?.profiles?.[0];
   const company = snapshot?.company || {};
@@ -57,13 +59,14 @@ export default function CompanyAnalysisCard({
       onConfirm();
       return;
     }
-    if (profile?.id) {
-      void perform(() =>
-        coirei.act(projectId, 'confirm_profile', { profile_id: profile.id })
-      );
-    } else {
-      void perform(() => coirei.command(projectId, 'find competitors'));
-    }
+    // Confirming is the one human checkpoint left: everything from here
+    // (competitors, ICP, leads) runs on its own, so move straight to the
+    // Competitors page rather than keep stacking cards in the chat feed.
+    void perform(() =>
+      (profile?.id
+        ? coirei.act(projectId, 'confirm_profile', { profile_id: profile.id })
+        : coirei.command(projectId, 'find competitors'))
+    ).then(() => navigate(`/p/${projectId}/competitors`));
   };
 
   const handleOpenEvidence = () => {

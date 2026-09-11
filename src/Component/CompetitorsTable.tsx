@@ -4,10 +4,15 @@
  * positioning summaries, key differentiators, review approvals, and evidence drawers.
  */
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { coirei, type Data } from '../api/coirei';
 import { useProject } from '../Pages/project/ProjectShell';
+
+/** A shimmering placeholder for a cell whose value hasn't landed yet. */
+function CellShimmer({ width = 'w-20' }: { width?: string }) {
+  return <span className={`inline-block h-3.5 ${width} animate-pulse rounded-full bg-[#F1F5F9]`} />;
+}
 
 /** A candidate's headquarters, from the address its own site declared. */
 export const hqOf = (row: Data) => {
@@ -19,35 +24,58 @@ export interface CompetitorsTableProps {
   embedded?: boolean;
   title?: string;
   subtitle?: string;
-  showReviewActions?: boolean;
 }
 
 export default function CompetitorsTable({
   embedded = false,
   title,
   subtitle,
-  showReviewActions = true,
 }: CompetitorsTableProps) {
-  const { projectId, snapshot, active, stage, busy, perform, openEvidence } = useProject();
+  const { projectId, snapshot, stage, busy, perform, openEvidence } = useProject();
+  const navigate = useNavigate();
 
   const [urls, setUrls] = useState('');
   const [showAddUrlModal, setShowAddUrlModal] = useState(false);
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'high_overlap' | 'direct'>('all');
+  const [promptDismissed, setPromptDismissed] = useState(
+    () => typeof window !== 'undefined' && localStorage.getItem(`coirei:leadsPrompt:${projectId}`) === 'dismissed',
+  );
 
   const COMPETITOR_SLOTS = 10;
+  // Screened out or unreachable: these will never become a listed competitor.
+  const DEAD_STATES = new Set(['filtered', 'unavailable']);
 
   const all = snapshot.competitors;
-  const analysed = useMemo(
-    () => all.filter((row) => row.state === 'analysed').sort((a, b) => (b.score || 0) - (a.score || 0)),
-    [all],
+  const candidates = useMemo(() => all.filter((row) => !DEAD_STATES.has(row.state)), [all]);
+  const analysedSorted = useMemo(
+    () => candidates.filter((row) => row.state === 'analysed').sort((a, b) => (b.score || 0) - (a.score || 0)),
+    [candidates],
   );
-  // Discovery finds far more candidate domains than are actually competitors --
-  // only the top-scored, fully-analysed ones are ever labeled "competitor".
-  // Never fall back to raw, unanalysed candidates: those have no real score or
-  // classification yet, and showing them as 0%-overlap rows just looks broken.
-  const topCompetitors = analysed.slice(0, COMPETITOR_SLOTS);
-  const isAnalysing = all.length > 0 && analysed.length === 0;
+  const inProgress = useMemo(() => candidates.filter((row) => row.state !== 'analysed'), [candidates]);
+  // Rows appear the moment they're discovered and fill in as their own
+  // analysis completes; the fully-analysed ones settle to the top by score,
+  // still-working ones fill the remaining slots below them.
+  const topCompetitors = useMemo(
+    () => [...analysedSorted, ...inProgress].slice(0, COMPETITOR_SLOTS),
+    [analysedSorted, inProgress],
+  );
+  const stillWorking = topCompetitors.some((row) => row.state !== 'analysed');
+  const isAnalysing = all.length > 0 && analysedSorted.length === 0;
+
+  // The competitors phase itself has finished as soon as the workflow stage
+  // moves past it -- backend chains straight into the ICP and leads with no
+  // human gate, so this is the one moment worth asking "keep exploring, or
+  // move on to leads?"
+  const competitorsPhaseDone = !['intake', 'company', 'company_review', 'competitors'].includes(stage);
+  const showLeadsPrompt = competitorsPhaseDone && analysedSorted.length > 0 && !promptDismissed;
+
+  const dismissPrompt = (goToLeads: boolean) => {
+    setPromptDismissed(true);
+    try { localStorage.setItem(`coirei:leadsPrompt:${projectId}`, 'dismissed'); } catch { /* best effort */ }
+    if (goToLeads) navigate(`/p/${projectId}/leads`);
+    else toast.success("Sounds good — I'll keep finding matching leads in the background. Check the Leads tab whenever you're ready.");
+  };
 
   // Filter real competitors
   const visibleRows = useMemo(() => {
@@ -85,9 +113,9 @@ export default function CompetitorsTable({
         Domain: r.domain,
         Location: [hq.city, hq.state, hq.country].filter(Boolean).join(', ') || '',
         MarketOverlap: `${Math.round(r.score || 0)}%`,
-        Classification: r.data?.classification ? String(r.data.classification).replace(/_/g, ' ') : 'Market Competitor',
+        Classification: r.data?.classification ? String(r.data.classification).replace(/_/g, ' ') : '',
         Positioning: r.data?.summary || r.data?.prefilter?.reason || '',
-        Differentiators: (r.data?.differentiators || []).join('; '),
+        Differentiators: r.data?.differences || '',
       };
     });
 
@@ -132,8 +160,13 @@ export default function CompetitorsTable({
                 {totalCount} competitors
               </span>
               <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
-                {analysed.length} analysed
+                {analysedSorted.length} analysed
               </span>
+              {stillWorking && (
+                <span className="rounded-full bg-[#FFF7ED] px-2.5 py-0.5 text-[11px] font-semibold text-[#C2410C] animate-pulse">
+                  Ranking…
+                </span>
+              )}
             </div>
             <p className="mt-1 text-[12.5px] text-[#64748B]">
               {subtitle || 'Ranked market overlap, key differentiators, pricing models & target audience comparison.'}
@@ -155,16 +188,6 @@ export default function CompetitorsTable({
             >
               Export
             </button>
-
-            {stage === 'competitors_review' && (
-              <button
-                disabled={busy || !!active}
-                onClick={() => void perform(() => coirei.act(projectId, 'review_competitors'))}
-                className="inline-flex items-center rounded-xl bg-[#0F172A] px-3.5 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:opacity-50 cursor-pointer"
-              >
-                Finish Review &amp; Build ICP
-              </button>
-            )}
 
             {embedded && (
               <Link
@@ -285,13 +308,18 @@ export default function CompetitorsTable({
                   const score = Math.round(row.score || 0);
                   const hq = hqOf(row);
                   const locationText = [hq.city, hq.state, hq.country].filter(Boolean).join(', ') || '';
+                  // Overlap, classification, positioning and differentiators all
+                  // come out of the same assessment call, so they land together
+                  // as soon as this row finishes analysis -- shimmer as one unit
+                  // until then, rather than guessing per-cell readiness.
+                  const analysed = row.state === 'analysed';
 
                   return (
                     <tr
                       key={row.id}
                       className="transition-colors duration-150 hover:bg-[#F8FAFC]/80"
                     >
-                      {/* Competitor */}
+                      {/* Competitor -- known the moment it's discovered */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-3">
                           <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#EEF2F6] to-[#E2E8F0] font-bold text-[#334155] shadow-xs text-[13px]">
@@ -318,46 +346,61 @@ export default function CompetitorsTable({
 
                       {/* Location */}
                       <td className="px-4 py-3.5">
-                        <span className="text-[12.5px] text-[#475569] truncate block">{locationText || '—'}</span>
+                        {analysed ? (
+                          <span className="text-[12.5px] text-[#475569] truncate block">{locationText || '—'}</span>
+                        ) : (
+                          <CellShimmer width="w-24" />
+                        )}
                       </td>
 
                       {/* Market Overlap Score */}
                       <td className="px-4 py-3.5">
-                        <button
-                          onClick={() => openEvidence({ name: row.name, domain: row.domain, ...row.data })}
-                          className="cursor-pointer font-normal text-[#0F172A] text-[13px] hover:text-[#059669] hover:underline"
-                        >
-                          {score}% Overlap
-                        </button>
+                        {analysed ? (
+                          <button
+                            onClick={() => openEvidence({ name: row.name, domain: row.domain, ...row.data })}
+                            className="cursor-pointer font-normal text-[#0F172A] text-[13px] hover:text-[#059669] hover:underline"
+                          >
+                            {score}% Overlap
+                          </button>
+                        ) : (
+                          <CellShimmer width="w-16" />
+                        )}
                       </td>
 
                       {/* Classification */}
                       <td className="px-4 py-3.5">
-                        <span className="text-[12.5px] font-medium text-[#E11D48]">
-                          {row.data?.classification ? String(row.data.classification).replace(/_/g, ' ') : 'Market Competitor'}
-                        </span>
+                        {analysed ? (
+                          <span className="text-[12.5px] font-medium text-[#E11D48]">
+                            {row.data?.classification ? String(row.data.classification).replace(/_/g, ' ') : '—'}
+                          </span>
+                        ) : (
+                          <CellShimmer width="w-20" />
+                        )}
                       </td>
 
                       {/* Positioning & Offering */}
                       <td className="px-4 py-3.5">
-                        <p className="line-clamp-2 text-[12.5px] leading-relaxed text-[#334155]">
-                          {row.data?.summary || row.data?.prefilter?.reason || 'Competitive market offering and services.'}
-                        </p>
+                        {analysed ? (
+                          <p className="line-clamp-2 text-[12.5px] leading-relaxed text-[#334155]">
+                            {row.data?.summary || row.data?.prefilter?.reason || '—'}
+                          </p>
+                        ) : (
+                          <div className="space-y-1.5">
+                            <CellShimmer width="w-full" />
+                            <CellShimmer width="w-3/4" />
+                          </div>
+                        )}
                       </td>
 
-                      {/* Differentiators */}
+                      {/* Differentiators -- a single sentence from the model, not a list */}
                       <td className="px-4 py-3.5">
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          {row.data?.differentiators?.length ? (
-                            row.data.differentiators.slice(0, 3).map((diff: string) => (
-                              <span key={diff} className="rounded-md bg-[#F1F5F9] px-2 py-0.5 text-[11px] font-medium text-[#334155]">
-                                {diff}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="text-[#94A3B8] text-[12px]">—</span>
-                          )}
-                        </div>
+                        {analysed ? (
+                          <p className="line-clamp-2 text-[12.5px] leading-relaxed text-[#334155]">
+                            {row.data?.differences || <span className="text-[#94A3B8]">—</span>}
+                          </p>
+                        ) : (
+                          <CellShimmer width="w-full" />
+                        )}
                       </td>
 
                       {/* Actions */}
@@ -403,20 +446,41 @@ export default function CompetitorsTable({
               <strong className="text-[#0F172A]">{totalCount}</strong> competitors
             </span>
           </div>
-
-          {showReviewActions && stage === 'competitors_review' && (
-            <div className="flex items-center gap-2">
-              <button
-                disabled={busy || !!active}
-                onClick={() => void perform(() => coirei.act(projectId, 'review_competitors'))}
-                className="inline-flex items-center rounded-xl bg-[#0F172A] px-4 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:opacity-50 cursor-pointer"
-              >
-                Finish Review &amp; Build ICP
-              </button>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* "Your top competitors are ready" prompt -- appears once, the moment
+          the competitors phase finishes. Leads keep being found in the
+          background either way; this only decides whether to switch pages. */}
+      {showLeadsPrompt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4" role="dialog" aria-modal="true">
+          <div className="w-full max-w-md space-y-4 rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="space-y-1.5">
+              <h3 className="text-[17px] font-bold text-[#0F172A]">Your top competitors are ready 🎉</h3>
+              <p className="text-[13.5px] leading-relaxed text-[#475569]">
+                I've ranked your top {analysedSorted.length} competitors. Want me to start finding matching leads
+                now, or would you rather dig into these a bit more first?
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-end gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={() => dismissPrompt(false)}
+                className="rounded-xl border border-[#E2E8F0] bg-white px-4 py-2 text-[12.5px] font-medium text-[#475569] shadow-sm transition-all hover:bg-[#F8FAFC] cursor-pointer"
+              >
+                Not yet, keep exploring
+              </button>
+              <button
+                type="button"
+                onClick={() => dismissPrompt(true)}
+                className="rounded-xl bg-[#0F172A] px-4 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#1E293B] cursor-pointer"
+              >
+                Yes, find leads →
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

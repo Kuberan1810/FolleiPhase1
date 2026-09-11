@@ -7,25 +7,19 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Chat, { type Turn, type ChatMode } from '../../Component/Chat';
 import LeadsTable from '../../Component/LeadsTable';
-import CompetitorsTable from '../../Component/CompetitorsTable';
 import CompanyAnalysisCard from '../../Component/CompanyAnalysisCard';
-import IcpBuildingCard from '../../Component/IcpBuildingCard';
 import { JobBanner, label } from '../../Component/Page';
 import { coirei, projectName, STAGE_LABEL } from '../../api/coirei';
 import { useProject, stopJob } from './ProjectShell';
 
 export default function Home() {
-  const { projectId, snapshot, active, current, stage, busy, perform, refresh, openEvidence } = useProject();
+  const { projectId, snapshot, active, current, stage, perform, refresh, openEvidence } = useProject();
   const [mode, setMode] = useState<ChatMode>('research');
   const [researchMessage, setResearchMessage] = useState('');
   const [growMessage, setGrowMessage] = useState('');
   const [growTurns, setGrowTurns] = useState<Turn[]>([]);
   const [files, setFiles] = useState<File[]>([]);
   const [sending, setSending] = useState(false);
-
-  const profile = snapshot.profiles[0];
-  const icp = snapshot.icps[0];
-  const leads = [...snapshot.sheet.rows].sort((a, b) => b.score - a.score);
 
   // The research conversation is stored on the project, so it survives reloads.
   const researchTurns: Turn[] = [
@@ -113,88 +107,14 @@ export default function Home() {
               />
             )}
 
-            {/* Company analysis card */}
-            {(profile || stage === 'company_review' || stage === 'company' || Boolean(snapshot.company.name) || Boolean(snapshot.company.domain) || currentTurns.length > 0) && (
+            {/* Company analysis card -- the one thing shown inline here.
+                Confirming it navigates straight to Competitors, and every
+                later stage (competitors, ICP, leads) runs on its own with no
+                further human checkpoint, so once the profile is confirmed
+                Home goes back to being just the chat. */}
+            {['intake', 'company', 'company_review'].includes(stage) && (
               <div className="w-full">
                 <CompanyAnalysisCard />
-              </div>
-            )}
-
-            {/* Competitors spreadsheet table */}
-            {(stage === 'competitors_review' || snapshot.competitors.length > 0) && (
-              <div className="w-full">
-                <CompetitorsTable embedded />
-              </div>
-            )}
-
-            {/* Building ICP loading state */}
-            {(stage === 'icp' || (active?.kind === 'workflow' && active?.progress?.step === 'icp')) && (
-              <div className="w-full">
-                <IcpBuildingCard stage="icp" stepText={active?.progress?.step ? label(active.progress.step) : undefined} />
-              </div>
-            )}
-
-            {/* ICP checkpoint */}
-            {icp && stage === 'icp_review' && (
-              <section className="w-full rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] space-y-4">
-                <div className="flex items-center justify-between gap-3 border-b border-[#F1F5F9] pb-3.5">
-                  <div>
-                    <h2 className="text-[16px] font-bold text-[#0F172A] tracking-tight">Ideal Customer Profile (ICP)</h2>
-                    <p className="text-[12.5px] text-[#64748B]">Synthesized from competitor analysis and target market criteria</p>
-                  </div>
-                  <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
-                    Ready for Approval
-                  </span>
-                </div>
-
-                <p className="text-[13.5px] leading-relaxed text-[#334155]">{icp.data.rationale}</p>
-
-                <div className="grid gap-3 sm:grid-cols-2 pt-1">
-                  {(['industries', 'geography', 'buyer_roles', 'pains'] as const).map((key) => (
-                    (icp.data[key] || []).length > 0 && (
-                      <div key={key} className="rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-3">
-                        <div className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B]">{label(key)}</div>
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {icp.data[key].map((item: string) => (
-                            <span key={item} className="rounded-md bg-white border border-[#E2E8F0] px-2 py-0.5 text-[11.5px] font-medium text-[#334155] shadow-2xs">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#F1F5F9]">
-                  <button
-                    disabled={busy || !!active}
-                    onClick={() => void perform(() => coirei.act(projectId, 'approve_icp', { icp_id: icp.id }))}
-                    className="rounded-xl bg-[#0F172A] px-4 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:opacity-50 cursor-pointer"
-                  >
-                    Approve ICP &amp; Find Accounts
-                  </button>
-                  <button
-                    onClick={() => openEvidence(icp.data)}
-                    className="rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#475569] shadow-sm transition-all hover:bg-[#F8FAFC] cursor-pointer"
-                  >
-                    View Full Evidence
-                  </button>
-                </div>
-              </section>
-            )}
-
-            {/* Finding leads loading state */}
-            {(stage === 'leads' || (active?.kind === 'workflow' && active?.progress?.step === 'leads' && leads.length === 0)) && (
-              <div className="w-full">
-                <IcpBuildingCard stage="leads" stepText={active?.progress?.step ? label(active.progress.step) : undefined} />
-              </div>
-            )}
-
-            {/* Leads spreadsheet checkpoint */}
-            {(stage === 'leads_ready' || leads.length > 0) && (
-              <div className="w-full">
-                <LeadsTable embedded showOutreachActions />
               </div>
             )}
           </>
@@ -211,11 +131,13 @@ export default function Home() {
   );
 }
 
-/** Stage-appropriate prompts, so the chat always suggests the real next step. */
+/** Stage-appropriate prompts, so the chat always suggests the real next step.
+ * Competitors, the ICP and leads all run on their own once the profile is
+ * confirmed, so there's no "next step" prompt once past company_review --
+ * only leads_ready has follow-up questions worth suggesting once you're back
+ * here in the chat. */
 const SUGGESTIONS: Record<string, string[]> = {
   intake: ['Start researching my business'],
   company_review: ['Find my competitors'],
-  competitors_review: ['Build my ideal customer profile'],
-  icp_review: ['Generate leads'],
   leads_ready: ['Get the LinkedIn handles of these companies', 'Which accounts are the best fit and why?'],
 };
