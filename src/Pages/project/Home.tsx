@@ -71,8 +71,10 @@ export default function Home() {
       busy={sending}
       thinking={thinking}
       heading={projectName(snapshot.company)}
-      placeholder="Ask Follei, or say “find competitors”, “generate leads”…"
+      placeholder="Ask coirei, or say “find competitors”, “generate leads”…"
       suggestions={active ? [] : SUGGESTIONS[stage] || []}
+      snapshot={snapshot}
+      onOpenEvidence={openEvidence}
     >
       <div className="flex flex-col gap-5">
         <JobBanner

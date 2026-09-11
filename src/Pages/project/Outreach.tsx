@@ -167,7 +167,7 @@ export default function Outreach() {
             <section className={`${card} space-y-3`}>
               <h3 className="text-[15px] font-semibold text-[#16171A]">Contacts</h3>
               {accountContacts.length === 0 && (
-                <p className="text-[12.5px] text-[#717378]">No contact yet. Add one you have verified — Follei never invents people or addresses.</p>
+                <p className="text-[12.5px] text-[#717378]">No contact yet. Add one you have verified — coirei never invents people or addresses.</p>
               )}
               {accountContacts.map((contact) => (
                 <div key={contact.id} className="flex flex-wrap items-center gap-3 border-b border-[#F0F0EC] pb-3 last:border-0">

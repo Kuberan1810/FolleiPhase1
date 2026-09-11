@@ -74,7 +74,7 @@ export const GoogleWorkspaceModal: React.FC<GoogleWorkspaceModalProps> = ({
 
         {/* Title & Subtitle */}
         <p className="text-sm text-[#444748] text-center mt-2 px-1 leading-relaxed max-w-sm">
-          Connect your business Google account to securely sync the information Follei needs to power your sales workspace.
+          Connect your business Google account to securely sync the information coirei needs to power your sales workspace.
         </p>
 
         {/* Features List Box with custom borders & padding */}
@@ -149,7 +149,7 @@ export const GoogleWorkspaceModal: React.FC<GoogleWorkspaceModalProps> = ({
         <div className="w-full border-t border-gray-100 mt-5 pt-4 flex items-start gap-2">
           <Lock1 size={16} color="#444748" className="shrink-0 mt-0.5" />
           <p className="text-[13px] text-[#444748] leading-relaxed">
-            Your data stays secure. Follei only accesses the permissions required to provide CRM and AI-powered sales features.{' '}
+            Your data stays secure. coirei only accesses the permissions required to provide CRM and AI-powered sales features.{' '}
             <a href="#" className="font-semibold text-[#191C1E] hover:underline">
               Learn more
             </a>

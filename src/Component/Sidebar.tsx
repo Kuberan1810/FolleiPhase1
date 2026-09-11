@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [draftName, setDraftName] = useState('');
 
   const resolvedUser: UserProfile = user ?? {
-    name: storedUser?.full_name || storedUser?.email?.split('@')[0] || 'Follei User',
+    name: storedUser?.full_name || storedUser?.email?.split('@')[0] || 'coirei User',
     email: storedUser?.email || 'Free plan',
     initials: (storedUser?.full_name || storedUser?.email || 'F')
       .split(/\s+/)
@@ -279,7 +279,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         type="button"
         onClick={() => {
           setIsUserMenuOpen(false);
-          toast('Need help? Contact support@follei.com', { icon: '💡' });
+          toast('Need help? Contact support@coirei.com', { icon: '💡' });
         }}
         className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#2C2622] hover:bg-[#F5F3EF] cursor-pointer"
       >

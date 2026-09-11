@@ -42,7 +42,7 @@ export const SidebarLayout: React.FC = () => {
             <Menu className="size-4" aria-hidden="true" />
           </button>
           <span className="text-[13.5px] font-semibold tracking-tight text-[#16171A]">
-            Follei
+            coirei
           </span>
           <div className="size-8" />
         </div>

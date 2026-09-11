@@ -11,6 +11,7 @@ import Leads from '../Pages/project/Leads';
 import Campaigns from '../Pages/project/Campaigns';
 import Outreach from '../Pages/project/Outreach';
 import NewProject from '../Pages/project/NewProject';
+import ProtectedRoute from './ProtectedRoute';
 
 export default function AppRoutes() {
   return (
@@ -21,7 +22,7 @@ export default function AppRoutes() {
       {/* Google redirects the browser here with tokens in the fragment. */}
       <Route path="/auth/callback" element={<AuthCallback />} />
 
-      {/* <Route element={<ProtectedRoute />}> */}
+      <Route element={<ProtectedRoute />}>
         <Route element={<SidebarLayout />}>
           {/* No project yet: an empty chat that creates one from the first message. */}
           <Route path="/" element={<NewProject />} />
@@ -34,7 +35,7 @@ export default function AppRoutes() {
             <Route path="outreach" element={<Outreach />} />
           </Route>
         </Route>
-      {/* </Route> */}
+      </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

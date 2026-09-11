@@ -75,7 +75,7 @@ export const SignIn: React.FC = () => {
 
         {/* Footer Link to Sign Up */}
         <AuthFooter
-          promptText="New to Follei?"
+          promptText="New to coirei?"
           linkText="Sign Up"
           linkPath="/signup"
         />
