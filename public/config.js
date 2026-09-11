@@ -13,5 +13,10 @@
  * the backend on the same domain).
  */
 window.__COIREI_CONFIG__ = {
-  apiBaseUrl: '',
+  // TEMPORARY: a Cloudflare quick tunnel to the VPS, used only because
+  // coirei.com's DNS isn't live yet so the backend has no real HTTPS
+  // certificate. Swap this for https://api.coirei.com (or whatever the real
+  // subdomain ends up being) the moment DNS is pointed at the server --
+  // no rebuild needed, this file is a plain static asset.
+  apiBaseUrl: 'https://seconds-marketing-union-famous.trycloudflare.com',
 };
