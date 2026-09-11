@@ -7,8 +7,9 @@
  *
  * The frontend and backend are separate services. In development Vite proxies
  * `/api` to the backend so the browser stays same-origin; in deployment set
- * VITE_API_BASE_URL to the backend origin and FRONTEND_BASE_URL on the backend
- * so CORS allows it.
+ * the backend origin in public/config.js (takes effect immediately, no
+ * rebuild) or VITE_API_BASE_URL at build time -- either way, set
+ * FRONTEND_BASE_URL on the backend too so CORS allows it.
  */
 import { clearSession, getAccessToken, getRefreshToken, storeSession, storeTokens,
          type AuthUser, type TokenPair } from '../lib/auth';
@@ -20,8 +21,24 @@ export interface HttpError extends Error {
   status: number;
 }
 
-/** Backend origin. Empty in dev, where Vite proxies /api same-origin. */
-export const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+declare global {
+  interface Window {
+    __COIREI_CONFIG__?: { apiBaseUrl?: string };
+  }
+}
+
+/**
+ * Backend origin. Checked in order: public/config.js (a plain static file
+ * editable on the deployed server, so the backend URL can change without
+ * rebuilding the app), then VITE_API_BASE_URL baked in at build time, then
+ * same-origin (empty), for local dev's Vite proxy or a reverse proxy that
+ * forwards /api to the backend on the same domain.
+ */
+export const API_BASE = (
+  (typeof window !== 'undefined' && window.__COIREI_CONFIG__?.apiBaseUrl) ||
+  import.meta.env.VITE_API_BASE_URL ||
+  ''
+).replace(/\/$/, '');
 
 export const apiUrl = (path: string) => `${API_BASE}/api${path}`;
 
@@ -182,8 +199,8 @@ export const coirei = {
 
   // leads spreadsheet
   addColumn: (id: string, body: Data) => api(`/companies/${id}/columns`, body),
-  addColumnFromPrompt: (id: string, prompt: string) =>
-    api<{ column: Data; job: Data | null }>(`/companies/${id}/columns/from-prompt`, { prompt, run: true }),
+  addColumnFromPrompt: (id: string, prompt: string, kind: 'lead' | 'competitor' = 'lead') =>
+    api<{ column: Data; job: Data | null }>(`/companies/${id}/columns/from-prompt`, { prompt, run: true, kind }),
   deleteColumn: (columnId: string) => api(`/columns/${columnId}`, undefined, 'DELETE'),
   runCells: (id: string, candidateIds: string[], columnIds: string[], rerun = false) =>
     api(`/companies/${id}/research-cells`, { candidate_ids: candidateIds, column_ids: columnIds, rerun }),

@@ -19,9 +19,11 @@ const prettify = (value: string) => value.replace(/_/g, ' ').replace(/\bicp\b/i,
 
 /** Green when it is a strong fit, amber mid, grey when unevidenced. */
 const toneOf = (score: number) =>
-  score >= 60 ? { bar: '#7A9601', chip: 'bg-[#F4F7E6] text-[#7A9601]' }
-  : score >= 30 ? { bar: '#D97706', chip: 'bg-amber-50 text-amber-700' }
-  : { bar: '#CBD5E1', chip: 'bg-[#F1F5F9] text-[#64748B]' };
+  score >= 80
+    ? { bar: '#059669', chip: 'bg-[#ECFDF5] text-[#059669] border-[#BBF7D0]' }
+    : score >= 40
+    ? { bar: '#0284C7', chip: 'bg-[#F0F9FF] text-[#0284C7] border-[#BAE6FD]' }
+    : { bar: '#94A3B8', chip: 'bg-[#F8FAFC] text-[#475569] border-[#E2E8F0]' };
 
 /** Compact score: the number, and a bar showing it out of 100. */
 export function FitScore({ score, size = 'md' }: { score: number; size?: 'sm' | 'md' }) {
@@ -29,9 +31,9 @@ export function FitScore({ score, size = 'md' }: { score: number; size?: 'sm' | 
   const tone = toneOf(value);
   return (
     <span className="inline-flex items-center gap-2" title={`Fit score ${value} of 100`}>
-      <span className={`${size === 'sm' ? 'text-[12.5px]' : 'text-[14px]'} font-semibold tabular-nums text-[#16171A]`}>{value}</span>
-      <span className={`${size === 'sm' ? 'w-10' : 'w-16'} h-1.5 overflow-hidden rounded-full bg-[#EFEFE9]`}>
-        <span className="block h-full rounded-full " style={{ width: `${value}%`, background: tone.bar }} />
+      <span className={`${size === 'sm' ? 'text-[12px]' : 'text-[13.5px]'} font-semibold tabular-nums text-[#0F172A]`}>{value}</span>
+      <span className={`${size === 'sm' ? 'w-8' : 'w-14'} h-1.5 overflow-hidden rounded-full bg-[#E2E8F0]`}>
+        <span className="block h-full rounded-full transition-all duration-300" style={{ width: `${Math.max(value, 5)}%`, background: tone.bar }} />
       </span>
     </span>
   );
@@ -40,7 +42,12 @@ export function FitScore({ score, size = 'md' }: { score: number; size?: 'sm' | 
 /** A score chip for headers and cards. */
 export function ScoreChip({ score }: { score: number }) {
   const value = Math.round(score || 0);
-  return <span className={`rounded-full px-2.5 py-0.5 text-[11.5px] font-medium tabular-nums ${toneOf(value).chip}`}>{value}/100</span>;
+  const tone = toneOf(value);
+  return (
+    <span className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[12px] font-semibold tabular-nums shadow-2xs ${tone.chip}`}>
+      {value}/100 Fit
+    </span>
+  );
 }
 
 /**
@@ -52,23 +59,27 @@ export function FitBreakdown({ factors, onSelect }: { factors: Factor[]; onSelec
   if (!usable.length) return null;
 
   return (
-    <ul className="flex flex-col gap-1.5">
+    <ul className="flex flex-col gap-2.5">
       {usable.map((factor) => {
         const ratio = Math.max(0, Math.min(1, factor.points / factor.weight));
-        const match = factor.match ?? (ratio >= 0.999 ? 'yes' : ratio > 0 ? 'partial' : 'unknown');
-        const colour = match === 'yes' ? '#7A9601' : match === 'partial' ? '#B9CC6B' : '#E2E8F0';
+        const fillColour = ratio >= 0.8 ? '#059669' : ratio >= 0.4 ? '#0284C7' : '#94A3B8';
         return (
           <li key={factor.key}>
             <button
               type="button"
               onClick={onSelect ? () => onSelect(factor.key) : undefined}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-1.5 py-1 text-left ${onSelect ? 'cursor-pointer hover:bg-[#F9F9F7]' : 'cursor-default'}`}
+              className={`flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left transition-all ${
+                onSelect ? 'cursor-pointer hover:bg-[#F8FAFC]' : 'cursor-default'
+              }`}
             >
-              <span className="w-28 shrink-0 truncate text-[11.5px] capitalize text-[#717378]">{prettify(factor.label)}</span>
-              <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#EFEFE9]">
-                <span className="block h-full rounded-full" style={{ width: `${ratio * 100}%`, background: colour }} />
+              <span className="w-32 shrink-0 truncate text-[12px] font-medium text-[#475569]">{prettify(factor.label)}</span>
+              <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#F1F5F9] border border-[#E2E8F0]">
+                <span
+                  className="block h-full rounded-full transition-all duration-300"
+                  style={{ width: `${Math.max(ratio * 100, 3)}%`, background: fillColour }}
+                />
               </span>
-              <span className="w-12 shrink-0 text-right text-[11px] tabular-nums text-[#9CA3AF]">
+              <span className="w-12 shrink-0 text-right text-[11.5px] font-semibold tabular-nums text-[#64748B]">
                 {Math.round(factor.points)}/{factor.weight}
               </span>
             </button>
@@ -79,16 +90,25 @@ export function FitBreakdown({ factors, onSelect }: { factors: Factor[]; onSelec
   );
 }
 
+const DEFAULT_BREAKDOWN_FACTORS: Factor[] = [
+  { key: 'geography', label: 'Geography', weight: 5, points: 0 },
+  { key: 'growth_signal', label: 'Growth Signal', weight: 5, points: 0 },
+  { key: 'buyer_accessibility', label: 'Buyer Accessibility', weight: 5, points: 0 },
+];
+
 /** Turn a backend candidate's `data.components` map into factor rows. */
 export function factorsFrom(components: Record<string, Data> | undefined): Factor[] {
-  if (!components) return [];
-  return Object.entries(components).map(([key, value]) => ({
+  if (!components || Object.keys(components).length === 0) {
+    return DEFAULT_BREAKDOWN_FACTORS;
+  }
+  const result = Object.entries(components).map(([key, value]) => ({
     key,
     label: key,
-    weight: Number(value?.weight ?? 0),
+    weight: Number(value?.weight ?? 5),
     points: Number(value?.points ?? 0),
     match: value?.match,
   }));
+  return result.length > 0 ? result : DEFAULT_BREAKDOWN_FACTORS;
 }
 
 export default FitScore;

@@ -2,7 +2,6 @@
  * Location and social handles, shown from what the site itself declared
  * (schema.org PostalAddress and sameAs links) rather than model inference.
  */
-import { Linkedin, MapPin } from 'lucide-react';
 import type { Data } from '../api/coirei';
 
 export interface LocationData {
@@ -22,8 +21,8 @@ export function PlaceLabel({ location, className = '' }: { location?: LocationDa
   const text = placeText(location?.headquarters);
   if (!text) return null;
   return (
-    <span className={`inline-flex items-center gap-1 text-[11.5px] text-[#717378] ${className}`}>
-      <MapPin className="size-3 shrink-0" /> {text}
+    <span className={`inline-flex items-center text-[11.5px] text-[#717378] ${className}`}>
+      {text}
     </span>
   );
 }
@@ -38,9 +37,9 @@ export function LinkedInLink({ url, className = '' }: { url?: string; className?
       rel="noreferrer"
       onClick={(event) => event.stopPropagation()}
       title={url}
-      className={`inline-flex items-center gap-1 text-[11.5px] text-[#0A66C2] hover:underline ${className}`}
+      className={`inline-flex items-center text-[11.5px] text-[#0A66C2] hover:underline ${className}`}
     >
-      <Linkedin className="size-3 shrink-0" /> LinkedIn
+      LinkedIn
     </a>
   );
 }
@@ -57,8 +56,8 @@ export function LocationCard({ location }: { location?: LocationData }) {
       {hq && (
         <div>
           <div className="text-[11px] uppercase tracking-wide text-[#717378]">Headquarters</div>
-          <div className="mt-0.5 flex items-center gap-1.5 text-[13.5px] text-[#16171A]">
-            <MapPin className="size-3.5 text-[#7A9601]" /> {hq}
+          <div className="mt-0.5 text-[13.5px] text-[#16171A] font-medium">
+            {hq}
           </div>
         </div>
       )}

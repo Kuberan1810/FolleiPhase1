@@ -8,7 +8,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { activeJob, currentJob, coirei, type Data, type Snapshot } from '../../api/coirei';
 import { keys, useSnapshot } from '../../hooks/useProjects';
-import { EvidenceDrawer, ErrorState, Loading } from '../../Component/Page';
+import { EvidenceDrawer, ErrorState } from '../../Component/Page';
+import ChatSkeletonLoading from '../../Component/ChatSkeletonLoading';
 
 interface ProjectContext {
   projectId: string;
@@ -56,7 +57,7 @@ export default function ProjectShell() {
     }
   };
 
-  if (query.isPending) return <Loading label="Loading project…" />;
+  if (query.isPending) return <ChatSkeletonLoading />;
   if (query.error || !query.data) {
     return <ErrorState message={(query.error as Error)?.message || 'Project not found'} onRetry={() => void query.refetch()} />;
   }
