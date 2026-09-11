@@ -13,6 +13,9 @@ import { coirei, type Data } from '../../api/coirei';
 import { useGmail } from '../../hooks/useProjects';
 import { useProject, stopJob } from './ProjectShell';
 
+// Only rendered when the account's own research actually produced a reason
+// for this factor -- never a generic placeholder, which would read as real
+// for every account regardless of what was actually found.
 const STANDARD_FACTOR_KEYS = [
   'problem',
   'industry',
@@ -23,78 +26,6 @@ const STANDARD_FACTOR_KEYS = [
   'growth_signal',
   'technology_fit',
   'buyer_accessibility',
-];
-
-const DEFAULT_FACTOR_REASONS: Record<string, string> = {
-  problem: 'TechSmew provides AI agents that execute complex workflows, automating operations.',
-  industry: 'No explicit industry affiliation stated.',
-  geography: 'Company operates in India and beyond.',
-  company_size: 'No employee count provided.',
-  required_icp: 'Insufficient evidence for employee count, CRM usage, and B2B sales.',
-  buying_intent: 'No explicit procurement or migration request found.',
-  growth_signal: 'No dated expansion or hiring activity reported.',
-  technology_fit: 'Neptune AI integrates ERP, CRM, and operational systems, enabling automation.',
-  buyer_accessibility: 'No buyer contact or role identified.',
-};
-
-const DEMO_OUTREACH_ACCOUNTS: Data[] = [
-  {
-    id: 'demo-techsmew',
-    name: 'TechSmew Innovations',
-    domain: 'techsmew.com',
-    score: 0,
-    data: {
-      summary:
-        'TechSmew Innovations offers AI-driven enterprise platforms for automation, integration, and digital transformation across various industries, providing solutions such as Nebula ERP, Neptune AI, and Nova Kids.',
-      components: {
-        problem: { reason: 'TechSmew provides AI agents that execute complex workflows, automating operations.', points: 0, weight: 5 },
-        industry: { reason: 'No explicit industry affiliation stated.', points: 0, weight: 5 },
-        geography: { reason: 'Company operates in India and beyond.', points: 0, weight: 5 },
-        company_size: { reason: 'No employee count provided.', points: 0, weight: 5 },
-        required_icp: { reason: 'Insufficient evidence for employee count, CRM usage, and B2B sales.', points: 0, weight: 5 },
-        buying_intent: { reason: 'No explicit procurement or migration request found.', points: 0, weight: 5 },
-        growth_signal: { reason: 'No dated expansion or hiring activity reported.', points: 0, weight: 5 },
-        technology_fit: { reason: 'Neptune AI integrates ERP, CRM, and operational systems, enabling automation.', points: 0, weight: 5 },
-        buyer_accessibility: { reason: 'No buyer contact or role identified.', points: 0, weight: 5 },
-      },
-    },
-  },
-  {
-    id: 'demo-nirjix',
-    name: 'NirjiX',
-    domain: 'nirjix.com',
-    score: 0,
-    data: {
-      summary: 'NirjiX builds autonomous software systems and modern AI productivity tools for scaling businesses.',
-    },
-  },
-  {
-    id: 'demo-techbehemoths',
-    name: 'techbehemoths.com',
-    domain: 'techbehemoths.com',
-    score: 0,
-    data: {
-      summary: 'TechBehemoths is a global B2B directory connecting companies with top IT service providers and agencies.',
-    },
-  },
-  {
-    id: 'demo-deccanchronicle',
-    name: 'deccanchronicle.com',
-    domain: 'deccanchronicle.com',
-    score: 0,
-    data: {
-      summary: 'Deccan Chronicle provides national news, business intelligence, and digital media coverage.',
-    },
-  },
-  {
-    id: 'demo-outsource2india',
-    name: 'Outsource2India',
-    domain: 'outsource2india.com',
-    score: 0,
-    data: {
-      summary: 'Outsource2India delivers end-to-end BPO, IT outsourcing, and enterprise back-office management.',
-    },
-  },
 ];
 
 /** An account's headquarters, from the address its own site declared. */
@@ -108,14 +39,10 @@ export default function Outreach() {
   const gmail = useGmail();
   const { cells, columns, contacts } = snapshot.sheet;
 
-  // Prioritize Leads -> Competitors -> Demo accounts so Outreach is never blank
+  // Leads first, competitors if there are no leads yet -- never fabricated
+  // accounts just to keep this page from looking empty.
   const sorted = useMemo(() => {
-    const list =
-      snapshot.sheet.rows.length > 0
-        ? snapshot.sheet.rows
-        : snapshot.competitors.length > 0
-        ? snapshot.competitors
-        : DEMO_OUTREACH_ACCOUNTS;
+    const list = snapshot.sheet.rows.length > 0 ? snapshot.sheet.rows : snapshot.competitors;
     return [...list].sort((a, b) => (b.score || 0) - (a.score || 0));
   }, [snapshot.sheet.rows, snapshot.competitors]);
 
@@ -128,58 +55,30 @@ export default function Outreach() {
 
   const connection = gmail.data?.find((row) => row.active);
 
-  // Accounts contacts with fallback to domain contact so the section is always rich
-  const accountContacts = useMemo(() => {
-    if (!account) return [];
-    const realContacts = contacts.filter((row) => row.candidate_id === account.id);
-    if (realContacts.length > 0) return realContacts;
-
-    const domain = account.domain || 'techsmew.com';
-    return [
-      {
-        id: `contact-${account.id || 'default'}`,
-        candidate_id: account.id,
-        name: `hr@${domain}`,
-        email: `hr@${domain}`,
-        title: 'no title',
-        status: 'unverified',
-      },
-    ];
-  }, [contacts, account]);
+  // Only contacts research actually found or the operator confirmed -- never
+  // an invented hr@domain address standing in for a real one.
+  const accountContacts = useMemo(
+    () => (account ? contacts.filter((row) => row.candidate_id === account.id) : []),
+    [contacts, account],
+  );
 
   const sendable = accountContacts;
 
-  // Summary narrative
-  const summaryText = useMemo(() => {
-    if (account?.data?.summary) return account.data.summary;
-    if (account?.data?.description) return account.data.description;
-    if (account?.data?.positioning) return account.data.positioning;
-    if (account?.name || account?.domain) {
-      return `${account.name || account.domain} offers AI-driven enterprise platforms for automation, integration, and digital transformation across various industries, providing solutions such as Nebula ERP, Neptune AI, and Nova Kids.`;
-    }
-    return DEFAULT_FACTOR_REASONS.problem;
-  }, [account]);
+  // Summary narrative -- left blank (the section below is hidden) rather than
+  // a generic paragraph when the site didn't actually say this.
+  const summaryText = account?.data?.summary || account?.data?.description || account?.data?.positioning || '';
 
-  // Compute combined factors for the 2-column grid
+  // Compute combined factors for the 2-column grid -- only ones this
+  // account's own research actually produced a reason for.
   const factorCards = useMemo(() => {
     if (!account) return [];
     const components = account.data?.components || {};
-    const keysPresent = Object.keys(components);
 
-    // Combine any present keys with standard factor keys
-    const allKeys = Array.from(new Set([...keysPresent, ...STANDARD_FACTOR_KEYS]));
-
-    return allKeys
+    return STANDARD_FACTOR_KEYS
       .map((key) => {
         const comp = components[key] as Data | undefined;
-        const reason = comp?.reason || DEFAULT_FACTOR_REASONS[key];
-        if (!reason) return null;
-        return {
-          key,
-          label: label(key),
-          reason,
-          data: comp || { reason },
-        };
+        if (!comp?.reason) return null;
+        return { key, label: label(key), reason: comp.reason, data: comp };
       })
       .filter(Boolean) as { key: string; label: string; reason: string; data: Data }[];
   }, [account]);
@@ -467,6 +366,11 @@ export default function Outreach() {
                 </Link>
               </div>
             </section>
+          </div>
+        )}
+        {!account && (
+          <div className="rounded-2xl border border-[#E2E8F0] bg-white p-8 text-center text-[13.5px] text-[#64748B]">
+            No accounts yet. Once leads or competitors are found, pick one here to draft outreach.
           </div>
         )}
       </div>

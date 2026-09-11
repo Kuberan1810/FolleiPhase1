@@ -570,7 +570,7 @@ export default function CompetitorsTable({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4" role="dialog" aria-modal="true">
           <div className="w-full max-w-md space-y-4 rounded-2xl bg-white p-6 shadow-2xl">
             <div className="space-y-1.5">
-              <h3 className="text-[17px] font-bold text-[#0F172A]">Your top competitors are ready 🎉</h3>
+              <h3 className="text-[17px] font-bold text-[#0F172A]">Your top competitors are ready</h3>
               <p className="text-[13.5px] leading-relaxed text-[#475569]">
                 I've ranked your top {analysedSorted.length} competitors. Want me to start finding matching leads
                 now, or would you rather dig into these a bit more first?
