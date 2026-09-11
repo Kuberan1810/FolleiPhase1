@@ -11,11 +11,6 @@ import Chat, { type Turn } from '../../Component/Chat';
 import { coirei } from '../../api/coirei';
 import { keys } from '../../hooks/useProjects';
 
-const SUGGESTIONS = [
-  'I’m Asha, founder of Acme. We sell an LMS to training institutes in India. Our site is acme.com',
-  'I run growth at Northwind. We build warehouse software — northwind.com',
-];
-
 export default function NewProject() {
   const navigate = useNavigate();
   const cache = useQueryClient();
@@ -68,7 +63,6 @@ export default function NewProject() {
       onFiles={setFiles}
       busy={busy}
       thinking={busy ? 'Setting up your project…' : undefined}
-      suggestions={turns.length ? [] : SUGGESTIONS}
     />
   );
 }

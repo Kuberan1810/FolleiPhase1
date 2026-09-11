@@ -3,13 +3,13 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthHeader } from '../Components/AuthHeader';
 import { AuthFooter } from '../Components/AuthFooter';
-import SignInForm from './Section/SignInForm';
+import SignUpForm from './Section/SignUpForm';
 import toast from 'react-hot-toast';
 import { coirei } from '../../../api/coirei';
 import { storeSession } from '../../../lib/auth';
 import { useSession, keys } from '../../../hooks/useProjects';
 
-export const SignIn: React.FC = () => {
+export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const cache = useQueryClient();
   const session = useSession();
@@ -18,17 +18,27 @@ export const SignIn: React.FC = () => {
 
   if (session.data) return <Navigate to="/" replace />;
 
-  const handleSignIn = async (data: { email: string; password: string; rememberMe: boolean }) => {
+  const handleSignUp = async (formData: {
+    firstName: string;
+    lastName: string;
+    companyName: string;
+    workEmail: string;
+    password: string; 
+  }) => {
     setIsLoading(true);
     setApiError(null);
     try {
-      const tokens = await coirei.signIn(data.email, data.password);
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      const tokens = await coirei.register(formData.workEmail, formData.password, fullName);
       storeSession(tokens);
+      if (formData.companyName) {
+        localStorage.setItem('follei.company_name', formData.companyName);
+      }
       await cache.invalidateQueries({ queryKey: keys.session });
-      toast.success(`Welcome back, ${tokens.user.full_name || tokens.user.email}`);
+      toast.success(`Account created for ${formData.firstName}`);
       navigate('/', { replace: true });
     } catch (error) {
-      const msg = (error as Error).message || 'Could not sign you in';
+      const msg = (error as Error).message || 'Could not create your account';
       setApiError(msg);
       toast.error(msg);
     } finally {
@@ -36,7 +46,7 @@ export const SignIn: React.FC = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignUp = async () => {
     setIsLoading(true);
     setApiError(null);
     try {
@@ -44,44 +54,39 @@ export const SignIn: React.FC = () => {
       window.location.assign(authorization_url);
     } catch (error) {
       setIsLoading(false);
-      const msg = (error as Error).message || 'Google sign-in is unavailable';
+      const msg = (error as Error).message || 'Google sign-up is unavailable';
       setApiError(msg);
       toast.error(msg);
     }
   };
 
-  const handleForgotPassword = () => {
-    toast('Forgot password link sent to your email');
-  };
-
   return (
-    <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-4 sm:p-6 font-inter">
+    <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-4 md:p-16 font-inter">
       <div className="w-full max-w-[420px] flex flex-col items-center">
         {/* Header Title & Subtitle */}
         <AuthHeader
-          title="Sign in"
+          title="Create your account"
           subtitle="Start building better SaaS workflows today."
         />
 
-        {/* Card containing Sign In Form & Social OAuth */}
-        <SignInForm
-          onSubmit={handleSignIn}
-          onGoogleSignIn={handleGoogleSignIn}
-          onForgotPassword={handleForgotPassword}
+        {/* Card containing Sign Up Form */}
+        <SignUpForm
+          onSubmit={handleSignUp}
+          onGoogleSignUp={handleGoogleSignUp}
           isLoading={isLoading}
           apiError={apiError}
           onClearApiError={() => setApiError(null)}
         />
 
-        {/* Footer Link to Sign Up */}
+        {/* Footer Link to Sign In */}
         <AuthFooter
-          promptText="New to Follei?"
-          linkText="Sign Up"
-          linkPath="/signup"
+          promptText="Already have an account?"
+          linkText="Sign in"
+          linkPath="/login"
         />
       </div>
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;

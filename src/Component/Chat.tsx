@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { ArrowUp, Plus, X, Copy, CheckCheck } from 'lucide-react';
-import FolleiLogo from '../assets/logo/folleinew.svg';
+import CiLogo from '../assets/logo/CiLogo.png';
 
 export interface Turn {
   role: 'user' | 'assistant';
@@ -167,8 +167,8 @@ export default function Chat({
             return (
               <div key={index} className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
                 {!isUser && (
-                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full text-white shadow-xs mt-1">
-                    <img src={FolleiLogo} alt="" />
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full text-white shadow-xs mt-1 overflow-hidden">
+                    <img src={CiLogo} alt="Coirei" className="size-6 object-contain" />
                   </div>
                 )}
 
@@ -209,8 +209,8 @@ export default function Chat({
 
           {thinking && (
             <div className="flex gap-3 justify-start ">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-full mt-1 p-1">
-                <img src={FolleiLogo} alt="Follei AI" className="size-full object-contain " />
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full mt-1 p-1 overflow-hidden">
+                <img src={CiLogo} alt="Coirei AI" className="size-full object-contain" />
               </div>
               <div className="relative overflow-hidden rounded-[22px] rounded-tl-xs bg-white/50 border border-[#E6E6E4] px-5 py-3 shadow-xs flex items-center gap-3">
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#EAEAEA]/80 to-transparent pointer-events-none" />

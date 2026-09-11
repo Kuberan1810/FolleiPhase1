@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ProtectedRoute from './ProtectedRoute';
+// import ProtectedRoute from './ProtectedRoute';
 import SidebarLayout from '../Component/SidebarLayout';
 import SignIn from '../Pages/auth/signIn/SignIn';
+import SignUp from '../Pages/auth/SignUp/SignUp';
 import AuthCallback from '../Pages/auth/callback/AuthCallback';
 import ProjectShell from '../Pages/project/ProjectShell';
 import Home from '../Pages/project/Home';
@@ -15,10 +16,12 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<SignIn />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
       {/* Google redirects the browser here with tokens in the fragment. */}
       <Route path="/auth/callback" element={<AuthCallback />} />
 
-      <Route element={<ProtectedRoute />}>
+      {/* <Route element={<ProtectedRoute />}> */}
         <Route element={<SidebarLayout />}>
           {/* No project yet: an empty chat that creates one from the first message. */}
           <Route path="/" element={<NewProject />} />
@@ -31,7 +34,7 @@ export default function AppRoutes() {
             <Route path="outreach" element={<Outreach />} />
           </Route>
         </Route>
-      </Route>
+      {/* </Route> */}
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
