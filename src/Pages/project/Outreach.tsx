@@ -62,7 +62,18 @@ export default function Outreach() {
     [contacts, account],
   );
 
-  const sendable = accountContacts;
+  // The backend refuses to draft a campaign against any contact that isn't
+  // confirmed -- a discovered-but-unverified email is a guess, not a real
+  // recipient. Only send the ones already confirmed.
+  const CONFIRMED_STATUSES = new Set(['provider-verified', 'user-confirmed']);
+  const sendable = accountContacts.filter((row) => CONFIRMED_STATUSES.has(row.status));
+
+  const confirmContact = (contact: Data) => {
+    void perform(async () => {
+      await coirei.confirmContact(contact.id, contact.email, '');
+      toast.success(`Confirmed ${contact.email}`);
+    });
+  };
 
   // Summary narrative -- left blank (the section below is hidden) rather than
   // a generic paragraph when the site didn't actually say this.
@@ -273,22 +284,38 @@ export default function Outreach() {
               </div>
 
               <div className="space-y-2">
-                {accountContacts.map((contact) => (
-                  <div
-                    key={contact.id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-3.5"
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 font-semibold text-[#0F172A] text-[13.5px]">
-                        <span>{contact.name || contact.email?.split('@')[0]}</span>
+                {accountContacts.map((contact) => {
+                  const confirmed = CONFIRMED_STATUSES.has(contact.status);
+                  return (
+                    <div
+                      key={contact.id}
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-3.5"
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 font-semibold text-[#0F172A] text-[13.5px]">
+                          <span>{contact.name || contact.email?.split('@')[0]}</span>
+                        </div>
+                        <div className="text-[12px] text-[#64748B]">
+                          {contact.email}
+                          {contact.title && contact.title !== 'no title' ? ` · ${contact.title}` : ''}
+                        </div>
                       </div>
-                      <div className="text-[12px] text-[#64748B]">
-                        {contact.email}
-                        {contact.title && contact.title !== 'no title' ? ` · ${contact.title}` : ''}
-                      </div>
+                      {confirmed ? (
+                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#ECFDF5] px-2.5 py-1 text-[11px] font-semibold text-[#059669]">
+                          <CheckCircle2 className="size-3.5" /> Confirmed
+                        </span>
+                      ) : (
+                        <button
+                          disabled={busy}
+                          onClick={() => confirmContact(contact)}
+                          className="shrink-0 rounded-lg border border-[#CBD5E1] bg-white px-3 py-1.5 text-[11.5px] font-medium text-[#0F172A] shadow-2xs transition-all hover:bg-[#F1F5F9] disabled:opacity-50 cursor-pointer"
+                        >
+                          Confirm email
+                        </button>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Add Contact Form */}
@@ -343,7 +370,13 @@ export default function Outreach() {
                   <span>Connect Gmail before drafting outreach messages.</span>
                 </div>
               )}
-              {connection && !sendable.length && (
+              {connection && !sendable.length && accountContacts.length > 0 && (
+                <div className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200 p-3 text-[12.5px] text-amber-800">
+                  <ShieldAlert className="size-4 shrink-0" />
+                  <span>Confirm at least one email above before drafting outreach messages.</span>
+                </div>
+              )}
+              {connection && !accountContacts.length && (
                 <div className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-200 p-3 text-[12.5px] text-amber-800">
                   <ShieldAlert className="size-4 shrink-0" />
                   <span>Add a work email above before drafting outreach messages.</span>

@@ -9,9 +9,12 @@ interface LoadingTickerProps {
   messages: string[];
   intervalMs?: number;
   size?: 'sm' | 'lg';
+  /** 'spinner' (default): icon + orange text, for a standalone loading state.
+   * 'plain': just the rotating text in blue, for sitting next to an input. */
+  variant?: 'spinner' | 'plain';
 }
 
-export default function LoadingTicker({ messages, intervalMs = 2200, size = 'sm' }: LoadingTickerProps) {
+export default function LoadingTicker({ messages, intervalMs = 2200, size = 'sm', variant = 'spinner' }: LoadingTickerProps) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -23,6 +26,16 @@ export default function LoadingTicker({ messages, intervalMs = 2200, size = 'sm'
 
   const spinnerSize = size === 'lg' ? 'size-5' : 'size-3.5';
   const textSize = size === 'lg' ? 'text-[13.5px]' : 'text-[12px]';
+
+  if (variant === 'plain') {
+    return (
+      <span className={`inline-flex items-center font-medium text-[#2563EB] ${textSize}`}>
+        <span key={index} className="animate-in fade-in duration-300">
+          {messages[index] || 'Working…'}
+        </span>
+      </span>
+    );
+  }
 
   return (
     <span className={`inline-flex items-center gap-2 font-medium text-[#C2410C] ${textSize}`}>

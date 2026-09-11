@@ -6,6 +6,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Sparkles } from 'lucide-react';
 import { coirei, type Data } from '../api/coirei';
 import { useProject } from '../Pages/project/ProjectShell';
 import LoadingTicker from './LoadingTicker';
@@ -31,13 +32,11 @@ export const hqOf = (row: Data) => {
 export interface CompetitorsTableProps {
   embedded?: boolean;
   title?: string;
-  subtitle?: string;
 }
 
 export default function CompetitorsTable({
   embedded = false,
   title,
-  subtitle,
 }: CompetitorsTableProps) {
   const { projectId, snapshot, active, stage, busy, perform, openEvidence } = useProject();
   const navigate = useNavigate();
@@ -45,7 +44,6 @@ export default function CompetitorsTable({
   const [urls, setUrls] = useState('');
   const [showAddUrlModal, setShowAddUrlModal] = useState(false);
   const [columnPrompt, setColumnPrompt] = useState('');
-  const [showAddColumnModal, setShowAddColumnModal] = useState(false);
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'high_overlap' | 'direct'>('all');
 
@@ -64,7 +62,6 @@ export default function CompetitorsTable({
     void perform(async () => {
       const result = await coirei.addColumnFromPrompt(projectId, text, 'competitor');
       setColumnPrompt('');
-      setShowAddColumnModal(false);
       toast.success(`Added "${result.column.definition.name}" — researching competitors`);
     });
   };
@@ -179,34 +176,22 @@ export default function CompetitorsTable({
   return (
     <div className="w-full space-y-4">
       {/* Top Header & Table Controls Bar */}
-      <div className="rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
-        <div className="flex flex-col gap-3.5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <h2 className="text-[16px] font-bold text-[#0F172A] tracking-tight">
-                {title || (embedded ? 'Competitor Landscape' : 'Competitors')}
-              </h2>
-              {analysedSorted.length > 0 && (
-                <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
-                  {analysedSorted.length} of {totalCount} analysed
-                </span>
-              )}
-              {stillWorking && <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} />}
-            </div>
-            <p className="mt-1 text-[12.5px] text-[#64748B]">
-              {subtitle || 'Ranked market overlap, key differentiators, pricing models & target audience comparison.'}
-            </p>
+      <div className="rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)] space-y-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-[16px] font-bold text-[#0F172A] tracking-tight">
+              {title || (embedded ? 'Competitor Landscape' : 'Competitors')}
+            </h2>
+            {analysedSorted.length > 0 && (
+              <span className="rounded-full bg-[#ECFDF5] px-2.5 py-0.5 text-[11px] font-semibold text-[#059669]">
+                {analysedSorted.length} of {totalCount} analysed
+              </span>
+            )}
+            {stillWorking && <LoadingTicker messages={COMPETITOR_LOADING_MESSAGES} variant="plain" />}
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              onClick={() => setShowAddColumnModal((v) => !v)}
-              className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#0F172A] shadow-sm transition-all hover:border-[#CBD5E1] hover:bg-[#F8FAFC] cursor-pointer"
-            >
-              + Add AI Column
-            </button>
-
             <button
               onClick={() => setShowAddUrlModal((v) => !v)}
               className="inline-flex items-center rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#0F172A] shadow-sm transition-all hover:border-[#CBD5E1] hover:bg-[#F8FAFC] cursor-pointer"
@@ -232,42 +217,29 @@ export default function CompetitorsTable({
           </div>
         </div>
 
-        {/* Inline Add Research Column Accordion */}
-        {showAddColumnModal && (
-          <div className="mt-3.5 rounded-xl border border-[#D1FAE5] bg-[#ECFDF5]/60 p-3.5 transition-all">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[13px] font-semibold text-[#065F46]">Ask AI to research a new column for these competitors</span>
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                askForColumn();
-              }}
-              className="flex flex-wrap items-center gap-2.5"
-            >
-              <input
-                value={columnPrompt}
-                onChange={(e) => setColumnPrompt(e.target.value)}
-                placeholder="e.g. Get the careers page email of these companies"
-                className="flex-1 min-w-[280px] rounded-lg border border-[#A7F3D0] bg-white px-3.5 py-2 text-[13px] text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#059669] focus:ring-1 focus:ring-[#059669]"
-              />
-              <button
-                type="submit"
-                disabled={busy || !columnPrompt.trim()}
-                className="rounded-lg bg-[#059669] px-4 py-2 text-[12.5px] font-medium text-white shadow-sm transition-all hover:bg-[#047857] disabled:opacity-50"
-              >
-                {busy ? 'Researching…' : 'Research Column'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowAddColumnModal(false)}
-                className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-[12.5px] text-[#64748B] hover:bg-[#F8FAFC]"
-              >
-                Cancel
-              </button>
-            </form>
-          </div>
-        )}
+        {/* Ask AI to research a column -- always here, no button/modal to open first */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            askForColumn();
+          }}
+          className="flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-2 transition-all focus-within:border-[#0F172A] focus-within:bg-white"
+        >
+          <Sparkles className="size-4 shrink-0 text-[#94A3B8]" />
+          <input
+            value={columnPrompt}
+            onChange={(e) => setColumnPrompt(e.target.value)}
+            placeholder="Ask AI to research a column, e.g. get the careers page email of these companies"
+            className="flex-1 min-w-0 bg-transparent text-[13px] text-[#0F172A] placeholder-[#94A3B8] outline-none"
+          />
+          <button
+            type="submit"
+            disabled={busy || !columnPrompt.trim()}
+            className="shrink-0 rounded-lg bg-[#0F172A] px-3.5 py-1.5 text-[12px] font-medium text-white shadow-sm transition-all hover:bg-[#1E293B] disabled:opacity-40 cursor-pointer"
+          >
+            {busy ? 'Running…' : 'Run →'}
+          </button>
+        </form>
 
         {/* Inline Add Competitor URL Form */}
         {showAddUrlModal && (
