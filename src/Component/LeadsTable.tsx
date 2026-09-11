@@ -39,6 +39,8 @@ export default function LeadsTable({
   const [activeTab, setActiveTab] = useState<'all' | 'high_fit' | 'verified'>('all');
   const [hidden, setHidden] = useState<string[]>([]);
   const [columnToDelete, setColumnToDelete] = useState<Data | null>(null);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { rows, columns, cells, contacts } = snapshot.sheet;
   const visibleColumns = columns.filter((column) => !hidden.includes(column.id));
@@ -64,6 +66,16 @@ export default function LeadsTable({
       .filter((row) => !term || `${row.name || ''} ${row.domain}`.toLowerCase().includes(term))
       .sort((a, b) => (b.score || 0) - (a.score || 0));
   }, [rows, contacts, search, activeTab]);
+
+  // 10 accounts per page, highest fit score first -- never the whole list at once.
+  const pageCount = Math.max(1, Math.ceil(visibleRows.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const pageRows = useMemo(
+    () => visibleRows.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [visibleRows, currentPage],
+  );
+  // A new filter/search/tab can shrink the result set below the current page; snap back to page 1.
+  if (currentPage !== page) setPage(currentPage);
 
   const askForColumn = () => {
     const text = prompt.trim();
@@ -285,8 +297,8 @@ export default function LeadsTable({
 
             {/* Table Body */}
             <tbody className="divide-y divide-[#F1F5F9] text-[13px]">
-              {visibleRows.length > 0 ? (
-                visibleRows.map((row) => {
+              {pageRows.length > 0 ? (
+                pageRows.map((row) => {
                   const rowContacts = contacts.filter((c) => c.candidate_id === row.id);
                   const score = Math.round(row.score || 0);
 
@@ -442,10 +454,35 @@ export default function LeadsTable({
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
           <div className="flex items-center gap-2 text-[12.5px] text-[#64748B]">
             <span>
-              Showing <strong className="text-[#0F172A]">{visibleRows.length}</strong> of{' '}
-              <strong className="text-[#0F172A]">{totalCount}</strong> verified prospects
+              Showing <strong className="text-[#0F172A]">{pageRows.length}</strong> of{' '}
+              <strong className="text-[#0F172A]">{visibleRows.length}</strong> matched accounts
+              {totalCount !== visibleRows.length && <> ({totalCount} total)</>}
             </span>
           </div>
+
+          {pageCount > 1 && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={currentPage <= 1}
+                onClick={() => setPage(currentPage - 1)}
+                className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-[12px] font-medium text-[#475569] transition-all hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <span className="text-[12px] text-[#64748B]">
+                Page {currentPage} of {pageCount}
+              </span>
+              <button
+                type="button"
+                disabled={currentPage >= pageCount}
+                onClick={() => setPage(currentPage + 1)}
+                className="rounded-lg border border-[#E2E8F0] bg-white px-3 py-1.5 text-[12px] font-medium text-[#475569] transition-all hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          )}
 
           {showOutreachActions && (
             <div className="flex items-center gap-2">

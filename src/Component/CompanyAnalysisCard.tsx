@@ -26,54 +26,31 @@ export default function CompanyAnalysisCard({
   const company = snapshot?.company || {};
   const claims = profile?.data?.claims || [];
   const location = company.context?._location;
+  // The profile revision exists as soon as company_research finishes, so its
+  // presence -- not a guess -- is what tells us the fields below are real
+  // rather than still being extracted.
+  const ready = Boolean(profile?.data);
 
-  // Extract fields from profile or fallback to verified research analysis
+  // Every field below comes only from what the backend actually extracted.
+  // None has a generic fallback: an empty value means "not yet determined",
+  // never an invented placeholder that would read as real for every company.
   const headline =
     profile?.data?.product_name ||
     profile?.data?.headline ||
     claims.find((c: any) => c.field === 'product' || c.field === 'headline')?.value ||
-    'AI-Driven Workflow Automation';
+    '';
 
-  const summary =
-    profile?.data?.summary ||
-    company.description ||
-    "The company builds an AI-native automation platform that reads context across a team's existing tools and executes multi-step operational work end to end. Instead of static rule builders, workflows are described in natural language, grounded in company data, and monitored with human approval checkpoints. Deployments concentrate on high-volume coordination work — sales follow-up, admissions and student operations, recruitment pipelines and internal approvals.";
+  const summary = profile?.data?.summary || company.description || '';
 
-  const useCases: string[] =
-    profile?.data?.use_cases ||
-    claims.find((c: any) => c.field === 'use_cases')?.value || [
-      'Sales Automation',
-      'Education Operations',
-      'Recruitment Workflows',
-      'Customer Onboarding',
-      'Finance Approvals',
-      'Support Triage',
-    ];
+  const useCases: string[] = profile?.data?.use_cases || [];
 
-  const hqCity = location?.headquarters?.city || location?.city || 'Chennai';
-  const hqCountry = location?.headquarters?.country || location?.country || 'India';
-  const hqContext =
-    location?.description || 'Engineering hub with distributed go-to-market coverage.';
+  const hqCity = location?.headquarters?.city || location?.city || '';
+  const hqCountry = location?.headquarters?.country || location?.country || '';
+  const hqContext = location?.description || '';
 
-  const marketsServed: string[] =
-    profile?.data?.markets_served ||
-    profile?.data?.markets || [
-      'North America',
-      'Europe',
-      'India',
-      'Southeast Asia',
-      'Global',
-    ];
+  const marketsServed: string[] = profile?.data?.markets_served || profile?.data?.markets || [];
 
-  const industries: string[] =
-    profile?.data?.industries || [
-      'B2B SaaS',
-      'EdTech',
-      'Recruitment',
-      'Professional Services',
-      'Retail Operations',
-      'Healthcare Admin',
-    ];
+  const industries: string[] = profile?.data?.target_industries || profile?.data?.industries || [];
 
   const handleConfirm = () => {
     if (onConfirm) {
@@ -97,6 +74,25 @@ export default function CompanyAnalysisCard({
     }
   };
 
+  // No profile revision yet: company_research is still reading the site.
+  // Show a plain skeleton, never the finished card with placeholder content --
+  // the "Thinking Ns" bubble above this card already carries the live status.
+  if (!ready) {
+    return (
+      <div className="w-full overflow-hidden rounded-[24px] border border-[#E8ECEF] bg-white p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-5 animate-pulse">
+        <div className="space-y-3">
+          <div className="h-3 w-20 rounded-full bg-[#F1F5F9]" />
+          <div className="h-6 w-2/3 rounded-lg bg-[#F1F5F9]" />
+          <div className="h-3.5 w-full rounded-full bg-[#F1F5F9]" />
+          <div className="h-3.5 w-4/5 rounded-full bg-[#F1F5F9]" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[1, 2, 3].map((i) => <div key={i} className="h-7 w-24 rounded-full bg-[#F1F5F9]" />)}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full overflow-hidden rounded-[24px] border border-[#E8ECEF] bg-white p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-7 animate-in fade-in slide-in-from-bottom-2 duration-300">
       {/* 1. Header: PRODUCT & Title & Paragraph */}
@@ -105,27 +101,29 @@ export default function CompanyAnalysisCard({
           Product
         </span>
         <h2 className="text-[26px] sm:text-[32px] font-normal text-[#0F172A] font-serif tracking-tight leading-tight">
-          {headline}
+          {headline || 'Company profile'}
         </h2>
         <p className="text-[14.5px] leading-relaxed text-[#475569] font-normal pt-1">
-          {summary}
+          {summary || 'No summary could be extracted from the site yet.'}
         </p>
       </div>
 
-      {/* 2. Use cases */}
-      <div className="space-y-3">
-        <h3 className="text-[15.5px] font-semibold text-[#0F172A]">Use cases</h3>
-        <div className="flex flex-wrap items-center gap-2.5">
-          {useCases.map((useCase) => (
-            <span
-              key={useCase}
-              className="rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-1.5 text-[13px] font-normal text-[#334155] shadow-2xs transition-all hover:border-[#CBD5E1] hover:bg-white"
-            >
-              {useCase}
-            </span>
-          ))}
+      {/* 2. Use cases -- omitted entirely when the site didn't say, rather than a generic guess */}
+      {useCases.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="text-[15.5px] font-semibold text-[#0F172A]">Use cases</h3>
+          <div className="flex flex-wrap items-center gap-2.5">
+            {useCases.map((useCase) => (
+              <span
+                key={useCase}
+                className="rounded-full border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-1.5 text-[13px] font-normal text-[#334155] shadow-2xs transition-all hover:border-[#CBD5E1] hover:bg-white"
+              >
+                {useCase}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 3. Market & Company Profile Section */}
       <div className="space-y-4 border-t border-[#F1F5F9] pt-6">
@@ -135,24 +133,30 @@ export default function CompanyAnalysisCard({
           </span>
         </div>
 
-        {/* Headquarters Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-          <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B]">
-              Headquarters
+        {/* Headquarters Bar -- omitted when no location could be resolved */}
+        {(hqCity || hqCountry) && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#64748B]">
+                Headquarters
+              </div>
+              <div className="text-[15px] font-semibold text-[#0F172A] mt-0.5">
+                {[hqCity, hqCountry].filter(Boolean).join(', ')}
+              </div>
             </div>
-            <div className="text-[15px] font-semibold text-[#0F172A] mt-0.5">
-              {hqCity}, {hqCountry}
-            </div>
+            {hqContext && (
+              <div className="text-[12.5px] text-[#64748B] sm:text-right max-w-sm leading-relaxed">
+                {hqContext}
+              </div>
+            )}
           </div>
-          <div className="text-[12.5px] text-[#64748B] sm:text-right max-w-sm leading-relaxed">
-            {hqContext}
-          </div>
-        </div>
+        )}
 
-        {/* 2-Column Grid for Markets Served & Industries (Spacious & Clean) */}
+        {/* 2-Column Grid for Markets Served & Industries -- each card omitted when empty */}
+        {(marketsServed.length > 0 || industries.length > 0) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
           {/* Markets served */}
+          {marketsServed.length > 0 && (
           <div className="rounded-2xl border border-[#E2E8F0] bg-white p-4.5 space-y-3 shadow-2xs">
             <div className="flex items-center justify-between">
               <div className="text-[13.5px] font-semibold text-[#0F172A]">
@@ -173,8 +177,10 @@ export default function CompanyAnalysisCard({
               ))}
             </div>
           </div>
+          )}
 
           {/* Industries */}
+          {industries.length > 0 && (
           <div className="rounded-2xl border border-[#E2E8F0] bg-white p-4.5 space-y-3 shadow-2xs">
             <div className="flex items-center justify-between">
               <div className="text-[13.5px] font-semibold text-[#0F172A]">
@@ -195,7 +201,9 @@ export default function CompanyAnalysisCard({
               ))}
             </div>
           </div>
+          )}
         </div>
+        )}
       </div>
 
       {/* 4. Action Buttons */}

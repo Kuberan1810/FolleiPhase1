@@ -35,23 +35,32 @@ export default function CompetitorsTable({
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'high_overlap' | 'direct'>('all');
 
+  const COMPETITOR_SLOTS = 10;
+
   const all = snapshot.competitors;
-  const analysed = all.filter((row) => row.state === 'analysed');
+  const analysed = useMemo(
+    () => all.filter((row) => row.state === 'analysed').sort((a, b) => (b.score || 0) - (a.score || 0)),
+    [all],
+  );
+  // Discovery finds far more candidate domains than are actually competitors --
+  // only the top-scored, fully-analysed ones are ever labeled "competitor".
+  // Never fall back to raw, unanalysed candidates: those have no real score or
+  // classification yet, and showing them as 0%-overlap rows just looks broken.
+  const topCompetitors = analysed.slice(0, COMPETITOR_SLOTS);
+  const isAnalysing = all.length > 0 && analysed.length === 0;
 
   // Filter real competitors
   const visibleRows = useMemo(() => {
     const term = search.trim().toLowerCase();
-    const source = all.length > 0 ? (analysed.length ? analysed : all) : [];
 
-    return source
+    return topCompetitors
       .filter((row) => {
         if (activeTab === 'high_overlap') return (row.score || 0) >= 80;
         if (activeTab === 'direct') return String(row.data?.classification || '').toLowerCase().includes('direct');
         return true;
       })
-      .filter((row) => !term || `${row.name || ''} ${row.domain}`.toLowerCase().includes(term))
-      .sort((a, b) => (b.score || 0) - (a.score || 0));
-  }, [all, analysed, search, activeTab]);
+      .filter((row) => !term || `${row.name || ''} ${row.domain}`.toLowerCase().includes(term));
+  }, [topCompetitors, search, activeTab]);
 
   const addUrls = () => {
     const list = urls.split(/[\s,]+/).map((value) => value.trim()).filter(Boolean);
@@ -107,7 +116,7 @@ export default function CompetitorsTable({
     toast.success('Exported competitors CSV');
   };
 
-  const totalCount = all.length;
+  const totalCount = topCompetitors.length;
 
   return (
     <div className="w-full space-y-4">
@@ -369,6 +378,12 @@ export default function CompetitorsTable({
                     </tr>
                   );
                 })
+              ) : isAnalysing ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
+                    Ranking {all.length} discovered domains — the top {COMPETITOR_SLOTS} will appear here as they're analysed.
+                  </td>
+                </tr>
               ) : (
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center text-[#64748B] text-[13px]">
