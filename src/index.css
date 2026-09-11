@@ -6,15 +6,6 @@
 @theme {
     --font-sans: "Inter", sans-serif;
     --font-inter: "Inter", sans-serif;
-    --animate-spin-slow: spin 4s linear infinite;
-    --animate-spin-reverse: spin-reverse 6s linear infinite;
-    --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
-    --animate-breathe: breathe 2s ease-in-out infinite;
-    --animate-blink: blink 1.3s ease-in-out infinite;
-    --animate-shimmer-sweep: shimmer-sweep 1.8s ease-in-out infinite;
-    --animate-text-shimmer: text-shimmer 2.2s linear infinite;
-    --animate-float: float 3s ease-in-out infinite;
-    --animate-shine: shine 3s infinite;
 }
 
 /* Custom Scrollbar utilities */
@@ -25,89 +16,6 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-@keyframes shimmer-sweep {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(200%);
-    }
-}
-@keyframes text-shimmer {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
-@keyframes blink {
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.3;
-        transform: scale(0.92);
-    }
-}
-@keyframes breathe {
-    0%,
-    100% {
-        opacity: 0.45;
-        transform: scale(0.9);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.06);
-    }
-}
-@keyframes spin-reverse {
-    from {
-        transform: rotate(360deg);
-    }
-
-    to {
-        transform: rotate(0deg);
-    }
-}
-
-@keyframes pulse-ring {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-
-    50% {
-        transform: scale(1.15);
-        opacity: 0;
-    }
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-4px);
-    }
-}
-
-@keyframes shine {
-    0% {
-        transform: translateX(-100%) skewX(-15deg);
-    }
-
-    100% {
-        transform: translateX(250%) skewX(-15deg);
-    }
-}
 
 * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -115,11 +23,17 @@
 
 html {
     scrollbar-gutter: stable;
+    /* The interface is light only. Without this, a browser or OS in dark mode
+       paints its own dark canvas behind the app and inverts form controls. */
+    color-scheme: light;
+    background-color: #FDFDFC;
 }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-y: scroll;
+    background-color: #FDFDFC;
+    color: #16171A;
 }
 
 /* Custom Light Gray Text Selection */
@@ -136,140 +50,23 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0px 1000px #f3f4f6 inset !important;
     -webkit-text-fill-color: #191C1E !important;
     caret-color: #191C1E;
-    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* ---- Sync experience motion ---- */
-@keyframes follei-particle {
-  0% {
-    opacity: 0;
-    left: 0;
-    transform: scale(0.8);
-  }
-  12% {
-    opacity: 1;
-  }
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    left: calc(100% - 24px);
-    transform: scale(0.8);
-  }
-}
-
-@keyframes follei-particle-v {
-  0% {
-    opacity: 0;
-    transform: translateY(0) scale(0.8);
-  }
-  12% {
-    opacity: 1;
-  }
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(var(--flow-distance, 90px)) scale(0.8);
-  }
-}
-
-@keyframes follei-rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes follei-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  60% {
-    transform: scale(1.12);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes follei-halo {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.06);
-  }
-}
 
 .flow-particle {
-  animation: follei-particle 2.4s linear infinite;
 }
 
 .flow-particle-v {
-  animation: follei-particle-v 2.4s linear infinite;
 }
 
 .rise-in {
-  animation: follei-rise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .pop-in {
-  animation: follei-pop 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .node-halo {
-  animation: follei-halo 2.8s ease-in-out infinite;
-}
-
-@keyframes fadeSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-slide {
-  animation: fadeSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes gentlePulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.92;
-    transform: scale(1.015);
-  }
-}
-
-.animate-gentle-pulse {
-  animation: gentlePulse 0.4s ease-out;
-}
-
-@keyframes silverShimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
 }
 
 .skeleton-silver-shimmer {
@@ -292,10 +89,8 @@ input:-webkit-autofill:active {
     rgba(255, 255, 255, 0.35) 75%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: silverShimmer 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   pointer-events: none;
 }
-
 
 /* Scrollbar Hide Utilities */
 .scrollbar-hide::-webkit-scrollbar,
@@ -358,7 +153,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-
 /* 🔥 Premium Scrollbar */
 .premium-scroll {
     overflow-y: auto;
@@ -378,7 +172,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .premium-scroll::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #0C4A6E, #3B82F6);
     border-radius: 999px;
-    transition: all 0.3s ease;
 }
 
 /* hover effect */
@@ -408,18 +201,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* FlowBuilder flow-line animation */
-@keyframes flowDash {
-    from {
-        stroke-dashoffset: 22;
-    }
-
-    to {
-        stroke-dashoffset: 0;
-    }
-}
 
 .flow-line {
-    animation: flowDash 1.2s linear infinite;
 }
 
 /* Onboarding Selected Box Style */

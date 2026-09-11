@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import Sidebar from './Sidebar';
-import PersistentSetupPanel from './PersistentSetupPanel';
 import { getStoredUser } from '../lib/auth';
 
 /** The signed-in user, from the session the auth flow stored. */
@@ -52,8 +51,6 @@ export const SidebarLayout: React.FC = () => {
         <Outlet context={{ isMobileSidebarOpen, setIsMobileSidebarOpen }} />
       </main>
 
-      {/* Persistent setup panel across pages */}
-      <PersistentSetupPanel />
     </div>
   );
 };

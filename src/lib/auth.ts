@@ -1,62 +1,67 @@
 /**
- * Token storage. Kept in one place so the axios interceptor, the auth hooks,
- * and the router all agree on where credentials live.
+ * Account session state.
  *
- * localStorage rather than memory: a page refresh must not sign the user out.
- * That does mean tokens are readable by any script on the origin, so the
- * backend keeps access tokens short-lived and rotates them via /auth/refresh.
+ * Access tokens are short-lived (30 minutes) and refresh tokens rotate on every
+ * use, so both live in localStorage: a page reload must not sign the user out,
+ * and a stolen refresh token is usable at most once before the server revokes
+ * it. Nothing else about the account is cached here.
  */
 
-const ACCESS_TOKEN_KEY = 'follei.access_token';
-const REFRESH_TOKEN_KEY = 'follei.refresh_token';
-const USER_KEY = 'follei.user';
+const ACCESS_KEY = 'coirei.access_token';
+const REFRESH_KEY = 'coirei.refresh_token';
+const USER_KEY = 'coirei.user';
 
 export interface AuthUser {
   id: string;
   email: string;
   full_name: string;
+  picture?: string;
 }
 
 export interface TokenPair {
   access_token: string;
   refresh_token: string;
-  token_type: string;
   user: AuthUser;
 }
 
-export const getAccessToken = (): string | null =>
-  localStorage.getItem(ACCESS_TOKEN_KEY) ||
-  localStorage.getItem('token') ||
-  localStorage.getItem('access_token');
-export const getRefreshToken = (): string | null => localStorage.getItem(REFRESH_TOKEN_KEY);
+/** Storage throws in private windows and when site data is blocked. */
+const read = (key: string): string | null => {
+  try { return localStorage.getItem(key); } catch { return null; }
+};
+const write = (key: string, value: string) => {
+  try { localStorage.setItem(key, value); } catch { /* storage unavailable */ }
+};
+const drop = (key: string) => {
+  try { localStorage.removeItem(key); } catch { /* storage unavailable */ }
+};
+
+export const getAccessToken = () => read(ACCESS_KEY);
+export const getRefreshToken = () => read(REFRESH_KEY);
 
 export const getStoredUser = (): AuthUser | null => {
-  const raw = localStorage.getItem(USER_KEY);
+  const raw = read(USER_KEY);
   if (!raw) return null;
   try {
     return JSON.parse(raw) as AuthUser;
   } catch {
-    // A corrupted entry should sign the user out cleanly rather than crash
-    // every render that reads it.
-    localStorage.removeItem(USER_KEY);
+    drop(USER_KEY);
     return null;
   }
 };
 
 export const storeSession = (tokens: TokenPair): void => {
-  localStorage.setItem(ACCESS_TOKEN_KEY, tokens.access_token);
-  localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refresh_token);
-  localStorage.setItem(USER_KEY, JSON.stringify(tokens.user));
+  write(ACCESS_KEY, tokens.access_token);
+  write(REFRESH_KEY, tokens.refresh_token);
+  if (tokens.user) write(USER_KEY, JSON.stringify(tokens.user));
+};
+
+export const storeTokens = (access: string, refresh: string): void => {
+  write(ACCESS_KEY, access);
+  write(REFRESH_KEY, refresh);
 };
 
 export const clearSession = (): void => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-  localStorage.removeItem('token');
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('follei.active_workspace');
-  localStorage.removeItem('follei.company_name');
+  [ACCESS_KEY, REFRESH_KEY, USER_KEY].forEach(drop);
 };
 
-export const isAuthenticated = (): boolean => Boolean(getAccessToken());
+export const isSignedIn = () => Boolean(getAccessToken());

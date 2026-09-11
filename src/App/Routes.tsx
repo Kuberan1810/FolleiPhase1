@@ -1,63 +1,39 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import SignIn from "../Pages/auth/signIn/SignIn";
-import SignUp from "../Pages/auth/SignUp/SignUp";
-import AuthCallback from '../Pages/auth/callback/AuthCallback';
-import DashboardSetup from "../Pages/DashboardSetup/DashboardSetup";
-import Home from "../Pages/home/Home";
-import Dashboard from "../Pages/Dashboard/Dashboard";
-import MeetingPage from "../Pages/meeting/meeting";
-import LeadsPage from "../Pages/leads/leads";
-import CampaignsPage from "../Pages/campaigns/Campaigns";
-import CampaignCreation from "../Pages/campaigns/campaignCreation/CampaignCreation";
-import AttentionPage from "../Pages/attention/Attention";
-import LeadsProfilePage from "../Pages/leads/leadsProfile/LeadsProfilePage";
+import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import SidebarLayout from '../Component/SidebarLayout';
-import ProjectSettings from '../Pages/projects/ProjectSettings';
-import CallLabPage from '../Pages/callLab/CallLabPage';
+import SignIn from '../Pages/auth/signIn/SignIn';
+import AuthCallback from '../Pages/auth/callback/AuthCallback';
+import ProjectShell from '../Pages/project/ProjectShell';
+import Home from '../Pages/project/Home';
+import Competitors from '../Pages/project/Competitors';
+import Leads from '../Pages/project/Leads';
+import Campaigns from '../Pages/project/Campaigns';
+import Outreach from '../Pages/project/Outreach';
+import NewProject from '../Pages/project/NewProject';
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Root Redirect */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
-
-      {/* Public / Auth Routes */}
       <Route path="/login" element={<SignIn />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      {/* Google redirects the browser here after the backend verifies identity. */}
+      {/* Google redirects the browser here with tokens in the fragment. */}
       <Route path="/auth/callback" element={<AuthCallback />} />
 
-      {/* Protected App Routes with dedicated SidebarLayout */}
       <Route element={<ProtectedRoute />}>
         <Route element={<SidebarLayout />}>
-          <Route path="/dashboard-setup" element={<DashboardSetup />} />
-          <Route path="/home" element={<Home />} />
-          {/* Test surface, deliberately not linked from the sidebar. */}
-          <Route path="/calllab" element={<CallLabPage />} />
-          <Route path="/project" element={<ProjectSettings />} />
-          <Route path="/projects" element={<ProjectSettings />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/main-dashboard" element={<Navigate to="/dashboard" replace />} />
+          {/* No project yet: an empty chat that creates one from the first message. */}
+          <Route path="/" element={<NewProject />} />
 
-          <Route path="/meeting" element={<MeetingPage />} />
-          <Route path="/meetings" element={<MeetingPage />} />
-          <Route path="/leads" element={<LeadsPage />} />
-          <Route path="/campaigns" element={<CampaignsPage />} />
-          <Route path="/campaign" element={<CampaignsPage />} />
-          <Route path="/campaigns/create" element={<CampaignCreation />} />
-          <Route path="/campaigns/new" element={<CampaignCreation />} />
-          <Route path="/campaign-creation" element={<CampaignCreation />} />
-          <Route path="/attention" element={<AttentionPage />} />
-          <Route path="/ai-attention" element={<AttentionPage />} />
-          <Route path="/leads/:id" element={<LeadsProfilePage />} />
-          <Route path="/leads/profile/:id" element={<LeadsProfilePage />} />
+          <Route path="/p/:projectId" element={<ProjectShell />}>
+            <Route index element={<Home />} />
+            <Route path="competitors" element={<Competitors />} />
+            <Route path="leads" element={<Leads />} />
+            <Route path="campaigns" element={<Campaigns />} />
+            <Route path="outreach" element={<Outreach />} />
+          </Route>
         </Route>
       </Route>
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

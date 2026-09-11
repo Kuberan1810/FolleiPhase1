@@ -8,9 +8,9 @@ import {
   Sparkles,
   Settings,
   Folder,
-  LayoutDashboard,
+  Target,
   Users,
-  Calendar,
+  Send,
   Megaphone,
   Trash2,
   X,
@@ -21,12 +21,13 @@ import {
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import type { UserProfile } from '../Pages/DashboardSetup/types';
+import { useParams } from 'react-router-dom';
 import { getStoredUser, clearSession } from '../lib/auth';
-import { getActiveWorkspaceId, setActiveWorkspaceId } from '../hooks/useWorkspace';
 import { useProjects } from '../hooks/useProjects';
+import { coirei } from '../api/coirei';
 import ConfirmDialog from './ConfirmDialog';
-import { resetSetupMemoryStore } from '../Pages/DashboardSetup/data/setupMemoryStore';
+
+export interface UserProfile { name: string; email: string; initials: string }
 
 interface SidebarProps {
   user?: UserProfile;
@@ -58,13 +59,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const userMenuRef = useRef<HTMLDivElement>(null);
   const storedUser = getStoredUser();
 
+  const { projectId } = useParams();
   const {
     projects: workspaces,
     isLoading: isWorkspacesLoading,
-    create: createProject,
     rename: renameProject,
     remove: removeProject,
   } = useProjects();
+  const getActiveWorkspaceId = () => projectId ?? null;
+  const setActiveWorkspaceId = (_id: string) => {};
 
   // Inline rename: click/double-click the name, type, Enter to save.
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -102,13 +105,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const getActiveNav = () => {
     if (activeItem) return activeItem;
-    if (currentPath === '/dashboard-setup' || currentPath === '/project' || currentPath === '/projects') return 'setup';
-    if (currentPath === '/dashboard' || currentPath === '/main-dashboard' || currentPath.startsWith('/attention') || currentPath.startsWith('/ai-attention')) return 'dashboard';
-    if (currentPath.startsWith('/lead')) return 'leads';
-    if (currentPath.startsWith('/meet')) return 'meetings';
-    if (currentPath.startsWith('/campaign')) return 'campaigns';
-    if (currentPath === '/home' || currentPath === '/') return 'home';
-    return '';
+    const tail = currentPath.replace(/^\/p\/[^/]+\/?/, '');
+    if (tail.startsWith('competitors')) return 'competitors';
+    if (tail.startsWith('leads')) return 'leads';
+    if (tail.startsWith('campaigns')) return 'campaigns';
+    if (tail.startsWith('outreach')) return 'outreach';
+    return 'home';
   };
 
   const activeNav = getActiveNav();
@@ -136,24 +138,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }));
   };
 
+  // A project only exists once the operator describes it in chat, so "new"
+  // just opens the empty Home composer.
   const handleNewProject = () => {
-    resetSetupMemoryStore();
-    if (onNewProject) {
-      onNewProject();
-      return;
-    }
-    createProject.mutate(undefined, {
-      onSuccess: (workspace) => {
-        setActiveWorkspaceId(workspace.id);
-        navTo('/dashboard-setup');
-      },
-      onError: () => {
-        navTo('/dashboard-setup');
-      },
-    });
+    if (onNewProject) { onNewProject(); return; }
+    navTo('/');
   };
 
   const handleConfirmLogout = () => {
+    void coirei.signOut().catch(() => undefined);
     clearSession();
     setIsLogoutModalOpen(false);
     setIsUserMenuOpen(false);
@@ -195,7 +188,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={() => setIsProjectsOpen((prev) => !prev)}
-              className="flex items-center gap-2 px-3 py-1.5 text-[13.5px] font-medium text-[#16171A] hover:bg-black/5 rounded-xl transition-colors cursor-pointer text-left"
+              className="flex items-center gap-2 px-3 py-1.5 text-[13.5px] font-medium text-[#16171A] hover:bg-black/5 rounded-xl cursor-pointer text-left"
             >
               <Folder className="size-4 text-[#717378]" />
               <span>Projects</span>
@@ -204,7 +197,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {isProjectsOpen && (
               <div className="flex flex-col gap-0.5 pl-4 pr-1 mt-0.5">
                 {isWorkspacesLoading ? (
-                  <div className="flex flex-col gap-2 py-1.5 animate-pulse" aria-label="Loading workspaces">
+                  <div className="flex flex-col gap-2 py-1.5 " aria-label="Loading workspaces">
                     <div className="flex items-center gap-2 px-2 py-1">
                       <div className="size-3 rounded-full bg-[#E5E7EB]" />
                       <div className="h-3.5 w-28 rounded-md bg-[#E5E7EB]" />
@@ -243,14 +236,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             onClick={() => {
                               setActiveWorkspaceId(project.id);
                               toggleProjectExpanded(project.id, index);
-                              navTo('/home');
+                              navTo('/p/' + project.id);
                             }}
                             onDoubleClick={() => {
                               setDraftName(project.name);
                               setRenamingId(project.id);
                             }}
                             title="Double-click to rename"
-                            className="group flex flex-1 items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg transition-colors cursor-pointer w-full text-left"
+                            className="group flex flex-1 items-center gap-1.5 px-2 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-black/5 rounded-lg cursor-pointer w-full text-left"
                           >
                             {isExpanded ? (
                               <ChevronDown className="size-3 text-[#717378] shrink-0" />
@@ -275,7 +268,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                   event.currentTarget.click();
                                 }
                               }}
-                              className="opacity-0 transition-opacity group-hover:opacity-100 p-0.5"
+                              className="opacity-0 group-hover:opacity-100 p-0.5"
                             >
                               <Trash2 className="size-3.5 text-[#717378] hover:text-red-600" />
                             </span>
@@ -287,12 +280,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             {/* Home */}
                             <button
                               type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/home');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'home' && isProjectActive
+                              onClick={() => navTo('/p/' + project.id + '')}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg cursor-pointer ${ activeNav === 'home' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
@@ -301,32 +290,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               <span>Home</span>
                             </button>
 
-                            {/* Dashboard */}
+                            {/* Competitors */}
                             <button
                               type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/dashboard');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'dashboard' && isProjectActive
+                              onClick={() => navTo('/p/' + project.id + '/competitors')}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg cursor-pointer ${ activeNav === 'competitors' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <LayoutDashboard className={`size-3.5 ${activeNav === 'dashboard' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                              <span>Dashboard</span>
+                              <Target className={`size-3.5 ${activeNav === 'competitors' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Competitors</span>
                             </button>
 
                             {/* Leads */}
                             <button
                               type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/leads');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'leads' && isProjectActive
+                              onClick={() => navTo('/p/' + project.id + '/leads')}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg cursor-pointer ${ activeNav === 'leads' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
@@ -335,32 +316,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               <span>Leads</span>
                             </button>
 
-                            {/* Meetings */}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/meeting');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'meetings' && isProjectActive
-                                  ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
-                                  : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
-                              }`}
-                            >
-                              <Calendar className={`size-3.5 ${activeNav === 'meetings' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                              <span>Meetings</span>
-                            </button>
-
                             {/* Campaigns */}
                             <button
                               type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/campaigns');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'campaigns' && isProjectActive
+                              onClick={() => navTo('/p/' + project.id + '/campaigns')}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg cursor-pointer ${ activeNav === 'campaigns' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
@@ -369,21 +329,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               <span>Campaigns</span>
                             </button>
 
-                            {/* Setup */}
+                            {/* Outreach */}
                             <button
                               type="button"
-                              onClick={() => {
-                                setActiveWorkspaceId(project.id);
-                                navTo('/dashboard-setup');
-                              }}
-                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg transition-colors cursor-pointer ${
-                                activeNav === 'setup' && isProjectActive
+                              onClick={() => navTo('/p/' + project.id + '/outreach')}
+                              className={`flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] rounded-lg cursor-pointer ${ activeNav === 'outreach' && isProjectActive
                                   ? 'bg-[#EFEFE9] font-medium text-[#16171A]'
                                   : 'text-[#717378] hover:text-[#16171A] hover:bg-black/5 font-normal'
                               }`}
                             >
-                              <Settings className={`size-3.5 ${activeNav === 'setup' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
-                              <span>Setup</span>
+                              <Send className={`size-3.5 ${activeNav === 'outreach' && isProjectActive ? 'text-[#16171A]' : 'text-[#717378]'}`} />
+                              <span>Outreach</span>
                             </button>
                           </div>
                         )}
@@ -400,8 +356,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <button
                   type="button"
                   onClick={handleNewProject}
-                  disabled={createProject.isPending}
-                  className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] transition-colors hover:text-[#16171A] cursor-pointer mt-0.5"
+                                    className="flex items-center gap-1.5 px-2 py-1.5 text-[13px] font-normal text-[#717378] hover:text-[#16171A] cursor-pointer mt-0.5"
                 >
                   <Plus className="size-3.5 text-[#717378]" />
                   <span>New Project</span>
@@ -419,8 +374,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => {
               onAskFollei?.();
             }}
-            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-              activeNav === 'ask-follei'
+            className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium cursor-pointer ${ activeNav === 'ask-follei'
                 ? 'bg-[#EFEFE9] text-[#16171A]'
                 : 'text-[#16171A] hover:bg-black/5'
             }`}
@@ -435,14 +389,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col gap-2 relative" ref={userMenuRef}>
         {/* User Popover / Dropdown Menu */}
         {isUserMenuOpen && (
-          <div className="absolute bottom-[calc(100%+8px)] left-0 w-full rounded-2xl border border-[#EBEBE8] bg-white p-1.5 shadow-xl z-50 animate-in fade-in slide-in-from-bottom-2 duration-150 font-sans">
+          <div className="absolute bottom-[calc(100%+8px)] left-0 w-full rounded-2xl border border-[#EBEBE8] bg-white p-1.5 shadow-xl z-50 font-sans">
             {/* Top User Row */}
             <div
               onClick={() => {
                 setIsUserMenuOpen(false);
                 onOpenSettings?.();
               }}
-              className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-[#F4F4F0] cursor-pointer"
             >
               <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#E5E5DE] text-[12px] font-semibold text-[#16171A]">
                 {resolvedUser.initials || resolvedUser.name.charAt(0) || 'F'}
@@ -467,7 +421,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setIsUserMenuOpen(false);
                 toast('Pro plans coming soon!', { icon: '✨' });
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] cursor-pointer"
             >
               <Sparkles className="size-4 text-[#717378]" />
               <span>Upgrade plan</span>
@@ -479,7 +433,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setIsUserMenuOpen(false);
                 toast('Personalization settings coming soon', { icon: '⚙️' });
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] cursor-pointer"
             >
               <SlidersHorizontal className="size-4 text-[#717378]" />
               <span>Personalization</span>
@@ -490,9 +444,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => {
                 setIsUserMenuOpen(false);
                 if (onOpenSettings) onOpenSettings();
-                else navTo('/project');
+                else toast('Settings live in your server .env file', { icon: '⚙️' });
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] cursor-pointer"
             >
               <User className="size-4 text-[#717378]" />
               <span>Profile</span>
@@ -503,9 +457,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => {
                 setIsUserMenuOpen(false);
                 if (onOpenSettings) onOpenSettings();
-                else navTo('/project');
+                else toast('Settings live in your server .env file', { icon: '⚙️' });
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] cursor-pointer"
             >
               <Settings className="size-4 text-[#717378]" />
               <span>Settings</span>
@@ -519,7 +473,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setIsUserMenuOpen(false);
                 toast('Need help? Contact support@follei.com', { icon: '💡' });
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#16171A] hover:bg-[#F4F4F0] cursor-pointer"
             >
               <HelpCircle className="size-4 text-[#717378]" />
               <span className="flex-1 text-left">Help</span>
@@ -533,7 +487,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setIsUserMenuOpen(false);
                 setIsLogoutModalOpen(true);
               }}
-              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#DC2626] hover:bg-red-50 transition-colors cursor-pointer"
+              className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-[13px] font-medium text-[#DC2626] hover:bg-red-50 cursor-pointer"
             >
               <LogOut className="size-4 text-[#DC2626]" />
               <span>Log out</span>
@@ -547,8 +501,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => {
             onOpenSettings?.();
           }}
-          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium transition-colors cursor-pointer ${
-            activeNav === 'settings'
+          className={`flex items-center gap-2.5 rounded-[12px] px-3 py-2 text-[13.5px] font-medium cursor-pointer ${ activeNav === 'settings'
               ? 'bg-[#EFEFE9] text-[#16171A]'
               : 'text-[#16171A] hover:bg-black/5'
           }`}
@@ -561,9 +514,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           type="button"
           onClick={() => setIsUserMenuOpen((prev) => !prev)}
-          className={`flex w-full items-center gap-3 rounded-2xl border p-2.5 transition-all cursor-pointer text-left ${
-            isUserMenuOpen
-              ? 'border-[#16171A]/20 bg-[#EFEFEA] shadow-xs'
+          className={`flex w-full items-center gap-3 rounded-2xl border p-2.5 cursor-pointer text-left ${ isUserMenuOpen ? 'border-[#16171A]/20 bg-[#EFEFEA] shadow-xs'
               : 'border-[#EBEBE8] bg-[#F4F4F0]/60 hover:bg-[#EFEFEA]'
           }`}
         >
@@ -578,7 +529,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {resolvedUser.email === 'Free plan' ? 'Free plan' : (resolvedUser.email || 'Free plan')}
             </span>
           </div>
-          <ChevronRight className={`size-3.5 text-[#717378] transition-transform duration-200 ${isUserMenuOpen ? '-rotate-90' : ''}`} />
+          <ChevronRight className={`size-3.5 text-[#717378] ${isUserMenuOpen ? '-rotate-90' : ''}`} />
         </button>
       </div>
     </div>
@@ -595,10 +546,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isOpen && (
         <div className="fixed inset-0 z-50 flex lg:hidden">
           <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-black/30 backdrop-blur-xs "
             onClick={onClose}
           />
-          <div className="relative z-10 h-full shadow-2xl animate-in slide-in-from-left duration-200">
+          <div className="relative z-10 h-full shadow-2xl ">
             {content}
           </div>
         </div>
@@ -608,10 +559,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {isLogoutModalOpen && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs "
             onClick={() => setIsLogoutModalOpen(false)}
           />
-          <div className="relative z-10 w-full max-w-[360px] rounded-[24px] bg-white border border-[#EBEBE8] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+          <div className="relative z-10 w-full max-w-[360px] rounded-[24px] bg-white border border-[#EBEBE8] p-6 shadow-2xl ">
             <div className="flex flex-col items-center text-center">
               <h3 className="text-[18px] font-semibold text-[#16171A] tracking-tight mb-5">
                 Are you sure you want to log out?
@@ -637,14 +588,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <button
                   type="button"
                   onClick={handleConfirmLogout}
-                  className="w-full rounded-full bg-[#16171A] hover:bg-black text-white font-medium py-3 text-[14px] transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                  className="w-full rounded-full bg-[#16171A] hover:bg-black text-white font-medium py-3 text-[14px] cursor-pointer shadow-xs ]"
                 >
                   Log out
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsLogoutModalOpen(false)}
-                  className="w-full rounded-full border border-[#EBEBE8] bg-[#F4F4F0] hover:bg-[#EAEAE5] text-[#16171A] font-medium py-3 text-[14px] transition-all cursor-pointer active:scale-[0.98]"
+                  className="w-full rounded-full border border-[#EBEBE8] bg-[#F4F4F0] hover:bg-[#EAEAE5] text-[#16171A] font-medium py-3 text-[14px] cursor-pointer ]"
                 >
                   Cancel
                 </button>
@@ -664,7 +615,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             if (projectToDelete) {
               removeProject.mutate(projectToDelete.id, {
                 onSuccess: () => {
-                  navigate('/dashboard-setup');
+                  navigate('/');
                 },
               });
               setProjectToDelete(null);

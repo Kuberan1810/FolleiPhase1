@@ -1,5 +1,4 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
 
 export interface ConfirmDialogProps {
   isOpen: boolean;
@@ -34,12 +33,12 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Subtle Backdrop */}
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity animate-fade"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs "
         onClick={!isLoading ? onClose : undefined}
       />
 
       {/* Minimalist ChatGPT-style White Modal Card */}
-      <div className="relative w-full max-w-[420px] rounded-[24px] border border-[#E6E6E4] bg-white p-6 shadow-[0_16px_48px_rgba(0,0,0,0.12)] animate-fade-slide z-10 flex flex-col gap-3">
+      <div className="relative w-full max-w-[420px] rounded-[24px] border border-[#E6E6E4] bg-white p-6 shadow-[0_16px_48px_rgba(0,0,0,0.12)] z-10 flex flex-col gap-3">
         {/* Title */}
         <h3 className="text-[17px] font-semibold text-[#16171A] tracking-tight">
           {title}
@@ -65,7 +64,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="rounded-full border border-[#E6E6E4] bg-[#F7F7F5] hover:bg-[#EBEBE8] px-5 py-2.5 text-[13.5px] font-semibold text-[#16171A] transition-colors cursor-pointer disabled:opacity-50 active:scale-98"
+            className="rounded-full border border-[#E6E6E4] bg-[#F7F7F5] hover:bg-[#EBEBE8] px-5 py-2.5 text-[13.5px] font-semibold text-[#16171A] cursor-pointer disabled:opacity-50 "
           >
             {cancelText}
           </button>
@@ -73,14 +72,11 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             type="button"
             onClick={onConfirm}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[13.5px] font-semibold text-white transition-colors cursor-pointer disabled:opacity-50 shadow-xs active:scale-98 ${
-              isDanger
-                ? 'bg-[#EF4444] hover:bg-[#DC2626] active:bg-[#B91C1C]'
+            className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[13.5px] font-semibold text-white cursor-pointer disabled:opacity-50 shadow-xs ${ isDanger ? 'bg-[#EF4444] hover:bg-[#DC2626] active:bg-[#B91C1C]'
                 : 'bg-[#16171A] hover:bg-black'
             }`}
           >
-            {isLoading && <Loader2 className="size-3.5 animate-spin text-white" />}
-            <span>{confirmText}</span>
+                        <span>{confirmText}</span>
           </button>
         </div>
       </div>

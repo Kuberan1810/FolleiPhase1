@@ -1,2 +1,0 @@
-// meeting.api.ts
-export {};

@@ -1,85 +1,104 @@
 /**
- * Projects (workspaces) in the sidebar.
+ * Projects (one backend Company per project) and the live workflow snapshot.
  *
- * A project is a workspace: its own leads, goal, documents and pitch. The
- * sidebar needs to list them, start a new one, and rename it -- the name is
- * generated from the goal, so the user must be able to override it.
+ * A project's whole state — profile, competitors, ICP, lead sheet, contacts and
+ * campaigns — arrives in one `GET /api/workflows/{id}` payload, so every page
+ * reads the same cached snapshot and only one poll runs per project.
  */
-
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { errorMessage } from '../lib/axios';
-import { queryKeys } from '../lib/queryClient';
-import {
-  createWorkspace,
-  deleteWorkspace,
-  listBusinesses,
-  listWorkspaces,
-  renameWorkspace,
-  type Workspace,
-} from '../api/dashboard/dashboard.api';
-import { isAuthenticated } from '../lib/auth';
-import { getActiveWorkspaceId, setActiveWorkspaceId } from './useWorkspace';
+import { coirei, projectName, activeJob, type Data, type Snapshot } from '../api/coirei';
+import { getStoredUser, isSignedIn } from '../lib/auth';
 
-import { resetSetupMemoryStore } from '../Pages/DashboardSetup/data/setupMemoryStore';
+export const keys = {
+  session: ['session'] as const,
+  projects: ['projects'] as const,
+  snapshot: (id: string) => ['workflow', id] as const,
+  gmail: ['gmail'] as const,
+};
 
-export const useProjects = () => {
-  const client = useQueryClient();
+export interface Project {
+  id: string;
+  name: string;
+  website: string;
+  state: string;
+}
 
+/** The signed-in account. Seeded from the cached user so a reload renders the
+ *  shell immediately instead of flashing the sign-in screen. */
+export function useSession() {
+  return useQuery({
+    queryKey: keys.session,
+    queryFn: coirei.me,
+    enabled: isSignedIn(),
+    initialData: getStoredUser() ?? undefined,
+    retry: false,
+    staleTime: 60_000,
+  });
+}
+
+export function useProjects(enabled = true) {
+  const cache = useQueryClient();
   const query = useQuery({
-    queryKey: queryKeys.workspaces,
-    queryFn: listWorkspaces,
-    enabled: isAuthenticated(),
+    queryKey: keys.projects,
+    queryFn: async (): Promise<Project[]> =>
+      (await coirei.projects()).map((row) => ({
+        id: row.id, name: projectName(row), website: row.website, state: row.state,
+      })),
+    enabled,
   });
 
-  const create = useMutation({
-    mutationFn: async (name?: string) => {
-      // A workspace needs a business. Setup created one; reuse it rather than
-      // making a second business per project.
-      const businesses = await listBusinesses();
-      const business = businesses[0];
-      if (!business) throw new Error('Finish business setup before adding a project');
-      return createWorkspace({
-        business_id: business.id,
-        // Deliberately a placeholder: the backend replaces it with a name
-        // generated from the goal once the goal is captured.
-        name: name?.trim() || 'My workspace',
-      });
-    },
-    onSuccess: (workspace) => {
-      setActiveWorkspaceId(workspace.id);
-      client.invalidateQueries({ queryKey: queryKeys.workspaces });
-    },
-    onError: (error) => toast.error(errorMessage(error, 'Could not create the project')),
-  });
+  const invalidate = () => cache.invalidateQueries({ queryKey: keys.projects });
 
   const rename = useMutation({
     mutationFn: ({ workspaceId, name }: { workspaceId: string; name: string }) =>
-      renameWorkspace(workspaceId, name),
-    onSuccess: () => client.invalidateQueries({ queryKey: queryKeys.workspaces }),
-    onError: (error) => toast.error(errorMessage(error, 'Could not rename the project')),
+      coirei.renameProject(workspaceId, name),
+    onSuccess: () => { invalidate(); toast.success('Project renamed'); },
+    onError: (error: Error) => toast.error(error.message),
   });
 
   const remove = useMutation({
-    mutationFn: (workspaceId: string) => deleteWorkspace(workspaceId),
-    onSuccess: (_data, workspaceId) => {
-      // Clear the active pin if it pointed at the deleted project, or every
-      // page would keep asking for a workspace that no longer exists.
-      if (getActiveWorkspaceId() === workspaceId) {
-        localStorage.removeItem('follei.active_workspace');
-      }
-      localStorage.removeItem('follei.company_name');
-      sessionStorage.removeItem('follei.phone_setup_active');
-      resetSetupMemoryStore();
-      client.invalidateQueries({ queryKey: queryKeys.workspaces });
-      client.invalidateQueries({ queryKey: queryKeys.documents(workspaceId) });
-      client.invalidateQueries({ queryKey: queryKeys.leads(workspaceId) });
-      client.invalidateQueries({ queryKey: queryKeys.workspace(workspaceId) });
+    mutationFn: (id: string) => coirei.deleteProject(id),
+    onSuccess: (_result, id) => {
+      cache.removeQueries({ queryKey: keys.snapshot(id) });
+      invalidate();
       toast.success('Project deleted');
     },
-    onError: (error) => toast.error(errorMessage(error, 'Could not delete the project')),
+    onError: (error: Error) => toast.error(error.message),
   });
 
-  const projects: Workspace[] = query.data ?? [];
-  return { projects, isLoading: query.isLoading, create, rename, remove };
-};
+  return { projects: query.data, isLoading: query.isPending, error: query.error, rename, remove, refetch: query.refetch };
+}
+
+/**
+ * The project snapshot. Polls only while research is in flight so an idle
+ * project costs nothing; the interval is deliberately slow because each stage
+ * takes minutes, not seconds.
+ */
+export function useSnapshot(projectId: string | undefined) {
+  return useQuery({
+    queryKey: keys.snapshot(projectId ?? 'none'),
+    queryFn: () => coirei.snapshot(projectId as string),
+    enabled: Boolean(projectId),
+    refetchInterval: (query) => (activeJob(query.state.data as Snapshot | undefined) ? 4000 : false),
+  });
+}
+
+export function useGmail(enabled = true) {
+  return useQuery({ queryKey: keys.gmail, queryFn: coirei.gmailConnections, enabled, refetchInterval: 20_000 });
+}
+
+/** Run a backend call, surface failures as a toast, then refresh the project. */
+export function useAction(projectId: string | undefined) {
+  const cache = useQueryClient();
+  return useMutation({
+    mutationFn: (work: () => Promise<unknown>) => work(),
+    onSuccess: () => {
+      if (projectId) cache.invalidateQueries({ queryKey: keys.snapshot(projectId) });
+      cache.invalidateQueries({ queryKey: keys.projects });
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+}
+
+export type { Data, Snapshot };
